@@ -19,7 +19,7 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 import { useAuth } from 'src/hooks/useAuth'
 
 // ** Util Import
-import getHomeRoute from 'src/layouts/components/acl/getHomeRoute'
+import getDashboardRoute from 'src/layouts/components/acl/getHomeRoute'
 
 const AclGuard = props => {
   // ** Props
@@ -33,7 +33,7 @@ const AclGuard = props => {
   let ability
   useEffect(() => {
     if (auth.user && auth.user.role && !guestGuard && router.route === '/') {
-      const homeRoute = getHomeRoute(auth.user.role)
+      const homeRoute = getDashboardRoute(auth.user.role)
       router.replace(homeRoute)
     }
   }, [auth.user, guestGuard, router])

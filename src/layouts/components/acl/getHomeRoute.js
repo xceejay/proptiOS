@@ -1,9 +1,9 @@
 /**
- *  Set Home URL based on User Roles
+ *  Set Dashboard URL based on User Roles
  */
-const getHomeRoute = role => {
+const getDashboardRoute = role => {
   if (role === 'client') return '/acl'
-  else return '/home'
+  else return '/dashboard'
 }
 
-export default getHomeRoute
+export default getDashboardRoute

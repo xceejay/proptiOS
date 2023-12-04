@@ -36,7 +36,10 @@ const FooterContent = () => {
           <LinkStyled target='_blank' href='https://1.envato.market/pixinvent_portfolio'>
             More Themes
           </LinkStyled>
-          <LinkStyled target='_blank' href='https://demos.pixinvent.com/vuexy-nextjs-admin-template/documentation'>
+          <LinkStyled
+            target='_blank'
+            href='https://demos.pixinvent.com/manages.homes-nextjs-admin-template/documentation'
+          >
             Documentation
           </LinkStyled>
           <LinkStyled target='_blank' href='https://pixinvent.ticksy.com'>
