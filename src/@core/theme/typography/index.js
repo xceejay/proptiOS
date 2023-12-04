@@ -1,6 +1,6 @@
 const typography = {
   fontFamily: [
-    'Futura',
+    'Switzer',
     'Public Sans',
     'sans-serif',
     '-apple-system',
