@@ -7,9 +7,50 @@ const navigation = () => {
     },
 
     {
+      title: 'Tenants',
+      icon: 'tabler:friends',
+      children: [
+        {
+          title: 'Tenant Quick Setup',
+          path: '/tenants/quick-setup'
+        },
+        {
+          title: 'Manage Tenants',
+          path: '/tenants/manage'
+        },
+        {
+          title: 'Tenant Search',
+          path: '/tenants/search',
+          badgeContent: ''
+        }
+      ]
+    },
+    {
+      title: 'Properties',
+      path: '/properties',
+      icon: 'tabler:home-edit',
+      children: [
+        {
+          title: 'Property Quick Setup',
+          path: '/properties/quick-setup'
+        },
+        {
+          title: 'Manage properties',
+          path: '/properties/manage'
+        },
+        {
+          title: 'Tenant Search',
+          path: '/properties/search',
+          badgeContent: ''
+        }
+      ]
+    },
+    {
       title: 'Notifications',
       path: '/notifications',
-      icon: 'tabler:bell'
+      icon: 'tabler:bell',
+      badgeContent: '3',
+      badgeColor: 'success'
     },
     {
       title: 'Accounting',
@@ -20,16 +61,6 @@ const navigation = () => {
       title: 'Reports',
       path: '/reports',
       icon: 'tabler:receipt'
-    },
-    {
-      title: 'Manage Properties',
-      path: '/manage-properties',
-      icon: 'tabler:home-edit'
-    },
-    {
-      title: 'Manage Tenants',
-      path: '/manage-properties',
-      icon: 'tabler:friends'
     }
 
     // {
