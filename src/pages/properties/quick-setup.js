@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography'
 import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 
-const PropertyQuickSetup = () => {
+const PropertiesQuickSetup = () => {
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
@@ -21,4 +21,4 @@ const PropertyQuickSetup = () => {
   )
 }
 
-export default PropertyQuickSetup
+export default PropertiesQuickSetup

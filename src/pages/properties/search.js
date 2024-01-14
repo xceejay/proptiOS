@@ -5,15 +5,15 @@ import Typography from '@mui/material/Typography'
 import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 
-const Home = () => {
+const PropertiesSearch = () => {
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
         <Card>
-          <CardHeader title='Dashboard'></CardHeader>
+          <CardHeader title='Properties Search 🔍'></CardHeader>
           <CardContent>
-            <Typography sx={{ mb: 2 }}>Dash.</Typography>
-            <Typography>MH Dash.</Typography>
+            <Typography sx={{ mb: 2 }}>Search Properties.</Typography>
+            <Typography></Typography>
           </CardContent>
         </Card>
       </Grid>
@@ -21,4 +21,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default PropertiesSearch

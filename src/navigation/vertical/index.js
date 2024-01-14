@@ -39,7 +39,7 @@ const navigation = () => {
           path: '/properties/manage'
         },
         {
-          title: 'Tenant Search',
+          title: 'Property Search',
           path: '/properties/search',
           badgeContent: ''
         }

@@ -1,19 +1,18 @@
-// ** MUI Imports
 import Card from '@mui/material/Card'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 
-const Home = () => {
+const Accounting = () => {
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
         <Card>
-          <CardHeader title='Dashboard'></CardHeader>
+          <CardHeader title='Accounting'></CardHeader>
           <CardContent>
-            <Typography sx={{ mb: 2 }}>Dash.</Typography>
-            <Typography>MH Dash.</Typography>
+            <Typography sx={{ mb: 2 }}>Accounting.</Typography>
+            <Typography></Typography>
           </CardContent>
         </Card>
       </Grid>
@@ -21,4 +20,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default Accounting
