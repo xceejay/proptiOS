@@ -22,6 +22,11 @@ const navigation = () => {
           title: 'Tenant Search',
           path: '/tenants/search',
           badgeContent: ''
+        },
+        {
+          title: 'Tenants Communication',
+          path: '/tenants/communication',
+          badgeContent: ''
         }
       ]
     },
