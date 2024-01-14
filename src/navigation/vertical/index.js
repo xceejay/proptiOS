@@ -4,6 +4,32 @@ const navigation = () => {
       title: 'Dashboard',
       path: '/dashboard',
       icon: 'tabler:smart-home'
+    },
+
+    {
+      title: 'Notifications',
+      path: '/notifications',
+      icon: 'tabler:bell'
+    },
+    {
+      title: 'Accounting',
+      path: '/accounting',
+      icon: 'tabler:file-dollar'
+    },
+    {
+      title: 'Reports',
+      path: '/reports',
+      icon: 'tabler:receipt'
+    },
+    {
+      title: 'Manage Properties',
+      path: '/manage-properties',
+      icon: 'tabler:home-edit'
+    },
+    {
+      title: 'Manage Tenants',
+      path: '/manage-properties',
+      icon: 'tabler:friends'
     }
 
     // {
