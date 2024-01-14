@@ -85,6 +85,7 @@ const VerticalNavHeader = props => {
         userNavMenuBranding(props)
       ) : (
         <LinkStyled href='/'>
+          <></>
           {/* <svg width={32} height={22} viewBox='0 0 32 22' fill='none' xmlns='http://www.w3.org/2000/svg'>
             <path
               fillRule='evenodd'
@@ -133,6 +134,8 @@ const VerticalNavHeader = props => {
           <Icon icon='tabler:x' fontSize='1.25rem' />
         </IconButton>
       ) : userMenuLockedIcon === null && userMenuUnlockedIcon === null ? null : (
+        <></>
+
         // <IconButton
         //   disableRipple
         //   disableFocusRipple
@@ -149,7 +152,6 @@ const VerticalNavHeader = props => {
         // >
         //   {navCollapsed ? MenuUnlockedIcon() : MenuLockedIcon()}
         // </IconButton>
-        <></>
       )}
     </MenuHeaderWrapper>
   )
