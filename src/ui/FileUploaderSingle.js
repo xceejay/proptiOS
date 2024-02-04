@@ -49,7 +49,7 @@ const FileUploaderSingle = () => {
             Drop files here or click to upload.
           </Typography>
           <Typography sx={{ color: 'text.secondary' }}>
-            (This is just a demo drop zone. Selected files are not actually uploaded.)
+            {/* (This is just a demo drop zone. Selected files are not actually uploaded.) */}
           </Typography>
         </Box>
       )}

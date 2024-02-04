@@ -28,6 +28,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 import FileUploaderSingle from 'src/ui/FileUploaderSingle'
+import OptionsMenu from 'src/@core/components/option-menu'
 
 const defaultValues = {
   email: '',
@@ -172,6 +173,31 @@ const TenantsQuickSetupForm = () => {
             <Grid item xs={6}>
               <FormControl fullWidth>
                 <Controller
+                  name='lastName'
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { value, onChange } }) => (
+                    <TextField
+                      value={value}
+                      label='Tenant Date Of Birth'
+                      onChange={onChange}
+                      placeholder='Carter'
+                      error={Boolean(errors.lastName)}
+                      aria-describedby='validation-schema-last-name'
+                    />
+                  )}
+                />
+                {errors.lastName && (
+                  <FormHelperText sx={{ color: 'error.main' }} id='validation-schema-last-name'>
+                    {errors.lastName.message}
+                  </FormHelperText>
+                )}
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={6}>
+              <FormControl fullWidth>
+                <Controller
                   name='email'
                   control={control}
                   rules={{ required: true }}
@@ -234,16 +260,12 @@ const TenantsQuickSetupForm = () => {
                 )}
               </FormControl>
             </Grid> */}
-            <Grid item xs={12}>
-              <CardSnippet
-                title='Upload Single Files'
-                code={{
-                  tsx: null,
-                  jsx: source.FileUploaderSingleJSXCode
-                }}
-              >
+            <Grid item xs={6}>
+              <Card>
+                <CardHeader title='Upload Tenant Passport/Card ' />
+
                 <FileUploaderSingle />
-              </CardSnippet>
+              </Card>
             </Grid>
             <Grid item xs={12}>
               <Button size='large' type='submit' variant='contained'>
