@@ -128,7 +128,7 @@ const TenantsQuickSetupForm = () => {
                   render={({ field: { value, onChange } }) => (
                     <TextField
                       value={value}
-                      label='First Name'
+                      label='Tenant First Name'
                       onChange={onChange}
                       placeholder='Leonard'
                       error={Boolean(errors.firstName)}
@@ -153,7 +153,7 @@ const TenantsQuickSetupForm = () => {
                   render={({ field: { value, onChange } }) => (
                     <TextField
                       value={value}
-                      label='Last Name'
+                      label='Tenant Last Name'
                       onChange={onChange}
                       placeholder='Carter'
                       error={Boolean(errors.lastName)}
