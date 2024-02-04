@@ -60,7 +60,7 @@ const Dashboard = () => {
             avatarIcon='tabler:home'
           />
         </Grid>
-        <Grid item xs={12} sm={8} lg={4}>
+        <Grid item xs={12} sm={8} lg={12}>
           <CrmRevenueGrowth />
         </Grid>
         <Grid item xs={12} lg={8}>
