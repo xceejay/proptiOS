@@ -1,3 +1,3 @@
 # app.manages.homes
 
-Property Manager Admin Panel
+Property Manager Admin Panel/Tenant Panel
