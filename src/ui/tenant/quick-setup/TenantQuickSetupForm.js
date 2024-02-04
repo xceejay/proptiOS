@@ -119,7 +119,7 @@ const TenantsQuickSetupForm = () => {
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={5}>
-            <Grid item xs={12}>
+            <Grid item xs={6}>
               <FormControl fullWidth>
                 <Controller
                   name='firstName'
@@ -144,7 +144,7 @@ const TenantsQuickSetupForm = () => {
               </FormControl>
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid item xs={6}>
               <FormControl fullWidth>
                 <Controller
                   name='lastName'
@@ -195,7 +195,7 @@ const TenantsQuickSetupForm = () => {
               </FormControl>
             </Grid>
 
-            <Grid item xs={6}>
+            {/* <Grid item xs={6}>
               <FormControl fullWidth>
                 <InputLabel htmlFor='validation-schema-password' error={Boolean(errors.password)}>
                   Password
@@ -233,7 +233,7 @@ const TenantsQuickSetupForm = () => {
                   </FormHelperText>
                 )}
               </FormControl>
-            </Grid>
+            </Grid> */}
             <Grid item xs={12}>
               <CardSnippet
                 title='Upload Single Files'
