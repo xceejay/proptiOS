@@ -115,7 +115,7 @@ const TenantsQuickSetupForm = () => {
 
   return (
     <Card>
-      <CardHeader title='Validation Schema With OnChange' />
+      <CardHeader title='Setup a Tenant' />
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={5}>
