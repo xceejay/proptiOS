@@ -18,11 +18,12 @@ const navigation = () => {
           title: 'Manage Tenants',
           path: '/tenants/manage'
         },
-        {
-          title: 'Tenant Search',
-          path: '/tenants/search',
-          badgeContent: ''
-        },
+
+        // {
+        //   title: 'Tenant Search',
+        //   path: '/tenants/search',
+        //   badgeContent: ''
+        // },
         {
           title: 'Tenants Communication',
           path: '/tenants/communication',
@@ -74,11 +75,11 @@ const navigation = () => {
     //   icon: 'tabler:mail'
     // },
     {
-      path: '/acl',
-      action: 'read',
-      subject: 'acl-page',
-      title: 'Access Control',
-      icon: 'tabler:shield'
+      // path: '/acl',
+      // action: 'read',
+      // subject: 'acl-page',
+      // title: 'Access Control',
+      // icon: 'tabler:shield'
     }
   ]
 }
