@@ -29,10 +29,10 @@ const Transition = forwardRef(function Transition(props, ref) {
   return <Fade ref={ref} {...props} />
 })
 
-const TenantEditInfo = ({ show, setShow }) => {
+const TenantEditInfo = tenantInfo => {
   // ** States
 
-  // const [show, setShow] = useState(false)
+  const [show, setShow] = useState(false)
 
   const [languages, setLanguages] = useState([])
 
@@ -55,6 +55,9 @@ const TenantEditInfo = ({ show, setShow }) => {
           Show
         </Button>
       </CardContent> */}
+      <Button onClick={() => setShow(true)} size='small' variant='outlined' color='secondary'>
+        Manage Tenant
+      </Button>
       <Dialog
         fullWidth
         open={show}
@@ -87,7 +90,13 @@ const TenantEditInfo = ({ show, setShow }) => {
           </Box>
           <Grid container spacing={6}>
             <Grid item sm={6} xs={12}>
-              <TextField fullWidth defaultValue='Oliver' label='First Name' placeholder='John' />
+              {/* {console.log(tenantInfo.tenantInfo)} */}
+              <TextField
+                fullWidth
+                defaultValue={tenantInfo.tenantInfo.full_name}
+                label='First Name'
+                placeholder='John'
+              />
             </Grid>
             <Grid item sm={6} xs={12}>
               <TextField fullWidth defaultValue='Queen' label='Last Name' placeholder='Doe' />

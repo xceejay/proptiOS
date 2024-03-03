@@ -152,10 +152,7 @@ const TenantsManageTable = () => {
       renderCell: params => {
         return (
           <>
-            <Button onClick={() => setShow(true)} size='small' variant='outlined' color='secondary'>
-              Manage Tenant
-            </Button>
-            <TenantEditInfo show={show} setShow={setShow}></TenantEditInfo>
+            <TenantEditInfo tenantInfo={params.row}></TenantEditInfo>
           </>
         )
       }
@@ -163,7 +160,6 @@ const TenantsManageTable = () => {
   ]
 
   // ** States
-  const [show, setShow] = useState(false)
 
   const [total, setTotal] = useState(0)
   const [sort, setSort] = useState('asc')
