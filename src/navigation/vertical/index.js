@@ -10,13 +10,15 @@ const navigation = () => {
       title: 'Tenants',
       icon: 'tabler:friends',
       children: [
-        {
-          title: 'Tenant Quick Setup',
-          path: '/tenants/quick-setup'
-        },
+        // {
+        //   title: 'Tenant Quick Setup',
+        //   path: '/tenants/quick-setup'
+        // },
         {
           title: 'Manage Tenants',
           path: '/tenants/manage'
+
+          // children: [{}]
         },
 
         // {
@@ -43,12 +45,13 @@ const navigation = () => {
         {
           title: 'Manage properties',
           path: '/properties/manage'
-        },
-        {
-          title: 'Property Search',
-          path: '/properties/search',
-          badgeContent: ''
         }
+
+        // {
+        //   title: 'Property Search',
+        //   path: '/properties/search',
+        //   badgeContent: ''
+        // }
       ]
     },
     {

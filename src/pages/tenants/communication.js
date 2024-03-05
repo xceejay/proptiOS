@@ -1,6 +1,6 @@
 // ** MUI Imports
 
-import AppChat from 'src/@fake-db/apps/chat'
+import AppChat from 'src/@fake-db.bak/apps/chat'
 
 const TenantsCommunication = () => {
   return <AppChat></AppChat>

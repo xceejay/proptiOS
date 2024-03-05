@@ -4,21 +4,10 @@ import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
+import PropertyManageTable from 'src/ui/property/quick-setup/PropertyManageTable'
 
 const PropertiesManage = () => {
-  return (
-    <Grid container spacing={6}>
-      <Grid item xs={12}>
-        <Card>
-          <CardHeader title='Property Manage🏘️'></CardHeader>
-          <CardContent>
-            <Typography sx={{ mb: 2 }}>Manage Properties.</Typography>
-            <Typography></Typography>
-          </CardContent>
-        </Card>
-      </Grid>
-    </Grid>
-  )
+  return <Grid>{/* <PropertyManageTable></PropertyManageTable> */}</Grid>
 }
 
 export default PropertiesManage

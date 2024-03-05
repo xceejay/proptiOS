@@ -79,7 +79,7 @@ const columns = [
             <Typography
               noWrap
               component={Link}
-              href='/apps/user/view/account'
+              href='tenants/edit'
               sx={{
                 fontWeight: 500,
                 textDecoration: 'none',

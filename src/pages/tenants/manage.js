@@ -4,7 +4,7 @@ import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
-import TenantsManageTable from 'src/ui/tenant/quick-setup/TenantManageTable'
+import TenantsManageTable from 'src/ui/tenant/TenantManageTable'
 
 const TenantsManage = () => {
   return (

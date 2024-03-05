@@ -91,7 +91,7 @@ const schema = yup.object().shape({
     .required()
 })
 
-const TenantsQuickSetupForm = () => {
+const PropertyQuickSetupForm = () => {
   // ** States
   const [state, setState] = useState({
     password: '',
@@ -279,4 +279,4 @@ const TenantsQuickSetupForm = () => {
   )
 }
 
-export default TenantsQuickSetupForm
+export default PropertyQuickSetupForm

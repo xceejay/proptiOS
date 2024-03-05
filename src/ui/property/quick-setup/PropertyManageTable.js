@@ -19,7 +19,7 @@ import ServerSideToolbar from 'src/views/table/data-grid/ServerSideToolbar'
 
 // ** Utils Import
 import { getInitials } from 'src/@core/utils/get-initials'
-import TenantEditInfo from '../TenantEditInfo'
+import TenantEditInfo from 'src/ui/tenant/TenantEditInfo'
 
 // ** renders client column
 const renderClient = params => {
@@ -73,7 +73,7 @@ const statusObj = {
 //   }
 // }
 
-const TenantsManageTable = () => {
+const PropertyManageTable = () => {
   const columns = [
     {
       flex: 0.25,
@@ -152,7 +152,7 @@ const TenantsManageTable = () => {
       renderCell: params => {
         return (
           <>
-            <TenantEditInfo tenantInfo={params.row}></TenantEditInfo>
+            <TenantEditInfo tenantInfo={params}></TenantEditInfo>
           </>
         )
       }
@@ -222,15 +222,14 @@ const TenantsManageTable = () => {
           checkboxSelection={false}
           sortingMode='server'
           paginationMode='server'
-          axios
+          slots={{ toolbar: ServerSideToolbar }}
           pageSizeOptions={[10, 10, 25, 50]}
           paginationModel={paginationModel}
           onSortModelChange={handleSortModel}
-          slots={{ toolbar: ServerSideToolbar }}
           onPaginationModelChange={setPaginationModel}
           slotProps={{
             baseButton: {
-              variant: 'outlined'
+              variant: 'contained'
             },
             toolbar: {
               value: searchValue,
@@ -244,4 +243,4 @@ const TenantsManageTable = () => {
   )
 }
 
-export default TenantsManageTable
+export default PropertyManageTable

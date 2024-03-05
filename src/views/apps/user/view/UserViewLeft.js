@@ -32,8 +32,8 @@ import Icon from 'src/@core/components/icon'
 // ** Custom Components
 import CustomChip from 'src/@core/components/mui/chip'
 import CustomAvatar from 'src/@core/components/mui/avatar'
-import UserSuspendDialog from 'src/views/apps/user/view/UserSuspendDialog'
-import UserSubscriptionDialog from 'src/views/apps/user/view/UserSubscriptionDialog'
+import TenantSuspendDialog from 'src/ui/tenant/TenantSuspendDialog'
+import TenantSubscriptionDialog from 'src/ui/tenant/TenantSubscriptionDialog'
 
 // ** Utils Import
 import { getInitials } from 'src/@core/utils/get-initials'
@@ -343,8 +343,8 @@ const UserViewLeft = () => {
               </DialogActions>
             </Dialog>
 
-            <UserSuspendDialog open={suspendDialogOpen} setOpen={setSuspendDialogOpen} />
-            <UserSubscriptionDialog open={subscriptionDialogOpen} setOpen={setSubscriptionDialogOpen} />
+            <TenantSuspendDialog open={suspendDialogOpen} setOpen={setSuspendDialogOpen} />
+            <TenantSubscriptionDialog open={subscriptionDialogOpen} setOpen={setSubscriptionDialogOpen} />
           </Card>
         </Grid>
 
