@@ -9,58 +9,65 @@ const navigation = () => {
     {
       title: 'Tenants',
       icon: 'tabler:friends',
-      children: [
-        // {
-        //   title: 'Tenant Quick Setup',
-        //   path: '/tenants/quick-setup'
-        // },
-        {
-          title: 'Manage Tenants',
-          path: '/tenants/manage'
+      path: '/tenants'
 
-          // children: [{}]
-        },
+      // children: [
+      // {
+      //   title: 'Tenant Quick Setup',
+      //   path: '/tenants/quick-setup'
+      // },
+      // {
+      //   title: 'Manage Tenants',
+      //   path: '/tenants/manage'
 
-        // {
-        //   title: 'Tenant Search',
-        //   path: '/tenants/search',
-        //   badgeContent: ''
-        // },
-        {
-          title: 'Tenants Communication',
-          path: '/tenants/communication',
-          badgeContent: ''
-        }
-      ]
+      // children: [{}]
+      // }
+
+      // {
+      //   title: 'Tenant Search',
+      //   path: '/tenants/search',
+      //   badgeContent: ''
+      // },
+      // ]
+    },
+    {
+      title: 'Communication',
+      path: '/tenants/communication',
+      icon: 'tabler:brand-telegram',
+      badgeContent: '3',
+      badgeColor: 'success'
     },
     {
       title: 'Properties',
       path: '/properties',
-      icon: 'tabler:home-edit',
-      children: [
-        // {
-        //   title: 'Property Quick Setup',
-        //   path: '/properties/quick-setup'
-        // },
-        {
-          title: 'Manage properties',
-          path: '/properties/manage'
-        }
+      icon: 'tabler:home-edit'
 
-        // {
-        //   title: 'Property Search',
-        //   path: '/properties/search',
-        //   badgeContent: ''
-        // }
-      ]
+      // children: [
+      // {
+      //   title: 'Property Quick Setup',
+      //   path: '/properties/quick-setup'
+      // },
+      // {
+      //   title: 'Manage properties',
+      //   path: '/properties/manage'
+      // }
+
+      // {
+      //   title: 'Property Search',
+      //   path: '/properties/search',
+      //   badgeContent: ''
+      // }
+      // ]
     },
-    {
-      title: 'Notifications',
-      path: '/notifications',
-      icon: 'tabler:bell',
-      badgeContent: '3',
-      badgeColor: 'success'
-    },
+
+    // {
+    // title: 'Notifications',
+    // path: '/notifications',
+    //
+    // icon: 'tabler:bell',
+    // badgeContent: '3',
+    // badgeColor: 'success'
+    // },
     {
       title: 'Accounting',
       path: '/accounting',
