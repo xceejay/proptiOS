@@ -32,7 +32,7 @@ const navigation = () => {
     },
     {
       title: 'Communication',
-      path: '/tenants/communication',
+      path: '/communication',
       icon: 'tabler:brand-telegram',
       badgeContent: '3',
       badgeColor: 'success'

@@ -21,7 +21,7 @@ import { formatDateToMonthShort } from 'src/@core/utils/format'
 import SidebarLeft from 'src/views/apps/chat/SidebarLeft'
 import ChatContent from 'src/views/apps/chat/ChatContent'
 
-const AppChat = () => {
+const Communication = () => {
   // ** States
   const [userStatus, setUserStatus] = useState('online')
   const [leftSidebarOpen, setLeftSidebarOpen] = useState(false)
@@ -103,6 +103,6 @@ const AppChat = () => {
     </Box>
   )
 }
-AppChat.contentHeightFixed = true
+Communication.contentHeightFixed = true
 
-export default AppChat
+export default Communication
