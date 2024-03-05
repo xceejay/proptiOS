@@ -38,10 +38,10 @@ const navigation = () => {
       path: '/properties',
       icon: 'tabler:home-edit',
       children: [
-        {
-          title: 'Property Quick Setup',
-          path: '/properties/quick-setup'
-        },
+        // {
+        //   title: 'Property Quick Setup',
+        //   path: '/properties/quick-setup'
+        // },
         {
           title: 'Manage properties',
           path: '/properties/manage'

@@ -7,19 +7,17 @@ import Card from '@mui/material/Card'
 import Typography from '@mui/material/Typography'
 import CardHeader from '@mui/material/CardHeader'
 import { DataGrid } from '@mui/x-data-grid'
-import Button from '@mui/material/Button'
 
 // ** ThirdParty Components
 import axios from 'axios'
 
 // ** Custom Components
-import CustomChip from 'src/@core/components/mui/chip'
 import CustomAvatar from 'src/@core/components/mui/avatar'
 import ServerSideToolbar from 'src/views/table/data-grid/ServerSideToolbar'
 
 // ** Utils Import
 import { getInitials } from 'src/@core/utils/get-initials'
-import TenantEditInfo from 'src/ui/tenant/TenantEditInfo'
+import PropertyEditInfo from './PropertyEditInfo'
 
 // ** renders client column
 const renderClient = params => {
@@ -133,17 +131,7 @@ const PropertyManageTable = () => {
         </Typography>
       )
     },
-    {
-      flex: 0.125,
-      field: 'property',
-      minWidth: 80,
-      headerName: 'Property Assigned',
-      renderCell: params => (
-        <Typography variant='body2' sx={{ color: 'text.primary' }}>
-          {params.row.property}
-        </Typography>
-      )
-    },
+
     {
       flex: 0.125,
       minWidth: 140,
@@ -152,7 +140,7 @@ const PropertyManageTable = () => {
       renderCell: params => {
         return (
           <>
-            <TenantEditInfo tenantInfo={params}></TenantEditInfo>
+            <PropertyEditInfo></PropertyEditInfo>
           </>
         )
       }

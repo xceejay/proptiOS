@@ -4,7 +4,7 @@ import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
-import PropertyQuickSetupForm from 'src/ui/property/quick-setup/PropertyQuickSetupForm'
+import PropertyQuickSetupForm from 'src/ui/property/manage/PropertyQuickSetupForm'
 
 const PropertiesQuickSetup = () => {
   return (
