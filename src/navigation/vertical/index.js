@@ -30,13 +30,7 @@ const navigation = () => {
       // },
       // ]
     },
-    {
-      title: 'Communication',
-      path: '/communication',
-      icon: 'tabler:brand-telegram',
-      badgeContent: '3',
-      badgeColor: 'success'
-    },
+
     {
       title: 'Properties',
       path: '/properties',
@@ -84,12 +78,27 @@ const navigation = () => {
     //   path: '/second-page',
     //   icon: 'tabler:mail'
     // },
+    // {
+    // path: '/acl',
+    // action: 'read',
+    // subject: 'acl-page',
+    // title: 'Access Control',
+    // icon: 'tabler:shield'
+    // },
     {
-      // path: '/acl',
-      // action: 'read',
-      // subject: 'acl-page',
-      // title: 'Access Control',
-      // icon: 'tabler:shield'
+      title: 'Communication',
+      path: '/communication',
+      icon: 'tabler:brand-telegram',
+      badgeContent: '3',
+      badgeColor: 'success'
+    },
+
+    {
+      title: 'Support',
+      path: '/support',
+      icon: 'tabler:help',
+      badgeContent: '3',
+      badgeColor: 'success'
     }
   ]
 }
