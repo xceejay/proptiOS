@@ -97,7 +97,8 @@ const navigation = () => {
       title: 'Support',
       path: '/support',
       icon: 'tabler:help',
-      badgeContent: '3',
+
+      // badgeContent: '3',
       badgeColor: 'success'
     }
   ]
