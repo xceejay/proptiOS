@@ -283,7 +283,7 @@ const TenantManageTable = ({ apiData }) => {
         currentPlan: plan
       })
     )
-  }, [property, dispatch, plan, role, status, value])
+  }, [dispatch, property, plan, role, status, value])
 
   const handleFilter = useCallback(val => {
     setValue(val)
@@ -294,6 +294,7 @@ const TenantManageTable = ({ apiData }) => {
   }, [])
 
   const handlePropertyChange = useCallback(e => {
+    // console.log(e.target.value)
     setProperty(e.target.value)
   }, [])
 
@@ -350,13 +351,13 @@ const TenantManageTable = ({ apiData }) => {
               <Grid item sm={4} xs={12}>
                 <FormControl fullWidth>
                   <Autocomplete
-                    disablePortal
-                    id='property'
+                    disablePortal={false}
                     options={properties}
-                    sx={{ width: 300 }}
-                    value={property}
-                    onChange={handlePropertyChange}
-                    renderInput={params => <TextField {...params} label='Property' />}
+                    onSelect={handlePropertyChange}
+                    id='property-select'
+                    renderInput={params => (
+                      <TextField {...params} sx={{ width: 300 }} value={property} label='Property' />
+                    )}
                   />
                 </FormControl>
               </Grid>
