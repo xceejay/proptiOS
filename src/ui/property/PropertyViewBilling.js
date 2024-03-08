@@ -41,7 +41,7 @@ import Cards from 'react-credit-cards'
 
 // ** Custom Components
 import CustomChip from 'src/@core/components/mui/chip'
-import PropertySubscriptionDialog from 'src/ui/tenant/PropertySubscriptionDialog'
+import PropertySubscriptionDialog from 'src/ui/property/PropertySubscriptionDialog'
 
 // ** Util Import
 import { formatCVC, formatExpirationDate, formatCreditCardNumber } from 'src/@core/utils/format'

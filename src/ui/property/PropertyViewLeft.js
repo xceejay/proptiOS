@@ -33,8 +33,8 @@ import Icon from 'src/@core/components/icon'
 // ** Custom Components
 import CustomChip from 'src/@core/components/mui/chip'
 import CustomAvatar from 'src/@core/components/mui/avatar'
-import PropertySuspendDialog from 'src/ui/tenant/PropertySuspendDialog'
-import PropertySubscriptionDialog from 'src/ui/tenant/PropertySubscriptionDialog'
+import PropertySuspendDialog from 'src/ui/property/PropertySuspendDialog'
+import PropertySubscriptionDialog from 'src/ui/property/PropertySubscriptionDialog'
 
 // ** Utils Import
 import { getInitials } from 'src/@core/utils/get-initials'

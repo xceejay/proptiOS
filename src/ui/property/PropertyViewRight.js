@@ -18,11 +18,11 @@ import CircularProgress from '@mui/material/CircularProgress'
 import Icon from 'src/@core/components/icon'
 
 // ** Demo Components Imports
-import PropertyViewBilling from 'src/ui/tenant/PropertyViewBilling'
-import PropertyViewAccount from 'src/ui/tenant/PropertyViewAccount'
-import PropertyViewSecurity from 'src/ui/tenant/PropertyViewSecurity'
-import PropertyViewConnection from 'src/ui/tenant/PropertyViewConnection'
-import PropertyViewNotification from 'src/ui/tenant/PropertyViewNotification'
+import PropertyViewBilling from 'src/ui/property/PropertyViewBilling'
+import PropertyViewAccount from 'src/ui/property/PropertyViewAccount'
+import PropertyViewSecurity from 'src/ui/property/PropertyViewSecurity'
+import PropertyViewConnection from 'src/ui/property/PropertyViewConnection'
+import PropertyViewNotification from 'src/ui/property/PropertyViewNotification'
 
 // ** Styled Tab component
 const Tab = styled(MuiTab)(({ theme }) => ({

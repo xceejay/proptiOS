@@ -2,12 +2,12 @@
 import Grid from '@mui/material/Grid'
 import axios from 'axios'
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
-import TenantEditInfo from 'src/ui/tenant/TenantEditInfo'
+import PropertyEditInfo from 'src/ui/property/PropertyEditInfo'
 
-const TenantEdit = ({ invoiceData }) => {
+const PropertyEdit = ({ invoiceData }) => {
   return (
     <Grid>
-      <TenantEditInfo tab={'account'} invoiceData={invoiceData}></TenantEditInfo>
+      <PropertyEditInfo tab={'account'} invoiceData={invoiceData}></PropertyEditInfo>
     </Grid>
   )
 }
@@ -23,4 +23,4 @@ export const getStaticProps = async ({ params }) => {
   }
 }
 
-export default TenantEdit
+export default PropertyEdit

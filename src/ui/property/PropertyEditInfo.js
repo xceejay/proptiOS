@@ -2,8 +2,8 @@
 import Grid from '@mui/material/Grid'
 
 // ** Demo Components Imports
-import PropertyViewLeft from 'src/ui/tenant/PropertyViewLeft'
-import PropertyViewRight from 'src/ui/tenant/PropertyViewRight'
+import PropertyViewLeft from 'src/ui/property/PropertyViewLeft'
+import PropertyViewRight from 'src/ui/property/PropertyViewRight'
 
 const PropertyEditInfo = ({ tab, invoiceData }) => {
   return (

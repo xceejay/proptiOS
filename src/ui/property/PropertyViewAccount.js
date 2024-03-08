@@ -18,8 +18,8 @@ import MuiTimeline from '@mui/lab/Timeline'
 import Icon from 'src/@core/components/icon'
 
 // ** Demo Component Imports
-import PropertyInvoiceListTable from 'src/ui/tenant/PropertyInvoiceListTable'
-import PropertyProjectListTable from 'src/ui/tenant/PropertyProjectListTable'
+import PropertyInvoiceListTable from 'src/ui/property/PropertyInvoiceListTable'
+import PropertyProjectListTable from 'src/ui/property/PropertyProjectListTable'
 
 // ** Custom Components Imports
 import OptionsMenu from 'src/@core/components/option-menu'
