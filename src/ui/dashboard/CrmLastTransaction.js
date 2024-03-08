@@ -19,61 +19,71 @@ const data = [
     property: 'Sunset Apartments',
     units: 24,
     description: 'Leaking faucet in Unit 302',
-    status: 'occupied'
+    status: 'occupied',
+    tenantName: 'Alice Johnson'
   },
   {
     property: 'Pinecrest Estates',
     units: 48,
     description: 'Broken window in Townhome 15B',
-    status: 'available'
+    status: 'available',
+    tenantName: 'Bob Smith'
   },
   {
     property: 'Maple Grove Condos',
     units: 32,
     description: 'Elevator maintenance needed in Building C',
-    status: 'maintenance'
+    status: 'maintenance',
+    tenantName: 'Eva Martinez'
   },
   {
     property: 'Riverfront Lofts',
     units: 16,
     description: 'Clogged drain in Loft 7',
-    status: 'occupied'
+    status: 'occupied',
+    tenantName: 'Michael Lee'
   },
   {
     property: 'Hilltop Villas',
     units: 12,
     description: 'Light fixture repair in Villa 4',
-    status: 'available'
+    status: 'available',
+    tenantName: 'Olivia Adams'
   },
   {
     property: 'Lakeside Retreat',
     units: 20,
     description: 'Roof leak in Cabin 9',
-    status: 'maintenance'
+    status: 'maintenance',
+    tenantName: 'Sophia Wang'
   },
   {
     property: 'Valley View Apartments',
     units: 40,
     description: 'HVAC system maintenance in Unit 1203',
-    status: 'occupied'
+    status: 'occupied',
+    tenantName: 'David Brown'
   },
   {
     property: 'Evergreen Terrace',
     units: 30,
     description: 'Broken dishwasher in Apartment 204',
-    status: 'available'
+    status: 'available',
+    tenantName: 'Emma Garcia'
   },
   {
     property: 'Mountain Ridge Condos',
     units: 18,
     description: 'Parking lot pothole repair needed',
-    status: 'maintenance'
+    status: 'maintenance',
+    tenantName: 'Noah Wilson'
   },
   {
     property: 'Seaside Villas',
     units: 10,
     description: 'Paint touch-up required in Beachfront Cottage',
-    status: 'available'
+    status: 'available',
+    tenantName: 'Ava Robinson'
   }
 ]
 
@@ -103,9 +113,10 @@ const CrmLastTransaction = () => {
               sx={{ '& .MuiTableCell-root': { py: 2, borderTop: theme => `1px solid ${theme.palette.divider}` } }}
             >
               <TableCell>Property</TableCell>
-              <TableCell>Units</TableCell>
+              {/* <TableCell>Units</TableCell> */}
               <TableCell>Status</TableCell>
               <TableCell>Description</TableCell>
+              <TableCell>Name of Tenant</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -152,6 +163,11 @@ const CrmLastTransaction = () => {
                   <TableCell>
                     <Typography noWrap sx={{ fontWeight: 500, color: 'text.secondary' }}>
                       {row.description}
+                    </Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography noWrap sx={{ fontWeight: 500, color: 'text.secondary' }}>
+                      {row.tenantName}
                     </Typography>
                   </TableCell>
                 </TableRow>
