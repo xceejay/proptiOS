@@ -39,10 +39,10 @@ import { fetchData, deleteUser } from 'src/store/apps/user'
 
 // ** Third Party Components
 import axios from 'axios'
+import TableHeader from 'src/ui/tenant/TableHeader'
+import AddUserDrawer from 'src/ui/tenant/AddUserDrawer'
 
 // ** Custom Table Components Imports
-import TableHeader from 'src/views/user/list/TableHeader'
-import AddUserDrawer from 'src/views/user/list/AddUserDrawer'
 
 // ** renders client column
 const userRoleObj = {
