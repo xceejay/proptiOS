@@ -25,22 +25,22 @@ import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
 
 const tabData = [
   {
-    type: 'properties',
+    type: 'revenue',
     avatarIcon: 'tabler:shopping-cart',
     series: [{ data: [28, 10, 45, 38, 15, 30, 35, 28, 8] }]
   },
   {
-    type: 'sales',
+    type: 'expenses',
     avatarIcon: 'tabler:chart-bar',
     series: [{ data: [35, 25, 15, 40, 42, 25, 48, 8, 30] }]
   },
   {
-    type: 'profit',
+    type: 'income',
     avatarIcon: 'tabler:currency-dollar',
     series: [{ data: [10, 22, 27, 33, 42, 32, 27, 22, 8] }]
   },
   {
-    type: 'income',
+    type: 'maintenance',
     avatarIcon: 'tabler:chart-pie-2',
     series: [{ data: [5, 9, 12, 18, 20, 25, 30, 36, 48] }]
   }
@@ -102,7 +102,7 @@ const renderTabPanels = (value, theme, options, colors) => {
 
 const CrmEarningReportsWithTabs = () => {
   // ** State
-  const [value, setValue] = useState('properties')
+  const [value, setValue] = useState('revenue')
 
   // ** Hook
   const theme = useTheme()
@@ -220,7 +220,7 @@ const CrmEarningReportsWithTabs = () => {
             }}
           >
             {renderTabs(value, theme)}
-            <Tab
+            {/* <Tab
               disabled
               value='add'
               label={
@@ -241,7 +241,7 @@ const CrmEarningReportsWithTabs = () => {
                   </Avatar>
                 </Box>
               }
-            />
+            /> */}
           </TabList>
           {renderTabPanels(value, theme, options, colors)}
         </TabContext>

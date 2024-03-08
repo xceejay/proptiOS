@@ -16,51 +16,41 @@ import OptionsMenu from 'src/@core/components/option-menu'
 
 const data = [
   {
-    trend: '+$1,678',
-    status: 'verified',
-    cardType: 'Credit',
-    cardNumber: '*4230',
-    imgName: 'visa-with-bg',
-    date: `17 Mar ${new Date().getFullYear()}`
+    property: 'Sunset Apartments',
+    units: 24,
+    description: 'Luxury apartments with ocean view',
+    status: 'occupied'
   },
   {
-    trend: '-$839',
-    status: 'rejected',
-    cardType: 'Credit',
-    cardNumber: '*5578',
-    imgName: 'mastercard-with-bg',
-    date: `12 Feb ${new Date().getFullYear()}`
+    property: 'Pinecrest Estates',
+    units: 48,
+    description: 'Family-friendly townhomes in a quiet neighborhood',
+    status: 'available'
   },
   {
-    trend: '+$435',
-    cardType: 'ATM',
-    status: 'verified',
-    cardNumber: '*4567',
-    imgName: 'american-express-with-bg',
-    date: `28 Feb ${new Date().getFullYear()}`
+    property: 'Maple Grove Condos',
+    units: 32,
+    description: 'Modern condos with amenities like pool and gym',
+    status: 'maintenance'
   },
   {
-    trend: '+$2,345',
-    status: 'pending',
-    cardType: 'Credit',
-    cardNumber: '*5699',
-    imgName: 'visa-with-bg',
-    date: `08 Jan ${new Date().getFullYear()}`
+    property: 'Riverfront Lofts',
+    units: 16,
+    description: 'Historic loft apartments along the riverfront',
+    status: 'occupied'
   },
   {
-    trend: '+$1,758',
-    status: 'rejected',
-    cardType: 'Credit',
-    cardNumber: '*2451',
-    imgName: 'visa-with-bg',
-    date: `19 Oct ${new Date().getFullYear()}`
+    property: 'Hilltop Villas',
+    units: 12,
+    description: 'Exclusive villas with private gardens and views',
+    status: 'available'
   }
 ]
 
 const statusObj = {
-  rejected: { text: 'Rejected', color: 'error' },
-  pending: { text: 'Pending', color: 'secondary' },
-  'on-hold': { text: 'On hold', color: 'warning' },
+  maintenance: { text: 'Maintenance', color: 'error' },
+  available: { text: 'Available', color: 'secondary' },
+  occupied: { text: 'Occupied', color: 'warning' },
   verified: { text: 'Verified', color: 'success' }
 }
 
@@ -68,7 +58,7 @@ const CrmLastTransaction = () => {
   return (
     <Card>
       <CardHeader
-        title='Last Transaction'
+        title='Maintenance'
         action={
           <OptionsMenu
             options={['Show all entries', 'Refresh', 'Download']}
@@ -82,10 +72,10 @@ const CrmLastTransaction = () => {
             <TableRow
               sx={{ '& .MuiTableCell-root': { py: 2, borderTop: theme => `1px solid ${theme.palette.divider}` } }}
             >
-              <TableCell>Card</TableCell>
-              <TableCell>Date</TableCell>
+              <TableCell>Property</TableCell>
+              <TableCell>Units</TableCell>
+              <TableCell>Description</TableCell>
               <TableCell>Status</TableCell>
-              <TableCell>Trend</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

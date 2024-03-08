@@ -9,8 +9,8 @@ import OptionsMenu from 'src/@core/components/option-menu'
 import ReactApexcharts from 'src/@core/components/react-apexcharts'
 
 const series = [
-  { name: 'Sales', data: [32, 27, 27, 30, 25, 25] },
-  { name: 'Visits', data: [25, 35, 20, 20, 20, 20] }
+  { name: 'Rent Paid', data: [32, 27, 27, 30, 25, 25] },
+  { name: 'Rent Due', data: [25, 35, 20, 20, 20, 20] }
 ]
 
 const CrmSalesWithRadarChart = () => {
@@ -22,7 +22,7 @@ const CrmSalesWithRadarChart = () => {
       parentHeightOffset: 0,
       toolbar: { show: false }
     },
-    colors: [theme.palette.primary.main, theme.palette.info.main],
+    colors: [theme.palette.primary.main, theme.palette.error.main],
     plotOptions: {
       radar: {
         size: 110,
@@ -90,7 +90,7 @@ const CrmSalesWithRadarChart = () => {
   return (
     <Card>
       <CardHeader
-        title='Sales'
+        title='Rent Payments'
         subheader='Last 6 Months'
         subheaderTypographyProps={{ sx: { mt: '0 !important' } }}
         action={

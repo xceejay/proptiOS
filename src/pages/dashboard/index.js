@@ -26,23 +26,23 @@ const Dashboard = () => {
           <Grid container spacing={6}>
             <Grid item xs={12} sm={6} lg={2.5}>
               <CardStatsVertical
-                stats='24.67k'
-                chipText='+25.2%'
+                stats={'128' + ' tenants'}
+                chipText='+2 tenants'
                 avatarColor='success'
                 chipColor='default'
-                title='Total Properties Rented'
-                subtitle='Last week'
+                title='Total number of units occupied'
+                subtitle='This week'
                 avatarIcon='tabler:home'
               />
             </Grid>
             <Grid item xs={12} sm={6} lg={2.5}>
               <CardStatsVertical
-                stats='24.67k'
-                chipText='+25.2%'
-                avatarColor='error'
+                stats={'4' + ' tenants'}
+                chipText={'+0' + ' tenants'}
+                avatarColor='info'
                 chipColor='default'
-                title='Total Properties idkyet'
-                subtitle='Last week'
+                title='Total number of units vacant'
+                subtitle='This week'
                 avatarIcon='tabler:home'
               />
             </Grid>
@@ -61,9 +61,9 @@ const Dashboard = () => {
         {/* <Grid item xs={12} md={6} lg={4}>
           <CrmBrowserStates />
         </Grid> */}
-        <Grid item xs={12} md={6} lg={4}>
+        {/* <Grid item xs={12} md={6} lg={4}>
           <CrmProjectStatus />
-        </Grid>
+        </Grid> */}
         {/* <Grid item xs={12} md={6} lg={4}>
           <CrmActiveProjects />
         </Grid> */}
