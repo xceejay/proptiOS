@@ -45,6 +45,7 @@ import TableHeader from './TableHeader'
 import AddUserDrawer from './AddUserDrawer'
 import ServerSideToolbar from 'src/views/table/data-grid/ServerSideToolbar'
 import ServerSideToolbarTenantManage from 'src/views/table/data-grid/ServerSideToolbarTenantManage'
+import { Autocomplete, TextField } from '@mui/material'
 
 // ** renders client column
 const userRoleObj = {
@@ -181,9 +182,9 @@ const columns = [
           <CustomAvatar
             skin='light'
             sx={{ mr: 4, width: 30, height: 30 }}
-            color={userRoleObj[row.role].color || 'primary'}
+            color={userRoleObj[row.role]?.color || 'primary'}
           >
-            <Icon icon={userRoleObj[row.role].icon} />
+            <Icon icon={userRoleObj[row.role]?.icon} />
           </CustomAvatar>
           <Typography noWrap sx={{ color: 'text.secondary', textTransform: 'capitalize' }}>
             {row.role}
@@ -201,6 +202,19 @@ const columns = [
       return (
         <Typography noWrap sx={{ fontWeight: 500, color: 'text.secondary', textTransform: 'capitalize' }}>
           {row.currentPlan}
+        </Typography>
+      )
+    }
+  },
+  {
+    flex: 0.15,
+    minWidth: 190,
+    field: 'property',
+    headerName: 'Property',
+    renderCell: ({ row }) => {
+      return (
+        <Typography noWrap sx={{ color: 'text.secondary' }}>
+          {row.property}
         </Typography>
       )
     }
@@ -249,6 +263,7 @@ const columns = [
 const TenantManageTable = ({ apiData }) => {
   // ** State
   const [role, setRole] = useState('')
+  const [property, setProperty] = useState('')
   const [plan, setPlan] = useState('')
   const [value, setValue] = useState('')
   const [status, setStatus] = useState('')
@@ -261,13 +276,14 @@ const TenantManageTable = ({ apiData }) => {
   useEffect(() => {
     dispatch(
       fetchData({
+        property,
         role,
         status,
         q: value,
         currentPlan: plan
       })
     )
-  }, [dispatch, plan, role, status, value])
+  }, [property, dispatch, plan, role, status, value])
 
   const handleFilter = useCallback(val => {
     setValue(val)
@@ -275,6 +291,10 @@ const TenantManageTable = ({ apiData }) => {
 
   const handleRoleChange = useCallback(e => {
     setRole(e.target.value)
+  }, [])
+
+  const handlePropertyChange = useCallback(e => {
+    setProperty(e.target.value)
   }, [])
 
   const handlePlanChange = useCallback(e => {
@@ -285,6 +305,27 @@ const TenantManageTable = ({ apiData }) => {
     setStatus(e.target.value)
   }, [])
   const toggleAddUserDrawer = () => setAddUserOpen(!addUserOpen)
+
+  let properties = [
+    'Sunset View Estates',
+    'Greenwood Gardens',
+    'Lakeside Manor',
+    'Pinecrest Place',
+    'Riverwalk Residences',
+    'Oakridge Heights',
+    'Golden Gate Apartments',
+    'Harbor Pointe Condos',
+    'Valley Vista Homes',
+    'Silver Oaks Estates',
+    'Maplewood Villas',
+    'Seaside Retreat',
+    'Hilltop Haven',
+    'Meadowbrook Meadows',
+    'Creekside Estates',
+    'Royal Palms Condominiums',
+    'Whispering Pines',
+    'Summerfield Square'
+  ]
 
   return (
     <Grid container spacing={6.5}>
@@ -308,6 +349,19 @@ const TenantManageTable = ({ apiData }) => {
             <Grid container spacing={6}>
               <Grid item sm={4} xs={12}>
                 <FormControl fullWidth>
+                  <Autocomplete
+                    disablePortal
+                    id='property'
+                    options={properties}
+                    sx={{ width: 300 }}
+                    value={property}
+                    onChange={handlePropertyChange}
+                    renderInput={params => <TextField {...params} label='Property' />}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item sm={4} xs={12}>
+                <FormControl fullWidth>
                   <InputLabel id='role-select'>Select Role</InputLabel>
                   <Select
                     fullWidth
@@ -318,7 +372,7 @@ const TenantManageTable = ({ apiData }) => {
                     onChange={handleRoleChange}
                     inputProps={{ placeholder: 'Select Role' }}
                   >
-                    <MenuItem value=''>Select Role</MenuItem>
+                    <MenuItem value=''>Select Property</MenuItem>
                     <MenuItem value='admin'>Admin</MenuItem>
                     <MenuItem value='author'>Author</MenuItem>
                     <MenuItem value='editor'>Editor</MenuItem>

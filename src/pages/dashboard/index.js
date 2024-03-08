@@ -30,7 +30,7 @@ const Dashboard = () => {
                 chipText='+2 tenants'
                 avatarColor='success'
                 chipColor='default'
-                title='Total number of units occupied'
+                title='Units Occupied'
                 subtitle='This week'
                 avatarIcon='tabler:home'
               />
@@ -41,7 +41,7 @@ const Dashboard = () => {
                 chipText={'+0' + ' tenants'}
                 avatarColor='info'
                 chipColor='default'
-                title='Total number of units vacant'
+                title='Units Vacant'
                 subtitle='This week'
                 avatarIcon='tabler:home'
               />
