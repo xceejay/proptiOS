@@ -21,6 +21,7 @@ const Dashboard = () => {
   return (
     <ApexChartWrapper>
       <Grid container spacing={6}>
+        {/* <Grid>wanted to do switch for properties</Grid> */}
         <Grid item xs={12} sm={12} lg={12}>
           <Grid container spacing={6}>
             <Grid item xs={12} sm={6} lg={2.5}>
@@ -34,7 +35,7 @@ const Dashboard = () => {
                 avatarIcon='tabler:home'
               />
             </Grid>
-            <Grid item xs={6} sm={6} lg={2.5}>
+            <Grid item xs={12} sm={6} lg={2.5}>
               <CardStatsVertical
                 stats='24.67k'
                 chipText='+25.2%'
