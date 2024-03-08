@@ -181,9 +181,9 @@ const columns = [
           <CustomAvatar
             skin='light'
             sx={{ mr: 4, width: 30, height: 30 }}
-            color={userRoleObj[row.role].color || 'primary'}
+            color={userRoleObj[row.role]?.color || 'primary'}
           >
-            <Icon icon={userRoleObj[row.role].icon} />
+            <Icon icon={userRoleObj[row.role]?.icon} />
           </CustomAvatar>
           <Typography noWrap sx={{ color: 'text.secondary', textTransform: 'capitalize' }}>
             {row.role}
