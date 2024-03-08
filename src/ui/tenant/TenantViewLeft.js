@@ -106,7 +106,7 @@ const UserViewLeft = () => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
           <Grid pb={5}>
-            <Button variant='contained' onClick={() => router.push('/tenants/manage')}>
+            <Button variant='outlined' onClick={() => router.push('/tenants/manage')}>
               <Icon icon='tabler:arrow-left' fontSize={20} />
               Back
             </Button>

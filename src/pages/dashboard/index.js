@@ -21,48 +21,36 @@ const Dashboard = () => {
   return (
     <ApexChartWrapper>
       <Grid container spacing={6}>
-        {/* <Grid item xs={6} sm={4} lg={2}>
-          <CrmSalesWithAreaChart />
+        <Grid item xs={12} sm={12} lg={12}>
+          <Grid container spacing={6}>
+            <Grid item xs={12} sm={6} lg={2.5}>
+              <CardStatsVertical
+                stats='24.67k'
+                chipText='+25.2%'
+                avatarColor='success'
+                chipColor='default'
+                title='Total Properties Rented'
+                subtitle='Last week'
+                avatarIcon='tabler:home'
+              />
+            </Grid>
+            <Grid item xs={6} sm={6} lg={2.5}>
+              <CardStatsVertical
+                stats='24.67k'
+                chipText='+25.2%'
+                avatarColor='error'
+                chipColor='default'
+                title='Total Properties idkyet'
+                subtitle='Last week'
+                avatarIcon='tabler:home'
+              />
+            </Grid>
+            <Grid item xs={12} sm={12} lg={7}>
+              <CrmRevenueGrowth />
+            </Grid>
+          </Grid>
         </Grid>
-        <Grid item xs={6} sm={4} lg={2}>
-          <CrmSessions />
-        </Grid> */}
-        <Grid item xs={6} sm={4} lg={2.5}>
-          <CardStatsVertical
-            stats='1.28k'
-            chipText='-12.2%'
-            chipColor='default'
-            avatarColor='info'
-            title='My Total Properties'
-            subtitle='Last week'
-            avatarIcon='tabler:home'
-          />
-        </Grid>
-        <Grid item xs={6} sm={4} lg={2.5}>
-          <CardStatsVertical
-            stats='24.67k'
-            chipText='+25.2%'
-            avatarColor='success'
-            chipColor='default'
-            title='Total Properties Rented'
-            subtitle='Last week'
-            avatarIcon='tabler:home'
-          />
-        </Grid>
-        <Grid item xs={6} sm={4} lg={2.5}>
-          <CardStatsVertical
-            stats='24.67k'
-            chipText='+25.2%'
-            avatarColor='error'
-            chipColor='default'
-            title='Total Properties idkyet'
-            subtitle='Last week'
-            avatarIcon='tabler:home'
-          />
-        </Grid>
-        <Grid item xs={12} sm={8} lg={12}>
-          <CrmRevenueGrowth />
-        </Grid>
+
         <Grid item xs={12} lg={8}>
           <CrmEarningReportsWithTabs />
         </Grid>

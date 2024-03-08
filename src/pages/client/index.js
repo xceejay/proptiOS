@@ -22,7 +22,7 @@ const ACLPage = () => {
           <CardHeader title='Common' />
           <CardContent>
             <Typography sx={{ mb: 4 }}>No ability is required to view this card</Typography>
-            <Typography sx={{ color: 'primary.main' }}>This card is visible to 'user' and 'admin' both</Typography>
+            <Typography sx={{ color: 'primary.main' }}>This card is visssible to 'user' and 'admin' both</Typography>
           </CardContent>
         </Card>
       </Grid>
@@ -42,7 +42,7 @@ const ACLPage = () => {
 }
 ACLPage.acl = {
   action: 'read',
-  subject: 'acl-page'
+  subject: 'client-page'
 }
 
 export default ACLPage
