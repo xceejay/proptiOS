@@ -23,7 +23,9 @@ const TableHeader = props => {
         justifyContent: 'space-between'
       }}
     >
-      <Box fontSize={14}></Box>
+      <Button color='secondary' variant='outlined' startIcon={<Icon icon='tabler:upload' />}>
+        Export
+      </Button>
       <Box sx={{ rowGap: 2, display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
         <TextField
           size='small'

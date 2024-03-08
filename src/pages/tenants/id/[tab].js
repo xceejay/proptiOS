@@ -1,11 +1,11 @@
 // ** Third Party Imports
 import axios from 'axios'
+import TenantEditInfo from 'src/ui/tenant/TenantEditInfo'
 
 // ** Demo Components Imports
-import UserViewPage from 'src/views/apps/user/view/UserViewPage'
 
 const UserView = ({ tab, invoiceData }) => {
-  return <UserViewPage tab={tab} invoiceData={invoiceData} />
+  return <TenantEditInfo tab={tab} invoiceData={invoiceData} />
 }
 
 export const getStaticPaths = () => {

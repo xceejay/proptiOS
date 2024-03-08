@@ -79,13 +79,14 @@ const searchData = [
     title: 'User List',
     category: 'appsPages'
   },
-  {
-    id: 12,
-    url: 'tenants/edit',
-    icon: 'tabler:user',
-    title: 'User View - Account',
-    category: 'appsPages'
-  },
+
+  // {
+  //   id: 12,
+  //   url: 'tenants/edit',
+  //   icon: 'tabler:user',
+  //   title: 'User View - Account',
+  //   category: 'appsPages'
+  // },
   {
     id: 13,
     url: '/apps/user/view/security',

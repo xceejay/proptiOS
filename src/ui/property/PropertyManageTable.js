@@ -41,8 +41,8 @@ import { fetchData, deleteUser } from 'src/store/apps/user'
 import axios from 'axios'
 
 // ** Custom Table Components Imports
-import TableHeader from 'src/views/apps/user/list/TableHeader'
-import AddUserDrawer from 'src/views/apps/user/list/AddUserDrawer'
+import TableHeader from './TableHeader'
+import AddUserDrawer from './AddUserDrawer'
 import ServerSideToolbar from 'src/views/table/data-grid/ServerSideToolbar'
 import ServerSideToolbarPropertyManage from 'src/views/table/data-grid/ServerSideToolbarPropertyManage'
 
