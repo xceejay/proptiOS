@@ -67,7 +67,7 @@ const Dashboard = () => {
         {/* <Grid item xs={12} md={6} lg={4}>
           <CrmActiveProjects />
         </Grid> */}
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={6} lg={12}>
           <CrmLastTransaction />
         </Grid>
         {/* <Grid item xs={12} md={6}>

@@ -18,31 +18,61 @@ const data = [
   {
     property: 'Sunset Apartments',
     units: 24,
-    description: 'Luxury apartments with ocean view',
+    description: 'Leaking faucet in Unit 302',
     status: 'occupied'
   },
   {
     property: 'Pinecrest Estates',
     units: 48,
-    description: 'Family-friendly townhomes in a quiet neighborhood',
+    description: 'Broken window in Townhome 15B',
     status: 'available'
   },
   {
     property: 'Maple Grove Condos',
     units: 32,
-    description: 'Modern condos with amenities like pool and gym',
+    description: 'Elevator maintenance needed in Building C',
     status: 'maintenance'
   },
   {
     property: 'Riverfront Lofts',
     units: 16,
-    description: 'Historic loft apartments along the riverfront',
+    description: 'Clogged drain in Loft 7',
     status: 'occupied'
   },
   {
     property: 'Hilltop Villas',
     units: 12,
-    description: 'Exclusive villas with private gardens and views',
+    description: 'Light fixture repair in Villa 4',
+    status: 'available'
+  },
+  {
+    property: 'Lakeside Retreat',
+    units: 20,
+    description: 'Roof leak in Cabin 9',
+    status: 'maintenance'
+  },
+  {
+    property: 'Valley View Apartments',
+    units: 40,
+    description: 'HVAC system maintenance in Unit 1203',
+    status: 'occupied'
+  },
+  {
+    property: 'Evergreen Terrace',
+    units: 30,
+    description: 'Broken dishwasher in Apartment 204',
+    status: 'available'
+  },
+  {
+    property: 'Mountain Ridge Condos',
+    units: 18,
+    description: 'Parking lot pothole repair needed',
+    status: 'maintenance'
+  },
+  {
+    property: 'Seaside Villas',
+    units: 10,
+    description: 'Paint touch-up required in Beachfront Cottage',
     status: 'available'
   }
 ]
@@ -74,8 +104,8 @@ const CrmLastTransaction = () => {
             >
               <TableCell>Property</TableCell>
               <TableCell>Units</TableCell>
-              <TableCell>Description</TableCell>
               <TableCell>Status</TableCell>
+              <TableCell>Description</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -89,7 +119,7 @@ const CrmLastTransaction = () => {
                     '&:first-of-type .MuiTableCell-root': { pt: theme => `${theme.spacing(4.5)} !important` }
                   }}
                 >
-                  <TableCell>
+                  {/* <TableCell>
                     <Box sx={{ display: 'flex', alignItems: 'center', '& img': { mr: 4 } }}>
                       <img width={50} alt={row.imgName} src={`/images/cards/${row.imgName}.png`} />
                       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
@@ -101,14 +131,12 @@ const CrmLastTransaction = () => {
                         </Typography>
                       </Box>
                     </Box>
-                  </TableCell>
+                  </TableCell> */}
                   <TableCell>
                     <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
-                      <Typography noWrap sx={{ fontWeight: 500, color: 'text.secondary' }}>
-                        Sent
-                      </Typography>
+                      <Typography noWrap sx={{ fontWeight: 500, color: 'text.secondary' }}></Typography>
                       <Typography noWrap variant='body2' sx={{ color: 'text.disabled' }}>
-                        {row.date}
+                        {row.property}
                       </Typography>
                     </Box>
                   </TableCell>
@@ -123,7 +151,7 @@ const CrmLastTransaction = () => {
                   </TableCell>
                   <TableCell>
                     <Typography noWrap sx={{ fontWeight: 500, color: 'text.secondary' }}>
-                      {row.trend}
+                      {row.description}
                     </Typography>
                   </TableCell>
                 </TableRow>
