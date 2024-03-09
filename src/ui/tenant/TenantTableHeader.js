@@ -6,7 +6,7 @@ import TextField from '@mui/material/TextField'
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
-const TableHeader = props => {
+const TenantTableHeader = props => {
   // ** Props
   const { handleFilter, toggle, value } = props
 
@@ -23,9 +23,10 @@ const TableHeader = props => {
         justifyContent: 'space-between'
       }}
     >
-      <Button color='secondary' variant='outlined' startIcon={<Icon icon='tabler:upload' />}>
+      {/* <Button color='secondary' variant='outlined' startIcon={<Icon icon='tabler:upload' />}>
         Export
-      </Button>
+      </Button> */}
+      <Box></Box>
       <Box sx={{ rowGap: 2, display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
         <TextField
           size='small'
@@ -44,4 +45,4 @@ const TableHeader = props => {
   )
 }
 
-export default TableHeader
+export default TenantTableHeader

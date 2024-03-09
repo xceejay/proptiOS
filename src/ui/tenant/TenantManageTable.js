@@ -41,7 +41,7 @@ import { fetchData, deleteUser } from 'src/store/apps/user'
 import axios from 'axios'
 
 // ** Custom Table Components Imports
-import TableHeader from './TableHeader'
+import TenantTableHeader from './TenantTableHeader'
 import AddUserDrawer from './AddUserDrawer'
 import ServerSideToolbar from 'src/views/table/data-grid/ServerSideToolbar'
 import ServerSideToolbarTenantManage from 'src/views/table/data-grid/ServerSideToolbarTenantManage'
@@ -347,7 +347,7 @@ const TenantManageTable = ({ apiData }) => {
         <Card>
           <CardHeader title='Search Filters' />
           <CardContent>
-            <Grid container spacing={6}>
+            {/* <Grid container spacing={6}>
               <Grid item sm={4} xs={12}>
                 <FormControl fullWidth>
                   <Autocomplete
@@ -356,7 +356,7 @@ const TenantManageTable = ({ apiData }) => {
                     onSelect={handlePropertyChange}
                     id='property-select'
                     renderInput={params => (
-                      <TextField {...params} sx={{ width: 300 }} value={property} label='Property' />
+                      <TextField {...params} sx={{ width: 300 }} value={property} label='Property'  inputProps={{ placeholder: 'Property' }} />
                     )}
                   />
                 </FormControl>
@@ -421,10 +421,10 @@ const TenantManageTable = ({ apiData }) => {
                   </Select>
                 </FormControl>
               </Grid>
-            </Grid>
+            </Grid> */}
           </CardContent>
           <Divider sx={{ m: '0 !important' }} />
-          <TableHeader
+          <TenantTableHeader
             rows={store.data}
             columns={columns}
             value={value}
