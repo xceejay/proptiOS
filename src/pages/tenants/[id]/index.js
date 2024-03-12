@@ -12,6 +12,11 @@ const TenantEdit = ({ invoiceData }) => {
   )
 }
 
+export async function getStaticPaths() {
+  return { id: Math.random.toString() }
+  fallback: false
+}
+
 export const getStaticProps = async ({ params }) => {
   const res = await axios.get('/apps/invoice/invoices')
   const invoiceData = res.data.allData

@@ -32,13 +32,13 @@ const TenantTableHeader = props => {
           size='small'
           value={value}
           sx={{ mr: 4 }}
-          placeholder='Search User'
+          placeholder='Search Tenant'
           onChange={e => handleFilter(e.target.value)}
         />
 
         <Button onClick={toggle} variant='contained' sx={{ '& svg': { mr: 2 } }}>
           <Icon fontSize='1.125rem' icon='tabler:plus' />
-          Add New User
+          Add New Tenant
         </Button>
       </Box>
     </Box>
