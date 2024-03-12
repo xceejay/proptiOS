@@ -120,7 +120,12 @@ const RowOptions = ({ id }) => {
         }}
         PaperProps={{ style: { minWidth: '8rem' } }}
       >
-        <MenuItem component={Link} sx={{ '& svg': { mr: 2 } }} href='/tenants/id' onClick={handleRowOptionsClose}>
+        <MenuItem
+          component={Link}
+          sx={{ '& svg': { mr: 2 } }}
+          href={'/tenants/' + Math.floor(Math.random() * 1000).toString()}
+          onClick={handleRowOptionsClose}
+        >
           <Icon icon='tabler:eye' fontSize={20} />
           View
         </MenuItem>
@@ -153,7 +158,7 @@ const columns = [
             <Typography
               noWrap
               component={Link}
-              href='/tenants/id'
+              href={'/tenants/' + Math.floor(Math.random() * 1000).toString()}
               sx={{
                 fontWeight: 500,
                 textDecoration: 'none',

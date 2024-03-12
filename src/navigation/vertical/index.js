@@ -18,7 +18,7 @@ const navigation = () => {
       // },
       // {
       //   title: 'Manage Tenants',
-      //   path: '/tenants/manage'
+      //   path: '/tenants'
 
       // children: [{}]
       // }
@@ -43,7 +43,7 @@ const navigation = () => {
       // },
       // {
       //   title: 'Manage properties',
-      //   path: '/properties/manage'
+      //   path: '/properties'
       // }
 
       // {
