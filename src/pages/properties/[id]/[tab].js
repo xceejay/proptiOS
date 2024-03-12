@@ -8,19 +8,6 @@ const UserView = ({ tab, invoiceData }) => {
   return <PropertyEditInfo tab={tab} invoiceData={invoiceData} />
 }
 
-export const getStaticPaths = () => {
-  return {
-    paths: [
-      { params: { tab: 'account' } },
-      { params: { tab: 'security' } },
-      { params: { tab: 'billing-plan' } },
-      { params: { tab: 'notification' } },
-      { params: { tab: 'connection' } }
-    ],
-    fallback: false
-  }
-}
-
 export async function getServerSideProps(params) {
   const res = await axios.get('/apps/invoice/invoices')
   const invoiceData = res.data.allData
@@ -28,7 +15,7 @@ export async function getServerSideProps(params) {
   return {
     props: {
       invoiceData,
-      tab: params?.tab
+      tab: params?.query.tab
     }
   }
 }
