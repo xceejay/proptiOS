@@ -41,7 +41,7 @@ import { getInitials } from 'src/@core/utils/get-initials'
 
 const data = {
   id: 1,
-  role: 'admin',
+  role: 'Sunset Valley Heights',
   status: 'active',
   username: 'gslixby0',
   avatarColor: 'primary',
@@ -148,20 +148,20 @@ const UserViewLeft = () => {
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <Box sx={{ mr: 8, display: 'flex', alignItems: 'center' }}>
                   <CustomAvatar skin='light' variant='rounded' sx={{ mr: 2.5, width: 38, height: 38 }}>
-                    <Icon fontSize='1.75rem' icon='tabler:checkbox' />
+                    <Icon fontSize='1.75rem' icon='tabler:cash' color='red' />
                   </CustomAvatar>
                   <div>
-                    <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>1.23k</Typography>
-                    <Typography variant='body2'>Task Done</Typography>
+                    <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}> GHC 1.23k</Typography>
+                    <Typography variant='body2'>Rent Paid</Typography>
                   </div>
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <CustomAvatar skin='light' variant='rounded' sx={{ mr: 2.5, width: 38, height: 38 }}>
-                    <Icon fontSize='1.75rem' icon='tabler:briefcase' />
+                    <Icon fontSize='1.75rem' icon='tabler:cash' />
                   </CustomAvatar>
                   <div>
-                    <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>568</Typography>
-                    <Typography variant='body2'>Project Done</Typography>
+                    <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>GHC 568</Typography>
+                    <Typography variant='body2'>Rent Due</Typography>
                   </div>
                 </Box>
               </Box>
@@ -196,7 +196,7 @@ const UserViewLeft = () => {
                   />
                 </Box>
                 <Box sx={{ display: 'flex', mb: 3 }}>
-                  <Typography sx={{ mr: 2, fontWeight: 500 }}>Role:</Typography>
+                  <Typography sx={{ mr: 2, fontWeight: 500 }}>Property:</Typography>
                   <Typography sx={{ color: 'text.secondary', textTransform: 'capitalize' }}>{data.role}</Typography>
                 </Box>
                 <Box sx={{ display: 'flex', mb: 3 }}>
@@ -360,7 +360,7 @@ const UserViewLeft = () => {
 
         <Grid item xs={12}>
           <Card>
-            <CardContent sx={{ pb: 1, display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}>
+            {/* <CardContent sx={{ pb: 1, display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}>
               <CustomChip rounded skin='light' size='small' color='primary' label='Popular' />
               <Box sx={{ display: 'flex', position: 'relative' }}>
                 <Sup>$</Sup>
@@ -372,9 +372,9 @@ const UserViewLeft = () => {
                 </Typography>
                 <Sub>/ month</Sub>
               </Box>
-            </CardContent>
+            </CardContent> */}
 
-            <CardContent>
+            {/* <CardContent>
               <Box sx={{ mt: 2.5, mb: 4 }}>
                 <Box sx={{ display: 'flex', mb: 2, alignItems: 'center', '& svg': { mr: 2, color: 'text.secondary' } }}>
                   <Icon icon='tabler:point' fontSize='1.125rem' />
@@ -398,7 +398,7 @@ const UserViewLeft = () => {
               <Button fullWidth variant='contained' onClick={handlePlansClickOpen}>
                 Upgrade Plan
               </Button>
-            </CardContent>
+            </CardContent> */}
 
             <Dialog
               open={openPlans}
