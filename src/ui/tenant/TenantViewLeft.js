@@ -148,7 +148,7 @@ const UserViewLeft = () => {
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <Box sx={{ mr: 8, display: 'flex', alignItems: 'center' }}>
                   <CustomAvatar skin='light' variant='rounded' sx={{ mr: 2.5, width: 38, height: 38 }}>
-                    <Icon fontSize='1.75rem' icon='tabler:cash' color='red' />
+                    <Icon fontSize='1.75rem' icon='tabler:cash' />
                   </CustomAvatar>
                   <div>
                     <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}> GHC 1.23k</Typography>
@@ -157,7 +157,7 @@ const UserViewLeft = () => {
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <CustomAvatar skin='light' variant='rounded' sx={{ mr: 2.5, width: 38, height: 38 }}>
-                    <Icon fontSize='1.75rem' icon='tabler:cash' />
+                    <Icon fontSize='1.75rem' icon='tabler:cash' color='red' />
                   </CustomAvatar>
                   <div>
                     <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>GHC 568</Typography>
