@@ -93,8 +93,8 @@ const UserViewRight = ({ tab, invoiceData }) => {
           label='Billing & Plan'
           icon={<Icon fontSize='1.125rem' icon='tabler:currency-dollar' />}
         />
-        <Tab value='notification' label='Notification' icon={<Icon fontSize='1.125rem' icon='tabler:bell' />} />
-        <Tab value='connection' label='Connection' icon={<Icon fontSize='1.125rem' icon='tabler:link' />} />
+        {/* <Tab value='notification' label='Notification' icon={<Icon fontSize='1.125rem' icon='tabler:bell' />} /> */}
+        {/* <Tab value='connection' label='Connection' icon={<Icon fontSize='1.125rem' icon='tabler:link' />} /> */}
       </TabList>
       <Box sx={{ mt: 6 }}>
         {isLoading ? (
@@ -113,9 +113,9 @@ const UserViewRight = ({ tab, invoiceData }) => {
             <TabPanel sx={{ p: 0 }} value='billing-plan'>
               <TenantViewBilling />
             </TabPanel>
-            <TabPanel sx={{ p: 0 }} value='notification'>
+            {/* <TabPanel sx={{ p: 0 }} value='notification'>
               <TenantViewNotification />
-            </TabPanel>
+            </TabPanel> */}
             <TabPanel sx={{ p: 0 }} value='connection'>
               <TenantViewConnection />
             </TabPanel>

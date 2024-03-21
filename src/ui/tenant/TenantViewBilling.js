@@ -78,19 +78,21 @@ const data = [
   },
   {
     cardCvc: '681',
-    imgAlt: 'Visa card',
-    expiryDate: '02/24',
+    imgAlt: 'Mobile Money',
+
+    // expiryDate: '02/24',
     badgeColor: 'primary',
     cardStatus: 'Primary',
     name: 'Mildred Wagner',
-    cardNumber: '4532 3616 2070 5678',
+
+    // cardNumber: '4532 3616 2070 5678',
     imgSrc: '/images/logos/visa.png'
   },
   {
     cardCvc: '3845',
     expiryDate: '08/20',
     name: 'Lester Jennings',
-    imgAlt: 'American Express card',
+    imgAlt: 'Master card',
     cardNumber: '3700 000000 00002',
     imgSrc: '/images/logos/american-express.png'
   }
@@ -159,7 +161,7 @@ const UserViewBilling = () => {
 
   return (
     <Grid container spacing={6}>
-      <Grid item xs={12}>
+      {/* <Grid item xs={12}>
         <Card>
           <CardHeader title='Current plan' />
           <CardContent>
@@ -308,7 +310,7 @@ const UserViewBilling = () => {
             </DialogContent>
           </Dialog>
         </Card>
-      </Grid>
+      </Grid> */}
 
       <Grid item xs={12}>
         <Card>
@@ -345,7 +347,11 @@ const UserViewBilling = () => {
                     ) : null}
                   </Box>
                   <Typography sx={{ color: 'text.secondary' }}>
-                    **** **** **** {item.cardNumber.substring(item.cardNumber.length - 4)}
+                    {item.cardNumber ? (
+                      <>**** **** **** {item.cardNumber?.substring(item.cardNumber.length - 4)}</>
+                    ) : (
+                      <></>
+                    )}
                   </Typography>
                 </div>
 
@@ -357,7 +363,7 @@ const UserViewBilling = () => {
                     Delete
                   </Button>
                   <Typography sx={{ mt: [6, 10], color: 'text.secondary' }}>
-                    Card expires at {item.expiryDate}
+                    {item.expiryDate ? <>Card expires at {item.expiryDate} </> : <></>}
                   </Typography>
                 </Box>
               </Box>

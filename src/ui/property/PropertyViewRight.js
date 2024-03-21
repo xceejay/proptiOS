@@ -19,7 +19,7 @@ import Icon from 'src/@core/components/icon'
 
 // ** Demo Components Imports
 import PropertyViewBilling from 'src/ui/property/PropertyViewBilling'
-import PropertyViewAccount from 'src/ui/property/PropertyViewAccount'
+import PropertyViewOverview from 'src/ui/property/PropertyViewOverview'
 import PropertyViewSecurity from 'src/ui/property/PropertyViewSecurity'
 import PropertyViewConnection from 'src/ui/property/PropertyViewConnection'
 import PropertyViewNotification from 'src/ui/property/PropertyViewNotification'
@@ -86,15 +86,17 @@ const UserViewRight = ({ tab, invoiceData }) => {
         aria-label='forced scroll tabs example'
         sx={{ borderBottom: theme => `1px solid ${theme.palette.divider}` }}
       >
-        <Tab value='account' label='Account' icon={<Icon fontSize='1.125rem' icon='tabler:user-check' />} />
-        <Tab value='security' label='Security' icon={<Icon fontSize='1.125rem' icon='tabler:lock' />} />
-        <Tab
+        <Tab value='overview' label='Overview' icon={<Icon fontSize='1.125rem' icon='tabler:home' />} />
+        <Tab value='expenses' label='Expenses' icon={<Icon fontSize='1.125rem' icon='tabler:cash' />} />
+        {/* <Tab
           value='billing-plan'
           label='Billing & Plan'
           icon={<Icon fontSize='1.125rem' icon='tabler:currency-dollar' />}
-        />
-        <Tab value='notification' label='Notification' icon={<Icon fontSize='1.125rem' icon='tabler:bell' />} />
-        <Tab value='connection' label='Connection' icon={<Icon fontSize='1.125rem' icon='tabler:link' />} />
+        /> */}
+        <Tab value='maintenance' label='Maintenance' icon={<Icon fontSize='1.125rem' icon='tabler:tool' />} />
+        <Tab value='marketing' label='Marketing' icon={<Icon fontSize='1.125rem' icon='tabler:speakerphone' />} />
+
+        <Tab value='settings' label='Settings' icon={<Icon fontSize='1.125rem' icon='tabler:settings' />} />
       </TabList>
       <Box sx={{ mt: 6 }}>
         {isLoading ? (
@@ -104,19 +106,22 @@ const UserViewRight = ({ tab, invoiceData }) => {
           </Box>
         ) : (
           <>
-            <TabPanel sx={{ p: 0 }} value='account'>
-              <PropertyViewAccount invoiceData={invoiceData} />
+            <TabPanel sx={{ p: 0 }} value='overview'>
+              <PropertyViewOverview invoiceData={invoiceData} />
             </TabPanel>
-            <TabPanel sx={{ p: 0 }} value='security'>
+            <TabPanel sx={{ p: 0 }} value='expenses'>
               <PropertyViewSecurity />
             </TabPanel>
-            <TabPanel sx={{ p: 0 }} value='billing-plan'>
+            {/* <TabPanel sx={{ p: 0 }} value='billing'>
               <PropertyViewBilling />
-            </TabPanel>
-            <TabPanel sx={{ p: 0 }} value='notification'>
+            </TabPanel> */}
+            <TabPanel sx={{ p: 0 }} value='maintenance'>
               <PropertyViewNotification />
             </TabPanel>
-            <TabPanel sx={{ p: 0 }} value='connection'>
+            <TabPanel sx={{ p: 0 }} value='marketing'>
+              <PropertyViewNotification />
+            </TabPanel>
+            <TabPanel sx={{ p: 0 }} value='settings'>
               <PropertyViewConnection />
             </TabPanel>
           </>

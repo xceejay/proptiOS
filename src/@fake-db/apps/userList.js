@@ -433,3 +433,92 @@ mock.onGet('/apps/users/project-list').reply(config => {
 
   return [200, filteredData]
 })
+
+const propertyData = {
+  properties: [
+    {
+      id: 1,
+      propertyName: 'Cozy Apartments',
+      dateAdded: '2024-03-12',
+      occupationStatus: 'Available',
+      leaseAmount: 1200,
+      amenities: ['Swimming Pool', 'Gym', 'Parking'],
+      units: 10,
+      tenantsPerUnit: 2,
+      propertyLocation: '123 Main St, Anytown, USA',
+      maintenanceStatus: 'Good',
+      listingUrl: 'https://example.com/cozy-apartments',
+      imageUrl: 'https://example.com/images/cozy-apartments.jpg'
+    },
+    {
+      id: 2,
+      propertyName: 'Downtown Lofts',
+      dateAdded: '2024-03-10',
+      occupationStatus: 'Occupied',
+      leaseAmount: 2000,
+      amenities: ['Rooftop Deck', 'Fitness Center', 'Pet Friendly'],
+      units: 20,
+      tenantsPerUnit: 1,
+      propertyLocation: '456 Elm St, Cityville, USA',
+      maintenanceStatus: 'Excellent',
+      listingUrl: 'https://example.com/downtown-lofts',
+      imageUrl: 'https://example.com/images/downtown-lofts.jpg'
+    },
+    {
+      id: 3,
+      propertyName: 'Seaside Condos',
+      dateAdded: '2024-03-08',
+      occupationStatus: 'Available',
+      leaseAmount: 1800,
+      amenities: ['Beach Access', 'Tennis Courts', 'Ocean View'],
+      units: 15,
+      tenantsPerUnit: 3,
+      propertyLocation: '789 Ocean Ave, Beachtown, USA',
+      maintenanceStatus: 'Fair',
+      listingUrl: 'https://example.com/seaside-condos',
+      imageUrl: 'https://example.com/images/seaside-condos.jpg'
+    }
+  ]
+}
+
+// Printing the array to see the structure
+// console.log(propertyData.properties)
+
+mock.onPost('/properties').reply(config => {
+  // Get event from post data
+  const property = JSON.parse(config.data).data
+  const lastId = Math.max(...data.properties.map(u => u.id), 0)
+  user.id = lastId + 1
+  data.properties.unshift({ ...user, avatar: '', avatarColor: 'primary', status: 'active' })
+
+  return [201, { propertyData }]
+})
+
+// GET: DATA
+mock.onGet('/properties').reply(config => {
+  const { q = '', role = null, status = null, currentPlan = null } = config.params ?? ''
+  const queryLowered = q.toLowerCase()
+
+  const filteredData = propertyData.properties.filter(
+    user =>
+      (propertyData.properties.propertyName.toLowerCase().includes(queryLowered) ||
+        propertyData.properties.fullName.toLowerCase().includes(queryLowered) ||
+        propertyData.properties.role.toLowerCase().includes(queryLowered) ||
+        (propertyData.properties.email.toLowerCase().includes(queryLowered) &&
+          propertyData.properties.currentPlan.toLowerCase().includes(queryLowered) &&
+          propertyData.properties.status.toLowerCase().includes(queryLowered))) &&
+      propertyData.properties.role === (role || propertyData.properties.role) &&
+      propertyData.properties.currentPlan === (currentPlan || propertyData.properties.currentPlan) &&
+      propertyData.properties.status === (status || propertyData.properties.status)
+  )
+
+  return [
+    200,
+    {
+      allData: data.users,
+      users: filteredData,
+      params: config.params,
+      total: filteredData.length
+    }
+  ]
+})

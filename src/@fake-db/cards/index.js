@@ -131,3 +131,43 @@ const cardStatsData = {
 mock.onGet('/cards/statistics').reply(() => {
   return [200, cardStatsData]
 })
+
+const properties = {
+  statsHorizontalWithDetails: [
+    {
+      stats: '21,459',
+      title: 'Session',
+      trendDiff: '+29',
+      icon: 'tabler:user',
+      subtitle: 'Total Users'
+    },
+    {
+      stats: '4,567',
+      trendDiff: '+18',
+      title: 'Paid Users',
+      avatarColor: 'error',
+      icon: 'tabler:user-plus',
+      subtitle: 'Last week analytics'
+    },
+    {
+      stats: '19,860',
+      trendDiff: '-14',
+      trend: 'negative',
+      title: 'Active Users',
+      avatarColor: 'success',
+      icon: 'tabler:user-check',
+      subtitle: 'Last week analytics'
+    },
+    {
+      stats: '237',
+      trendDiff: '+42',
+      title: 'Pending Users',
+      avatarColor: 'warning',
+      icon: 'tabler:user-exclamation',
+      subtitle: 'Last week analytics'
+    }
+  ]
+}
+mock.onGet('/properties').reply(() => {
+  return [200, properties]
+})

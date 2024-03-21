@@ -129,13 +129,13 @@ const RowOptions = ({ id }) => {
           <Icon icon='tabler:eye' fontSize={20} />
           View
         </MenuItem>
-        <MenuItem onClick={handleRowOptionsClose} sx={{ '& svg': { mr: 2 } }}>
+        {/* <MenuItem onClick={handleRowOptionsClose} sx={{ '& svg': { mr: 2 } }}>
           <Icon icon='tabler:edit' fontSize={20} />
           Edit
-        </MenuItem>
+        </MenuItem> */}
         <MenuItem onClick={handleDelete} sx={{ '& svg': { mr: 2 } }}>
           <Icon icon='tabler:trash' fontSize={20} />
-          Delete
+          Quick Suspend
         </MenuItem>
       </Menu>
     </>
@@ -176,41 +176,42 @@ const columns = [
       )
     }
   },
-  {
-    flex: 0.15,
-    field: 'role',
-    minWidth: 170,
-    headerName: 'Role',
-    renderCell: ({ row }) => {
-      return (
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <CustomAvatar
-            skin='light'
-            sx={{ mr: 4, width: 30, height: 30 }}
-            color={userRoleObj[row.role]?.color || 'primary'}
-          >
-            <Icon icon={userRoleObj[row.role]?.icon} />
-          </CustomAvatar>
-          <Typography noWrap sx={{ color: 'text.secondary', textTransform: 'capitalize' }}>
-            {row.role}
-          </Typography>
-        </Box>
-      )
-    }
-  },
-  {
-    flex: 0.15,
-    minWidth: 120,
-    headerName: 'Plan',
-    field: 'currentPlan',
-    renderCell: ({ row }) => {
-      return (
-        <Typography noWrap sx={{ fontWeight: 500, color: 'text.secondary', textTransform: 'capitalize' }}>
-          {row.currentPlan}
-        </Typography>
-      )
-    }
-  },
+
+  // {
+  //   flex: 0.15,
+  //   field: 'role',
+  //   minWidth: 170,
+  //   headerName: 'Role',
+  //   renderCell: ({ row }) => {
+  //     return (
+  //       <Box sx={{ display: 'flex', alignItems: 'center' }}>
+  //         <CustomAvatar
+  //           skin='light'
+  //           sx={{ mr: 4, width: 30, height: 30 }}
+  //           color={userRoleObj[row.role]?.color || 'primary'}
+  //         >
+  //           <Icon icon={userRoleObj[row.role]?.icon} />
+  //         </CustomAvatar>
+  //         <Typography noWrap sx={{ color: 'text.secondary', textTransform: 'capitalize' }}>
+  //           {row.role}
+  //         </Typography>
+  //       </Box>
+  //     )
+  //   }
+  // },
+  // {
+  //   flex: 0.15,
+  //   minWidth: 120,
+  //   headerName: 'Plan',
+  //   field: 'currentPlan',
+  //   renderCell: ({ row }) => {
+  //     return (
+  //       <Typography noWrap sx={{ fontWeight: 500, color: 'text.secondary', textTransform: 'capitalize' }}>
+  //         {row.currentPlan}
+  //       </Typography>
+  //     )
+  //   }
+  // },
   {
     flex: 0.15,
     minWidth: 190,

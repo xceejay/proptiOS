@@ -36,6 +36,7 @@ import { getInitials } from 'src/@core/utils/get-initials'
 
 // ** Actions Imports
 import { fetchData, deleteUser } from 'src/store/apps/user'
+import { fetchProperties, addProperty } from 'src/store/apps/user'
 
 // ** Third Party Components
 import axios from 'axios'
@@ -61,10 +62,94 @@ const userStatusObj = {
   inactive: 'secondary'
 }
 
+const properties = {
+  statsHorizontalWithDetails: [
+    {
+      stats: '21,459',
+      title: 'Session',
+      trendDiff: '+29',
+      icon: 'tabler:user',
+      subtitle: 'Total Users'
+    },
+    {
+      stats: '4,567',
+      trendDiff: '+18',
+      title: 'Paid Users',
+      avatarColor: 'error',
+      icon: 'tabler:user-plus',
+      subtitle: 'Last week analytics'
+    },
+    {
+      stats: '19,860',
+      trendDiff: '-14',
+      trend: 'negative',
+      title: 'Active Users',
+      avatarColor: 'success',
+      icon: 'tabler:user-check',
+      subtitle: 'Last week analytics'
+    },
+    {
+      stats: '237',
+      trendDiff: '+42',
+      title: 'Pending Users',
+      avatarColor: 'warning',
+      icon: 'tabler:user-exclamation',
+      subtitle: 'Last week analytics'
+    }
+  ]
+}
+
+const propertyData = {
+  properties: [
+    {
+      id: 1,
+      propertyName: 'Cozy Apartments',
+      dateAdded: '2024-03-12',
+      occupationStatus: 'Available',
+      leaseAmount: 1200,
+      amenities: ['Swimming Pool', 'Gym', 'Parking'],
+      units: 10,
+      tenantsPerUnit: 2,
+      propertyLocation: '123 Main St, Anytown, USA',
+      maintenanceStatus: 'Good',
+      listingUrl: 'https://example.com/cozy-apartments',
+      imageUrl: 'https://example.com/images/cozy-apartments.jpg'
+    },
+    {
+      id: 2,
+      propertyName: 'Downtown Lofts',
+      dateAdded: '2024-03-10',
+      occupationStatus: 'Occupied',
+      leaseAmount: 2000,
+      amenities: ['Rooftop Deck', 'Fitness Center', 'Pet Friendly'],
+      units: 20,
+      tenantsPerUnit: 1,
+      propertyLocation: '456 Elm St, Cityville, USA',
+      maintenanceStatus: 'Excellent',
+      listingUrl: 'https://example.com/downtown-lofts',
+      imageUrl: 'https://example.com/images/downtown-lofts.jpg'
+    },
+    {
+      id: 3,
+      propertyName: 'Seaside Condos',
+      dateAdded: '2024-03-08',
+      occupationStatus: 'Available',
+      leaseAmount: 1800,
+      amenities: ['Beach Access', 'Tennis Courts', 'Ocean View'],
+      units: 15,
+      tenantsPerUnit: 3,
+      propertyLocation: '789 Ocean Ave, Beachtown, USA',
+      maintenanceStatus: 'Fair',
+      listingUrl: 'https://example.com/seaside-condos',
+      imageUrl: 'https://example.com/images/seaside-condos.jpg'
+    }
+  ]
+}
+
 // ** renders client column
 const renderClient = row => {
-  if (row.avatar.length) {
-    return <CustomAvatar src={row.avatar} sx={{ mr: 2.5, width: 38, height: 38 }} />
+  if (row?.imageUrl?.length) {
+    return <CustomAvatar src={row.imageUrl} sx={{ mr: 2.5, width: 38, height: 38 }} />
   } else {
     return (
       <CustomAvatar
@@ -72,7 +157,7 @@ const renderClient = row => {
         color={row.avatarColor}
         sx={{ mr: 2.5, width: 38, height: 38, fontSize: '1rem', fontWeight: 500 }}
       >
-        {getInitials(row.fullName ? row.fullName : 'John Doe')}
+        {getInitials(row.propertyName ? row.propertyName : 'No Property Name')}
       </CustomAvatar>
     )
   }
@@ -95,7 +180,7 @@ const RowOptions = ({ id }) => {
   }
 
   const handleDelete = () => {
-    dispatch(deleteUser(id))
+    dispatch(deleteProperty(id))
     handleRowOptionsClose()
   }
 
@@ -123,10 +208,10 @@ const RowOptions = ({ id }) => {
           <Icon icon='tabler:eye' fontSize={20} />
           View
         </MenuItem>
-        <MenuItem onClick={handleRowOptionsClose} sx={{ '& svg': { mr: 2 } }}>
+        {/* <MenuItem onClick={handleRowOptionsClose} sx={{ '& svg': { mr: 2 } }}>
           <Icon icon='tabler:edit' fontSize={20} />
           Edit
-        </MenuItem>
+        </MenuItem> */}
         <MenuItem onClick={handleDelete} sx={{ '& svg': { mr: 2 } }}>
           <Icon icon='tabler:trash' fontSize={20} />
           Delete
@@ -140,10 +225,10 @@ const columns = [
   {
     flex: 0.25,
     minWidth: 280,
-    field: 'fullName',
-    headerName: 'User',
+    field: 'propertyName',
+    headerName: 'Property Name',
     renderCell: ({ row }) => {
-      const { fullName, email } = row
+      const { propertyName, propertyLocation } = row
 
       return (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -160,10 +245,10 @@ const columns = [
                 '&:hover': { color: 'primary.main' }
               }}
             >
-              {fullName}
+              {propertyName}
             </Typography>
             <Typography noWrap variant='body2' sx={{ color: 'text.disabled' }}>
-              {email}
+              {propertyLocation}
             </Typography>
           </Box>
         </Box>
@@ -172,9 +257,9 @@ const columns = [
   },
   {
     flex: 0.15,
-    field: 'role',
+    field: 'type',
     minWidth: 170,
-    headerName: 'Role',
+    headerName: 'Type',
     renderCell: ({ row }) => {
       return (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -195,8 +280,8 @@ const columns = [
   {
     flex: 0.15,
     minWidth: 120,
-    headerName: 'Plan',
-    field: 'currentPlan',
+    headerName: 'prospects',
+    field: 'prospects',
     renderCell: ({ row }) => {
       return (
         <Typography noWrap sx={{ fontWeight: 500, color: 'text.secondary', textTransform: 'capitalize' }}>
@@ -208,8 +293,8 @@ const columns = [
   {
     flex: 0.15,
     minWidth: 190,
-    field: 'billing',
-    headerName: 'Billing',
+    field: 'tenants',
+    headerName: 'tenants',
     renderCell: ({ row }) => {
       return (
         <Typography noWrap sx={{ color: 'text.secondary' }}>
@@ -221,8 +306,8 @@ const columns = [
   {
     flex: 0.1,
     minWidth: 110,
-    field: 'status',
-    headerName: 'Status',
+    field: 'maintenance',
+    headerName: 'Maintenance',
     renderCell: ({ row }) => {
       return (
         <CustomChip
@@ -257,14 +342,15 @@ const PropertyManageTable = ({ apiData }) => {
 
   // ** Hooks
   const dispatch = useDispatch()
-  const store = useSelector(state => state.user)
+  const store = useSelector(state => state.propertyData)
   useEffect(() => {
     dispatch(
-      fetchData({
-        role,
-        status,
-        q: value,
-        currentPlan: plan
+      fetchProperties({
+        // role,
+        // status,
+        q: value
+
+        // currentPlan: plan
       })
     )
   }, [dispatch, plan, role, status, value])
@@ -370,7 +456,7 @@ const PropertyManageTable = ({ apiData }) => {
           </CardContent>
           <Divider sx={{ m: '0 !important' }} />
           <TableHeader
-            rows={store.data}
+            rows={propertyData.properties}
             columns={columns}
             value={value}
             handleFilter={handleFilter}
@@ -379,7 +465,7 @@ const PropertyManageTable = ({ apiData }) => {
           <DataGrid
             autoHeight
             rowHeight={62}
-            rows={store.data}
+            rows={propertyData.properties}
             columns={columns}
             slots={{ toolbar: ServerSideToolbarPropertyManage }}
             disableRowSelectionOnClick
@@ -396,7 +482,7 @@ const PropertyManageTable = ({ apiData }) => {
 }
 
 export const getStaticProps = async () => {
-  const res = await axios.get('/cards/statistics')
+  const res = await axios.get('/properties')
   const apiData = res.data
 
   return {

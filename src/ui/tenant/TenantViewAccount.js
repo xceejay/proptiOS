@@ -43,9 +43,9 @@ const TenantViewAccount = ({ invoiceData }) => {
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
-        <TenantProjectListTable></TenantProjectListTable>
+        {/* <TenantProjectListTable></TenantProjectListTable> */}
       </Grid>
-      <Grid item xs={12}>
+      {/* <Grid item xs={12}>
         <Card>
           <CardHeader
             title='User Activity Timeline'
@@ -165,7 +165,7 @@ const TenantViewAccount = ({ invoiceData }) => {
             </Timeline>
           </CardContent>
         </Card>
-      </Grid>
+      </Grid> */}
 
       <Grid item xs={12}>
         <TenantInvoiceListTable invoiceData={invoiceData} />

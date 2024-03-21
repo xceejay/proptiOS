@@ -38,21 +38,22 @@ import PropertySubscriptionDialog from 'src/ui/property/PropertySubscriptionDial
 
 // ** Utils Import
 import { getInitials } from 'src/@core/utils/get-initials'
+import { CardHeader, Table, TableContainer } from '@mui/material'
 
 const data = {
   id: 1,
-  role: 'admin',
+  role: 'Apartment',
   status: 'active',
   username: 'gslixby0',
   avatarColor: 'primary',
-  country: 'El Salvador',
+  country: 'Kenya',
   company: 'Yotz PVT LTD',
   billing: 'Manual - Cash',
   contact: '(479) 232-9151',
   currentPlan: 'enterprise',
-  fullName: 'Daisy Patterson',
+  fullName: ' East Hills Property',
   email: 'gslixby0@abc.net.au',
-  avatar: '/images/avatars/14.png'
+  avatar: 'https://media-cdn.tripadvisor.com/media/photo-s/1b/8e/c2/48/fully-furnished-apartments.jpg'
 }
 
 const roleColors = {
@@ -148,20 +149,20 @@ const UserViewLeft = () => {
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <Box sx={{ mr: 8, display: 'flex', alignItems: 'center' }}>
                   <CustomAvatar skin='light' variant='rounded' sx={{ mr: 2.5, width: 38, height: 38 }}>
-                    <Icon fontSize='1.75rem' icon='tabler:checkbox' />
+                    <Icon fontSize='1.75rem' icon='tabler:home-x' />
                   </CustomAvatar>
                   <div>
-                    <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>1.23k</Typography>
-                    <Typography variant='body2'>Task Done</Typography>
+                    <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}> 568</Typography>
+                    <Typography variant='body2'>Units Occupied</Typography>
                   </div>
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <CustomAvatar skin='light' variant='rounded' sx={{ mr: 2.5, width: 38, height: 38 }}>
-                    <Icon fontSize='1.75rem' icon='tabler:briefcase' />
+                    <Icon fontSize='1.75rem' icon='tabler:home-2' color='green' />
                   </CustomAvatar>
                   <div>
                     <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>568</Typography>
-                    <Typography variant='body2'>Project Done</Typography>
+                    <Typography variant='body2'>Units Vacant</Typography>
                   </div>
                 </Box>
               </Box>
@@ -175,7 +176,7 @@ const UserViewLeft = () => {
               </Typography>
               <Box sx={{ pt: 4 }}>
                 <Box sx={{ display: 'flex', mb: 3 }}>
-                  <Typography sx={{ mr: 2, fontWeight: 500 }}>Username:</Typography>
+                  <Typography sx={{ mr: 2, fontWeight: 500 }}>Valuation:</Typography>
                   <Typography sx={{ color: 'text.secondary' }}>@{data.username}</Typography>
                 </Box>
                 <Box sx={{ display: 'flex', mb: 3 }}>
@@ -196,7 +197,7 @@ const UserViewLeft = () => {
                   />
                 </Box>
                 <Box sx={{ display: 'flex', mb: 3 }}>
-                  <Typography sx={{ mr: 2, fontWeight: 500 }}>Role:</Typography>
+                  <Typography sx={{ mr: 2, fontWeight: 500 }}>Property:</Typography>
                   <Typography sx={{ color: 'text.secondary', textTransform: 'capitalize' }}>{data.role}</Typography>
                 </Box>
                 <Box sx={{ display: 'flex', mb: 3 }}>
@@ -207,10 +208,10 @@ const UserViewLeft = () => {
                   <Typography sx={{ mr: 2, fontWeight: 500 }}>Contact:</Typography>
                   <Typography sx={{ color: 'text.secondary' }}>+1 {data.contact}</Typography>
                 </Box>
-                <Box sx={{ display: 'flex', mb: 3 }}>
+                {/* <Box sx={{ display: 'flex', mb: 3 }}>
                   <Typography sx={{ mr: 2, fontWeight: 500 }}>Language:</Typography>
                   <Typography sx={{ color: 'text.secondary' }}>English</Typography>
-                </Box>
+                </Box> */}
                 <Box sx={{ display: 'flex' }}>
                   <Typography sx={{ mr: 2, fontWeight: 500 }}>Country:</Typography>
                   <Typography sx={{ color: 'text.secondary' }}>{data.country}</Typography>
@@ -218,14 +219,14 @@ const UserViewLeft = () => {
               </Box>
             </CardContent>
 
-            <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
+            {/* <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
               <Button variant='contained' sx={{ mr: 2 }} onClick={handleEditClickOpen}>
                 Edit
               </Button>
               <Button color='error' variant='outlined' onClick={() => setSuspendDialogOpen(true)}>
                 Suspend
               </Button>
-            </CardActions>
+            </CardActions> */}
 
             <Dialog
               open={openEdit}
@@ -352,54 +353,11 @@ const UserViewLeft = () => {
                 </Button>
               </DialogActions>
             </Dialog>
-
-            <PropertySuspendDialog open={suspendDialogOpen} setOpen={setSuspendDialogOpen} />
-            <PropertySubscriptionDialog open={subscriptionDialogOpen} setOpen={setSubscriptionDialogOpen} />
           </Card>
         </Grid>
 
         <Grid item xs={12}>
           <Card>
-            <CardContent sx={{ pb: 1, display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}>
-              <CustomChip rounded skin='light' size='small' color='primary' label='Popular' />
-              <Box sx={{ display: 'flex', position: 'relative' }}>
-                <Sup>$</Sup>
-                <Typography
-                  variant='h4'
-                  sx={{ mt: -1, mb: -1.2, color: 'primary.main', fontSize: '2.375rem !important' }}
-                >
-                  99
-                </Typography>
-                <Sub>/ month</Sub>
-              </Box>
-            </CardContent>
-
-            <CardContent>
-              <Box sx={{ mt: 2.5, mb: 4 }}>
-                <Box sx={{ display: 'flex', mb: 2, alignItems: 'center', '& svg': { mr: 2, color: 'text.secondary' } }}>
-                  <Icon icon='tabler:point' fontSize='1.125rem' />
-                  <Typography sx={{ color: 'text.secondary' }}>10 Users</Typography>
-                </Box>
-                <Box sx={{ mb: 2, display: 'flex', alignItems: 'center', '& svg': { mr: 2, color: 'text.secondary' } }}>
-                  <Icon icon='tabler:point' fontSize='1.125rem' />
-                  <Typography sx={{ color: 'text.secondary' }}>Up to 10GB storage</Typography>
-                </Box>
-                <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 2, color: 'text.secondary' } }}>
-                  <Icon icon='tabler:point' fontSize='1.125rem' />
-                  <Typography sx={{ color: 'text.secondary' }}>Basic Support</Typography>
-                </Box>
-              </Box>
-              <Box sx={{ display: 'flex', mb: 1.5, justifyContent: 'space-between' }}>
-                <Typography sx={{ fontWeight: 500 }}>Days</Typography>
-                <Typography sx={{ fontWeight: 500 }}>75% Completed</Typography>
-              </Box>
-              <LinearProgress value={75} variant='determinate' sx={{ height: 10 }} />
-              <Typography sx={{ mt: 1.5, mb: 6, color: 'text.secondary' }}>4 days remaining</Typography>
-              <Button fullWidth variant='contained' onClick={handlePlansClickOpen}>
-                Upgrade Plan
-              </Button>
-            </CardContent>
-
             <Dialog
               open={openPlans}
               onClose={handlePlansClose}
