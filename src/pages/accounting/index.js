@@ -3,18 +3,20 @@ import ApexChartWrapper from 'src/@core/styles/libs/react-apexcharts'
 import CrmEarningReportsWithTabs from 'src/ui/dashboard/CrmEarningReportsWithTabs'
 import CardStatsVertical from 'src/@core/components/card-statistics/card-stats-vertical'
 import AccountingTable from 'src/ui/accounting/AccountingTable'
+import { Box } from '@mui/material'
 
 const Accounting = () => {
   return (
-    <ApexChartWrapper>
-      <Grid container spacing={6}>
-        <Grid item lg={12}>
-          <Grid container spacing={6}>
-            <Grid item xs={6} md={6} lg={8}>
-              <CrmEarningReportsWithTabs />
-            </Grid>
-            <Grid container={12} spacing={6}>
-              <Grid item xs={6} lg={4}>
+    <Box>
+      <ApexChartWrapper>
+        <Grid container spacing={6}>
+          <Grid item lg={12} xs={12}>
+            <Grid container spacing={6}>
+              <Grid item xs={12} md={6} lg={8}>
+                <CrmEarningReportsWithTabs />
+              </Grid>
+
+              <Grid item xs={12} lg={4}>
                 <Grid container spacing={6}>
                   <Grid item xs={6} md={3} lg={6}>
                     <CardStatsVertical
@@ -65,13 +67,13 @@ const Accounting = () => {
               </Grid>
             </Grid>
           </Grid>
-        </Grid>
 
-        <Grid item xs={12} md={12} lg={12}>
-          <AccountingTable></AccountingTable>
+          <Grid item xs={12} md={12} lg={12}>
+            <AccountingTable></AccountingTable>
+          </Grid>
         </Grid>
-      </Grid>
-    </ApexChartWrapper>
+      </ApexChartWrapper>
+    </Box>
   )
 }
 
