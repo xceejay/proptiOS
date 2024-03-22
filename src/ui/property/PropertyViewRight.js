@@ -20,9 +20,10 @@ import Icon from 'src/@core/components/icon'
 // ** Demo Components Imports
 import PropertyViewBilling from 'src/ui/property/PropertyViewBilling'
 import PropertyViewOverview from 'src/ui/property/PropertyViewOverview'
-import PropertyViewSecurity from 'src/ui/property/PropertyViewSecurity'
-import PropertyViewConnection from 'src/ui/property/PropertyViewConnection'
-import PropertyViewNotification from 'src/ui/property/PropertyViewNotification'
+import PropertyViewExpenses from 'src/ui/property/PropertyViewExpenses'
+import PropertyViewMaintenance from 'src/ui/property/PropertyViewMaintenance'
+import PropertyViewMarketing from './PropertyViewMarketing'
+import PropertyViewSettings from 'src/ui/property/PropertyViewSettings'
 
 // ** Styled Tab component
 const Tab = styled(MuiTab)(({ theme }) => ({
@@ -110,19 +111,19 @@ const UserViewRight = ({ tab, invoiceData }) => {
               <PropertyViewOverview invoiceData={invoiceData} />
             </TabPanel>
             <TabPanel sx={{ p: 0 }} value='expenses'>
-              <PropertyViewSecurity />
+              <PropertyViewExpenses />
             </TabPanel>
             {/* <TabPanel sx={{ p: 0 }} value='billing'>
               <PropertyViewBilling />
             </TabPanel> */}
             <TabPanel sx={{ p: 0 }} value='maintenance'>
-              <PropertyViewNotification />
+              <PropertyViewMaintenance />
             </TabPanel>
             <TabPanel sx={{ p: 0 }} value='marketing'>
-              <PropertyViewNotification />
+              <PropertyViewMarketing />
             </TabPanel>
             <TabPanel sx={{ p: 0 }} value='settings'>
-              <PropertyViewConnection />
+              <PropertyViewSettings />
             </TabPanel>
           </>
         )}

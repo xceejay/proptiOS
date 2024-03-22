@@ -30,8 +30,20 @@ const Accounting = () => {
                     stats='1.28k'
                     chipText='-12.2%'
                     chipColor='default'
+                    avatarColor='info'
+                    title='Net Income'
+                    subtitle='Last week'
+                    avatarIcon='tabler:currency-dollar'
+                  />
+                </Grid>
+
+                <Grid item xs={6} md={3} lg={6}>
+                  <CardStatsVertical
+                    stats='1.28k'
+                    chipText='-12.2%'
+                    chipColor='default'
                     avatarColor='error'
-                    title='Total Profit'
+                    title='Net Loss'
                     subtitle='Last week'
                     avatarIcon='tabler:currency-dollar'
                   />
@@ -41,10 +53,10 @@ const Accounting = () => {
                     stats='1.28k'
                     chipText='-12.2%'
                     chipColor='default'
-                    avatarColor='error'
-                    title='Total Profit'
+                    avatarColor='info'
+                    title='Property Value'
                     subtitle='Last week'
-                    avatarIcon='tabler:currency-dollar'
+                    avatarIcon='tabler:home'
                   />
                 </Grid>
                 <Grid item xs={6} md={3} lg={6}>
@@ -52,21 +64,10 @@ const Accounting = () => {
                     stats='1.28k'
                     chipText='-12.2%'
                     chipColor='default'
-                    avatarColor='error'
-                    title='Total Profit'
+                    avatarColor='warning'
+                    title='Tax Payable'
                     subtitle='Last week'
-                    avatarIcon='tabler:currency-dollar'
-                  />
-                </Grid>
-                <Grid item xs={6} md={3} lg={6}>
-                  <CardStatsVertical
-                    stats='1.28k'
-                    chipText='-12.2%'
-                    chipColor='default'
-                    avatarColor='error'
-                    title='Total Profit'
-                    subtitle='Last week'
-                    avatarIcon='tabler:currency-dollar'
+                    avatarIcon='tabler:receipt-2'
                   />
                 </Grid>
               </Grid>

@@ -85,24 +85,25 @@ const columns = [
     flex: 0.175,
     minWidth: 110,
     field: 'salary',
-    headerName: 'Salary',
+    headerName: 'Rent Payment',
     renderCell: params => (
       <Typography variant='body2' sx={{ color: 'text.primary' }}>
         {params.row.salary}
       </Typography>
     )
   },
-  {
-    flex: 0.125,
-    field: 'age',
-    minWidth: 80,
-    headerName: 'Age',
-    renderCell: params => (
-      <Typography variant='body2' sx={{ color: 'text.primary' }}>
-        {params.row.age}
-      </Typography>
-    )
-  },
+
+  // {
+  //   flex: 0.125,
+  //   field: 'age',
+  //   minWidth: 80,
+  //   headerName: 'Age',
+  //   renderCell: params => (
+  //     <Typography variant='body2' sx={{ color: 'text.primary' }}>
+  //       {params.row.age}
+  //     </Typography>
+  //   )
+  // },
   {
     flex: 0.175,
     minWidth: 140,

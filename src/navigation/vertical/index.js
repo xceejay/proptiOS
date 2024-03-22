@@ -95,7 +95,7 @@ const navigation = () => {
 
     {
       title: 'Support',
-      path: '/support',
+      path: 'https://manages.homes/support',
       icon: 'tabler:help',
 
       // badgeContent: '3',
