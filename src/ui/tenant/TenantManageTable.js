@@ -351,7 +351,7 @@ const TenantManageTable = ({ apiData }) => {
       </Grid>
       <Grid item xs={12}>
         <Card>
-          <CardHeader title='Search Filters' />
+          <CardHeader title='Tenants' />
           <CardContent>
             {/* <Grid container spacing={6}>
               <Grid item sm={4} xs={12}>

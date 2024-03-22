@@ -76,7 +76,7 @@ const defaultValues = {
   contact: Number('')
 }
 
-const SidebarAddUser = props => {
+const SidebarAddProperty = props => {
   // ** Props
   const { open, toggle } = props
 
@@ -140,7 +140,7 @@ const SidebarAddUser = props => {
       sx={{ '& .MuiDrawer-paper': { width: { xs: 300, sm: 400 } } }}
     >
       <Header>
-        <Typography variant='h6'>Add User</Typography>
+        <Typography variant='h6'>Add Property</Typography>
         <IconButton
           size='small'
           onClick={handleClose}
@@ -339,4 +339,4 @@ const SidebarAddUser = props => {
   )
 }
 
-export default SidebarAddUser
+export default SidebarAddProperty

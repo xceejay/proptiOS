@@ -23,6 +23,7 @@ import PropertyProjectListTable from 'src/ui/property/PropertyProjectListTable'
 
 // ** Custom Components Imports
 import OptionsMenu from 'src/@core/components/option-menu'
+import PropertyManagePropertyTable from './PropertyManagePropertyTable'
 
 // Styled Timeline component
 const Timeline = styled(MuiTimeline)(({ theme }) => ({
@@ -47,7 +48,8 @@ const PropertyViewOverview = ({ invoiceData }) => {
       </Grid> */}
 
       <Grid item xs={12}>
-        <PropertyInvoiceListTable invoiceData={invoiceData} />
+        {/* <PropertyInvoiceListTable invoiceData={invoiceData} /> */}
+        <PropertyManagePropertyTable></PropertyManagePropertyTable>
       </Grid>
     </Grid>
   )

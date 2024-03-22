@@ -7,7 +7,7 @@ import PropertyEditInfo from 'src/ui/property/PropertyEditInfo'
 const PropertyEdit = ({ invoiceData }) => {
   return (
     <Grid>
-      <PropertyEditInfo tab={'account'} invoiceData={invoiceData}></PropertyEditInfo>
+      <PropertyEditInfo tab={'overview'} invoiceData={invoiceData}></PropertyEditInfo>
     </Grid>
   )
 }
