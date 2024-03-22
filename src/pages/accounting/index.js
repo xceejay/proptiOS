@@ -8,13 +8,13 @@ const Accounting = () => {
   return (
     <ApexChartWrapper>
       <Grid container spacing={6}>
-        <Grid item lg={12}>
+        <Grid item lg={6}>
           <Grid container spacing={6}>
-            <Grid item xs={12} md={6} lg={8}>
+            <Grid item xs={6} md={6} lg={8}>
               <CrmEarningReportsWithTabs />
             </Grid>
 
-            <Grid item xs={12} lg={4}>
+            <Grid item xs={6} lg={4}>
               <Grid container spacing={6}>
                 <Grid item xs={6} md={3} lg={6}>
                   <CardStatsVertical
