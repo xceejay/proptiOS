@@ -13,7 +13,7 @@ import { Box } from '@mui/system'
 const Accounting = () => {
   return (
     <ApexChartWrapper>
-      <Grid container spacing={6}>
+      <Grid container={12} spacing={6}>
         <Grid item lg={12}>
           {/* <Grid item xs={12} md={8} lg={12}>
           <EcommerceTransactionsHorizontal />
