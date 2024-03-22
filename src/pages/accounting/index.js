@@ -1,13 +1,8 @@
-import Card from '@mui/material/Card'
 import Grid from '@mui/material/Grid'
-import Typography from '@mui/material/Typography'
-import CardHeader from '@mui/material/CardHeader'
-import CardContent from '@mui/material/CardContent'
 import ApexChartWrapper from 'src/@core/styles/libs/react-apexcharts'
 import CrmEarningReportsWithTabs from 'src/ui/dashboard/CrmEarningReportsWithTabs'
 import CardStatsVertical from 'src/@core/components/card-statistics/card-stats-vertical'
 import EcommerceTransactionsHorizontal from 'src/ui/accounting/EcommerceTransactionsHorizontal'
-import AccountingTable from 'src/ui/accounting/AccountingTable'
 import { Box } from '@mui/system'
 
 const Accounting = () => {
