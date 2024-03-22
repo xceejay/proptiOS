@@ -1,7 +1,8 @@
-import { Button, Card, CardActions, CardContent, CardHeader, Grid, Icon, IconButton } from '@mui/material'
+import { Button, Card, CardActions, CardContent, CardHeader, Divider, Grid, Icon, IconButton } from '@mui/material'
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import { DataGrid } from '@mui/x-data-grid'
+import CardStatsVertical from 'src/@core/components/card-statistics/card-stats-vertical'
 
 const rows = [
   { id: 1, occupiedTenant: 'Jon', accruedYears: 14 },
@@ -34,54 +35,7 @@ const columns = [
 ]
 
 const PropertyManagePropertyTable = () => {
-  return (
-    <Grid container spacing={5} lg={12}>
-      <Grid item xs={12} lg={6}>
-        <Card>
-          <Grid container>
-            <Grid item xs={6} lg={6}>
-              <CardHeader title='Units'></CardHeader>
-            </Grid>
-            <Grid item xs={6} lg={6}>
-              <CardActions sx={{ display: 'flex', justifyContent: 'right', mt: 2 }}>
-                <Button variant='contained'>Add Unit</Button>
-              </CardActions>
-            </Grid>
-          </Grid>
-
-          <CardContent sx={{ pt: 0 }}>
-            <Box sx={{ height: 400, width: '100%' }}>
-              <DataGrid
-                rows={rows}
-                columns={columns}
-                initialState={{
-                  pagination: {
-                    paginationModel: {
-                      pageSize: 5
-                    }
-                  }
-                }}
-                pageSizeOptions={[5]}
-                checkboxSelection={false}
-                disableRowSelectionOnClick
-              />
-            </Box>
-          </CardContent>
-        </Card>
-      </Grid>
-      <Grid item xs={12} lg={6}>
-        <Card>
-          <CardContent></CardContent>
-        </Card>
-      </Grid>
-
-      <Grid item xs={12} lg={12}>
-        <Card>
-          <CardContent></CardContent>
-        </Card>
-      </Grid>
-    </Grid>
-  )
+  return <Grid container spacing={5} lg={12}></Grid>
 }
 
 export default PropertyManagePropertyTable
