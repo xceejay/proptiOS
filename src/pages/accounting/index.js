@@ -2,17 +2,13 @@ import Grid from '@mui/material/Grid'
 import ApexChartWrapper from 'src/@core/styles/libs/react-apexcharts'
 import CrmEarningReportsWithTabs from 'src/ui/dashboard/CrmEarningReportsWithTabs'
 import CardStatsVertical from 'src/@core/components/card-statistics/card-stats-vertical'
-import EcommerceTransactionsHorizontal from 'src/ui/accounting/EcommerceTransactionsHorizontal'
-import { Box } from '@mui/system'
+import AccountingTable from 'src/ui/accounting/AccountingTable'
 
 const Accounting = () => {
   return (
     <ApexChartWrapper>
       <Grid container spacing={6}>
         <Grid item lg={12}>
-          {/* <Grid item xs={12} md={8} lg={12}>
-          <EcommerceTransactionsHorizontal />
-        </Grid> */}
           <Grid container spacing={6}>
             <Grid item xs={12} md={6} lg={8}>
               <CrmEarningReportsWithTabs />
