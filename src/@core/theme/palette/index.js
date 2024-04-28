@@ -34,9 +34,9 @@ const DefaultPalette = (mode, skin) => {
       white: whiteColor
     },
     primary: {
-      light: '#8479F2',
-      main: '#7367F0',
-      dark: '#655BD3',
+      light: '#007fff', //todo: increase intensity of colors
+      main: '#007fff', //todo: increase intensity of colors
+      dark: '#007fff', //todo: increase intensity of colors
       contrastText: whiteColor
     },
     secondary: {
