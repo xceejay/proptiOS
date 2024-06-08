@@ -85,7 +85,7 @@ const CrmRevenueGrowth = () => {
             <div>
               <Typography variant='h6' sx={{ mb: 1.5 }}>
                 Revenue Growth
-                <a href='/api/auth/login'>Login</a>
+                {/* <a href='/api/auth/login'>Login</a> */}
               </Typography>
               <Typography variant='body2'>Weekly Report</Typography>
             </div>
