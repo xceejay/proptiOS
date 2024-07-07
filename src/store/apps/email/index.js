@@ -6,7 +6,7 @@ import axios from 'axios'
 
 // ** Fetch Mails
 export const fetchMails = createAsyncThunk('appEmail/fetchMails', async params => {
-  const response = await axios.get('/apps/email/emails', {
+  const response = await axios.get('http://api.pm.manages.homes/apps/email/emails', {
     params
   })
 
@@ -15,7 +15,7 @@ export const fetchMails = createAsyncThunk('appEmail/fetchMails', async params =
 
 // ** Get Current Mail
 export const getCurrentMail = createAsyncThunk('appEmail/selectMail', async id => {
-  const response = await axios.get('/apps/email/get-email', {
+  const response = await axios.get('http://api.pm.manages.homes/apps/email/get-email', {
     params: {
       id
     }
@@ -52,7 +52,7 @@ export const updateMailLabel = createAsyncThunk('appEmail/updateMailLabel', asyn
 
 // ** Prev/Next Mails
 export const paginateMail = createAsyncThunk('appEmail/paginateMail', async params => {
-  const response = await axios.get('/apps/email/paginate-email', { params })
+  const response = await axios.get('http://api.pm.manages.homes/apps/email/paginate-email', { params })
 
   return response.data
 })

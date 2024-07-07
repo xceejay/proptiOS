@@ -6,7 +6,7 @@ import axios from 'axios'
 
 // ** Fetch Events
 export const fetchEvents = createAsyncThunk('appCalendar/fetchEvents', async calendars => {
-  const response = await axios.get('/apps/calendar/events', {
+  const response = await axios.get('http://api.pm.manages.homes/apps/calendar/events', {
     params: {
       calendars
     }

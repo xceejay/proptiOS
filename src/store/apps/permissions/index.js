@@ -6,7 +6,7 @@ import axios from 'axios'
 
 // ** Fetch Invoices
 export const fetchData = createAsyncThunk('appPermissions/fetchData', async params => {
-  const response = await axios.get('/apps/permissions/data', {
+  const response = await axios.get('http://api.pm.manages.homes/apps/permissions/data', {
     params
   })
 

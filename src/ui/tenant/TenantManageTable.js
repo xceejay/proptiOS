@@ -457,7 +457,7 @@ const TenantManageTable = ({ apiData }) => {
 }
 
 export const getStaticProps = async () => {
-  const res = await axios.get('/cards/statistics')
+  const res = await axios.get('http://api.pm.manages.homes/cards/statistics')
   const apiData = res.data
 
   return {

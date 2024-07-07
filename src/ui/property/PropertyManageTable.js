@@ -419,7 +419,7 @@ const PropertyManageTable = ({ apiData }) => {
 }
 
 export const getStaticProps = async () => {
-  const res = await axios.get('/properties')
+  const res = await axios.get('http://api.pm.manages.homes/properties')
   const apiData = res.data
 
   return {

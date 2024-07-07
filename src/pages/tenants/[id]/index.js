@@ -13,7 +13,7 @@ const TenantEdit = ({ invoiceData }) => {
 }
 
 export const getServerSideProps = async ({ params }) => {
-  const res = await axios.get('/apps/invoice/invoices')
+  const res = await axios.get('http://api.pm.manages.homes/apps/invoice/invoices')
   const invoiceData = res.data.allData
 
   return {
