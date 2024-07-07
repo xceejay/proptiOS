@@ -18,8 +18,34 @@ import CrmEarningReportsWithTabs from 'src/ui/dashboard//CrmEarningReportsWithTa
 // ** Custom Component Imports
 import ApexChartWrapper from 'src/@core/styles/libs/react-apexcharts'
 import CardStatsVertical from 'src/@core/components/card-statistics/card-stats-vertical'
+import { useEffect, useState } from 'react'
+import axios from 'axios'
 
 const Dashboard = () => {
+  const [DashData, setDashData] = useState(null)
+
+  useEffect(() => {
+    const testReq = async () => {
+      try {
+        const response = await axios.get('http://api.pm.manages.homes', {
+          params: {
+            firstName: 'Fred',
+            lastName: 'Flintstone'
+          }
+        })
+
+        // console.log(response.data)
+        setDashData(response.data)
+
+        // alert('dashdata: ' + JSON.stringify(response.data)) // Alert with the fetched data
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    testReq()
+  }, [])
+
   return (
     <ApexChartWrapper>
       <Grid container spacing={6}>
@@ -27,13 +53,14 @@ const Dashboard = () => {
         <Grid item xs={12} sm={12} lg={12}>
           <Grid container spacing={6}>
             <Grid item xs={12} sm={6} lg={2.5}>
+              {/* prettier-ignore */}
               <CardStatsVertical
-                stats={'128' + ' tenants'}
+                stats={DashData?.heartbeat}
                 chipText='+2 tenants'
                 avatarColor='success'
                 chipColor='default'
                 title='Units Occupied'
-                subtitle='This week'
+                subtitle='API response below'
                 avatarIcon='tabler:home'
               />
             </Grid>
