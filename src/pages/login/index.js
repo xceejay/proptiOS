@@ -91,7 +91,7 @@ const schema = yup.object().shape({
 
 const defaultValues = {
   password: 'admin',
-  email: 'admin@manages.homes.com'
+  email: 'admin@manages.homes'
 }
 
 const LoginPage = () => {
@@ -198,10 +198,10 @@ const LoginPage = () => {
             </Box>
             <Alert icon={false} sx={{ py: 3, mb: 6, ...bgColors.primaryLight, '& .MuiAlert-message': { p: 0 } }}>
               <Typography variant='body2' sx={{ mb: 2, color: 'primary.main' }}>
-                Admin: <strong>admin@manages.homes.com</strong> / Pass: <strong>admin</strong>
+                Admin: <strong>admin@manages.homes</strong> / Pass: <strong>admin</strong>
               </Typography>
               <Typography variant='body2' sx={{ color: 'primary.main' }}>
-                Client: <strong>client@manages.homes.com</strong> / Pass: <strong>client</strong>
+                Client: <strong>client@manages.homes</strong> / Pass: <strong>client</strong>
               </Typography>
             </Alert>
             <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
@@ -218,7 +218,7 @@ const LoginPage = () => {
                       onBlur={onBlur}
                       onChange={onChange}
                       error={Boolean(errors.email)}
-                      placeholder='admin@manages.homes.com'
+                      placeholder='admin@manages.homes'
                     />
                   )}
                 />
