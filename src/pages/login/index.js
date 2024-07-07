@@ -43,6 +43,7 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 
 // ** Demo Imports
 import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
+import axios from 'axios'
 
 // ** Styled Components
 const LoginIllustration = styled('img')(({ theme }) => ({
@@ -90,8 +91,8 @@ const schema = yup.object().shape({
 })
 
 const defaultValues = {
-  password: 'admin',
-  email: 'admin@manages.homes'
+  password: 'password789',
+  email: 'alicejohnson@example.com'
 }
 
 const LoginPage = () => {
@@ -121,6 +122,8 @@ const LoginPage = () => {
 
   const onSubmit = data => {
     const { email, password } = data
+
+    // axios.get('http://google.com')
     auth.login({ email, password, rememberMe }, () => {
       setError('email', {
         type: 'manual',

@@ -32,27 +32,33 @@ const AuthProvider = ({ children }) => {
     const initAuth = async () => {
       const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)
       if (storedToken) {
-        setLoading(true)
-        await axios
-          .get(authConfig.meEndpoint, {
-            headers: {
-              Authorization: storedToken
-            }
-          })
-          .then(async response => {
-            setLoading(false)
-            setUser({ ...response.data.userData })
-          })
-          .catch(() => {
-            localStorage.removeItem('userData')
-            localStorage.removeItem('refreshToken')
-            localStorage.removeItem('accessToken')
-            setUser(null)
-            setLoading(false)
-            if (authConfig.onTokenExpiration === 'logout' && !router.pathname.includes('login')) {
-              router.replace('/login')
-            }
-          })
+        let userData = window.localStorage.getItem('userData')
+        console.log(userData ? true : false)
+
+        setLoading(false)
+        setUser(JSON.parse(userData))
+        console.log('are you null?:', JSON.parse(userData))
+
+        // await axios
+        //   .get(authConfig.meEndpoint, {
+        //     headers: {
+        //       Authorization: storedToken
+        //     }
+        //   })
+        //   .then(async response => {
+        //     setLoading(false)
+        //     setUser({ ...response.data.userData })
+        //   })
+        //   .catch(() => {
+        //     localStorage.removeItem('userData')
+        //     localStorage.removeItem('refreshToken')
+        //     localStorage.removeItem('accessToken')
+        //     setUser(null)
+        //     setLoading(false)
+        //     if (authConfig.onTokenExpiration === 'logout' && !router.pathname.includes('login')) {
+        //       router.replace('/login')
+        //     }
+        //   })
       } else {
         setLoading(false)
       }
@@ -62,15 +68,17 @@ const AuthProvider = ({ children }) => {
   }, [])
 
   const handleLogin = (params, errorCallback) => {
+    console.log('logging in')
+
     axios
-      .post(authConfig.loginEndpoint, params)
+      .post('http://api.pm.manages.homes/auth/login', params)
+
       .then(async response => {
-        params.rememberMe
-          ? window.localStorage.setItem(authConfig.storageTokenKeyName, response.data.accessToken)
-          : null
+        console.log(response.data)
+        params.rememberMe ? window.localStorage.setItem(authConfig.storageTokenKeyName, response.data.data.token) : null
         const returnUrl = router.query.returnUrl
-        setUser({ ...response.data.userData })
-        params.rememberMe ? window.localStorage.setItem('userData', JSON.stringify(response.data.userData)) : null
+        setUser({ ...response.data.data.user })
+        params.rememberMe ? window.localStorage.setItem('userData', JSON.stringify(response.data.data.user)) : null
         const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/'
         router.replace(redirectURL)
       })
@@ -80,6 +88,7 @@ const AuthProvider = ({ children }) => {
   }
 
   const handleLogout = () => {
+    console.log('logged out')
     setUser(null)
     window.localStorage.removeItem('userData')
     window.localStorage.removeItem(authConfig.storageTokenKeyName)

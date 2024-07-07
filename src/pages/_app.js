@@ -16,7 +16,7 @@ import { defaultACLObj } from 'src/configs/acl'
 import themeConfig from 'src/configs/themeConfig'
 
 // ** Fake-DB Import
-import 'src/@fake-db'
+// import 'src/@fake-db'
 
 // ** Third Party Import
 import { Toaster } from 'react-hot-toast'
@@ -76,6 +76,8 @@ const Guard = ({ children, authGuard, guestGuard }) => {
   } else if (!guestGuard && !authGuard) {
     return <>{children}</>
   } else {
+    console.log('wow')
+
     return <AuthGuard fallback={<Spinner />}>{children}</AuthGuard>
   }
 }
