@@ -21,29 +21,13 @@ import CardStatsVertical from 'src/@core/components/card-statistics/card-stats-v
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 
-const Dashboard = () => {
-  const [DashData, setDashData] = useState(null)
+const Dashboard = DashboardData => {
+  const [DashData, setDashData] = useState(DashboardData)
 
   useEffect(() => {
-    const testReq = async () => {
-      try {
-        const response = await axios.get('http://api.pm.manages.homes', {
-          params: {
-            firstName: 'Fred',
-            lastName: 'Flintstone'
-          }
-        })
+    console.log('dash', DashData)
 
-        // console.log(response.data)
-        setDashData(response.data)
-
-        // alert('dashdata: ' + JSON.stringify(response.data)) // Alert with the fetched data
-      } catch (error) {
-        console.error(error)
-      }
-    }
-
-    testReq()
+    // setDashData(response.data)
   }, [])
 
   return (
@@ -105,6 +89,18 @@ const Dashboard = () => {
       </Grid>
     </ApexChartWrapper>
   )
+}
+
+export async function getServerSideProps(params) {
+  const res = await axios.get('http://api.pm.manages.homes/')
+  console.log('res-data', res.data)
+  const DashboardData = res.data
+
+  return {
+    props: {
+      ...DashboardData
+    }
+  }
 }
 
 export default Dashboard

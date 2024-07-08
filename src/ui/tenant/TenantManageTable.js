@@ -456,15 +456,31 @@ const TenantManageTable = ({ apiData }) => {
   )
 }
 
-export const getStaticProps = async () => {
-  const res = await axios.get('http://api.pm.manages.homes/cards/statistics')
-  const apiData = res.data
+export const getServerSideProps = async () => {
+  axios
+    .get('http://api.pm.manages.homes', {
+      params: {
+        id: 12345
+      }
+    })
+    .then(function (response) {
+      console.log('tenant table:', response.data)
 
-  return {
-    props: {
-      apiData
-    }
-  }
+      let apiData = response.data
+
+      return {
+        props: {
+          apiData
+        }
+      }
+    })
+    .catch(function (error) {
+      console.log('tenant table err:', error)
+    })
+
+  // .finally(function () {
+  //   // always executed
+  // })
 }
 
 export default TenantManageTable
