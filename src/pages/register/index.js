@@ -7,6 +7,9 @@ import Link from 'next/link'
 // ** MUI Components
 import Button from '@mui/material/Button'
 import Divider from '@mui/material/Divider'
+import MenuItem from '@mui/material/MenuItem'
+import { useForm, Controller } from 'react-hook-form'
+
 import Checkbox from '@mui/material/Checkbox'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
@@ -31,6 +34,10 @@ import { useSettings } from 'src/@core/hooks/useSettings'
 
 // ** Demo Imports
 import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
+import { useRegister } from 'src/hooks/useRegister'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
+import { FormHelperText } from '@mui/material'
 
 // ** Styled Components
 const RegisterIllustration = styled('img')(({ theme }) => ({
@@ -74,9 +81,116 @@ const FormControlLabel = styled(MuiFormControlLabel)(({ theme }) => ({
   }
 }))
 
+const schema = yup.object().shape({
+  email: yup.string().email().required(),
+  password: yup.string().min(5).required(),
+  full_name: yup.string().min(2).required()
+})
+
+const countries = [
+  { name: 'Algeria', code: 'DZA' },
+  { name: 'Angola', code: 'AGO' },
+  { name: 'Benin', code: 'BEN' },
+  { name: 'Botswana', code: 'BWA' },
+  { name: 'Burkina Faso', code: 'BFA' },
+  { name: 'Burundi', code: 'BDI' },
+  { name: 'Cabo Verde', code: 'CPV' },
+  { name: 'Cameroon', code: 'CMR' },
+  { name: 'Central African Republic', code: 'CAF' },
+  { name: 'Chad', code: 'TCD' },
+  { name: 'Comoros', code: 'COM' },
+  { name: 'Democratic Republic of the Congo', code: 'COD' },
+  { name: 'Republic of the Congo', code: 'COG' },
+  { name: 'Djibouti', code: 'DJI' },
+  { name: 'Egypt', code: 'EGY' },
+  { name: 'Equatorial Guinea', code: 'GNQ' },
+  { name: 'Eritrea', code: 'ERI' },
+  { name: 'Eswatini', code: 'SWZ' },
+  { name: 'Ethiopia', code: 'ETH' },
+  { name: 'Gabon', code: 'GAB' },
+  { name: 'Gambia', code: 'GMB' },
+  { name: 'Ghana', code: 'GHA' },
+  { name: 'Guinea', code: 'GIN' },
+  { name: 'Guinea-Bissau', code: 'GNB' },
+  { name: 'Ivory Coast', code: 'CIV' },
+  { name: 'Kenya', code: 'KEN' },
+  { name: 'Lesotho', code: 'LSO' },
+  { name: 'Liberia', code: 'LBR' },
+  { name: 'Libya', code: 'LBY' },
+  { name: 'Madagascar', code: 'MDG' },
+  { name: 'Malawi', code: 'MWI' },
+  { name: 'Mali', code: 'MLI' },
+  { name: 'Mauritania', code: 'MRT' },
+  { name: 'Mauritius', code: 'MUS' },
+  { name: 'Morocco', code: 'MAR' },
+  { name: 'Mozambique', code: 'MOZ' },
+  { name: 'Namibia', code: 'NAM' },
+  { name: 'Niger', code: 'NER' },
+  { name: 'Nigeria', code: 'NGA' },
+  { name: 'Rwanda', code: 'RWA' },
+  { name: 'Sao Tome and Principe', code: 'STP' },
+  { name: 'Senegal', code: 'SEN' },
+  { name: 'Seychelles', code: 'SYC' },
+  { name: 'Sierra Leone', code: 'SLE' },
+  { name: 'Somalia', code: 'SOM' },
+  { name: 'South Africa', code: 'ZAF' },
+  { name: 'South Sudan', code: 'SSD' },
+  { name: 'Sudan', code: 'SDN' },
+  { name: 'Tanzania', code: 'TZA' },
+  { name: 'Togo', code: 'TGO' },
+  { name: 'Tunisia', code: 'TUN' },
+  { name: 'Uganda', code: 'UGA' },
+  { name: 'Zambia', code: 'ZMB' },
+  { name: 'Zimbabwe', code: 'ZWE' }
+]
+
+const defaultValues = {
+  role: 'property_manager',
+  country: countries.Ghana
+}
+
 const Register = () => {
+  const {
+    control,
+    setError,
+    handleSubmit,
+    formState: { errors }
+  } = useForm({
+    defaultValues,
+    mode: 'onBlur',
+    resolver: yupResolver(schema)
+  })
+
+  const register = useRegister()
+
+  const onSubmit = data => {
+    if (!isChecked) {
+      setError('agreement', {
+        type: 'manual',
+        message: 'You must agree to the privacy policy & terms.'
+      })
+
+      return
+    }
+    console.log('register::PAGE::')
+
+    const { email, password } = data
+
+    console.log(data)
+
+    // axios.get('http://google.com')
+    register.account({ email, password }, () => {
+      setError('email', {
+        type: 'manual',
+        message: 'Email or Password is invalid'
+      })
+    })
+  }
+
   // ** States
   const [showPassword, setShowPassword] = useState(false)
+
+  const [isChecked, setIsChecked] = useState(false) // Add state for checkbox
 
   // ** Hooks
   const theme = useTheme()
@@ -150,49 +264,177 @@ const Register = () => {
             </svg>
             <Box sx={{ my: 6 }}>
               <Typography sx={{ mb: 1.5, fontWeight: 500, fontSize: '1.625rem', lineHeight: 1.385 }}>
-                Adventure starts here 🚀
+                Create your account now
               </Typography>
-              <Typography sx={{ color: 'text.secondary' }}>Make your app management easy and fun!</Typography>
+              <Typography sx={{ color: 'text.secondary' }}>Make your property management easy and fun!</Typography>
             </Box>
-            <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
-              <TextField autoFocus fullWidth sx={{ mb: 4 }} label='Username' placeholder='johndoe' />
-              <TextField fullWidth label='Email' sx={{ mb: 4 }} placeholder='user@email.com' />
-              <FormControl fullWidth>
-                <InputLabel htmlFor='auth-login-v2-password'>Password</InputLabel>
-                <OutlinedInput
-                  label='Password'
-                  id='auth-login-v2-password'
-                  type={showPassword ? 'text' : 'password'}
-                  endAdornment={
-                    <InputAdornment position='end'>
-                      <IconButton
-                        edge='end'
-                        onMouseDown={e => e.preventDefault()}
-                        onClick={() => setShowPassword(!showPassword)}
-                      >
-                        <Icon icon={showPassword ? 'tabler:eye' : 'tabler:eye-off'} fontSize={20} />
-                      </IconButton>
-                    </InputAdornment>
-                  }
+            <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
+              {' '}
+              <FormControl fullWidth sx={{ mb: 4 }}>
+                <Controller
+                  name='full_name'
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { value, onChange, onBlur } }) => (
+                    <TextField
+                      required
+                      autoFocus
+                      label='Full name'
+                      value={value}
+                      onBlur={onBlur}
+                      onChange={onChange}
+                      error={Boolean(errors.full_name)}
+                      placeholder='Joel Amoako'
+                    />
+                  )}
                 />
               </FormControl>
+              <FormControl fullWidth sx={{ mb: 4 }}>
+                <Controller
+                  name='country'
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { value, onChange, onBlur } }) => (
+                    <>
+                      <TextField
+                        select
+                        id='custom-select-native'
+                        value={value}
+                        onChange={onChange}
+                        onBlur={onBlur}
+                        name='country'
+                        required
+                        fullWidth
+                        sx={{ mb: 4 }}
+                        label='Country'
+                      >
+                        {countries.map(country => (
+                          <MenuItem sx={{ fontSize: '15px' }} key={country.code} value={country.code}>
+                            {country.name}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                    </>
+                  )}
+                />
+              </FormControl>
+              <FormControl fullWidth sx={{ mb: 4 }}>
+                <Controller
+                  name='role'
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { value, onChange, onBlur } }) => (
+                    <>
+                      <TextField
+                        fullWidth
+                        label='Affiliated Company'
+                        sx={{ mb: 4 }}
+                        placeholder='manages.homes Property Management LTD'
+                      />
 
-              <FormControlLabel
-                control={<Checkbox />}
-                sx={{ mb: 4, mt: 1.5, '& .MuiFormControlLabel-label': { fontSize: '0.875rem' } }}
-                label={
-                  <>
-                    <Typography variant='body2' component='span'>
-                      I agree to{' '}
-                    </Typography>
-                    <LinkStyled href='/' onClick={e => e.preventDefault()}>
-                      privacy policy & terms
-                    </LinkStyled>
-                  </>
-                }
-              />
+                      <TextField
+                        select
+                        id='custom-select-native'
+                        defaultValue={'Property manager or owner'}
+                        name='role'
+                        required
+                        autoFocus
+                        disabled
+                        fullWidth
+                        sx={{ mb: 4 }}
+                        label='Role'
+                      >
+                        <MenuItem value='Property manager or owner'>
+                          <em>Property manager or owner</em>
+                        </MenuItem>
+                      </TextField>
+                    </>
+                  )}
+                />
+              </FormControl>
+              <FormControl fullWidth sx={{ mb: 4 }}>
+                <Controller
+                  name='email'
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { value, onChange, onBlur } }) => (
+                    <TextField
+                      required
+                      autoFocus
+                      label='Email'
+                      value={value}
+                      onBlur={onBlur}
+                      onChange={onChange}
+                      error={Boolean(errors.email)}
+                      placeholder='admin@manages.homes'
+                    />
+                  )}
+                />
+              </FormControl>
+              <FormControl fullWidth sx={{ mb: 1.5 }}>
+                <InputLabel htmlFor='auth-login-v2-password' error={Boolean(errors.password)}>
+                  Password
+                </InputLabel>
+                <Controller
+                  name='password'
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { value, onChange, onBlur } }) => (
+                    <OutlinedInput
+                      value={value}
+                      onBlur={onBlur}
+                      label='Password'
+                      onChange={onChange}
+                      id='auth-login-v2-password'
+                      error={Boolean(errors.password)}
+                      type={showPassword ? 'text' : 'password'}
+                      endAdornment={
+                        <InputAdornment position='end'>
+                          <IconButton
+                            edge='end'
+                            onMouseDown={e => e.preventDefault()}
+                            onClick={() => setShowPassword(!showPassword)}
+                          >
+                            <Icon icon={showPassword ? 'tabler:eye' : 'tabler:eye-off'} fontSize={20} />
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                    />
+                  )}
+                />
+                {errors.password && (
+                  <FormHelperText sx={{ color: 'error.main' }} id=''>
+                    {errors.password.message}
+                  </FormHelperText>
+                )}
+              </FormControl>
+              <FormControl>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={isChecked}
+                      onChange={e => setIsChecked(e.target.checked)} // Update state when checkbox is toggled
+                    />
+                  }
+                  name='private_check_box'
+                  sx={{ mb: 4, mt: 1.5, '& .MuiFormControlLabel-label': { fontSize: '0.875rem' } }}
+                  label={
+                    <>
+                      <Typography variant='body2' component='span'>
+                        I agree to{' '}
+                      </Typography>
+                      <LinkStyled href='/' onClick={e => e.preventDefault()}>
+                        privacy policy & terms
+                      </LinkStyled>
+                    </>
+                  }
+                />
+                {errors.agreement && (
+                  <FormHelperText sx={{ color: 'error.main' }}>{errors.agreement.message}</FormHelperText>
+                )}
+              </FormControl>
               <Button fullWidth size='large' type='submit' variant='contained' sx={{ mb: 4 }}>
-                Sign up
+                Create an account
               </Button>
               <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
                 <Typography sx={{ color: 'text.secondary', mr: 2 }}>Already have an account?</Typography>
@@ -213,7 +455,7 @@ const Register = () => {
                 or
               </Divider>
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <IconButton href='/' component={Link} sx={{ color: '#497ce2' }} onClick={e => e.preventDefault()}>
+                {/* <IconButton href='/' component={Link} sx={{ color: '#497ce2' }} onClick={e => e.preventDefault()}>
                   <Icon icon='mdi:facebook' />
                 </IconButton>
                 <IconButton href='/' component={Link} sx={{ color: '#1da1f2' }} onClick={e => e.preventDefault()}>
@@ -226,8 +468,8 @@ const Register = () => {
                   sx={{ color: theme => (theme.palette.mode === 'light' ? '#272727' : 'grey.300') }}
                 >
                   <Icon icon='mdi:github' />
-                </IconButton>
-                <IconButton href='/' component={Link} sx={{ color: '#db4437' }} onClick={e => e.preventDefault()}>
+                </IconButton> */}
+                <IconButton href='/' component={Link} sx={{ color: 'green' }} onClick={e => e.preventDefault()}>
                   <Icon icon='mdi:google' />
                 </IconButton>
               </Box>

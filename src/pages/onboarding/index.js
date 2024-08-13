@@ -1,13 +1,15 @@
 // ** React Imports
 import { useState } from 'react'
 
-// ** Next Imports
+// ** Next Import
 import Link from 'next/link'
 
 // ** MUI Components
-import Alert from '@mui/material/Alert'
 import Button from '@mui/material/Button'
 import Divider from '@mui/material/Divider'
+import MenuItem from '@mui/material/MenuItem'
+import { useForm, Controller } from 'react-hook-form'
+
 import Checkbox from '@mui/material/Checkbox'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
@@ -18,37 +20,28 @@ import FormControl from '@mui/material/FormControl'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import OutlinedInput from '@mui/material/OutlinedInput'
 import { styled, useTheme } from '@mui/material/styles'
-import FormHelperText from '@mui/material/FormHelperText'
 import InputAdornment from '@mui/material/InputAdornment'
 import MuiFormControlLabel from '@mui/material/FormControlLabel'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
-// ** Third Party Imports
-import * as yup from 'yup'
-import { useForm, Controller } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
-
-// ** Hooks
-import { useAuth } from 'src/hooks/useAuth'
-import useBgColor from 'src/@core/hooks/useBgColor'
-import { useSettings } from 'src/@core/hooks/useSettings'
-
-// ** Configs
-import themeConfig from 'src/configs/themeConfig'
-
 // ** Layout Import
 import BlankLayout from 'src/@core/layouts/BlankLayout'
 
+// ** Hooks
+import { useSettings } from 'src/@core/hooks/useSettings'
+
 // ** Demo Imports
 import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
-import axios from 'axios'
+import { useRegister } from 'src/hooks/useRegister'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
 
 // ** Styled Components
-const LoginIllustration = styled('img')(({ theme }) => ({
+const RegisterIllustration = styled('img')(({ theme }) => ({
   zIndex: 2,
-  maxHeight: 680,
+  maxHeight: 600,
   marginTop: theme.spacing(12),
   marginBottom: theme.spacing(12),
   [theme.breakpoints.down(1540)]: {
@@ -79,6 +72,8 @@ const LinkStyled = styled(Link)(({ theme }) => ({
 }))
 
 const FormControlLabel = styled(MuiFormControlLabel)(({ theme }) => ({
+  marginTop: theme.spacing(1.5),
+  marginBottom: theme.spacing(1.75),
   '& .MuiFormControlLabel-label': {
     fontSize: '0.875rem',
     color: theme.palette.text.secondary
@@ -91,24 +86,10 @@ const schema = yup.object().shape({
 })
 
 const defaultValues = {
-  password: 'password789',
-  email: 'alicejohnson@example.com'
+  role: 'property_manager'
 }
 
-const LoginPage = () => {
-  const [rememberMe, setRememberMe] = useState(true)
-  const [showPassword, setShowPassword] = useState(false)
-
-  // ** Hooks
-  const auth = useAuth()
-  const theme = useTheme()
-  const bgColors = useBgColor()
-  const { settings } = useSettings()
-  const hidden = useMediaQuery(theme.breakpoints.down('md'))
-
-  // ** Vars
-  const { skin } = settings
-
+const Register = () => {
   const {
     control,
     setError,
@@ -124,14 +105,25 @@ const LoginPage = () => {
     const { email, password } = data
 
     // axios.get('http://google.com')
-    auth.login({ email, password, rememberMe }, () => {
+    register.account({ email, password, rememberMe }, () => {
       setError('email', {
         type: 'manual',
         message: 'Email or Password is invalid'
       })
     })
   }
-  const imageSource = skin === 'bordered' ? 'auth-v2-login-illustration-bordered' : 'auth-v2-login-illustration'
+
+  // ** States
+  const [showPassword, setShowPassword] = useState(false)
+
+  // ** Hooks
+  const theme = useTheme()
+  const { settings } = useSettings()
+  const hidden = useMediaQuery(theme.breakpoints.down('md'))
+
+  // ** Vars
+  const { skin } = settings
+  const imageSource = skin === 'bordered' ? 'auth-v2-register-illustration-bordered' : 'auth-v2-register-illustration'
 
   return (
     <Box className='content-right' sx={{ backgroundColor: 'background.paper' }}>
@@ -148,7 +140,10 @@ const LoginPage = () => {
             margin: theme => theme.spacing(8, 0, 8, 8)
           }}
         >
-          <LoginIllustration alt='login-illustration' src={`/images/pages/${imageSource}-${theme.palette.mode}.png`} />
+          <RegisterIllustration
+            alt='register-illustration'
+            src={`/images/pages/${imageSource}-${theme.palette.mode}.png`}
+          />
           <FooterIllustrationsV2 />
         </Box>
       ) : null}
@@ -193,21 +188,38 @@ const LoginPage = () => {
             </svg>
             <Box sx={{ my: 6 }}>
               <Typography sx={{ mb: 1.5, fontWeight: 500, fontSize: '1.625rem', lineHeight: 1.385 }}>
-                {`Welcome to ${themeConfig.templateName}! 👋🏻`}
+                Create your account now
               </Typography>
-              <Typography sx={{ color: 'text.secondary' }}>
-                Please sign-in to your account and start the adventure
-              </Typography>
+              <Typography sx={{ color: 'text.secondary' }}>Make your property management easy and fun!</Typography>
             </Box>
-            <Alert icon={false} sx={{ py: 3, mb: 6, ...bgColors.primaryLight, '& .MuiAlert-message': { p: 0 } }}>
-              <Typography variant='body2' sx={{ mb: 2, color: 'primary.main' }}>
-                Admin: <strong>admin@manages.homes</strong> / Pass: <strong>admin</strong>
-              </Typography>
-              <Typography variant='body2' sx={{ color: 'primary.main' }}>
-                Client: <strong>client@manages.homes</strong> / Pass: <strong>client</strong>
-              </Typography>
-            </Alert>
             <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
+              <TextField required autoFocus fullWidth sx={{ mb: 4 }} label='Full name' placeholder='Joel Amoako' />
+
+              <TextField
+                fullWidth
+                label='Affiliated Company'
+                sx={{ mb: 4 }}
+                placeholder='manages.homes Property Management LTD'
+              />
+
+              <TextField
+                select
+                id='custom-select-native'
+                defaultValue={'Property manager or owner'}
+                required
+                autoFocus
+                disabled
+                fullWidth
+                sx={{ mb: 4 }}
+                label='Role'
+              >
+                <TextField required fullWidth label='Email' sx={{ mb: 4 }} placeholder='user@email.com' />
+
+                <MenuItem value='Property manager or owner'>
+                  <em>Property manager or owner</em>
+                </MenuItem>
+              </TextField>
+
               <FormControl fullWidth sx={{ mb: 4 }}>
                 <Controller
                   name='email'
@@ -215,6 +227,7 @@ const LoginPage = () => {
                   rules={{ required: true }}
                   render={({ field: { value, onChange, onBlur } }) => (
                     <TextField
+                      required
                       autoFocus
                       label='Email'
                       value={value}
@@ -225,68 +238,52 @@ const LoginPage = () => {
                     />
                   )}
                 />
-                {errors.email && <FormHelperText sx={{ color: 'error.main' }}>{errors.email.message}</FormHelperText>}
               </FormControl>
-              <FormControl fullWidth sx={{ mb: 1.5 }}>
-                <InputLabel htmlFor='auth-login-v2-password' error={Boolean(errors.password)}>
+
+              <FormControl fullWidth>
+                <InputLabel required htmlFor='auth-login-v2-password'>
                   Password
                 </InputLabel>
-                <Controller
-                  name='password'
-                  control={control}
-                  rules={{ required: true }}
-                  render={({ field: { value, onChange, onBlur } }) => (
-                    <OutlinedInput
-                      value={value}
-                      onBlur={onBlur}
-                      label='Password'
-                      onChange={onChange}
-                      id='auth-login-v2-password'
-                      error={Boolean(errors.password)}
-                      type={showPassword ? 'text' : 'password'}
-                      endAdornment={
-                        <InputAdornment position='end'>
-                          <IconButton
-                            edge='end'
-                            onMouseDown={e => e.preventDefault()}
-                            onClick={() => setShowPassword(!showPassword)}
-                          >
-                            <Icon icon={showPassword ? 'tabler:eye' : 'tabler:eye-off'} fontSize={20} />
-                          </IconButton>
-                        </InputAdornment>
-                      }
-                    />
-                  )}
+                <OutlinedInput
+                  label='Password'
+                  id='auth-login-v2-password'
+                  type={showPassword ? 'text' : 'password'}
+                  endAdornment={
+                    <InputAdornment position='end'>
+                      <IconButton
+                        edge='end'
+                        onMouseDown={e => e.preventDefault()}
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        <Icon icon={showPassword ? 'tabler:eye' : 'tabler:eye-off'} fontSize={20} />
+                      </IconButton>
+                    </InputAdornment>
+                  }
                 />
-                {errors.password && (
-                  <FormHelperText sx={{ color: 'error.main' }} id=''>
-                    {errors.password.message}
-                  </FormHelperText>
-                )}
               </FormControl>
-              <Box
-                sx={{
-                  mb: 1.75,
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  alignItems: 'center',
-                  justifyContent: 'space-between'
-                }}
-              >
-                <FormControlLabel
-                  label='Remember Me'
-                  control={<Checkbox checked={rememberMe} onChange={e => setRememberMe(e.target.checked)} />}
-                />
-                <LinkStyled href='/forgot-password'>Forgot Password?</LinkStyled>
-              </Box>
+
+              <FormControlLabel
+                control={<Checkbox />}
+                sx={{ mb: 4, mt: 1.5, '& .MuiFormControlLabel-label': { fontSize: '0.875rem' } }}
+                label={
+                  <>
+                    <Typography variant='body2' component='span'>
+                      I agree to{' '}
+                    </Typography>
+                    <LinkStyled href='/' onClick={e => e.preventDefault()}>
+                      privacy policy & terms
+                    </LinkStyled>
+                  </>
+                }
+              />
               <Button fullWidth size='large' type='submit' variant='contained' sx={{ mb: 4 }}>
-                Login
+                Create an account
               </Button>
               <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
-                <Typography sx={{ color: 'text.secondary', mr: 2 }}>New on our platform?</Typography>
+                <Typography sx={{ color: 'text.secondary', mr: 2 }}>Already have an account?</Typography>
                 <Typography variant='body2'>
-                  <LinkStyled href='/register' sx={{ fontSize: '1rem' }}>
-                    Create an account
+                  <LinkStyled href='/login' sx={{ fontSize: '1rem' }}>
+                    Sign in instead
                   </LinkStyled>
                 </Typography>
               </Box>
@@ -301,7 +298,7 @@ const LoginPage = () => {
                 or
               </Divider>
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                {/* <IconButton href='/' component={Link} sx={{ color: '#497ce2' }} onClick={e => e.preventDefault()}>
+                <IconButton href='/' component={Link} sx={{ color: '#497ce2' }} onClick={e => e.preventDefault()}>
                   <Icon icon='mdi:facebook' />
                 </IconButton>
                 <IconButton href='/' component={Link} sx={{ color: '#1da1f2' }} onClick={e => e.preventDefault()}>
@@ -314,7 +311,7 @@ const LoginPage = () => {
                   sx={{ color: theme => (theme.palette.mode === 'light' ? '#272727' : 'grey.300') }}
                 >
                   <Icon icon='mdi:github' />
-                </IconButton> */}
+                </IconButton>
                 <IconButton href='/' component={Link} sx={{ color: '#db4437' }} onClick={e => e.preventDefault()}>
                   <Icon icon='mdi:google' />
                 </IconButton>
@@ -326,7 +323,7 @@ const LoginPage = () => {
     </Box>
   )
 }
-LoginPage.getLayout = page => <BlankLayout>{page}</BlankLayout>
-LoginPage.guestGuard = true
+Register.getLayout = page => <BlankLayout>{page}</BlankLayout>
+Register.guestGuard = true
 
-export default LoginPage
+export default Register
