@@ -14,7 +14,7 @@ const themeConfig = {
   contentWidth: 'boxed' /* full | boxed */,
   footer: 'hidden' /* fixed | static | hidden */,
   // ** Routing Configs
-  routingLoader: true /* true | false */,
+  routingp: true /* true | false */,
   // ** Navigation (Menu) Configs
   navHidden: false /* true | false */,
   menuTextTruncate: true /* true | false */,

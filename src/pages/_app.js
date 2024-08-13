@@ -34,6 +34,12 @@ import Spinner from 'src/@core/components/spinner'
 // ** Contexts
 import { AuthProvider } from 'src/context/AuthContext'
 import { OnboardingProvider } from 'src/context/OnboardingContext'
+import { TenantsProvider } from 'src/context/TenantsContext'
+import { PropertiesProvider } from 'src/context/PropertiesContext'
+import { AccountingProvider } from 'src/context/AccountingContext'
+import { ReportsProvider } from 'src/context/ReportsContext'
+import { MaintenanceProvider } from 'src/context/MaintenanceContext'
+
 import { SettingsConsumer, SettingsProvider } from 'src/@core/context/settingsContext'
 import { UserProvider } from '@auth0/nextjs-auth0/client'
 
