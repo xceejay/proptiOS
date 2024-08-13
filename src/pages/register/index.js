@@ -180,12 +180,32 @@ const Register = () => {
     console.log('ONSUBMIT:::', data)
 
     // axios.get('http://google.com')
-    onboarding.registerAccount({ data }, () => {
-      setError('api_error', {
-        type: 'manual',
-        message: 'Unable to create account'
-      })
-    })
+    onboarding.registerAccount(
+      { data },
+      responseData => {
+        let { response } = responseData
+        console.log(response.data)
+
+        // Handle success
+        if (response.data.status == 'FAILED') {
+          setError('api_error', {
+            type: 'manual',
+            message: response.data.description
+          })
+
+          return
+        }
+        console.log('Account created successfully:')
+      },
+      error => {
+        // Handle error
+        console.error('Error creating account:', error)
+        setError('api_error', {
+          type: 'manual',
+          message: 'Unable to create account'
+        })
+      }
+    )
   }
 
   // ** States

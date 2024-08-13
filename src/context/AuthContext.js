@@ -74,7 +74,6 @@ const AuthProvider = ({ children }) => {
       .post('https://api.pm.manages.homes/auth/login', params)
 
       .then(async response => {
-        console.log(response.data)
         params.rememberMe ? window.localStorage.setItem(authConfig.storageTokenKeyName, response.data.data.token) : null
         const returnUrl = router.query.returnUrl
         setUser({ ...response.data.data.user })

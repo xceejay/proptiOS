@@ -48,9 +48,6 @@ const OnboardingProvider = ({ children }) => {
 
   //function for registering an account.
   const registerAccount = (params, errorCallback) => {
-    console.log('Creating account')
-
-    console.log('param', params)
     axios
       .post('https://api.pm.manages.homes/auth/register', {
         role: params.data.role,
@@ -62,7 +59,7 @@ const OnboardingProvider = ({ children }) => {
         password: params.data.password
       })
       .then(async response => {
-        console.log('REGISTER:::response', response.data)
+        // console.log('REGISTER:::response', response.data)
 
         // Optionally, handle response data if needed
         // e.g., storing token, user data, or redirecting

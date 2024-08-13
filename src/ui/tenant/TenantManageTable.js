@@ -458,7 +458,7 @@ const TenantManageTable = ({ apiData }) => {
 
 export const getServerSideProps = async () => {
   axios
-    .get('http://api.pm.manages.homes', {
+    .get('https://api.pm.manages.homes', {
       params: {
         id: 12345
       }
