@@ -71,7 +71,7 @@ const AuthProvider = ({ children }) => {
     console.log('logging in')
 
     axios
-      .post('http://api.pm.manages.homes/auth/login', params)
+      .post('https://api.pm.manages.homes/auth/login', params)
 
       .then(async response => {
         console.log(response.data)

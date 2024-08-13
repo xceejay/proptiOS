@@ -22,7 +22,7 @@ const UserView = ({ tab, invoiceData }) => {
 // }
 
 export async function getServerSideProps(params) {
-  const res = await axios.get('http://api.pm.manages.homes/apps/invoice/invoices')
+  const res = await axios.get('https://api.pm.manages.homes/apps/invoice/invoices')
   const invoiceData = res.data.allData
 
   return {

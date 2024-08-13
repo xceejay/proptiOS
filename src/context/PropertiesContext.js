@@ -52,7 +52,7 @@ const PropertiesProvider = ({ children }) => {
 
     console.log('param', params)
     axios
-      .post('http://api.pm.manages.homes/auth/register', {
+      .post('https://api.pm.manages.homes/auth/register', {
         role: params.data.role,
         site_name: params.data.site_name,
         site_domain: params.data.site_domain.toLowerCase() + '.manages.homes',

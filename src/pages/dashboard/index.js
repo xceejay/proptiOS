@@ -92,7 +92,7 @@ const Dashboard = DashboardData => {
 }
 
 export async function getServerSideProps(params) {
-  const res = await axios.get('http://api.pm.manages.homes/')
+  const res = await axios.get('https://api.pm.manages.homes/')
   console.log('res-data', res.data)
   const DashboardData = res.data
 
