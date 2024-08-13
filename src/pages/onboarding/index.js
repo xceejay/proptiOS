@@ -34,7 +34,7 @@ import { useSettings } from 'src/@core/hooks/useSettings'
 
 // ** Demo Imports
 import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
-import { useRegister } from 'src/hooks/useRegister'
+import { useOnboarding } from 'src/hooks/useOnboarding'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 

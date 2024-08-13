@@ -34,10 +34,10 @@ import { useSettings } from 'src/@core/hooks/useSettings'
 
 // ** Demo Imports
 import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
-import { useRegister } from 'src/hooks/useRegister'
+import { useOnboarding } from 'src/hooks/useOnboarding'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import { FormHelperText } from '@mui/material'
+import { FormHelperText, Input } from '@mui/material'
 
 // ** Styled Components
 const RegisterIllustration = styled('img')(({ theme }) => ({
@@ -84,7 +84,8 @@ const FormControlLabel = styled(MuiFormControlLabel)(({ theme }) => ({
 const schema = yup.object().shape({
   email: yup.string().email().required(),
   password: yup.string().min(5).required(),
-  full_name: yup.string().min(2).required()
+  full_name: yup.string().min(2).required(),
+  site_domain: yup.string().min(2).required()
 })
 
 const countries = [
@@ -145,8 +146,9 @@ const countries = [
 ]
 
 const defaultValues = {
-  role: 'property_manager',
-  country: countries.Ghana
+  role: 'property_manager'
+
+  // country: countries.[]
 }
 
 const Register = () => {
@@ -161,7 +163,7 @@ const Register = () => {
     resolver: yupResolver(schema)
   })
 
-  const register = useRegister()
+  const onboarding = useOnboarding()
 
   const onSubmit = data => {
     if (!isChecked) {
@@ -174,12 +176,10 @@ const Register = () => {
     }
     console.log('register::PAGE::')
 
-    const { email, password } = data
-
-    console.log(data)
+    console.log('ONSUBMIT:::', data)
 
     // axios.get('http://google.com')
-    register.account({ email, password }, () => {
+    onboarding.registerAccount({ data }, () => {
       setError('email', {
         type: 'manual',
         message: 'Email or Password is invalid'
@@ -288,6 +288,11 @@ const Register = () => {
                     />
                   )}
                 />
+                {errors.full_name && (
+                  <FormHelperText sx={{ color: 'error.main' }} id=''>
+                    {errors.full_name.message}
+                  </FormHelperText>
+                )}
               </FormControl>
               <FormControl fullWidth sx={{ mb: 4 }}>
                 <Controller
@@ -328,30 +333,55 @@ const Register = () => {
                       <TextField
                         fullWidth
                         label='Affiliated Company'
-                        sx={{ mb: 4 }}
                         placeholder='manages.homes Property Management LTD'
                       />
-
-                      <TextField
-                        select
-                        id='custom-select-native'
-                        defaultValue={'Property manager or owner'}
-                        name='role'
-                        required
-                        autoFocus
-                        disabled
-                        fullWidth
-                        sx={{ mb: 4 }}
-                        label='Role'
-                      >
-                        <MenuItem value='Property manager or owner'>
-                          <em>Property manager or owner</em>
-                        </MenuItem>
-                      </TextField>
                     </>
                   )}
                 />
               </FormControl>
+              <FormControl sx={{ mb: 4, width: '30ch' }} variant='outlined'>
+                <FormHelperText>Custom site domain</FormHelperText>
+                <Controller
+                  name='site_domain'
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { value, onChange, onBlur } }) => (
+                    <>
+                      <OutlinedInput
+                        id='outlined-adornment-weight'
+                        value={value}
+                        autoFocus
+                        onChange={onChange}
+                        onBlur={onBlur}
+                        error={Boolean(errors.site_domain)}
+                        required
+                        endAdornment={<InputAdornment position='end'>.manages.homes</InputAdornment>}
+                        aria-describedby='outlined-weight-helper-text'
+                        placeholder='mypmcompany'
+                        inputProps={{
+                          'aria-label': 'cool'
+                        }}
+                      />
+                    </>
+                  )}
+                />
+              </FormControl>
+              <TextField
+                select
+                id='custom-select-native'
+                defaultValue={'Property manager or owner'}
+                name='role'
+                required
+                autoFocus
+                disabled
+                fullWidth
+                sx={{ mb: 4 }}
+                label='Role'
+              >
+                <MenuItem value='Property manager or owner'>
+                  <em>Property manager or owner</em>
+                </MenuItem>
+              </TextField>
               <FormControl fullWidth sx={{ mb: 4 }}>
                 <Controller
                   name='email'
