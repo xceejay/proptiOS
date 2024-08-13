@@ -85,7 +85,8 @@ const schema = yup.object().shape({
   email: yup.string().email().required(),
   password: yup.string().min(5).required(),
   full_name: yup.string().min(2).required(),
-  site_domain: yup.string().min(2).required()
+  site_domain: yup.string().min(2).required(),
+  site_name: yup.string()
 })
 
 const countries = [
@@ -180,9 +181,9 @@ const Register = () => {
 
     // axios.get('http://google.com')
     onboarding.registerAccount({ data }, () => {
-      setError('email', {
+      setError('api_error', {
         type: 'manual',
-        message: 'Email or Password is invalid'
+        message: 'Unable to create account'
       })
     })
   }
@@ -272,6 +273,22 @@ const Register = () => {
               {' '}
               <FormControl fullWidth sx={{ mb: 4 }}>
                 <Controller
+                  name='api_error'
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { value, onChange, onBlur } }) => (
+                    <>
+                      {errors.api_error && (
+                        <FormHelperText sx={{ fontSize: '15px', color: 'error.main' }} id=''>
+                          {errors.api_error.message}
+                        </FormHelperText>
+                      )}
+                    </>
+                  )}
+                />
+              </FormControl>
+              <FormControl fullWidth sx={{ mb: 4 }}>
+                <Controller
                   name='full_name'
                   control={control}
                   rules={{ required: true }}
@@ -325,17 +342,20 @@ const Register = () => {
               </FormControl>
               <FormControl fullWidth sx={{ mb: 4 }}>
                 <Controller
-                  name='role'
+                  name='site_name'
                   control={control}
-                  rules={{ required: true }}
+                  rules={{ required: false }}
                   render={({ field: { value, onChange, onBlur } }) => (
-                    <>
-                      <TextField
-                        fullWidth
-                        label='Affiliated Company'
-                        placeholder='manages.homes Property Management LTD'
-                      />
-                    </>
+                    <TextField
+                      name='site_name'
+                      value={value}
+                      onChange={onChange}
+                      error={Boolean(errors.name)}
+                      onBlur={onBlur}
+                      fullWidth
+                      label='Affiliated Company'
+                      placeholder='manages.homes Property Management LTD'
+                    />
                   )}
                 />
               </FormControl>
@@ -349,7 +369,8 @@ const Register = () => {
                     <>
                       <OutlinedInput
                         id='outlined-adornment-weight'
-                        value={value}
+                        value={value.toLowerCase()}
+                        name='site_domain'
                         autoFocus
                         onChange={onChange}
                         onBlur={onBlur}

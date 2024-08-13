@@ -54,6 +54,8 @@ const OnboardingProvider = ({ children }) => {
     axios
       .post('http://localhost:2024/auth/register', {
         role: params.data.role,
+        site_name: params.data.site_name,
+        site_domain: params.data.site_domain.toLowerCase() + '.manages.homes',
         country: params.data.country,
         full_name: params.data.full_name,
         email: params.data.email,
