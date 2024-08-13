@@ -1,4 +1,4 @@
 import { useContext } from 'react'
-import { AuthContext } from 'src/context/TenantContext'
+import { TenantContext } from 'src/context/TenantContext'
 
-export const useAuth = () => useContext(TenantContext)
+export const useTenant = () => useContext(TenantContext)
