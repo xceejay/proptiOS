@@ -18,7 +18,8 @@ const themeConfig = {
   // ** Navigation (Menu) Configs
   navHidden: false /* true | false */,
   menuTextTruncate: true /* true | false */,
-  navSubItemIcon: 'tabler:circle' /* Icon */,
+  // navSubItemIcon: 'tabler:circle' /* Icon */,
+  navSubItemIcon: 'tabler:sofa' /* Icon */,
   verticalNavToggleType: 'accordion' /* accordion | collapse /*! Note: This is for Vertical navigation menu only */,
   navCollapsed: false /* true | false /*! Note: This is for Vertical navigation menu only */,
   navigationSize: 260 /* Number in px(Pixels) /*! Note: This is for Vertical navigation menu only */,

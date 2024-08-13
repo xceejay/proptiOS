@@ -79,7 +79,7 @@ const AuthProvider = ({ children }) => {
         const returnUrl = router.query.returnUrl
         setUser({ ...response.data.data.user })
         params.rememberMe ? window.localStorage.setItem('userData', JSON.stringify(response.data.data.user)) : null
-        const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/'
+        const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/' // can change domain
         router.replace(redirectURL)
       })
       .catch(err => {

@@ -369,7 +369,7 @@ const Register = () => {
                     <>
                       <OutlinedInput
                         id='outlined-adornment-weight'
-                        value={value.toLowerCase()}
+                        value={value?.toLowerCase()}
                         name='site_domain'
                         autoFocus
                         onChange={onChange}
