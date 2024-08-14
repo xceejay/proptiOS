@@ -15,6 +15,8 @@ const defaultProvider = {
   user: null,
   loading: true,
   setUser: () => null,
+  registrationDetails: null,
+  setRegistrationDetails: () => null,
   setLoading: () => Boolean,
   registerAccount: () => Promise.resolve()
 }
@@ -23,6 +25,7 @@ const OnboardingContext = createContext(defaultProvider)
 const OnboardingProvider = ({ children }) => {
   // ** States
   const [user, setUser] = useState(defaultProvider.user)
+  const [registrationDetails, setRegistrationDetails] = useState(defaultProvider.user)
   const [loading, setLoading] = useState(defaultProvider.loading)
 
   // ** Hooks
@@ -75,7 +78,9 @@ const OnboardingProvider = ({ children }) => {
         }
 
         // Redirect user if needed
-        const redirectURL = '/'
+        setRegistrationDetails(params)
+
+        const redirectURL = '/onboarding/success'
         router.replace(redirectURL)
       })
       .catch(err => {
@@ -94,6 +99,8 @@ const OnboardingProvider = ({ children }) => {
   const values = {
     user,
     loading,
+    registrationDetails,
+    setRegistrationDetails,
     setUser,
     setLoading,
     registerAccount: registerAccount

@@ -31,7 +31,7 @@ const AuthGuard = props => {
     [router.route]
   )
   if (auth.loading || auth.user === null) {
-    console.log('user:', auth.user)
+    // console.log('user:', auth.user)
 
     return fallback
   }

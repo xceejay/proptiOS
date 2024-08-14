@@ -9,7 +9,7 @@ import Button from '@mui/material/Button'
 import Divider from '@mui/material/Divider'
 import MenuItem from '@mui/material/MenuItem'
 import { useForm, Controller } from 'react-hook-form'
-
+import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined'
 import Checkbox from '@mui/material/Checkbox'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
@@ -38,6 +38,9 @@ import { useOnboarding } from 'src/hooks/useOnboarding'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { FormHelperText, Input } from '@mui/material'
+import { MuiFileInput } from 'mui-file-input'
+
+import RegisterFileUploader from 'src/ui/auth/RegisterFileUploader'
 
 // ** Styled Components
 const RegisterIllustration = styled('img')(({ theme }) => ({
@@ -86,7 +89,8 @@ const schema = yup.object().shape({
   password: yup.string().min(5).required(),
   full_name: yup.string().min(2).required(),
   site_domain: yup.string().min(2).required(),
-  site_name: yup.string()
+  site_name: yup.string(),
+  id_card: yup.mixed().required()
 })
 
 const countries = [
@@ -147,7 +151,8 @@ const countries = [
 ]
 
 const defaultValues = {
-  role: 'property_manager'
+  role: 'property_manager',
+  id_card: undefined
 
   // country: countries.[]
 }
@@ -165,6 +170,11 @@ const Register = () => {
   })
 
   const onboarding = useOnboarding()
+
+  const handleFileChange = newFile => {
+    console.log('new file', newFile)
+    setFile(newFile)
+  }
 
   const onSubmit = data => {
     onboarding.setLoading(true)
@@ -185,7 +195,7 @@ const Register = () => {
       { data },
       responseData => {
         let { response } = responseData
-        console.log(response.data)
+        console.log(response?.data)
         onboarding.setLoading(false)
 
         // Handle success
@@ -214,6 +224,7 @@ const Register = () => {
 
   // ** States
   const [showPassword, setShowPassword] = useState(false)
+  const [file, setFile] = useState(false)
 
   const [isChecked, setIsChecked] = useState(false) // Add state for checkbox
 
@@ -335,6 +346,27 @@ const Register = () => {
                     {errors.full_name.message}
                   </FormHelperText>
                 )}
+              </FormControl>
+              <FormControl fullWidth sx={{ mb: 4 }}>
+                <Controller
+                  name='id_card'
+                  control={control}
+                  render={({ field, fieldState }) => (
+                    <MuiFileInput
+                      label={'ID card'}
+                      InputProps={{
+                        inputProps: {
+                          accept: 'application/pdf, image/*'
+                        },
+                        startAdornment: <FileUploadOutlinedIcon />
+                      }}
+                      placeholder='Upload your ID card'
+                      {...field}
+                      helperText={fieldState.invalid ? 'Please upload a valid file' : ''}
+                      error={Boolean(errors.id_card)}
+                    />
+                  )}
+                />
               </FormControl>
               <FormControl fullWidth sx={{ mb: 4 }}>
                 <Controller
