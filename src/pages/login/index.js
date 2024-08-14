@@ -121,10 +121,12 @@ const LoginPage = () => {
   })
 
   const onSubmit = data => {
+    // auth.setLoading(true)
     const { email, password } = data
 
     // axios.get('http://google.com')
     auth.login({ email, password, rememberMe }, () => {
+      // auth.setLoading(false)
       setError('email', {
         type: 'manual',
         message: 'Email or Password is invalid'

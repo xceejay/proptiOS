@@ -167,6 +167,7 @@ const Register = () => {
   const onboarding = useOnboarding()
 
   const onSubmit = data => {
+    onboarding.setLoading(true)
     if (!isChecked) {
       setError('agreement', {
         type: 'manual',
@@ -185,6 +186,7 @@ const Register = () => {
       responseData => {
         let { response } = responseData
         console.log(response.data)
+        onboarding.setLoading(false)
 
         // Handle success
         if (response.data.status == 'FAILED') {
@@ -198,6 +200,8 @@ const Register = () => {
         console.log('Account created successfully:')
       },
       error => {
+        onboarding.setLoading(false)
+
         // Handle error
         console.error('Error creating account:', error)
         setError('api_error', {
