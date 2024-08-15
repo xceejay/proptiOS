@@ -51,33 +51,33 @@ const OnboardingProvider = ({ children }) => {
 
   //function for registering an account.
   const registerAccount = (params, errorCallback) => {
+    // Create a FormData object
+    const formData = new FormData()
+    formData.append('role', params.data.role)
+    formData.append('site_name', params.data.site_name)
+    formData.append('site_domain', params.data.site_domain.toLowerCase() + '.manages.homes')
+    formData.append('country', params.data.country)
+    formData.append('full_name', params.data.full_name)
+    formData.append('email', params.data.email)
+    formData.append('password', params.data.password)
+    formData.append('id_card', params.data.id_card)
+
     axios
-      .post('https://api.pm.manages.homes/auth/register', {
-        role: params.data.role,
-        site_name: params.data.site_name,
-        site_domain: params.data.site_domain.toLowerCase() + '.manages.homes',
-        country: params.data.country,
-        full_name: params.data.full_name,
-        email: params.data.email,
-        password: params.data.password
+      .post('https://api.pm.manages.homes/auth/register', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
       })
       .then(async response => {
-        // console.log('REGISTER:::response', response.data)
-
         // Optionally, handle response data if needed
-        // e.g., storing token, user data, or redirecting
-
-        // Example: Store token if available
         if (response.data.token) {
           window.localStorage.setItem('authToken', response.data.token)
         }
 
-        // Example: Store user data if needed
         if (response.data.user) {
           window.localStorage.setItem('userData', JSON.stringify(response.data.user))
         }
 
-        // Redirect user if needed
         setRegistrationDetails(params)
 
         const redirectURL = '/onboarding/success'
