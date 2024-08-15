@@ -1,6 +1,8 @@
 // ** React Imports
 import { createContext, useEffect, useState } from 'react'
 
+import jwt from 'jsonwebtoken'
+
 // ** Next Import
 import { useRouter } from 'next/router'
 
@@ -32,12 +34,13 @@ const AuthProvider = ({ children }) => {
     const initAuth = async () => {
       const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)
       if (storedToken) {
-        let userData = window.localStorage.getItem('userData')
-        console.log(userData ? true : false)
+        const decoded = jwt.decode(storedToken, { complete: true })
 
         setLoading(false)
-        setUser(JSON.parse(userData))
-        console.log('are you null?:', JSON.parse(userData))
+        console.log('decoded-data', decoded)
+        setUser(decoded.payload)
+
+        // console.log('are you null?:', JSON.parse(userData))
 
         // await axios
         //   .get(authConfig.meEndpoint, {

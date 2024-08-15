@@ -12,7 +12,7 @@ import authConfig from 'src/configs/auth'
 
 // ** Defaults
 const defaultProvider = {
-  user: null,
+  // user: null,
   loading: true,
   accessToken: null,
   setAccessToken: () => null,
@@ -24,7 +24,7 @@ const TenantsContext = createContext(defaultProvider)
 
 const TenantsProvider = ({ children }) => {
   // ** States
-  const [user, setUser] = useState(defaultProvider.user)
+  // const [user, setUser] = useState(defaultProvider.user)
   const [loading, setLoading] = useState(defaultProvider.loading)
   const [accessToken, setAccessToken] = useState(null)
 
@@ -63,9 +63,10 @@ const TenantsProvider = ({ children }) => {
   }
 
   const values = {
-    user,
+    // user,
+    // setUser,
+
     loading,
-    setUser,
     setLoading,
     setAccessToken,
     accessToken,

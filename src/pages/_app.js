@@ -83,7 +83,7 @@ const Guard = ({ children, authGuard, guestGuard }) => {
   } else if (!guestGuard && !authGuard) {
     return <>{children}</>
   } else {
-    console.log('wow')
+    console.log('Loading ACL')
 
     return <AuthGuard fallback={<Spinner />}>{children}</AuthGuard>
   }
