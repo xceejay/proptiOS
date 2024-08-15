@@ -18,7 +18,7 @@ import InputLabel from '@mui/material/InputLabel'
 import FormControl from '@mui/material/FormControl'
 import CardContent from '@mui/material/CardContent'
 import { DataGrid } from '@mui/x-data-grid'
-import AddUserDrawer from './AddUserDrawer'
+import AddUserDrawer from './AddTenantDrawer'
 
 import Select from '@mui/material/Select'
 

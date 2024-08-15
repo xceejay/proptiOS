@@ -40,7 +40,7 @@ import { fetchData, deleteUser } from 'src/store/apps/user'
 // ** Third Party Components
 import axios from 'axios'
 import TenantTableHeader from 'src/ui/tenant/TenantTableHeader'
-import AddUserDrawer from 'src/ui/tenant/AddUserDrawer'
+import AddUserDrawer from 'src/ui/tenant/AddTenantDrawer'
 import { useTenants } from 'src/hooks/useTenants'
 
 // ** Custom Table Components Imports

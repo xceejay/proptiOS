@@ -60,7 +60,7 @@ const defaultValues = {
   user_type: 'tenant'
 }
 
-const SidebarAddUser = props => {
+const SidebarAddTenant = props => {
   const { open, toggle } = props
 
   const [plan, setPlan] = useState('basic')
@@ -241,4 +241,4 @@ const SidebarAddUser = props => {
   )
 }
 
-export default SidebarAddUser
+export default SidebarAddTenant
