@@ -18,13 +18,16 @@ const defaultProvider = {
   setAccessToken: () => null,
   setUser: () => null,
   setLoading: () => Boolean,
-  getTenants: () => Promise.resolve()
+  getTenants: () => Promise.resolve(),
+  setTenants: () => null,
+  tenants: null
 }
 const TenantsContext = createContext(defaultProvider)
 
 const TenantsProvider = ({ children }) => {
   // ** States
   // const [user, setUser] = useState(defaultProvider.user)
+  const [tenants, setTenants] = useState(defaultProvider.user)
   const [loading, setLoading] = useState(defaultProvider.loading)
   const [accessToken, setAccessToken] = useState(null)
 
@@ -55,7 +58,10 @@ const TenantsProvider = ({ children }) => {
         params: params
       })
       .then(response => {
-        if (successCallback) successCallback(response.data)
+        if (successCallback) {
+          successCallback(response.data)
+          setTenants(response.data)
+        }
       })
       .catch(err => {
         if (errorCallback) errorCallback(err)
@@ -65,7 +71,8 @@ const TenantsProvider = ({ children }) => {
   const values = {
     // user,
     // setUser,
-
+    tenants,
+    setTenants,
     loading,
     setLoading,
     setAccessToken,
