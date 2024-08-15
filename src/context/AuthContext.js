@@ -77,7 +77,8 @@ const AuthProvider = ({ children }) => {
         params.rememberMe ? window.localStorage.setItem(authConfig.storageTokenKeyName, response.data.data.token) : null
         const returnUrl = router.query.returnUrl
         setUser({ ...response.data.data.user })
-        params.rememberMe ? window.localStorage.setItem('userData', JSON.stringify(response.data.data.user)) : null
+
+        // params.rememberMe ? window.localStorage.setItem('userData', JSON.stringify(response.data.data.user)) : null
         const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/' // can change domain
         router.replace(redirectURL)
       })

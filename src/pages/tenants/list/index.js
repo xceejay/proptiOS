@@ -41,6 +41,7 @@ import { fetchData, deleteUser } from 'src/store/apps/user'
 import axios from 'axios'
 import TenantTableHeader from 'src/ui/tenant/TenantTableHeader'
 import AddUserDrawer from 'src/ui/tenant/AddUserDrawer'
+import { useTenants } from 'src/hooks/useTenants'
 
 // ** Custom Table Components Imports
 
@@ -251,6 +252,27 @@ const columns = [
 
 const UserList = ({ apiData }) => {
   // ** State
+
+  const tenants = useTenants()
+
+  useEffect(() => {
+    tenants.getTenants({ page: 1, limit: 2 }, responseData => {
+      let { response } = responseData
+      console.log(response?.data)
+
+      // Handle success
+      if (response.data.status == 'FAILED') {
+        setError('api_error', {
+          type: 'manual',
+          message: response.data.description
+        })
+
+        return
+      }
+      console.log('Tenants Gotten:')
+    })
+  }, [])
+
   const [role, setRole] = useState('')
   const [plan, setPlan] = useState('')
   const [value, setValue] = useState('')
@@ -391,31 +413,6 @@ const UserList = ({ apiData }) => {
   )
 }
 
-export const getServerSideProps = async () => {
-  axios
-    .get('https://api.pm.manages.homes', {
-      params: {
-        id: 12345
-      }
-    })
-    .then(function (response) {
-      console.log('tenant table:', response.data)
-
-      let apiData = response.data
-
-      return {
-        props: {
-          // apiData
-        }
-      }
-    })
-    .catch(function (error) {
-      console.log('tenant table err:', error)
-    })
-
-  // .finally(function () {
-  //   // always executed
-  // })
-}
+export const getServerSideProps = async () => {}
 
 export default UserList

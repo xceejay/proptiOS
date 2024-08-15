@@ -14,9 +14,11 @@ import authConfig from 'src/configs/auth'
 const defaultProvider = {
   user: null,
   loading: true,
+  accessToken: null,
+  setAccessToken: () => null,
   setUser: () => null,
   setLoading: () => Boolean,
-  registerAccount: () => Promise.resolve()
+  getTenants: () => Promise.resolve()
 }
 const TenantsContext = createContext(defaultProvider)
 
@@ -24,74 +26,40 @@ const TenantsProvider = ({ children }) => {
   // ** States
   const [user, setUser] = useState(defaultProvider.user)
   const [loading, setLoading] = useState(defaultProvider.loading)
+  const [accessToken, setAccessToken] = useState(null)
 
   // ** Hooks
   const router = useRouter()
 
   useEffect(() => {
-    console.log('test')
+    if (!accessToken) {
+      setAccessToken(window.localStorage.getItem('accessToken'))
+    }
+    console.log('Tenants Context accessToken Set')
   }, [])
 
-  // useEffect(() => {
-  //   const initRegister = async () => {
-  //     const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)
-  //     if (storedToken) {
-  //       let userData = window.localStorage.getItem('userData')
-  //       console.log('Register::site_id', userData.site_id)
-  //     } else {
-  //       setLoading(false)
-  //     }
-  //   }
-  //   initRegister()
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [])
-
   //function for registering an account.
-  const registerAccount = (params, errorCallback) => {
-    console.log('Creating account')
+  const getTenants = (params, successCallback, errorCallback) => {
+    if (!accessToken) {
+      const error = new Error('No access token found')
+      if (errorCallback) errorCallback(error)
 
-    console.log('param', params)
+      return
+    }
+
     axios
-      .post('https://api.pm.manages.homes/auth/register', {
-        role: params.data.role,
-        site_name: params.data.site_name,
-        site_domain: params.data.site_domain.toLowerCase() + '.manages.homes',
-        country: params.data.country,
-        full_name: params.data.full_name,
-        email: params.data.email,
-        password: params.data.password
+      .get('https://api.pm.manages.homes/tenants', {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        },
+        params: params
       })
-      .then(async response => {
-        console.log('REGISTER:::response', response.data)
-
-        // Optionally, handle response data if needed
-        // e.g., storing token, user data, or redirecting
-
-        // Example: Store token if available
-        if (response.data.token) {
-          window.localStorage.setItem('authToken', response.data.token)
-        }
-
-        // Example: Store user data if needed
-        if (response.data.user) {
-          window.localStorage.setItem('userData', JSON.stringify(response.data.user))
-        }
-
-        // Redirect user if needed
-        const redirectURL = '/'
-        router.replace(redirectURL)
+      .then(response => {
+        if (successCallback) successCallback(response.data)
       })
       .catch(err => {
         if (errorCallback) errorCallback(err)
       })
-  }
-
-  const handleLogout = () => {
-    console.log('logged out')
-    setUser(null)
-    window.localStorage.removeItem('userData')
-    window.localStorage.removeItem(authConfig.storageTokenKeyName)
-    router.push('/login')
   }
 
   const values = {
@@ -99,7 +67,9 @@ const TenantsProvider = ({ children }) => {
     loading,
     setUser,
     setLoading,
-    registerAccount: registerAccount
+    setAccessToken,
+    accessToken,
+    getTenants: getTenants
   }
 
   return <TenantsContext.Provider value={values}>{children}</TenantsContext.Provider>

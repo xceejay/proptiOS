@@ -1,7 +1,4 @@
-// ** React Imports
 import { useState } from 'react'
-
-// ** MUI Imports
 import Drawer from '@mui/material/Drawer'
 import Select from '@mui/material/Select'
 import Button from '@mui/material/Button'
@@ -14,19 +11,11 @@ import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
 import FormHelperText from '@mui/material/FormHelperText'
-
-// ** Third Party Imports
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, Controller } from 'react-hook-form'
-
-// ** Icon Imports
 import Icon from 'src/@core/components/icon'
-
-// ** Store Imports
 import { useDispatch, useSelector } from 'react-redux'
-
-// ** Actions Imports
 import { addUser } from 'src/store/apps/user'
 
 const showErrors = (field, valueLen, min) => {
@@ -46,45 +35,37 @@ const Header = styled(Box)(({ theme }) => ({
   justifyContent: 'space-between'
 }))
 
+// Update validation schema based on the tenant fields
 const schema = yup.object().shape({
-  company: yup.string().required(),
-  billing: yup.string().required(),
-  country: yup.string().required(),
+  name: yup
+    .string()
+    .min(3, obj => showErrors('Name', obj.value.length, obj.min))
+    .required(),
   email: yup.string().email().required(),
-  contact: yup
-    .number()
-    .typeError('Contact Number field is required')
-    .min(10, obj => showErrors('Contact Number', obj.value.length, obj.min))
-    .required(),
-  fullName: yup
+  address: yup.string().required(),
+  country: yup.string().required(),
+  tel_number: yup
     .string()
-    .min(3, obj => showErrors('First Name', obj.value.length, obj.min))
+    .min(10, obj => showErrors('Phone Number', obj.value.length, obj.min))
     .required(),
-  username: yup
-    .string()
-    .min(3, obj => showErrors('Username', obj.value.length, obj.min))
-    .required()
+  user_type: yup.string().required()
 })
 
 const defaultValues = {
+  name: '',
   email: '',
-  company: '',
+  address: '',
   country: '',
-  billing: '',
-  fullName: '',
-  username: '',
-  contact: Number('')
+  tel_number: '',
+  user_type: 'tenant'
 }
 
 const SidebarAddUser = props => {
-  // ** Props
   const { open, toggle } = props
 
-  // ** State
   const [plan, setPlan] = useState('basic')
-  const [role, setRole] = useState('subscriber')
+  const [role, setRole] = useState('tenant')
 
-  // ** Hooks
   const dispatch = useDispatch()
   const store = useSelector(state => state.user)
 
@@ -102,16 +83,11 @@ const SidebarAddUser = props => {
   })
 
   const onSubmit = data => {
-    if (store.allData.some(u => u.email === data.email || u.username === data.username)) {
+    if (store?.allData?.some(u => u.email === data.email)) {
       store.allData.forEach(u => {
         if (u.email === data.email) {
           setError('email', {
             message: 'Email already exists!'
-          })
-        }
-        if (u.username === data.username) {
-          setError('username', {
-            message: 'Username already exists!'
           })
         }
       })
@@ -124,8 +100,8 @@ const SidebarAddUser = props => {
 
   const handleClose = () => {
     setPlan('basic')
-    setRole('subscriber')
-    setValue('contact', Number(''))
+    setRole('tenant')
+    setValue('tel_number', '')
     toggle()
     reset()
   }
@@ -140,7 +116,7 @@ const SidebarAddUser = props => {
       sx={{ '& .MuiDrawer-paper': { width: { xs: 300, sm: 400 } } }}
     >
       <Header>
-        <Typography variant='h6'>Add User</Typography>
+        <Typography variant='h6'>Add Tenant</Typography>
         <IconButton
           size='small'
           onClick={handleClose}
@@ -153,50 +129,31 @@ const SidebarAddUser = props => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
-              name='fullName'
+              name='name'
               control={control}
-              rules={{ required: true }}
-              render={({ field: { value, onChange } }) => (
+              render={({ field: { value = '', onChange } }) => (
                 <TextField
                   value={value}
                   label='Full Name'
                   onChange={onChange}
-                  placeholder='John Doe'
-                  error={Boolean(errors.fullName)}
+                  placeholder='Mary Johnson'
+                  error={Boolean(errors.name)}
                 />
               )}
             />
-            {errors.fullName && <FormHelperText sx={{ color: 'error.main' }}>{errors.fullName.message}</FormHelperText>}
-          </FormControl>
-          <FormControl fullWidth sx={{ mb: 4 }}>
-            <Controller
-              name='username'
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { value, onChange } }) => (
-                <TextField
-                  value={value}
-                  label='Username'
-                  onChange={onChange}
-                  placeholder='johndoe'
-                  error={Boolean(errors.username)}
-                />
-              )}
-            />
-            {errors.username && <FormHelperText sx={{ color: 'error.main' }}>{errors.username.message}</FormHelperText>}
+            {errors.name && <FormHelperText sx={{ color: 'error.main' }}>{errors.name.message}</FormHelperText>}
           </FormControl>
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
               name='email'
               control={control}
-              rules={{ required: true }}
-              render={({ field: { value, onChange } }) => (
+              render={({ field: { value = '', onChange } }) => (
                 <TextField
                   type='email'
                   value={value}
                   label='Email'
                   onChange={onChange}
-                  placeholder='johndoe@email.com'
+                  placeholder='mary.johnson@example.com'
                   error={Boolean(errors.email)}
                 />
               )}
@@ -205,32 +162,30 @@ const SidebarAddUser = props => {
           </FormControl>
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
-              name='company'
+              name='address'
               control={control}
-              rules={{ required: true }}
-              render={({ field: { value, onChange } }) => (
+              render={({ field: { value = '', onChange } }) => (
                 <TextField
                   value={value}
-                  label='Company'
+                  label='Address'
                   onChange={onChange}
-                  placeholder='Company PVT LTD'
-                  error={Boolean(errors.company)}
+                  placeholder='456 Oak St'
+                  error={Boolean(errors.address)}
                 />
               )}
             />
-            {errors.company && <FormHelperText sx={{ color: 'error.main' }}>{errors.company.message}</FormHelperText>}
+            {errors.address && <FormHelperText sx={{ color: 'error.main' }}>{errors.address.message}</FormHelperText>}
           </FormControl>
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
               name='country'
               control={control}
-              rules={{ required: true }}
-              render={({ field: { value, onChange } }) => (
+              render={({ field: { value = '', onChange } }) => (
                 <TextField
                   value={value}
                   label='Country'
                   onChange={onChange}
-                  placeholder='Australia'
+                  placeholder='GA'
                   error={Boolean(errors.country)}
                 />
               )}
@@ -239,90 +194,37 @@ const SidebarAddUser = props => {
           </FormControl>
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
-              name='contact'
+              name='tel_number'
               control={control}
-              rules={{ required: true }}
-              render={({ field: { value, onChange } }) => (
+              render={({ field: { value = '', onChange } }) => (
                 <TextField
-                  type='number'
+                  type='tel'
                   value={value}
-                  label='Contact'
+                  label='Phone Number'
                   onChange={onChange}
-                  placeholder='(397) 294-5153'
-                  error={Boolean(errors.contact)}
+                  placeholder='9876543210'
+                  error={Boolean(errors.tel_number)}
                 />
               )}
             />
-            {errors.contact && <FormHelperText sx={{ color: 'error.main' }}>{errors.contact.message}</FormHelperText>}
-          </FormControl>
-          <FormControl fullWidth sx={{ mb: 4 }}>
-            <InputLabel
-              id='validation-billing-select'
-              error={Boolean(errors.billing)}
-              htmlFor='validation-billing-select'
-            >
-              Billing
-            </InputLabel>
-            <Controller
-              name='billing'
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { value, onChange } }) => (
-                <Select
-                  value={value}
-                  label='Billing'
-                  onChange={onChange}
-                  error={Boolean(errors.billing)}
-                  labelId='validation-billing-select'
-                  aria-describedby='validation-billing-select'
-                >
-                  <MenuItem value=''>Billing</MenuItem>
-                  <MenuItem value='Auto Debit'>Auto Debit</MenuItem>
-                  <MenuItem value='Manual - Cash'>Manual - Cash</MenuItem>
-                  <MenuItem value='Manual - Paypal'>Manual - Paypal</MenuItem>
-                  <MenuItem value='Manual - Credit Card'>Manual - Credit Card</MenuItem>
-                </Select>
-              )}
-            />
-            {errors.billing && (
-              <FormHelperText sx={{ color: 'error.main' }} id='validation-billing-select'>
-                This field is required
-              </FormHelperText>
+            {errors.tel_number && (
+              <FormHelperText sx={{ color: 'error.main' }}>{errors.tel_number.message}</FormHelperText>
             )}
           </FormControl>
           <FormControl fullWidth sx={{ mb: 4 }}>
-            <InputLabel id='role-select'>Select Role</InputLabel>
+            <InputLabel id='role-select'>User Type</InputLabel>
             <Select
               fullWidth
               value={role}
               id='select-role'
-              label='Select Role'
+              label='User Type'
               labelId='role-select'
               onChange={e => setRole(e.target.value)}
               inputProps={{ placeholder: 'Select Role' }}
             >
+              <MenuItem value='tenant'>Tenant</MenuItem>
               <MenuItem value='admin'>Admin</MenuItem>
-              <MenuItem value='author'>Author</MenuItem>
-              <MenuItem value='editor'>Editor</MenuItem>
-              <MenuItem value='maintainer'>Maintainer</MenuItem>
-              <MenuItem value='subscriber'>Subscriber</MenuItem>
-            </Select>
-          </FormControl>
-          <FormControl fullWidth sx={{ mb: 6 }}>
-            <InputLabel id='plan-select'>Select Plan</InputLabel>
-            <Select
-              fullWidth
-              value={plan}
-              id='select-plan'
-              label='Select Plan'
-              labelId='plan-select'
-              onChange={e => setPlan(e.target.value)}
-              inputProps={{ placeholder: 'Select Plan' }}
-            >
-              <MenuItem value='basic'>Basic</MenuItem>
-              <MenuItem value='company'>Company</MenuItem>
-              <MenuItem value='enterprise'>Enterprise</MenuItem>
-              <MenuItem value='team'>Team</MenuItem>
+              <MenuItem value='owner'>Owner</MenuItem>
             </Select>
           </FormControl>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>

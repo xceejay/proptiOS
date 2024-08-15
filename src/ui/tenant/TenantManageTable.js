@@ -18,6 +18,8 @@ import InputLabel from '@mui/material/InputLabel'
 import FormControl from '@mui/material/FormControl'
 import CardContent from '@mui/material/CardContent'
 import { DataGrid } from '@mui/x-data-grid'
+import AddUserDrawer from './AddUserDrawer'
+
 import Select from '@mui/material/Select'
 
 // ** Icon Imports
@@ -28,62 +30,15 @@ import { useDispatch, useSelector } from 'react-redux'
 
 // ** Custom Components Imports
 import CustomChip from 'src/@core/components/mui/chip'
-import CustomAvatar from 'src/@core/components/mui/avatar'
 import CardStatsHorizontalWithDetails from 'src/@core/components/card-statistics/card-stats-horizontal-with-details'
 
-// ** Utils Import
-import { getInitials } from 'src/@core/utils/get-initials'
-
-// ** Actions Imports
-import { fetchData, deleteUser } from 'src/store/apps/user'
-
-// ** Third Party Components
-import axios from 'axios'
-
-// ** Custom Table Components Imports
+// ** Hooks Imports
+import { useTenants } from 'src/hooks/useTenants'
 import TenantTableHeader from './TenantTableHeader'
-import AddUserDrawer from './AddUserDrawer'
-import ServerSideToolbar from 'src/views/table/data-grid/ServerSideToolbar'
 import ServerSideToolbarTenantManage from 'src/views/table/data-grid/ServerSideToolbarTenantManage'
-import { Autocomplete, TextField } from '@mui/material'
-
-// ** renders client column
-const userRoleObj = {
-  admin: { icon: 'tabler:device-laptop', color: 'secondary' },
-  author: { icon: 'tabler:circle-check', color: 'success' },
-  editor: { icon: 'tabler:edit', color: 'info' },
-  maintainer: { icon: 'tabler:chart-pie-2', color: 'primary' },
-  subscriber: { icon: 'tabler:user', color: 'warning' }
-}
-
-const userStatusObj = {
-  active: 'success',
-  pending: 'warning',
-  inactive: 'secondary'
-}
-
-// ** renders client column
-const renderClient = row => {
-  if (row.avatar.length) {
-    return <CustomAvatar src={row.avatar} sx={{ mr: 2.5, width: 38, height: 38 }} />
-  } else {
-    return (
-      <CustomAvatar
-        skin='light'
-        color={row.avatarColor}
-        sx={{ mr: 2.5, width: 38, height: 38, fontSize: '1rem', fontWeight: 500 }}
-      >
-        {getInitials(row.fullName ? row.fullName : 'John Doe')}
-      </CustomAvatar>
-    )
-  }
-}
 
 const RowOptions = ({ id }) => {
-  // ** Hooks
   const dispatch = useDispatch()
-
-  // ** State
   const [anchorEl, setAnchorEl] = useState(null)
   const rowOptionsOpen = Boolean(anchorEl)
 
@@ -120,19 +75,10 @@ const RowOptions = ({ id }) => {
         }}
         PaperProps={{ style: { minWidth: '8rem' } }}
       >
-        <MenuItem
-          component={Link}
-          sx={{ '& svg': { mr: 2 } }}
-          href={'/tenants/' + Math.floor(Math.random() * 1000).toString()}
-          onClick={handleRowOptionsClose}
-        >
+        <MenuItem component={Link} sx={{ '& svg': { mr: 2 } }} href={'/tenants/' + id} onClick={handleRowOptionsClose}>
           <Icon icon='tabler:eye' fontSize={20} />
           View
         </MenuItem>
-        {/* <MenuItem onClick={handleRowOptionsClose} sx={{ '& svg': { mr: 2 } }}>
-          <Icon icon='tabler:edit' fontSize={20} />
-          Edit
-        </MenuItem> */}
         <MenuItem onClick={handleDelete} sx={{ '& svg': { mr: 2 } }}>
           <Icon icon='tabler:trash' fontSize={20} />
           Quick Suspend
@@ -146,19 +92,18 @@ const columns = [
   {
     flex: 0.25,
     minWidth: 280,
-    field: 'fullName',
-    headerName: 'User',
+    field: 'name',
+    headerName: 'Name',
     renderCell: ({ row }) => {
-      const { fullName, email } = row
+      const { id, name, email } = row
 
       return (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          {renderClient(row)}
           <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
             <Typography
               noWrap
               component={Link}
-              href={'/tenants/' + Math.floor(Math.random() * 1000).toString()}
+              href={'/tenants/' + id}
               sx={{
                 fontWeight: 500,
                 textDecoration: 'none',
@@ -166,7 +111,7 @@ const columns = [
                 '&:hover': { color: 'primary.main' }
               }}
             >
-              {fullName}
+              {name}
             </Typography>
             <Typography noWrap variant='body2' sx={{ color: 'text.disabled' }}>
               {email}
@@ -176,81 +121,44 @@ const columns = [
       )
     }
   },
-
-  // {
-  //   flex: 0.15,
-  //   field: 'role',
-  //   minWidth: 170,
-  //   headerName: 'Role',
-  //   renderCell: ({ row }) => {
-  //     return (
-  //       <Box sx={{ display: 'flex', alignItems: 'center' }}>
-  //         <CustomAvatar
-  //           skin='light'
-  //           sx={{ mr: 4, width: 30, height: 30 }}
-  //           color={userRoleObj[row.role]?.color || 'primary'}
-  //         >
-  //           <Icon icon={userRoleObj[row.role]?.icon} />
-  //         </CustomAvatar>
-  //         <Typography noWrap sx={{ color: 'text.secondary', textTransform: 'capitalize' }}>
-  //           {row.role}
-  //         </Typography>
-  //       </Box>
-  //     )
-  //   }
-  // },
-  // {
-  //   flex: 0.15,
-  //   minWidth: 120,
-  //   headerName: 'Plan',
-  //   field: 'currentPlan',
-  //   renderCell: ({ row }) => {
-  //     return (
-  //       <Typography noWrap sx={{ fontWeight: 500, color: 'text.secondary', textTransform: 'capitalize' }}>
-  //         {row.currentPlan}
-  //       </Typography>
-  //     )
-  //   }
-  // },
   {
     flex: 0.15,
     minWidth: 190,
-    field: 'property',
-    headerName: 'Property',
-    renderCell: ({ row }) => {
-      return (
-        <Typography noWrap sx={{ color: 'text.secondary' }}>
-          {row.property}
-        </Typography>
-      )
-    }
+    field: 'address',
+    headerName: 'Address',
+    renderCell: ({ row }) => (
+      <Typography noWrap sx={{ color: 'text.secondary' }}>
+        {row.address}
+      </Typography>
+    )
   },
   {
     flex: 0.15,
     minWidth: 190,
-    field: 'billing',
-    headerName: 'Billing',
-    renderCell: ({ row }) => {
-      return (
-        <Typography noWrap sx={{ color: 'text.secondary' }}>
-          {row.billing}
-        </Typography>
-      )
-    }
+    field: 'country',
+    headerName: 'Country',
+    renderCell: ({ row }) => (
+      <Typography noWrap sx={{ color: 'text.secondary' }}>
+        {row.country}
+      </Typography>
+    )
   },
   {
     flex: 0.1,
     minWidth: 110,
-    field: 'status',
+    field: 'active',
     headerName: 'Status',
     renderCell: ({ row }) => {
+      const statusLabel = row.active === 1 ? 'Active' : 'Inactive'
+      const statusColor = row.active === 1 ? 'success' : 'secondary'
+
       return (
         <CustomChip
           rounded
           skin='light'
           size='small'
-          label={row.status}
-          color={userStatusObj[row.status]}
+          label={statusLabel}
+          color={statusColor}
           sx={{ textTransform: 'capitalize' }}
         />
       )
@@ -266,221 +174,85 @@ const columns = [
   }
 ]
 
-const TenantManageTable = ({ apiData }) => {
-  // ** State
-  const [role, setRole] = useState('')
-  const [property, setProperty] = useState('')
-  const [plan, setPlan] = useState('')
+const TenantManageTable = () => {
+  const tenants = useTenants()
+  const [tenantsData, setTenantsData] = useState({ items: [] })
   const [value, setValue] = useState('')
-  const [status, setStatus] = useState('')
   const [addUserOpen, setAddUserOpen] = useState(false)
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
 
-  // ** Hooks
-  const dispatch = useDispatch()
-  const store = useSelector(state => state.user)
   useEffect(() => {
-    dispatch(
-      fetchData({
-        property,
-        role,
-        status,
-        q: value,
-        currentPlan: plan
-      })
+    tenants.getTenants(
+      { page: 1, limit: 2 },
+      responseData => {
+        const { data } = responseData
+
+        if (data?.status === 'FAILED') {
+          alert(response.message || 'Failed to fetch tenants')
+
+          return
+        }
+
+        setTenantsData(data)
+      },
+      error => {
+        console.error('Tenants Cannot be retrieved:', error)
+      }
     )
-  }, [dispatch, property, plan, role, status, value])
+  }, [])
 
   const handleFilter = useCallback(val => {
     setValue(val)
   }, [])
 
-  const handleRoleChange = useCallback(e => {
-    setRole(e.target.value)
-  }, [])
-
-  const handlePropertyChange = useCallback(e => {
-    // console.log(e.target.value)
-    setProperty(e.target.value)
-  }, [])
-
-  const handlePlanChange = useCallback(e => {
-    setPlan(e.target.value)
-  }, [])
-
-  const handleStatusChange = useCallback(e => {
-    setStatus(e.target.value)
-  }, [])
   const toggleAddUserDrawer = () => setAddUserOpen(!addUserOpen)
-
-  let properties = [
-    'Sunset View Estates',
-    'Greenwood Gardens',
-    'Lakeside Manor',
-    'Pinecrest Place',
-    'Riverwalk Residences',
-    'Oakridge Heights',
-    'Golden Gate Apartments',
-    'Harbor Pointe Condos',
-    'Valley Vista Homes',
-    'Silver Oaks Estates',
-    'Maplewood Villas',
-    'Seaside Retreat',
-    'Hilltop Haven',
-    'Meadowbrook Meadows',
-    'Creekside Estates',
-    'Royal Palms Condominiums',
-    'Whispering Pines',
-    'Summerfield Square'
-  ]
 
   return (
     <Grid container spacing={6.5}>
-      <Grid item xs={12}>
-        {apiData && (
+      {/* <Grid item xs={12}>
+        {tenantsData.items.length > 0 ? (
           <Grid container spacing={6}>
-            {apiData.statsHorizontalWithDetails.map((item, index) => {
-              return (
-                <Grid item xs={12} md={3} sm={6} key={index}>
-                  <CardStatsHorizontalWithDetails {...item} />
-                </Grid>
-              )
-            })}
+            {tenantsData.items.map((item, index) => (
+              <Grid item xs={12} md={3} sm={6} key={index}>
+                <CardStatsHorizontalWithDetails {...item} />
+              </Grid>
+            ))}
           </Grid>
+        ) : (
+          <Typography>No Tenants Available</Typography>
         )}
-      </Grid>
+      </Grid> */}
       <Grid item xs={12}>
         <Card>
           <CardHeader title='Tenants' />
           <CardContent>
-            {/* <Grid container spacing={6}>
-              <Grid item sm={4} xs={12}>
-                <FormControl fullWidth>
-                  <Autocomplete
-                    disablePortal={false}
-                    options={properties}
-                    onSelect={handlePropertyChange}
-                    id='property-select'
-                    renderInput={params => (
-                      <TextField {...params} sx={{ width: 300 }} value={property} label='Property'  inputProps={{ placeholder: 'Property' }} />
-                    )}
-                  />
-                </FormControl>
-              </Grid>
-              <Grid item sm={4} xs={12}>
-                <FormControl fullWidth>
-                  <InputLabel id='role-select'>Select Role</InputLabel>
-                  <Select
-                    fullWidth
-                    value={role}
-                    id='select-role'
-                    label='Select Role'
-                    labelId='role-select'
-                    onChange={handleRoleChange}
-                    inputProps={{ placeholder: 'Select Role' }}
-                  >
-                    <MenuItem value=''>Select Property</MenuItem>
-                    <MenuItem value='admin'>Admin</MenuItem>
-                    <MenuItem value='author'>Author</MenuItem>
-                    <MenuItem value='editor'>Editor</MenuItem>
-                    <MenuItem value='maintainer'>Maintainer</MenuItem>
-                    <MenuItem value='subscriber'>Subscriber</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid item sm={4} xs={12}>
-                <FormControl fullWidth>
-                  <InputLabel id='plan-select'>Select Plan</InputLabel>
-                  <Select
-                    fullWidth
-                    value={plan}
-                    id='select-plan'
-                    label='Select Plan'
-                    labelId='plan-select'
-                    onChange={handlePlanChange}
-                    inputProps={{ placeholder: 'Select Plan' }}
-                  >
-                    <MenuItem value=''>Select Plan</MenuItem>
-                    <MenuItem value='basic'>Basic</MenuItem>
-                    <MenuItem value='company'>Company</MenuItem>
-                    <MenuItem value='enterprise'>Enterprise</MenuItem>
-                    <MenuItem value='team'>Team</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid item sm={4} xs={12}>
-                <FormControl fullWidth>
-                  <InputLabel id='status-select'>Select Status</InputLabel>
-                  <Select
-                    fullWidth
-                    value={status}
-                    id='select-status'
-                    label='Select Status'
-                    labelId='status-select'
-                    onChange={handleStatusChange}
-                    inputProps={{ placeholder: 'Select Role' }}
-                  >
-                    <MenuItem value=''>Select Role</MenuItem>
-                    <MenuItem value='pending'>Pending</MenuItem>
-                    <MenuItem value='active'>Active</MenuItem>
-                    <MenuItem value='inactive'>Inactive</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-            </Grid> */}
+            <TenantTableHeader
+              rows={tenantsData.items}
+              columns={columns}
+              value={value}
+              handleFilter={handleFilter}
+              toggle={toggleAddUserDrawer}
+            />
+            <DataGrid
+              autoHeight
+              rowHeight={62}
+              rows={tenantsData.items || []}
+              columns={columns}
+              slots={{ toolbar: ServerSideToolbarTenantManage }}
+              disableRowSelectionOnClick
+              pageSizeOptions={[10, 25, 50]}
+              paginationModel={paginationModel}
+              onPaginationModelChange={setPaginationModel}
+            />
           </CardContent>
           <Divider sx={{ m: '0 !important' }} />
-          <TenantTableHeader
-            rows={store.data}
-            columns={columns}
-            value={value}
-            handleFilter={handleFilter}
-            toggle={toggleAddUserDrawer}
-          />
-          <DataGrid
-            autoHeight
-            rowHeight={62}
-            rows={store.data}
-            columns={columns}
-            slots={{ toolbar: ServerSideToolbarTenantManage }}
-            disableRowSelectionOnClick
-            pageSizeOptions={[10, 25, 50]}
-            paginationModel={paginationModel}
-            onPaginationModelChange={setPaginationModel}
-          />
         </Card>
       </Grid>
-
       <AddUserDrawer open={addUserOpen} toggle={toggleAddUserDrawer} />
     </Grid>
   )
 }
 
-export const getServerSideProps = async () => {
-  axios
-    .get('https://api.pm.manages.homes', {
-      params: {
-        id: 12345
-      }
-    })
-    .then(function (response) {
-      console.log('tenant table:', response.data)
-
-      let apiData = response.data
-
-      return {
-        props: {
-          apiData
-        }
-      }
-    })
-    .catch(function (error) {
-      console.log('tenant table err:', error)
-    })
-
-  // .finally(function () {
-  //   // always executed
-  // })
-}
+export const getServerSideProps = async () => {}
 
 export default TenantManageTable

@@ -105,7 +105,7 @@ const App = props => {
 
   return (
     <Provider store={store}>
-      <UserProvider loginUrl='/src/api/auth/login' profileUrl='/src/api/auth/me'>
+      <UserProvider loginUrl='/src/api/auth/login' profileUrl=''>
         <CacheProvider value={emotionCache}>
           <Head>
             <title>{`${themeConfig.templateName} - Simplifying property management`}</title>
@@ -116,24 +116,29 @@ const App = props => {
 
           <AuthProvider>
             <OnboardingProvider>
-              <SettingsProvider {...(setConfig ? { pageSettings: setConfig() } : {})}>
-                <SettingsConsumer>
-                  {({ settings }) => {
-                    return (
-                      <ThemeComponent settings={settings}>
-                        <Guard authGuard={authGuard} guestGuard={guestGuard}>
-                          <AclGuard aclAbilities={aclAbilities} guestGuard={guestGuard} authGuard={authGuard}>
-                            {getLayout(<Component {...pageProps} />)}
-                          </AclGuard>
-                        </Guard>
-                        <ReactHotToast>
-                          <Toaster position={settings.toastPosition} toastOptions={{ className: 'react-hot-toast' }} />
-                        </ReactHotToast>
-                      </ThemeComponent>
-                    )
-                  }}
-                </SettingsConsumer>
-              </SettingsProvider>
+              <TenantsProvider>
+                <SettingsProvider {...(setConfig ? { pageSettings: setConfig() } : {})}>
+                  <SettingsConsumer>
+                    {({ settings }) => {
+                      return (
+                        <ThemeComponent settings={settings}>
+                          <Guard authGuard={authGuard} guestGuard={guestGuard}>
+                            <AclGuard aclAbilities={aclAbilities} guestGuard={guestGuard} authGuard={authGuard}>
+                              {getLayout(<Component {...pageProps} />)}
+                            </AclGuard>
+                          </Guard>
+                          <ReactHotToast>
+                            <Toaster
+                              position={settings.toastPosition}
+                              toastOptions={{ className: 'react-hot-toast' }}
+                            />
+                          </ReactHotToast>
+                        </ThemeComponent>
+                      )
+                    }}
+                  </SettingsConsumer>
+                </SettingsProvider>
+              </TenantsProvider>
             </OnboardingProvider>
           </AuthProvider>
         </CacheProvider>
