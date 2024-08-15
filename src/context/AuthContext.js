@@ -39,6 +39,7 @@ const AuthProvider = ({ children }) => {
         setLoading(false)
         console.log('decoded-data', decoded)
         setUser(decoded.payload)
+        setLoading(false)
 
         // console.log('are you null?:', JSON.parse(userData))
 

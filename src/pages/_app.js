@@ -105,7 +105,7 @@ const App = props => {
 
   return (
     <Provider store={store}>
-      <UserProvider loginUrl='/src/api/auth/login' profileUrl=''>
+      <UserProvider loginUrl='' profileUrl=''>
         <CacheProvider value={emotionCache}>
           <Head>
             <title>{`${themeConfig.templateName} - Simplifying property management`}</title>
