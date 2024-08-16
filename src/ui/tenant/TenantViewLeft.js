@@ -187,7 +187,7 @@ const UserViewLeft = ({ tenantData }) => {
               </Typography>
               <Box sx={{ pt: 4 }}>
                 <Box sx={{ display: 'flex', mb: 3 }}>
-                  <Typography sx={{ mr: 2, fontWeight: 500 }}>ID:</Typography>
+                  <Typography sx={{ mr: 2, fontWeight: 500 }}>Tenant ID:</Typography>
                   <Typography sx={{ color: 'text.secondary' }}>{tenantData.uuid} </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', mb: 3 }}>
