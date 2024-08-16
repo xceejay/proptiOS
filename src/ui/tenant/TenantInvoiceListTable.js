@@ -107,52 +107,53 @@ const columns = [
     field: 'created_at',
     headerName: 'Issued Date',
     renderCell: ({ row }) => <Typography sx={{ color: 'text.secondary' }}>{row.created_at}</Typography>
-  },
-  {
-    // flex: 0.1,
-    // minWidth: 130,
-    // sortable: false,
-    // field: 'actions',
-    // headerName: 'Actions',
-    // renderCell: ({ row }) => (
-    //   <Box sx={{ display: 'flex', alignItems: 'center' }}>
-    //     <Tooltip title='Delete Invoice'>
-    //       <IconButton size='small' sx={{ color: 'text.secondary' }}>
-    //         <Icon icon='tabler:trash' />
-    //       </IconButton>
-    //     </Tooltip>
-    //     <Tooltip title='View'>
-    //       <IconButton
-    //         size='small'
-    //         component={Link}
-    //         sx={{ color: 'text.secondary' }}
-    //         href={`/apps/invoice/preview/${row.id}`}
-    //       >
-    //         <Icon icon='tabler:eye' />
-    //       </IconButton>
-    //     </Tooltip>
-    //     <OptionsMenu
-    //       iconButtonProps={{ size: 'small' }}
-    //       menuProps={{ sx: { '& .MuiMenuItem-root svg': { mr: 2 } } }}
-    //       options={[
-    //         {
-    //           text: 'Download',
-    //           icon: <Icon icon='tabler:download' />
-    //         },
-    //         {
-    //           text: 'Edit',
-    //           href: `/apps/invoice/edit/${row.id}`,
-    //           icon: <Icon icon='tabler:pencil' />
-    //         },
-    //         {
-    //           text: 'Duplicate',
-    //           icon: <Icon icon='tabler:copy' />
-    //         }
-    //       ]}
-    //     />
-    //   </Box>
-    // )
   }
+
+  // {
+  // flex: 0.1,
+  // minWidth: 130,
+  // sortable: false,
+  // field: 'actions',
+  // headerName: 'Actions',
+  // renderCell: ({ row }) => (
+  //   <Box sx={{ display: 'flex', alignItems: 'center' }}>
+  //     <Tooltip title='Delete Invoice'>
+  //       <IconButton size='small' sx={{ color: 'text.secondary' }}>
+  //         <Icon icon='tabler:trash' />
+  //       </IconButton>
+  //     </Tooltip>
+  //     <Tooltip title='View'>
+  //       <IconButton
+  //         size='small'
+  //         component={Link}
+  //         sx={{ color: 'text.secondary' }}
+  //         href={`/apps/invoice/preview/${row.id}`}
+  //       >
+  //         <Icon icon='tabler:eye' />
+  //       </IconButton>
+  //     </Tooltip>
+  //     <OptionsMenu
+  //       iconButtonProps={{ size: 'small' }}
+  //       menuProps={{ sx: { '& .MuiMenuItem-root svg': { mr: 2 } } }}
+  //       options={[
+  //         {
+  //           text: 'Download',
+  //           icon: <Icon icon='tabler:download' />
+  //         },
+  //         {
+  //           text: 'Edit',
+  //           href: `/apps/invoice/edit/${row.id}`,
+  //           icon: <Icon icon='tabler:pencil' />
+  //         },
+  //         {
+  //           text: 'Duplicate',
+  //           icon: <Icon icon='tabler:copy' />
+  //         }
+  //       ]}
+  //     />
+  //   </Box>
+  // )
+  // }
 ]
 
 const TenantInvoiceListTable = ({ tenantTransactionData }) => {
