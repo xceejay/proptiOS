@@ -1,11 +1,15 @@
 // ** Third Party Imports
 import axios from 'axios'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
+import { useTenants } from 'src/hooks/useTenants'
 import TenantEditInfo from 'src/ui/tenant/TenantEditInfo'
 
 // ** Demo Components Imports
 
 const UserView = ({ tab, invoiceData }) => {
   const router = useRouter()
+
   const { id } = router.query
   const tenants = useTenants()
   const [tenantData, setTenantData] = useState()

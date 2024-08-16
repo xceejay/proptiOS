@@ -50,8 +50,9 @@ const roleColors = {
 
 const statusColors = {
   active: 'success',
-  pending: 'warning',
-  inactive: 'secondary'
+
+  // pending: 'warning',
+  inactive: 'warning'
 }
 
 // ** Styled <sup> component
@@ -139,20 +140,18 @@ const UserViewLeft = ({ tenantData }) => {
                   color={tenantData.avatarColor}
                   sx={{ width: 100, height: 100, mb: 4, fontSize: '3rem' }}
                 >
-                  {console.log('hisdata', tenantData)}
                   {getInitials(tenantData.name)}
                 </CustomAvatar>
               )}
               <Typography variant='h5' sx={{ mb: 3 }}>
-                {console.log('hisdata', tenantData)}
                 {tenantData.name}
               </Typography>
               <CustomChip
                 rounded
                 skin='light'
                 size='small'
-                label={tenantData.role}
-                color={roleColors[tenantData.role]}
+                label={tenantData.status}
+                color={statusColors[tenantData.status]}
                 sx={{ textTransform: 'capitalize' }}
               />
             </CardContent>
@@ -164,7 +163,7 @@ const UserViewLeft = ({ tenantData }) => {
                     <Icon fontSize='1.75rem' icon='tabler:cash' />
                   </CustomAvatar>
                   <div>
-                    <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}> GHC 1.23k</Typography>
+                    <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}> GHC {0}</Typography>
                     <Typography variant='body2'>Rent Paid</Typography>
                   </div>
                 </Box>
@@ -173,7 +172,7 @@ const UserViewLeft = ({ tenantData }) => {
                     <Icon fontSize='1.75rem' icon='tabler:cash' color='red' />
                   </CustomAvatar>
                   <div>
-                    <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>GHC 568</Typography>
+                    <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>GHC {0}</Typography>
                     <Typography variant='body2'>Rent Due</Typography>
                   </div>
                 </Box>
@@ -211,7 +210,7 @@ const UserViewLeft = ({ tenantData }) => {
                 <Box sx={{ display: 'flex', mb: 3 }}>
                   <Typography sx={{ mr: 2, fontWeight: 500 }}>Property:</Typography>
                   <Typography sx={{ color: 'text.secondary', textTransform: 'capitalize' }}>
-                    {tenantData.role}
+                    {tenantData.property.name}
                   </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', mb: 3 }}>
@@ -220,7 +219,7 @@ const UserViewLeft = ({ tenantData }) => {
                 </Box>
                 <Box sx={{ display: 'flex', mb: 3 }}>
                   <Typography sx={{ mr: 2, fontWeight: 500 }}>Contact:</Typography>
-                  <Typography sx={{ color: 'text.secondary' }}>+1 {tenantData.contact}</Typography>
+                  <Typography sx={{ color: 'text.secondary' }}>{tenantData.tel_number}</Typography>
                 </Box>
                 <Box sx={{ display: 'flex', mb: 3 }}>
                   <Typography sx={{ mr: 2, fontWeight: 500 }}>Language:</Typography>
@@ -272,14 +271,16 @@ const UserViewLeft = ({ tenantData }) => {
                 <form>
                   <Grid container spacing={6}>
                     <Grid item xs={12} sm={6}>
-                      <TextField fullWidth label='Full Name' defaultValue={tenantData.fullName} />
+                      <TextField fullWidth label='Full Name' defaultValue={tenantData.name} />
                     </Grid>
                     <Grid item xs={12} sm={6}>
                       <TextField
                         fullWidth
-                        label='Username'
-                        defaultValue={tenantData.username}
-                        InputProps={{ startAdornment: <InputAdornment position='start'>@</InputAdornment> }}
+                        label='ID'
+                        defaultValue={tenantData.uuid}
+                        disabled
+
+                        // InputProps={{ startAdornment: <InputAdornment position='start'></InputAdornment> }}
                       />
                     </Grid>
                     <Grid item xs={12} sm={6}>
@@ -293,6 +294,7 @@ const UserViewLeft = ({ tenantData }) => {
                           defaultValue={tenantData.status}
                           id='user-view-status'
                           labelId='user-view-status-label'
+                          disabled
                         >
                           <MenuItem value='pending'>Pending</MenuItem>
                           <MenuItem value='active'>Active</MenuItem>
@@ -304,7 +306,7 @@ const UserViewLeft = ({ tenantData }) => {
                       <TextField fullWidth label='TAX ID' defaultValue='Tax-8894' />
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                      <TextField fullWidth label='Contact' defaultValue={`+1 ${tenantData.contact}`} />
+                      <TextField fullWidth label='Contact' defaultValue={`${tenantData.tel_number}`} />
                     </Grid>
                     <Grid item xs={12} sm={6}>
                       <FormControl fullWidth>
@@ -316,11 +318,7 @@ const UserViewLeft = ({ tenantData }) => {
                           labelId='user-view-language-label'
                         >
                           <MenuItem value='English'>English</MenuItem>
-                          <MenuItem value='Spanish'>Spanish</MenuItem>
-                          <MenuItem value='Portuguese'>Portuguese</MenuItem>
-                          <MenuItem value='Russian'>Russian</MenuItem>
                           <MenuItem value='French'>French</MenuItem>
-                          <MenuItem value='German'>German</MenuItem>
                         </Select>
                       </FormControl>
                     </Grid>
@@ -329,11 +327,12 @@ const UserViewLeft = ({ tenantData }) => {
                         <InputLabel id='user-view-country-label'>Country</InputLabel>
                         <Select
                           label='Country'
-                          defaultValue='USA'
+                          defaultValue={tenantData.country}
                           id='user-view-country'
+                          disabled
                           labelId='user-view-country-label'
                         >
-                          <MenuItem value='USA'>USA</MenuItem>
+                          <MenuItem value='USA'>GA</MenuItem>
                           <MenuItem value='UK'>UK</MenuItem>
                           <MenuItem value='Spain'>Spain</MenuItem>
                           <MenuItem value='Russia'>Russia</MenuItem>
