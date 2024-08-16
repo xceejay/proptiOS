@@ -25,8 +25,8 @@ const TenantEdit = () => {
           setTenantData(data)
           console.log('FROM INDEX PAGE:', data)
 
-          if (response?.status === 'FAILED') {
-            alert(response.message || 'Failed to fetch tenants')
+          if (data?.status === 'FAILED') {
+            alert(data.message || 'Failed to fetch tenants')
 
             return
           }
@@ -39,12 +39,12 @@ const TenantEdit = () => {
         }
       )
     }
-  }, [id])
+  }, [id, tenants])
 
   return (
     <Grid>
       {console.log(tenants)}
-      <TenantEditInfo tenantData={tenantData} tab={'account'} invoiceData={tenantData}></TenantEditInfo>
+      <TenantEditInfo tenantData={tenantData} tab={'account'}></TenantEditInfo>
     </Grid>
   )
 }

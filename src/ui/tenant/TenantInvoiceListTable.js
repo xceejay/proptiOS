@@ -145,7 +145,7 @@ const columns = [
   }
 ]
 
-const TenantInvoiceListTable = ({ invoiceData }) => {
+const TenantInvoiceListTable = ({ tenantTransactionData }) => {
   // ** State
   const [anchorEl, setAnchorEl] = useState(null)
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 7 })
@@ -191,7 +191,7 @@ const TenantInvoiceListTable = ({ invoiceData }) => {
         autoHeight
         rowHeight={54}
         columns={columns}
-        rows={invoiceData}
+        rows={tenantTransactionData}
         disableRowSelectionOnClick
         pageSizeOptions={[7, 10, 25, 50]}
         paginationModel={paginationModel}

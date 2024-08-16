@@ -168,7 +168,7 @@ const TenantViewAccount = ({ tenantData }) => {
       </Grid> */}
 
       <Grid item xs={12}>
-        <TenantInvoiceListTable tenantData={tenantData.invoices} />
+        <TenantInvoiceListTable tenantTransactionData={tenantData.transactions} />
       </Grid>
     </Grid>
   )
