@@ -6,7 +6,8 @@ import TextField from '@mui/material/TextField'
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
-const TableHeader = props => {
+const PropertyTableHeader = props => {
+  // ** Props
   // ** Props
   const { handleFilter, toggle, value } = props
 
@@ -31,17 +32,17 @@ const TableHeader = props => {
           size='small'
           value={value}
           sx={{ mr: 4 }}
-          placeholder='Properties'
+          placeholder='Search Properties'
           onChange={e => handleFilter(e.target.value)}
         />
 
         <Button onClick={toggle} variant='contained' sx={{ '& svg': { mr: 2 } }}>
           <Icon fontSize='1.125rem' icon='tabler:plus' />
-          Add New User
+          Add New Property
         </Button>
       </Box>
     </Box>
   )
 }
 
-export default TableHeader
+export default PropertyTableHeader

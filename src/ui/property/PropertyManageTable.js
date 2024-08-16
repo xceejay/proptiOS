@@ -18,6 +18,8 @@ import InputLabel from '@mui/material/InputLabel'
 import FormControl from '@mui/material/FormControl'
 import CardContent from '@mui/material/CardContent'
 import { DataGrid } from '@mui/x-data-grid'
+import AddUserDrawer from './AddPropertyDrawer'
+
 import Select from '@mui/material/Select'
 
 // ** Icon Imports
@@ -28,146 +30,15 @@ import { useDispatch, useSelector } from 'react-redux'
 
 // ** Custom Components Imports
 import CustomChip from 'src/@core/components/mui/chip'
-import CustomAvatar from 'src/@core/components/mui/avatar'
 import CardStatsHorizontalWithDetails from 'src/@core/components/card-statistics/card-stats-horizontal-with-details'
 
-// ** Utils Import
-import { getInitials } from 'src/@core/utils/get-initials'
-
-// ** Actions Imports
-import { fetchData, deleteUser } from 'src/store/apps/user'
-import { fetchProperties, addProperty } from 'src/store/apps/user'
-
-// ** Third Party Components
-import axios from 'axios'
-
-// ** Custom Table Components Imports
-import TableHeader from './TableHeader'
-import AddUserDrawer from './AddPropertyDrawer'
-import ServerSideToolbar from 'src/views/table/data-grid/ServerSideToolbar'
+// ** Hooks Imports
+import { useProperties } from 'src/hooks/useProperties'
+import PropertyTableHeader from './PropertyTableHeader'
 import ServerSideToolbarPropertyManage from 'src/views/table/data-grid/ServerSideToolbarPropertyManage'
 
-// ** renders client column
-const userRoleObj = {
-  admin: { icon: 'tabler:device-laptop', color: 'secondary' },
-  author: { icon: 'tabler:circle-check', color: 'success' },
-  editor: { icon: 'tabler:edit', color: 'info' },
-  maintainer: { icon: 'tabler:chart-pie-2', color: 'primary' },
-  subscriber: { icon: 'tabler:user', color: 'warning' }
-}
-
-const userStatusObj = {
-  active: 'success',
-  pending: 'warning',
-  inactive: 'secondary'
-}
-
-const properties = {
-  statsHorizontalWithDetails: [
-    {
-      stats: '21,459',
-      title: 'Session',
-      trendDiff: '+29',
-      icon: 'tabler:user',
-      subtitle: 'Total Users'
-    },
-    {
-      stats: '4,567',
-      trendDiff: '+18',
-      title: 'Paid Users',
-      avatarColor: 'error',
-      icon: 'tabler:user-plus',
-      subtitle: 'Last week analytics'
-    },
-    {
-      stats: '19,860',
-      trendDiff: '-14',
-      trend: 'negative',
-      title: 'Active Users',
-      avatarColor: 'success',
-      icon: 'tabler:user-check',
-      subtitle: 'Last week analytics'
-    },
-    {
-      stats: '237',
-      trendDiff: '+42',
-      title: 'Pending Users',
-      avatarColor: 'warning',
-      icon: 'tabler:user-exclamation',
-      subtitle: 'Last week analytics'
-    }
-  ]
-}
-
-const propertyData = {
-  properties: [
-    {
-      id: 1,
-      propertyName: 'Cozy Apartments',
-      dateAdded: '2024-03-12',
-      occupationStatus: 'Available',
-      leaseAmount: 1200,
-      amenities: ['Swimming Pool', 'Gym', 'Parking'],
-      units: 10,
-      tenantsPerUnit: 2,
-      propertyLocation: '123 Main St, Anytown, USA',
-      maintenanceStatus: 'Good',
-      listingUrl: 'https://example.com/cozy-apartments',
-      imageUrl: 'https://example.com/images/cozy-apartments.jpg'
-    },
-    {
-      id: 2,
-      propertyName: 'Downtown Lofts',
-      dateAdded: '2024-03-10',
-      occupationStatus: 'Occupied',
-      leaseAmount: 2000,
-      amenities: ['Rooftop Deck', 'Fitness Center', 'Pet Friendly'],
-      units: 20,
-      tenantsPerUnit: 1,
-      propertyLocation: '456 Elm St, Cityville, USA',
-      maintenanceStatus: 'Excellent',
-      listingUrl: 'https://example.com/downtown-lofts',
-      imageUrl: 'https://example.com/images/downtown-lofts.jpg'
-    },
-    {
-      id: 3,
-      propertyName: 'Seaside Condos',
-      dateAdded: '2024-03-08',
-      occupationStatus: 'Available',
-      leaseAmount: 1800,
-      amenities: ['Beach Access', 'Tennis Courts', 'Ocean View'],
-      units: 15,
-      tenantsPerUnit: 3,
-      propertyLocation: '789 Ocean Ave, Beachtown, USA',
-      maintenanceStatus: 'Fair',
-      listingUrl: 'https://example.com/seaside-condos',
-      imageUrl: 'https://example.com/images/seaside-condos.jpg'
-    }
-  ]
-}
-
-// ** renders client column
-const renderClient = row => {
-  if (row?.imageUrl?.length) {
-    return <CustomAvatar src={row.imageUrl} sx={{ mr: 2.5, width: 38, height: 38 }} />
-  } else {
-    return (
-      <CustomAvatar
-        skin='light'
-        color={row.avatarColor}
-        sx={{ mr: 2.5, width: 38, height: 38, fontSize: '1rem', fontWeight: 500 }}
-      >
-        {getInitials(row.propertyName ? row.propertyName : 'No Property Name')}
-      </CustomAvatar>
-    )
-  }
-}
-
 const RowOptions = ({ id }) => {
-  // ** Hooks
   const dispatch = useDispatch()
-
-  // ** State
   const [anchorEl, setAnchorEl] = useState(null)
   const rowOptionsOpen = Boolean(anchorEl)
 
@@ -180,7 +51,7 @@ const RowOptions = ({ id }) => {
   }
 
   const handleDelete = () => {
-    dispatch(deleteProperty(id))
+    dispatch(deleteUser(id))
     handleRowOptionsClose()
   }
 
@@ -204,17 +75,18 @@ const RowOptions = ({ id }) => {
         }}
         PaperProps={{ style: { minWidth: '8rem' } }}
       >
-        <MenuItem component={Link} sx={{ '& svg': { mr: 2 } }} href='/properties/id' onClick={handleRowOptionsClose}>
+        <MenuItem
+          component={Link}
+          sx={{ '& svg': { mr: 2 } }}
+          href={'/properties/' + id}
+          onClick={handleRowOptionsClose}
+        >
           <Icon icon='tabler:eye' fontSize={20} />
           View
         </MenuItem>
-        {/* <MenuItem onClick={handleRowOptionsClose} sx={{ '& svg': { mr: 2 } }}>
-          <Icon icon='tabler:edit' fontSize={20} />
-          Edit
-        </MenuItem> */}
         <MenuItem onClick={handleDelete} sx={{ '& svg': { mr: 2 } }}>
           <Icon icon='tabler:trash' fontSize={20} />
-          Delete
+          Quick Suspend
         </MenuItem>
       </Menu>
     </>
@@ -225,19 +97,18 @@ const columns = [
   {
     flex: 0.25,
     minWidth: 280,
-    field: 'propertyName',
+    field: 'property_name',
     headerName: 'Property Name',
     renderCell: ({ row }) => {
-      const { propertyName, propertyLocation } = row
+      const { id, name } = row
 
       return (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          {renderClient(row)}
           <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
             <Typography
               noWrap
               component={Link}
-              href='/properties/id'
+              href={'/properties/' + id}
               sx={{
                 fontWeight: 500,
                 textDecoration: 'none',
@@ -245,10 +116,10 @@ const columns = [
                 '&:hover': { color: 'primary.main' }
               }}
             >
-              {propertyName}
+              {name}
             </Typography>
             <Typography noWrap variant='body2' sx={{ color: 'text.disabled' }}>
-              {propertyLocation}
+              {id}
             </Typography>
           </Box>
         </Box>
@@ -257,65 +128,42 @@ const columns = [
   },
   {
     flex: 0.15,
-    field: 'type',
-    minWidth: 170,
-    headerName: 'Type',
-    renderCell: ({ row }) => {
-      return (
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <CustomAvatar
-            skin='light'
-            sx={{ mr: 4, width: 30, height: 30 }}
-            color={userRoleObj[row.role]?.color || 'primary'}
-          >
-            <Icon icon={userRoleObj[row.role]?.icon} />
-          </CustomAvatar>
-          <Typography noWrap sx={{ color: 'text.secondary', textTransform: 'capitalize' }}>
-            {row.role}
-          </Typography>
-        </Box>
-      )
-    }
-  },
-  {
-    flex: 0.15,
-    minWidth: 120,
-    headerName: 'prospects',
-    field: 'prospects',
-    renderCell: ({ row }) => {
-      return (
-        <Typography noWrap sx={{ fontWeight: 500, color: 'text.secondary', textTransform: 'capitalize' }}>
-          {row.currentPlan}
-        </Typography>
-      )
-    }
+    minWidth: 190,
+    field: 'address',
+    headerName: 'Address',
+    renderCell: ({ row }) => (
+      <Typography noWrap sx={{ color: 'text.secondary' }}>
+        {row.address}
+      </Typography>
+    )
   },
   {
     flex: 0.15,
     minWidth: 190,
-    field: 'tenants',
-    headerName: 'tenants',
-    renderCell: ({ row }) => {
-      return (
-        <Typography noWrap sx={{ color: 'text.secondary' }}>
-          {row.billing}
-        </Typography>
-      )
-    }
+    field: 'country',
+    headerName: 'Country',
+    renderCell: ({ row }) => (
+      <Typography noWrap sx={{ color: 'text.secondary' }}>
+        {row.country}
+      </Typography>
+    )
   },
   {
     flex: 0.1,
     minWidth: 110,
-    field: 'maintenance',
-    headerName: 'Maintenance',
+    field: 'active',
+    headerName: 'Status',
     renderCell: ({ row }) => {
+      const statusLabel = row.active === 1 ? 'Active' : 'Inactive'
+      const statusColor = row.active === 1 ? 'success' : 'secondary'
+
       return (
         <CustomChip
           rounded
           skin='light'
           size='small'
-          label={row.status}
-          color={userStatusObj[row.status]}
+          label={statusLabel}
+          color={statusColor}
           sx={{ textTransform: 'capitalize' }}
         />
       )
@@ -331,118 +179,80 @@ const columns = [
   }
 ]
 
-const PropertyManageTable = ({ apiData }) => {
-  // ** State
-  const [role, setRole] = useState('')
-  const [plan, setPlan] = useState('')
+const PropertyManageTable = () => {
+  const properties = useProperties()
+  const [propertiesData, setPropertiesData] = useState([])
   const [value, setValue] = useState('')
-  const [status, setStatus] = useState('')
   const [addUserOpen, setAddUserOpen] = useState(false)
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
 
-  // ** Hooks
-  const dispatch = useDispatch()
-  const store = useSelector(state => state.propertyData)
   useEffect(() => {
-    dispatch(
-      fetchProperties({
-        // role,
-        // status,
-        q: value
+    properties.getProperties(
+      { page: 1, limit: 2 },
+      responseData => {
+        const { data } = responseData
 
-        // currentPlan: plan
-      })
+        if (data?.status === 'FAILED') {
+          alert(response.message || 'Failed to fetch properties')
+
+          return
+        }
+
+        setPropertiesData(data)
+      },
+      error => {
+        console.error('Properties Cannot be retrieved:', error)
+      }
     )
-  }, [dispatch, plan, role, status, value])
+  }, [])
 
   const handleFilter = useCallback(val => {
     setValue(val)
   }, [])
 
-  const handleRoleChange = useCallback(e => {
-    setRole(e.target.value)
-  }, [])
-
-  const handlePlanChange = useCallback(e => {
-    setPlan(e.target.value)
-  }, [])
-
-  const handleStatusChange = useCallback(e => {
-    setStatus(e.target.value)
-  }, [])
   const toggleAddUserDrawer = () => setAddUserOpen(!addUserOpen)
+
+  // Filter properties based on the search value
+  const filteredProperties = propertiesData.filter(
+    property =>
+      property.property_name.toLowerCase().includes(value.toLowerCase()) ||
+      property.id.toLowerCase().includes(value.toLowerCase()) ||
+      property.address.toLowerCase().includes(value.toLowerCase())
+  )
 
   return (
     <Grid container spacing={6.5}>
       <Grid item xs={12}>
-        {apiData && (
-          <Grid container spacing={6}>
-            {apiData.statsHorizontalWithDetails.map((item, index) => {
-              return (
-                <Grid item xs={12} md={3} sm={6} key={index}>
-                  <CardStatsHorizontalWithDetails {...item} />
-                </Grid>
-              )
-            })}
-          </Grid>
-        )}
-      </Grid>
-      <Grid item xs={12}>
         <Card>
-          <CardHeader title='Search Properties' />
-          <CardContent></CardContent>
+          <CardHeader title='Properties' />
+          <CardContent>
+            <PropertyTableHeader
+              rows={filteredProperties}
+              columns={columns}
+              value={value}
+              handleFilter={handleFilter}
+              toggle={toggleAddUserDrawer}
+            />
+            <DataGrid
+              autoHeight
+              rowHeight={62}
+              rows={filteredProperties || []}
+              columns={columns}
+              slots={{ toolbar: ServerSideToolbarPropertyManage }}
+              disableRowSelectionOnClick
+              pageSizeOptions={[10, 25, 50]}
+              paginationModel={paginationModel}
+              onPaginationModelChange={setPaginationModel}
+            />
+          </CardContent>
           <Divider sx={{ m: '0 !important' }} />
-          <TableHeader
-            rows={propertyData.properties}
-            columns={columns}
-            value={value}
-            handleFilter={handleFilter}
-            toggle={toggleAddUserDrawer}
-          />
-          <DataGrid
-            autoHeight
-            rowHeight={62}
-            rows={propertyData.properties}
-            columns={columns}
-            slots={{ toolbar: ServerSideToolbarPropertyManage }}
-            disableRowSelectionOnClick
-            pageSizeOptions={[10, 25, 50]}
-            paginationModel={paginationModel}
-            onPaginationModelChange={setPaginationModel}
-          />
         </Card>
       </Grid>
-
-      <addProperty open={addUserOpen} toggle={toggleAddUserDrawer} />
+      <AddUserDrawer open={addUserOpen} toggle={toggleAddUserDrawer} />
     </Grid>
   )
 }
 
-export const getServerSideProps = async () => {
-  axios
-    .get('https://api.pm.manages.homes', {
-      params: {
-        id: 12345
-      }
-    })
-    .then(function (response) {
-      console.log('tenant table:', response.data)
-
-      let apiData = response.data
-
-      return {
-        props: {
-          apiData
-        }
-      }
-    })
-    .catch(function (error) {
-      console.log('tenant table err:', error)
-    })
-
-  // .finally(function () {
-  //   // always executed
-  // })
-}
+export const getServerSideProps = async () => {}
 
 export default PropertyManageTable

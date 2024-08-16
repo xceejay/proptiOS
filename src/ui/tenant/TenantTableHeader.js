@@ -32,7 +32,7 @@ const TenantTableHeader = props => {
           size='small'
           value={value}
           sx={{ mr: 4 }}
-          placeholder='Search Tenant'
+          placeholder='Quick Search'
           onChange={e => handleFilter(e.target.value)}
         />
 
