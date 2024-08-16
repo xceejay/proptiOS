@@ -112,7 +112,7 @@ const TenantsProvider = ({ children }) => {
     }
 
     axios
-      .post('https://api.pm.manages.homes/tenants', {
+      .post('https://api.pm.manages.homes/tenants', data, {
         headers: {
           Authorization: `Bearer ${accessToken}`
         }
@@ -120,7 +120,7 @@ const TenantsProvider = ({ children }) => {
       .then(response => {
         if (successCallback) {
           successCallback(response.data)
-          setTenants([...tenants, ...data])
+          setTenants(prevTenants => [...prevTenants, ...data]) // Update state
         }
       })
       .catch(err => {

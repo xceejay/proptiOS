@@ -78,9 +78,8 @@ const SidebarAddTenant = props => {
   })
 
   const onSubmit = formData => {
-    // Ensure id is defined before making the API call
-    let requestData = []
-    requestData.push(formData)
+    let requestData = [formData]
+    console.log(requestData)
 
     tenants.addTenants(
       requestData,
@@ -90,17 +89,17 @@ const SidebarAddTenant = props => {
         console.log('FROM Tenant drawer PAGE:', data)
 
         if (data?.status === 'FAILED') {
-          alert(data.message || 'Failed to add tenant')
+          alert(data.description || 'Failed to add tenant')
 
           setError('email', {
             type: 'manual',
-            message: data.description
+            message: data.description || 'Unknown error occurred'
           })
 
           return
         }
 
-        // setTenantsData(response)
+        // setTenantsData(responseData);
       },
       error => {
         console.error('FROM Tenant drawer PAGE:', error)
