@@ -207,27 +207,22 @@ const TenantManageTable = () => {
 
   const toggleAddUserDrawer = () => setAddUserOpen(!addUserOpen)
 
+  // Filter tenants based on the search value
+  const filteredTenants = tenantsData.items.filter(
+    tenant =>
+      tenant.name.toLowerCase().includes(value.toLowerCase()) ||
+      tenant.email.toLowerCase().includes(value.toLowerCase()) ||
+      tenant.address.toLowerCase().includes(value.toLowerCase())
+  )
+
   return (
     <Grid container spacing={6.5}>
-      {/* <Grid item xs={12}>
-        {tenantsData.items.length > 0 ? (
-          <Grid container spacing={6}>
-            {tenantsData.items.map((item, index) => (
-              <Grid item xs={12} md={3} sm={6} key={index}>
-                <CardStatsHorizontalWithDetails {...item} />
-              </Grid>
-            ))}
-          </Grid>
-        ) : (
-          <Typography>No Tenants Available</Typography>
-        )}
-      </Grid> */}
       <Grid item xs={12}>
         <Card>
           <CardHeader title='Tenants' />
           <CardContent>
             <TenantTableHeader
-              rows={tenantsData.items}
+              rows={filteredTenants}
               columns={columns}
               value={value}
               handleFilter={handleFilter}
@@ -236,7 +231,7 @@ const TenantManageTable = () => {
             <DataGrid
               autoHeight
               rowHeight={62}
-              rows={tenantsData.items || []}
+              rows={filteredTenants || []}
               columns={columns}
               slots={{ toolbar: ServerSideToolbarTenantManage }}
               disableRowSelectionOnClick
