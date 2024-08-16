@@ -3,7 +3,6 @@ import Drawer from '@mui/material/Drawer'
 import Select from '@mui/material/Select'
 import Button from '@mui/material/Button'
 import MenuItem from '@mui/material/MenuItem'
-import { styled } from '@mui/material/styles'
 import TextField from '@mui/material/TextField'
 import IconButton from '@mui/material/IconButton'
 import InputLabel from '@mui/material/InputLabel'
@@ -11,53 +10,13 @@ import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
 import FormHelperText from '@mui/material/FormHelperText'
-import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, Controller } from 'react-hook-form'
 import Icon from 'src/@core/components/icon'
-import { useDispatch, useSelector } from 'react-redux'
-import { addUser } from 'src/store/apps/user'
 import { useTenants } from 'src/hooks/useTenants'
+import { schema, Header } from './AddTenantDrawer'
 
-const showErrors = (field, valueLen, min) => {
-  if (valueLen === 0) {
-    return `${field} field is required`
-  } else if (valueLen > 0 && valueLen < min) {
-    return `${field} must be at least ${min} characters`
-  } else {
-    return ''
-  }
-}
-
-const Header = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  padding: theme.spacing(6),
-  justifyContent: 'space-between'
-}))
-
-// Update validation schema based on the tenant fields
-const schema = yup.object().shape({
-  name: yup
-    .string()
-    .min(3, obj => showErrors('name', obj.value.length, obj.min))
-    .required(),
-  email: yup.string().email().required(),
-  address: yup.string(),
-  tel_number: yup.string(),
-  user_type: yup.string()
-})
-
-const defaultValues = {
-  name: '',
-  email: '',
-  address: '',
-  country: '',
-  tel_number: '',
-  user_type: 'tenant'
-}
-
-const SidebarAddTenant = props => {
+export const SidebarAddTenant = props => {
   const { open, toggle } = props
 
   const [role, setRole] = useState('tenant')
@@ -77,16 +36,14 @@ const SidebarAddTenant = props => {
     resolver: yupResolver(schema)
   })
 
-  const onSubmit = formData => {
+  const onSubmit = data => {
     // Ensure id is defined before making the API call
-    let requestData = []
-    requestData.push(formData)
-
-    tenants.addTenants(
-      requestData,
+    tenants.addTenant(
+      data,
       responseData => {
         console.log('Add Tenant Drawer')
         let { data } = responseData
+        setTenantData(data)
         console.log('FROM Tenant drawer PAGE:', data)
 
         if (data?.status === 'FAILED') {
@@ -103,6 +60,7 @@ const SidebarAddTenant = props => {
         // setTenantsData(response)
       },
       error => {
+        console.log(id)
         console.error('FROM Tenant drawer PAGE:', error)
       }
     )
@@ -143,7 +101,7 @@ const SidebarAddTenant = props => {
               render={({ field: { value = '', onChange } }) => (
                 <TextField
                   value={value}
-                  label='Full name'
+                  label='Full Name'
                   onChange={onChange}
                   placeholder='Mary Johnson'
                   error={Boolean(errors.name)}
@@ -169,57 +127,57 @@ const SidebarAddTenant = props => {
             />
             {errors.email && <FormHelperText sx={{ color: 'error.main' }}>{errors.email.message}</FormHelperText>}
           </FormControl>
-          <FormControl fullWidth sx={{ mb: 4 }}>
-            <Controller
-              name='address'
-              control={control}
-              render={({ field: { value = '', onChange } }) => (
-                <TextField
-                  value={value}
-                  label='Address'
-                  onChange={onChange}
-                  placeholder='456 Oak St'
-                  error={Boolean(errors.address)}
-                />
+          {/* <FormControl fullWidth sx={{ mb: 4 }}>
+              <Controller
+                name='address'
+                control={control}
+                render={({ field: { value = '', onChange } }) => (
+                  <TextField
+                    value={value}
+                    label='Address'
+                    onChange={onChange}
+                    placeholder='456 Oak St'
+                    error={Boolean(errors.address)}
+                  />
+                )}
+              />
+              {errors.address && <FormHelperText sx={{ color: 'error.main' }}>{errors.address.message}</FormHelperText>}
+            </FormControl> */}
+          {/* <FormControl fullWidth sx={{ mb: 4 }}>
+              <Controller
+                name='country'
+                control={control}
+                render={({ field: { value = '', onChange } }) => (
+                  <TextField
+                    value={value}
+                    label='Country'
+                    onChange={onChange}
+                    placeholder='GA'
+                    error={Boolean(errors.country)}
+                  />
+                )}
+              />
+              {errors.country && <FormHelperText sx={{ color: 'error.main' }}>{errors.country.message}</FormHelperText>}
+            </FormControl> */}
+          {/* <FormControl fullWidth sx={{ mb: 4 }}>
+              <Controller
+                name='tel_number'
+                control={control}
+                render={({ field: { value = '', onChange } }) => (
+                  <TextField
+                    type='tel'
+                    value={value}
+                    label='Phone Number'
+                    onChange={onChange}
+                    placeholder='9876543210'
+                    error={Boolean(errors.tel_number)}
+                  />
+                )}
+              />
+              {errors.tel_number && (
+                <FormHelperText sx={{ color: 'error.main' }}>{errors.tel_number.message}</FormHelperText>
               )}
-            />
-            {errors.address && <FormHelperText sx={{ color: 'error.main' }}>{errors.address.message}</FormHelperText>}
-          </FormControl>
-          <FormControl fullWidth sx={{ mb: 4 }}>
-            <Controller
-              name='country'
-              control={control}
-              render={({ field: { value = '', onChange } }) => (
-                <TextField
-                  value={value}
-                  label='Country'
-                  onChange={onChange}
-                  placeholder='GA'
-                  error={Boolean(errors.country)}
-                />
-              )}
-            />
-            {errors.country && <FormHelperText sx={{ color: 'error.main' }}>{errors.country.message}</FormHelperText>}
-          </FormControl>
-          <FormControl fullWidth sx={{ mb: 4 }}>
-            <Controller
-              name='tel_number'
-              control={control}
-              render={({ field: { value = '', onChange } }) => (
-                <TextField
-                  type='tel'
-                  value={value}
-                  label='Phone Number'
-                  onChange={onChange}
-                  placeholder='9876543210'
-                  error={Boolean(errors.tel_number)}
-                />
-              )}
-            />
-            {errors.tel_number && (
-              <FormHelperText sx={{ color: 'error.main' }}>{errors.tel_number.message}</FormHelperText>
-            )}
-          </FormControl>
+            </FormControl> */}
           <FormControl fullWidth sx={{ mb: 4 }}>
             <InputLabel id='role-select'>User Type</InputLabel>
             <Select
@@ -248,5 +206,3 @@ const SidebarAddTenant = props => {
     </Drawer>
   )
 }
-
-export default SidebarAddTenant

@@ -103,7 +103,7 @@ const TenantsProvider = ({ children }) => {
   }
 
   // only adding arrays as tenants
-  const addTenant = (data, successCallback, errorCallback) => {
+  const addTenants = (data, successCallback, errorCallback) => {
     if (!accessToken) {
       const error = new Error('No access token found')
       if (errorCallback) errorCallback(error)
