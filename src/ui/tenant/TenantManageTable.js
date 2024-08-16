@@ -254,7 +254,6 @@ const TenantManageTable = () => {
             />
             <DataGrid
               autoHeight
-              getRowId={row => row.email} // Assuming email is unique for each row
               rowHeight={62}
               rows={filteredTenants || []}
               columns={columns}

@@ -80,15 +80,12 @@ const SidebarAddTenant = props => {
   const onSubmit = formData => {
     // If formData should be an array, keep it as is
     let requestData = [formData]
-    console.log(requestData)
 
     tenants.addTenants(
       requestData,
       responseData => {
         console.log('Add Tenant Drawer')
         let { data } = responseData
-        console.log('good message FROM Tenant drawer PAGE:', responseData)
-        console.log('info', tenants.tenants.data.items)
 
         if (data?.status === 'FAILED') {
           alert(data.description || 'Failed to add tenant')
@@ -100,15 +97,24 @@ const SidebarAddTenant = props => {
           return
         }
 
-        console.log('whats in you', requestData)
+        const updatedRequestData = requestData.map(tenant => {
+          const matchingTenant = data.find(response => response.email === tenant.email)
 
-        // Update tenants data in TenantManageTable
-        // Ensure the format of tenantsData and requestData before merging
+          if (matchingTenant) {
+            return {
+              ...tenant,
+              id: matchingTenant.id
+            }
+          }
+
+          return tenant
+        })
+
+        console.log(updatedRequestData)
         setTenantsData(prevData => ({
           ...prevData,
-          items: [...prevData.items, ...requestData]
+          items: [...prevData.items, ...updatedRequestData]
         }))
-        console.log('yo wassup', tenantsData)
 
         // Close the drawer
         handleClose()
