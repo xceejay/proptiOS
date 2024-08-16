@@ -100,7 +100,7 @@ const columns = [
     field: 'property_name',
     headerName: 'Property Name',
     renderCell: ({ row }) => {
-      const { id, name } = row
+      const { id, property_name } = row
 
       return (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -116,7 +116,7 @@ const columns = [
                 '&:hover': { color: 'primary.main' }
               }}
             >
-              {name}
+              {property_name}
             </Typography>
             <Typography noWrap variant='body2' sx={{ color: 'text.disabled' }}>
               {id}
@@ -129,11 +129,11 @@ const columns = [
   {
     flex: 0.15,
     minWidth: 190,
-    field: 'address',
+    field: 'property_address',
     headerName: 'Address',
     renderCell: ({ row }) => (
       <Typography noWrap sx={{ color: 'text.secondary' }}>
-        {row.address}
+        {row.property_address}
       </Typography>
     )
   },
@@ -216,8 +216,7 @@ const PropertyManageTable = () => {
   const filteredProperties = propertiesData.filter(
     property =>
       property.property_name.toLowerCase().includes(value.toLowerCase()) ||
-      property.id.toLowerCase().includes(value.toLowerCase()) ||
-      property.address.toLowerCase().includes(value.toLowerCase())
+      property.property_address.toLowerCase().includes(value.toLowerCase())
   )
 
   return (
