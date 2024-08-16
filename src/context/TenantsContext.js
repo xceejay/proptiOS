@@ -120,7 +120,7 @@ const TenantsProvider = ({ children }) => {
       .then(response => {
         if (successCallback) {
           successCallback(response.data)
-          setTenants(prevTenants => [...prevTenants, ...data]) // Update state
+          console.log(tenants)
         }
       })
       .catch(err => {

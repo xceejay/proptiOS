@@ -58,7 +58,7 @@ const defaultValues = {
 }
 
 const SidebarAddTenant = props => {
-  const { open, toggle } = props
+  const { setTenantsData, tenantsData, open, toggle } = props
 
   const [role, setRole] = useState('tenant')
 
@@ -78,6 +78,7 @@ const SidebarAddTenant = props => {
   })
 
   const onSubmit = formData => {
+    // If formData should be an array, keep it as is
     let requestData = [formData]
     console.log(requestData)
 
@@ -86,11 +87,11 @@ const SidebarAddTenant = props => {
       responseData => {
         console.log('Add Tenant Drawer')
         let { data } = responseData
-        console.log('FROM Tenant drawer PAGE:', data)
+        console.log('good message FROM Tenant drawer PAGE:', responseData)
+        console.log('info', tenants.tenants.data.items)
 
         if (data?.status === 'FAILED') {
           alert(data.description || 'Failed to add tenant')
-
           setError('email', {
             type: 'manual',
             message: data.description || 'Unknown error occurred'
@@ -99,10 +100,21 @@ const SidebarAddTenant = props => {
           return
         }
 
-        // setTenantsData(responseData);
+        console.log('whats in you', requestData)
+
+        // Update tenants data in TenantManageTable
+        // Ensure the format of tenantsData and requestData before merging
+        setTenantsData(prevData => ({
+          ...prevData,
+          items: [...prevData.items, ...requestData]
+        }))
+        console.log('yo wassup', tenantsData)
+
+        // Close the drawer
+        handleClose()
       },
       error => {
-        console.error('FROM Tenant drawer PAGE:', error)
+        console.error('error FROM Tenant drawer PAGE:', error)
       }
     )
   }

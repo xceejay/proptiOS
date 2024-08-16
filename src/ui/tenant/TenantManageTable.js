@@ -150,7 +150,7 @@ const columns = [
     headerName: 'Property',
     renderCell: ({ row }) => (
       <Typography noWrap sx={{ color: 'text.secondary' }}>
-        {row.property.name}
+        {row.property?.name}
       </Typography>
     )
   },
@@ -203,7 +203,7 @@ const TenantManageTable = () => {
   const [tenantsData, setTenantsData] = useState({ items: [] })
   const [value, setValue] = useState('')
   const [addUserOpen, setAddUserOpen] = useState(false)
-  const [paginationModel, setPaginationModel] = useState({ page: 1, pageSize: 10 })
+  const [paginationModel, setPaginationModel] = useState({ page: 1, pageSize: 25 })
 
   useEffect(() => {
     tenants.getTenants(
@@ -223,7 +223,7 @@ const TenantManageTable = () => {
         console.error('Tenants Cannot be retrieved:', error)
       }
     )
-  }, [])
+  }, [paginationModel])
 
   const handleFilter = useCallback(val => {
     setValue(val)
@@ -254,6 +254,7 @@ const TenantManageTable = () => {
             />
             <DataGrid
               autoHeight
+              getRowId={row => row.email} // Assuming email is unique for each row
               rowHeight={62}
               rows={filteredTenants || []}
               columns={columns}
@@ -267,7 +268,12 @@ const TenantManageTable = () => {
           <Divider sx={{ m: '0 !important' }} />
         </Card>
       </Grid>
-      <AddUserDrawer open={addUserOpen} toggle={toggleAddUserDrawer} />
+      <AddUserDrawer
+        tenantsData={tenantsData}
+        setTenantsData={setTenantsData}
+        open={addUserOpen}
+        toggle={toggleAddUserDrawer}
+      />
     </Grid>
   )
 }
