@@ -24,45 +24,55 @@ import Icon from 'src/@core/components/icon'
 import CustomAvatar from 'src/@core/components/mui/avatar'
 import OptionsMenu from 'src/@core/components/option-menu'
 
-const LinkStyled = styled(Link)(({ theme }) => ({
+const LinkStyled = styled(Link)(({ theme, color }) => ({
   fontSize: '1rem',
   textDecoration: 'none',
-  color: theme.palette.primary.main
+  color: theme.palette[color] ? theme.palette[color].main : theme.palette.primary.main
 }))
 
 // ** Vars
-const invoiceStatusObj = {
-  Sent: { color: 'secondary', icon: 'tabler:circle-check' },
-  Paid: { color: 'success', icon: 'tabler:circle-half-2' },
-  Draft: { color: 'primary', icon: 'tabler:device-floppy' },
-  'Partial Payment': { color: 'warning', icon: 'tabler:chart-pie' },
-  'Past Due': { color: 'error', icon: 'tabler:alert-circle' },
-  Downloaded: { color: 'info', icon: 'tabler:arrow-down-circle' }
+const statusObj = {
+  pending: { color: 'secondary', icon: 'tabler:inner-shadow-left-filled' },
+  completed: { color: 'success', icon: 'tabler:circle-check' },
+  failed: { color: 'error', icon: 'tabler:circle-x' },
+  refunded: { color: 'info', icon: 'tabler:arrow-down-circle' }
+
+  // 'Partial Payment': { color: 'warning', icon: 'tabler:chart-pie' },
+  // 'Past Due': { color: 'error', icon: 'tabler:alert-circle' },
 }
 
 const columns = [
   {
-    flex: 0.2,
-    field: 'id',
+    flex: 0.6,
+    field: 'uuid',
     minWidth: 100,
-    headerName: 'ID',
-    renderCell: ({ row }) => <LinkStyled href={`/apps/invoice/preview/${row.id}`}>{`#${row.id}`}</LinkStyled>
+    headerName: 'Transaction ID',
+    renderCell: ({ row }) => {
+      const { status } = row
+
+      return (
+        <LinkStyled
+          color={statusObj[status] ? statusObj[status].color : 'primary'}
+          href={`/apps/invoice/preview/${row.id}`}
+        >{`#${row.uuid}`}</LinkStyled>
+      )
+    }
   },
   {
     flex: 0.15,
     minWidth: 80,
-    field: 'invoiceStatus',
+    field: 'status',
     renderHeader: () => <Icon icon='tabler:trending-up' fontSize='1.125rem' />,
     renderCell: ({ row }) => {
-      const { dueDate, balance, invoiceStatus } = row
-      const color = invoiceStatusObj[invoiceStatus] ? invoiceStatusObj[invoiceStatus].color : 'primary'
+      const { dueDate, balance, status } = row
+      const color = statusObj[status] ? statusObj[status].color : 'primary'
 
       return (
         <Tooltip
           title={
             <>
               <Typography variant='caption' sx={{ color: 'common.white', fontWeight: 600 }}>
-                {invoiceStatus}
+                {status}
               </Typography>
               <br />
               <Typography variant='caption' sx={{ color: 'common.white', fontWeight: 600 }}>
@@ -78,7 +88,7 @@ const columns = [
           }
         >
           <CustomAvatar skin='light' color={color} sx={{ width: 30, height: 30 }}>
-            <Icon icon={invoiceStatusObj[invoiceStatus].icon} />
+            <Icon icon={statusObj[status].icon} />
           </CustomAvatar>
         </Tooltip>
       )
@@ -87,61 +97,61 @@ const columns = [
   {
     flex: 0.2,
     minWidth: 90,
-    field: 'total',
-    headerName: 'Total',
-    renderCell: ({ row }) => <Typography sx={{ color: 'text.secondary' }}>${row.total || 0}</Typography>
+    field: 'amount',
+    headerName: 'Total Amount',
+    renderCell: ({ row }) => <Typography sx={{ color: 'text.secondary' }}>${row.amount || 0}</Typography>
   },
   {
     flex: 0.3,
     minWidth: 125,
-    field: 'issuedDate',
+    field: 'created_at',
     headerName: 'Issued Date',
-    renderCell: ({ row }) => <Typography sx={{ color: 'text.secondary' }}>{row.issuedDate}</Typography>
+    renderCell: ({ row }) => <Typography sx={{ color: 'text.secondary' }}>{row.created_at}</Typography>
   },
   {
-    flex: 0.1,
-    minWidth: 130,
-    sortable: false,
-    field: 'actions',
-    headerName: 'Actions',
-    renderCell: ({ row }) => (
-      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <Tooltip title='Delete Invoice'>
-          <IconButton size='small' sx={{ color: 'text.secondary' }}>
-            <Icon icon='tabler:trash' />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title='View'>
-          <IconButton
-            size='small'
-            component={Link}
-            sx={{ color: 'text.secondary' }}
-            href={`/apps/invoice/preview/${row.id}`}
-          >
-            <Icon icon='tabler:eye' />
-          </IconButton>
-        </Tooltip>
-        <OptionsMenu
-          iconButtonProps={{ size: 'small' }}
-          menuProps={{ sx: { '& .MuiMenuItem-root svg': { mr: 2 } } }}
-          options={[
-            {
-              text: 'Download',
-              icon: <Icon icon='tabler:download' />
-            },
-            {
-              text: 'Edit',
-              href: `/apps/invoice/edit/${row.id}`,
-              icon: <Icon icon='tabler:pencil' />
-            },
-            {
-              text: 'Duplicate',
-              icon: <Icon icon='tabler:copy' />
-            }
-          ]}
-        />
-      </Box>
-    )
+    // flex: 0.1,
+    // minWidth: 130,
+    // sortable: false,
+    // field: 'actions',
+    // headerName: 'Actions',
+    // renderCell: ({ row }) => (
+    //   <Box sx={{ display: 'flex', alignItems: 'center' }}>
+    //     <Tooltip title='Delete Invoice'>
+    //       <IconButton size='small' sx={{ color: 'text.secondary' }}>
+    //         <Icon icon='tabler:trash' />
+    //       </IconButton>
+    //     </Tooltip>
+    //     <Tooltip title='View'>
+    //       <IconButton
+    //         size='small'
+    //         component={Link}
+    //         sx={{ color: 'text.secondary' }}
+    //         href={`/apps/invoice/preview/${row.id}`}
+    //       >
+    //         <Icon icon='tabler:eye' />
+    //       </IconButton>
+    //     </Tooltip>
+    //     <OptionsMenu
+    //       iconButtonProps={{ size: 'small' }}
+    //       menuProps={{ sx: { '& .MuiMenuItem-root svg': { mr: 2 } } }}
+    //       options={[
+    //         {
+    //           text: 'Download',
+    //           icon: <Icon icon='tabler:download' />
+    //         },
+    //         {
+    //           text: 'Edit',
+    //           href: `/apps/invoice/edit/${row.id}`,
+    //           icon: <Icon icon='tabler:pencil' />
+    //         },
+    //         {
+    //           text: 'Duplicate',
+    //           icon: <Icon icon='tabler:copy' />
+    //         }
+    //       ]}
+    //     />
+    //   </Box>
+    // )
   }
 ]
 
