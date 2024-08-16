@@ -37,7 +37,7 @@ const PropertyTableHeader = props => {
         />
 
         <Button size='small' onClick={toggle} variant='contained' sx={{ '& svg': { mr: 2 } }}>
-          <Icon fontSize='1.125rem' icon='tabler:plus' />
+          <Icon fontSize='14px' icon='tabler:plus' />
           Add New Property
         </Button>
       </Box>

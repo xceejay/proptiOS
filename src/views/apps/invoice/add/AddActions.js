@@ -30,7 +30,7 @@ const AddActions = () => {
         <Card>
           <CardContent>
             <Button size='small' fullWidth variant='contained' sx={{ mb: 2, '& svg': { mr: 2 } }}>
-              <Icon fontSize='1.125rem' icon='tabler:send' />
+              <Icon fontSize='14px' icon='tabler:send' />
               Send Invoice
             </Button>
             <Button

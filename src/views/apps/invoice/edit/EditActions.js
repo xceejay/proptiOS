@@ -36,7 +36,7 @@ const EditActions = ({ id, toggleSendInvoiceDrawer, toggleAddPaymentDrawer }) =>
               onClick={toggleSendInvoiceDrawer}
               sx={{ mb: 2, '& svg': { mr: 2 } }}
             >
-              <Icon fontSize='1.125rem' icon='tabler:send' />
+              <Icon fontSize='14px' icon='tabler:send' />
               Send Invoice
             </Button>
             <Box sx={{ mb: 2, gap: 4, display: 'flex', alignItems: 'center' }}>
@@ -60,7 +60,7 @@ const EditActions = ({ id, toggleSendInvoiceDrawer, toggleAddPaymentDrawer }) =>
               sx={{ '& svg': { mr: 2 } }}
               onClick={toggleAddPaymentDrawer}
             >
-              <Icon fontSize='1.125rem' icon='tabler:currency-dollar' />
+              <Icon fontSize='14px' icon='tabler:currency-dollar' />
               Add Payment
             </Button>
           </CardContent>

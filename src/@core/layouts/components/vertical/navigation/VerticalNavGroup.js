@@ -239,7 +239,7 @@ const VerticalNavGroup = props => {
                     }}
                   />
                 ) : null}
-                <Icon fontSize='1.125rem' icon={direction === 'ltr' ? 'tabler:chevron-right' : 'tabler:chevron-left'} />
+                <Icon fontSize='14px' icon={direction === 'ltr' ? 'tabler:chevron-right' : 'tabler:chevron-left'} />
               </Box>
             </MenuItemTextWrapper>
           </ListItemButton>
