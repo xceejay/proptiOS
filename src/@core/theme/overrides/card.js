@@ -36,7 +36,7 @@ const Card = skin => {
           fontSize: '1.125rem',
           letterSpacing: '0.15px',
           '@media (min-width: 600px)': {
-            fontSize: '1.25rem'
+            // fontSize: '1.25rem' //changed for some reason
           }
         },
         action: {

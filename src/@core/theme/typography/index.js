@@ -18,16 +18,29 @@ const typography = {
     fontWeight: 500
   },
   h2: {
-    fontWeight: 500
+    fontWeight: 500,
+    fontSize: 55
   },
   h3: {
-    fontWeight: 500
+    fontWeight: 500,
+    fontSize: 44
   },
   h4: {
-    fontWeight: 500
+    fontWeight: 500,
+    fontSize: 30
   },
   h5: {
-    fontWeight: 500
+    fontWeight: 500,
+    fontSize: 20
+  },
+  h6: {
+    fontSize: 18
+  },
+  body1: {
+    fontSize: 13
+  },
+  body2: {
+    fontSize: 13
   }
 }
 
