@@ -19,7 +19,11 @@ const defaultProvider = {
   setUser: () => null,
   setLoading: () => Boolean,
   getTenants: () => Promise.resolve(),
+  getTenant: () => Promise.resolve(),
+  tenant: null,
   setTenants: () => null,
+  setTenant: () => null,
+
   tenants: null
 }
 const TenantsContext = createContext(defaultProvider)
@@ -28,6 +32,8 @@ const TenantsProvider = ({ children }) => {
   // ** States
   // const [user, setUser] = useState(defaultProvider.user)
   const [tenants, setTenants] = useState(defaultProvider.user)
+  const [tenant, setTenant] = useState(defaultProvider.user)
+
   const [loading, setLoading] = useState(defaultProvider.loading)
   const [accessToken, setAccessToken] = useState(null)
 
@@ -68,16 +74,44 @@ const TenantsProvider = ({ children }) => {
       })
   }
 
+  const getTenant = (id, successCallback, errorCallback) => {
+    if (!accessToken) {
+      const error = new Error('No access token found')
+      if (errorCallback) errorCallback(error)
+
+      return
+    }
+
+    axios
+      .get('https://api.pm.manages.homes/tenants/' + id, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      })
+      .then(response => {
+        if (successCallback) {
+          successCallback(response.data)
+          setTenant(response.data)
+        }
+      })
+      .catch(err => {
+        if (errorCallback) errorCallback(err)
+      })
+  }
+
   const values = {
     // user,
     // setUser,
     tenants,
+    tenant,
+    setTenant,
     setTenants,
     loading,
     setLoading,
     setAccessToken,
     accessToken,
-    getTenants: getTenants
+    getTenants: getTenants,
+    getTenant: getTenant
   }
 
   return <TenantsContext.Provider value={values}>{children}</TenantsContext.Provider>

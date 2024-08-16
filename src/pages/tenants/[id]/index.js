@@ -1,38 +1,50 @@
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
 import axios from 'axios'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 import { useTenants } from 'src/hooks/useTenants'
 import TenantEditInfo from 'src/ui/tenant/TenantEditInfo'
+import { useRouter } from 'next/router'
 
 const TenantEdit = () => {
-  useEffect(() => {
-    // tenants.getTenants(
-    //   { page: 1, limit: 2 },
-    //   responseData => {
-    //     console.log('called')
-    //     let { response } = responseData
-    //     console.log(response?.data)
-    //     if (response?.status === 'FAILED') {
-    //       alert(response.message || 'Failed to fetch tenants')
-    //       return
-    //     }
-    //     setTenantsData(response)
-    //     console.log('Tenants Retrieved:', response)
-    //   },
-    //   error => {
-    //     console.error('Tenants Cannot be retrieved:', error)
-    //   }
-    // )
-  }, [])
-
+  const router = useRouter()
+  const { id } = router.query
   const tenants = useTenants()
+  const [tenantData, setTenantData] = useState()
+
+  useEffect(() => {
+    if (id) {
+      // Ensure id is defined before making the API call
+
+      tenants.getTenant(
+        id,
+        responseData => {
+          console.log('called')
+          let { data } = responseData
+          setTenantData(data)
+          console.log('FROM INDEX PAGE:', response)
+
+          if (response?.status === 'FAILED') {
+            alert(response.message || 'Failed to fetch tenants')
+
+            return
+          }
+
+          // setTenantsData(response)
+        },
+        error => {
+          console.log(id)
+          console.error('FROM INDEX PAEG:', error)
+        }
+      )
+    }
+  }, [id])
 
   return (
     <Grid>
       {console.log(tenants)}
-      <TenantEditInfo tab={'account'} invoiceData={tenants?.tenants?.data?.items[0]}></TenantEditInfo>
+      <TenantEditInfo tenantData={tenantData} tab={'account'} invoiceData={tenantData}></TenantEditInfo>
     </Grid>
   )
 }

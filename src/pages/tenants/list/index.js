@@ -413,6 +413,6 @@ const UserList = ({ apiData }) => {
   )
 }
 
-export const getServerSideProps = async () => {}
+// export const getServerSideProps = async () => {}
 
 export default UserList

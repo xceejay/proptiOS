@@ -12,15 +12,15 @@ const PropertyEdit = ({ invoiceData }) => {
   )
 }
 
-export async function getServerSideProps(params) {
-  const res = await axios.get('https://api.pm.manages.homes/apps/invoice/invoices')
-  const invoiceData = res.data.allData
+// export async function getServerSideProps(params) {
+//   const res = await axios.get('https://api.pm.manages.homes/apps/invoice/invoices')
+//   const invoiceData = res.data.allData
 
-  return {
-    props: {
-      invoiceData
-    }
-  }
-}
+//   return {
+//     props: {
+//       invoiceData
+//     }
+//   }
+// }
 
 export default PropertyEdit

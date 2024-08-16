@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -38,22 +38,7 @@ import TenantSubscriptionDialog from 'src/ui/tenant/TenantSubscriptionDialog'
 
 // ** Utils Import
 import { getInitials } from 'src/@core/utils/get-initials'
-
-const data = {
-  id: 1,
-  role: 'Sunset Valley Heights',
-  status: 'active',
-  username: 'gslixby0',
-  avatarColor: 'primary',
-  country: 'El Salvador',
-  company: 'Yotz PVT LTD',
-  billing: 'Manual - Cash',
-  contact: '(479) 232-9151',
-  currentPlan: 'enterprise',
-  fullName: 'Daisy Patterson',
-  email: 'gslixby0@abc.net.au',
-  avatar: '/images/avatars/14.png'
-}
+import { useTenants } from 'src/hooks/useTenants'
 
 const roleColors = {
   admin: 'error',
@@ -85,7 +70,7 @@ const Sub = styled('sub')(({ theme }) => ({
   color: theme.palette.text.secondary
 }))
 
-const UserViewLeft = () => {
+const UserViewLeft = ({ tenantData }) => {
   const router = useRouter()
 
   // ** States
@@ -101,7 +86,33 @@ const UserViewLeft = () => {
   // Handle Upgrade Plan dialog
   const handlePlansClickOpen = () => setOpenPlans(true)
   const handlePlansClose = () => setOpenPlans(false)
-  if (data) {
+  const tenants = useTenants()
+  const { id } = router.query
+
+  useEffect(() => {
+    if (!tenantData) {
+      console.log('data???????')
+      tenants.getTenant(
+        id,
+        responseData => {
+          let { data } = responseData
+
+          tenantData = { ...data }
+
+          if (response?.status === 'FAILED') {
+            alert(response.message || 'Failed to fetch tenants')
+
+            return
+          }
+
+          // setTenantsData(response)
+        },
+        error => {}
+      )
+    }
+  }, [tenantData])
+
+  if (tenantData) {
     return (
       <Grid container spacing={6}>
         <Grid item xs={12}>
@@ -114,32 +125,34 @@ const UserViewLeft = () => {
 
           <Card>
             <CardContent sx={{ pt: 13.5, display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
-              {data.avatar ? (
+              {tenantData.id ? (
                 <CustomAvatar
-                  src={data.avatar}
+                  src={tenantData.id}
                   variant='rounded'
-                  alt={data.fullName}
+                  alt={tenantData.name}
                   sx={{ width: 100, height: 100, mb: 4 }}
                 />
               ) : (
                 <CustomAvatar
                   skin='light'
                   variant='rounded'
-                  color={data.avatarColor}
+                  color={tenantData.avatarColor}
                   sx={{ width: 100, height: 100, mb: 4, fontSize: '3rem' }}
                 >
-                  {getInitials(data.fullName)}
+                  {console.log('hisdata', tenantData)}
+                  {getInitials(tenantData.name)}
                 </CustomAvatar>
               )}
               <Typography variant='h5' sx={{ mb: 3 }}>
-                {data.fullName}
+                {console.log('hisdata', tenantData)}
+                {tenantData.name}
               </Typography>
               <CustomChip
                 rounded
                 skin='light'
                 size='small'
-                label={data.role}
-                color={roleColors[data.role]}
+                label={tenantData.role}
+                color={roleColors[tenantData.role]}
                 sx={{ textTransform: 'capitalize' }}
               />
             </CardContent>
@@ -175,12 +188,12 @@ const UserViewLeft = () => {
               </Typography>
               <Box sx={{ pt: 4 }}>
                 <Box sx={{ display: 'flex', mb: 3 }}>
-                  <Typography sx={{ mr: 2, fontWeight: 500 }}>Username:</Typography>
-                  <Typography sx={{ color: 'text.secondary' }}>@{data.username}</Typography>
+                  <Typography sx={{ mr: 2, fontWeight: 500 }}>ID:</Typography>
+                  <Typography sx={{ color: 'text.secondary' }}>{tenantData.uuid} </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', mb: 3 }}>
                   <Typography sx={{ mr: 2, fontWeight: 500 }}>Email:</Typography>
-                  <Typography sx={{ color: 'text.secondary' }}>{data.email}</Typography>
+                  <Typography sx={{ color: 'text.secondary' }}>{tenantData.email}</Typography>
                 </Box>
                 <Box sx={{ display: 'flex', mb: 3 }}>
                   <Typography sx={{ mr: 2, fontWeight: 500 }}>Status:</Typography>
@@ -188,8 +201,8 @@ const UserViewLeft = () => {
                     rounded
                     skin='light'
                     size='small'
-                    label={data.status}
-                    color={statusColors[data.status]}
+                    label={tenantData.status}
+                    color={statusColors[tenantData.status]}
                     sx={{
                       textTransform: 'capitalize'
                     }}
@@ -197,7 +210,9 @@ const UserViewLeft = () => {
                 </Box>
                 <Box sx={{ display: 'flex', mb: 3 }}>
                   <Typography sx={{ mr: 2, fontWeight: 500 }}>Property:</Typography>
-                  <Typography sx={{ color: 'text.secondary', textTransform: 'capitalize' }}>{data.role}</Typography>
+                  <Typography sx={{ color: 'text.secondary', textTransform: 'capitalize' }}>
+                    {tenantData.role}
+                  </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', mb: 3 }}>
                   <Typography sx={{ mr: 2, fontWeight: 500 }}>Tax ID:</Typography>
@@ -205,7 +220,7 @@ const UserViewLeft = () => {
                 </Box>
                 <Box sx={{ display: 'flex', mb: 3 }}>
                   <Typography sx={{ mr: 2, fontWeight: 500 }}>Contact:</Typography>
-                  <Typography sx={{ color: 'text.secondary' }}>+1 {data.contact}</Typography>
+                  <Typography sx={{ color: 'text.secondary' }}>+1 {tenantData.contact}</Typography>
                 </Box>
                 <Box sx={{ display: 'flex', mb: 3 }}>
                   <Typography sx={{ mr: 2, fontWeight: 500 }}>Language:</Typography>
@@ -213,7 +228,7 @@ const UserViewLeft = () => {
                 </Box>
                 <Box sx={{ display: 'flex' }}>
                   <Typography sx={{ mr: 2, fontWeight: 500 }}>Country:</Typography>
-                  <Typography sx={{ color: 'text.secondary' }}>{data.country}</Typography>
+                  <Typography sx={{ color: 'text.secondary' }}>{tenantData.country}</Typography>
                 </Box>
               </Box>
             </CardContent>
@@ -257,25 +272,25 @@ const UserViewLeft = () => {
                 <form>
                   <Grid container spacing={6}>
                     <Grid item xs={12} sm={6}>
-                      <TextField fullWidth label='Full Name' defaultValue={data.fullName} />
+                      <TextField fullWidth label='Full Name' defaultValue={tenantData.fullName} />
                     </Grid>
                     <Grid item xs={12} sm={6}>
                       <TextField
                         fullWidth
                         label='Username'
-                        defaultValue={data.username}
+                        defaultValue={tenantData.username}
                         InputProps={{ startAdornment: <InputAdornment position='start'>@</InputAdornment> }}
                       />
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                      <TextField fullWidth type='email' label='Billing Email' defaultValue={data.email} />
+                      <TextField fullWidth type='email' label='Billing Email' defaultValue={tenantData.email} />
                     </Grid>
                     <Grid item xs={12} sm={6}>
                       <FormControl fullWidth>
                         <InputLabel id='user-view-status-label'>Status</InputLabel>
                         <Select
                           label='Status'
-                          defaultValue={data.status}
+                          defaultValue={tenantData.status}
                           id='user-view-status'
                           labelId='user-view-status-label'
                         >
@@ -289,7 +304,7 @@ const UserViewLeft = () => {
                       <TextField fullWidth label='TAX ID' defaultValue='Tax-8894' />
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                      <TextField fullWidth label='Contact' defaultValue={`+1 ${data.contact}`} />
+                      <TextField fullWidth label='Contact' defaultValue={`+1 ${tenantData.contact}`} />
                     </Grid>
                     <Grid item xs={12} sm={6}>
                       <FormControl fullWidth>

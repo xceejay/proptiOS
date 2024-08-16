@@ -252,6 +252,6 @@ const PropertyManageTable = () => {
   )
 }
 
-export const getServerSideProps = async () => {}
+// export const getServerSideProps = async () => {}
 
 export default PropertyManageTable

@@ -48,20 +48,22 @@ const TabList = styled(MuiTabList)(({ theme }) => ({
   }
 }))
 
-const UserViewRight = ({ tab, invoiceData }) => {
+const UserViewRight = ({ tenantData, tab, invoiceData }) => {
+  const router = useRouter()
+  const { id } = router.query
+
   // ** State
   const [activeTab, setActiveTab] = useState(tab)
   const [isLoading, setIsLoading] = useState(true)
 
   // ** Hooks
-  const router = useRouter()
 
   const handleChange = (event, value) => {
     setIsLoading(true)
     setActiveTab(value)
     router
       .push({
-        pathname: `/tenants/id/${value.toLowerCase()}`
+        pathname: `/tenants/${id}/${value.toLowerCase()}`
       })
       .then(() => setIsLoading(false))
   }

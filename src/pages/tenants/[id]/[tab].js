@@ -21,6 +21,6 @@ const UserView = ({ tab, invoiceData }) => {
 //   }
 // }
 
-export async function getServerSideProps(params) {}
+// export async function getServerSideProps(params) {}
 
 export default UserView
