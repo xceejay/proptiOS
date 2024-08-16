@@ -68,7 +68,7 @@ const CrmRevenueGrowth = () => {
       tickPlacement: 'on',
       labels: {
         style: {
-          fontSize: '14px',
+          fontSize: '12px',
           colors: theme.palette.text.disabled,
           fontFamily: theme.typography.fontFamily
         }

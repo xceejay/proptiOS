@@ -161,7 +161,7 @@ const CrmEarningReportsWithTabs = () => {
       categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
       labels: {
         style: {
-          fontSize: '14px',
+          fontSize: '12px',
           colors: theme.palette.text.disabled,
           fontFamily: theme.typography.fontFamily
         }
@@ -172,7 +172,7 @@ const CrmEarningReportsWithTabs = () => {
         offsetX: -15,
         formatter: val => `$${val}k`,
         style: {
-          fontSize: '14px',
+          fontSize: '12px',
           colors: theme.palette.text.disabled,
           fontFamily: theme.typography.fontFamily
         }

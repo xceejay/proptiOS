@@ -39,7 +39,7 @@ const CrmSalesWithRadarChart = () => {
     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
     markers: { size: 0 },
     legend: {
-      fontSize: '14px',
+      fontSize: '12px',
       fontFamily: theme.typography.fontFamily,
       labels: { colors: theme.palette.text.secondary },
       itemMargin: {
@@ -64,7 +64,7 @@ const CrmSalesWithRadarChart = () => {
       labels: {
         show: true,
         style: {
-          fontSize: '14px',
+          fontSize: '12px',
           colors: [
             theme.palette.text.disabled,
             theme.palette.text.disabled,
