@@ -88,12 +88,12 @@ const UserViewRight = ({ tenantData, tab }) => {
         aria-label='forced scroll tabs example'
         sx={{ borderBottom: theme => `1px solid ${theme.palette.divider}` }}
       >
-        <Tab value='account' label='Account' icon={<Icon fontSize='1.125rem' icon='tabler:user-check' />} />
-        <Tab value='security' label='Security' icon={<Icon fontSize='1.125rem' icon='tabler:lock' />} />
+        <Tab value='account' label='Account' icon={<Icon fontSize='14px' icon='tabler:user-check' />} />
+        <Tab value='security' label='Security' icon={<Icon fontSize='14px' icon='tabler:lock' />} />
         <Tab
           value='billing-plan'
           label='Billing & Plan'
-          icon={<Icon fontSize='1.125rem' icon='tabler:currency-dollar' />}
+          icon={<Icon fontSize='14px' icon='tabler:currency-dollar' />}
         />
         {/* <Tab value='notification' label='Notification' icon={<Icon fontSize='1.125rem' icon='tabler:bell' />} /> */}
         {/* <Tab value='connection' label='Connection' icon={<Icon fontSize='1.125rem' icon='tabler:link' />} /> */}
