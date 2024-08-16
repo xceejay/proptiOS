@@ -23,6 +23,7 @@ import TenantViewAccount from 'src/ui/tenant/TenantViewAccount'
 import TenantViewSecurity from 'src/ui/tenant/TenantViewSecurity'
 import TenantViewConnection from 'src/ui/tenant/TenantViewConnection'
 import TenantViewNotification from 'src/ui/tenant/TenantViewNotification'
+import { fontSize } from '@mui/system'
 
 // ** Styled Tab component
 const Tab = styled(MuiTab)(({ theme }) => ({
@@ -88,9 +89,21 @@ const UserViewRight = ({ tenantData, tab }) => {
         aria-label='forced scroll tabs example'
         sx={{ borderBottom: theme => `1px solid ${theme.palette.divider}` }}
       >
-        <Tab value='account' label='Account' icon={<Icon fontSize='14px' icon='tabler:user-check' />} />
-        <Tab value='security' label='Security' icon={<Icon fontSize='14px' icon='tabler:lock' />} />
         <Tab
+          sx={{ fontSize: '13px' }}
+          value='account'
+          label='Account'
+          icon={<Icon fontSize='14px' icon='tabler:user-check' />}
+        />
+        <Tab
+          sx={{ fontSize: '13px' }}
+          value='security'
+          label='Security'
+          icon={<Icon fontSize='14px' icon='tabler:lock' />}
+        />
+        <Tab
+          sx={{ fontSize: '13px' }}
+          disabled
           value='billing-plan'
           label='Billing & Plan'
           icon={<Icon fontSize='14px' icon='tabler:currency-dollar' />}
