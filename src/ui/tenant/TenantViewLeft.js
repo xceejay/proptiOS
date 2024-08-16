@@ -276,7 +276,7 @@ const UserViewLeft = ({ tenantData }) => {
                     <Grid item xs={12} sm={6}>
                       <TextField
                         fullWidth
-                        label='ID'
+                        label='Tenant ID'
                         defaultValue={tenantData.uuid}
                         disabled
 
