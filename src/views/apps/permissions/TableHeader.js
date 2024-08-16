@@ -78,17 +78,10 @@ const TableHeader = props => {
               <FormControlLabel control={<Checkbox />} label='Set as core permission' />
             </Box>
             <Box className='demo-space-x' sx={{ '& > :last-child': { mr: '0 !important' } }}>
-              <Button size='small' size='large' type='submit' variant='contained'>
+              <Button size='small' type='submit' variant='contained'>
                 Create Permission
               </Button>
-              <Button
-                size='small'
-                type='reset'
-                size='large'
-                variant='outlined'
-                color='secondary'
-                onClick={handleDialogToggle}
-              >
+              <Button size='small' type='reset' variant='outlined' color='secondary' onClick={handleDialogToggle}>
                 Discard
               </Button>
             </Box>
