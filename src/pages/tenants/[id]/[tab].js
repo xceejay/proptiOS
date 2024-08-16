@@ -1,63 +1,38 @@
-// ** Third Party Imports
-import axios from 'axios'
+import { useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react'
 import { useTenants } from 'src/hooks/useTenants'
 import TenantEditInfo from 'src/ui/tenant/TenantEditInfo'
 
-// ** Demo Components Imports
-
 const UserView = ({ tab, invoiceData }) => {
   const router = useRouter()
-
   const { id } = router.query
   const tenants = useTenants()
-  const [tenantData, setTenantData] = useState()
+  const [tenantData, setTenantData] = useState(null)
 
   useEffect(() => {
     if (id) {
       // Ensure id is defined before making the API call
-
       tenants.getTenant(
         id,
         responseData => {
           console.log('called')
           let { data } = responseData
           setTenantData(data)
-          console.log('FROM INDEX PAGE:', response)
+          console.log('FROM INDEX PAGE:', responseData)
 
-          if (response?.status === 'FAILED') {
-            alert(response.message || 'Failed to fetch tenants')
-
-            return
+          if (responseData?.status === 'FAILED') {
+            alert(responseData.message || 'Failed to fetch tenants')
           }
-
-          // setTenantsData(response)
         },
         error => {
           console.log(id)
-          console.error('FROM INDEX PAEG:', error)
+          console.error('FROM INDEX PAGE:', error)
         }
       )
     }
-  }, [id])
+  }, [id, tenants])
 
   return <TenantEditInfo tab={tab} tenantData={tenantData} />
 }
-
-// export const getStaticPaths = () => {
-//   return {
-//     paths: [
-//       { params: { tab: 'account' } },
-//       { params: { tab: 'security' } },
-//       { params: { tab: 'billing-plan' } },
-//       { params: { tab: 'notification' } },
-//       { params: { tab: 'connection' } }
-//     ],
-//     fallback: false
-//   }
-// }
-
-// export async function getServerSideProps(params) {}
 
 export default UserView

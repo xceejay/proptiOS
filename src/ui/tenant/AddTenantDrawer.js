@@ -121,7 +121,8 @@ const SidebarAddTenant = props => {
 
   const handleClose = () => {
     setRole('tenant')
-    setValue('tel_number', '')
+
+    // setValue('tel_number', '')
     toggle()
     reset()
   }

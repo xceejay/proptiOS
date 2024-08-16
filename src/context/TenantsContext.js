@@ -92,9 +92,9 @@ const TenantsProvider = ({ children }) => {
       })
       .then(response => {
         if (successCallback) {
-          console.log('zeeeee:', id)
           successCallback(response.data)
-          setTenant(response.data)
+
+          // setTenant(response.data)
         }
       })
       .catch(err => {
