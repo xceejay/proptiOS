@@ -143,7 +143,7 @@ const UserDropdown = props => {
             Chat
           </Box>
         </MenuItemStyled> */}
-        <Divider sx={{ my: theme => `${theme.spacing(2)} !important` }} />
+        {/* <Divider sx={{ my: theme => `${theme.spacing(2)} !important` }} /> */}
         <MenuItemStyled sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
           <Box sx={styles}>
             <Icon icon='tabler:settings' />
