@@ -48,7 +48,7 @@ const TabList = styled(MuiTabList)(({ theme }) => ({
   }
 }))
 
-const UserViewRight = ({ tenantData, tab, invoiceData }) => {
+const UserViewRight = ({ tenantData, tab }) => {
   const router = useRouter()
   const { id } = router.query
 
@@ -74,10 +74,10 @@ const UserViewRight = ({ tenantData, tab, invoiceData }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tab])
   useEffect(() => {
-    if (invoiceData) {
+    if (tenantData) {
       setIsLoading(false)
     }
-  }, [invoiceData])
+  }, [tenantData])
 
   return (
     <TabContext value={activeTab}>
@@ -107,7 +107,7 @@ const UserViewRight = ({ tenantData, tab, invoiceData }) => {
         ) : (
           <>
             <TabPanel sx={{ p: 0 }} value='account'>
-              <TenantViewAccount invoiceData={invoiceData} />
+              <TenantViewAccount tenantData={tenantData} />
             </TabPanel>
             <TabPanel sx={{ p: 0 }} value='security'>
               <TenantViewSecurity />

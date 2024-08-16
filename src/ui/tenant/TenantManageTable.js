@@ -188,7 +188,7 @@ const TenantManageTable = () => {
         const { data } = responseData
 
         if (data?.status === 'FAILED') {
-          alert(response.message || 'Failed to fetch tenants')
+          alert(data.message || 'Failed to fetch tenants')
 
           return
         }
@@ -248,6 +248,6 @@ const TenantManageTable = () => {
   )
 }
 
-export const getServerSideProps = async () => {}
+// export const getServerSideProps = async () => {}
 
 export default TenantManageTable

@@ -39,7 +39,7 @@ const Timeline = styled(MuiTimeline)(({ theme }) => ({
   }
 }))
 
-const TenantViewAccount = ({ invoiceData }) => {
+const TenantViewAccount = ({ tenantData }) => {
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
@@ -168,7 +168,7 @@ const TenantViewAccount = ({ invoiceData }) => {
       </Grid> */}
 
       <Grid item xs={12}>
-        <TenantInvoiceListTable invoiceData={invoiceData} />
+        <TenantInvoiceListTable tenantData={tenantData.invoices} />
       </Grid>
     </Grid>
   )

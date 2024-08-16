@@ -23,7 +23,7 @@ const TenantEdit = () => {
           console.log('called')
           let { data } = responseData
           setTenantData(data)
-          console.log('FROM INDEX PAGE:', response)
+          console.log('FROM INDEX PAGE:', data)
 
           if (response?.status === 'FAILED') {
             alert(response.message || 'Failed to fetch tenants')
