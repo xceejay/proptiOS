@@ -29,7 +29,13 @@ const EditActions = ({ id, toggleSendInvoiceDrawer, toggleAddPaymentDrawer }) =>
       <Grid item xs={12}>
         <Card>
           <CardContent>
-            <Button fullWidth variant='contained' onClick={toggleSendInvoiceDrawer} sx={{ mb: 2, '& svg': { mr: 2 } }}>
+            <Button
+              size='small'
+              fullWidth
+              variant='contained'
+              onClick={toggleSendInvoiceDrawer}
+              sx={{ mb: 2, '& svg': { mr: 2 } }}
+            >
               <Icon fontSize='1.125rem' icon='tabler:send' />
               Send Invoice
             </Button>
@@ -43,11 +49,17 @@ const EditActions = ({ id, toggleSendInvoiceDrawer, toggleAddPaymentDrawer }) =>
               >
                 Preview
               </Button>
-              <Button fullWidth color='secondary' variant='outlined'>
+              <Button size='small' fullWidth color='secondary' variant='outlined'>
                 Save
               </Button>
             </Box>
-            <Button fullWidth variant='contained' sx={{ '& svg': { mr: 2 } }} onClick={toggleAddPaymentDrawer}>
+            <Button
+              size='small'
+              fullWidth
+              variant='contained'
+              sx={{ '& svg': { mr: 2 } }}
+              onClick={toggleAddPaymentDrawer}
+            >
               <Icon fontSize='1.125rem' icon='tabler:currency-dollar' />
               Add Payment
             </Button>

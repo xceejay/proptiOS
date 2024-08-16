@@ -200,10 +200,15 @@ const UserViewBilling = () => {
               </Grid>
 
               <Grid item xs={12} sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-start' }}>
-                <Button variant='contained' onClick={handleUpgradePlansClickOpen} sx={{ mr: 4, mb: [2, 0] }}>
+                <Button
+                  size='small'
+                  variant='contained'
+                  onClick={handleUpgradePlansClickOpen}
+                  sx={{ mr: 4, mb: [2, 0] }}
+                >
                   Upgrade Plan
                 </Button>
-                <Button variant='outlined' color='error' onClick={() => setSubscriptionDialogOpen(true)}>
+                <Button size='small' variant='outlined' color='error' onClick={() => setSubscriptionDialogOpen(true)}>
                   Cancel Subscription
                 </Button>
               </Grid>
@@ -261,7 +266,7 @@ const UserViewBilling = () => {
                   <MenuItem value='Company'>Company - $999/month</MenuItem>
                 </Select>
               </FormControl>
-              <Button variant='contained' sx={{ minWidth: ['100%', 0] }}>
+              <Button size='small' variant='contained' sx={{ minWidth: ['100%', 0] }}>
                 Upgrade
               </Button>
             </DialogContent>
@@ -301,7 +306,13 @@ const UserViewBilling = () => {
                   </Typography>
                   <Sub>/ month</Sub>
                 </Box>
-                <Button color='error' variant='outlined' sx={{ mt: 2 }} onClick={() => setSubscriptionDialogOpen(true)}>
+                <Button
+                  size='small'
+                  color='error'
+                  variant='outlined'
+                  sx={{ mt: 2 }}
+                  onClick={() => setSubscriptionDialogOpen(true)}
+                >
                   Cancel Subscription
                 </Button>
               </Box>
@@ -315,7 +326,7 @@ const UserViewBilling = () => {
           <CardHeader
             title='Payment Methods'
             action={
-              <Button variant='contained' onClick={handleAddCardClickOpen} sx={{ '& svg': { mr: 1 } }}>
+              <Button size='small' variant='contained' onClick={handleAddCardClickOpen} sx={{ '& svg': { mr: 1 } }}>
                 <Icon icon='tabler:plus' fontSize='1rem' />
                 Add Card
               </Button>
@@ -350,10 +361,15 @@ const UserViewBilling = () => {
                 </div>
 
                 <Box sx={{ mt: [3, 0], textAlign: ['start', 'end'] }}>
-                  <Button variant='outlined' sx={{ mr: 2.5 }} onClick={() => handleEditCardClickOpen(index)}>
+                  <Button
+                    size='small'
+                    variant='outlined'
+                    sx={{ mr: 2.5 }}
+                    onClick={() => handleEditCardClickOpen(index)}
+                  >
                     Edit
                   </Button>
-                  <Button variant='outlined' color='secondary'>
+                  <Button size='small' variant='outlined' color='secondary'>
                     Delete
                   </Button>
                   <Typography sx={{ mt: [6, 10], color: 'text.secondary' }}>
@@ -490,10 +506,10 @@ const UserViewBilling = () => {
                 pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
               }}
             >
-              <Button variant='contained' sx={{ mr: 2 }} onClick={handleEditCardClose}>
+              <Button size='small' variant='contained' sx={{ mr: 2 }} onClick={handleEditCardClose}>
                 Submit
               </Button>
-              <Button variant='outlined' color='secondary' onClick={handleEditCardClose}>
+              <Button size='small' variant='outlined' color='secondary' onClick={handleEditCardClose}>
                 Cancel
               </Button>
             </DialogActions>
@@ -506,7 +522,7 @@ const UserViewBilling = () => {
           <CardHeader
             title='Billing Address'
             action={
-              <Button variant='contained' onClick={() => setOpenAddressCard(true)}>
+              <Button size='small' variant='contained' onClick={() => setOpenAddressCard(true)}>
                 Edit Address
               </Button>
             }
@@ -716,10 +732,10 @@ const UserViewBilling = () => {
                 pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
               }}
             >
-              <Button variant='contained' sx={{ mr: 2 }} onClick={() => setOpenAddressCard(false)}>
+              <Button size='small' variant='contained' sx={{ mr: 2 }} onClick={() => setOpenAddressCard(false)}>
                 Submit
               </Button>
-              <Button variant='outlined' color='secondary' onClick={() => setOpenAddressCard(false)}>
+              <Button size='small' variant='outlined' color='secondary' onClick={() => setOpenAddressCard(false)}>
                 Cancel
               </Button>
             </DialogActions>

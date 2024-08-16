@@ -103,10 +103,10 @@ const FileUploaderRestrictions = () => {
         <Fragment>
           <List>{fileList}</List>
           <div className='buttons'>
-            <Button color='error' variant='outlined' onClick={handleRemoveAllFiles}>
+            <Button size="small" color='error' variant='outlined' onClick={handleRemoveAllFiles}>
               Remove All
             </Button>
-            <Button variant='contained'>Upload Files</Button>
+            <Button size="small" variant='contained'>Upload Files</Button>
           </div>
         </Fragment>
       ) : null}
@@ -214,10 +214,10 @@ const FileUploaderMultiple = () => {
         <Fragment>
           <List>{fileList}</List>
           <div className='buttons'>
-            <Button color='error' variant='outlined' onClick={handleRemoveAllFiles}>
+            <Button size="small" color='error' variant='outlined' onClick={handleRemoveAllFiles}>
               Remove All
             </Button>
-            <Button variant='contained'>Upload Files</Button>
+            <Button size="small" variant='contained'>Upload Files</Button>
           </div>
         </Fragment>
       ) : null}

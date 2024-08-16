@@ -199,7 +199,7 @@ const NotificationDropdown = props => {
             borderTop: theme => `1px solid ${theme.palette.divider}`
           }}
         >
-          <Button fullWidth variant='contained' onClick={handleDropdownClose}>
+          <Button size='small' fullWidth variant='contained' onClick={handleDropdownClose}>
             Read All Notifications
           </Button>
         </MenuItem>

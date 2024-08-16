@@ -227,10 +227,10 @@ const AddNewCustomer = ({ open, toggle, setSelectedClient, clients, setClients }
           )}
         </FormControl>
         <div>
-          <Button type='submit' variant='contained' sx={{ mr: 4 }}>
+          <Button size='small' type='submit' variant='contained' sx={{ mr: 4 }}>
             Add
           </Button>
-          <Button variant='outlined' color='secondary' onClick={handleDrawerClose}>
+          <Button size='small' variant='outlined' color='secondary' onClick={handleDrawerClose}>
             Cancel
           </Button>
         </div>

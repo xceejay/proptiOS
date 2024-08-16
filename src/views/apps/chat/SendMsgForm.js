@@ -70,7 +70,7 @@ const SendMsgForm = props => {
             <Icon icon='tabler:photo' />
             <input hidden type='file' id='upload-img' />
           </IconButton>
-          <Button type='submit' variant='contained'>
+          <Button size='small' type='submit' variant='contained'>
             Send
           </Button>
         </Box>

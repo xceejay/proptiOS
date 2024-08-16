@@ -112,7 +112,7 @@ const SidebarLeft = props => {
       }}
     >
       <Box sx={{ p: 6, overflowY: 'hidden' }}>
-        <Button fullWidth variant='contained' onClick={toggleComposeOpen}>
+        <Button size='small' fullWidth variant='contained' onClick={toggleComposeOpen}>
           Compose
         </Button>
       </Box>

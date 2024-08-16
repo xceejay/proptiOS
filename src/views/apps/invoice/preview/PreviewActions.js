@@ -13,11 +13,17 @@ const PreviewActions = ({ id, toggleSendInvoiceDrawer, toggleAddPaymentDrawer })
   return (
     <Card>
       <CardContent>
-        <Button fullWidth variant='contained' onClick={toggleSendInvoiceDrawer} sx={{ mb: 2, '& svg': { mr: 2 } }}>
+        <Button
+          size='small'
+          fullWidth
+          variant='contained'
+          onClick={toggleSendInvoiceDrawer}
+          sx={{ mb: 2, '& svg': { mr: 2 } }}
+        >
           <Icon fontSize='1.125rem' icon='tabler:send' />
           Send Invoice
         </Button>
-        <Button fullWidth sx={{ mb: 2 }} color='secondary' variant='outlined'>
+        <Button size='small' fullWidth sx={{ mb: 2 }} color='secondary' variant='outlined'>
           Download
         </Button>
         <Button
@@ -41,7 +47,7 @@ const PreviewActions = ({ id, toggleSendInvoiceDrawer, toggleAddPaymentDrawer })
         >
           Edit Invoice
         </Button>
-        <Button fullWidth variant='contained' sx={{ '& svg': { mr: 2 } }} onClick={toggleAddPaymentDrawer}>
+        <Button size='small' fullWidth variant='contained' sx={{ '& svg': { mr: 2 } }} onClick={toggleAddPaymentDrawer}>
           <Icon fontSize='1.125rem' icon='tabler:currency-dollar' />
           Add Payment
         </Button>

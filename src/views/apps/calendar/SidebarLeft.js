@@ -88,7 +88,13 @@ const SidebarLeft = props => {
         }}
       >
         <Box sx={{ p: 6, width: '100%' }}>
-          <Button fullWidth variant='contained' sx={{ '& svg': { mr: 2 } }} onClick={handleSidebarToggleSidebar}>
+          <Button
+            size='small'
+            fullWidth
+            variant='contained'
+            sx={{ '& svg': { mr: 2 } }}
+            onClick={handleSidebarToggleSidebar}
+          >
             <Icon icon='tabler:plus' fontSize='1.125rem' />
             Add Event
           </Button>

@@ -188,7 +188,9 @@ const UserProfileLeft = props => {
                     </ListItemButton>
                   </ListItem>
                 </List>
-                <Button variant='contained'>Logout</Button>
+                <Button size='small' variant='contained'>
+                  Logout
+                </Button>
               </Box>
             </ScrollWrapper>
           </Box>

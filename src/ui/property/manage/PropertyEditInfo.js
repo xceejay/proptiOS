@@ -43,7 +43,7 @@ const PropertyEditInfo = propertyInfo => {
 
   return (
     <Card>
-      <Button variant='contained' onClick={() => setShow(true)}>
+      <Button size='small' variant='contained' onClick={() => setShow(true)}>
         Edit
       </Button>
 
@@ -169,10 +169,10 @@ const PropertyEditInfo = propertyInfo => {
             pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
           }}
         >
-          <Button variant='contained' sx={{ mr: 1 }} onClick={() => setShow(false)}>
+          <Button size='small' variant='contained' sx={{ mr: 1 }} onClick={() => setShow(false)}>
             Submit
           </Button>
-          <Button variant='outlined' color='secondary' onClick={() => setShow(false)}>
+          <Button size='small' variant='outlined' color='secondary' onClick={() => setShow(false)}>
             Discard
           </Button>
         </DialogActions>

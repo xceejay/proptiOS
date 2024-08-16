@@ -199,7 +199,7 @@ const TenantViewSecurity = () => {
                 </Grid>
 
                 <Grid item xs={12}>
-                  <Button type='submit' variant='contained'>
+                  <Button size='small' type='submit' variant='contained'>
                     Change Password
                   </Button>
                 </Grid>
@@ -289,10 +289,10 @@ const TenantViewSecurity = () => {
                   onChange={e => setMobileNumber(e.target.value)}
                 />
                 <Box sx={{ mt: 6.5, display: 'flex', justifyContent: 'flex-end' }}>
-                  <Button type='reset' color='secondary' variant='outlined' onClick={handleCancelClick}>
+                  <Button size='small' type='reset' color='secondary' variant='outlined' onClick={handleCancelClick}>
                     Cancel
                   </Button>
-                  <Button type='submit' sx={{ ml: 3 }} variant='contained' onClick={handleSubmitClick}>
+                  <Button size='small' type='submit' sx={{ ml: 3 }} variant='contained' onClick={handleSubmitClick}>
                     Send
                   </Button>
                 </Box>

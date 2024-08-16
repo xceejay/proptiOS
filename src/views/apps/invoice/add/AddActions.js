@@ -29,7 +29,7 @@ const AddActions = () => {
       <Grid item xs={12}>
         <Card>
           <CardContent>
-            <Button fullWidth variant='contained' sx={{ mb: 2, '& svg': { mr: 2 } }}>
+            <Button size='small' fullWidth variant='contained' sx={{ mb: 2, '& svg': { mr: 2 } }}>
               <Icon fontSize='1.125rem' icon='tabler:send' />
               Send Invoice
             </Button>
@@ -43,7 +43,7 @@ const AddActions = () => {
             >
               Preview
             </Button>
-            <Button fullWidth variant='outlined' color='secondary'>
+            <Button size='small' fullWidth variant='outlined' color='secondary'>
               Save
             </Button>
           </CardContent>

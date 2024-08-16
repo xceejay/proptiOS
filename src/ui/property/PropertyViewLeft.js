@@ -107,7 +107,7 @@ const UserViewLeft = () => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
           <Grid pb={5}>
-            <Button variant='outlined' onClick={() => router.push('/properties')}>
+            <Button size='small' variant='outlined' onClick={() => router.push('/properties')}>
               <Icon icon='tabler:arrow-left' fontSize={20} />
               Back
             </Button>
@@ -220,10 +220,10 @@ const UserViewLeft = () => {
             </CardContent>
 
             {/* <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
-              <Button variant='contained' sx={{ mr: 2 }} onClick={handleEditClickOpen}>
+              <Button size="small" variant='contained' sx={{ mr: 2 }} onClick={handleEditClickOpen}>
                 Edit
               </Button>
-              <Button color='error' variant='outlined' onClick={() => setSuspendDialogOpen(true)}>
+              <Button size="small" color='error' variant='outlined' onClick={() => setSuspendDialogOpen(true)}>
                 Suspend
               </Button>
             </CardActions> */}
@@ -345,10 +345,10 @@ const UserViewLeft = () => {
                   pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
                 }}
               >
-                <Button variant='contained' sx={{ mr: 2 }} onClick={handleEditClose}>
+                <Button size='small' variant='contained' sx={{ mr: 2 }} onClick={handleEditClose}>
                   Submit
                 </Button>
-                <Button variant='outlined' color='secondary' onClick={handleEditClose}>
+                <Button size='small' variant='outlined' color='secondary' onClick={handleEditClose}>
                   Cancel
                 </Button>
               </DialogActions>
@@ -409,7 +409,7 @@ const UserViewLeft = () => {
                     <MenuItem value='Company'>Company - $999/month</MenuItem>
                   </Select>
                 </FormControl>
-                <Button variant='contained' sx={{ minWidth: ['100%', 0] }}>
+                <Button size='small' variant='contained' sx={{ minWidth: ['100%', 0] }}>
                   Upgrade
                 </Button>
               </DialogContent>

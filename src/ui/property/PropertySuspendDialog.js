@@ -61,10 +61,10 @@ const PropertySuspendDialog = props => {
             pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
           }}
         >
-          <Button variant='contained' sx={{ mr: 2 }} onClick={() => handleConfirmation('yes')}>
+          <Button size='small' variant='contained' sx={{ mr: 2 }} onClick={() => handleConfirmation('yes')}>
             Yes, Suspend user!
           </Button>
-          <Button variant='outlined' color='secondary' onClick={() => handleConfirmation('cancel')}>
+          <Button size='small' variant='outlined' color='secondary' onClick={() => handleConfirmation('cancel')}>
             Cancel
           </Button>
         </DialogActions>
@@ -95,7 +95,7 @@ const PropertySuspendDialog = props => {
           </Box>
         </DialogContent>
         <DialogActions sx={{ justifyContent: 'center' }}>
-          <Button variant='contained' color='success' onClick={handleSecondDialogClose}>
+          <Button size='small' variant='contained' color='success' onClick={handleSecondDialogClose}>
             OK
           </Button>
         </DialogActions>

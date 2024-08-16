@@ -156,10 +156,10 @@ const AddEventSidebar = props => {
     if (store.selectedEvent === null || (store.selectedEvent !== null && !store.selectedEvent.title.length)) {
       return (
         <Fragment>
-          <Button type='submit' variant='contained' sx={{ mr: 4 }}>
+          <Button size='small' type='submit' variant='contained' sx={{ mr: 4 }}>
             Add
           </Button>
-          <Button variant='outlined' color='secondary' onClick={resetToEmptyValues}>
+          <Button size='small' variant='outlined' color='secondary' onClick={resetToEmptyValues}>
             Reset
           </Button>
         </Fragment>
@@ -167,10 +167,10 @@ const AddEventSidebar = props => {
     } else {
       return (
         <Fragment>
-          <Button type='submit' variant='contained' sx={{ mr: 4 }}>
+          <Button size='small' type='submit' variant='contained' sx={{ mr: 4 }}>
             Update
           </Button>
-          <Button variant='outlined' color='secondary' onClick={resetToStoredValues}>
+          <Button size='small' variant='outlined' color='secondary' onClick={resetToStoredValues}>
             Reset
           </Button>
         </Fragment>

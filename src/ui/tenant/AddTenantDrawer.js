@@ -228,10 +228,10 @@ const SidebarAddTenant = props => {
             </Select>
           </FormControl>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Button type='submit' variant='contained' sx={{ mr: 3 }}>
+            <Button size='small' type='submit' variant='contained' sx={{ mr: 3 }}>
               Submit
             </Button>
-            <Button variant='outlined' color='secondary' onClick={handleClose}>
+            <Button size='small' variant='outlined' color='secondary' onClick={handleClose}>
               Cancel
             </Button>
           </Box>

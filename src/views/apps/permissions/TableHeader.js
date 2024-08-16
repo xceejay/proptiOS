@@ -37,7 +37,7 @@ const TableHeader = props => {
           placeholder='Search Permission'
           onChange={e => handleFilter(e.target.value)}
         />
-        <Button sx={{ mb: 2 }} variant='contained' onClick={handleDialogToggle}>
+        <Button size='small' sx={{ mb: 2 }} variant='contained' onClick={handleDialogToggle}>
           Add Permission
         </Button>
       </Box>
@@ -78,10 +78,17 @@ const TableHeader = props => {
               <FormControlLabel control={<Checkbox />} label='Set as core permission' />
             </Box>
             <Box className='demo-space-x' sx={{ '& > :last-child': { mr: '0 !important' } }}>
-              <Button size='large' type='submit' variant='contained'>
+              <Button size='small' size='large' type='submit' variant='contained'>
                 Create Permission
               </Button>
-              <Button type='reset' size='large' variant='outlined' color='secondary' onClick={handleDialogToggle}>
+              <Button
+                size='small'
+                type='reset'
+                size='large'
+                variant='outlined'
+                color='secondary'
+                onClick={handleDialogToggle}
+              >
                 Discard
               </Button>
             </Box>

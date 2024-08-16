@@ -36,8 +36,8 @@ const TenantTableHeader = props => {
           onChange={e => handleFilter(e.target.value)}
         />
 
-        <Button onClick={toggle} variant='contained' sx={{ '& svg': { mr: 2 } }}>
-          <Icon fontSize='1.125rem' icon='tabler:plus' />
+        <Button size='small' onClick={toggle} variant='contained' sx={{ '& svg': { mr: 2 } }}>
+          <Icon fontSize='14px' icon='tabler:plus' />
           Add New Tenant
         </Button>
       </Box>

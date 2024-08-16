@@ -88,10 +88,10 @@ const UserViewNotification = () => {
       </CardContent>
 
       <CardActions>
-        <Button variant='contained' sx={{ mr: 2 }}>
+        <Button size='small' variant='contained' sx={{ mr: 2 }}>
           Save Changes
         </Button>
-        <Button color='secondary' variant='outlined'>
+        <Button size='small' color='secondary' variant='outlined'>
           Discard
         </Button>
       </CardActions>

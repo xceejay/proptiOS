@@ -277,7 +277,7 @@ const Register = () => {
                   </>
                 }
               />
-              <Button fullWidth size='large' type='submit' variant='contained' sx={{ mb: 4 }}>
+              <Button size='small' fullWidth size='large' type='submit' variant='contained' sx={{ mb: 4 }}>
                 Create an account
               </Button>
               <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>

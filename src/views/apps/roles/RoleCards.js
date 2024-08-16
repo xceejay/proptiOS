@@ -321,10 +321,10 @@ const RolesCards = () => {
           }}
         >
           <Box className='demo-space-x'>
-            <Button type='submit' variant='contained' onClick={handleClose}>
+            <Button size='small' type='submit' variant='contained' onClick={handleClose}>
               Submit
             </Button>
-            <Button color='secondary' variant='outlined' onClick={handleClose}>
+            <Button size='small' color='secondary' variant='outlined' onClick={handleClose}>
               Cancel
             </Button>
           </Box>

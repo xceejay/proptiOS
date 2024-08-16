@@ -421,7 +421,7 @@ const AddCard = props => {
 
         <Grid container sx={{ mt: 4 }}>
           <Grid item xs={12} sx={{ px: 0 }}>
-            <Button variant='contained' onClick={() => setCount(count + 1)}>
+            <Button size='small' variant='contained' onClick={() => setCount(count + 1)}>
               Add Item
             </Button>
           </Grid>

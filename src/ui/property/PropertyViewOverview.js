@@ -53,7 +53,9 @@ const PropertyViewOverview = ({ invoiceData }) => {
                 </Grid>
                 <Grid item xs={6} lg={6}>
                   <CardActions sx={{ display: 'flex', justifyContent: 'right', mt: 2 }}>
-                    <Button variant='contained'>Add Unit</Button>
+                    <Button size='small' variant='contained'>
+                      Add Unit
+                    </Button>
                   </CardActions>
                 </Grid>
               </Grid>

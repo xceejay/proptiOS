@@ -375,7 +375,7 @@ const ComposePopup = props => {
         }}
       >
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Button variant='contained' onClick={handlePopupClose} sx={{ '& svg': { mr: 2 } }}>
+          <Button size='small' variant='contained' onClick={handlePopupClose} sx={{ '& svg': { mr: 2 } }}>
             <Icon icon='tabler:send' fontSize='1.125rem' />
             Send
           </Button>
