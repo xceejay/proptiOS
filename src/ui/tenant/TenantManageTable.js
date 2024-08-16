@@ -144,13 +144,37 @@ const columns = [
     )
   },
   {
+    flex: 0.15,
+    minWidth: 190,
+    field: 'property',
+    headerName: 'Property',
+    renderCell: ({ row }) => (
+      <Typography noWrap sx={{ color: 'text.secondary' }}>
+        {row.property.name}
+      </Typography>
+    )
+  },
+
+  {
+    flex: 0.15,
+    minWidth: 190,
+    field: 'tel_number',
+    headerName: 'Phone Number',
+    renderCell: ({ row }) => (
+      <Typography noWrap sx={{ color: 'text.secondary' }}>
+        {row.tel_number}
+      </Typography>
+    )
+  },
+
+  {
     flex: 0.1,
     minWidth: 110,
-    field: 'active',
+    field: 'status',
     headerName: 'Status',
     renderCell: ({ row }) => {
-      const statusLabel = row.active === 1 ? 'Active' : 'Inactive'
-      const statusColor = row.active === 1 ? 'success' : 'secondary'
+      const statusLabel = row.status === 'active' ? 'Active' : 'Inactive'
+      const statusColor = row.status === 'active' ? 'success' : 'secondary'
 
       return (
         <CustomChip
@@ -179,11 +203,11 @@ const TenantManageTable = () => {
   const [tenantsData, setTenantsData] = useState({ items: [] })
   const [value, setValue] = useState('')
   const [addUserOpen, setAddUserOpen] = useState(false)
-  const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
+  const [paginationModel, setPaginationModel] = useState({ page: 1, pageSize: 10 })
 
   useEffect(() => {
     tenants.getTenants(
-      { page: 1, limit: 2 },
+      { page: paginationModel.page, limit: paginationModel.pageSize },
       responseData => {
         const { data } = responseData
 
@@ -199,7 +223,7 @@ const TenantManageTable = () => {
         console.error('Tenants Cannot be retrieved:', error)
       }
     )
-  }, [])
+  }, [tenants, paginationModel])
 
   const handleFilter = useCallback(val => {
     setValue(val)

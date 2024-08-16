@@ -20,6 +20,8 @@ const defaultProvider = {
   setLoading: () => Boolean,
   getTenants: () => Promise.resolve(),
   getTenant: () => Promise.resolve(),
+  addTenants: () => Promise.resolve(),
+
   tenant: null,
   setTenants: () => null,
   setTenant: () => null,
@@ -45,7 +47,7 @@ const TenantsProvider = ({ children }) => {
       setAccessToken(window.localStorage.getItem('accessToken'))
     }
     console.log('Tenants Context accessToken Set')
-  }, [])
+  }, [accessToken])
 
   //function for registering an account.
   const getTenants = (params, successCallback, errorCallback) => {
@@ -100,6 +102,32 @@ const TenantsProvider = ({ children }) => {
       })
   }
 
+  // only adding arrays as tenants
+  const addTenant = (data, successCallback, errorCallback) => {
+    if (!accessToken) {
+      const error = new Error('No access token found')
+      if (errorCallback) errorCallback(error)
+
+      return
+    }
+
+    axios
+      .post('https://api.pm.manages.homes/tenants', {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      })
+      .then(response => {
+        if (successCallback) {
+          successCallback(response.data)
+          setTenants([...tenants, ...data])
+        }
+      })
+      .catch(err => {
+        if (errorCallback) errorCallback(err)
+      })
+  }
+
   const values = {
     // user,
     // setUser,
@@ -107,6 +135,7 @@ const TenantsProvider = ({ children }) => {
     tenant,
     setTenant,
     setTenants,
+    addTenants,
     loading,
     setLoading,
     setAccessToken,

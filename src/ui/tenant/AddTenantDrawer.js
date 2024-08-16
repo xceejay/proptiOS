@@ -17,6 +17,7 @@ import { useForm, Controller } from 'react-hook-form'
 import Icon from 'src/@core/components/icon'
 import { useDispatch, useSelector } from 'react-redux'
 import { addUser } from 'src/store/apps/user'
+import { useTenants } from 'src/hooks/useTenants'
 
 const showErrors = (field, valueLen, min) => {
   if (valueLen === 0) {
@@ -63,11 +64,9 @@ const defaultValues = {
 const SidebarAddTenant = props => {
   const { open, toggle } = props
 
-  const [plan, setPlan] = useState('basic')
   const [role, setRole] = useState('tenant')
 
-  const dispatch = useDispatch()
-  const store = useSelector(state => state.user)
+  const tenants = useTenants()
 
   const {
     reset,
@@ -83,23 +82,37 @@ const SidebarAddTenant = props => {
   })
 
   const onSubmit = data => {
-    if (store?.allData?.some(u => u.email === data.email)) {
-      store.allData.forEach(u => {
-        if (u.email === data.email) {
+    // Ensure id is defined before making the API call
+
+    tenants.addTenant(
+      data,
+      responseData => {
+        console.log('Add Tenant Drawer')
+        let { data } = responseData
+        setTenantData(data)
+        console.log('FROM Tenant drawer PAGE:', data)
+
+        if (data?.status === 'FAILED') {
+          alert(data.message || 'Failed to add tenant')
+
           setError('email', {
-            message: 'Email already exists!'
+            type: 'manual',
+            message: data.description
           })
+
+          return
         }
-      })
-    } else {
-      dispatch(addUser({ ...data, role, currentPlan: plan }))
-      toggle()
-      reset()
-    }
+
+        // setTenantsData(response)
+      },
+      error => {
+        console.log(id)
+        console.error('FROM Tenant drawer PAGE:', error)
+      }
+    )
   }
 
   const handleClose = () => {
-    setPlan('basic')
     setRole('tenant')
     setValue('tel_number', '')
     toggle()
@@ -219,12 +232,11 @@ const SidebarAddTenant = props => {
               id='select-role'
               label='User Type'
               labelId='role-select'
+              disabled
               onChange={e => setRole(e.target.value)}
               inputProps={{ placeholder: 'Select Role' }}
             >
               <MenuItem value='tenant'>Tenant</MenuItem>
-              <MenuItem value='admin'>Admin</MenuItem>
-              <MenuItem value='owner'>Owner</MenuItem>
             </Select>
           </FormControl>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
