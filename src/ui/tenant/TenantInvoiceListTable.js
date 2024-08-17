@@ -27,7 +27,7 @@ import ServerSideToolbarTenantManage from 'src/views/table/data-grid/ServerSideT
 import CustomTenantToolbar from 'src/views/table/data-grid/CustomTenantToolbar'
 
 const LinkStyled = styled(Link)(({ theme, color }) => ({
-  fontSize: '1rem',
+  fontSize: '13px',
   textDecoration: 'none',
   color: theme.palette[color] ? theme.palette[color].main : theme.palette.primary.main
 }))
@@ -45,7 +45,7 @@ const statusObj = {
 
 const columns = [
   {
-    flex: 0.6,
+    flex: 0.5,
     field: 'uuid',
     minWidth: 100,
     headerName: 'Transaction ID',
@@ -102,6 +102,28 @@ const columns = [
     field: 'amount',
     headerName: 'Total Amount',
     renderCell: ({ row }) => <Typography sx={{ color: 'text.secondary' }}>${row.amount || 0}</Typography>
+  },
+  {
+    flex: 0.2,
+    minWidth: 90,
+    field: 'payment_type',
+    headerName: 'Payment Type',
+    renderCell: ({ row }) => (
+      <Typography sx={{ textTransform: 'capitalize', color: 'text.secondary' }}>
+        {row.payment_type || 'Rent'}
+      </Typography>
+    )
+  },
+  {
+    flex: 0.2,
+    minWidth: 90,
+    field: 'payment_method',
+    headerName: 'Payment Method',
+    renderCell: ({ row }) => (
+      <Typography sx={{ textTransform: 'capitalize', color: 'text.secondary' }}>
+        {row.payment_method.replace('_', ' ') || 0}
+      </Typography>
+    )
   },
   {
     flex: 0.3,
@@ -210,6 +232,15 @@ const TenantInvoiceListTable = ({ tenantTransactionData }) => {
         pageSizeOptions={[7, 10, 25, 50]}
         paginationModel={paginationModel}
         onPaginationModelChange={setPaginationModel}
+        initialState={{
+          columns: {
+            columnVisibilityModel: {
+              // Hide columns status and traderName, the other columns will remain visible
+              status: true,
+              payment_type: false
+            }
+          }
+        }}
         slotProps={{
           toolbar: { title: 'Tenant Transactions' }
         }}
