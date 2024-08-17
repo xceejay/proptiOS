@@ -209,7 +209,7 @@ const TenantViewSecurity = () => {
         </Card>
       </Grid>
 
-      <Grid item xs={12}>
+      {/* <Grid item xs={12}>
         <Card>
           <CardHeader
             title='Two-step verification'
@@ -300,7 +300,7 @@ const TenantViewSecurity = () => {
             </DialogContent>
           </Dialog>
         </Card>
-      </Grid>
+      </Grid> */}
 
       <Grid item xs={12}>
         <Card>

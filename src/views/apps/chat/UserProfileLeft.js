@@ -154,7 +154,7 @@ const UserProfileLeft = props => {
                 <Typography variant='body2' sx={{ mb: 3.5, color: 'text.disabled', textTransform: 'uppercase' }}>
                   Settings
                 </Typography>
-                <List dense sx={{ p: 0, mb: 3.5 }}>
+                {/* <List dense sx={{ p: 0, mb: 3.5 }}>
                   <ListItem disablePadding secondaryAction={<Switch />}>
                     <ListItemButton sx={{ px: 2 }}>
                       <ListItemIcon sx={{ mr: 2, color: 'text.primary' }}>
@@ -187,7 +187,7 @@ const UserProfileLeft = props => {
                       <ListItemText primary='Delete Account' primaryTypographyProps={{ variant: 'body1' }} />
                     </ListItemButton>
                   </ListItem>
-                </List>
+                </List> */}
                 <Button size='small' variant='contained'>
                   Logout
                 </Button>
