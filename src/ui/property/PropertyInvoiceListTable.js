@@ -164,11 +164,11 @@ const PropertyInvoiceListTable = ({ invoiceData }) => {
   return (
     <Card>
       <CardHeader
-        title='Invoice List'
+        title='Transaction List'
         sx={{ '& .MuiCardHeader-action': { m: 0 } }}
         action={
           <>
-            <Button
+            {/* <Button
               color='secondary'
               variant='outlined'
               aria-haspopup='true'
@@ -183,7 +183,7 @@ const PropertyInvoiceListTable = ({ invoiceData }) => {
               <MenuItem onClick={handleClose}>PDF</MenuItem>
               <MenuItem onClick={handleClose}>XLSX</MenuItem>
               <MenuItem onClick={handleClose}>CSV</MenuItem>
-            </Menu>
+            </Menu> */}
           </>
         }
       />

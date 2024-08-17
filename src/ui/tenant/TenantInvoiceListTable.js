@@ -15,7 +15,7 @@ import { styled } from '@mui/material/styles'
 import CardHeader from '@mui/material/CardHeader'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
-import { DataGrid } from '@mui/x-data-grid'
+import { DataGrid, GridToolbar } from '@mui/x-data-grid'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
@@ -23,6 +23,8 @@ import Icon from 'src/@core/components/icon'
 // ** Custom Component Imports
 import CustomAvatar from 'src/@core/components/mui/avatar'
 import OptionsMenu from 'src/@core/components/option-menu'
+import ServerSideToolbarTenantManage from 'src/views/table/data-grid/ServerSideToolbarTenantManage'
+import CustomTenantToolbar from 'src/views/table/data-grid/CustomTenantToolbar'
 
 const LinkStyled = styled(Link)(({ theme, color }) => ({
   fontSize: '1rem',
@@ -175,11 +177,11 @@ const TenantInvoiceListTable = ({ tenantTransactionData }) => {
   return (
     <Card>
       <CardHeader
-        title='Invoice List'
+        title='Transaction History'
         sx={{ '& .MuiCardHeader-action': { m: 0 } }}
         action={
           <>
-            <Button
+            {/* <Button
               color='secondary'
               variant='outlined'
               aria-haspopup='true'
@@ -194,7 +196,7 @@ const TenantInvoiceListTable = ({ tenantTransactionData }) => {
               <MenuItem onClick={handleClose}>PDF</MenuItem>
               <MenuItem onClick={handleClose}>XLSX</MenuItem>
               <MenuItem onClick={handleClose}>CSV</MenuItem>
-            </Menu>
+            </Menu> */}
           </>
         }
       />
@@ -202,6 +204,7 @@ const TenantInvoiceListTable = ({ tenantTransactionData }) => {
         autoHeight
         rowHeight={54}
         columns={columns}
+        slots={{ toolbar: CustomTenantToolbar }}
         rows={tenantTransactionData}
         disableRowSelectionOnClick
         pageSizeOptions={[7, 10, 25, 50]}
