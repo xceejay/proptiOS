@@ -9,10 +9,8 @@ import { useTheme, styled } from '@mui/material/styles'
 import Icon from 'src/@core/components/icon'
 
 const CustomTenantToolbar = props => {
-  const theme = useTheme()
-
   const GridToolbarExportStyled = styled(GridToolbarExport)(({ theme }) => ({
-    color: theme.palette.secondary.main
+    color: theme.palette.text.primary
   }))
 
   return (
