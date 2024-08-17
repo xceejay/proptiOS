@@ -49,12 +49,13 @@ const TabList = styled(MuiTabList)(({ theme }) => ({
   }
 }))
 
-const UserViewRight = ({ tenantData, tab }) => {
+const UserViewRight = ({ tenantData }) => {
   const router = useRouter()
   const { id } = router.query
+  const { tab } = router.query
 
   // ** State
-  const [activeTab, setActiveTab] = useState(tab)
+  const [activeTab, setActiveTab] = useState(tab ? tab : 'account')
   const [isLoading, setIsLoading] = useState(true)
 
   // ** Hooks
