@@ -3,9 +3,10 @@ import { useRouter } from 'next/router'
 import { useTenants } from 'src/hooks/useTenants'
 import TenantEditInfo from 'src/ui/tenant/TenantEditInfo'
 
-const UserView = ({ tab, invoiceData }) => {
+const UserView = ({ invoiceData }) => {
   const router = useRouter()
   const { id } = router.query
+  const { tab } = router.query
   const tenants = useTenants()
   const [tenantData, setTenantData] = useState(null)
 
