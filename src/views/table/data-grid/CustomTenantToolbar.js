@@ -7,28 +7,34 @@ import { useTheme, styled } from '@mui/material/styles'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
+import { CardHeader, Typography } from '@mui/material'
 
 const CustomTenantToolbar = props => {
+  const { title } = props
+
   const GridToolbarExportStyled = styled(GridToolbarExport)(({ theme }) => ({
     color: theme.palette.text.primary
   }))
 
   return (
-    <Box
-      sx={{
-        gap: 2,
-        display: 'flex',
-        flexWrap: 'wrap',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        p: theme => theme.spacing(2, 5, 4, 5)
-      }}
-    >
+    <>
+      <Box style={{ width: '100%', display: 'flex', justifyContent: 'left', alignItems: 'start' }}>
+        <CardHeader title={title} sx={{ '& .MuiCardHeader-action': { m: 0 } }}></CardHeader>
+      </Box>
       <Box></Box>
-      <Box>
+      <Box
+        sx={{
+          gap: 2,
+          display: 'flex',
+          flexWrap: 'wrap',
+          alignItems: 'right',
+          justifyContent: 'right',
+          p: theme => theme.spacing(2, 5, 4, 5)
+        }}
+      >
         <GridToolbarExportStyled printOptions={{ disableToolbarButton: false }} />
       </Box>
-    </Box>
+    </>
   )
 }
 

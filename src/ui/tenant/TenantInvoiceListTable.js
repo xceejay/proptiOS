@@ -176,12 +176,12 @@ const TenantInvoiceListTable = ({ tenantTransactionData }) => {
 
   return (
     <Card>
-      <CardHeader
+      {/* <CardHeader
         title='Transaction History'
         sx={{ '& .MuiCardHeader-action': { m: 0 } }}
         action={
           <>
-            {/* <Button
+            <Button
               color='secondary'
               variant='outlined'
               aria-haspopup='true'
@@ -196,10 +196,10 @@ const TenantInvoiceListTable = ({ tenantTransactionData }) => {
               <MenuItem onClick={handleClose}>PDF</MenuItem>
               <MenuItem onClick={handleClose}>XLSX</MenuItem>
               <MenuItem onClick={handleClose}>CSV</MenuItem>
-            </Menu> */}
+            </Menu>
           </>
         }
-      />
+      /> */}
       <DataGrid
         autoHeight
         rowHeight={54}
@@ -210,6 +210,9 @@ const TenantInvoiceListTable = ({ tenantTransactionData }) => {
         pageSizeOptions={[7, 10, 25, 50]}
         paginationModel={paginationModel}
         onPaginationModelChange={setPaginationModel}
+        slotProps={{
+          toolbar: { title: 'Tenant Transactions' }
+        }}
       />
     </Card>
   )
