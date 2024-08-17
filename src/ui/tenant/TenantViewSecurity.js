@@ -135,20 +135,27 @@ const TenantViewSecurity = () => {
     <Grid container spacing={6}>
       <Grid item xs={12}>
         <Card>
-          <CardHeader title='Change Password' />
+          <CardHeader title='Reset Tenant Password' />
           <CardContent>
-            <Alert icon={false} severity='warning' sx={{ mb: 4 }}>
-              <AlertTitle
-                sx={{ fontWeight: 500, fontSize: '1.25rem', mb: theme => `${theme.spacing(2.5)} !important` }}
-              >
-                Ensure that these requirements are met
-              </AlertTitle>
-              Minimum 8 characters long, uppercase & symbol
+            <Alert
+              icon={false}
+              severity='error'
+              sx={{
+                fontSize: '12px',
+                mb: 4,
+                '& .MuiAlertTitle-root': {
+                  fontWeight: 500,
+                  fontSize: '14px',
+                  mb: theme => `${theme.spacing(2.5)} !important`
+                }
+              }}
+            >
+              <AlertTitle>This should be done only when instruction comes directly from the tenant</AlertTitle>A reset
+              password link would be sent to the tenant clicking the button below.
             </Alert>
-
             <form onSubmit={e => e.preventDefault()}>
-              <Grid container spacing={4}>
-                <Grid item xs={12} sm={6}>
+              <Grid container mt={2} spacing={4}>
+                {/* <Grid item xs={12} sm={6}>
                   <FormControl fullWidth>
                     <InputLabel htmlFor='user-view-security-new-password'>New Password</InputLabel>
                     <OutlinedInput
@@ -196,11 +203,10 @@ const TenantViewSecurity = () => {
                       }
                     />
                   </FormControl>
-                </Grid>
-
-                <Grid item xs={12}>
-                  <Button size='small' type='submit' variant='contained'>
-                    Change Password
+                </Grid> */}
+                <Grid direction={'row-reverse'} sm={6} item xs={12}>
+                  <Button size='small' color='error' type='submit' variant='contained'>
+                    Reset Password
                   </Button>
                 </Grid>
               </Grid>
