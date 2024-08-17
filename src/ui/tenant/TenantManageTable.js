@@ -253,11 +253,19 @@ const TenantManageTable = () => {
               toggle={toggleAddUserDrawer}
             />
             <DataGrid
+              loading={tenantsData ? false : true}
               autoHeight
               rowHeight={62}
               rows={filteredTenants || []}
               columns={columns}
-              slots={{ toolbar: ServerSideToolbarTenantManage }}
+              slots={{
+                toolbar: ServerSideToolbarTenantManage
+
+                // loadingOverlay: {
+                //   variant: 'skeleton',
+                //   noRowsVariant: 'skeleton'
+                // }
+              }}
               disableRowSelectionOnClick
               pageSizeOptions={[10, 25, 50]}
               paginationModel={paginationModel}
