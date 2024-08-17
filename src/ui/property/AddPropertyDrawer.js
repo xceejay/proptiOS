@@ -1,7 +1,4 @@
-// ** React Imports
 import { useState } from 'react'
-
-// ** MUI Imports
 import Drawer from '@mui/material/Drawer'
 import Select from '@mui/material/Select'
 import Button from '@mui/material/Button'
@@ -14,20 +11,14 @@ import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
 import FormHelperText from '@mui/material/FormHelperText'
-
-// ** Third Party Imports
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, Controller } from 'react-hook-form'
-
-// ** Icon Imports
 import Icon from 'src/@core/components/icon'
-
-// ** Store Imports
 import { useDispatch, useSelector } from 'react-redux'
-
-// ** Actions Imports
 import { addUser } from 'src/store/apps/user'
+import { useProperties } from 'src/hooks/useProperties'
+import toast from 'react-hot-toast'
 
 const showErrors = (field, valueLen, min) => {
   if (valueLen === 0) {
@@ -46,47 +37,136 @@ const Header = styled(Box)(({ theme }) => ({
   justifyContent: 'space-between'
 }))
 
+// Update validation schema based on the property fields
 const schema = yup.object().shape({
-  company: yup.string().required(),
-  billing: yup.string().required(),
-  country: yup.string().required(),
+  name: yup
+    .string()
+    .min(3, obj => showErrors('name', obj.value.length, obj.min))
+    .required(),
   email: yup.string().email().required(),
-  contact: yup
-    .number()
-    .typeError('Contact Number field is required')
-    .min(10, obj => showErrors('Contact Number', obj.value.length, obj.min))
-    .required(),
-  fullName: yup
-    .string()
-    .min(3, obj => showErrors('First Name', obj.value.length, obj.min))
-    .required(),
-  username: yup
-    .string()
-    .min(3, obj => showErrors('Username', obj.value.length, obj.min))
-    .required()
+  address: yup.string(),
+  tel_number: yup.string(),
+  user_type: yup.string()
 })
 
+const countries = [
+  { name: 'Algeria', code: 'DZA' },
+  { name: 'Angola', code: 'AGO' },
+  { name: 'Benin', code: 'BEN' },
+  { name: 'Botswana', code: 'BWA' },
+  { name: 'Burkina Faso', code: 'BFA' },
+  { name: 'Burundi', code: 'BDI' },
+  { name: 'Cabo Verde', code: 'CPV' },
+  { name: 'Cameroon', code: 'CMR' },
+  { name: 'Central African Republic', code: 'CAF' },
+  { name: 'Chad', code: 'TCD' },
+  { name: 'Comoros', code: 'COM' },
+  { name: 'Democratic Republic of the Congo', code: 'COD' },
+  { name: 'Republic of the Congo', code: 'COG' },
+  { name: 'Djibouti', code: 'DJI' },
+  { name: 'Egypt', code: 'EGY' },
+  { name: 'Equatorial Guinea', code: 'GNQ' },
+  { name: 'Eritrea', code: 'ERI' },
+  { name: 'Eswatini', code: 'SWZ' },
+  { name: 'Ethiopia', code: 'ETH' },
+  { name: 'Gabon', code: 'GAB' },
+  { name: 'Gambia', code: 'GMB' },
+  { name: 'Ghana', code: 'GHA' },
+  { name: 'Guinea', code: 'GIN' },
+  { name: 'Guinea-Bissau', code: 'GNB' },
+  { name: 'Ivory Coast', code: 'CIV' },
+  { name: 'Kenya', code: 'KEN' },
+  { name: 'Lesotho', code: 'LSO' },
+  { name: 'Liberia', code: 'LBR' },
+  { name: 'Libya', code: 'LBY' },
+  { name: 'Madagascar', code: 'MDG' },
+  { name: 'Malawi', code: 'MWI' },
+  { name: 'Mali', code: 'MLI' },
+  { name: 'Mauritania', code: 'MRT' },
+  { name: 'Mauritius', code: 'MUS' },
+  { name: 'Morocco', code: 'MAR' },
+  { name: 'Mozambique', code: 'MOZ' },
+  { name: 'Namibia', code: 'NAM' },
+  { name: 'Niger', code: 'NER' },
+  { name: 'Nigeria', code: 'NGA' },
+  { name: 'Rwanda', code: 'RWA' },
+  { name: 'Sao Tome and Principe', code: 'STP' },
+  { name: 'Senegal', code: 'SEN' },
+  { name: 'Seychelles', code: 'SYC' },
+  { name: 'Sierra Leone', code: 'SLE' },
+  { name: 'Somalia', code: 'SOM' },
+  { name: 'South Africa', code: 'ZAF' },
+  { name: 'South Sudan', code: 'SSD' },
+  { name: 'Sudan', code: 'SDN' },
+  { name: 'Tanzania', code: 'TZA' },
+  { name: 'Togo', code: 'TGO' },
+  { name: 'Tunisia', code: 'TUN' },
+  { name: 'Uganda', code: 'UGA' },
+  { name: 'Zambia', code: 'ZMB' },
+  { name: 'Zimbabwe', code: 'ZWE' }
+]
+
 const defaultValues = {
+  name: '',
   email: '',
-  company: '',
+  address: '',
   country: '',
-  billing: '',
-  fullName: '',
-  username: '',
-  contact: Number('')
+  tel_number: '',
+  user_type: 'property'
+}
+
+const onSubmit = formData => {
+  // If formData should be an array, keep it as is
+  let requestData = [formData]
+
+  propertys.addProperties(
+    requestData,
+    responseData => {
+      console.log('Add Property Drawer')
+      let { data } = responseData
+
+      if (data?.status === 'FAILED') {
+        alert(data.description || 'Failed to add property')
+        setError('email', {
+          type: 'manual',
+          message: data.description || 'Unknown error occurred'
+        })
+
+        return
+      }
+
+      const updatedRequestData = requestData.map(property => {
+        const matchingProperty = data.find(response => response.email === property.email)
+
+        if (matchingProperty) {
+          return {
+            ...property,
+            id: matchingProperty.id
+          }
+        }
+
+        return property
+      })
+      setPropertiesData(prevData => ({
+        ...prevData,
+        items: [...prevData.items, ...updatedRequestData]
+      }))
+
+      // Close the drawer
+      handleClose()
+    },
+    error => {
+      console.error('error FROM Property drawer PAGE:', error)
+    }
+  )
 }
 
 const SidebarAddProperty = props => {
-  // ** Props
-  const { open, toggle } = props
+  const { setPropertiesData, propertysData, open, toggle } = props
 
-  // ** State
-  const [plan, setPlan] = useState('basic')
-  const [role, setRole] = useState('subscriber')
+  const [role, setRole] = useState('property')
 
-  // ** Hooks
-  const dispatch = useDispatch()
-  const store = useSelector(state => state.user)
+  const propertys = useProperties()
 
   const {
     reset,
@@ -101,31 +181,61 @@ const SidebarAddProperty = props => {
     resolver: yupResolver(schema)
   })
 
-  const onSubmit = data => {
-    if (store.allData.some(u => u.email === data.email || u.username === data.username)) {
-      store.allData.forEach(u => {
-        if (u.email === data.email) {
+  const onSubmit = formData => {
+    // If formData should be an array, keep it as is
+    let requestData = [formData]
+
+    propertys.addProperties(
+      requestData,
+      responseData => {
+        console.log('Add Property Drawer')
+        let { data } = responseData
+
+        if (data?.status === 'FAILED') {
+          alert(data.description || 'Failed to add property')
           setError('email', {
-            message: 'Email already exists!'
+            type: 'manual',
+            message: data.description || 'Unknown error occurred'
           })
+
+          return
         }
-        if (u.username === data.username) {
-          setError('username', {
-            message: 'Username already exists!'
-          })
-        }
-      })
-    } else {
-      dispatch(addUser({ ...data, role, currentPlan: plan }))
-      toggle()
-      reset()
-    }
+
+        const updatedRequestData = requestData.map(property => {
+          const matchingProperty = data.find(response => response.email === property.email)
+
+          if (matchingProperty) {
+            return {
+              ...property,
+              id: matchingProperty.id
+            }
+          }
+
+          return property
+        })
+
+        toast.success('Invitation email has been sent to ' + updatedRequestData[0].email, {
+          duration: 5000
+        })
+
+        setPropertiesData(prevData => ({
+          ...prevData,
+          items: [...prevData.items, ...updatedRequestData]
+        }))
+
+        // Close the drawer
+        handleClose()
+      },
+      error => {
+        console.error('error FROM Property drawer PAGE:', error)
+      }
+    )
   }
 
   const handleClose = () => {
-    setPlan('basic')
-    setRole('subscriber')
-    setValue('contact', Number(''))
+    setRole('property')
+
+    // setValue('tel_number', '')
     toggle()
     reset()
   }
@@ -153,50 +263,31 @@ const SidebarAddProperty = props => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
-              name='fullName'
+              name='name'
               control={control}
-              rules={{ required: true }}
-              render={({ field: { value, onChange } }) => (
+              render={({ field: { value = '', onChange } }) => (
                 <TextField
                   value={value}
-                  label='Full Name'
+                  label='Full name'
                   onChange={onChange}
-                  placeholder='John Doe'
-                  error={Boolean(errors.fullName)}
+                  placeholder='Mary Johnson'
+                  error={Boolean(errors.name)}
                 />
               )}
             />
-            {errors.fullName && <FormHelperText sx={{ color: 'error.main' }}>{errors.fullName.message}</FormHelperText>}
-          </FormControl>
-          <FormControl fullWidth sx={{ mb: 4 }}>
-            <Controller
-              name='username'
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { value, onChange } }) => (
-                <TextField
-                  value={value}
-                  label='Username'
-                  onChange={onChange}
-                  placeholder='johndoe'
-                  error={Boolean(errors.username)}
-                />
-              )}
-            />
-            {errors.username && <FormHelperText sx={{ color: 'error.main' }}>{errors.username.message}</FormHelperText>}
+            {errors.name && <FormHelperText sx={{ color: 'error.main' }}>{errors.name.message}</FormHelperText>}
           </FormControl>
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
               name='email'
               control={control}
-              rules={{ required: true }}
-              render={({ field: { value, onChange } }) => (
+              render={({ field: { value = '', onChange } }) => (
                 <TextField
                   type='email'
                   value={value}
                   label='Email'
                   onChange={onChange}
-                  placeholder='johndoe@email.com'
+                  placeholder='mary.johnson@example.com'
                   error={Boolean(errors.email)}
                 />
               )}
@@ -205,124 +296,80 @@ const SidebarAddProperty = props => {
           </FormControl>
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
-              name='company'
+              name='address'
               control={control}
-              rules={{ required: true }}
-              render={({ field: { value, onChange } }) => (
+              render={({ field: { value = '', onChange } }) => (
                 <TextField
                   value={value}
-                  label='Company'
+                  label='Address'
                   onChange={onChange}
-                  placeholder='Company PVT LTD'
-                  error={Boolean(errors.company)}
+                  placeholder='456 Oak St'
+                  error={Boolean(errors.address)}
                 />
               )}
             />
-            {errors.company && <FormHelperText sx={{ color: 'error.main' }}>{errors.company.message}</FormHelperText>}
+            {errors.address && <FormHelperText sx={{ color: 'error.main' }}>{errors.address.message}</FormHelperText>}
           </FormControl>
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
               name='country'
               control={control}
-              rules={{ required: true }}
-              render={({ field: { value, onChange } }) => (
-                <TextField
-                  value={value}
-                  label='Country'
-                  onChange={onChange}
-                  placeholder='Australia'
-                  error={Boolean(errors.country)}
-                />
+              render={({ field: { value, onChange, onBlur } }) => (
+                <>
+                  <TextField
+                    select
+                    id='custom-select-native'
+                    value={value}
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    name='country'
+                    fullWidth
+                    sx={{ mb: 4 }}
+                    label='Country'
+                  >
+                    {countries.map(country => (
+                      <MenuItem sx={{ fontSize: '15px' }} key={country.code} value={country.code}>
+                        {country.name}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </>
               )}
             />
             {errors.country && <FormHelperText sx={{ color: 'error.main' }}>{errors.country.message}</FormHelperText>}
           </FormControl>
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
-              name='contact'
+              name='tel_number'
               control={control}
-              rules={{ required: true }}
-              render={({ field: { value, onChange } }) => (
+              render={({ field: { value = '', onChange } }) => (
                 <TextField
-                  type='number'
+                  type='tel'
                   value={value}
-                  label='Contact'
+                  label='Phone Number'
                   onChange={onChange}
-                  placeholder='(397) 294-5153'
-                  error={Boolean(errors.contact)}
+                  placeholder='9876543210'
+                  error={Boolean(errors.tel_number)}
                 />
               )}
             />
-            {errors.contact && <FormHelperText sx={{ color: 'error.main' }}>{errors.contact.message}</FormHelperText>}
-          </FormControl>
-          <FormControl fullWidth sx={{ mb: 4 }}>
-            <InputLabel
-              id='validation-billing-select'
-              error={Boolean(errors.billing)}
-              htmlFor='validation-billing-select'
-            >
-              Billing
-            </InputLabel>
-            <Controller
-              name='billing'
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { value, onChange } }) => (
-                <Select
-                  value={value}
-                  label='Billing'
-                  onChange={onChange}
-                  error={Boolean(errors.billing)}
-                  labelId='validation-billing-select'
-                  aria-describedby='validation-billing-select'
-                >
-                  <MenuItem value=''>Billing</MenuItem>
-                  <MenuItem value='Auto Debit'>Auto Debit</MenuItem>
-                  <MenuItem value='Manual - Cash'>Manual - Cash</MenuItem>
-                  <MenuItem value='Manual - Paypal'>Manual - Paypal</MenuItem>
-                  <MenuItem value='Manual - Credit Card'>Manual - Credit Card</MenuItem>
-                </Select>
-              )}
-            />
-            {errors.billing && (
-              <FormHelperText sx={{ color: 'error.main' }} id='validation-billing-select'>
-                This field is required
-              </FormHelperText>
+            {errors.tel_number && (
+              <FormHelperText sx={{ color: 'error.main' }}>{errors.tel_number.message}</FormHelperText>
             )}
           </FormControl>
           <FormControl fullWidth sx={{ mb: 4 }}>
-            <InputLabel id='role-select'>Select Role</InputLabel>
+            <InputLabel id='role-select'>User Type</InputLabel>
             <Select
               fullWidth
               value={role}
               id='select-role'
-              label='Select Role'
+              label='User Type'
               labelId='role-select'
+              disabled
               onChange={e => setRole(e.target.value)}
               inputProps={{ placeholder: 'Select Role' }}
             >
-              <MenuItem value='admin'>Admin</MenuItem>
-              <MenuItem value='author'>Author</MenuItem>
-              <MenuItem value='editor'>Editor</MenuItem>
-              <MenuItem value='maintainer'>Maintainer</MenuItem>
-              <MenuItem value='subscriber'>Subscriber</MenuItem>
-            </Select>
-          </FormControl>
-          <FormControl fullWidth sx={{ mb: 6 }}>
-            <InputLabel id='plan-select'>Select Plan</InputLabel>
-            <Select
-              fullWidth
-              value={plan}
-              id='select-plan'
-              label='Select Plan'
-              labelId='plan-select'
-              onChange={e => setPlan(e.target.value)}
-              inputProps={{ placeholder: 'Select Plan' }}
-            >
-              <MenuItem value='basic'>Basic</MenuItem>
-              <MenuItem value='company'>Company</MenuItem>
-              <MenuItem value='enterprise'>Enterprise</MenuItem>
-              <MenuItem value='team'>Team</MenuItem>
+              <MenuItem value='property'>Property</MenuItem>
             </Select>
           </FormControl>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
