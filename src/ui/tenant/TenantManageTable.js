@@ -228,7 +228,7 @@ const TenantManageTable = () => {
         console.error('Tenants Cannot be retrieved:', error)
       }
     )
-  }, [paginationModel, tenants])
+  }, [paginationModel])
 
   const handleFilter = useCallback(val => {
     setValue(val)
