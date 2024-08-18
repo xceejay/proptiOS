@@ -77,7 +77,9 @@ const TenantsProvider = ({ children }) => {
 
   // Function for getting a single tenant
   const getTenant = (id, successCallback, errorCallback) => {
-    if (!accessToken) {
+    const token = window.localStorage.getItem('accessToken') || accessToken
+
+    if (!token) {
       const error = new Error('No access token found')
       if (errorCallback) errorCallback(error)
 
@@ -87,7 +89,7 @@ const TenantsProvider = ({ children }) => {
     axios
       .get(`https://api.pm.manages.homes/tenants/${id}`, {
         headers: {
-          Authorization: `Bearer ${accessToken}`
+          Authorization: `Bearer ${token}`
         }
       })
       .then(response => {
@@ -103,7 +105,9 @@ const TenantsProvider = ({ children }) => {
 
   // Function for adding tenants
   const addTenants = (data, successCallback, errorCallback) => {
-    if (!accessToken) {
+    const token = window.localStorage.getItem('accessToken') || accessToken
+
+    if (!token) {
       const error = new Error('No access token found')
       if (errorCallback) errorCallback(error)
 
@@ -113,7 +117,7 @@ const TenantsProvider = ({ children }) => {
     axios
       .post('https://api.pm.manages.homes/tenants', data, {
         headers: {
-          Authorization: `Bearer ${accessToken}`
+          Authorization: `Bearer ${token}`
         }
       })
       .then(response => {
