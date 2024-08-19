@@ -31,7 +31,7 @@ const UserView = ({ invoiceData }) => {
         }
       )
     }
-  }, [id, tenants])
+  }, [id])
 
   return <TenantEditInfo tab={tab} tenantData={tenantData} />
 }
