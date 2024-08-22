@@ -88,29 +88,29 @@ const PropertyViewOverview = ({ propertyData }) => {
                 <Grid container spacing={6.5}>
                   <Grid item xs={12} sm={6} lg={6}>
                     <CardStatsVertical
-                      stats={'128' + ' tenants'}
-                      chipText='+2 tenants'
+                      stats={'0' + ' tenants'}
+                      chipText='+0 tenants'
                       avatarColor='warning'
                       chipColor='default'
                       title='Prospects'
-                      subtitle='This week'
+                      subtitle='All time'
                       avatarIcon='tabler:user-share'
                     />
                   </Grid>
                   <Grid item xs={12} sm={6} lg={6}>
                     <CardStatsVertical
-                      stats={'4' + ' tenants'}
+                      stats={'0' + ' tenants'}
                       chipText={'+0' + ' tenants'}
                       avatarColor='info'
                       chipColor='default'
                       title='Applicants'
-                      subtitle='This week'
+                      subtitle='All time'
                       avatarIcon='tabler:forms'
                     />
                   </Grid>
                   <Grid item xs={12} sm={6} lg={6}>
                     <CardStatsVertical
-                      stats={'4' + ' requests'}
+                      stats={propertyData.maintenance_requests.length + ' requests'}
                       chipText={'+0' + ' requests'}
                       avatarColor='success'
                       chipColor='default'
@@ -120,7 +120,7 @@ const PropertyViewOverview = ({ propertyData }) => {
                   </Grid>
                   <Grid item xs={12} sm={6} lg={6}>
                     <CardStatsVertical
-                      stats={'4' + ' tenants'}
+                      stats={propertyData.tenants.length + ' tenants'}
                       chipText={'+0' + ' tenants'}
                       avatarColor='primary'
                       chipColor='default'
