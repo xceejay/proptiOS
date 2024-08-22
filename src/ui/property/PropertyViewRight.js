@@ -49,20 +49,21 @@ const TabList = styled(MuiTabList)(({ theme }) => ({
   }
 }))
 
-const UserViewRight = ({ tab, invoiceData }) => {
+const UserViewRight = ({ tab, propertyData }) => {
   // ** State
   const [activeTab, setActiveTab] = useState(tab)
   const [isLoading, setIsLoading] = useState(true)
 
   // ** Hooks
   const router = useRouter()
+  const { id } = router.query
 
   const handleChange = (event, value) => {
     setIsLoading(true)
     setActiveTab(value)
     router
       .push({
-        pathname: `/properties/id/${value.toLowerCase()}`
+        pathname: `/properties/${id}/${value.toLowerCase()}`
       })
       .then(() => setIsLoading(false))
   }
@@ -73,10 +74,10 @@ const UserViewRight = ({ tab, invoiceData }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tab])
   useEffect(() => {
-    if (invoiceData) {
+    if (propertyData) {
       setIsLoading(false)
     }
-  }, [invoiceData])
+  }, [propertyData])
 
   return (
     <TabContext value={activeTab}>
@@ -108,7 +109,7 @@ const UserViewRight = ({ tab, invoiceData }) => {
         ) : (
           <>
             <TabPanel sx={{ p: 0 }} value='overview'>
-              <PropertyViewOverview invoiceData={invoiceData} />
+              <PropertyViewOverview propertyData={propertyData} />
             </TabPanel>
             <TabPanel sx={{ p: 0 }} value='expenses'>
               <PropertyViewExpenses />

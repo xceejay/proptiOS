@@ -12,22 +12,26 @@ import authConfig from 'src/configs/auth'
 
 // ** Defaults
 const defaultProvider = {
-  // user: null,
   loading: true,
   accessToken: null,
-  setAccessToken: () => null,
-  setUser: () => null,
-  setLoading: () => Boolean,
+  setAccessToken: () => {},
+  setUser: () => {},
+  setLoading: () => {},
   getProperties: () => Promise.resolve(),
-  setProperties: () => null,
+  getProperty: () => Promise.resolve(),
+  addProperties: () => Promise.resolve(),
+  property: null,
+  setProperties: () => {},
+  setProperty: () => {},
   properties: null
 }
+
 const PropertiesContext = createContext(defaultProvider)
 
 const PropertiesProvider = ({ children }) => {
   // ** States
-  // const [user, setUser] = useState(defaultProvider.user)
-  const [properties, setProperties] = useState(defaultProvider.user)
+  const [properties, setProperties] = useState(defaultProvider.properties)
+  const [property, setProperty] = useState(defaultProvider.property)
   const [loading, setLoading] = useState(defaultProvider.loading)
   const [accessToken, setAccessToken] = useState(null)
 
@@ -35,15 +39,18 @@ const PropertiesProvider = ({ children }) => {
   const router = useRouter()
 
   useEffect(() => {
-    if (!accessToken) {
-      setAccessToken(window.localStorage.getItem('accessToken'))
+    const storedToken = window.localStorage.getItem('accessToken')
+    if (storedToken) {
+      setAccessToken(storedToken)
+      console.log('Properties Context accessToken Set')
     }
-    console.log('Properties Context accessToken Set')
   }, [])
 
-  //function for registering an account.
+  // Function for getting properties
   const getProperties = (params, successCallback, errorCallback) => {
-    if (!accessToken) {
+    const token = window.localStorage.getItem('accessToken') || accessToken
+
+    if (!token) {
       const error = new Error('No access token found')
       if (errorCallback) errorCallback(error)
 
@@ -53,9 +60,9 @@ const PropertiesProvider = ({ children }) => {
     axios
       .get('https://api.pm.manages.homes/properties', {
         headers: {
-          Authorization: `Bearer ${accessToken}`
+          Authorization: `Bearer ${token}`
         },
-        params: params
+        params
       })
       .then(response => {
         if (successCallback) {
@@ -68,16 +75,74 @@ const PropertiesProvider = ({ children }) => {
       })
   }
 
+  // Function for getting a single property
+  const getProperty = (id, successCallback, errorCallback) => {
+    const token = window.localStorage.getItem('accessToken') || accessToken
+
+    if (!token) {
+      const error = new Error('No access token found')
+      if (errorCallback) errorCallback(error)
+
+      return
+    }
+
+    axios
+      .get(`https://api.pm.manages.homes/properties/${id}/all`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then(response => {
+        if (successCallback) {
+          successCallback(response.data)
+          setProperty(response.data)
+        }
+      })
+      .catch(err => {
+        if (errorCallback) errorCallback(err)
+      })
+  }
+
+  // Function for adding properties
+  const addProperties = (data, successCallback, errorCallback) => {
+    const token = window.localStorage.getItem('accessToken') || accessToken
+
+    if (!token) {
+      const error = new Error('No access token found')
+      if (errorCallback) errorCallback(error)
+
+      return
+    }
+
+    axios
+      .post('https://api.pm.manages.homes/properties', data, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then(response => {
+        if (successCallback) {
+          successCallback(response.data)
+          setProperties(prevProperties => [...(prevProperties || []), ...response.data])
+        }
+      })
+      .catch(err => {
+        if (errorCallback) errorCallback(err)
+      })
+  }
+
   const values = {
-    // user,
-    // setUser,
     properties,
+    property,
+    setProperty,
     setProperties,
+    addProperties,
     loading,
     setLoading,
     setAccessToken,
     accessToken,
-    getProperties: getProperties
+    getProperties,
+    getProperty
   }
 
   return <PropertiesContext.Provider value={values}>{children}</PropertiesContext.Provider>

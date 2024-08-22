@@ -108,7 +108,7 @@ const columns = [
             <Typography
               noWrap
               component={Link}
-              href={'/properties/' + id}
+              href={'/properties/' + id + '/overview'}
               sx={{
                 fontWeight: 500,
                 textDecoration: 'none',

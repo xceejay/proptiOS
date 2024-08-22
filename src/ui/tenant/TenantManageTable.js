@@ -19,7 +19,7 @@ import FormControl from '@mui/material/FormControl'
 import CardContent from '@mui/material/CardContent'
 import { DataGrid } from '@mui/x-data-grid'
 import AddUserDrawer from './AddTenantDrawer'
-
+import CustomNoRowsOverlay from '../CustomNoRowsOverlay'
 import Select from '@mui/material/Select'
 
 // ** Icon Imports
@@ -258,13 +258,14 @@ const TenantManageTable = () => {
               toggle={toggleAddUserDrawer}
             />
             <DataGrid
-              loading={tenantsData ? false : true}
+              loading={filteredTenants ? false : true}
               autoHeight
               rowHeight={62}
               rows={filteredTenants || []}
               columns={columns}
               slots={{
-                toolbar: ServerSideToolbarTenantManage
+                toolbar: ServerSideToolbarTenantManage,
+                noRowsOverlay: CustomNoRowsOverlay
 
                 // loadingOverlay: {
                 //   variant: 'skeleton',

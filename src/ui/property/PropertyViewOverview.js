@@ -5,37 +5,40 @@ import { DataGrid } from '@mui/x-data-grid'
 import CardStatsVertical from 'src/@core/components/card-statistics/card-stats-vertical'
 import PropertyManagePropertyTable from './PropertyManagePropertyTable'
 
-const rows = [
-  { id: 1, occupiedTenant: 'Jon', accruedYears: 14 },
-  { id: 2, occupiedTenant: 'Cersei', accruedYears: 31 },
-  { id: 3, occupiedTenant: 'Jaime', accruedYears: 31 },
-  { id: 4, occupiedTenant: 'Arya', accruedYears: 11 },
-  { id: 5, occupiedTenant: 'Daenerys', accruedYears: null },
-  { id: 6, occupiedTenant: 'Joel Amoako', accruedYears: 150 },
-  { id: 7, occupiedTenant: 'Ferrara', accruedYears: 44 },
-  { id: 8, occupiedTenant: 'Rossini', accruedYears: 36 },
-  { id: 9, occupiedTenant: 'Harvey', accruedYears: 65 }
-]
-
 const columns = [
-  { field: 'id', headerName: 'ID', width: 90 },
+  { flex: 1, field: 'id', headerName: 'Unit Id', width: 90 },
   {
-    field: 'occupiedTenant',
-    headerName: 'Occupied Tenant',
-    width: 150
+    field: 'tenant_name',
+    valueGetter: params => params.row.tenant?.name || '',
 
-    // editable: true
-  },
-  {
-    field: 'accruedYears',
-    headerName: 'Accrued Years',
-    width: 150
+    headerName: 'Occupied Tenant',
+    flex: 1,
+    width: 300
 
     // editable: true
   }
+
+  // {
+  //   field: 'accruedYears',
+  //   headerName: 'Accrued Years',
+  //   width: 150
+
+  //   // editable: true
+  // }
 ]
 
-const PropertyViewOverview = ({ invoiceData }) => {
+const PropertyViewOverview = ({ propertyData }) => {
+  const unitsData = propertyData.units.map(unit => {
+    // Find the tenant whose ID matches the unit's tenant ID
+    const foundTenant = propertyData.tenants.find(tenant => tenant.id === unit.unit_tenant_id)
+
+    // Attach the found tenant to the unit
+    return {
+      ...unit, // Spread the properties of the unit
+      tenant: foundTenant || null // Attach the tenant or set to null if no tenant is found
+    }
+  })
+
   return (
     <Grid container spacing={6}>
       {/* <Grid item xs={12}>
@@ -43,7 +46,7 @@ const PropertyViewOverview = ({ invoiceData }) => {
       </Grid> */}
 
       <Grid item xs={12}>
-        {/* <PropertyInvoiceListTable invoiceData={invoiceData} /> */}
+        {/* <PropertyInvoiceListTable propertyData={propertyData} /> */}
         <Grid container spacing={5} lg={12}>
           <Grid item xs={12} lg={6}>
             <Card>
@@ -59,11 +62,10 @@ const PropertyViewOverview = ({ invoiceData }) => {
                   </CardActions>
                 </Grid>
               </Grid>
-
               <CardContent sx={{ pt: 0 }}>
                 <Box sx={{ height: 400, width: '100%' }}>
                   <DataGrid
-                    rows={rows}
+                    rows={unitsData}
                     columns={columns}
                     initialState={{
                       pagination: {

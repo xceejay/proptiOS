@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -38,23 +38,7 @@ import PropertySubscriptionDialog from 'src/ui/property/PropertySubscriptionDial
 
 // ** Utils Import
 import { getInitials } from 'src/@core/utils/get-initials'
-import { CardHeader, Table, TableContainer } from '@mui/material'
-
-const data = {
-  id: 1,
-  role: 'Apartment',
-  status: 'active',
-  username: 'gslixby0',
-  avatarColor: 'primary',
-  country: 'Kenya',
-  company: 'Yotz PVT LTD',
-  billing: 'Manual - Cash',
-  contact: '(479) 232-9151',
-  currentPlan: 'enterprise',
-  fullName: ' East Hills Property',
-  email: 'gslixby0@abc.net.au',
-  avatar: 'https://media-cdn.tripadvisor.com/media/photo-s/1b/8e/c2/48/fully-furnished-apartments.jpg'
-}
+import { useProperties } from 'src/hooks/useProperties'
 
 const roleColors = {
   admin: 'error',
@@ -66,8 +50,9 @@ const roleColors = {
 
 const statusColors = {
   active: 'success',
-  pending: 'warning',
-  inactive: 'secondary'
+
+  // pending: 'warning',
+  inactive: 'warning'
 }
 
 // ** Styled <sup> component
@@ -86,7 +71,7 @@ const Sub = styled('sub')(({ theme }) => ({
   color: theme.palette.text.secondary
 }))
 
-const UserViewLeft = () => {
+const UserViewLeft = ({ propertyData }) => {
   const router = useRouter()
 
   // ** States
@@ -102,7 +87,36 @@ const UserViewLeft = () => {
   // Handle Upgrade Plan dialog
   const handlePlansClickOpen = () => setOpenPlans(true)
   const handlePlansClose = () => setOpenPlans(false)
-  if (data) {
+  const properties = useProperties()
+  const { id } = router.query
+
+  useEffect(() => {
+    if (!propertyData && id) {
+      properties.getProperty(
+        id,
+        responseData => {
+          let { data } = responseData
+
+          propertyData = { ...data }
+          console.log('data???????', propertyData)
+
+          if (response?.status === 'FAILED') {
+            alert(response.message || 'Failed to fetch properties')
+
+            return
+          }
+
+          // setPropertiesData(response)
+        },
+        error => {}
+      )
+    }
+
+    {
+    }
+  }, [propertyData, id])
+
+  if (propertyData) {
     return (
       <Grid container spacing={6}>
         <Grid item xs={12}>
@@ -115,32 +129,32 @@ const UserViewLeft = () => {
 
           <Card>
             <CardContent sx={{ pt: 13.5, display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
-              {data.avatar ? (
+              {propertyData.id ? (
                 <CustomAvatar
-                  src={data.avatar}
+                  src={propertyData.id}
                   variant='rounded'
-                  alt={data.fullName}
+                  alt={propertyData.name}
                   sx={{ width: 100, height: 100, mb: 4 }}
                 />
               ) : (
                 <CustomAvatar
                   skin='light'
                   variant='rounded'
-                  color={data.avatarColor}
+                  color={propertyData.avatarColor}
                   sx={{ width: 100, height: 100, mb: 4, fontSize: '3rem' }}
                 >
-                  {getInitials(data.fullName)}
+                  {getInitials(propertyData.name)}
                 </CustomAvatar>
               )}
               <Typography variant='h5' sx={{ mb: 3 }}>
-                {data.fullName}
+                {propertyData.name}
               </Typography>
               <CustomChip
                 rounded
                 skin='light'
                 size='small'
-                label={data.role}
-                color={roleColors[data.role]}
+                label={propertyData.status}
+                color={statusColors[propertyData.status]}
                 sx={{ textTransform: 'capitalize' }}
               />
             </CardContent>
@@ -149,20 +163,20 @@ const UserViewLeft = () => {
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <Box sx={{ mr: 8, display: 'flex', alignItems: 'center' }}>
                   <CustomAvatar skin='light' variant='rounded' sx={{ mr: 2.5, width: 38, height: 38 }}>
-                    <Icon fontSize='1.75rem' icon='tabler:home-x' />
+                    <Icon fontSize='1.75rem' icon='tabler:cash' />
                   </CustomAvatar>
                   <div>
-                    <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}> 568</Typography>
-                    <Typography variant='body2'>Units Occupied</Typography>
+                    <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}> GHC {0}</Typography>
+                    <Typography variant='body2'>Rent Paid</Typography>
                   </div>
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <CustomAvatar skin='light' variant='rounded' sx={{ mr: 2.5, width: 38, height: 38 }}>
-                    <Icon fontSize='1.75rem' icon='tabler:home-2' color='green' />
+                    <Icon fontSize='1.75rem' icon='tabler:cash' color='red' />
                   </CustomAvatar>
                   <div>
-                    <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>568</Typography>
-                    <Typography variant='body2'>Units Vacant</Typography>
+                    <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>GHC {0}</Typography>
+                    <Typography variant='body2'>Rent Due</Typography>
                   </div>
                 </Box>
               </Box>
@@ -176,12 +190,12 @@ const UserViewLeft = () => {
               </Typography>
               <Box sx={{ pt: 4 }}>
                 <Box sx={{ display: 'flex', mb: 3 }}>
-                  <Typography sx={{ mr: 2, fontWeight: 500 }}>Valuation:</Typography>
-                  <Typography sx={{ color: 'text.secondary' }}>@{data.username}</Typography>
+                  <Typography sx={{ mr: 2, fontWeight: 500 }}>Property ID:</Typography>
+                  <Typography sx={{ color: 'text.secondary' }}>{propertyData.uuid} </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', mb: 3 }}>
                   <Typography sx={{ mr: 2, fontWeight: 500 }}>Email:</Typography>
-                  <Typography sx={{ color: 'text.secondary' }}>{data.email}</Typography>
+                  <Typography sx={{ color: 'text.secondary' }}>{propertyData.email}</Typography>
                 </Box>
                 <Box sx={{ display: 'flex', mb: 3 }}>
                   <Typography sx={{ mr: 2, fontWeight: 500 }}>Status:</Typography>
@@ -189,8 +203,8 @@ const UserViewLeft = () => {
                     rounded
                     skin='light'
                     size='small'
-                    label={data.status}
-                    color={statusColors[data.status]}
+                    label={propertyData.status}
+                    color={statusColors[propertyData.status]}
                     sx={{
                       textTransform: 'capitalize'
                     }}
@@ -198,7 +212,9 @@ const UserViewLeft = () => {
                 </Box>
                 <Box sx={{ display: 'flex', mb: 3 }}>
                   <Typography sx={{ mr: 2, fontWeight: 500 }}>Property:</Typography>
-                  <Typography sx={{ color: 'text.secondary', textTransform: 'capitalize' }}>{data.role}</Typography>
+                  <Typography sx={{ color: 'text.secondary', textTransform: 'capitalize' }}>
+                    {propertyData.name}
+                  </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', mb: 3 }}>
                   <Typography sx={{ mr: 2, fontWeight: 500 }}>Tax ID:</Typography>
@@ -206,27 +222,27 @@ const UserViewLeft = () => {
                 </Box>
                 <Box sx={{ display: 'flex', mb: 3 }}>
                   <Typography sx={{ mr: 2, fontWeight: 500 }}>Contact:</Typography>
-                  <Typography sx={{ color: 'text.secondary' }}>+1 {data.contact}</Typography>
+                  <Typography sx={{ color: 'text.secondary' }}>{propertyData.tel_number}</Typography>
                 </Box>
-                {/* <Box sx={{ display: 'flex', mb: 3 }}>
+                <Box sx={{ display: 'flex', mb: 3 }}>
                   <Typography sx={{ mr: 2, fontWeight: 500 }}>Language:</Typography>
                   <Typography sx={{ color: 'text.secondary' }}>English</Typography>
-                </Box> */}
+                </Box>
                 <Box sx={{ display: 'flex' }}>
                   <Typography sx={{ mr: 2, fontWeight: 500 }}>Country:</Typography>
-                  <Typography sx={{ color: 'text.secondary' }}>{data.country}</Typography>
+                  <Typography sx={{ color: 'text.secondary' }}>{propertyData.country}</Typography>
                 </Box>
               </Box>
             </CardContent>
 
-            {/* <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
-              <Button size="small" variant='contained' sx={{ mr: 2 }} onClick={handleEditClickOpen}>
+            <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
+              <Button size='small' variant='contained' sx={{ mr: 2 }} onClick={handleEditClickOpen}>
                 Edit
               </Button>
-              <Button size="small" color='error' variant='outlined' onClick={() => setSuspendDialogOpen(true)}>
+              <Button size='small' color='error' variant='outlined' onClick={() => setSuspendDialogOpen(true)}>
                 Suspend
               </Button>
-            </CardActions> */}
+            </CardActions>
 
             <Dialog
               open={openEdit}
@@ -258,27 +274,30 @@ const UserViewLeft = () => {
                 <form>
                   <Grid container spacing={6}>
                     <Grid item xs={12} sm={6}>
-                      <TextField fullWidth label='Full Name' defaultValue={data.fullName} />
+                      <TextField fullWidth label='Full Name' defaultValue={propertyData.name} />
                     </Grid>
                     <Grid item xs={12} sm={6}>
                       <TextField
                         fullWidth
-                        label='Username'
-                        defaultValue={data.username}
-                        InputProps={{ startAdornment: <InputAdornment position='start'>@</InputAdornment> }}
+                        label='Property ID'
+                        defaultValue={propertyData.uuid}
+                        disabled
+
+                        // InputProps={{ startAdornment: <InputAdornment position='start'></InputAdornment> }}
                       />
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                      <TextField fullWidth type='email' label='Billing Email' defaultValue={data.email} />
+                      <TextField fullWidth type='email' label='Billing Email' defaultValue={propertyData.email} />
                     </Grid>
                     <Grid item xs={12} sm={6}>
                       <FormControl fullWidth>
                         <InputLabel id='user-view-status-label'>Status</InputLabel>
                         <Select
                           label='Status'
-                          defaultValue={data.status}
+                          defaultValue={propertyData.status}
                           id='user-view-status'
                           labelId='user-view-status-label'
+                          disabled
                         >
                           <MenuItem value='pending'>Pending</MenuItem>
                           <MenuItem value='active'>Active</MenuItem>
@@ -290,7 +309,7 @@ const UserViewLeft = () => {
                       <TextField fullWidth label='TAX ID' defaultValue='Tax-8894' />
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                      <TextField fullWidth label='Contact' defaultValue={`+1 ${data.contact}`} />
+                      <TextField fullWidth label='Contact' defaultValue={`${propertyData.tel_number}`} />
                     </Grid>
                     <Grid item xs={12} sm={6}>
                       <FormControl fullWidth>
@@ -302,11 +321,7 @@ const UserViewLeft = () => {
                           labelId='user-view-language-label'
                         >
                           <MenuItem value='English'>English</MenuItem>
-                          <MenuItem value='Spanish'>Spanish</MenuItem>
-                          <MenuItem value='Portuguese'>Portuguese</MenuItem>
-                          <MenuItem value='Russian'>Russian</MenuItem>
                           <MenuItem value='French'>French</MenuItem>
-                          <MenuItem value='German'>German</MenuItem>
                         </Select>
                       </FormControl>
                     </Grid>
@@ -315,11 +330,12 @@ const UserViewLeft = () => {
                         <InputLabel id='user-view-country-label'>Country</InputLabel>
                         <Select
                           label='Country'
-                          defaultValue='USA'
+                          defaultValue={propertyData.country}
                           id='user-view-country'
+                          disabled
                           labelId='user-view-country-label'
                         >
-                          <MenuItem value='USA'>USA</MenuItem>
+                          <MenuItem value='USA'>GA</MenuItem>
                           <MenuItem value='UK'>UK</MenuItem>
                           <MenuItem value='Spain'>Spain</MenuItem>
                           <MenuItem value='Russia'>Russia</MenuItem>
@@ -353,11 +369,54 @@ const UserViewLeft = () => {
                 </Button>
               </DialogActions>
             </Dialog>
+
+            <PropertySuspendDialog open={suspendDialogOpen} setOpen={setSuspendDialogOpen} />
+            <PropertySubscriptionDialog open={subscriptionDialogOpen} setOpen={setSubscriptionDialogOpen} />
           </Card>
         </Grid>
 
         <Grid item xs={12}>
           <Card>
+            {/* <CardContent sx={{ pb: 1, display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}>
+              <CustomChip rounded skin='light' size='small' color='primary' label='Popular' />
+              <Box sx={{ display: 'flex', position: 'relative' }}>
+                <Sup>$</Sup>
+                <Typography
+                  variant='h4'
+                  sx={{ mt: -1, mb: -1.2, color: 'primary.main', fontSize: '2.375rem !important' }}
+                >
+                  99
+                </Typography>
+                <Sub>/ month</Sub>
+              </Box>
+            </CardContent> */}
+
+            {/* <CardContent>
+              <Box sx={{ mt: 2.5, mb: 4 }}>
+                <Box sx={{ display: 'flex', mb: 2, alignItems: 'center', '& svg': { mr: 2, color: 'text.secondary' } }}>
+                  <Icon icon='tabler:point' fontSize='1.125rem' />
+                  <Typography sx={{ color: 'text.secondary' }}>10 Users</Typography>
+                </Box>
+                <Box sx={{ mb: 2, display: 'flex', alignItems: 'center', '& svg': { mr: 2, color: 'text.secondary' } }}>
+                  <Icon icon='tabler:point' fontSize='1.125rem' />
+                  <Typography sx={{ color: 'text.secondary' }}>Up to 10GB storage</Typography>
+                </Box>
+                <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 2, color: 'text.secondary' } }}>
+                  <Icon icon='tabler:point' fontSize='1.125rem' />
+                  <Typography sx={{ color: 'text.secondary' }}>Basic Support</Typography>
+                </Box>
+              </Box>
+              <Box sx={{ display: 'flex', mb: 1.5, justifyContent: 'space-between' }}>
+                <Typography sx={{ fontWeight: 500 }}>Days</Typography>
+                <Typography sx={{ fontWeight: 500 }}>75% Completed</Typography>
+              </Box>
+              <LinearProgress value={75} variant='determinate' sx={{ height: 10 }} />
+              <Typography sx={{ mt: 1.5, mb: 6, color: 'text.secondary' }}>4 days remaining</Typography>
+              <Button size="small" fullWidth variant='contained' onClick={handlePlansClickOpen}>
+                Upgrade Plan
+              </Button>
+            </CardContent> */}
+
             <Dialog
               open={openPlans}
               onClose={handlePlansClose}
