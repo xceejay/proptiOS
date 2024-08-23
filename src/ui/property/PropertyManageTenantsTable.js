@@ -148,17 +148,6 @@ const columns = [
       </Typography>
     )
   },
-  {
-    flex: 0.15,
-    minWidth: 190,
-    field: 'property',
-    headerName: 'Property',
-    renderCell: ({ row }) => (
-      <Typography noWrap sx={{ color: 'text.secondary' }}>
-        {row.property?.name}
-      </Typography>
-    )
-  },
 
   {
     flex: 0.15,
@@ -255,6 +244,15 @@ const PropertyTenantManageTable = ({ setPropertyData, propertyData }) => {
                 //   variant: 'skeleton',
                 //   noRowsVariant: 'skeleton'
                 // }
+              }}
+              initialState={{
+                columns: {
+                  columnVisibilityModel: {
+                    // Hide columns status and traderName, the other columns will remain visible
+                    country: false,
+                    address: false
+                  }
+                }
               }}
               disableRowSelectionOnClick
               pageSizeOptions={[10, 25, 50]}
