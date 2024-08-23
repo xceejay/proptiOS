@@ -57,7 +57,7 @@ export default function PropertyAddUnitStepper() {
 
   return (
     <Box sx={{ width: '100%' }}>
-      <Stepper activeStep={activeStep}>
+      <Stepper alternativeLabel activeStep={activeStep}>
         {steps.map((label, index) => {
           const stepProps = {}
           const labelProps = {}
