@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react'
 import { Button, Card, CardActions, CardContent, CardHeader, Divider, Grid, Box } from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
 import CardStatsVertical from 'src/@core/components/card-statistics/card-stats-vertical'
-import PropertyManagePropertyTable from './PropertyManagePropertyTable'
+import PropertyManagePropertyTable from './PropertyManageTenantsTable'
 import AddUnitDrawer from './PropertyAddUnitDrawer'
+import PropertyTenantManageTable from './PropertyManageTenantsTable'
 
 const columns = [
   { flex: 1, field: 'id', headerName: 'Unit Id', width: 90 },
@@ -126,13 +127,7 @@ const PropertyViewOverview = ({ setPropertyData, propertyData }) => {
           </Grid>
 
           <Grid item xs={12}>
-            <Card>
-              <CardHeader title='Property Details' />
-              <Divider />
-              <CardContent>
-                <PropertyManagePropertyTable />
-              </CardContent>
-            </Card>
+            <PropertyTenantManageTable setPropertyData={setPropertyData} propertyData={propertyData} />
           </Grid>
         </Grid>
       </Grid>
