@@ -36,6 +36,7 @@ import CardStatsHorizontalWithDetails from 'src/@core/components/card-statistics
 import { useTenants } from 'src/hooks/useTenants'
 import TenantTableHeader from './TenantTableHeader'
 import ServerSideToolbarTenantManage from 'src/views/table/data-grid/ServerSideToolbarTenantManage'
+import CustomTenantToolbar from 'src/views/table/data-grid/CustomTenantToolbar'
 
 const RowOptions = ({ id }) => {
   const dispatch = useDispatch()
@@ -250,13 +251,13 @@ const TenantManageTable = () => {
         <Card>
           <CardHeader title='Tenants' />
           <CardContent>
-            <TenantTableHeader
+            {/* <TenantTableHeader
               rows={filteredTenants}
               columns={columns}
               value={value}
               handleFilter={handleFilter}
               toggle={toggleAddUserDrawer}
-            />
+            /> */}
             <DataGrid
               loading={filteredTenants ? false : true}
               autoHeight
@@ -264,13 +265,22 @@ const TenantManageTable = () => {
               rows={filteredTenants || []}
               columns={columns}
               slots={{
-                toolbar: ServerSideToolbarTenantManage,
+                toolbar: CustomTenantToolbar,
                 noRowsOverlay: CustomNoRowsOverlay
 
                 // loadingOverlay: {
                 //   variant: 'skeleton',
                 //   noRowsVariant: 'skeleton'
                 // }
+              }}
+              slotProps={{
+                toolbar: {
+                  searchPlaceholder: 'Search Properties',
+                  value: value,
+                  addText: 'Add Property',
+                  toggle: toggleAddUserDrawer,
+                  handleFilter: handleFilter
+                }
               }}
               disableRowSelectionOnClick
               pageSizeOptions={[10, 25, 50]}

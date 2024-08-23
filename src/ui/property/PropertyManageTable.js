@@ -36,6 +36,7 @@ import CardStatsHorizontalWithDetails from 'src/@core/components/card-statistics
 import { useProperties } from 'src/hooks/useProperties'
 import PropertyTableHeader from './PropertyTableHeader'
 import ServerSideToolbarPropertyManage from 'src/views/table/data-grid/ServerSideToolbarPropertyManage'
+import CustomTenantToolbar from 'src/views/table/data-grid/CustomTenantToolbar'
 
 const RowOptions = ({ id }) => {
   const dispatch = useDispatch()
@@ -225,19 +226,28 @@ const PropertyManageTable = () => {
         <Card>
           <CardHeader title='Properties' />
           <CardContent>
-            <PropertyTableHeader
+            {/* <PropertyTableHeader
               rows={filteredProperties}
               columns={columns}
               value={value}
               handleFilter={handleFilter}
               toggle={toggleAddUserDrawer}
-            />
+            /> */}
             <DataGrid
               autoHeight
               rowHeight={62}
               rows={filteredProperties || []}
               columns={columns}
-              slots={{ toolbar: ServerSideToolbarPropertyManage }}
+              slots={{ toolbar: CustomTenantToolbar }}
+              slotProps={{
+                toolbar: {
+                  searchPlaceholder: 'Search Properties',
+                  value: value,
+                  addText: 'Add Property',
+                  toggle: toggleAddUserDrawer,
+                  handleFilter: handleFilter
+                }
+              }}
               disableRowSelectionOnClick
               pageSizeOptions={[10, 25, 50]}
               paginationModel={paginationModel}
