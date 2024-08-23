@@ -13,6 +13,8 @@ import Divider from '@mui/material/Divider'
 import { styled } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import MenuItem from '@mui/material/MenuItem'
+import CustomAvatar from 'src/@core/components/mui/avatar'
+import { getInitials } from 'src/@core/utils/get-initials'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
@@ -44,13 +46,17 @@ const UserDropdown = props => {
 
   // ** Hooks
   const router = useRouter()
-  const { logout } = useAuth()
+  const { logout, user } = useAuth()
 
   // ** Vars
   const { direction } = settings
 
   const handleDropdownOpen = event => {
     setAnchorEl(event.currentTarget)
+  }
+
+  function toTitleCase(str) {
+    return str.replace(/\w\S*/g, text => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase())
   }
 
   const handleDropdownClose = url => {
@@ -91,12 +97,9 @@ const UserDropdown = props => {
           horizontal: 'right'
         }}
       >
-        <Avatar
-          alt='John Doe'
-          onClick={handleDropdownOpen}
-          sx={{ width: 40, height: 40 }}
-          src='/images/avatars/1.png'
-        />
+        <Avatar sx={{ width: 40, height: 40 }} skin='light' variant='rounded' color={'grey'}>
+          {getInitials(user.name)}
+        </Avatar>{' '}
       </Badge>
       <Menu
         anchorEl={anchorEl}
@@ -116,11 +119,13 @@ const UserDropdown = props => {
                 horizontal: 'right'
               }}
             >
-              <Avatar alt='John Doe' src='/images/avatars/1.png' sx={{ width: '2.5rem', height: '2.5rem' }} />
+              <Avatar skin='light' variant='rounded' color={'grey'} sx={{ width: '2.5rem', height: '2.5rem' }}>
+                {getInitials(user.name)}
+              </Avatar>{' '}
             </Badge>
             <Box sx={{ display: 'flex', ml: 2.5, alignItems: 'flex-start', flexDirection: 'column' }}>
-              <Typography sx={{ fontWeight: 500 }}>PM Admin</Typography>
-              <Typography variant='body2'>Admin</Typography>
+              <Typography sx={{ fontWeight: 500 }}>{user.name}</Typography>
+              <Typography variant='body2'>{toTitleCase(user.user_type).replace('_', ' ')}</Typography>
             </Box>
           </Box>
         </Box>
