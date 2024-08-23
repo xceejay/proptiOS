@@ -71,7 +71,7 @@ const Sub = styled('sub')(({ theme }) => ({
   color: theme.palette.text.secondary
 }))
 
-const UserViewLeft = ({ propertyData }) => {
+const UserViewLeft = ({ setPropertyData, propertyData }) => {
   const router = useRouter()
 
   // ** States

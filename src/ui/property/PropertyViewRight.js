@@ -49,7 +49,7 @@ const TabList = styled(MuiTabList)(({ theme }) => ({
   }
 }))
 
-const UserViewRight = ({ tab, propertyData }) => {
+const UserViewRight = ({ tab, propertyData, setPropertyData }) => {
   // ** State
   const [activeTab, setActiveTab] = useState(tab)
   const [isLoading, setIsLoading] = useState(true)
@@ -109,7 +109,7 @@ const UserViewRight = ({ tab, propertyData }) => {
         ) : (
           <>
             <TabPanel sx={{ p: 0 }} value='overview'>
-              <PropertyViewOverview propertyData={propertyData} />
+              <PropertyViewOverview setPropertyData={propertyData} propertyData={propertyData} />
             </TabPanel>
             <TabPanel sx={{ p: 0 }} value='expenses'>
               <PropertyViewExpenses />

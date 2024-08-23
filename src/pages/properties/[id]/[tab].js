@@ -33,7 +33,7 @@ const UserView = ({ invoiceData }) => {
     }
   }, [id])
 
-  return <PropertyEditInfo tab={tab} propertyData={propertyData} />
+  return <PropertyEditInfo tab={tab} setPropertyData={setPropertyData} propertyData={propertyData} />
 }
 
 export default UserView
