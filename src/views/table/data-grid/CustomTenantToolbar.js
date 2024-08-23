@@ -34,7 +34,7 @@ const CustomTenantToolbar = props => {
           justifyContent: 'space-between'
         }}
       >
-        <GridToolbarExport variant='outlined' printOptions={{ disableToolbarButton: false }} />
+        <GridToolbarExport variant='outlined' printOptions={{ disableToolbarButton: true }} />
 
         <Box sx={{ rowGap: 2, display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
           {searchPlaceholder ? (

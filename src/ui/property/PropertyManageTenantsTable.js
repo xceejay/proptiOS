@@ -231,7 +231,7 @@ const PropertyTenantManageTable = ({ setPropertyData, propertyData }) => {
               toggle={toggleAddUserDrawer}
             />
             <DataGrid
-              loading={filteredTenants ? false : true}
+              loading={filteredTenants.length === 0}
               autoHeight
               rowHeight={62}
               rows={filteredTenants || []}

@@ -37,6 +37,7 @@ import { useProperties } from 'src/hooks/useProperties'
 import PropertyTableHeader from './PropertyTableHeader'
 import ServerSideToolbarPropertyManage from 'src/views/table/data-grid/ServerSideToolbarPropertyManage'
 import CustomTenantToolbar from 'src/views/table/data-grid/CustomTenantToolbar'
+import CustomNoRowsOverlay from '../CustomNoRowsOverlay'
 
 const RowOptions = ({ id }) => {
   const dispatch = useDispatch()
@@ -189,7 +190,7 @@ const PropertyManageTable = () => {
 
   useEffect(() => {
     properties.getProperties(
-      { page: 1, limit: 2 },
+      { page: 1, limit: 10 },
       responseData => {
         const { data } = responseData
 
@@ -236,9 +237,10 @@ const PropertyManageTable = () => {
             <DataGrid
               autoHeight
               rowHeight={62}
+              loading={filteredProperties.length === 0}
               rows={filteredProperties || []}
               columns={columns}
-              slots={{ toolbar: CustomTenantToolbar }}
+              slots={{ toolbar: CustomTenantToolbar, noRowsOverlay: CustomNoRowsOverlay }}
               slotProps={{
                 toolbar: {
                   searchPlaceholder: 'Search Properties',
