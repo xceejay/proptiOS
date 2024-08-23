@@ -206,6 +206,8 @@ const columns = [
 
 const TenantManageTable = () => {
   const tenants = useTenants()
+  const [loading, setLoading] = useState(true) // New loading state
+
   const [tenantsData, setTenantsData] = useState({ items: [] })
   const [value, setValue] = useState('')
   const [addUserOpen, setAddUserOpen] = useState(false)
@@ -216,7 +218,7 @@ const TenantManageTable = () => {
       { page: paginationModel.page, limit: paginationModel.pageSize },
       responseData => {
         const { data } = responseData
-
+        setLoading(false)
         if (data?.status === 'FAILED') {
           alert(data.message || 'Failed to fetch tenants')
 
@@ -226,6 +228,8 @@ const TenantManageTable = () => {
         setTenantsData(data)
       },
       error => {
+        setLoading(false)
+
         console.error('Tenants Cannot be retrieved:', error)
       }
     )
@@ -259,7 +263,7 @@ const TenantManageTable = () => {
               toggle={toggleAddUserDrawer}
             /> */}
             <DataGrid
-              loading={filteredTenants.length === 0}
+              loading={loading}
               autoHeight
               rowHeight={62}
               rows={filteredTenants || []}

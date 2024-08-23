@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 
 // ** Next Import
 import Link from 'next/link'
@@ -184,6 +184,11 @@ const TenantInvoiceListTable = ({ tenantTransactionData }) => {
   // ** State
   const [anchorEl, setAnchorEl] = useState(null)
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 7 })
+  const [value, setValue] = useState('')
+
+  const handleFilter = useCallback(val => {
+    setValue(val)
+  }, [])
 
   // ** Var
   const open = Boolean(anchorEl)
@@ -226,6 +231,7 @@ const TenantInvoiceListTable = ({ tenantTransactionData }) => {
         autoHeight
         rowHeight={54}
         columns={columns}
+        loading={tenantTransactionData.length === 0}
         slots={{ toolbar: CustomTenantToolbar }}
         rows={tenantTransactionData}
         disableRowSelectionOnClick
@@ -242,7 +248,12 @@ const TenantInvoiceListTable = ({ tenantTransactionData }) => {
           }
         }}
         slotProps={{
-          toolbar: { title: 'Tenant Transactions' }
+          toolbar: {
+            title: 'Tenant Transactions',
+            searchPlaceholder: 'Quick Search',
+            value: value,
+            handleFilter: handleFilter
+          }
         }}
       />
     </Card>

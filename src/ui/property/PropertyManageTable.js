@@ -184,6 +184,7 @@ const columns = [
 const PropertyManageTable = () => {
   const properties = useProperties()
   const [propertiesData, setPropertiesData] = useState([])
+  const [loading, setLoading] = useState(true) // New loading state
   const [value, setValue] = useState('')
   const [addUserOpen, setAddUserOpen] = useState(false)
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
@@ -196,14 +197,15 @@ const PropertyManageTable = () => {
 
         if (data?.status === 'FAILED') {
           alert(response.message || 'Failed to fetch properties')
-
-          return
+        } else {
+          setPropertiesData(data)
         }
 
-        setPropertiesData(data)
+        setLoading(false) // Stop loading when the request completes
       },
       error => {
-        console.error('Properties Cannot be retrieved:', error)
+        console.error('Properties cannot be retrieved:', error)
+        setLoading(false) // Stop loading on error
       }
     )
   }, [])
@@ -227,17 +229,10 @@ const PropertyManageTable = () => {
         <Card>
           <CardHeader title='Properties' />
           <CardContent>
-            {/* <PropertyTableHeader
-              rows={filteredProperties}
-              columns={columns}
-              value={value}
-              handleFilter={handleFilter}
-              toggle={toggleAddUserDrawer}
-            /> */}
             <DataGrid
               autoHeight
               rowHeight={62}
-              loading={filteredProperties.length === 0}
+              loading={loading} // Use the new loading state
               rows={filteredProperties || []}
               columns={columns}
               slots={{ toolbar: CustomTenantToolbar, noRowsOverlay: CustomNoRowsOverlay }}
@@ -263,7 +258,5 @@ const PropertyManageTable = () => {
     </Grid>
   )
 }
-
-// export const getServerSideProps = async () => {}
 
 export default PropertyManageTable

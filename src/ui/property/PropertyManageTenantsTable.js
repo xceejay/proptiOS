@@ -195,11 +195,14 @@ const columns = [
 const PropertyTenantManageTable = ({ setPropertyData, propertyData }) => {
   const [tenantsData, setTenantsData] = useState([])
   const [value, setValue] = useState('')
+  const [loading, setLoading] = useState(true) // New loading state
+
   const [addUserOpen, setAddUserOpen] = useState(false)
   const [paginationModel, setPaginationModel] = useState({ page: 1, pageSize: 25 })
 
   useEffect(() => {
     setTenantsData(propertyData?.tenants)
+    setLoading(false)
   }, [[propertyData]])
 
   const handleFilter = useCallback(val => {
@@ -231,7 +234,7 @@ const PropertyTenantManageTable = ({ setPropertyData, propertyData }) => {
               toggle={toggleAddUserDrawer}
             />
             <DataGrid
-              loading={filteredTenants.length === 0}
+              loading={loading}
               autoHeight
               rowHeight={62}
               rows={filteredTenants || []}
