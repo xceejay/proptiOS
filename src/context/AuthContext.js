@@ -32,45 +32,47 @@ const AuthProvider = ({ children }) => {
   const router = useRouter()
   useEffect(() => {
     const initAuth = async () => {
-      const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)
-      if (storedToken) {
-        const decoded = jwt.decode(storedToken, { complete: true })
+      try {
+        const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)
 
-        setLoading(false)
-        console.log('decoded-data', decoded)
+        if (storedToken) {
+          const decoded = jwt.decode(storedToken, { complete: true })
 
-        if (!decoded.payload) {
-          handleLogout()
+          setLoading(false)
+          console.log('decoded-data', decoded)
+
+          setUser(decoded.payload)
+          setLoading(false)
         }
-        setUser(decoded.payload)
+      } catch (error) {
         setLoading(false)
 
-        // console.log('are you null?:', JSON.parse(userData))
-
-        // await axios
-        //   .get(authConfig.meEndpoint, {
-        //     headers: {
-        //       Authorization: storedToken
-        //     }
-        //   })
-        //   .then(async response => {
-        //     setLoading(false)
-        //     setUser({ ...response.data.userData })
-        //   })
-        //   .catch(() => {
-        //     localStorage.removeItem('userData')
-        //     localStorage.removeItem('refreshToken')
-        //     localStorage.removeItem('accessToken')
-        //     setUser(null)
-        //     setLoading(false)
-        //     if (authConfig.onTokenExpiration === 'logout' && !router.pathname.includes('login')) {
-        //       router.replace('/login')
-        //     }
-        //   })
-      } else {
-        setLoading(false)
+        handleLogout()
       }
     }
+
+    // console.log('are you null?:', JSON.parse(userData))
+
+    // await axios
+    //   .get(authConfig.meEndpoint, {
+    //     headers: {
+    //       Authorization: storedToken
+    //     }
+    //   })
+    //   .then(async response => {
+    //     setLoading(false)
+    //     setUser({ ...response.data.userData })
+    //   })
+    //   .catch(() => {
+    //     localStorage.removeItem('userData')
+    //     localStorage.removeItem('refreshToken')
+    //     localStorage.removeItem('accessToken')
+    //     setUser(null)
+    //     setLoading(false)
+    //     if (authConfig.onTokenExpiration === 'logout' && !router.pathname.includes('login')) {
+    //       router.replace('/login')
+    //     }
+    //   })
     initAuth()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
