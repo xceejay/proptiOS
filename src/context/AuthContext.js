@@ -43,6 +43,8 @@ const AuthProvider = ({ children }) => {
 
           setUser(decoded.payload)
           setLoading(false)
+        } else {
+          setLoading(false)
         }
       } catch (error) {
         console.log(error)
