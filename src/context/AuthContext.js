@@ -38,6 +38,10 @@ const AuthProvider = ({ children }) => {
 
         setLoading(false)
         console.log('decoded-data', decoded)
+
+        if (!decoded.payload) {
+          handleLogout()
+        }
         setUser(decoded.payload)
         setLoading(false)
 
