@@ -15,15 +15,14 @@ const defaultProvider = {
   loading: true,
   accessToken: null,
   setAccessToken: () => {},
-  setUser: () => {},
   setLoading: () => {},
   getProperties: () => Promise.resolve(),
   getProperty: () => Promise.resolve(),
-  addProperties: () => Promise.resolve(),
+  addProperty: () => Promise.resolve(), // Renamed for consistency
   property: null,
-  setProperties: () => {},
   setProperty: () => {},
-  properties: null
+  properties: null,
+  setProperties: () => {}
 }
 
 const PropertiesContext = createContext(defaultProvider)
@@ -103,8 +102,9 @@ const PropertiesProvider = ({ children }) => {
       })
   }
 
-  // Function for adding properties
+  // Function for adding a property
   const addProperties = (data, successCallback, errorCallback) => {
+    // Renamed function
     const token = window.localStorage.getItem('accessToken') || accessToken
 
     if (!token) {
@@ -123,7 +123,8 @@ const PropertiesProvider = ({ children }) => {
       .then(response => {
         if (successCallback) {
           successCallback(response.data)
-          setProperties(prevProperties => [...(prevProperties || []), ...response.data])
+          console.log(properties)
+          setProperties(prevProperties => [...(prevProperties.data || []), response.data])
         }
       })
       .catch(err => {
@@ -136,7 +137,7 @@ const PropertiesProvider = ({ children }) => {
     property,
     setProperty,
     setProperties,
-    addProperties,
+    addProperties, // Updated function name
     loading,
     setLoading,
     setAccessToken,

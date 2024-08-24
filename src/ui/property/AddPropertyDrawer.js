@@ -13,6 +13,7 @@ import FormControl from '@mui/material/FormControl'
 import FormHelperText from '@mui/material/FormHelperText'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { v4 } from 'uuid'
 import { useForm, Controller } from 'react-hook-form'
 import Icon from 'src/@core/components/icon'
 import { useDispatch, useSelector } from 'react-redux'
@@ -20,33 +21,15 @@ import { addUser } from 'src/store/apps/user'
 import { useProperties } from 'src/hooks/useProperties'
 import toast from 'react-hot-toast'
 
-const showErrors = (field, valueLen, min) => {
-  if (valueLen === 0) {
-    return `${field} field is required`
-  } else if (valueLen > 0 && valueLen < min) {
-    return `${field} must be at least ${min} characters`
-  } else {
-    return ''
-  }
-}
-
-const Header = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  padding: theme.spacing(6),
-  justifyContent: 'space-between'
-}))
-
-// Update validation schema based on the property fields
+// Updated validation schema to include property-specific fields
 const schema = yup.object().shape({
-  name: yup
-    .string()
-    .min(3, obj => showErrors('name', obj.value.length, obj.min))
-    .required(),
-  email: yup.string().email().required(),
-  address: yup.string(),
-  tel_number: yup.string(),
-  user_type: yup.string()
+  property_name: yup.string().min(3).required('Property Name field is required'),
+  property_email: yup.string().email().required('Owner Email field is required'),
+  property_address: yup.string().required('Property Address field is required'),
+  country: yup.string().required('Country field is required'),
+  property_tel_number: yup.string().required('Phone number is required'),
+  property_type: yup.string().required('Property type is required'),
+  units: yup.number().required('Unit count is required').positive().integer()
 })
 
 const countries = [
@@ -106,67 +89,32 @@ const countries = [
   { name: 'Zimbabwe', code: 'ZWE' }
 ]
 
+const propertyTypes = [
+  { name: 'Single-Family Home', value: 'single_family_home' },
+  { name: 'Multi-Family Home', value: 'multi_family_home' },
+  { name: 'Apartment', value: 'apartment' },
+  { name: 'Single-Unit Office', value: 'single_unit_office' },
+  { name: 'Multi-Unit Office', value: 'multi_unit_office' },
+  { name: 'Condo', value: 'condo' },
+  { name: 'Townhouse', value: 'townhouse' },
+  { name: 'Retail Space', value: 'retail_space' }
+]
+const property_uuid = v4()
+
 const defaultValues = {
-  name: '',
-  email: '',
-  address: '',
-  country: '',
-  tel_number: '',
-  user_type: 'property'
-}
-
-const onSubmit = formData => {
-  // If formData should be an array, keep it as is
-  let requestData = [formData]
-
-  propertys.addProperties(
-    requestData,
-    responseData => {
-      console.log('Add Property Drawer')
-      let { data } = responseData
-
-      if (data?.status === 'FAILED') {
-        alert(data.description || 'Failed to add property')
-        setError('email', {
-          type: 'manual',
-          message: data.description || 'Unknown error occurred'
-        })
-
-        return
-      }
-
-      const updatedRequestData = requestData.map(property => {
-        const matchingProperty = data.find(response => response.email === property.email)
-
-        if (matchingProperty) {
-          return {
-            ...property,
-            id: matchingProperty.id
-          }
-        }
-
-        return property
-      })
-      setPropertiesData(prevData => ({
-        ...prevData,
-        items: [...prevData.items, ...updatedRequestData]
-      }))
-
-      // Close the drawer
-      handleClose()
-    },
-    error => {
-      console.error('error FROM Property drawer PAGE:', error)
-    }
-  )
+  uuid: property_uuid,
+  property_name: '',
+  property_email: '',
+  property_address: '',
+  country: 'GHA',
+  property_tel_number: '',
+  property_type: '',
+  units: ''
 }
 
 const SidebarAddProperty = props => {
-  const { setPropertiesData, propertysData, open, toggle } = props
-
-  const [role, setRole] = useState('property')
-
-  const propertys = useProperties()
+  const { setPropertiesData, open, toggle } = props
+  const properties = useProperties()
 
   const {
     reset,
@@ -182,18 +130,16 @@ const SidebarAddProperty = props => {
   })
 
   const onSubmit = formData => {
-    // If formData should be an array, keep it as is
     let requestData = [formData]
 
-    propertys.addProperties(
+    properties.addProperties(
       requestData,
       responseData => {
-        console.log('Add Property Drawer')
         let { data } = responseData
 
         if (data?.status === 'FAILED') {
           alert(data.description || 'Failed to add property')
-          setError('email', {
+          setError('property_email', {
             type: 'manual',
             message: data.description || 'Unknown error occurred'
           })
@@ -202,7 +148,7 @@ const SidebarAddProperty = props => {
         }
 
         const updatedRequestData = requestData.map(property => {
-          const matchingProperty = data.find(response => response.email === property.email)
+          const matchingProperty = data.find(response => response.uuid === property.uuid)
 
           if (matchingProperty) {
             return {
@@ -214,28 +160,22 @@ const SidebarAddProperty = props => {
           return property
         })
 
-        toast.success('Invitation email has been sent to ' + updatedRequestData[0].email, {
-          duration: 5000
-        })
+        toast.success('Property added successfully', { duration: 5000 })
+        console.log('datada:', data)
+        console.log('upreqdata:', updatedRequestData)
 
-        setPropertiesData(prevData => ({
-          ...prevData,
-          items: [...prevData.items, ...updatedRequestData]
-        }))
+        setPropertiesData(prevData => [...prevData, ...updatedRequestData])
 
-        // Close the drawer
+        console.log('newprop', properties.properties)
         handleClose()
       },
       error => {
-        console.error('error FROM Property drawer PAGE:', error)
+        console.error('Error from Add Property Drawer:', error)
       }
     )
   }
 
   const handleClose = () => {
-    setRole('property')
-
-    // setValue('tel_number', '')
     toggle()
     reset()
   }
@@ -261,125 +201,177 @@ const SidebarAddProperty = props => {
       </Header>
       <Box sx={{ p: theme => theme.spacing(0, 6, 6) }}>
         <form onSubmit={handleSubmit(onSubmit)}>
+          <FormControl fullWidth sx={{ mb: 4, mt: 4 }}>
+            <Controller
+              name='uuid'
+              control={control}
+              render={({ field: { value = { property_uuid }, onChange } }) => (
+                <TextField
+                  disabled
+                  value={property_uuid}
+                  label='Unique Id'
+                  onChange={onChange}
+                  placeholder='Greenwood Apartments'
+                  error={Boolean(errors.property_name)}
+                />
+              )}
+            />
+            {errors.property_name && (
+              <FormHelperText sx={{ color: 'error.main' }}>{errors.property_name.message}</FormHelperText>
+            )}
+          </FormControl>
+
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
-              name='name'
+              name='property_name'
               control={control}
               render={({ field: { value = '', onChange } }) => (
                 <TextField
                   value={value}
-                  label='Full name'
+                  label='Property Name'
                   onChange={onChange}
-                  placeholder='Mary Johnson'
-                  error={Boolean(errors.name)}
+                  placeholder='Greenwood Apartments'
+                  error={Boolean(errors.property_name)}
                 />
               )}
             />
-            {errors.name && <FormHelperText sx={{ color: 'error.main' }}>{errors.name.message}</FormHelperText>}
+            {errors.property_name && (
+              <FormHelperText sx={{ color: 'error.main' }}>{errors.property_name.message}</FormHelperText>
+            )}
           </FormControl>
+
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
-              name='email'
+              name='property_email'
               control={control}
               render={({ field: { value = '', onChange } }) => (
                 <TextField
                   type='email'
                   value={value}
-                  label='Email'
+                  label='Owner Email'
                   onChange={onChange}
-                  placeholder='mary.johnson@example.com'
-                  error={Boolean(errors.email)}
+                  placeholder='owner@example.com'
+                  error={Boolean(errors.property_email)}
                 />
               )}
             />
-            {errors.email && <FormHelperText sx={{ color: 'error.main' }}>{errors.email.message}</FormHelperText>}
+            {errors.property_email && (
+              <FormHelperText sx={{ color: 'error.main' }}>{errors.property_email.message}</FormHelperText>
+            )}
           </FormControl>
+
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
-              name='address'
+              name='property_address'
               control={control}
               render={({ field: { value = '', onChange } }) => (
                 <TextField
                   value={value}
-                  label='Address'
+                  label='Property Address'
                   onChange={onChange}
-                  placeholder='456 Oak St'
-                  error={Boolean(errors.address)}
+                  placeholder='123 Main St'
+                  error={Boolean(errors.property_address)}
                 />
               )}
             />
-            {errors.address && <FormHelperText sx={{ color: 'error.main' }}>{errors.address.message}</FormHelperText>}
+            {errors.property_address && (
+              <FormHelperText sx={{ color: 'error.main' }}>{errors.property_address.message}</FormHelperText>
+            )}
           </FormControl>
+
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
               name='country'
               control={control}
               render={({ field: { value, onChange, onBlur } }) => (
-                <>
-                  <TextField
-                    select
-                    id='custom-select-native'
-                    value={value}
-                    onChange={onChange}
-                    onBlur={onBlur}
-                    name='country'
-                    fullWidth
-                    sx={{ mb: 4 }}
-                    label='Country'
-                  >
-                    {countries.map(country => (
-                      <MenuItem sx={{ fontSize: '15px' }} key={country.code} value={country.code}>
-                        {country.name}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </>
+                <TextField
+                  select
+                  id='custom-select-country'
+                  value={value || 'GHA'} // Ensure default value is applied
+                  onChange={onChange}
+                  onBlur={onBlur}
+                  fullWidth
+                  label='Country'
+                >
+                  {countries.map(country => (
+                    <MenuItem key={country.code} value={country.code}>
+                      {country.name}
+                    </MenuItem>
+                  ))}
+                </TextField>
               )}
             />
             {errors.country && <FormHelperText sx={{ color: 'error.main' }}>{errors.country.message}</FormHelperText>}
           </FormControl>
+
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
-              name='tel_number'
+              name='property_tel_number'
               control={control}
               render={({ field: { value = '', onChange } }) => (
                 <TextField
                   type='tel'
                   value={value}
-                  label='Phone Number'
+                  label='Owner Phone Number'
                   onChange={onChange}
-                  placeholder='9876543210'
-                  error={Boolean(errors.tel_number)}
+                  placeholder='123-456-7890'
+                  error={Boolean(errors.property_tel_number)}
                 />
               )}
             />
-            {errors.tel_number && (
-              <FormHelperText sx={{ color: 'error.main' }}>{errors.tel_number.message}</FormHelperText>
+            {errors.property_tel_number && (
+              <FormHelperText sx={{ color: 'error.main' }}>{errors.property_tel_number.message}</FormHelperText>
             )}
           </FormControl>
+
           <FormControl fullWidth sx={{ mb: 4 }}>
-            <InputLabel id='role-select'>User Type</InputLabel>
-            <Select
-              fullWidth
-              value={role}
-              id='select-role'
-              label='User Type'
-              labelId='role-select'
-              disabled
-              onChange={e => setRole(e.target.value)}
-              inputProps={{ placeholder: 'Select Role' }}
-            >
-              <MenuItem value='property'>Property</MenuItem>
-            </Select>
+            <Controller
+              name='property_type'
+              control={control}
+              render={({ field: { value, onChange, onBlur } }) => (
+                <TextField
+                  select
+                  id='custom-select-property-type'
+                  value={value}
+                  onChange={onChange}
+                  onBlur={onBlur}
+                  fullWidth
+                  label='Property Type'
+                >
+                  {propertyTypes.map(type => (
+                    <MenuItem key={type.value} value={type.value}>
+                      {type.name}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              )}
+            />
+            {errors.property_type && (
+              <FormHelperText sx={{ color: 'error.main' }}>{errors.property_type.message}</FormHelperText>
+            )}
           </FormControl>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Button size='small' type='submit' variant='contained' sx={{ mr: 3 }}>
-              Submit
-            </Button>
-            <Button size='small' variant='outlined' color='secondary' onClick={handleClose}>
-              Cancel
-            </Button>
-          </Box>
+
+          <FormControl fullWidth sx={{ mb: 4 }}>
+            <Controller
+              name='units'
+              control={control}
+              render={({ field: { value = '', onChange } }) => (
+                <TextField
+                  type='number'
+                  value={value}
+                  label='Number of Units'
+                  onChange={onChange}
+                  placeholder='10'
+                  error={Boolean(errors.units)}
+                />
+              )}
+            />
+            {errors.units && <FormHelperText sx={{ color: 'error.main' }}>{errors.units.message}</FormHelperText>}
+          </FormControl>
+
+          <Button type='submit' variant='contained' color='primary'>
+            Add Property
+          </Button>
         </form>
       </Box>
     </Drawer>
@@ -387,3 +379,12 @@ const SidebarAddProperty = props => {
 }
 
 export default SidebarAddProperty
+
+// Styled Header
+const Header = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  padding: theme.spacing(3, 4),
+  borderBottom: `1px solid ${theme.palette.divider}`
+}))

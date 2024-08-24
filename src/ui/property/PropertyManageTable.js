@@ -191,7 +191,7 @@ const PropertyManageTable = () => {
 
   useEffect(() => {
     properties.getProperties(
-      { page: 1, limit: 10 },
+      { page: paginationModel.page, limit: paginationModel.pageSize },
       responseData => {
         const { data } = responseData
 
@@ -208,13 +208,14 @@ const PropertyManageTable = () => {
         setLoading(false) // Stop loading on error
       }
     )
-  }, [])
+  }, [paginationModel])
 
   const handleFilter = useCallback(val => {
     setValue(val)
   }, [])
 
   const toggleAddUserDrawer = () => setAddUserOpen(!addUserOpen)
+  console.log('jigasi', propertiesData)
 
   // Filter properties based on the search value
   const filteredProperties = propertiesData.filter(
@@ -254,7 +255,12 @@ const PropertyManageTable = () => {
           <Divider sx={{ m: '0 !important' }} />
         </Card>
       </Grid>
-      <AddUserDrawer open={addUserOpen} toggle={toggleAddUserDrawer} />
+      <AddUserDrawer
+        propertiesData={propertiesData}
+        setPropertiesData={setPropertiesData}
+        open={addUserOpen}
+        toggle={toggleAddUserDrawer}
+      />
     </Grid>
   )
 }
