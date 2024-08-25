@@ -325,6 +325,6 @@ const Register = () => {
   )
 }
 Register.getLayout = page => <BlankLayout>{page}</BlankLayout>
-Register.guestGuard = true
+Register.guestGuard = true //makes it known that it's a guest page
 
 export default Register

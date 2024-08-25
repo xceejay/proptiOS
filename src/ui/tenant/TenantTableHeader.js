@@ -23,9 +23,6 @@ const TenantTableHeader = props => {
         justifyContent: 'space-between'
       }}
     >
-      {/* <Button color='secondary' variant='outlined' startIcon={<Icon icon='tabler:upload' />}>
-        Export
-      </Button> */}
       <Box></Box>
       <Box sx={{ rowGap: 2, display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
         <TextField
@@ -35,22 +32,28 @@ const TenantTableHeader = props => {
           placeholder='Quick Search'
           onChange={e => handleFilter(e.target.value)}
         />
+        <Box sx={{ rowGap: 2, display: 'flex', flexWrap: 'wrap' }}>
+          <Button
+            size='small'
+            onClick={toggle}
+            variant='contained'
+            sx={{ '& svg': { mr: 2 }, mr: 2 }} // Adding margin-right to create space
+          >
+            <Icon fontSize='14px' icon='tabler:plus' />
+            Add New Tenant
+          </Button>
 
-        <Button size='small' onClick={toggle} variant='contained' sx={{ '& svg': { mr: 2 } }}>
-          <Icon fontSize='14px' icon='tabler:plus' />
-          Add New Tenant
-        </Button>
-
-        <Button
-          color='secondary'
-          size='small'
-          onClick={toggleExisting}
-          variant='contained'
-          sx={{ '& svg': { mr: 2 }, ml: 2 }}
-        >
-          <Icon fontSize='14px' icon='tabler:plus' />
-          Add Existing Tenant
-        </Button>
+          <Button
+            color='secondary'
+            size='small'
+            onClick={toggleExisting}
+            variant='contained'
+            sx={{ '& svg': { mr: 2 } }}
+          >
+            <Icon fontSize='14px' icon='tabler:plus' />
+            Add Existing Tenant
+          </Button>
+        </Box>
       </Box>
     </Box>
   )
