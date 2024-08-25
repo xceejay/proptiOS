@@ -87,7 +87,7 @@ const TenantsProvider = ({ children }) => {
     }
 
     axios
-      .get(`https://api.pm.manages.homes/tenants/${id}/all`, {
+      .get(`https://api.pm.manages.homes/tenants/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
