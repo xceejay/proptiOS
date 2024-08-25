@@ -13,7 +13,7 @@ import authConfig from 'src/configs/auth'
 // ** Defaults
 const defaultProvider = {
   user: null,
-  loading: true,
+  loading: false,
   setUser: () => null,
   registrationDetails: null,
   setRegistrationDetails: () => null,
