@@ -124,15 +124,36 @@ const TenantsProvider = ({ children }) => {
         if (successCallback) {
           successCallback(response.data)
 
-          // Assuming the response has the newly added tenant(s)
-          // const newTenants = data
+          // Map the request data to include empty arrays/default values for other fields
+          // const newTenant = data.map(tenant => ({
+          //   ...tenant,
+          //   id: response.data.id || null, // Assuming the response contains a unique id
+          //   uuid: response.data.uuid || null, // Assuming the response contains a unique UUID
+          //   contract_documents: [],
+          //   id_documents: [],
+          //   maintenance_requests: [],
+          //   transactions: [],
+          //   property: {},
+          //   unit: {
+          //     id: null,
+          //     floor_no: null,
+          //     bedrooms: null,
+          //     furnished_status: null,
+          //     monthly_rent: null
+          //   },
+          //   status: 'active',
+          //   created_at: new Date().toISOString(),
+          //   updated_at: new Date().toISOString(),
+          //   logged_in: null,
+          //   logged_out: null
+          // }))
 
-          // Update the tenants state
+          // // Update the tenants state
           // setTenants(prevTenants => ({
           //   ...prevTenants,
           //   data: {
           //     ...prevTenants.data,
-          //     items: [...(prevTenants.data.items || []), ...newTenants]
+          //     items: [...(prevTenants.data.items || []), ...newTenant]
           //   }
           // }))
 
