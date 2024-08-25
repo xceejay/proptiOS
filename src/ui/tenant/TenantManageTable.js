@@ -279,9 +279,9 @@ const TenantManageTable = () => {
               }}
               slotProps={{
                 toolbar: {
-                  searchPlaceholder: 'Search Properties',
+                  searchPlaceholder: 'Quick Search',
                   value: value,
-                  addText: 'Add Property',
+                  addText: 'Add Tenant',
                   toggle: toggleAddUserDrawer,
                   handleFilter: handleFilter
                 }

@@ -123,7 +123,20 @@ const TenantsProvider = ({ children }) => {
       .then(response => {
         if (successCallback) {
           successCallback(response.data)
-          setTenants(prevTenants => [...(prevTenants || []), ...response.data])
+
+          // Assuming the response has the newly added tenant(s)
+          const newTenants = data
+
+          // Update the tenants state
+          // setTenants(prevTenants => ({
+          //   ...prevTenants,
+          //   data: {
+          //     ...prevTenants.data,
+          //     items: [...(prevTenants.data.items || []), ...newTenants]
+          //   }
+          // }))
+
+          console.log('Updated tenants:', tenants)
         }
       })
       .catch(err => {
