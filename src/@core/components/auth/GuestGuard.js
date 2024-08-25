@@ -18,7 +18,9 @@ const GuestGuard = props => {
       return
     }
     if (window.localStorage.getItem('accessToken')) {
-      toast.error('Logout to access this page', { duration: 5000 })
+      alert('Logout to access this page')
+
+      // toast.error('Logout to access this page', { duration: 5000 })
       router.replace('/')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
