@@ -109,7 +109,7 @@ const UserViewRight = ({ tab, propertyData, setPropertyData }) => {
         ) : (
           <>
             <TabPanel sx={{ p: 0 }} value='overview'>
-              <PropertyViewOverview setPropertyData={propertyData} propertyData={propertyData} />
+              <PropertyViewOverview setPropertyData={setPropertyData} propertyData={propertyData} />
             </TabPanel>
             <TabPanel sx={{ p: 0 }} value='expenses'>
               <PropertyViewExpenses />

@@ -36,6 +36,7 @@ import CardStatsHorizontalWithDetails from 'src/@core/components/card-statistics
 import { useTenants } from 'src/hooks/useTenants'
 import TenantTableHeader from '../tenant/TenantTableHeader'
 import ServerSideToolbarTenantManage from 'src/views/table/data-grid/ServerSideToolbarTenantManage'
+import PropertyAddTenantDrawer from './PropertyAddTenantDrawer'
 
 const RowOptions = ({ id }) => {
   const dispatch = useDispatch()
@@ -266,9 +267,9 @@ const PropertyTenantManageTable = ({ setPropertyData, propertyData }) => {
           <Divider sx={{ m: '0 !important' }} />
         </Card>
       </Grid>
-      <AddUserDrawer
-        tenantsData={tenantsData}
-        setTenantsData={setTenantsData}
+      <PropertyAddTenantDrawer
+        propertyData={propertyData}
+        setPropertyData={setPropertyData}
         open={addUserOpen}
         toggle={toggleAddUserDrawer}
       />
