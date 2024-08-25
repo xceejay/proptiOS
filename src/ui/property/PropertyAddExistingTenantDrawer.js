@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Drawer from '@mui/material/Drawer'
 import Select from '@mui/material/Select'
 import Button from '@mui/material/Button'
@@ -170,6 +170,30 @@ const PropertyAddExistingTenantDrawer = props => {
 
   const tenants = useTenants()
 
+  const [allTenantsData, setAllTenantsData] = useState({})
+
+  useEffect(() => {
+    tenants.getTenants(
+      {},
+      responseData => {
+        const { data } = responseData
+
+        // setLoading(false)
+        if (data?.status === 'FAILED') {
+          alert(data.message || 'Failed to fetch tenants')
+
+          return
+        }
+        setAllTenantsData(data)
+      },
+      error => {
+        // setLoading(false)
+
+        console.error('Tenants Cannot be retrieved:', error)
+      }
+    )
+  }, [open, toggle])
+
   const {
     reset,
     control,
@@ -186,6 +210,8 @@ const PropertyAddExistingTenantDrawer = props => {
   const onSubmit = formData => {
     // If formData should be an array, keep it as is
     formData.property_id = propertyData.id
+
+    //find a way to define selected guy
     let requestData = [formData]
     tenants.addTenants(
       requestData,
@@ -267,9 +293,9 @@ const PropertyAddExistingTenantDrawer = props => {
             <Controller
               render={({ onChange, ...props }) => (
                 <Autocomplete
-                  options={propertyData?.tenants || []}
+                  options={allTenantsData.items || []}
                   getOptionLabel={tenant => tenant.name + '(' + tenant.email + ')'} // Display the tenant name
-                  getOptionDisabled={tenant => !tenant.property?.id}
+                  getOptionDisabled={tenant => !!tenant.property?.id}
                   renderInput={params => <TextField {...params} label='Select Tenant' />}
                 />
               )}
