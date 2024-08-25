@@ -205,9 +205,13 @@ const PropertyTenantManageTable = ({ setPropertyData, propertyData }) => {
   const [paginationModel, setPaginationModel] = useState({ page: 1, pageSize: 25 })
 
   useEffect(() => {
-    setTenantsData(propertyData?.tenants)
+    console.log('new tenants data')
+    setTenantsData([...propertyData?.tenants])
+
     setLoading(false)
-  }, [[propertyData]])
+
+    console.log('nice data', tenantsData)
+  }, [propertyData])
 
   const handleFilter = useCallback(val => {
     setValue(val)
@@ -216,7 +220,6 @@ const PropertyTenantManageTable = ({ setPropertyData, propertyData }) => {
   const toggleAddUserDrawer = () => setAddUserOpen(!addUserOpen)
   const toggleExistingTenantDrawer = () => setExistingTenantOpen(!existingTenantOpen)
 
-  // Filter tenants based on the search value
   const filteredTenants = tenantsData.filter(
     tenant =>
       tenant.name.toLowerCase().includes(value.toLowerCase()) ||
@@ -231,6 +234,7 @@ const PropertyTenantManageTable = ({ setPropertyData, propertyData }) => {
         <Card>
           <CardHeader title='Tenants' />
           <CardContent>
+            {console.log('rendered again')}
             <TenantTableHeader
               rows={filteredTenants}
               columns={columns}

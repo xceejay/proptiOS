@@ -221,9 +221,11 @@ const PropertyAddTenantDrawer = props => {
           duration: 5000
         })
 
+        console.log('uplreq', updatedRequestData)
+
         setPropertyData(prevData => ({
           ...prevData,
-          items: [...prevData.tenants, ...updatedRequestData]
+          tenants: [...prevData.tenants, ...updatedRequestData]
         }))
 
         // Close the drawer
