@@ -84,13 +84,24 @@ const FormControlLabel = styled(MuiFormControlLabel)(({ theme }) => ({
   }
 }))
 
+const FILE_SIZE = 20 * 1024 * 1024 // 20MB
+const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/png', 'application/pdf']
+
 const schema = yup.object().shape({
   email: yup.string().email().required(),
   password: yup.string().min(5).required(),
   full_name: yup.string().min(2).required(),
   site_domain: yup.string().min(2).required(),
   site_name: yup.string(),
-  id_card: yup.mixed().required()
+  id_card: yup
+    .mixed()
+    .required('ID card is required')
+    .test('fileSize', 'File size is too large, File should be less or equal to 20MB', value => {
+      return value && value.size <= FILE_SIZE
+    })
+    .test('fileFormat', 'Unsupported file format', value => {
+      return value && SUPPORTED_FORMATS.includes(value.type)
+    })
 })
 
 const countries = [
@@ -362,7 +373,7 @@ const Register = () => {
                       }}
                       placeholder='Upload your ID card'
                       {...field}
-                      helperText={fieldState.invalid ? 'Please upload a valid file' : ''}
+                      helperText={fieldState.invalid ? errors.id_card.message : ''}
                       error={Boolean(errors.id_card)}
                     />
                   )}
