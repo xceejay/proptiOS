@@ -44,6 +44,7 @@ const AuthProvider = ({ children }) => {
           setUser(decoded.payload)
           setLoading(false)
         } else {
+          console.log('else: NO token')
           setLoading(false)
         }
       } catch (error) {

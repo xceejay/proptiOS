@@ -41,6 +41,7 @@ import { FormHelperText, Input } from '@mui/material'
 import { MuiFileInput } from 'mui-file-input'
 
 import RegisterFileUploader from 'src/ui/auth/RegisterFileUploader'
+import { useAuth } from 'src/hooks/useAuth'
 
 // ** Styled Components
 const RegisterIllustration = styled('img')(({ theme }) => ({

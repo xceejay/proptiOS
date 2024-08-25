@@ -6,6 +6,8 @@ import { useRouter } from 'next/router'
 
 // ** Hooks Import
 import { useAuth } from 'src/hooks/useAuth'
+import toast from 'react-hot-toast'
+import { duration } from '@mui/material'
 
 const GuestGuard = props => {
   const { children, fallback } = props
@@ -15,7 +17,8 @@ const GuestGuard = props => {
     if (!router.isReady) {
       return
     }
-    if (window.localStorage.getItem('userData')) {
+    if (window.localStorage.getItem('accessToken')) {
+      toast.error('Logout to access this page', { duration: 5000 })
       router.replace('/')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
