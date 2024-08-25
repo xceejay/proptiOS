@@ -8,7 +8,7 @@ import Icon from 'src/@core/components/icon'
 
 const TenantTableHeader = props => {
   // ** Props
-  const { handleFilter, toggle, value } = props
+  const { handleFilter, toggle, toggleExisting, value } = props
 
   return (
     <Box
@@ -39,6 +39,17 @@ const TenantTableHeader = props => {
         <Button size='small' onClick={toggle} variant='contained' sx={{ '& svg': { mr: 2 } }}>
           <Icon fontSize='14px' icon='tabler:plus' />
           Add New Tenant
+        </Button>
+
+        <Button
+          color='secondary'
+          size='small'
+          onClick={toggleExisting}
+          variant='contained'
+          sx={{ '& svg': { mr: 2 }, ml: 2 }}
+        >
+          <Icon fontSize='14px' icon='tabler:plus' />
+          Add Existing Tenant
         </Button>
       </Box>
     </Box>

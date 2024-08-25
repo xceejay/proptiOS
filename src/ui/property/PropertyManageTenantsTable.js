@@ -37,6 +37,7 @@ import { useTenants } from 'src/hooks/useTenants'
 import TenantTableHeader from '../tenant/TenantTableHeader'
 import ServerSideToolbarTenantManage from 'src/views/table/data-grid/ServerSideToolbarTenantManage'
 import PropertyAddTenantDrawer from './PropertyAddTenantDrawer'
+import PropertyAddExistingTenantDrawer from './PropertyAddExistingTenantDrawer'
 
 const RowOptions = ({ id }) => {
   const dispatch = useDispatch()
@@ -197,8 +198,10 @@ const PropertyTenantManageTable = ({ setPropertyData, propertyData }) => {
   const [tenantsData, setTenantsData] = useState([])
   const [value, setValue] = useState('')
   const [loading, setLoading] = useState(true) // New loading state
+  const [existingTenantOpen, setExistingTenantOpen] = useState(false)
 
   const [addUserOpen, setAddUserOpen] = useState(false)
+
   const [paginationModel, setPaginationModel] = useState({ page: 1, pageSize: 25 })
 
   useEffect(() => {
@@ -211,6 +214,7 @@ const PropertyTenantManageTable = ({ setPropertyData, propertyData }) => {
   }, [])
 
   const toggleAddUserDrawer = () => setAddUserOpen(!addUserOpen)
+  const toggleExistingTenantDrawer = () => setExistingTenantOpen(!existingTenantOpen)
 
   // Filter tenants based on the search value
   const filteredTenants = tenantsData.filter(
@@ -233,6 +237,7 @@ const PropertyTenantManageTable = ({ setPropertyData, propertyData }) => {
               value={value}
               handleFilter={handleFilter}
               toggle={toggleAddUserDrawer}
+              toggleExisting={toggleExistingTenantDrawer}
             />
             <DataGrid
               loading={loading}
@@ -272,6 +277,13 @@ const PropertyTenantManageTable = ({ setPropertyData, propertyData }) => {
         setPropertyData={setPropertyData}
         open={addUserOpen}
         toggle={toggleAddUserDrawer}
+      />
+
+      <PropertyAddExistingTenantDrawer
+        propertyData={propertyData}
+        setPropertyData={setPropertyData}
+        open={existingTenantOpen}
+        toggle={toggleExistingTenantDrawer}
       />
     </Grid>
   )

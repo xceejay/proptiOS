@@ -38,6 +38,7 @@ import PropertyTableHeader from './PropertyTableHeader'
 import ServerSideToolbarPropertyManage from 'src/views/table/data-grid/ServerSideToolbarPropertyManage'
 import CustomTenantToolbar from 'src/views/table/data-grid/CustomTenantToolbar'
 import CustomNoRowsOverlay from '../CustomNoRowsOverlay'
+import PropertyAddExistingTenantDrawer from './PropertyAddExistingTenantDrawer'
 
 const RowOptions = ({ id }) => {
   const dispatch = useDispatch()
@@ -215,6 +216,7 @@ const PropertyManageTable = () => {
   }, [])
 
   const toggleAddUserDrawer = () => setAddUserOpen(!addUserOpen)
+
   console.log('jigasi', propertiesData)
 
   // Filter properties based on the search value
