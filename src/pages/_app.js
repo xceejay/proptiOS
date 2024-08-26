@@ -115,7 +115,7 @@ const App = props => {
             <title>{`${themeConfig.templateName} - Simplifying property management`}</title>
             <meta name='description' content={`${themeConfig.templateName} – Simplifying property management`} />
             <meta name='keywords' content='Simplify, property, management' />
-            <meta name='viewport' content='initial-scale=1, width=device-width' />
+            <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1' />
           </Head>
 
           <AuthProvider>
