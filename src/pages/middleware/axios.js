@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 import { useRouter } from 'next/router'
+import toast from 'react-hot-toast'
 
 // Add a request interceptor
 // axios.interceptors.request.use(
@@ -37,7 +38,7 @@ axios.interceptors.response.use(
       console.log('Unauthorized. Logging out..')
       window.localStorage.removeItem('accessToken')
 
-      window.location.reload()
+      toast.error('Unauthorized Access', { duration: 3000 })
     } else {
       return Promise.reject(error)
     }
