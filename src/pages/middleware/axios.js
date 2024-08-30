@@ -38,14 +38,13 @@ axios.interceptors.response.use(
       console.log('Unauthorized. Logging out..')
       window.localStorage.removeItem('accessToken')
 
-      toast.error('Unauthorized Access', { duration: 3000 })
-
-      setTimeout(function () {
-        if (window.location.pathname !== '/login') {
+      if (!window.location.pathname.startsWith('/login')) {
+        toast.error('Unauthorized Access, redirecting to login page', { duration: 3000 })
+        setTimeout(function () {
           console.log('redirecting')
           window.location.href = '/login'
-        }
-      }, 3000)
+        }, 3000)
+      }
     } else {
       return Promise.reject(error)
     }
