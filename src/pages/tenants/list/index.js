@@ -38,7 +38,7 @@ import { getInitials } from 'src/@core/utils/get-initials'
 import { fetchData, deleteUser } from 'src/store/apps/user'
 
 // ** Third Party Components
-import axios from 'axios'
+import axios from 'src/pages/middleware/axios'
 import TenantTableHeader from 'src/ui/tenant/TenantTableHeader'
 import AddUserDrawer from 'src/ui/tenant/SidebarAddTenant'
 import { useTenants } from 'src/hooks/useTenants'

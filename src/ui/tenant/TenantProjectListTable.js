@@ -13,7 +13,7 @@ import { DataGrid } from '@mui/x-data-grid'
 import LinearProgress from '@mui/material/LinearProgress'
 
 // ** Third Party Imports
-import axios from 'axios'
+import axios from 'src/pages/middleware/axios'
 import ServerSideToolbar from 'src/views/table/data-grid/ServerSideToolbar'
 
 const Img = styled('img')(({ theme }) => ({

@@ -7,7 +7,7 @@ import jwt from 'jsonwebtoken'
 import { useRouter } from 'next/router'
 
 // ** Axios
-import axios from 'axios'
+import axios from 'src/pages/middleware/axios'
 
 // ** Config
 import authConfig from 'src/configs/auth'
@@ -104,7 +104,7 @@ const AuthProvider = ({ children }) => {
   const handleLogout = () => {
     console.log('logged out')
     setUser(null)
-    window.localStorage.removeItem('userData')
+    window.localStorage.removeItem('accessToken')
     window.localStorage.removeItem(authConfig.storageTokenKeyName)
     router.push('/login')
   }

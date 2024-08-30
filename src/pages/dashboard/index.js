@@ -19,7 +19,7 @@ import CrmEarningReportsWithTabs from 'src/ui/dashboard//CrmEarningReportsWithTa
 import ApexChartWrapper from 'src/@core/styles/libs/react-apexcharts'
 import CardStatsVertical from 'src/@core/components/card-statistics/card-stats-vertical'
 import { useEffect, useState } from 'react'
-import axios from 'axios'
+import axios from 'src/pages/middleware/axios'
 
 const Dashboard = DashboardData => {
   const [DashData, setDashData] = useState(DashboardData)

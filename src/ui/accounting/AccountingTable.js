@@ -9,7 +9,7 @@ import CardHeader from '@mui/material/CardHeader'
 import { DataGrid } from '@mui/x-data-grid'
 
 // ** ThirdParty Components
-import axios from 'axios'
+import axios from 'src/pages/middleware/axios'
 
 // ** Custom Components
 import CustomChip from 'src/@core/components/mui/chip'

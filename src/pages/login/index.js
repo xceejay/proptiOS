@@ -43,7 +43,7 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 
 // ** Demo Imports
 import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
-import axios from 'axios'
+import axios from 'src/pages/middleware/axios'
 
 // ** Styled Components
 const LoginIllustration = styled('img')(({ theme }) => ({
