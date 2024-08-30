@@ -63,6 +63,12 @@ const navigation = () => {
     // badgeColor: 'success'
     // },
     {
+      title: 'Leases',
+      path: '/leases',
+      icon: 'tabler:contract'
+    },
+
+    {
       title: 'Accounting',
       path: '/accounting',
       icon: 'tabler:file-dollar'
