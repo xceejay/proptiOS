@@ -34,7 +34,7 @@ axios.interceptors.response.use(
   },
   function (error) {
     if (403 === error.response.status) {
-      console.log('Unauthorzed. Logging out..')
+      console.log('Unauthorized. Logging out..')
       window.localStorage.removeItem('accessToken')
 
       window.location.reload()
