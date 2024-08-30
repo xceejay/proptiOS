@@ -91,23 +91,25 @@ const LeasesViewRight = ({ tab, leasesData }) => {
         aria-label='forced scroll tabs example'
         sx={{ borderBottom: theme => `1px solid ${theme.palette.divider}` }}
       >
-        {/* <Tab
+        <Tab
+          disabled
           sx={{ fontSize: '13px' }}
           value='account'
-          label='Account'
-          icon={<Icon fontSize='14px' icon='tabler:user-check' />}
+          label='Active leases'
+          icon={<Icon fontSize='14px' icon='tabler:contract' />}
+        />
+        <Tab
+          disabled
+          sx={{ fontSize: '13px' }}
+          value='security'
+          label='Past leases'
+          icon={<Icon fontSize='14px' icon='tabler:contract' />}
         />
         <Tab
           sx={{ fontSize: '13px' }}
-          value='security'
-          label='Security'
-          icon={<Icon fontSize='14px' icon='tabler:lock' />}
-        /> */}
-        <Tab
-          sx={{ fontSize: '13px' }}
           value='billing'
-          label='Billing & Plan'
-          icon={<Icon fontSize='14px' icon='tabler:currency-dollar' />}
+          label='Archived leases'
+          icon={<Icon fontSize='14px' icon='tabler:archive' />}
         />
         {/* <Tab value='notification' label='Notification' icon={<Icon fontSize='1.125rem' icon='tabler:bell' />} /> */}
         {/* <Tab value='connection' label='Connection' icon={<Icon fontSize='1.125rem' icon='tabler:link' />} /> */}
