@@ -18,7 +18,8 @@ const defaultProvider = {
   setLoading: () => {},
   getProperties: () => Promise.resolve(),
   getProperty: () => Promise.resolve(),
-  addProperty: () => Promise.resolve(), // Renamed for consistency
+  addProperties: () => Promise.resolve(), // Renamed for consistency
+  addUnits: () => Promise.resolve(), // Renamed for consistency
   property: null,
   setProperty: () => {},
   properties: null,
@@ -132,12 +133,43 @@ const PropertiesProvider = ({ children }) => {
       })
   }
 
+  //function for adding units
+  const addUnits = (data, successCallback, errorCallback) => {
+    // Renamed function
+    const token = window.localStorage.getItem('accessToken') || accessToken
+
+    if (!token) {
+      const error = new Error('No access token found')
+      if (errorCallback) errorCallback(error)
+
+      return
+    }
+
+    axios
+      .post('https://api.pm.manages.homes/properties/units', data, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then(response => {
+        if (successCallback) {
+          successCallback(response.data)
+          console.log(properties)
+          setProperties(prevProperties => [...(prevProperties.data || []), response.data])
+        }
+      })
+      .catch(err => {
+        if (errorCallback) errorCallback(err)
+      })
+  }
+
   const values = {
     properties,
     property,
     setProperty,
     setProperties,
     addProperties, // Updated function name
+    addUnits,
     loading,
     setLoading,
     setAccessToken,

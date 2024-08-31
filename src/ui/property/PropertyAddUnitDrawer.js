@@ -20,48 +20,12 @@ import { OutlinedInput, InputAdornment } from '@mui/material'
 import toast from 'react-hot-toast'
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 import DatePicker from 'react-datepicker'
-
-// Updated validation schema based on the unit fields
-const schema = yup.object().shape({
-  name: yup
-    .string()
-    .min(3, obj => showErrors('name', obj.value.length, obj.min))
-    .required(),
-  monthly_rent_amount: yup.number().min(1, 'Rent amount must be at least 1').required(),
-  rent_amount_currency: yup.string().required('Currency is required'),
-  floor_no: yup.number().min(1, 'Floor number must be at least 1').required(),
-  bedrooms: yup.number().min(1, 'Bedrooms must be at least 1').required(),
-  bathroom: yup.number().min(1, 'Bathroom count must be at least 1').required(),
-  furnished: yup.number().min(0).max(1, 'Furnished should be either 0 or 1').required(),
-  common_area: yup.number().min(0).max(1, 'Common Area should be either 0 or 1').required(),
-  address: yup.string().required('Address is required'),
-  tenancy_start_date: yup.date().required('Tenancy start date is required'),
-  tenancy_end_date: yup.date().nullable(),
-  unit_image_url: yup.string().url('Invalid image URL'),
-  description: yup.string().max(1000, 'Description can not exceed 1000 characters'),
-  lease_id: yup.number().nullable()
-})
-
-// Updated default values based on the unit fields
-const defaultValues = {
-  name: '',
-  monthly_rent_amount: '',
-  rent_amount_currency: '',
-  floor_no: 1,
-  bedrooms: 1,
-  bathroom: 1,
-  furnished: 0,
-  common_area: 1,
-  address: '',
-  tenancy_start_date: '',
-  tenancy_end_date: '',
-  unit_image_url: '',
-  description: '',
-  lease_id: null
-}
+import { useProperties } from 'src/hooks/useProperties'
 
 const AddUnitDrawer = props => {
   const { setUnitsData, unitsData, setPropertyData, propertyData, open, toggle } = props
+
+  const properties = useProperties()
 
   const showErrors = (field, valueLen, min) => {
     if (valueLen === 0) {
@@ -112,8 +76,8 @@ const AddUnitDrawer = props => {
     furnished: 0,
     common_area: 1,
     address: '',
-    tenancy_start_date: '',
-    tenancy_end_date: '',
+    tenancy_start_date: undefined,
+    tenancy_end_date: undefined,
     unit_image_url: '',
     description: '',
     lease_id: null
@@ -228,9 +192,10 @@ const AddUnitDrawer = props => {
   })
 
   const onSubmit = formData => {
+    formData.property_id = propertyData.id
     let requestData = [formData]
 
-    units.addUnits(
+    properties.addUnits(
       requestData,
       responseData => {
         console.log('Add Unit Drawer')
@@ -531,7 +496,11 @@ const AddUnitDrawer = props => {
                 >
                   <DatePicker
                     selected={value}
-                    onChange={onChange}
+                    onChange={([selected]) => {
+                      if (selected.target.value) return selected.target.value
+
+                      return undefined
+                    }}
                     dateFormat='yyyy-MM-dd'
                     placeholderText='Select Tenancy Start Date'
                     customInput={<TextField label='Tenancy Start Date' error={Boolean(errors.tenancy_start_date)} />}
@@ -558,7 +527,11 @@ const AddUnitDrawer = props => {
                 >
                   <DatePicker
                     selected={value}
-                    onChange={onChange}
+                    onChange={([selected]) => {
+                      if (selected.target.value) return selected.target.value
+
+                      return undefined
+                    }}
                     dateFormat='yyyy-MM-dd'
                     placeholderText='Select Tenancy End Date'
                     customInput={
