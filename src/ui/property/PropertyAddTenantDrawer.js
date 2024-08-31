@@ -138,7 +138,7 @@ const PropertyAddTenantDrawer = props => {
     resolver: yupResolver(schema)
   })
 
-  const onSubmit = data => {
+  const onSubmit = formData => {
     // If formData should be an array, keep it as is
     const property_id = propertyData.id
 

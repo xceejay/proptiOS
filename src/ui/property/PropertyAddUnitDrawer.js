@@ -50,7 +50,7 @@ const AddUnitDrawer = props => {
       .string()
       .min(3, obj => showErrors('name', obj.value.length, obj.min))
       .required(),
-    monthly_rent_amount: yup.number().min(1, 'Rent amount must be at least 1').required(),
+    rent_amount: yup.number().min(1, 'Rent amount must be at least 1').required(),
     rent_amount_currency: yup.string().required('Currency is required'),
     floor_no: yup.number().min(1, 'Floor number must be at least 1').required(),
     bedrooms: yup.number().min(1, 'Bedrooms must be at least 1').required(),
@@ -68,7 +68,7 @@ const AddUnitDrawer = props => {
   // Updated default values based on the unit fields
   const defaultValues = {
     name: '',
-    monthly_rent_amount: '',
+    rent_amount: 1,
     rent_amount_currency: '',
     floor_no: 1,
     bedrooms: 1,
@@ -80,6 +80,8 @@ const AddUnitDrawer = props => {
     tenancy_end_date: undefined,
     unit_image_url: '',
     description: '',
+    tenant_id: undefined,
+
     lease_id: null
   }
 
@@ -199,6 +201,7 @@ const AddUnitDrawer = props => {
       ...item,
       property_id: property_id
     }))
+    console.log('the nice id :', propertyData)
 
     properties.addUnits(
       requestData,
@@ -217,7 +220,7 @@ const AddUnitDrawer = props => {
         }
 
         const updatedRequestData = requestData.map(unit => {
-          const matchingUnit = data.find(response => response.email === unit.email)
+          const matchingUnit = data.find(response => response.id === unit.id)
 
           if (matchingUnit) {
             return {
@@ -317,15 +320,15 @@ const AddUnitDrawer = props => {
             )}
           </FormControl>
           <FormControl fullWidth sx={{ mb: 4 }} variant='outlined'>
-            <FormHelperText>Monthly Rent Amount</FormHelperText>
+            <FormHelperText>Rent Amount</FormHelperText>
             <Controller
-              name='monthly_rent_amount'
+              name='rent_amount'
               control={control}
               render={({ field: { value, onChange, onBlur } }) => (
                 <>
                   <OutlinedInput
                     value={value}
-                    name='monthly_rent_amount'
+                    name='rent_amount'
                     onChange={onChange}
                     onBlur={onBlur}
                     error={Boolean(errors.monthly_rent_amount)}
@@ -345,35 +348,45 @@ const AddUnitDrawer = props => {
 
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
-              render={({ onChange, ...props }) => (
+              name='lease_id'
+              control={control}
+              defaultValue='' // Ensure this matches your form's initial value
+              render={({ field: { onChange, onBlur, value, ref } }) => (
                 <Autocomplete
                   options={propertyData.leases}
-                  getOptionLabel={lease => lease.name + '(' + lease.id + ')'} // Display the tenant name
+                  getOptionLabel={lease => lease.name + ' (' + lease.id + ')'}
                   getOptionDisabled={lease => !!lease?.tenant_id}
+                  onChange={(event, newValue) => {
+                    // Pass the new value's id or an empty string to handle the form state
+                    onChange(newValue ? newValue.id : '')
+                  }}
+                  value={propertyData.leases.find(lease => lease.id === value) || null} // Set the selected value
                   renderInput={params => <TextField {...params} label='Lease Attached' />}
+                  isOptionEqualToValue={(option, value) => option.id === value} // Ensure proper comparison
                 />
               )}
-              onChange={([, data]) => data}
-              defaultValue={''}
-              name={name}
-              control={control}
             />
           </FormControl>
 
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
-              render={({ onChange, ...props }) => (
+              name='tenant_id'
+              control={control}
+              defaultValue='' // Ensure this matches your form's initial value
+              render={({ field: { onChange, onBlur, value, ref } }) => (
                 <Autocomplete
                   options={propertyData.tenants}
-                  getOptionLabel={tenant => tenant.name + '(' + tenant.email + ')'} // Display the tenant name
+                  getOptionLabel={tenant => tenant.name + ' (' + tenant.email + ')'}
                   getOptionDisabled={tenant => !!tenant?.unit_id}
+                  onChange={(event, newValue) => {
+                    // Pass the new value's id or an empty string to handle the form state
+                    onChange(newValue ? newValue.id : '')
+                  }}
+                  value={propertyData.tenants.find(tenant => tenant.id === value) || null} // Set the selected value
                   renderInput={params => <TextField {...params} label='Tenant Occupied' />}
+                  isOptionEqualToValue={(option, value) => option.id === value} // Ensure proper comparison
                 />
               )}
-              onChange={([, data]) => data}
-              defaultValue={''}
-              name={name}
-              control={control}
             />
           </FormControl>
 

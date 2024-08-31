@@ -35,9 +35,66 @@ import TableContainer from '@mui/material/TableContainer'
 import Icon from 'src/@core/components/icon'
 import { DataGrid } from '@mui/x-data-grid'
 import AddUnitDrawer from './PropertyAddUnitDrawer'
-import { CardActions } from '@mui/material'
+import { CardActions, Menu, MenuItem } from '@mui/material'
 import CustomTenantToolbar from 'src/views/table/data-grid/CustomTenantToolbar'
 import CustomNoRowsOverlay from '../CustomNoRowsOverlay'
+import { useDispatch } from 'react-redux'
+
+const RowOptions = ({ id }) => {
+  const dispatch = useDispatch()
+  const [anchorEl, setAnchorEl] = useState(null)
+  const rowOptionsOpen = Boolean(anchorEl)
+
+  const handleRowOptionsClick = event => {
+    setAnchorEl(event.currentTarget)
+  }
+
+  const handleRowOptionsClose = () => {
+    setAnchorEl(null)
+  }
+
+  const handleDelete = () => {
+    dispatch(deleteUser(id))
+    handleRowOptionsClose()
+  }
+
+  return (
+    <>
+      <IconButton size='small' onClick={handleRowOptionsClick}>
+        <Icon icon='tabler:dots-vertical' />
+      </IconButton>
+      <Menu
+        keepMounted
+        anchorEl={anchorEl}
+        open={rowOptionsOpen}
+        onClose={handleRowOptionsClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right'
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right'
+        }}
+        PaperProps={{ style: { minWidth: '8rem' } }}
+      >
+        <MenuItem
+          component={Link}
+          sx={{ '& svg': { mr: 2 } }}
+          href={'/properties/' + id}
+          onClick={handleRowOptionsClose}
+        >
+          <Icon icon='tabler:eye' fontSize={20} />
+          View
+        </MenuItem>
+        <MenuItem onClick={handleDelete} sx={{ '& svg': { mr: 2 } }}>
+          <Icon icon='tabler:trash' fontSize={20} />
+          Quick Suspend
+        </MenuItem>
+      </Menu>
+    </>
+  )
+}
 
 const columns = [
   { flex: 1, field: 'id', headerName: 'Unit Id', width: 90 },
@@ -47,10 +104,18 @@ const columns = [
     headerName: 'Occupied Tenant',
     flex: 1,
     width: 300
+  },
+  {
+    flex: 0.1,
+    minWidth: 100,
+    sortable: false,
+    field: 'actions',
+    headerName: 'Actions',
+    renderCell: ({ row }) => <RowOptions id={row.id} />
   }
 ]
 
-const PropertyViewUnits = (setPropertyData, propertyData) => {
+const PropertyViewUnits = ({ setPropertyData, propertyData }) => {
   const [addUnitOpen, setAddUnitOpen] = useState(false)
   const [unitsData, setUnitsData] = useState([])
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
@@ -75,6 +140,8 @@ const PropertyViewUnits = (setPropertyData, propertyData) => {
       })
       setUnitsData(units)
     }
+
+    console.log('is there propertyData?', propertyData)
   }, [propertyData])
 
   return (
