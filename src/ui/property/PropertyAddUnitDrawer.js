@@ -226,6 +226,7 @@ const AddUnitDrawer = props => {
 
     // Debug: Check the requestData before making the API call
     console.log('Request Data:', requestData)
+
     properties.addUnits(
       requestData,
       responseData => {
@@ -246,27 +247,6 @@ const AddUnitDrawer = props => {
           const matchingUnit = data.find(response => response.uuid === unit.uuid)
 
           if (matchingUnit) {
-            setPropertyData(prevData => {
-              // Find the tenant to update
-              const updatedTenants = prevData.tenants.map(tenant => {
-                if (tenant.id === matchingUnit.tenant_id) {
-                  // Update the tenant's unit_id
-                  return {
-                    ...tenant,
-                    unit_id: matchingUnit.id // Assuming 'id' is the 'unit_id'
-                  }
-                }
-
-                return tenant
-              })
-
-              // Return the updated property data
-              return {
-                ...prevData,
-                tenants: updatedTenants
-              }
-            })
-
             return {
               ...unit,
               id: matchingUnit.id,
@@ -285,11 +265,7 @@ const AddUnitDrawer = props => {
         console.log('old Units Data', unitsData)
         console.log('request Data', updatedRequestData)
 
-        setUnitsData(prevData => {
-          ;[...prevData, ...updatedRequestData]
-
-          console.log('New Units Data:', unitsData)
-        })
+        setUnitsData(prevData => [...prevData, ...updatedRequestData])
 
         handleClose()
       },
