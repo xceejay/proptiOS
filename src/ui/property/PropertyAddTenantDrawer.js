@@ -116,52 +116,6 @@ const defaultValues = {
   user_type: 'tenant'
 }
 
-const onSubmit = formData => {
-  // If formData should be an array, keep it as is
-  let requestData = [formData]
-
-  tenants.addTenants(
-    requestData,
-    responseData => {
-      console.log('Add Tenant Drawer')
-      let { data } = responseData
-
-      if (data?.status === 'FAILED') {
-        alert(data.description || 'Failed to add tenant')
-        setError('email', {
-          type: 'manual',
-          message: data.description || 'Unknown error occurred'
-        })
-
-        return
-      }
-
-      const updatedRequestData = requestData.map(tenant => {
-        const matchingTenant = data.find(response => response.email === tenant.email)
-
-        if (matchingTenant) {
-          return {
-            ...tenant,
-            id: matchingTenant.id
-          }
-        }
-
-        return tenant
-      })
-      setTenantsData(prevData => ({
-        ...prevData,
-        items: [...prevData.items, ...updatedRequestData]
-      }))
-
-      // Close the drawer
-      handleClose()
-    },
-    error => {
-      console.error('error FROM Tenant drawer PAGE:', error)
-    }
-  )
-}
-
 const PropertyAddTenantDrawer = props => {
   const { setPropertyData, propertyData, open, toggle } = props
 
@@ -186,10 +140,13 @@ const PropertyAddTenantDrawer = props => {
 
   const onSubmit = data => {
     // If formData should be an array, keep it as is
-    const formData = {
-      ...data,
-      property_id: propertyData.id
-    }
+    const property_id = propertyData.id
+
+    // If requestData should be an array of formData items with property_id attached
+    const requestData = [formData].map(item => ({
+      ...item,
+      property_id: property_id
+    }))
 
     tenants.addTenants(
       requestData,
