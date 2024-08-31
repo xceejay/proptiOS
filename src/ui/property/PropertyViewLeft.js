@@ -40,6 +40,9 @@ import PropertySubscriptionDialog from 'src/ui/property/PropertySubscriptionDial
 import { getInitials } from 'src/@core/utils/get-initials'
 import { useProperties } from 'src/hooks/useProperties'
 import toast from 'react-hot-toast'
+import { CircularProgress, IconButton, SvgIcon, Tooltip } from '@mui/material'
+import { Refresh } from '@mui/icons-material'
+import { RefreshRounded } from '@mui/icons-material'
 
 const roleColors = {
   admin: 'error',
@@ -78,6 +81,7 @@ const UserViewLeft = ({ setPropertyData, propertyData }) => {
   // ** States
   const [openEdit, setOpenEdit] = useState(false)
   const [openPlans, setOpenPlans] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [suspendDialogOpen, setSuspendDialogOpen] = useState(false)
   const [subscriptionDialogOpen, setSubscriptionDialogOpen] = useState(false)
 
@@ -118,6 +122,7 @@ const UserViewLeft = ({ setPropertyData, propertyData }) => {
   }, [propertyData, id])
 
   const refreshPropertyData = () => {
+    setLoading(true)
     if (id) {
       // Ensure id is defined before making the API call
       properties.getProperty(
@@ -133,10 +138,12 @@ const UserViewLeft = ({ setPropertyData, propertyData }) => {
           }
 
           toast.success(propertyData.name + ' data updated successfully', { duration: 3000 })
+          setLoading(false)
         },
         error => {
           console.log(id)
           console.error('FROM refresh btn PAGE:', error)
+          setLoading(false)
         }
       )
     }
@@ -152,7 +159,23 @@ const UserViewLeft = ({ setPropertyData, propertyData }) => {
               Back
             </Button>
 
-            <Button
+            {!loading ? (
+              <>
+                {' '}
+                <Tooltip title='Refresh Property'>
+                  <IconButton sx={{ ml: 2 }} onClick={() => refreshPropertyData()}>
+                    <RefreshRounded color='primary'></RefreshRounded>
+                  </IconButton>
+                </Tooltip>
+              </>
+            ) : (
+              <>
+                {' '}
+                <CircularProgress sx={{ ml: 2 }} size={20} disableShrink color='primary'></CircularProgress>{' '}
+              </>
+            )}
+
+            {/* <Button
               sx={{ ml: 2 }}
               size='small'
               variant='contained'
@@ -160,7 +183,7 @@ const UserViewLeft = ({ setPropertyData, propertyData }) => {
               onClick={() => refreshPropertyData()}
             >
               <Icon icon='tabler:refresh' fontSize={20} />
-            </Button>
+            </Button> */}
           </Grid>
 
           <Card>

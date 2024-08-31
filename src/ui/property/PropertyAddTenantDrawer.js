@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Drawer from '@mui/material/Drawer'
 import Select from '@mui/material/Select'
 import Button from '@mui/material/Button'
@@ -18,7 +18,11 @@ import Icon from 'src/@core/components/icon'
 import { useDispatch, useSelector } from 'react-redux'
 import { addUser } from 'src/store/apps/user'
 import { useTenants } from 'src/hooks/useTenants'
+import Autocomplete from '@mui/material/Autocomplete'
+
 import toast from 'react-hot-toast'
+import { useRouter } from 'next/router'
+import { useProperties } from 'src/hooks/useProperties'
 
 const showErrors = (field, valueLen, min) => {
   if (valueLen === 0) {
@@ -46,7 +50,8 @@ const schema = yup.object().shape({
   email: yup.string().email().required(),
   address: yup.string(),
   tel_number: yup.string(),
-  user_type: yup.string()
+  user_type: yup.string(),
+  unit_id: yup.string().nullable()
 })
 
 const countries = [
@@ -113,6 +118,7 @@ const defaultValues = {
   country: '',
   tel_number: '',
   property_name: '',
+  unit_id: undefined,
   user_type: 'tenant'
 }
 
@@ -122,6 +128,7 @@ const PropertyAddTenantDrawer = props => {
   console.dir(propertyData)
 
   const [role, setRole] = useState('tenant')
+  const properties = useProperties()
 
   const tenants = useTenants()
 
@@ -137,6 +144,35 @@ const PropertyAddTenantDrawer = props => {
     mode: 'onChange',
     resolver: yupResolver(schema)
   })
+  const router = useRouter()
+  const { id } = router.query
+
+  const refreshPropertyData = () => {
+    if (id) {
+      // Ensure id is defined before making the API call
+      properties.getProperty(
+        id,
+        responseData => {
+          console.log('refreshed data')
+          let { data } = responseData
+          setPropertyData(data)
+          console.log('FROM INDEX PAGE:', responseData)
+
+          if (responseData?.status === 'FAILED') {
+            alert(responseData.message || 'Failed to fetch properties')
+          }
+        },
+        error => {
+          console.log(id)
+          console.error('FROM refresh btn PAGE:', error)
+        }
+      )
+    }
+  }
+
+  useEffect(() => {
+    refreshPropertyData()
+  }, [open])
 
   const onSubmit = formData => {
     // If formData should be an array, keep it as is
@@ -298,31 +334,25 @@ const PropertyAddTenantDrawer = props => {
 
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
-              name='unit'
+              name='unit_id'
               control={control}
-              render={({ field: { value, onChange, onBlur } }) => (
-                <>
-                  <TextField
-                    select
-                    id='custom-select-native'
-                    value={value}
-                    onChange={onChange}
-                    onBlur={onBlur}
-                    name='unit'
-                    fullWidth
-                    sx={{ mb: 4 }}
-                    label='Unit'
-                  >
-                    {propertyData.units.map(unit => (
-                      <MenuItem sx={{ fontSize: '15px' }} key={unit.id} value={unit.id}>
-                        {unit.name}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </>
+              defaultValue='' // Ensure this matches your form's initial value
+              render={({ field: { onChange, onBlur, value, ref } }) => (
+                <Autocomplete
+                  options={propertyData.units}
+                  getOptionLabel={unit => unit.name}
+                  getOptionDisabled={unit => !!unit.unit_tenant_id}
+                  onChange={(event, newValue) => {
+                    // Pass the new value's id or an empty string to handle the form state
+                    onChange(newValue ? newValue.id : '')
+                  }}
+                  value={propertyData.units.find(unit => unit.id === value) || null} // Set the selected value
+                  renderInput={params => <TextField {...params} label='Unit Occupied' />}
+                  isOptionEqualToValue={(option, value) => option.id === value} // Ensure proper comparison
+                />
               )}
             />
-            {errors.country && <FormHelperText sx={{ color: 'error.main' }}>{errors.country.message}</FormHelperText>}
+            {errors.unit_id && <FormHelperText sx={{ color: 'error.main' }}>{errors.unit_id.message}</FormHelperText>}
           </FormControl>
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
