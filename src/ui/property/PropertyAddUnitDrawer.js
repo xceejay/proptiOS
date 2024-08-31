@@ -14,6 +14,7 @@ import FormHelperText from '@mui/material/FormHelperText'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, Controller } from 'react-hook-form'
+import { v4 } from 'uuid'
 import Icon from 'src/@core/components/icon'
 import Autocomplete from '@mui/material/Autocomplete'
 import { OutlinedInput, InputAdornment } from '@mui/material'
@@ -64,9 +65,11 @@ const AddUnitDrawer = props => {
     description: yup.string().max(1000, 'Description can not exceed 1000 characters'),
     lease_id: yup.number().nullable()
   })
+  const unit_uuid = v4()
 
   // Updated default values based on the unit fields
   const defaultValues = {
+    uuid: unit_uuid,
     name: '',
     rent_amount: 1,
     rent_amount_currency: '',
@@ -220,12 +223,13 @@ const AddUnitDrawer = props => {
         }
 
         const updatedRequestData = requestData.map(unit => {
-          const matchingUnit = data.find(response => response.id === unit.id)
+          const matchingUnit = data.find(response => response.uuid === unit.uuid)
 
           if (matchingUnit) {
             return {
               ...unit,
-              id: matchingUnit.id
+              id: matchingUnit.id,
+              uuid: matchingUnit.uuid
             }
           }
 
@@ -234,10 +238,11 @@ const AddUnitDrawer = props => {
 
         toast.success('Unit has been successfully added', { duration: 5000 })
 
-        setUnitsData(prevData => ({
-          ...prevData,
-          items: [...prevData.items, ...updatedRequestData]
-        }))
+        setUnitsData([...updatedRequestData])
+        console.log(' data', data)
+        console.log(' reqdata', requestData)
+
+        console.log('new units data', unitsData)
 
         handleClose()
       },
@@ -274,6 +279,26 @@ const AddUnitDrawer = props => {
       </Header>
       <Box sx={{ p: theme => theme.spacing(0, 6, 6) }}>
         <form onSubmit={handleSubmit(onSubmit)}>
+          <FormControl fullWidth sx={{ mb: 4, mt: 4 }}>
+            <Controller
+              name='uuid'
+              control={control}
+              render={({ field: { value = { unit_uuid }, onChange } }) => (
+                <TextField
+                  disabled
+                  value={unit_uuid}
+                  label='Unique Id'
+                  onChange={onChange}
+                  placeholder='Greenwood Apartments'
+                  error={Boolean(errors.property_name)}
+                />
+              )}
+            />
+            {errors.unit_uuid && (
+              <FormHelperText sx={{ color: 'error.main' }}>{errors.unit_uuid.message}</FormHelperText>
+            )}
+          </FormControl>
+
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
               name='name'
@@ -331,7 +356,7 @@ const AddUnitDrawer = props => {
                     name='rent_amount'
                     onChange={onChange}
                     onBlur={onBlur}
-                    error={Boolean(errors.monthly_rent_amount)}
+                    error={Boolean(errors.rent_amount)}
                     type='number'
                     placeholder='2000.00'
                     startAdornment={
@@ -341,8 +366,8 @@ const AddUnitDrawer = props => {
                 </>
               )}
             />
-            {errors.monthly_rent_amount && (
-              <FormHelperText sx={{ color: 'error.main' }}>{errors.monthly_rent_amount.message}</FormHelperText>
+            {errors.rent_amount && (
+              <FormHelperText sx={{ color: 'error.main' }}>{errors.rent_amount.message}</FormHelperText>
             )}
           </FormControl>
 
