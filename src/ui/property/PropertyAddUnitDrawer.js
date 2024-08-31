@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Drawer from '@mui/material/Drawer'
 import Select from '@mui/material/Select'
 import Button from '@mui/material/Button'
@@ -25,6 +25,14 @@ import { useProperties } from 'src/hooks/useProperties'
 
 const AddUnitDrawer = props => {
   const { setUnitsData, unitsData, setPropertyData, propertyData, open, toggle } = props
+
+  const [unitUUID, setUnitUUID] = useState(v4())
+
+  useEffect(() => {
+    console.log('uuid change')
+    let unit_uuid = v4()
+    setUnitUUID(unit_uuid)
+  }, [open, toggle])
 
   const properties = useProperties()
 
@@ -58,18 +66,16 @@ const AddUnitDrawer = props => {
     bathroom: yup.number().min(1, 'Bathroom count must be at least 1').required(),
     furnished: yup.number().min(0).max(1, 'Furnished should be either 0 or 1').required(),
     common_area: yup.number().min(0).max(1, 'Common Area should be either 0 or 1').required(),
-    address: yup.string().required('Address is required'),
+    address: yup.string().nullable(),
     tenancy_start_date: yup.date().nullable(),
     tenancy_end_date: yup.date().nullable(),
     unit_image_url: yup.string().url('Invalid image URL'),
     description: yup.string().max(1000, 'Description can not exceed 1000 characters'),
     lease_id: yup.number().nullable()
   })
-  const unit_uuid = v4()
 
   // Updated default values based on the unit fields
   const defaultValues = {
-    uuid: unit_uuid,
     name: '',
     rent_amount: 1,
     rent_amount_currency: '',
@@ -197,19 +203,34 @@ const AddUnitDrawer = props => {
   })
 
   const onSubmit = formData => {
+    // Find the selected tenant by tenant_id
+    const selectedTenant = propertyData.tenants.find(tenant => tenant.id === formData.tenant_id)
+
+    // Debug: Check if selectedTenant is found correctly
+    console.log('Selected Tenant:', selectedTenant)
+
+    // Add tenant_name to the form data if selectedTenant is found
+    formData.tenant_name = selectedTenant ? selectedTenant.name : ''
+    formData.uuid = formData.uuid ? formData.uuid : unitUUID
+
+    // Debug: Check the formData after adding tenant_name
+    console.log('Form Data:', formData)
+
     const property_id = propertyData.id
 
-    // If requestData should be an array of formData items with property_id attached
+    // Prepare the requestData with property_id attached
     const requestData = [formData].map(item => ({
       ...item,
       property_id: property_id
     }))
-    console.log('the nice id :', propertyData)
+
+    // Debug: Check the requestData before making the API call
+    console.log('Request Data:', requestData)
 
     properties.addUnits(
       requestData,
       responseData => {
-        console.log('Add Unit Drawer')
+        console.log('Add Unit Drawer Response:', responseData)
         let { data } = responseData
 
         if (data?.status === 'FAILED') {
@@ -229,7 +250,11 @@ const AddUnitDrawer = props => {
             return {
               ...unit,
               id: matchingUnit.id,
-              uuid: matchingUnit.uuid
+              uuid: matchingUnit.uuid,
+              tenant: {
+                id: matchingUnit.tenant_id,
+                name: matchingUnit.tenant_name
+              }
             }
           }
 
@@ -237,17 +262,19 @@ const AddUnitDrawer = props => {
         })
 
         toast.success('Unit has been successfully added', { duration: 5000 })
+        console.log('old Units Data', unitsData)
+        console.log('request Data', updatedRequestData)
 
-        setUnitsData([...updatedRequestData])
-        console.log(' data', data)
-        console.log(' reqdata', requestData)
+        setUnitsData(prevData => {
+          ;[...prevData, ...updatedRequestData]
 
-        console.log('new units data', unitsData)
+          console.log('New Units Data:', unitsData)
+        })
 
         handleClose()
       },
       error => {
-        console.error('error FROM Unit drawer PAGE:', error)
+        console.error('Error FROM Unit Drawer PAGE:', error)
       }
     )
   }
@@ -279,26 +306,25 @@ const AddUnitDrawer = props => {
       </Header>
       <Box sx={{ p: theme => theme.spacing(0, 6, 6) }}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <FormControl fullWidth sx={{ mb: 4, mt: 4 }}>
+          {/* <FormControl fullWidth sx={{ mb: 4, mt: 4 }}>
             <Controller
               name='uuid'
               control={control}
-              render={({ field: { value = { unit_uuid }, onChange } }) => (
+              render={({ field: { value, onChange } }) => (
                 <TextField
                   disabled
-                  value={unit_uuid}
-                  label='Unique Id'
+                  value={unitUUID} // Directly use the value from the field
+                  label='Unit Unique Id'
                   onChange={onChange}
                   placeholder='Greenwood Apartments'
-                  error={Boolean(errors.property_name)}
+                  error={Boolean(errors.unit_uuid)}
                 />
               )}
             />
             {errors.unit_uuid && (
               <FormHelperText sx={{ color: 'error.main' }}>{errors.unit_uuid.message}</FormHelperText>
             )}
-          </FormControl>
-
+          </FormControl> */}
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
               name='name'
