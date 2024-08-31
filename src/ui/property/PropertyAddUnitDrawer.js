@@ -15,158 +15,204 @@ import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, Controller } from 'react-hook-form'
 import Icon from 'src/@core/components/icon'
-import { useDispatch, useSelector } from 'react-redux'
-import * as React from 'react'
 import Autocomplete from '@mui/material/Autocomplete'
-
-import { addUser } from 'src/store/apps/user'
+import { OutlinedInput, InputAdornment } from '@mui/material'
 import toast from 'react-hot-toast'
+import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
+import DatePicker from 'react-datepicker'
 
-const showErrors = (field, valueLen, min) => {
-  if (valueLen === 0) {
-    return `${field} field is required`
-  } else if (valueLen > 0 && valueLen < min) {
-    return `${field} must be at least ${min} characters`
-  } else {
-    return ''
-  }
-}
-
-const Header = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  padding: theme.spacing(6),
-  justifyContent: 'space-between'
-}))
-
-// Update validation schema based on the unit fields
+// Updated validation schema based on the unit fields
 const schema = yup.object().shape({
   name: yup
     .string()
     .min(3, obj => showErrors('name', obj.value.length, obj.min))
     .required(),
-  email: yup.string().email().required(),
-  address: yup.string(),
-  tel_number: yup.string(),
-  user_type: yup.string()
+  monthly_rent_amount: yup.number().min(1, 'Rent amount must be at least 1').required(),
+  rent_amount_currency: yup.string().required('Currency is required'),
+  floor_no: yup.number().min(1, 'Floor number must be at least 1').required(),
+  bedrooms: yup.number().min(1, 'Bedrooms must be at least 1').required(),
+  bathroom: yup.number().min(1, 'Bathroom count must be at least 1').required(),
+  furnished: yup.number().min(0).max(1, 'Furnished should be either 0 or 1').required(),
+  common_area: yup.number().min(0).max(1, 'Common Area should be either 0 or 1').required(),
+  address: yup.string().required('Address is required'),
+  tenancy_start_date: yup.date().required('Tenancy start date is required'),
+  tenancy_end_date: yup.date().nullable(),
+  unit_image_url: yup.string().url('Invalid image URL'),
+  description: yup.string().max(1000, 'Description can not exceed 1000 characters'),
+  lease_id: yup.number().nullable()
 })
 
-const countries = [
-  { name: 'Algeria', code: 'DZA' },
-  { name: 'Angola', code: 'AGO' },
-  { name: 'Benin', code: 'BEN' },
-  { name: 'Botswana', code: 'BWA' },
-  { name: 'Burkina Faso', code: 'BFA' },
-  { name: 'Burundi', code: 'BDI' },
-  { name: 'Cabo Verde', code: 'CPV' },
-  { name: 'Cameroon', code: 'CMR' },
-  { name: 'Central African Republic', code: 'CAF' },
-  { name: 'Chad', code: 'TCD' },
-  { name: 'Comoros', code: 'COM' },
-  { name: 'Democratic Republic of the Congo', code: 'COD' },
-  { name: 'Republic of the Congo', code: 'COG' },
-  { name: 'Djibouti', code: 'DJI' },
-  { name: 'Egypt', code: 'EGY' },
-  { name: 'Equatorial Guinea', code: 'GNQ' },
-  { name: 'Eritrea', code: 'ERI' },
-  { name: 'Eswatini', code: 'SWZ' },
-  { name: 'Ethiopia', code: 'ETH' },
-  { name: 'Gabon', code: 'GAB' },
-  { name: 'Gambia', code: 'GMB' },
-  { name: 'Ghana', code: 'GHA' },
-  { name: 'Guinea', code: 'GIN' },
-  { name: 'Guinea-Bissau', code: 'GNB' },
-  { name: 'Ivory Coast', code: 'CIV' },
-  { name: 'Kenya', code: 'KEN' },
-  { name: 'Lesotho', code: 'LSO' },
-  { name: 'Liberia', code: 'LBR' },
-  { name: 'Libya', code: 'LBY' },
-  { name: 'Madagascar', code: 'MDG' },
-  { name: 'Malawi', code: 'MWI' },
-  { name: 'Mali', code: 'MLI' },
-  { name: 'Mauritania', code: 'MRT' },
-  { name: 'Mauritius', code: 'MUS' },
-  { name: 'Morocco', code: 'MAR' },
-  { name: 'Mozambique', code: 'MOZ' },
-  { name: 'Namibia', code: 'NAM' },
-  { name: 'Niger', code: 'NER' },
-  { name: 'Nigeria', code: 'NGA' },
-  { name: 'Rwanda', code: 'RWA' },
-  { name: 'Sao Tome and Principe', code: 'STP' },
-  { name: 'Senegal', code: 'SEN' },
-  { name: 'Seychelles', code: 'SYC' },
-  { name: 'Sierra Leone', code: 'SLE' },
-  { name: 'Somalia', code: 'SOM' },
-  { name: 'South Africa', code: 'ZAF' },
-  { name: 'South Sudan', code: 'SSD' },
-  { name: 'Sudan', code: 'SDN' },
-  { name: 'Tanzania', code: 'TZA' },
-  { name: 'Togo', code: 'TGO' },
-  { name: 'Tunisia', code: 'TUN' },
-  { name: 'Uganda', code: 'UGA' },
-  { name: 'Zambia', code: 'ZMB' },
-  { name: 'Zimbabwe', code: 'ZWE' }
-]
-
+// Updated default values based on the unit fields
 const defaultValues = {
   name: '',
-  email: '',
+  monthly_rent_amount: '',
+  rent_amount_currency: '',
+  floor_no: 1,
+  bedrooms: 1,
+  bathroom: 1,
+  furnished: 0,
+  common_area: 1,
   address: '',
-  country: '',
-  tel_number: '',
-  user_type: 'unit'
-}
-
-const onSubmit = formData => {
-  // If formData should be an array, keep it as is
-  let requestData = [formData]
-
-  units.addUnits(
-    requestData,
-    responseData => {
-      console.log('Add Unit Drawer')
-      let { data } = responseData
-
-      if (data?.status === 'FAILED') {
-        alert(data.description || 'Failed to add unit')
-        setError('email', {
-          type: 'manual',
-          message: data.description || 'Unknown error occurred'
-        })
-
-        return
-      }
-
-      const updatedRequestData = requestData.map(unit => {
-        const matchingUnit = data.find(response => response.email === unit.email)
-
-        if (matchingUnit) {
-          return {
-            ...unit,
-            id: matchingUnit.id
-          }
-        }
-
-        return unit
-      })
-      setUnitsData(prevData => ({
-        ...prevData,
-        items: [...prevData.items, ...updatedRequestData]
-      }))
-
-      // Close the drawer
-      handleClose()
-    },
-    error => {
-      console.error('error FROM Unit drawer PAGE:', error)
-    }
-  )
+  tenancy_start_date: '',
+  tenancy_end_date: '',
+  unit_image_url: '',
+  description: '',
+  lease_id: null
 }
 
 const AddUnitDrawer = props => {
   const { setUnitsData, unitsData, setPropertyData, propertyData, open, toggle } = props
 
-  const [role, setRole] = useState('unit')
+  const showErrors = (field, valueLen, min) => {
+    if (valueLen === 0) {
+      return `${field} field is required`
+    } else if (valueLen > 0 && valueLen < min) {
+      return `${field} must be at least ${min} characters`
+    } else {
+      return ''
+    }
+  }
+
+  const Header = styled(Box)(({ theme }) => ({
+    display: 'flex',
+    alignItems: 'center',
+    padding: theme.spacing(6),
+    justifyContent: 'space-between'
+  }))
+
+  // Update validation schema based on the unit fields
+  const schema = yup.object().shape({
+    name: yup
+      .string()
+      .min(3, obj => showErrors('name', obj.value.length, obj.min))
+      .required(),
+    monthly_rent_amount: yup.number().min(1, 'Rent amount must be at least 1').required(),
+    rent_amount_currency: yup.string().required('Currency is required'),
+    floor_no: yup.number().min(1, 'Floor number must be at least 1').required(),
+    bedrooms: yup.number().min(1, 'Bedrooms must be at least 1').required(),
+    bathroom: yup.number().min(1, 'Bathroom count must be at least 1').required(),
+    furnished: yup.number().min(0).max(1, 'Furnished should be either 0 or 1').required(),
+    common_area: yup.number().min(0).max(1, 'Common Area should be either 0 or 1').required(),
+    address: yup.string().required('Address is required'),
+    tenancy_start_date: yup.date().nullable(),
+    tenancy_end_date: yup.date().nullable(),
+    unit_image_url: yup.string().url('Invalid image URL'),
+    description: yup.string().max(1000, 'Description can not exceed 1000 characters'),
+    lease_id: yup.number().nullable()
+  })
+
+  // Updated default values based on the unit fields
+  const defaultValues = {
+    name: '',
+    monthly_rent_amount: '',
+    rent_amount_currency: '',
+    floor_no: 1,
+    bedrooms: 1,
+    bathroom: 1,
+    furnished: 0,
+    common_area: 1,
+    address: '',
+    tenancy_start_date: '',
+    tenancy_end_date: '',
+    unit_image_url: '',
+    description: '',
+    lease_id: null
+  }
+
+  // ISO 4217
+  const currencies = [
+    { code: 'USD', name: 'United States Dollar', symbol: '$' },
+    { code: 'EUR', name: 'Euro', symbol: '€' },
+    { code: 'GBP', name: 'British Pound Sterling', symbol: '£' },
+    { code: 'JPY', name: 'Japanese Yen', symbol: '¥' },
+    { code: 'CHF', name: 'Swiss Franc', symbol: 'CHF' },
+    { code: 'CAD', name: 'Canadian Dollar', symbol: '$' },
+    { code: 'AUD', name: 'Australian Dollar', symbol: '$' },
+    { code: 'CNY', name: 'Chinese Yuan', symbol: '¥' },
+    { code: 'INR', name: 'Indian Rupee', symbol: '₹' },
+    { code: 'ZAR', name: 'South African Rand', symbol: 'R' },
+    { code: 'NGN', name: 'Nigerian Naira', symbol: '₦' },
+    { code: 'GHS', name: 'Ghanaian Cedi', symbol: '₵' },
+    { code: 'KES', name: 'Kenyan Shilling', symbol: 'KSh' },
+    { code: 'UGX', name: 'Ugandan Shilling', symbol: 'USh' },
+    { code: 'TZS', name: 'Tanzanian Shilling', symbol: 'TSh' },
+    { code: 'BRL', name: 'Brazilian Real', symbol: 'R$' },
+    { code: 'MXN', name: 'Mexican Peso', symbol: '$' },
+    { code: 'RUB', name: 'Russian Ruble', symbol: '₽' },
+    { code: 'SGD', name: 'Singapore Dollar', symbol: '$' },
+    { code: 'HKD', name: 'Hong Kong Dollar', symbol: '$' },
+    { code: 'SEK', name: 'Swedish Krona', symbol: 'kr' },
+    { code: 'NOK', name: 'Norwegian Krone', symbol: 'kr' },
+    { code: 'DKK', name: 'Danish Krone', symbol: 'kr' },
+    { code: 'PLN', name: 'Polish Zloty', symbol: 'zł' },
+    { code: 'TRY', name: 'Turkish Lira', symbol: '₺' },
+    { code: 'KRW', name: 'South Korean Won', symbol: '₩' },
+    { code: 'MYR', name: 'Malaysian Ringgit', symbol: 'RM' },
+    { code: 'THB', name: 'Thai Baht', symbol: '฿' },
+    { code: 'PHP', name: 'Philippine Peso', symbol: '₱' },
+    { code: 'IDR', name: 'Indonesian Rupiah', symbol: 'Rp' },
+    { code: 'SAR', name: 'Saudi Riyal', symbol: '﷼' },
+    { code: 'AED', name: 'United Arab Emirates Dirham', symbol: 'د.إ' },
+    { code: 'EGP', name: 'Egyptian Pound', symbol: '£' },
+    { code: 'MAD', name: 'Moroccan Dirham', symbol: 'د.م.' }
+  ]
+
+  const countries = [
+    { name: 'Algeria', code: 'DZA' },
+    { name: 'Angola', code: 'AGO' },
+    { name: 'Benin', code: 'BEN' },
+    { name: 'Botswana', code: 'BWA' },
+    { name: 'Burkina Faso', code: 'BFA' },
+    { name: 'Burundi', code: 'BDI' },
+    { name: 'Cabo Verde', code: 'CPV' },
+    { name: 'Cameroon', code: 'CMR' },
+    { name: 'Central African Republic', code: 'CAF' },
+    { name: 'Chad', code: 'TCD' },
+    { name: 'Comoros', code: 'COM' },
+    { name: 'Democratic Republic of the Congo', code: 'COD' },
+    { name: 'Republic of the Congo', code: 'COG' },
+    { name: 'Djibouti', code: 'DJI' },
+    { name: 'Egypt', code: 'EGY' },
+    { name: 'Equatorial Guinea', code: 'GNQ' },
+    { name: 'Eritrea', code: 'ERI' },
+    { name: 'Eswatini', code: 'SWZ' },
+    { name: 'Ethiopia', code: 'ETH' },
+    { name: 'Gabon', code: 'GAB' },
+    { name: 'Gambia', code: 'GMB' },
+    { name: 'Ghana', code: 'GHA' },
+    { name: 'Guinea', code: 'GIN' },
+    { name: 'Guinea-Bissau', code: 'GNB' },
+    { name: 'Ivory Coast', code: 'CIV' },
+    { name: 'Kenya', code: 'KEN' },
+    { name: 'Lesotho', code: 'LSO' },
+    { name: 'Liberia', code: 'LBR' },
+    { name: 'Libya', code: 'LBY' },
+    { name: 'Madagascar', code: 'MDG' },
+    { name: 'Malawi', code: 'MWI' },
+    { name: 'Mali', code: 'MLI' },
+    { name: 'Mauritania', code: 'MRT' },
+    { name: 'Mauritius', code: 'MUS' },
+    { name: 'Morocco', code: 'MAR' },
+    { name: 'Mozambique', code: 'MOZ' },
+    { name: 'Namibia', code: 'NAM' },
+    { name: 'Niger', code: 'NER' },
+    { name: 'Nigeria', code: 'NGA' },
+    { name: 'Rwanda', code: 'RWA' },
+    { name: 'Sao Tome and Principe', code: 'STP' },
+    { name: 'Senegal', code: 'SEN' },
+    { name: 'Seychelles', code: 'SYC' },
+    { name: 'Sierra Leone', code: 'SLE' },
+    { name: 'Somalia', code: 'SOM' },
+    { name: 'South Africa', code: 'ZAF' },
+    { name: 'South Sudan', code: 'SSD' },
+    { name: 'Sudan', code: 'SDN' },
+    { name: 'Tanzania', code: 'TZA' },
+    { name: 'Togo', code: 'TGO' },
+    { name: 'Tunisia', code: 'TUN' },
+    { name: 'Uganda', code: 'UGA' },
+    { name: 'Zambia', code: 'ZMB' },
+    { name: 'Zimbabwe', code: 'ZWE' }
+  ]
 
   const {
     reset,
@@ -182,7 +228,6 @@ const AddUnitDrawer = props => {
   })
 
   const onSubmit = formData => {
-    // If formData should be an array, keep it as is
     let requestData = [formData]
 
     units.addUnits(
@@ -214,16 +259,13 @@ const AddUnitDrawer = props => {
           return unit
         })
 
-        toast.success('Invitation email has been sent to ' + updatedRequestData[0].email, {
-          duration: 5000
-        })
+        toast.success('Unit has been successfully added', { duration: 5000 })
 
         setUnitsData(prevData => ({
           ...prevData,
           items: [...prevData.items, ...updatedRequestData]
         }))
 
-        // Close the drawer
         handleClose()
       },
       error => {
@@ -233,9 +275,7 @@ const AddUnitDrawer = props => {
   }
 
   const handleClose = () => {
-    setRole('unit')
-
-    // setValue('tel_number', '')
+    // setRole('unit')
     toggle()
     reset()
   }
@@ -268,9 +308,9 @@ const AddUnitDrawer = props => {
               render={({ field: { value = '', onChange } }) => (
                 <TextField
                   value={value}
-                  label='Full name'
+                  label='Unit Name'
                   onChange={onChange}
-                  placeholder='Mary Johnson'
+                  placeholder='Room 20A'
                   error={Boolean(errors.name)}
                 />
               )}
@@ -279,36 +319,75 @@ const AddUnitDrawer = props => {
           </FormControl>
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
-              name='email'
+              name='rent_amount_currency'
               control={control}
-              render={({ field: { value = '', onChange } }) => (
-                <TextField
-                  type='email'
-                  value={value}
-                  label='Email'
-                  onChange={onChange}
-                  placeholder='mary.johnson@example.com'
-                  error={Boolean(errors.email)}
-                />
+              render={({ field: { value, onChange, onBlur } }) => (
+                <>
+                  <TextField
+                    select
+                    id='custom-select-native'
+                    value={value}
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    name='rent_amount_currency'
+                    fullWidth
+                    label='Currency'
+                  >
+                    {currencies.map(currency => (
+                      <MenuItem sx={{ fontSize: '15px' }} key={currency.code} value={currency.code}>
+                        {currency.symbol} : {currency.name}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </>
               )}
             />
-            {errors.email && <FormHelperText sx={{ color: 'error.main' }}>{errors.email.message}</FormHelperText>}
+            {errors.rent_amount_currency && (
+              <FormHelperText sx={{ color: 'error.main' }}>{errors.rent_amount_currency.message}</FormHelperText>
+            )}
           </FormControl>
+          <FormControl fullWidth sx={{ mb: 4 }} variant='outlined'>
+            <FormHelperText>Monthly Rent Amount</FormHelperText>
+            <Controller
+              name='monthly_rent_amount'
+              control={control}
+              render={({ field: { value, onChange, onBlur } }) => (
+                <>
+                  <OutlinedInput
+                    value={value}
+                    name='monthly_rent_amount'
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    error={Boolean(errors.monthly_rent_amount)}
+                    type='number'
+                    placeholder='2000.00'
+                    startAdornment={
+                      <InputAdornment position='start'>{currencies.find(c => c.code === value)?.symbol}</InputAdornment>
+                    }
+                  />
+                </>
+              )}
+            />
+            {errors.monthly_rent_amount && (
+              <FormHelperText sx={{ color: 'error.main' }}>{errors.monthly_rent_amount.message}</FormHelperText>
+            )}
+          </FormControl>
+
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
-              name='address'
-              control={control}
-              render={({ field: { value = '', onChange } }) => (
-                <TextField
-                  value={value}
-                  label='Address'
-                  onChange={onChange}
-                  placeholder='456 Oak St'
-                  error={Boolean(errors.address)}
+              render={({ onChange, ...props }) => (
+                <Autocomplete
+                  options={propertyData.tenants}
+                  getOptionLabel={tenant => tenant.name + '(' + tenant.email + ')'} // Display the tenant name
+                  getOptionDisabled={tenant => !!tenant?.unit_id}
+                  renderInput={params => <TextField {...params} label='Lease Attached' />}
                 />
               )}
+              onChange={([, data]) => data}
+              defaultValue={''}
+              name={name}
+              control={control}
             />
-            {errors.address && <FormHelperText sx={{ color: 'error.main' }}>{errors.address.message}</FormHelperText>}
           </FormControl>
 
           <FormControl fullWidth sx={{ mb: 4 }}>
@@ -330,66 +409,236 @@ const AddUnitDrawer = props => {
 
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
-              name='country'
+              name='floor_no'
               control={control}
-              render={({ field: { value, onChange, onBlur } }) => (
-                <>
-                  <TextField
-                    select
-                    id='custom-select-native'
-                    value={value}
-                    onChange={onChange}
-                    onBlur={onBlur}
-                    name='country'
-                    fullWidth
-                    sx={{ mb: 4 }}
-                    label='Country'
-                  >
-                    {countries.map(country => (
-                      <MenuItem sx={{ fontSize: '15px' }} key={country.code} value={country.code}>
-                        {country.name}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </>
-              )}
-            />
-            {errors.country && <FormHelperText sx={{ color: 'error.main' }}>{errors.country.message}</FormHelperText>}
-          </FormControl>
-          <FormControl fullWidth sx={{ mb: 4 }}>
-            <Controller
-              name='tel_number'
-              control={control}
-              render={({ field: { value = '', onChange } }) => (
+              render={({ field: { value = 1, onChange } }) => (
                 <TextField
-                  type='tel'
                   value={value}
-                  label='Phone Number'
+                  label='Floor Number'
                   onChange={onChange}
-                  placeholder='9876543210'
-                  error={Boolean(errors.tel_number)}
+                  placeholder='2'
+                  error={Boolean(errors.floor_no)}
                 />
               )}
             />
-            {errors.tel_number && (
-              <FormHelperText sx={{ color: 'error.main' }}>{errors.tel_number.message}</FormHelperText>
+            {errors.floor_no && <FormHelperText sx={{ color: 'error.main' }}>{errors.floor_no.message}</FormHelperText>}
+          </FormControl>
+          <FormControl fullWidth sx={{ mb: 4 }}>
+            <Controller
+              name='bedrooms'
+              control={control}
+              render={({ field: { value = 1, onChange } }) => (
+                <TextField
+                  value={value}
+                  label='Number of Bedrooms'
+                  onChange={onChange}
+                  placeholder='1'
+                  error={Boolean(errors.bedrooms)}
+                />
+              )}
+            />
+            {errors.bedrooms && <FormHelperText sx={{ color: 'error.main' }}>{errors.bedrooms.message}</FormHelperText>}
+          </FormControl>
+          <FormControl fullWidth sx={{ mb: 4 }}>
+            <Controller
+              name='bathroom'
+              control={control}
+              render={({ field: { value = 1, onChange } }) => (
+                <TextField
+                  value={value}
+                  label='Number of Bathrooms'
+                  onChange={onChange}
+                  placeholder='1'
+                  error={Boolean(errors.bathroom)}
+                />
+              )}
+            />
+            {errors.bathroom && <FormHelperText sx={{ color: 'error.main' }}>{errors.bathroom.message}</FormHelperText>}
+          </FormControl>
+          <FormControl fullWidth sx={{ mb: 4 }}>
+            <Controller
+              name='furnished'
+              control={control}
+              render={({ field: { value = 0, onChange } }) => (
+                <TextField
+                  select
+                  value={value}
+                  label='Furnished'
+                  onChange={onChange}
+                  placeholder='0'
+                  error={Boolean(errors.furnished)}
+                >
+                  <MenuItem value={0}>No</MenuItem>
+                  <MenuItem value={1}>Yes</MenuItem>
+                </TextField>
+              )}
+            />
+            {errors.furnished && (
+              <FormHelperText sx={{ color: 'error.main' }}>{errors.furnished.message}</FormHelperText>
             )}
           </FormControl>
           <FormControl fullWidth sx={{ mb: 4 }}>
-            <InputLabel id='role-select'>User Type</InputLabel>
-            <Select
-              fullWidth
-              value={role}
-              id='select-role'
-              label='User Type'
-              labelId='role-select'
-              disabled
-              onChange={e => setRole(e.target.value)}
-              inputProps={{ placeholder: 'Select Role' }}
-            >
-              <MenuItem value='unit'>Unit</MenuItem>
-            </Select>
+            <Controller
+              name='common_area'
+              control={control}
+              render={({ field: { value = 1, onChange } }) => (
+                <TextField
+                  select
+                  value={value}
+                  label='Common Area'
+                  onChange={onChange}
+                  placeholder='1'
+                  error={Boolean(errors.common_area)}
+                >
+                  <MenuItem value={0}>No</MenuItem>
+                  <MenuItem value={1}>Yes</MenuItem>
+                </TextField>
+              )}
+            />
+            {errors.common_area && (
+              <FormHelperText sx={{ color: 'error.main' }}>{errors.common_area.message}</FormHelperText>
+            )}
           </FormControl>
+          <FormControl fullWidth sx={{ mb: 4 }}>
+            <Controller
+              name='address'
+              control={control}
+              render={({ field: { value = '', onChange } }) => (
+                <TextField
+                  value={value}
+                  label='Address'
+                  onChange={onChange}
+                  placeholder='456 Oak St'
+                  error={Boolean(errors.address)}
+                />
+              )}
+            />
+            {errors.address && <FormHelperText sx={{ color: 'error.main' }}>{errors.address.message}</FormHelperText>}
+          </FormControl>
+
+          <FormControl fullWidth sx={{ mb: 4 }}>
+            <Controller
+              name='tenancy_start_date'
+              control={control}
+              render={({ field: { value, onChange } }) => (
+                <DatePickerWrapper
+                  sx={{
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    '& .react-datepicker': { boxShadow: 'none !important', border: 'none !important' }
+                  }}
+                >
+                  <DatePicker
+                    selected={value}
+                    onChange={onChange}
+                    dateFormat='yyyy-MM-dd'
+                    placeholderText='Select Tenancy Start Date'
+                    customInput={<TextField label='Tenancy Start Date' error={Boolean(errors.tenancy_start_date)} />}
+                  />
+                </DatePickerWrapper>
+              )}
+            />
+            {errors.tenancy_start_date && (
+              <FormHelperText sx={{ color: 'error.main' }}>{errors.tenancy_start_date.message}</FormHelperText>
+            )}
+          </FormControl>
+          <FormControl fullWidth sx={{ mb: 4 }}>
+            <Controller
+              name='tenancy_end_date'
+              control={control}
+              render={({ field: { value, onChange } }) => (
+                <DatePickerWrapper
+                  sx={{
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    '& .react-datepicker': { boxShadow: 'none !important', border: 'none !important' }
+                  }}
+                >
+                  <DatePicker
+                    selected={value}
+                    onChange={onChange}
+                    dateFormat='yyyy-MM-dd'
+                    placeholderText='Select Tenancy End Date'
+                    customInput={
+                      <TextField
+                        label='Tenancy End Date'
+                        error={Boolean(errors.tenancy_end_date)}
+                        InputLabelProps={{
+                          shrink: true
+                        }}
+                      />
+                    }
+                  />
+                </DatePickerWrapper>
+              )}
+            />
+            {errors.tenancy_end_date && (
+              <FormHelperText sx={{ color: 'error.main' }}>{errors.tenancy_end_date.message}</FormHelperText>
+            )}
+          </FormControl>
+          <FormControl fullWidth sx={{ mb: 4 }}>
+            <Controller
+              name='unit_image_url'
+              control={control}
+              render={({ field: { value = '', onChange } }) => (
+                <TextField
+                  value={value}
+                  label='Unit Image URL'
+                  onChange={onChange}
+                  placeholder='http://example.com/image.jpg'
+                  error={Boolean(errors.unit_image_url)}
+                />
+              )}
+            />
+            {errors.unit_image_url && (
+              <FormHelperText sx={{ color: 'error.main' }}>{errors.unit_image_url.message}</FormHelperText>
+            )}
+          </FormControl>
+          <FormControl fullWidth sx={{ mb: 4 }}>
+            <Controller
+              name='description'
+              control={control}
+              render={({ field: { value = '', onChange } }) => (
+                <TextField
+                  value={value}
+                  label='Description'
+                  onChange={onChange}
+                  placeholder='Description of the unit'
+                  multiline
+                  rows={4}
+                  error={Boolean(errors.description)}
+                />
+              )}
+            />
+            {errors.description && (
+              <FormHelperText sx={{ color: 'error.main' }}>{errors.description.message}</FormHelperText>
+            )}
+          </FormControl>
+
+          {/* <FormControl fullWidth sx={{ mb: 4 }}>
+            <Controller
+              name='lease_id'
+              control={control}
+              render={({ field: { value = '', onChange } }) => (
+                <Autocomplete
+                  options={propertyData.leases}
+                  getOptionLabel={lease => lease.id.toString()}
+                  onChange={(event, newValue) => onChange(newValue?.id)}
+                  renderInput={params => (
+                    <TextField
+                      {...params}
+                      label='Lease ID'
+                      placeholder='Select lease ID'
+                      error={Boolean(errors.lease_id)}
+                    />
+                  )}
+                />
+              )}
+            />
+            {errors.lease_id && <FormHelperText sx={{ color: 'error.main' }}>{errors.lease_id.message}</FormHelperText>}
+          </FormControl> */}
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Button size='small' type='submit' variant='contained' sx={{ mr: 3 }}>
               Submit
