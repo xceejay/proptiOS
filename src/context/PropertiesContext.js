@@ -154,8 +154,6 @@ const PropertiesProvider = ({ children }) => {
       .then(response => {
         if (successCallback) {
           successCallback(response.data)
-          console.log(properties)
-          setProperties(prevProperties => [...(prevProperties.data || []), response.data])
         }
       })
       .catch(err => {
