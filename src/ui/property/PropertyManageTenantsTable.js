@@ -38,11 +38,15 @@ import TenantTableHeader from '../tenant/TenantTableHeader'
 import ServerSideToolbarTenantManage from 'src/views/table/data-grid/ServerSideToolbarTenantManage'
 import PropertyAddTenantDrawer from './PropertyAddTenantDrawer'
 import PropertyAddExistingTenantDrawer from './PropertyAddExistingTenantDrawer'
+import EditPropertyTenantDrawer from './EditPropertyTenantDrawer'
 
-const RowOptions = ({ id }) => {
+const RowOptions = ({ id, row }) => {
   const dispatch = useDispatch()
   const [anchorEl, setAnchorEl] = useState(null)
   const rowOptionsOpen = Boolean(anchorEl)
+
+  const [editTenantOpen, setEditTenantOpen] = useState(false)
+  const toggleEditTenantDrawer = () => setEditTenantOpen(!editTenantOpen)
 
   const handleRowOptionsClick = event => {
     setAnchorEl(event.currentTarget)
@@ -54,6 +58,11 @@ const RowOptions = ({ id }) => {
 
   const handleDelete = () => {
     dispatch(deleteUser(id))
+    handleRowOptionsClose()
+  }
+
+  const handleEdit = () => {
+    setEditTenantOpen(true)
     handleRowOptionsClose()
   }
 
@@ -86,11 +95,16 @@ const RowOptions = ({ id }) => {
           <Icon icon='tabler:eye' fontSize={20} />
           View
         </MenuItem>
+        <MenuItem onClick={handleEdit} sx={{ '& svg': { mr: 2 } }}>
+          <Icon icon='tabler:pencil' fontSize={20} />
+          Edit
+        </MenuItem>
         <MenuItem onClick={handleDelete} sx={{ '& svg': { mr: 2 } }}>
           <Icon icon='tabler:trash' fontSize={20} />
           Quick Suspend
         </MenuItem>
       </Menu>
+      <EditPropertyTenantDrawer tenantData={row} open={editTenantOpen} toggle={toggleEditTenantDrawer} />
     </>
   )
 }
@@ -190,7 +204,7 @@ const columns = [
     sortable: false,
     field: 'actions',
     headerName: 'Actions',
-    renderCell: ({ row }) => <RowOptions id={row.id} />
+    renderCell: ({ row }) => <RowOptions row={row} id={row.id} />
   }
 ]
 

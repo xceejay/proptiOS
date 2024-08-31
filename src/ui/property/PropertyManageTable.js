@@ -87,6 +87,11 @@ const RowOptions = ({ id }) => {
           <Icon icon='tabler:eye' fontSize={20} />
           View
         </MenuItem>
+
+        <MenuItem onClick={handleDelete} sx={{ '& svg': { mr: 2 } }}>
+          <Icon icon='tabler:pencil' fontSize={20} />
+          Modify Property
+        </MenuItem>
         <MenuItem onClick={handleDelete} sx={{ '& svg': { mr: 2 } }}>
           <Icon icon='tabler:trash' fontSize={20} />
           Quick Suspend
