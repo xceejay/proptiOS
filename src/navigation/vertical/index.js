@@ -94,9 +94,10 @@ const navigation = () => {
     {
       title: 'Communication',
       path: '/communication',
-      icon: 'tabler:brand-telegram',
-      badgeContent: '3',
-      badgeColor: 'success'
+      icon: 'tabler:brand-telegram'
+
+      // badgeContent: '3',
+      // badgeColor: 'success'
     },
 
     {
