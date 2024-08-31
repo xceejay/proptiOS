@@ -191,9 +191,11 @@ const AddUnitDrawer = props => {
     resolver: yupResolver(schema)
   })
 
-  const onSubmit = formData => {
-    formData.property_id = propertyData.id
-    let requestData = [formData]
+  const onSubmit = data => {
+    const formData = {
+      ...data,
+      property_id: propertyData.id
+    }
 
     properties.addUnits(
       requestData,
