@@ -274,6 +274,8 @@ const AddUnitDrawer = props => {
         handleClose()
       },
       error => {
+        toast.error('Could not add this unit, refresh and try again', { duration: 5000 })
+
         console.error('Error FROM Unit Drawer PAGE:', error)
       }
     )
