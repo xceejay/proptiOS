@@ -295,6 +295,35 @@ const PropertyAddTenantDrawer = props => {
             />
             {errors.address && <FormHelperText sx={{ color: 'error.main' }}>{errors.address.message}</FormHelperText>}
           </FormControl>
+
+          <FormControl fullWidth sx={{ mb: 4 }}>
+            <Controller
+              name='unit'
+              control={control}
+              render={({ field: { value, onChange, onBlur } }) => (
+                <>
+                  <TextField
+                    select
+                    id='custom-select-native'
+                    value={value}
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    name='unit'
+                    fullWidth
+                    sx={{ mb: 4 }}
+                    label='Unit'
+                  >
+                    {propertyData.units.map(unit => (
+                      <MenuItem sx={{ fontSize: '15px' }} key={unit.id} value={unit.id}>
+                        {unit.name}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </>
+              )}
+            />
+            {errors.country && <FormHelperText sx={{ color: 'error.main' }}>{errors.country.message}</FormHelperText>}
+          </FormControl>
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
               name='country'

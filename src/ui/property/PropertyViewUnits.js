@@ -118,6 +118,7 @@ const columns = [
 const PropertyViewUnits = ({ setPropertyData, propertyData }) => {
   const [addUnitOpen, setAddUnitOpen] = useState(false)
   const [unitsData, setUnitsData] = useState([])
+
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
 
   const [value, setValue] = useState('')
@@ -140,8 +141,6 @@ const PropertyViewUnits = ({ setPropertyData, propertyData }) => {
       })
       setUnitsData(units)
     }
-
-    console.log('is there propertyData?', propertyData)
   }, [propertyData])
 
   return (

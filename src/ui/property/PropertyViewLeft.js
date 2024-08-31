@@ -39,6 +39,7 @@ import PropertySubscriptionDialog from 'src/ui/property/PropertySubscriptionDial
 // ** Utils Import
 import { getInitials } from 'src/@core/utils/get-initials'
 import { useProperties } from 'src/hooks/useProperties'
+import toast from 'react-hot-toast'
 
 const roleColors = {
   admin: 'error',
@@ -116,6 +117,31 @@ const UserViewLeft = ({ setPropertyData, propertyData }) => {
     }
   }, [propertyData, id])
 
+  const refreshPropertyData = () => {
+    if (id) {
+      // Ensure id is defined before making the API call
+      properties.getProperty(
+        id,
+        responseData => {
+          console.log('refreshed data')
+          let { data } = responseData
+          setPropertyData(data)
+          console.log('FROM INDEX PAGE:', responseData)
+
+          if (responseData?.status === 'FAILED') {
+            alert(responseData.message || 'Failed to fetch properties')
+          }
+
+          toast.success(propertyData.name + ' data updated successfully', { duration: 3000 })
+        },
+        error => {
+          console.log(id)
+          console.error('FROM refresh btn PAGE:', error)
+        }
+      )
+    }
+  }
+
   if (propertyData) {
     return (
       <Grid container spacing={6}>
@@ -124,6 +150,16 @@ const UserViewLeft = ({ setPropertyData, propertyData }) => {
             <Button size='small' variant='outlined' onClick={() => router.push('/properties')}>
               <Icon icon='tabler:arrow-left' fontSize={20} />
               Back
+            </Button>
+
+            <Button
+              sx={{ ml: 2 }}
+              size='small'
+              variant='contained'
+              color='primary'
+              onClick={() => refreshPropertyData()}
+            >
+              <Icon icon='tabler:refresh' fontSize={20} />
             </Button>
           </Grid>
 
