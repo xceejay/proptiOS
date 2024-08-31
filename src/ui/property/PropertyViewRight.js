@@ -20,7 +20,7 @@ import Icon from 'src/@core/components/icon'
 // ** Demo Components Imports
 import PropertyViewBilling from 'src/ui/property/PropertyViewBilling'
 import PropertyViewOverview from 'src/ui/property/PropertyViewOverview'
-import PropertyViewExpenses from 'src/ui/property/PropertyViewExpenses'
+import PropertyViewUnits from 'src/ui/property/PropertyViewUnits'
 import PropertyViewMaintenance from 'src/ui/property/PropertyViewMaintenance'
 import PropertyViewMarketing from './PropertyViewMarketing'
 import PropertyViewSettings from 'src/ui/property/PropertyViewSettings'
@@ -89,7 +89,7 @@ const UserViewRight = ({ tab, propertyData, setPropertyData }) => {
         sx={{ borderBottom: theme => `1px solid ${theme.palette.divider}` }}
       >
         <Tab value='overview' label='Overview' icon={<Icon fontSize='1.125rem' icon='tabler:home' />} />
-        <Tab value='expenses' label='Expenses' icon={<Icon fontSize='1.125rem' icon='tabler:cash' />} />
+        <Tab value='units' label='Units' icon={<Icon fontSize='1.125rem' icon='tabler:cash' />} />
         {/* <Tab
           value='billing-plan'
           label='Billing & Plan'
@@ -111,8 +111,8 @@ const UserViewRight = ({ tab, propertyData, setPropertyData }) => {
             <TabPanel sx={{ p: 0 }} value='overview'>
               <PropertyViewOverview setPropertyData={setPropertyData} propertyData={propertyData} />
             </TabPanel>
-            <TabPanel sx={{ p: 0 }} value='expenses'>
-              <PropertyViewExpenses />
+            <TabPanel sx={{ p: 0 }} value='units'>
+              <PropertyViewUnits />
             </TabPanel>
             {/* <TabPanel sx={{ p: 0 }} value='billing'>
               <PropertyViewBilling />

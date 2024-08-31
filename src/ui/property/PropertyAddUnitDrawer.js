@@ -377,9 +377,9 @@ const AddUnitDrawer = props => {
             <Controller
               render={({ onChange, ...props }) => (
                 <Autocomplete
-                  options={propertyData.tenants}
-                  getOptionLabel={tenant => tenant.name + '(' + tenant.email + ')'} // Display the tenant name
-                  getOptionDisabled={tenant => !!tenant?.unit_id}
+                  options={propertyData.leases}
+                  getOptionLabel={lease => lease.name + '(' + lease.id + ')'} // Display the tenant name
+                  getOptionDisabled={lease => !!lease?.tenant_id}
                   renderInput={params => <TextField {...params} label='Lease Attached' />}
                 />
               )}

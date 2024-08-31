@@ -41,7 +41,7 @@ const PropertyViewOverview = ({ setPropertyData, propertyData }) => {
     <Grid container spacing={6}>
       <Grid item xs={12}>
         <Grid container spacing={5}>
-          <Grid item xs={12} lg={6}>
+          {/* <Grid item xs={12} lg={6}>
             <Card>
               <Grid container>
                 <Grid item xs={6} lg={6}>
@@ -74,7 +74,58 @@ const PropertyViewOverview = ({ setPropertyData, propertyData }) => {
                 </Box>
               </CardContent>
             </Card>
+          </Grid> */}
+          <Grid item xs={12} lg={6}>
+            <Card>
+              <CardContent>
+                <Grid container spacing={6.5}>
+                  <Grid item xs={12} sm={6} lg={6}>
+                    <CardStatsVertical
+                      stats={'0 units'}
+                      chipText='+0 units'
+                      avatarColor={'primary'}
+                      chipColor='default'
+                      title='Units'
+                      subtitle='All time'
+                      avatarIcon='tabler:bed'
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6} lg={6}>
+                    <CardStatsVertical
+                      stats={'0 tenants'}
+                      chipText='+0 tenants'
+                      avatarColor='info'
+                      chipColor='default'
+                      title='Applicants'
+                      subtitle='All time'
+                      avatarIcon='tabler:forms'
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6} lg={6}>
+                    <CardStatsVertical
+                      stats={propertyData.maintenance_requests.length + ' requests'}
+                      chipText='+0 requests'
+                      avatarColor='success'
+                      chipColor='default'
+                      title='Maintenance'
+                      avatarIcon='tabler:tool'
+                    />
+                  </Grid>
+                  <Grid item xs={12} sm={6} lg={6}>
+                    <CardStatsVertical
+                      stats={propertyData.tenants.length + ' tenants'}
+                      chipText='+0 tenants'
+                      avatarColor='primary'
+                      chipColor='default'
+                      title='Tenants'
+                      avatarIcon='tabler:friends'
+                    />
+                  </Grid>
+                </Grid>
+              </CardContent>
+            </Card>
           </Grid>
+
           <Grid item xs={12} lg={6}>
             <Card>
               <CardContent>
