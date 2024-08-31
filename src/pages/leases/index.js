@@ -6,7 +6,7 @@ import { useRouter } from 'next/router'
 
 const LeasesPage = () => {
   const router = useRouter
-  const tab = router.query?.tab || 'billing'
+  const tab = router.query?.tab || 'active'
   const [tenantData, setTenantData] = useState(null)
 
   // useEffect(() => {

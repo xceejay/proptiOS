@@ -98,7 +98,7 @@ const data = [
   }
 ]
 
-const LeasesViewBilling = () => {
+const LeasesViewActive = () => {
   // ** States
   const [cvc, setCvc] = useState('')
   const [name, setName] = useState('')
@@ -741,4 +741,4 @@ const LeasesViewBilling = () => {
   )
 }
 
-export default LeasesViewBilling
+export default LeasesViewActive

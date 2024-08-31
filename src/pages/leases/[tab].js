@@ -5,7 +5,7 @@ import LeasesEditInfo from '../../ui/leases/LeasesEditInfo'
 import { useRouter } from 'next/router'
 
 const LeasesPage = () => {
-  const router = useRouter
+  const router = useRouter()
   const { tab } = router.query
   const [tenantData, setTenantData] = useState(null)
 

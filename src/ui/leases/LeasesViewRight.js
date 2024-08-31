@@ -18,13 +18,15 @@ import CircularProgress from '@mui/material/CircularProgress'
 import Icon from 'src/@core/components/icon'
 
 // ** Demo Components Imports
-import LeasesViewBilling from 'src/ui/leases/LeasesViewBilling'
+import LeasesViewPast from 'src/ui/leases/LeasesViewPast'
 
 // import LeasesViewAccount from 'src/ui/leases/LeasesViewAccount'
 // import LeasesViewSecurity from 'src/ui/leases/LeasesViewSecurity'
 // import LeasesViewConnection from 'src/ui/leases/LeasesViewConnection'
 // import LeasesViewNotification from 'src/ui/leases/LeasesViewNotification'
 import { fontSize } from '@mui/system'
+import LeasesViewArchived from './LeasesViewArchived'
+import LeasesViewActive from './LeasesViewActive'
 
 // ** Styled Tab component
 const Tab = styled(MuiTab)(({ theme }) => ({
@@ -92,22 +94,20 @@ const LeasesViewRight = ({ tab, leasesData }) => {
         sx={{ borderBottom: theme => `1px solid ${theme.palette.divider}` }}
       >
         <Tab
-          disabled
           sx={{ fontSize: '13px' }}
-          value='account'
+          value='active'
           label='Active leases'
           icon={<Icon fontSize='14px' icon='tabler:contract' />}
         />
         <Tab
-          disabled
           sx={{ fontSize: '13px' }}
-          value='security'
+          value='past'
           label='Past leases'
           icon={<Icon fontSize='14px' icon='tabler:contract' />}
         />
         <Tab
           sx={{ fontSize: '13px' }}
-          value='billing'
+          value='archived'
           label='Archived leases'
           icon={<Icon fontSize='14px' icon='tabler:archive' />}
         />
@@ -128,9 +128,17 @@ const LeasesViewRight = ({ tab, leasesData }) => {
             <TabPanel sx={{ p: 0 }} value='security'>
               <LeasesViewSecurity />
             </TabPanel> */}
-            <TabPanel sx={{ p: 0 }} value='billing'>
-              <LeasesViewBilling />
+            <TabPanel sx={{ p: 0 }} value='active'>
+              <LeasesViewActive />
             </TabPanel>
+            <TabPanel sx={{ p: 0 }} value='past'>
+              <LeasesViewPast />
+            </TabPanel>
+
+            <TabPanel sx={{ p: 0 }} value='archived'>
+              <LeasesViewArchived />
+            </TabPanel>
+
             {/* <TabPanel sx={{ p: 0 }} value='notification'>
               <LeasesViewNotification />
             </TabPanel> */}

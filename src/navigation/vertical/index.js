@@ -5,7 +5,28 @@ const navigation = () => {
       path: '/dashboard',
       icon: 'tabler:smart-home'
     },
+    {
+      title: 'Properties',
+      path: '/properties',
+      icon: 'tabler:home-edit'
 
+      // children: [
+      // {
+      //   title: 'Property Quick Setup',
+      //   path: '/properties/quick-setup'
+      // },
+      // {
+      //   title: 'Manage properties',
+      //   path: '/properties'
+      // }
+
+      // {
+      //   title: 'Property Search',
+      //   path: '/properties/search',
+      //   badgeContent: ''
+      // }
+      // ]
+    },
     {
       title: 'Tenants',
       icon: 'tabler:friends',
@@ -32,26 +53,9 @@ const navigation = () => {
     },
 
     {
-      title: 'Properties',
-      path: '/properties',
-      icon: 'tabler:home-edit'
-
-      // children: [
-      // {
-      //   title: 'Property Quick Setup',
-      //   path: '/properties/quick-setup'
-      // },
-      // {
-      //   title: 'Manage properties',
-      //   path: '/properties'
-      // }
-
-      // {
-      //   title: 'Property Search',
-      //   path: '/properties/search',
-      //   badgeContent: ''
-      // }
-      // ]
+      title: 'Leases',
+      path: '/leases',
+      icon: 'tabler:contract'
     },
 
     // {
@@ -62,17 +66,13 @@ const navigation = () => {
     // badgeContent: '3',
     // badgeColor: 'success'
     // },
-    {
-      title: 'Leases',
-      path: '/leases',
-      icon: 'tabler:contract'
-    },
 
     {
       title: 'Accounting',
       path: '/accounting',
       icon: 'tabler:file-dollar'
     },
+
     {
       title: 'Reports',
       path: '/reports',
