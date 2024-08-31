@@ -31,7 +31,7 @@ const UserView = ({ invoiceData }) => {
         }
       )
     }
-  }, [id])
+  }, [id, tab])
 
   return <PropertyEditInfo tab={tab} setPropertyData={setPropertyData} propertyData={propertyData} />
 }
