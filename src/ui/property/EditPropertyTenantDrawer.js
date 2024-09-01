@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Drawer from '@mui/material/Drawer'
 import Select from '@mui/material/Select'
 import Button from '@mui/material/Button'
@@ -20,6 +20,7 @@ import { addUser } from 'src/store/apps/user'
 import { useProperties } from 'src/hooks/useProperties'
 import toast from 'react-hot-toast'
 import { useTenants } from 'src/hooks/useTenants'
+import { useRouter } from 'next/router'
 
 const countries = [
   { name: 'Algeria', code: 'DZA' },
@@ -90,8 +91,11 @@ const tenantTypes = [
 ]
 
 const EditPropertyTenantDrawer = props => {
-  const { tenantData, open, toggle } = props
+  const { tenantData, setPropertyData, open, toggle } = props
   const tenant = useTenants()
+  const properties = useProperties()
+  const router = useRouter()
+  const { id } = router.query
 
   // Updated validation schema to include tenant-specific fields
   const schema = yup.object().shape({
@@ -126,8 +130,36 @@ const EditPropertyTenantDrawer = props => {
     resolver: yupResolver(schema)
   })
 
+  const refreshPropertyData = () => {
+    if (id) {
+      // Ensure id is defined before making the API call
+      properties.getProperty(
+        id,
+        responseData => {
+          console.log('refreshed data')
+          let { data } = responseData
+          setPropertyData(data)
+          console.log('FROM INDEX PAGE:', responseData)
+
+          if (responseData?.status === 'FAILED') {
+            alert(responseData.message || 'Failed to fetch properties')
+          }
+        },
+        error => {
+          console.log(id)
+          console.error('FROM refresh btn PAGE:', error)
+        }
+      )
+    }
+  }
+
+  useEffect(() => {
+    refreshPropertyData()
+  }, [open])
+
   const onSubmit = formData => {
-    formData.append('property_id', tenantData.property_id)
+    formData.property_id = tenantData.property_id
+
     let requestData = [formData]
 
     tenant.editTenants(
@@ -158,13 +190,8 @@ const EditPropertyTenantDrawer = props => {
           return tenant
         })
 
-        toast.success('Tenant added successfully', { duration: 5000 })
-        console.log('datada:', data)
-        console.log('upreqdata:', updatedRequestData)
+        toast.success('Change applied', { duration: 3000 })
 
-        setPropertiesData(prevData => [...prevData, ...updatedRequestData])
-
-        console.log('newprop', properties.properties)
         handleClose()
       },
       error => {

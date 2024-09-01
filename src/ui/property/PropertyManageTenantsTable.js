@@ -40,7 +40,7 @@ import PropertyAddTenantDrawer from './PropertyAddTenantDrawer'
 import PropertyAddExistingTenantDrawer from './PropertyAddExistingTenantDrawer'
 import EditPropertyTenantDrawer from './EditPropertyTenantDrawer'
 
-const RowOptions = ({ id, row }) => {
+const RowOptions = ({ id, row, setPropertyData }) => {
   const dispatch = useDispatch()
   const [anchorEl, setAnchorEl] = useState(null)
   const rowOptionsOpen = Boolean(anchorEl)
@@ -63,7 +63,6 @@ const RowOptions = ({ id, row }) => {
 
   const handleEdit = () => {
     setEditTenantOpen(true)
-    handleRowOptionsClose()
   }
 
   return (
@@ -104,111 +103,116 @@ const RowOptions = ({ id, row }) => {
           Quick Suspend
         </MenuItem>
       </Menu>
-      <EditPropertyTenantDrawer tenantData={row} open={editTenantOpen} toggle={toggleEditTenantDrawer} />
+      <EditPropertyTenantDrawer
+        setPropertyData={setPropertyData}
+        tenantData={row}
+        open={editTenantOpen}
+        toggle={toggleEditTenantDrawer}
+      />
     </>
   )
 }
 
-const columns = [
-  {
-    flex: 0.25,
-    minWidth: 280,
-    field: 'name',
-    headerName: 'Name',
-    renderCell: ({ row }) => {
-      const { id, name, email } = row
-
-      return (
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
-            <Typography
-              noWrap
-              component={Link}
-              href={'/tenants/' + id + '/account'}
-              sx={{
-                fontWeight: 500,
-                textDecoration: 'none',
-                color: 'text.secondary',
-                '&:hover': { color: 'primary.main' }
-              }}
-            >
-              {name}
-            </Typography>
-            <Typography noWrap variant='body2' sx={{ color: 'text.disabled' }}>
-              {email}
-            </Typography>
-          </Box>
-        </Box>
-      )
-    }
-  },
-  {
-    flex: 0.15,
-    minWidth: 190,
-    field: 'address',
-    headerName: 'Address',
-    renderCell: ({ row }) => (
-      <Typography noWrap sx={{ color: 'text.secondary' }}>
-        {row.address}
-      </Typography>
-    )
-  },
-  {
-    flex: 0.15,
-    minWidth: 190,
-    field: 'country',
-    headerName: 'Country',
-    renderCell: ({ row }) => (
-      <Typography noWrap sx={{ color: 'text.secondary' }}>
-        {row.country}
-      </Typography>
-    )
-  },
-
-  {
-    flex: 0.15,
-    minWidth: 190,
-    field: 'tel_number',
-    headerName: 'Phone Number',
-    renderCell: ({ row }) => (
-      <Typography noWrap sx={{ color: 'text.secondary' }}>
-        {row.tel_number}
-      </Typography>
-    )
-  },
-
-  {
-    flex: 0.1,
-    minWidth: 110,
-    field: 'status',
-    headerName: 'Status',
-    renderCell: ({ row }) => {
-      const statusLabel = row.status === 'active' ? 'Active' : 'Inactive'
-      const statusColor = row.status === 'active' ? 'success' : 'secondary'
-
-      return (
-        <CustomChip
-          rounded
-          skin='light'
-          size='small'
-          label={statusLabel}
-          color={statusColor}
-          sx={{ textTransform: 'capitalize' }}
-        />
-      )
-    }
-  },
-  {
-    flex: 0.1,
-    minWidth: 100,
-    sortable: false,
-    field: 'actions',
-    headerName: 'Actions',
-    renderCell: ({ row }) => <RowOptions row={row} id={row.id} />
-  }
-]
-
 const PropertyTenantManageTable = ({ setPropertyData, propertyData }) => {
+  const columns = [
+    {
+      flex: 0.25,
+      minWidth: 280,
+      field: 'name',
+      headerName: 'Name',
+      renderCell: ({ row }) => {
+        const { id, name, email } = row
+
+        return (
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
+              <Typography
+                noWrap
+                component={Link}
+                href={'/tenants/' + id + '/account'}
+                sx={{
+                  fontWeight: 500,
+                  textDecoration: 'none',
+                  color: 'text.secondary',
+                  '&:hover': { color: 'primary.main' }
+                }}
+              >
+                {name}
+              </Typography>
+              <Typography noWrap variant='body2' sx={{ color: 'text.disabled' }}>
+                {email}
+              </Typography>
+            </Box>
+          </Box>
+        )
+      }
+    },
+    {
+      flex: 0.15,
+      minWidth: 190,
+      field: 'address',
+      headerName: 'Address',
+      renderCell: ({ row }) => (
+        <Typography noWrap sx={{ color: 'text.secondary' }}>
+          {row.address}
+        </Typography>
+      )
+    },
+    {
+      flex: 0.15,
+      minWidth: 190,
+      field: 'country',
+      headerName: 'Country',
+      renderCell: ({ row }) => (
+        <Typography noWrap sx={{ color: 'text.secondary' }}>
+          {row.country}
+        </Typography>
+      )
+    },
+
+    {
+      flex: 0.15,
+      minWidth: 190,
+      field: 'tel_number',
+      headerName: 'Phone Number',
+      renderCell: ({ row }) => (
+        <Typography noWrap sx={{ color: 'text.secondary' }}>
+          {row.tel_number}
+        </Typography>
+      )
+    },
+
+    {
+      flex: 0.1,
+      minWidth: 110,
+      field: 'status',
+      headerName: 'Status',
+      renderCell: ({ row }) => {
+        const statusLabel = row.status === 'active' ? 'Active' : 'Inactive'
+        const statusColor = row.status === 'active' ? 'success' : 'secondary'
+
+        return (
+          <CustomChip
+            rounded
+            skin='light'
+            size='small'
+            label={statusLabel}
+            color={statusColor}
+            sx={{ textTransform: 'capitalize' }}
+          />
+        )
+      }
+    },
+    {
+      flex: 0.1,
+      minWidth: 100,
+      sortable: false,
+      field: 'actions',
+      headerName: 'Actions',
+      renderCell: ({ row }) => <RowOptions row={row} setPropertyData={setPropertyData} id={row.id} />
+    }
+  ]
+
   const [tenantsData, setTenantsData] = useState([])
   const [value, setValue] = useState('')
   const [loading, setLoading] = useState(true) // New loading state
