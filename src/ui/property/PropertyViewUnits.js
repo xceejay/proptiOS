@@ -104,6 +104,13 @@ const RowOptions = ({ id }) => {
 const columns = [
   { flex: 1, field: 'id', headerName: 'Unit Id', width: 90 },
   {
+    field: 'unit_name',
+    valueGetter: params => params.row?.name || '',
+    headerName: 'Unit name',
+    flex: 1,
+    width: 300
+  },
+  {
     field: 'tenant_name',
     valueGetter: params => params.row.tenant?.name || '',
     headerName: 'Occupied Tenant',
@@ -132,6 +139,13 @@ const PropertyViewUnits = ({ setPropertyData, propertyData }) => {
     setValue(val)
   }, [])
 
+  const filteredUnits = unitsData.filter(
+    unit =>
+      unit.tenant?.name.toLowerCase().includes(value.toLowerCase()) ||
+      unit?.name.toLowerCase().includes(value.toLowerCase())
+
+    // tenant.address.toLowerCase().includes(value.toLowerCase())
+  )
   const toggleAddUnitDrawer = () => setAddUnitOpen(!addUnitOpen)
 
   useEffect(() => {
@@ -144,6 +158,7 @@ const PropertyViewUnits = ({ setPropertyData, propertyData }) => {
           tenant: foundTenant || null
         }
       })
+
       setUnitsData(units)
     }
   }, [propertyData])
@@ -157,7 +172,7 @@ const PropertyViewUnits = ({ setPropertyData, propertyData }) => {
               autoHeight
               rowHeight={62}
               loading={false} // Use the new loading state
-              rows={unitsData || []}
+              rows={filteredUnits || []}
               columns={columns}
               slots={{ toolbar: CustomTenantToolbar, noRowsOverlay: CustomNoRowsOverlay }}
               slotProps={{
