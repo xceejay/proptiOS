@@ -104,10 +104,10 @@ const EditPropertyTenantDrawer = props => {
   const schema = yup.object().shape({
     name: yup.string().min(3).required('Tenant Name field is required'),
     email: yup.string().email().required('Owner Email field is required'),
-    address: yup.string().required('Tenant Address field is required'),
-    country: yup.string().required('Country field is required'),
-    tel_number: yup.string().required('Phone number is required'),
-    unit_id: yup.string().required('Unit count is required')
+    address: yup.string().nullable(),
+    country: yup.string().nullable(),
+    tel_number: yup.string().nullable(),
+    unit_id: yup.string().nullable()
   })
 
   const blockedUnit = () => {
