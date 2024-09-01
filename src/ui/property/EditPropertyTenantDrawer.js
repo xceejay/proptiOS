@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { addUser } from 'src/store/apps/user'
 import { useProperties } from 'src/hooks/useProperties'
 import toast from 'react-hot-toast'
+import { useTenants } from 'src/hooks/useTenants'
 
 const countries = [
   { name: 'Algeria', code: 'DZA' },
@@ -90,26 +91,25 @@ const tenantTypes = [
 
 const EditPropertyTenantDrawer = props => {
   const { tenantData, open, toggle } = props
-  const properties = useProperties()
+  const tenant = useTenants()
 
   // Updated validation schema to include tenant-specific fields
   const schema = yup.object().shape({
-    tenant_name: yup.string().min(3).required('Tenant Name field is required'),
-    tenant_email: yup.string().email().required('Owner Email field is required'),
-    tenant_address: yup.string().required('Tenant Address field is required'),
+    name: yup.string().min(3).required('Tenant Name field is required'),
+    email: yup.string().email().required('Owner Email field is required'),
+    address: yup.string().required('Tenant Address field is required'),
     country: yup.string().required('Country field is required'),
-    tenant_tel_number: yup.string().required('Phone number is required'),
-    tenant_type: yup.string().required('Tenant type is required'),
-    units: yup.number().required('Unit count is required').positive().integer()
+    tel_number: yup.string().required('Phone number is required'),
+    unit_id: yup.number().required('Unit count is required').positive().integer()
   })
 
   const defaultValues = {
     uuid: tenantData?.uuid,
-    tenant_name: tenantData?.name,
-    tenant_email: tenantData?.email,
-    tenant_address: tenantData?.address,
+    name: tenantData?.name,
+    email: tenantData?.email,
+    address: tenantData?.address,
     country: tenantData?.country,
-    tenant_tel_number: tenantData?.tel_number,
+    tel_number: tenantData?.tel_number,
     unit_id: tenantData?.unit_id
   }
 
@@ -127,16 +127,17 @@ const EditPropertyTenantDrawer = props => {
   })
 
   const onSubmit = formData => {
+    formData.append('property_id', tenantData.property_id)
     let requestData = [formData]
 
-    properties.addProperties(
+    tenant.editTenants(
       requestData,
       responseData => {
         let { data } = responseData
 
         if (data?.status === 'FAILED') {
           alert(data.description || 'Failed to add tenant')
-          setError('tenant_email', {
+          setError('email', {
             type: 'manual',
             message: data.description || 'Unknown error occurred'
           })
@@ -209,18 +210,18 @@ const EditPropertyTenantDrawer = props => {
                   label='Unique Id'
                   onChange={onChange}
                   placeholder='Greenwood Apartments'
-                  error={Boolean(errors.tenant_name)}
+                  error={Boolean(errors.name)}
                 />
               )}
             />
-            {errors.tenant_name && (
-              <FormHelperText sx={{ color: 'error.main' }}>{errors.tenant_name.message}</FormHelperText>
+            {errors.name && (
+              <FormHelperText sx={{ color: 'error.main' }}>{errors.name.message}</FormHelperText>
             )}
           </FormControl> */}
 
           <FormControl fullWidth sx={{ mb: 4, mt: 4 }}>
             <Controller
-              name='tenant_name'
+              name='name'
               control={control}
               render={({ field: { value = '', onChange } }) => (
                 <TextField
@@ -228,18 +229,16 @@ const EditPropertyTenantDrawer = props => {
                   label='Tenant Name'
                   onChange={onChange}
                   placeholder='Greenwood Apartments'
-                  error={Boolean(errors.tenant_name)}
+                  error={Boolean(errors.name)}
                 />
               )}
             />
-            {errors.tenant_name && (
-              <FormHelperText sx={{ color: 'error.main' }}>{errors.tenant_name.message}</FormHelperText>
-            )}
+            {errors.name && <FormHelperText sx={{ color: 'error.main' }}>{errors.name.message}</FormHelperText>}
           </FormControl>
 
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
-              name='tenant_email'
+              name='email'
               control={control}
               render={({ field: { value = '', onChange } }) => (
                 <TextField
@@ -248,18 +247,16 @@ const EditPropertyTenantDrawer = props => {
                   label='Tenant Email'
                   onChange={onChange}
                   placeholder='owner@example.com'
-                  error={Boolean(errors.tenant_email)}
+                  error={Boolean(errors.email)}
                 />
               )}
             />
-            {errors.tenant_email && (
-              <FormHelperText sx={{ color: 'error.main' }}>{errors.tenant_email.message}</FormHelperText>
-            )}
+            {errors.email && <FormHelperText sx={{ color: 'error.main' }}>{errors.email.message}</FormHelperText>}
           </FormControl>
 
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
-              name='tenant_address'
+              name='address'
               control={control}
               render={({ field: { value = '', onChange } }) => (
                 <TextField
@@ -267,13 +264,11 @@ const EditPropertyTenantDrawer = props => {
                   label='Tenant Address'
                   onChange={onChange}
                   placeholder='123 Main St'
-                  error={Boolean(errors.tenant_address)}
+                  error={Boolean(errors.address)}
                 />
               )}
             />
-            {errors.tenant_address && (
-              <FormHelperText sx={{ color: 'error.main' }}>{errors.tenant_address.message}</FormHelperText>
-            )}
+            {errors.address && <FormHelperText sx={{ color: 'error.main' }}>{errors.address.message}</FormHelperText>}
           </FormControl>
 
           <FormControl fullWidth sx={{ mb: 4 }}>
@@ -303,7 +298,7 @@ const EditPropertyTenantDrawer = props => {
 
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
-              name='tenant_tel_number'
+              name='tel_number'
               control={control}
               render={({ field: { value = '', onChange } }) => (
                 <TextField
@@ -312,18 +307,18 @@ const EditPropertyTenantDrawer = props => {
                   label='Phone Number'
                   onChange={onChange}
                   placeholder='123-456-7890'
-                  error={Boolean(errors.tenant_tel_number)}
+                  error={Boolean(errors.tel_number)}
                 />
               )}
             />
-            {errors.tenant_tel_number && (
-              <FormHelperText sx={{ color: 'error.main' }}>{errors.tenant_tel_number.message}</FormHelperText>
+            {errors.tel_number && (
+              <FormHelperText sx={{ color: 'error.main' }}>{errors.tel_number.message}</FormHelperText>
             )}
           </FormControl>
           {/*
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
-              name='tenant_type'
+              name='type'
               control={control}
               render={({ field: { value, onChange, onBlur } }) => (
                 <TextField
@@ -343,8 +338,8 @@ const EditPropertyTenantDrawer = props => {
                 </TextField>
               )}
             />
-            {errors.tenant_type && (
-              <FormHelperText sx={{ color: 'error.main' }}>{errors.tenant_type.message}</FormHelperText>
+            {errors.type && (
+              <FormHelperText sx={{ color: 'error.main' }}>{errors.type.message}</FormHelperText>
             )}
           </FormControl> */}
 
@@ -359,11 +354,11 @@ const EditPropertyTenantDrawer = props => {
                   label='Unit Id'
                   onChange={onChange}
                   placeholder='10'
-                  error={Boolean(errors.units)}
+                  error={Boolean(errors.unit_id)}
                 />
               )}
             />
-            {errors.units && <FormHelperText sx={{ color: 'error.main' }}>{errors.units.message}</FormHelperText>}
+            {errors.unit_id && <FormHelperText sx={{ color: 'error.main' }}>{errors.unit_id.message}</FormHelperText>}
           </FormControl>
 
           <Button type='submit' variant='contained' color='warning'>
