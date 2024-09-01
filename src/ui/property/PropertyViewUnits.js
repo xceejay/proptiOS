@@ -153,31 +153,29 @@ const PropertyViewUnits = ({ setPropertyData, propertyData }) => {
       <Grid item xs={12} lg={24}>
         <Card sx={{ mb: 4 }}>
           <CardContent>
-            <Box sx={{ height: 400, width: '100%' }}>
-              <DataGrid
-                autoHeight
-                rowHeight={62}
-                loading={false} // Use the new loading state
-                rows={unitsData || []}
-                columns={columns}
-                slots={{ toolbar: CustomTenantToolbar, noRowsOverlay: CustomNoRowsOverlay }}
-                slotProps={{
-                  toolbar: {
-                    searchPlaceholder: 'Quick Search',
-                    value: value,
-                    addText: 'Add Unit',
+            <DataGrid
+              autoHeight
+              rowHeight={62}
+              loading={false} // Use the new loading state
+              rows={unitsData || []}
+              columns={columns}
+              slots={{ toolbar: CustomTenantToolbar, noRowsOverlay: CustomNoRowsOverlay }}
+              slotProps={{
+                toolbar: {
+                  searchPlaceholder: 'Quick Search',
+                  value: value,
+                  addText: 'Add Unit',
 
-                    // title: '',
-                    toggle: toggleAddUnitDrawer,
-                    handleFilter: handleFilter
-                  }
-                }}
-                disableRowSelectionOnClick
-                pageSizeOptions={[10, 25, 50]}
-                paginationModel={paginationModel}
-                onPaginationModelChange={setPaginationModel}
-              />
-            </Box>
+                  // title: '',
+                  toggle: toggleAddUnitDrawer,
+                  handleFilter: handleFilter
+                }
+              }}
+              disableRowSelectionOnClick
+              pageSizeOptions={[10, 25, 50]}
+              paginationModel={paginationModel}
+              onPaginationModelChange={setPaginationModel}
+            />
           </CardContent>
         </Card>
 
