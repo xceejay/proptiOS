@@ -151,45 +151,38 @@ const PropertyViewUnits = ({ setPropertyData, propertyData }) => {
   return (
     <Grid container spacing={6}>
       <Grid item xs={12} lg={24}>
-        <Card>
-          <CardHeader title='Units' sx={{ pb: 1.5 }} />
-          <Divider></Divider>
-
+        <Card sx={{ mb: 4 }}>
           <CardContent>
-            <Card sx={{ mb: 4 }}>
-              <CardContent>
-                <Box sx={{ height: 400, width: '100%' }}>
-                  <DataGrid
-                    autoHeight
-                    rowHeight={62}
-                    loading={false} // Use the new loading state
-                    rows={unitsData || []}
-                    columns={columns}
-                    slots={{ toolbar: CustomTenantToolbar, noRowsOverlay: CustomNoRowsOverlay }}
-                    slotProps={{
-                      toolbar: {
-                        searchPlaceholder: 'Quick Search',
-                        value: value,
-                        addText: 'Add Unit',
+            <Box sx={{ height: 400, width: '100%' }}>
+              <DataGrid
+                autoHeight
+                rowHeight={62}
+                loading={false} // Use the new loading state
+                rows={unitsData || []}
+                columns={columns}
+                slots={{ toolbar: CustomTenantToolbar, noRowsOverlay: CustomNoRowsOverlay }}
+                slotProps={{
+                  toolbar: {
+                    searchPlaceholder: 'Quick Search',
+                    value: value,
+                    addText: 'Add Unit',
 
-                        // title: '',
-                        toggle: toggleAddUnitDrawer,
-                        handleFilter: handleFilter
-                      }
-                    }}
-                    disableRowSelectionOnClick
-                    pageSizeOptions={[10, 25, 50]}
-                    paginationModel={paginationModel}
-                    onPaginationModelChange={setPaginationModel}
-                  />
-                </Box>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardContent></CardContent>
-            </Card>
+                    // title: '',
+                    toggle: toggleAddUnitDrawer,
+                    handleFilter: handleFilter
+                  }
+                }}
+                disableRowSelectionOnClick
+                pageSizeOptions={[10, 25, 50]}
+                paginationModel={paginationModel}
+                onPaginationModelChange={setPaginationModel}
+              />
+            </Box>
           </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent></CardContent>
         </Card>
       </Grid>
 
