@@ -105,13 +105,12 @@ const EditPropertyTenantDrawer = props => {
 
   const defaultValues = {
     uuid: tenantData?.uuid,
-    tenant_name: tenantData.name,
-    tenant_email: tenantData.email,
-    tenant_address: '',
-    country: 'GHA',
-    tenant_tel_number: '',
-    tenant_type: '',
-    units: ''
+    tenant_name: tenantData?.name,
+    tenant_email: tenantData?.email,
+    tenant_address: tenantData?.address,
+    country: tenantData?.country,
+    tenant_tel_number: tenantData?.tel_number,
+    unit_id: tenantData?.unit_id
   }
 
   const {
@@ -285,7 +284,7 @@ const EditPropertyTenantDrawer = props => {
                 <TextField
                   select
                   id='custom-select-country'
-                  value={value || 'GHA'} // Ensure default value is applied
+                  value={value} // Ensure default value is applied
                   onChange={onChange}
                   onBlur={onBlur}
                   fullWidth
@@ -310,7 +309,7 @@ const EditPropertyTenantDrawer = props => {
                 <TextField
                   type='tel'
                   value={value}
-                  label='Owner Phone Number'
+                  label='Phone Number'
                   onChange={onChange}
                   placeholder='123-456-7890'
                   error={Boolean(errors.tenant_tel_number)}
@@ -321,7 +320,7 @@ const EditPropertyTenantDrawer = props => {
               <FormHelperText sx={{ color: 'error.main' }}>{errors.tenant_tel_number.message}</FormHelperText>
             )}
           </FormControl>
-
+          {/*
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
               name='tenant_type'
@@ -347,17 +346,17 @@ const EditPropertyTenantDrawer = props => {
             {errors.tenant_type && (
               <FormHelperText sx={{ color: 'error.main' }}>{errors.tenant_type.message}</FormHelperText>
             )}
-          </FormControl>
+          </FormControl> */}
 
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
-              name='units'
+              name='unit_id'
               control={control}
               render={({ field: { value = '', onChange } }) => (
                 <TextField
                   type='number'
                   value={value}
-                  label='Number of Units'
+                  label='Unit Id'
                   onChange={onChange}
                   placeholder='10'
                   error={Boolean(errors.units)}

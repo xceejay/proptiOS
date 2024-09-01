@@ -137,7 +137,7 @@ const UserViewLeft = ({ setPropertyData, propertyData }) => {
             alert(responseData.message || 'Failed to fetch properties')
           }
 
-          toast.success(propertyData.name + ' data updated successfully', { duration: 3000 })
+          toast.success(propertyData.name + ' updated successfully', { duration: 3000 })
           setLoading(false)
         },
         error => {
