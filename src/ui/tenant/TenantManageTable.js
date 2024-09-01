@@ -37,11 +37,15 @@ import { useTenants } from 'src/hooks/useTenants'
 import TenantTableHeader from './TenantTableHeader'
 import ServerSideToolbarTenantManage from 'src/views/table/data-grid/ServerSideToolbarTenantManage'
 import CustomTenantToolbar from 'src/views/table/data-grid/CustomTenantToolbar'
+import EditPropertyTenantDrawer from '../property/EditPropertyTenantDrawer'
+import EditTenantDrawer from './EditTenantDrawer'
 
-const RowOptions = ({ id }) => {
+const RowOptions = ({ id, row, setTenantsData, tenantsData, setLoading }) => {
   const dispatch = useDispatch()
   const [anchorEl, setAnchorEl] = useState(null)
   const rowOptionsOpen = Boolean(anchorEl)
+  const [editTenantOpen, setEditTenantOpen] = useState(false)
+  const toggleEditTenantDrawer = () => setEditTenantOpen(!editTenantOpen)
 
   const handleRowOptionsClick = event => {
     setAnchorEl(event.currentTarget)
@@ -53,6 +57,11 @@ const RowOptions = ({ id }) => {
 
   const handleDelete = () => {
     dispatch(deleteUser(id))
+    handleRowOptionsClose()
+  }
+
+  const handleEdit = () => {
+    setEditTenantOpen(true)
     handleRowOptionsClose()
   }
 
@@ -86,9 +95,9 @@ const RowOptions = ({ id }) => {
           View
         </MenuItem>
 
-        <MenuItem onClick={handleDelete} sx={{ '& svg': { mr: 2 } }}>
+        <MenuItem onClick={() => handleEdit()} sx={{ '& svg': { mr: 2 } }}>
           <Icon icon='tabler:pencil' fontSize={20} />
-          Modify Tenant
+          Edit
         </MenuItem>
 
         <MenuItem onClick={handleDelete} sx={{ '& svg': { mr: 2 } }}>
@@ -96,121 +105,137 @@ const RowOptions = ({ id }) => {
           Quick Suspend
         </MenuItem>
       </Menu>
+      <EditTenantDrawer
+        setLoading={setLoading}
+        tenantData={row}
+        setTenantsData={setTenantsData}
+        tenantsData={tenantsData}
+        open={editTenantOpen}
+        toggle={toggleEditTenantDrawer}
+      />
     </>
   )
 }
 
-const columns = [
-  {
-    flex: 0.25,
-    minWidth: 280,
-    field: 'name',
-    headerName: 'Name',
-    renderCell: ({ row }) => {
-      const { id, name, email } = row
+const TenantManageTable = () => {
+  const columns = [
+    {
+      flex: 0.25,
+      minWidth: 280,
+      field: 'name',
+      headerName: 'Name',
+      renderCell: ({ row }) => {
+        const { id, name, email } = row
 
-      return (
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
-            <Typography
-              noWrap
-              component={Link}
-              href={'/tenants/' + id + '/account'}
-              sx={{
-                fontWeight: 500,
-                textDecoration: 'none',
-                color: 'text.secondary',
-                '&:hover': { color: 'primary.main' }
-              }}
-            >
-              {name}
-            </Typography>
-            <Typography noWrap variant='body2' sx={{ color: 'text.disabled' }}>
-              {email}
-            </Typography>
+        return (
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
+              <Typography
+                noWrap
+                component={Link}
+                href={'/tenants/' + id + '/account'}
+                sx={{
+                  fontWeight: 500,
+                  textDecoration: 'none',
+                  color: 'text.secondary',
+                  '&:hover': { color: 'primary.main' }
+                }}
+              >
+                {name}
+              </Typography>
+              <Typography noWrap variant='body2' sx={{ color: 'text.disabled' }}>
+                {email}
+              </Typography>
+            </Box>
           </Box>
-        </Box>
+        )
+      }
+    },
+    {
+      flex: 0.15,
+      minWidth: 190,
+      field: 'address',
+      headerName: 'Address',
+      renderCell: ({ row }) => (
+        <Typography noWrap sx={{ color: 'text.secondary' }}>
+          {row.address}
+        </Typography>
       )
-    }
-  },
-  {
-    flex: 0.15,
-    minWidth: 190,
-    field: 'address',
-    headerName: 'Address',
-    renderCell: ({ row }) => (
-      <Typography noWrap sx={{ color: 'text.secondary' }}>
-        {row.address}
-      </Typography>
-    )
-  },
-  {
-    flex: 0.15,
-    minWidth: 190,
-    field: 'country',
-    headerName: 'Country',
-    renderCell: ({ row }) => (
-      <Typography noWrap sx={{ color: 'text.secondary' }}>
-        {row.country}
-      </Typography>
-    )
-  },
-  {
-    flex: 0.15,
-    minWidth: 190,
-    field: 'property',
-    headerName: 'Property',
-    renderCell: ({ row }) => (
-      <Typography noWrap sx={{ color: 'text.secondary' }}>
-        {row.property?.name}
-      </Typography>
-    )
-  },
+    },
+    {
+      flex: 0.15,
+      minWidth: 190,
+      field: 'country',
+      headerName: 'Country',
+      renderCell: ({ row }) => (
+        <Typography noWrap sx={{ color: 'text.secondary' }}>
+          {row.country}
+        </Typography>
+      )
+    },
+    {
+      flex: 0.15,
+      minWidth: 190,
+      field: 'property',
+      headerName: 'Property',
+      renderCell: ({ row }) => (
+        <Typography noWrap sx={{ color: 'text.secondary' }}>
+          {row.property?.name}
+        </Typography>
+      )
+    },
 
-  {
-    flex: 0.15,
-    minWidth: 190,
-    field: 'tel_number',
-    headerName: 'Phone Number',
-    renderCell: ({ row }) => (
-      <Typography noWrap sx={{ color: 'text.secondary' }}>
-        {row.tel_number}
-      </Typography>
-    )
-  },
+    {
+      flex: 0.15,
+      minWidth: 190,
+      field: 'tel_number',
+      headerName: 'Phone Number',
+      renderCell: ({ row }) => (
+        <Typography noWrap sx={{ color: 'text.secondary' }}>
+          {row.tel_number}
+        </Typography>
+      )
+    },
 
-  {
-    flex: 0.1,
-    minWidth: 110,
-    field: 'status',
-    headerName: 'Status',
-    renderCell: ({ row }) => {
-      const statusLabel = row.status === 'active' ? 'Active' : 'Inactive'
-      const statusColor = row.status === 'active' ? 'success' : 'secondary'
+    {
+      flex: 0.1,
+      minWidth: 110,
+      field: 'status',
+      headerName: 'Status',
+      renderCell: ({ row }) => {
+        const statusLabel = row.status === 'active' ? 'Active' : 'Inactive'
+        const statusColor = row.status === 'active' ? 'success' : 'secondary'
 
-      return (
-        <CustomChip
-          rounded
-          skin='light'
-          size='small'
-          label={statusLabel}
-          color={statusColor}
-          sx={{ textTransform: 'capitalize' }}
+        return (
+          <CustomChip
+            rounded
+            skin='light'
+            size='small'
+            label={statusLabel}
+            color={statusColor}
+            sx={{ textTransform: 'capitalize' }}
+          />
+        )
+      }
+    },
+    {
+      flex: 0.1,
+      minWidth: 100,
+      sortable: false,
+      field: 'actions',
+      headerName: 'Actions',
+      renderCell: ({ row }) => (
+        <RowOptions
+          setLoading={setLoading}
+          setTenantsData={setTenantsData}
+          tenantsData={tenantsData}
+          id={row.id}
+          row={row}
         />
       )
     }
-  },
-  {
-    flex: 0.1,
-    minWidth: 100,
-    sortable: false,
-    field: 'actions',
-    headerName: 'Actions',
-    renderCell: ({ row }) => <RowOptions id={row.id} />
-  }
-]
+  ]
 
-const TenantManageTable = () => {
   const tenants = useTenants()
   const [loading, setLoading] = useState(true) // New loading state
 
@@ -232,6 +257,7 @@ const TenantManageTable = () => {
         }
 
         setTenantsData(data)
+        console.log(tenantsData)
       },
       error => {
         setLoading(false)

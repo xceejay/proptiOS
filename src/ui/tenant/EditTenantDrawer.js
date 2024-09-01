@@ -93,8 +93,8 @@ const tenantTypes = [
   { name: 'Retail Space', value: 'retail_space' }
 ]
 
-const EditPropertyTenantDrawer = props => {
-  const { tenantData, setTenantsData, propertyData, setPropertyData, open, toggle, setLoading } = props
+const EditTenantDrawer = props => {
+  const { tenantData, setTenantsData, tenantsData, open, toggle, setLoading } = props
   const tenant = useTenants()
   const properties = useProperties()
   const router = useRouter()
@@ -107,16 +107,8 @@ const EditPropertyTenantDrawer = props => {
     address: yup.string().nullable(),
     country: yup.string().nullable(),
     tel_number: yup.string().nullable(),
-    unit_id: yup.string().nullable()
+    property_id: yup.string().nullable()
   })
-
-  const blockedUnit = () => {
-    let unit_id = propertyData.units.find(unit => unit.unit_tenant_id == tenantData.id)?.id || ''
-
-    console.log('found unit', unit_id)
-
-    return unit_id
-  }
 
   const defaultValues = {
     uuid: tenantData?.uuid,
@@ -126,7 +118,7 @@ const EditPropertyTenantDrawer = props => {
     country: tenantData?.country,
     status: tenantData?.status,
     tel_number: tenantData?.tel_number,
-    unit_id: tenantData?.unit_id
+    property_id: tenantData?.property_id
   }
 
   const {
@@ -154,44 +146,45 @@ const EditPropertyTenantDrawer = props => {
         country: tenantData?.country,
         status: tenantData?.status,
         tel_number: tenantData?.tel_number,
-        unit_id: tenantData?.unit_id
+        property_id: tenantData?.property_id
       })
     }
-  }, [tenantData, propertyData, reset])
+  }, [tenantData, tenantData, reset])
 
-  const refreshPropertyData = () => {
-    if (id) {
-      // Ensure id is defined before making the API call
-      properties.getProperty(
-        id,
-        responseData => {
-          console.log('refreshed data')
-          let { data } = responseData
-          setPropertyData(data)
-          console.log('FROM Edit tenant PAGE: refreshing property Data', responseData)
+  // const refreshPropertyData = () => {
+  //   if (id) {
+  //     // Ensure id is defined before making the API call
+  //     properties.getProperty(
+  //       id,
+  //       responseData => {
+  //         console.log('refreshed data')
+  //         let { data } = responseData
+  //         setPropertyData(data)
+  //         console.log('FROM Edit tenant PAGE: refreshing property Data', responseData)
 
-          if (responseData?.status === 'FAILED') {
-            alert(responseData.message || 'Failed to fetch properties')
-          }
+  //         if (responseData?.status === 'FAILED') {
+  //           alert(responseData.message || 'Failed to fetch properties')
+  //         }
 
-          setTenantsData([...propertyData?.tenants])
-          setLoading(false)
-        },
-        error => {
-          console.log(id)
-          console.error('FROM refresh btn PAGE:', error)
-        }
-      )
-    }
-  }
+  //         setTenantsData([...propertyData?.tenants])
+  //         setLoading(false)
+  //       },
+  //       error => {
+  //         console.log(id)
+  //         console.error('FROM refresh btn PAGE:', error)
+  //       }
+  //     )
+  //   }
+  // }
 
-  useEffect(() => {
-    refreshPropertyData()
-  }, [open])
+  // useEffect(() => {
+  //   refreshPropertyData()
+  // }, [open])
 
   const onSubmit = formData => {
     setLoading(true)
-    formData.property_id = tenantData.property_id
+    console.log
+    formData.property_id = tenantData.property.id
     formData.id = tenantData.id
 
     let requestData = [formData]
@@ -225,11 +218,13 @@ const EditPropertyTenantDrawer = props => {
         })
 
         toast.success('Change applied', { duration: 3000 })
+        setLoading(false)
 
         handleClose()
       },
       error => {
         toast.error('Failed to edit tenant', { duration: 3000 })
+
         setLoading(false)
 
         console.error('Error from Add Tenant Drawer:', error)
@@ -419,29 +414,44 @@ const EditPropertyTenantDrawer = props => {
               <FormHelperText sx={{ color: 'error.main' }}>{errors.type.message}</FormHelperText>
             )}
           </FormControl> */}
+          {/*
 
-          <FormControl fullWidth sx={{ mb: 4 }}>
+
+
+
+
+
+
+ADD PROPERTY OPTIONS LATER
+
+
+
+
+*/}
+          {/* <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
-              name='unit_id'
+              name='property_id'
               control={control}
               defaultValue='' // Ensure this matches your form's initial value
               render={({ field: { onChange, onBlur, value, ref } }) => (
                 <Autocomplete
-                  options={propertyData.units}
+                  options={tenantData.property_id}
                   getOptionLabel={unit => unit.name}
                   getOptionDisabled={unit => !!unit.unit_tenant_id}
                   onChange={(event, newValue) => {
                     // Pass the new value's id or an empty string to handle the form state
                     onChange(newValue ? newValue.id : '')
                   }}
-                  value={propertyData.units.find(unit => unit.id === value) || null} // Set the selected value
-                  renderInput={params => <TextField {...params} label='Unit Occupied' />}
+                  value={tenantData.property_id || null} // Set the selected value
+                  renderInput={params => <TextField {...params} label='Associated property' />}
                   isOptionEqualToValue={(option, value) => option.id === value} // Ensure proper comparison
                 />
               )}
             />
-            {errors.unit_id && <FormHelperText sx={{ color: 'error.main' }}>{errors.unit_id.message}</FormHelperText>}
-          </FormControl>
+            {errors.property_id && (
+              <FormHelperText sx={{ color: 'error.main' }}>{errors.property_id.message}</FormHelperText>
+            )}
+          </FormControl> */}
 
           <Button type='submit' variant='contained' color='warning'>
             Edit Tenant
@@ -452,7 +462,7 @@ const EditPropertyTenantDrawer = props => {
   )
 }
 
-export default EditPropertyTenantDrawer
+export default EditTenantDrawer
 
 // Styled Header
 const Header = styled(Box)(({ theme }) => ({
