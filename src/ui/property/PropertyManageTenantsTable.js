@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 
 // ** Next Imports
 import Link from 'next/link'
@@ -17,7 +17,7 @@ import CardHeader from '@mui/material/CardHeader'
 import InputLabel from '@mui/material/InputLabel'
 import FormControl from '@mui/material/FormControl'
 import CardContent from '@mui/material/CardContent'
-import { DataGrid } from '@mui/x-data-grid'
+import { DataGrid, useGridApiRef } from '@mui/x-data-grid'
 import AddUserDrawer from '../tenant/AddTenantDrawer'
 import CustomNoRowsOverlay from '../CustomNoRowsOverlay'
 import Select from '@mui/material/Select'
@@ -40,7 +40,7 @@ import PropertyAddTenantDrawer from './PropertyAddTenantDrawer'
 import PropertyAddExistingTenantDrawer from './PropertyAddExistingTenantDrawer'
 import EditPropertyTenantDrawer from './EditPropertyTenantDrawer'
 
-const RowOptions = ({ id, row, setPropertyData }) => {
+const RowOptions = ({ id, row, setTenantsData, setPropertyData, propertyData, setLoading }) => {
   const dispatch = useDispatch()
   const [anchorEl, setAnchorEl] = useState(null)
   const rowOptionsOpen = Boolean(anchorEl)
@@ -63,6 +63,7 @@ const RowOptions = ({ id, row, setPropertyData }) => {
 
   const handleEdit = () => {
     setEditTenantOpen(true)
+    handleRowOptionsClose()
   }
 
   return (
@@ -104,8 +105,11 @@ const RowOptions = ({ id, row, setPropertyData }) => {
         </MenuItem>
       </Menu>
       <EditPropertyTenantDrawer
+        propertyData={propertyData}
         setPropertyData={setPropertyData}
+        setLoading={setLoading}
         tenantData={row}
+        setTenantsData={setTenantsData}
         open={editTenantOpen}
         toggle={toggleEditTenantDrawer}
       />
@@ -114,6 +118,19 @@ const RowOptions = ({ id, row, setPropertyData }) => {
 }
 
 const PropertyTenantManageTable = ({ setPropertyData, propertyData }) => {
+  const handleUpdateRow = () => {
+    apiRef.current.updateRows([{ id: rowId, username: randomUserName() }])
+  }
+
+  const [tenantsData, setTenantsData] = useState([])
+  const [value, setValue] = useState('')
+  const [loading, setLoading] = useState(true) // New loading state
+  const [existingTenantOpen, setExistingTenantOpen] = useState(false)
+
+  const [addUserOpen, setAddUserOpen] = useState(false)
+
+  const [paginationModel, setPaginationModel] = useState({ page: 1, pageSize: 25 })
+
   const columns = [
     {
       flex: 0.25,
@@ -169,6 +186,17 @@ const PropertyTenantManageTable = ({ setPropertyData, propertyData }) => {
         </Typography>
       )
     },
+    {
+      flex: 0.15,
+      minWidth: 190,
+      field: 'unit_id',
+      headerName: 'Unit id',
+      renderCell: ({ row }) => (
+        <Typography noWrap sx={{ color: 'text.secondary' }}>
+          {row.unit_id}
+        </Typography>
+      )
+    },
 
     {
       flex: 0.15,
@@ -209,26 +237,27 @@ const PropertyTenantManageTable = ({ setPropertyData, propertyData }) => {
       sortable: false,
       field: 'actions',
       headerName: 'Actions',
-      renderCell: ({ row }) => <RowOptions row={row} setPropertyData={setPropertyData} id={row.id} />
+      renderCell: ({ row }) => (
+        <RowOptions
+          row={row}
+          setTenantsData={setTenantsData}
+          setPropertyData={setPropertyData}
+          propertyData={propertyData}
+          setLoading={setLoading}
+          id={row.id}
+        />
+      )
     }
   ]
 
-  const [tenantsData, setTenantsData] = useState([])
-  const [value, setValue] = useState('')
-  const [loading, setLoading] = useState(true) // New loading state
-  const [existingTenantOpen, setExistingTenantOpen] = useState(false)
-
-  const [addUserOpen, setAddUserOpen] = useState(false)
-
-  const [paginationModel, setPaginationModel] = useState({ page: 1, pageSize: 25 })
-
   useEffect(() => {
-    console.log('new tenants data')
-    setTenantsData([...propertyData?.tenants])
+    if (propertyData?.tenants && JSON.stringify(tenantsData) !== JSON.stringify(propertyData.tenants)) {
+      console.log('property Data changed i am setting tenants data')
+
+      setTenantsData([...propertyData.tenants])
+    }
 
     setLoading(false)
-
-    console.log('nice data', tenantsData)
   }, [propertyData])
 
   const handleFilter = useCallback(val => {
@@ -281,6 +310,7 @@ const PropertyTenantManageTable = ({ setPropertyData, propertyData }) => {
                   columnVisibilityModel: {
                     // Hide columns status and traderName, the other columns will remain visible
                     country: false,
+                    unit_id: true,
                     address: false
                   }
                 }

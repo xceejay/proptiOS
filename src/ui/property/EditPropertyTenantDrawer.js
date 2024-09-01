@@ -19,6 +19,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { addUser } from 'src/store/apps/user'
 import { useProperties } from 'src/hooks/useProperties'
 import toast from 'react-hot-toast'
+import Autocomplete from '@mui/material/Autocomplete'
+import CustomChip from 'src/@core/components/mui/chip'
+
 import { useTenants } from 'src/hooks/useTenants'
 import { useRouter } from 'next/router'
 
@@ -91,7 +94,7 @@ const tenantTypes = [
 ]
 
 const EditPropertyTenantDrawer = props => {
-  const { tenantData, setPropertyData, open, toggle } = props
+  const { tenantData, setTenantsData, propertyData, setPropertyData, open, toggle, setLoading } = props
   const tenant = useTenants()
   const properties = useProperties()
   const router = useRouter()
@@ -104,8 +107,16 @@ const EditPropertyTenantDrawer = props => {
     address: yup.string().required('Tenant Address field is required'),
     country: yup.string().required('Country field is required'),
     tel_number: yup.string().required('Phone number is required'),
-    unit_id: yup.number().required('Unit count is required').positive().integer()
+    unit_id: yup.string().required('Unit count is required')
   })
+
+  const blockedUnit = () => {
+    let unit_id = propertyData.units.find(unit => unit.unit_tenant_id == tenantData.id)?.id || ''
+
+    console.log('found unit', unit_id)
+
+    return unit_id
+  }
 
   const defaultValues = {
     uuid: tenantData?.uuid,
@@ -113,6 +124,7 @@ const EditPropertyTenantDrawer = props => {
     email: tenantData?.email,
     address: tenantData?.address,
     country: tenantData?.country,
+    status: tenantData?.status,
     tel_number: tenantData?.tel_number,
     unit_id: tenantData?.unit_id
   }
@@ -130,6 +142,23 @@ const EditPropertyTenantDrawer = props => {
     resolver: yupResolver(schema)
   })
 
+  useEffect(() => {
+    if (tenantData) {
+      console.log('resenting default values')
+
+      reset({
+        uuid: tenantData?.uuid,
+        name: tenantData?.name,
+        email: tenantData?.email,
+        address: tenantData?.address,
+        country: tenantData?.country,
+        status: tenantData?.status,
+        tel_number: tenantData?.tel_number,
+        unit_id: tenantData?.unit_id
+      })
+    }
+  }, [tenantData, propertyData, reset])
+
   const refreshPropertyData = () => {
     if (id) {
       // Ensure id is defined before making the API call
@@ -139,11 +168,14 @@ const EditPropertyTenantDrawer = props => {
           console.log('refreshed data')
           let { data } = responseData
           setPropertyData(data)
-          console.log('FROM INDEX PAGE:', responseData)
+          console.log('FROM Edit tenant PAGE: refreshing property Data', responseData)
 
           if (responseData?.status === 'FAILED') {
             alert(responseData.message || 'Failed to fetch properties')
           }
+
+          setTenantsData([...propertyData?.tenants])
+          setLoading(false)
         },
         error => {
           console.log(id)
@@ -158,7 +190,9 @@ const EditPropertyTenantDrawer = props => {
   }, [open])
 
   const onSubmit = formData => {
+    setLoading(true)
     formData.property_id = tenantData.property_id
+    formData.id = tenantData.id
 
     let requestData = [formData]
 
@@ -195,6 +229,8 @@ const EditPropertyTenantDrawer = props => {
         handleClose()
       },
       error => {
+        toast.error('Failed to edit tenant', { duration: 3000 })
+
         console.error('Error from Add Tenant Drawer:', error)
       }
     )
@@ -204,6 +240,9 @@ const EditPropertyTenantDrawer = props => {
     toggle()
     reset()
   }
+
+  const statusLabel = tenantData?.status === 'active' ? 'Active' : 'Inactive'
+  const statusColor = tenantData?.status === 'active' ? 'success' : 'secondary'
 
   return (
     <Drawer
@@ -246,7 +285,16 @@ const EditPropertyTenantDrawer = props => {
             )}
           </FormControl> */}
 
-          <FormControl fullWidth sx={{ mb: 4, mt: 4 }}>
+          <CustomChip
+            rounded
+            skin='light'
+            size='small'
+            label={statusLabel}
+            color={statusColor}
+            sx={{ textTransform: 'capitalize', mt: 4, mb: 4 }}
+          />
+
+          <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
               name='name'
               control={control}
@@ -342,6 +390,7 @@ const EditPropertyTenantDrawer = props => {
               <FormHelperText sx={{ color: 'error.main' }}>{errors.tel_number.message}</FormHelperText>
             )}
           </FormControl>
+
           {/*
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
@@ -374,14 +423,19 @@ const EditPropertyTenantDrawer = props => {
             <Controller
               name='unit_id'
               control={control}
-              render={({ field: { value = '', onChange } }) => (
-                <TextField
-                  type='number'
-                  value={value}
-                  label='Unit Id'
-                  onChange={onChange}
-                  placeholder='10'
-                  error={Boolean(errors.unit_id)}
+              defaultValue='' // Ensure this matches your form's initial value
+              render={({ field: { onChange, onBlur, value, ref } }) => (
+                <Autocomplete
+                  options={propertyData.units}
+                  getOptionLabel={unit => unit.name}
+                  getOptionDisabled={unit => !!unit.unit_tenant_id}
+                  onChange={(event, newValue) => {
+                    // Pass the new value's id or an empty string to handle the form state
+                    onChange(newValue ? newValue.id : '')
+                  }}
+                  value={propertyData.units.find(unit => unit.id === value) || null} // Set the selected value
+                  renderInput={params => <TextField {...params} label='Unit Occupied' />}
+                  isOptionEqualToValue={(option, value) => option.id === value} // Ensure proper comparison
                 />
               )}
             />
