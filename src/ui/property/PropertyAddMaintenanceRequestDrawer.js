@@ -14,6 +14,8 @@ import { CircularProgress, MenuItem } from '@mui/material'
 import { TextField, Button, FormControl, FormHelperText } from '@mui/material'
 import { MuiFileInput } from 'mui-file-input'
 import { useProperties } from 'src/hooks/useProperties'
+import Autocomplete from '@mui/material/Autocomplete'
+
 import { FileUploadOutlined } from '@mui/icons-material'
 
 const PropertyAddMaintenanceRequestDrawer = props => {
@@ -65,6 +67,7 @@ const PropertyAddMaintenanceRequestDrawer = props => {
 
   const schema = yup.object().shape({
     title: yup.string().required('Title is required').max(50),
+    tenant_id: yup.string().nullable(),
     description: yup.string().required('Description is required').max(255),
     request_media: yup
       .mixed()
@@ -80,6 +83,7 @@ const PropertyAddMaintenanceRequestDrawer = props => {
   const defaultValues = {
     request_media: '',
     request_owner: '',
+    tenant_id: '',
     site_id: '',
     title: '',
     description: '',
@@ -185,6 +189,27 @@ const PropertyAddMaintenanceRequestDrawer = props => {
               )}
             />
           </FormControl>
+          <FormControl fullWidth sx={{ mb: 4 }}>
+            <Controller
+              name='tenant_id'
+              control={control}
+              defaultValue='' // Ensure this matches your form's initial value
+              render={({ field: { onChange, onBlur, value, ref } }) => (
+                <Autocomplete
+                  options={propertyData.tenants}
+                  getOptionLabel={tenant => tenant.name + ' (' + tenant.id + ')'}
+                  // getOptionDisabled={tenant => !!tenant?.tenant_id}
+                  onChange={(event, newValue) => {
+                    // Pass the new value's id or an empty string to handle the form state
+                    onChange(newValue ? newValue.id : '')
+                  }}
+                  value={propertyData.tenants.find(tenant => tenant.id === value) || null} // Set the selected value
+                  renderInput={params => <TextField {...params} label='tenant Attached' />}
+                  isOptionEqualToValue={(option, value) => option.id === value} // Ensure proper comparison
+                />
+              )}
+            />
+          </FormControl>
 
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
@@ -197,6 +222,8 @@ const PropertyAddMaintenanceRequestDrawer = props => {
                   {...field}
                   error={Boolean(errors.description)}
                   helperText={errors.description ? errors.description.message : ''}
+                  multiline
+                  rows={4}
                   fullWidth
                 />
               )}

@@ -174,7 +174,7 @@ const PropertiesProvider = ({ children }) => {
     }
 
     axios
-      .post('https://api.pm.manages.homes/properties/maintenance-request', data, {
+      .post('https://api.pm.manages.homes/properties/maintenance-requests', data, {
         headers: {
           Authorization: `Bearer ${token}`
         }
