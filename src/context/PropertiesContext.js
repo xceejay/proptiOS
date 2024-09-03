@@ -19,6 +19,7 @@ const defaultProvider = {
   getProperties: () => Promise.resolve(),
   getProperty: () => Promise.resolve(),
   addProperties: () => Promise.resolve(), // Renamed for consistency
+  addMaintenanceRequests: () => Promise.resolve(), // Renamed for consistency
   addUnits: () => Promise.resolve(), // Renamed for consistency
   property: null,
   setProperty: () => {},
@@ -161,12 +162,40 @@ const PropertiesProvider = ({ children }) => {
       })
   }
 
+  const addMaintenanceRequests = (data, successCallback, errorCallback) => {
+    // Renamed function
+    const token = window.localStorage.getItem('accessToken') || accessToken
+
+    if (!token) {
+      const error = new Error('No access token found')
+      if (errorCallback) errorCallback(error)
+
+      return
+    }
+
+    axios
+      .post('https://api.pm.manages.homes/properties/maintenance-request', data, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then(response => {
+        if (successCallback) {
+          successCallback(response.data)
+        }
+      })
+      .catch(err => {
+        if (errorCallback) errorCallback(err)
+      })
+  }
+
   const values = {
     properties,
     property,
     setProperty,
     setProperties,
     addProperties, // Updated function name
+    addMaintenanceRequests,
     addUnits,
     loading,
     setLoading,
