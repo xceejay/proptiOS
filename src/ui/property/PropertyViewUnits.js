@@ -39,11 +39,14 @@ import { CardActions, Menu, MenuItem } from '@mui/material'
 import CustomTenantToolbar from 'src/views/table/data-grid/CustomTenantToolbar'
 import CustomNoRowsOverlay from '../CustomNoRowsOverlay'
 import { useDispatch } from 'react-redux'
+import ManagePropertyUnitDrawer from './ManagePropertyUnitDrawer'
 
-const RowOptions = ({ id }) => {
+const RowOptions = ({ id, row, setUnitsData, setPropertyData, propertyData, setLoading }) => {
   const dispatch = useDispatch()
   const [anchorEl, setAnchorEl] = useState(null)
   const rowOptionsOpen = Boolean(anchorEl)
+  const [manageUnitOpen, setManageUnitOpen] = useState(false)
+  const toggleManageUnitDrawer = () => setManageUnitOpen(!manageUnitOpen)
 
   const handleRowOptionsClick = event => {
     setAnchorEl(event.currentTarget)
@@ -55,6 +58,11 @@ const RowOptions = ({ id }) => {
 
   const handleDelete = () => {
     dispatch(deleteUser(id))
+    handleRowOptionsClose()
+  }
+
+  const handleManage = () => {
+    setManageUnitOpen(true)
     handleRowOptionsClose()
   }
 
@@ -88,7 +96,7 @@ const RowOptions = ({ id }) => {
           View
         </MenuItem> */}
 
-        <MenuItem onClick={handleDelete} sx={{ '& svg': { mr: 2 } }}>
+        <MenuItem onClick={handleManage} sx={{ '& svg': { mr: 2 } }}>
           <Icon icon='tabler:pencil' fontSize={20} />
           Manage
         </MenuItem>
@@ -97,37 +105,23 @@ const RowOptions = ({ id }) => {
           Quick Suspend
         </MenuItem>
       </Menu>
+
+      <ManagePropertyUnitDrawer
+        propertyData={propertyData}
+        setPropertyData={setPropertyData}
+        setLoading={setLoading}
+        unitData={row}
+        setUnitsData={setUnitsData}
+        open={manageUnitOpen}
+        toggle={toggleManageUnitDrawer}
+      />
     </>
   )
 }
 
-const columns = [
-  { flex: 1, field: 'id', headerName: 'Unit Id', width: 90 },
-  {
-    field: 'unit_name',
-    valueGetter: params => params.row?.name || '',
-    headerName: 'Unit name',
-    flex: 1,
-    width: 300
-  },
-  {
-    field: 'tenant_name',
-    valueGetter: params => params.row.tenant?.name || '',
-    headerName: 'Occupied Tenant',
-    flex: 1,
-    width: 300
-  },
-  {
-    flex: 0.1,
-    minWidth: 100,
-    sortable: false,
-    field: 'actions',
-    headerName: 'Actions',
-    renderCell: ({ row }) => <RowOptions id={row.id} />
-  }
-]
-
 const PropertyViewUnits = ({ setPropertyData, propertyData }) => {
+  const [loading, setLoading] = useState(true) // New loading state
+
   const [addUnitOpen, setAddUnitOpen] = useState(false)
   const [unitsData, setUnitsData] = useState([])
 
@@ -138,6 +132,41 @@ const PropertyViewUnits = ({ setPropertyData, propertyData }) => {
   const handleFilter = useCallback(val => {
     setValue(val)
   }, [])
+
+  const columns = [
+    { flex: 1, field: 'id', headerName: 'Unit Id', width: 90 },
+    {
+      field: 'unit_name',
+      valueGetter: params => params.row?.name || '',
+      headerName: 'Unit name',
+      flex: 1,
+      width: 300
+    },
+    {
+      field: 'tenant_name',
+      valueGetter: params => params.row.tenant?.name || '',
+      headerName: 'Occupied Tenant',
+      flex: 1,
+      width: 300
+    },
+    {
+      flex: 0.1,
+      minWidth: 100,
+      sortable: false,
+      field: 'actions',
+      headerName: 'Actions',
+      renderCell: ({ row }) => (
+        <RowOptions
+          row={row}
+          setUnitsData={setUnitsData}
+          setPropertyData={setPropertyData}
+          propertyData={propertyData}
+          setLoading={setLoading}
+          id={row.id}
+        />
+      )
+    }
+  ]
 
   const filteredUnits = unitsData.filter(
     unit =>

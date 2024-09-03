@@ -19,7 +19,7 @@ import Autocomplete from '@mui/material/Autocomplete'
 import { FileUploadOutlined } from '@mui/icons-material'
 
 const PropertyAddMaintenanceRequestDrawer = props => {
-  const { setUnitsData, unitsData, setPropertyData, propertyData, open, toggle } = props
+  const { setMaintenanceRequestsData, maintenanceRequestsData, setPropertyData, propertyData, open, toggle } = props
 
   const [requestUUID, setRequestUUID] = useState(v4())
 
@@ -71,7 +71,7 @@ const PropertyAddMaintenanceRequestDrawer = props => {
     description: yup.string().required('Description is required').max(255),
     request_media: yup
       .mixed()
-      .required('Media file is required')
+      .nullable()
       .test('fileSize', 'File size should be less than 50MB', value => {
         return value && value.size <= FILE_SIZE_LIMIT
       })
@@ -84,9 +84,9 @@ const PropertyAddMaintenanceRequestDrawer = props => {
     request_media: '',
     request_owner: '',
     tenant_id: '',
-    site_id: '',
     title: '',
     description: '',
+    unit_id: '',
     uuid: requestUUID
   }
 
@@ -108,18 +108,20 @@ const PropertyAddMaintenanceRequestDrawer = props => {
   const onSubmit = formData => {
     console.log('triggered')
     formData.uuid = formData.uuid ? formData.uuid : requestUUID
+    const property_id = propertyData.id
 
     // Prepare the requestData with the new schema fields
-    const requestData = {
-      ...formData,
-      property_id: propertyData.id
-    }
 
-    console.log('Request Data:', requestData)
+    const requestData = [formData].map(item => ({
+      ...item,
+      property_id: property_id
+    }))
+
+    console.log('what is being sent', requestData)
 
     // Simulate API call
     properties.addMaintenanceRequests(
-      [requestData],
+      requestData,
       responseData => {
         console.log('Add request Drawer Response:', responseData)
         let { data } = responseData
@@ -134,8 +136,27 @@ const PropertyAddMaintenanceRequestDrawer = props => {
           return
         }
 
+        const updatedRequestData = requestData.map(maintenance_request => {
+          const matchingMaintenanceRequest = data.find(response => response.uuid === maintenance_request.uuid)
+
+          if (matchingMaintenanceRequest) {
+            return {
+              ...maintenance_request,
+              id: matchingMaintenanceRequest.id,
+              uuid: matchingMaintenanceRequest.uuid,
+              tenant: {
+                id: matchingMaintenanceRequest.tenant_id,
+                name: matchingMaintenanceRequest.tenant_name
+              }
+            }
+          }
+
+          return maintenance_request
+        })
+        console.log('Request Data:', updatedRequestData)
+
         toast.success('Request has been successfully added', { duration: 5000 })
-        setUnitsData(prevData => [...prevData, requestData])
+        setMaintenanceRequestsData(prevData => [...prevData, ...updatedRequestData])
 
         handleClose()
       },
@@ -189,26 +210,6 @@ const PropertyAddMaintenanceRequestDrawer = props => {
               )}
             />
           </FormControl>
-          <FormControl fullWidth sx={{ mb: 4 }}>
-            <Controller
-              name='tenant_id'
-              control={control}
-              defaultValue='' // Ensure this matches your form's initial value
-              render={({ field: { onChange, onBlur, value, ref } }) => (
-                <Autocomplete
-                  options={propertyData.tenants}
-                  getOptionLabel={tenant => tenant.name + ' (' + tenant.id + ')'}
-                  onChange={(event, newValue) => {
-                    // Pass the new value's id or an empty string to handle the form state
-                    onChange(newValue ? newValue.id : '')
-                  }}
-                  value={propertyData.tenants.find(tenant => tenant.id === value) || null} // Set the selected value
-                  renderInput={params => <TextField {...params} label='tenant Attached' />}
-                  isOptionEqualToValue={(option, value) => option.id === value} // Ensure proper comparison
-                />
-              )}
-            />
-          </FormControl>
 
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
@@ -231,11 +232,74 @@ const PropertyAddMaintenanceRequestDrawer = props => {
 
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
+              name='tenant_id'
+              control={control}
+              defaultValue=''
+              render={({ field: { onChange, onBlur, value, ref } }) => (
+                <Autocomplete
+                  options={propertyData.tenants}
+                  getOptionLabel={tenant => tenant.name + ' (' + tenant.id + ')'}
+                  onChange={(event, newValue) => {
+                    onChange(newValue ? newValue.id : '')
+                  }}
+                  value={propertyData.tenants.find(tenant => tenant.id === value) || null}
+                  renderInput={params => <TextField {...params} label='Tenant Attached' />}
+                  isOptionEqualToValue={(option, value) => option.id === value}
+                />
+              )}
+            />
+          </FormControl>
+
+          <FormControl fullWidth sx={{ mb: 4 }}>
+            <Controller
+              name='unit_id'
+              control={control}
+              defaultValue=''
+              render={({ field: { onChange, onBlur, value, ref } }) => (
+                <Autocomplete
+                  options={propertyData.units}
+                  getOptionLabel={unit => unit?.name + ' (' + unit?.id + ')'}
+                  onChange={(event, newValue) => {
+                    onChange(newValue ? newValue.id : '')
+                  }}
+                  value={propertyData.units.find(unit => unit.id === value) || null}
+                  renderInput={params => <TextField {...params} label='Unit Related' />}
+                  isOptionEqualToValue={(option, value) => option.id === value}
+                />
+              )}
+            />
+          </FormControl>
+
+          <FormControl fullWidth sx={{ mb: 4 }}>
+            <Controller
+              name='request_owner'
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  select
+                  label='Request Owner'
+                  {...field}
+                  error={Boolean(errors.request_owner)}
+                  helperText={errors.request_owner ? errors.request_owner.message : ''}
+                  fullWidth
+                >
+                  {['property', 'unit'].map(option => (
+                    <MenuItem key={option} value={option}>
+                      {option.charAt(0).toUpperCase() + option.slice(1)}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              )}
+            />
+          </FormControl>
+
+          <FormControl fullWidth sx={{ mb: 4 }}>
+            <Controller
               name='request_media'
               control={control}
               render={({ field, fieldState }) => (
                 <MuiFileInput
-                  label={'Request Media'}
+                  label='Request Media'
                   InputProps={{
                     inputProps: {
                       accept: 'video/*, image/*'
