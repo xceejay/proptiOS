@@ -20,6 +20,7 @@ const PropertyAddMaintenanceRequestDrawer = props => {
   const { setUnitsData, unitsData, setPropertyData, propertyData, open, toggle } = props
 
   const [requestUUID, setRequestUUID] = useState(v4())
+
   const [mediaPreview, setMediaPreview] = useState('')
   const [loadingVideo, setLoadingVideo] = useState(false)
 
@@ -29,6 +30,12 @@ const PropertyAddMaintenanceRequestDrawer = props => {
     setLoadingVideo(true)
     setFile(fileBlob) // Update your state with the selected file
     setMediaPreview(fileBlob) // Use the fileBlob directly
+
+    if (fileBlob) {
+      console.log('File Size:', fileBlob.size)
+      console.log('File Type:', fileBlob.type)
+      setValue('request_media', fileBlob) // Assuming the form field is named 'request_media'
+    }
 
     setTimeout(() => {
       setLoadingVideo(false)
@@ -107,7 +114,7 @@ const PropertyAddMaintenanceRequestDrawer = props => {
     console.log('Request Data:', requestData)
 
     // Simulate API call
-    properties.addMaintenanceRequest(
+    properties.addMaintenanceRequests(
       [requestData],
       responseData => {
         console.log('Add request Drawer Response:', responseData)
@@ -202,14 +209,14 @@ const PropertyAddMaintenanceRequestDrawer = props => {
               control={control}
               render={({ field, fieldState }) => (
                 <MuiFileInput
-                  label={'ID card'}
+                  label={'Request Media'}
                   InputProps={{
                     inputProps: {
                       accept: 'video/*, image/*'
                     },
                     startAdornment: <FileUploadOutlined />
                   }}
-                  placeholder='Upload your ID card'
+                  placeholder='Upload request evidence'
                   {...field}
                   onChange={handleChange}
                   helperText={fieldState.invalid ? errors.request_media.message : ''}
