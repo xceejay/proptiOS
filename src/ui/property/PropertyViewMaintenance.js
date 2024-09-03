@@ -86,20 +86,22 @@ const RowOptions = ({ id, row, setPropertyData, propertyData }) => {
 const PropertyViewMaintenance = ({ setPropertyData, propertyData }) => {
   const columns = [
     { flex: 1, field: 'id', headerName: 'Request Id', width: 90 },
-    {
-      field: 'maintenance_request_title',
-      valueGetter: params => params.row?.title || '',
-      headerName: 'Title',
-      flex: 1,
-      width: 300
-    },
-    {
-      field: 'tenant_name',
-      valueGetter: params => params.row.tenant?.name || '',
-      headerName: 'Description',
-      flex: 1,
-      width: 300
-    },
+
+    // {
+    //   field: 'maintenance_request_title',
+    //   valueGetter: params => params.row?.title || '',
+    //   headerName: 'Title',
+    //   flex: 1,
+    //   width: 300
+    // },
+
+    // {
+    //   field: 'tenant_name',
+    //   valueGetter: params => params.row.tenant?.name || '',
+    //   headerName: 'Description',
+    //   flex: 1,
+    //   width: 300
+    // },
     {
       flex: 0.1,
       minWidth: 100,
@@ -113,7 +115,7 @@ const PropertyViewMaintenance = ({ setPropertyData, propertyData }) => {
   ]
 
   const [addMaintenanceRequestOpen, setAddMaintenanceRequestOpen] = useState(false)
-  const [maintenancerequestsData, setMaintenanceRequestsData] = useState([])
+  const [maintenance_requestsData, setMaintenanceRequestsData] = useState([])
 
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
 
@@ -123,19 +125,19 @@ const PropertyViewMaintenance = ({ setPropertyData, propertyData }) => {
     setValue(val)
   }, [])
 
-  const filteredMaintenanceRequests = maintenancerequestsData.filter(
+  const filteredMaintenanceRequests = maintenance_requestsData.filter(
     maintenance_request =>
-      maintenance_request.tenant?.name.toLowerCase().includes(value.toLowerCase()) ||
-      maintenance_request?.name.toLowerCase().includes(value.toLowerCase())
+      // maintenance_request.tenant?.name.toLowerCase().includes(value.toLowerCase()) ||
+      maintenance_request?.title?.toLowerCase().includes(value.toLowerCase())
 
     // tenant.address.toLowerCase().includes(value.toLowerCase())
   )
   const toggleAddMaintenanceRequestDrawer = () => setAddMaintenanceRequestOpen(!addMaintenanceRequestOpen)
 
   useEffect(() => {
-    if (propertyData && propertyData.maintenancerequests) {
-      const maintenancerequests = propertyData.maintenancerequests.map(maintenance_request => {
-        const foundMaintenanceRequest = propertyData.maintenancerequests.find(
+    if (propertyData && propertyData.maintenance_requests) {
+      const maintenance_requests = propertyData.maintenance_requests.map(maintenance_request => {
+        const foundMaintenanceRequest = propertyData.maintenance_requests.find(
           request => request.id === maintenance_request.id
         )
 
@@ -145,7 +147,7 @@ const PropertyViewMaintenance = ({ setPropertyData, propertyData }) => {
         }
       })
 
-      setMaintenanceRequestsData(maintenancerequests)
+      setMaintenanceRequestsData(maintenance_requests)
     }
   }, [propertyData])
 
@@ -186,7 +188,7 @@ const PropertyViewMaintenance = ({ setPropertyData, propertyData }) => {
       </Grid>
 
       <PropertyAddMaintenanceRequestDrawer
-        maintenancerequestsData={maintenancerequestsData}
+        maintenance_requestsData={maintenance_requestsData}
         propertyData={propertyData}
         setPropertyData={setPropertyData}
         setMaintenanceRequestsData={setMaintenanceRequestsData}

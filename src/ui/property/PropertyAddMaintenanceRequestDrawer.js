@@ -198,7 +198,6 @@ const PropertyAddMaintenanceRequestDrawer = props => {
                 <Autocomplete
                   options={propertyData.tenants}
                   getOptionLabel={tenant => tenant.name + ' (' + tenant.id + ')'}
-                  // getOptionDisabled={tenant => !!tenant?.tenant_id}
                   onChange={(event, newValue) => {
                     // Pass the new value's id or an empty string to handle the form state
                     onChange(newValue ? newValue.id : '')
