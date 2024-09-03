@@ -127,7 +127,7 @@ const PropertyViewMaintenance = ({ setPropertyData, propertyData }) => {
 
   const filteredMaintenanceRequests = maintenance_requestsData.filter(
     maintenance_request =>
-      // maintenance_request.tenant?.name.toLowerCase().includes(value.toLowerCase()) ||
+      maintenance_request?.request_owner?.toLowerCase().includes(value.toLowerCase()) ||
       maintenance_request?.title?.toLowerCase().includes(value.toLowerCase())
 
     // tenant.address.toLowerCase().includes(value.toLowerCase())
@@ -143,7 +143,7 @@ const PropertyViewMaintenance = ({ setPropertyData, propertyData }) => {
 
         return {
           ...maintenance_request,
-          tenant: foundMaintenanceRequest || null
+          maintenance_requests: foundMaintenanceRequest || null
         }
       })
 
