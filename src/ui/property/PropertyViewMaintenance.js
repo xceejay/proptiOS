@@ -60,19 +60,14 @@ const RowOptions = ({ id, row, setPropertyData, propertyData }) => {
         }}
         PaperProps={{ style: { minWidth: '8rem' } }}
       >
-        <MenuItem
-          component={Link}
-          sx={{ '& svg': { mr: 2 } }}
-          href={'/properties/' + id}
-          onClick={handleRowOptionsClose}
-        >
+        <MenuItem component={Link} sx={{ '& svg': { mr: 2 } }} onClick={handleRowOptionsClose}>
           <Icon icon='tabler:eye' fontSize={20} />
           View
         </MenuItem>
 
         <MenuItem onClick={handleDelete} sx={{ '& svg': { mr: 2 } }}>
           <Icon icon='tabler:pencil' fontSize={20} />
-          Modify MaintenanceRequest
+          Edit
         </MenuItem>
         <MenuItem onClick={handleDelete} sx={{ '& svg': { mr: 2 } }}>
           <Icon icon='tabler:trash' fontSize={20} />
@@ -87,21 +82,37 @@ const PropertyViewMaintenance = ({ setPropertyData, propertyData }) => {
   const columns = [
     { flex: 1, field: 'id', headerName: 'Request Id', width: 90 },
 
-    // {
-    //   field: 'maintenance_request_title',
-    //   valueGetter: params => params.row?.title || '',
-    //   headerName: 'Title',
-    //   flex: 1,
-    //   width: 300
-    // },
+    {
+      field: 'maintenance_request_title',
+      valueGetter: params => params.row?.title || '',
+      headerName: 'Title',
+      flex: 1,
+      width: 300
+    },
 
-    // {
-    //   field: 'tenant_name',
-    //   valueGetter: params => params.row.tenant?.name || '',
-    //   headerName: 'Description',
-    //   flex: 1,
-    //   width: 300
-    // },
+    {
+      field: 'description',
+      valueGetter: params => params.row?.description || '',
+      headerName: 'Description',
+      flex: 1,
+      width: 300
+    },
+    {
+      field: 'media_evidence',
+      valueGetter: params => (params.row?.media_url ? ' ✅' : '❌'),
+      headerName: 'Media Evidence',
+      flex: 1,
+      width: 300
+    },
+
+    {
+      field: 'unit',
+      valueGetter: params =>
+        params.row?.unit?.name && params.row?.unit?.id ? `${params.row.unit.name} (${params.row.unit.id})` : 'None',
+      headerName: 'Unit',
+      flex: 1,
+      width: 300
+    },
     {
       flex: 0.1,
       minWidth: 100,
@@ -134,22 +145,20 @@ const PropertyViewMaintenance = ({ setPropertyData, propertyData }) => {
 
   useEffect(() => {
     if (propertyData && propertyData.maintenance_requests) {
-      // const maintenance_requests = propertyData.maintenance_requests.map(maintenance_request => {
-      //   const foundMaintenanceRequest = propertyData.maintenance_requests.find(
-      //     request => request.id === maintenance_request.id
-      //   )
+      const maintenance_requests = propertyData.maintenance_requests.map(maintenance_request => {
+        const foundUnit = propertyData.units.find(unit => unit.id === maintenance_request.unit_id)
 
-      //   return {
-      //     ...maintenance_request,
-      //     maintenance_requests: foundMaintenanceRequest || null
-      //   }
-      // })
+        return {
+          ...maintenance_request,
+          unit: foundUnit || null
+        }
+      })
 
-      setMaintenanceRequestsData(propertyData.maintenance_requests)
+      setMaintenanceRequestsData(maintenance_requests)
 
       console.log('requests', maintenanceRequestsData, 'another', propertyData.maintenance_requests)
     }
-  }, [propertyData, maintenanceRequestsData])
+  }, [propertyData])
 
   return (
     <Grid container spacing={6}>

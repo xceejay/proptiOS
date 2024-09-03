@@ -6,6 +6,8 @@ const path = require('path')
 // Remove this if you're not using Fullcalendar features
 
 module.exports = {
+  swcMinify: true, //apparently this can speed up next js in dev env
+
   transpilePackages: ['mui-file-input'],
   trailingSlash: true,
 

@@ -78,7 +78,7 @@ const RowOptions = ({ id }) => {
         }}
         PaperProps={{ style: { minWidth: '8rem' } }}
       >
-        <MenuItem
+        {/* <MenuItem
           component={Link}
           sx={{ '& svg': { mr: 2 } }}
           href={'/properties/' + id}
@@ -86,11 +86,11 @@ const RowOptions = ({ id }) => {
         >
           <Icon icon='tabler:eye' fontSize={20} />
           View
-        </MenuItem>
+        </MenuItem> */}
 
         <MenuItem onClick={handleDelete} sx={{ '& svg': { mr: 2 } }}>
           <Icon icon='tabler:pencil' fontSize={20} />
-          Modify Unit
+          Manage
         </MenuItem>
         <MenuItem onClick={handleDelete} sx={{ '& svg': { mr: 2 } }}>
           <Icon icon='tabler:trash' fontSize={20} />
