@@ -227,8 +227,8 @@ const PropertyManageTable = () => {
   // Filter properties based on the search value
   const filteredProperties = propertiesData.filter(
     property =>
-      property.property_name.toLowerCase().includes(value.toLowerCase()) ||
-      property.property_address.toLowerCase().includes(value.toLowerCase())
+      (property.property_name?.toLowerCase() || '').includes(value.toLowerCase()) ||
+      (property.property_address?.toLowerCase() || '').includes(value.toLowerCase())
   )
 
   return (

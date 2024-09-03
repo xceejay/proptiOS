@@ -269,10 +269,10 @@ const PropertyTenantManageTable = ({ setPropertyData, propertyData }) => {
 
   const filteredTenants = tenantsData.filter(
     tenant =>
-      tenant.name.toLowerCase().includes(value.toLowerCase()) ||
-      tenant.email.toLowerCase().includes(value.toLowerCase())
+      (tenant.name?.toLowerCase() || '').includes(value.toLowerCase()) ||
+      (tenant.email?.toLowerCase() || '').includes(value.toLowerCase())
 
-    // tenant.address.toLowerCase().includes(value.toLowerCase())
+    // tenant.address?.toLowerCase() || '').includes(value.toLowerCase())
   )
 
   return (

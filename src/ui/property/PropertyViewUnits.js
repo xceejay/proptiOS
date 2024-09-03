@@ -141,10 +141,10 @@ const PropertyViewUnits = ({ setPropertyData, propertyData }) => {
 
   const filteredUnits = unitsData.filter(
     unit =>
-      unit.tenant?.name.toLowerCase().includes(value.toLowerCase()) ||
-      unit?.name.toLowerCase().includes(value.toLowerCase())
+      (unit.tenant?.name?.toLowerCase() || '').includes(value.toLowerCase()) ||
+      (unit?.name?.toLowerCase() || '').includes(value.toLowerCase())
 
-    // tenant.address.toLowerCase().includes(value.toLowerCase())
+    // tenant.address?.toLowerCase() || '').includes(value.toLowerCase())
   )
   const toggleAddUnitDrawer = () => setAddUnitOpen(!addUnitOpen)
 

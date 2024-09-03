@@ -115,7 +115,7 @@ const PropertyViewMaintenance = ({ setPropertyData, propertyData }) => {
   ]
 
   const [addMaintenanceRequestOpen, setAddMaintenanceRequestOpen] = useState(false)
-  const [maintenance_requestsData, setMaintenanceRequestsData] = useState([])
+  const [maintenanceRequestsData, setMaintenanceRequestsData] = useState([])
 
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
 
@@ -125,31 +125,31 @@ const PropertyViewMaintenance = ({ setPropertyData, propertyData }) => {
     setValue(val)
   }, [])
 
-  const filteredMaintenanceRequests = maintenance_requestsData.filter(
+  const filteredMaintenanceRequests = maintenanceRequestsData.filter(
     maintenance_request =>
-      maintenance_request?.request_owner?.toLowerCase().includes(value.toLowerCase()) ||
-      maintenance_request?.title?.toLowerCase().includes(value.toLowerCase())
-
-    // tenant.address.toLowerCase().includes(value.toLowerCase())
+      (maintenance_request?.request_owner?.toLowerCase() || '').includes(value.toLowerCase()) ||
+      (maintenance_request?.media_type?.toLowerCase() || '').includes(value.toLowerCase())
   )
   const toggleAddMaintenanceRequestDrawer = () => setAddMaintenanceRequestOpen(!addMaintenanceRequestOpen)
 
   useEffect(() => {
     if (propertyData && propertyData.maintenance_requests) {
-      const maintenance_requests = propertyData.maintenance_requests.map(maintenance_request => {
-        const foundMaintenanceRequest = propertyData.maintenance_requests.find(
-          request => request.id === maintenance_request.id
-        )
+      // const maintenance_requests = propertyData.maintenance_requests.map(maintenance_request => {
+      //   const foundMaintenanceRequest = propertyData.maintenance_requests.find(
+      //     request => request.id === maintenance_request.id
+      //   )
 
-        return {
-          ...maintenance_request,
-          maintenance_requests: foundMaintenanceRequest || null
-        }
-      })
+      //   return {
+      //     ...maintenance_request,
+      //     maintenance_requests: foundMaintenanceRequest || null
+      //   }
+      // })
 
-      setMaintenanceRequestsData(maintenance_requests)
+      setMaintenanceRequestsData(propertyData.maintenance_requests)
+
+      console.log('requests', maintenanceRequestsData, 'another', propertyData.maintenance_requests)
     }
-  }, [propertyData])
+  }, [propertyData, maintenanceRequestsData])
 
   return (
     <Grid container spacing={6}>
@@ -188,7 +188,7 @@ const PropertyViewMaintenance = ({ setPropertyData, propertyData }) => {
       </Grid>
 
       <PropertyAddMaintenanceRequestDrawer
-        maintenance_requestsData={maintenance_requestsData}
+        maintenanceRequestsData={maintenanceRequestsData}
         propertyData={propertyData}
         setPropertyData={setPropertyData}
         setMaintenanceRequestsData={setMaintenanceRequestsData}
