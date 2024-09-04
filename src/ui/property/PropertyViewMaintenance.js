@@ -12,6 +12,7 @@ import Grid from '@mui/material/Grid'
 import IconButton from '@mui/material/IconButton'
 
 import CardContent from '@mui/material/CardContent'
+import { styled } from '@mui/material/styles'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
@@ -74,6 +75,27 @@ const RowOptions = ({ id, row, setPropertyData, propertyData }) => {
 }
 
 const PropertyViewMaintenance = ({ setPropertyData, propertyData }) => {
+  const StyledDataGrid = styled(DataGrid)({
+    '@media (hover: none)': {
+      '&& .MuiDataGrid-menuIcon': {
+        width: 0,
+        visibility: 'hidden'
+      },
+      '&& .MuiDataGrid-sortIcon': {
+        width: 0,
+        visibility: 'hidden'
+      }
+    },
+    '&& .MuiDataGrid-columnHeader--sorted .MuiDataGrid-menuIcon': {
+      width: 'auto',
+      visibility: 'visible'
+    },
+    '&& .MuiDataGrid-columnHeader--sorted .MuiDataGrid-sortIcon': {
+      width: 'auto',
+      visibility: 'visible'
+    }
+  })
+
   const columns = [
     { flex: 0.5, field: 'id', headerName: 'Id', width: 90 },
 
@@ -81,7 +103,8 @@ const PropertyViewMaintenance = ({ setPropertyData, propertyData }) => {
       field: 'maintenance_request_title',
       valueGetter: params => params.row?.title || '',
       headerName: 'Title',
-      flex: 1
+      width: 300,
+      flex: 2
     },
 
     {
@@ -94,7 +117,8 @@ const PropertyViewMaintenance = ({ setPropertyData, propertyData }) => {
       field: 'media_evidence',
       valueGetter: params => (params.row?.media_url ? ' ✅' : '❌'),
       headerName: 'Media Evidence',
-      flex: 1
+      flex: 1,
+      width: 90
     },
 
     {
@@ -169,7 +193,7 @@ const PropertyViewMaintenance = ({ setPropertyData, propertyData }) => {
       <Grid item xs={12} lg={24}>
         <Card sx={{ mb: 4 }}>
           <CardContent>
-            <DataGrid
+            <StyledDataGrid
               autoHeight
               rowHeight={62}
               loading={false} // Use the new loading state
@@ -185,6 +209,14 @@ const PropertyViewMaintenance = ({ setPropertyData, propertyData }) => {
                   // title: '',
                   toggle: toggleAddMaintenanceRequestDrawer,
                   handleFilter: handleFilter
+                }
+              }}
+              initialState={{
+                columns: {
+                  columnVisibilityModel: {
+                    // Hide columns status and traderName, the other columns will remain visible
+                    description: false
+                  }
                 }
               }}
               disableRowSelectionOnClick
