@@ -75,29 +75,26 @@ const RowOptions = ({ id, row, setPropertyData, propertyData }) => {
 
 const PropertyViewMaintenance = ({ setPropertyData, propertyData }) => {
   const columns = [
-    { flex: 1, field: 'id', headerName: 'Request Id', width: 90 },
+    { flex: 0.5, field: 'id', headerName: 'Id', width: 90 },
 
     {
       field: 'maintenance_request_title',
       valueGetter: params => params.row?.title || '',
       headerName: 'Title',
-      flex: 1,
-      width: 300
+      flex: 1
     },
 
     {
       field: 'description',
       valueGetter: params => params.row?.description || '',
       headerName: 'Description',
-      flex: 1,
-      width: 300
+      flex: 1
     },
     {
       field: 'media_evidence',
       valueGetter: params => (params.row?.media_url ? ' ✅' : '❌'),
       headerName: 'Media Evidence',
-      flex: 1,
-      width: 300
+      flex: 1
     },
 
     {
@@ -105,8 +102,16 @@ const PropertyViewMaintenance = ({ setPropertyData, propertyData }) => {
       valueGetter: params =>
         params.row?.unit?.name && params.row?.unit?.id ? `${params.row.unit.name} (${params.row.unit.id})` : 'None',
       headerName: 'Unit',
-      flex: 1,
-      width: 300
+      flex: 1
+    },
+    {
+      field: 'tenant',
+      valueGetter: params =>
+        params.row?.tenant?.name && params.row?.tenant?.id
+          ? `${params.row.tenant.name} (${params.row.tenant.id})`
+          : 'None',
+      headerName: 'Tenant',
+      flex: 1
     },
     {
       flex: 0.1,
@@ -140,11 +145,15 @@ const PropertyViewMaintenance = ({ setPropertyData, propertyData }) => {
 
   useEffect(() => {
     if (propertyData && propertyData.maintenance_requests) {
+      // console.log(propertyData.tenants, '', propertyData.maintenance_requests)
+
       const maintenance_requests = propertyData.maintenance_requests.map(maintenance_request => {
+        const foundTenant = propertyData.tenants.find(tenant => tenant.id === maintenance_request.tenant_id)
         const foundUnit = propertyData.units.find(unit => unit.id === maintenance_request.unit_id)
 
         return {
           ...maintenance_request,
+          tenant: foundTenant || null,
           unit: foundUnit || null
         }
       })
