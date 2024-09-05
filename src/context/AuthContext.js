@@ -37,9 +37,9 @@ const AuthProvider = ({ children }) => {
 
         //this is used to validate the token
         await axios
-          .get(authConfig.meEndpoint, {
+          .get('https://api.pm.manages.homes/auth/me', {
             headers: {
-              Authorization: storedToken
+              Authorization: `Bearer ${storedToken}`
             }
           })
           .then(async response => {
@@ -47,9 +47,12 @@ const AuthProvider = ({ children }) => {
 
             // setUser({ ...response.data.userData })
           })
-          .catch(() => {
+          .catch(error => {
             // localStorage.removeItem('userData')
             // localStorage.removeItem('refreshToken')
+
+            console.log('encountered this error', error)
+
             localStorage.removeItem('accessToken')
             setUser(null)
             setLoading(false)
