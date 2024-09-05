@@ -35,7 +35,7 @@ const AuthProvider = ({ children }) => {
       try {
         const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)
 
-        //this is used to validate the token
+        //this is used to validate the token (the backend does everything, if it returns 403 or 401 the axios interceptor intercepts it)
         await axios
           .get('https://api.pm.manages.homes/auth/me', {
             headers: {
