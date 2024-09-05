@@ -34,11 +34,11 @@ axios.interceptors.response.use(
     return response
   },
   function (error) {
-    if (403 === error.response.status) {
+    if (403 === error.response.status || 401 === error.response.status) {
       console.log('Unauthorized. Logging out..')
       window.localStorage.removeItem('accessToken')
 
-      if (!window.location.pathname.startsWith('/login') || !window.location.pathname.startsWith('/register')) {
+      if (!window.location.pathname.startsWith('/login') && !window.location.pathname.startsWith('/register')) {
         toast.error('Unauthorized Access, redirecting to login page', { duration: 3000 })
         setTimeout(function () {
           console.log('redirecting')
