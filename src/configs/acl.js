@@ -9,7 +9,7 @@ export const AppAbility = Ability
  */
 const defineRulesFor = (user_type, subject) => {
   const { can, rules } = new AbilityBuilder(AppAbility)
-  if (user_type === 'property_manager') {
+  if (user_type === 'property_managers') {
     can('manage', 'all')
   } else if (user_type === 'tenant') {
     can(['read'], 'acl-page')
