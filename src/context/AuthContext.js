@@ -21,6 +21,11 @@ const defaultProvider = {
   login: () => Promise.resolve(),
   logout: () => Promise.resolve()
 }
+
+const jwtConfig = {
+  secret: process.env.NEXT_PUBLIC_JWT_SECRET
+}
+
 const AuthContext = createContext(defaultProvider)
 
 const AuthProvider = ({ children }) => {
@@ -63,6 +68,13 @@ const AuthProvider = ({ children }) => {
           }
         })
         .then(async response => {
+          const accessToken = jwt.sign({ id: userId }, jwtConfig.secret, {
+            expiresIn: jwtConfig.expirationTime
+          })
+
+          // ** Set new token in localStorage
+          window.localStorage.setItem(defaultAuthConfig.storageTokenKeyName, accessToken)
+
           setLoading(false)
           setUser({ ...response.data.userData })
         })
