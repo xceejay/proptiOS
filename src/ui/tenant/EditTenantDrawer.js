@@ -184,6 +184,7 @@ const EditTenantDrawer = props => {
   const onSubmit = formData => {
     setLoading(true)
     console.log
+    formData.unit_id = tenantData.unit.id
     formData.property_id = tenantData.property.id
     formData.id = tenantData.id
 
