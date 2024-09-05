@@ -21,11 +21,6 @@ const defaultProvider = {
   login: () => Promise.resolve(),
   logout: () => Promise.resolve()
 }
-
-const jwtConfig = {
-  secret: process.env.NEXT_PUBLIC_JWT_SECRET
-}
-
 const AuthContext = createContext(defaultProvider)
 
 const AuthProvider = ({ children }) => {
@@ -37,59 +32,75 @@ const AuthProvider = ({ children }) => {
   const router = useRouter()
   useEffect(() => {
     const initAuth = async () => {
-      // try {
-      const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)
+      try {
+        const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)
 
-      //   if (storedToken) {
-      //     const decoded = jwt.decode(storedToken, { complete: true })
+        //this is used to validate the token
+        await axios
+          .get(authConfig.meEndpoint, {
+            headers: {
+              Authorization: storedToken
+            }
+          })
+          .then(async response => {
+            setLoading(false)
 
-      //     setLoading(false)
-      //     console.log('decoded-data', decoded)
+            // setUser({ ...response.data.userData })
+          })
+          .catch(() => {
+            // localStorage.removeItem('userData')
+            // localStorage.removeItem('refreshToken')
+            localStorage.removeItem('accessToken')
+            setUser(null)
+            setLoading(false)
 
-      //     setUser(decoded.payload)
-      //     setLoading(false)
-      //   } else {
-      //     console.log('else: NO token')
-      //     setLoading(false)
-      //   }
-      // } catch (error) {
-      //   console.log(error)
-      //   setLoading(false)
-
-      //   handleLogout()
-      // }
-
-      // console.log('are you null?:', JSON.parse(userData))
-
-      await axios
-        .get('https://api.pm.manages.homes/auth/me', {
-          headers: {
-            Authorization: storedToken
-          }
-        })
-        .then(async response => {
-          const accessToken = jwt.sign({ id: userId }, jwtConfig.secret, {
-            expiresIn: jwtConfig.expirationTime
+            // if (authConfig.onTokenExpiration === 'logout' && !router.pathname.includes('login')) {
+            //   router.replace('/login')
+            // }
           })
 
-          // ** Set new token in localStorage
-          window.localStorage.setItem(defaultAuthConfig.storageTokenKeyName, accessToken)
+        if (storedToken) {
+          const decoded = jwt.decode(storedToken, { complete: true })
 
           setLoading(false)
-          setUser({ ...response.data.userData })
-        })
-        .catch(() => {
-          localStorage.removeItem('userData')
-          localStorage.removeItem('refreshToken')
-          localStorage.removeItem('accessToken')
-          setUser(null)
+          console.log('decoded-data', decoded)
+
+          setUser(decoded.payload)
           setLoading(false)
-          if (!router.pathname.includes('login')) {
-            router.replace('/login')
-          }
-        })
+        } else {
+          console.log('else: NO token')
+          setLoading(false)
+        }
+      } catch (error) {
+        console.log(error)
+        setLoading(false)
+
+        handleLogout()
+      }
     }
 
+    // console.log('are you null?:', JSON.parse(userData))
+
+    // await axios
+    //   .get(authConfig.meEndpoint, {
+    //     headers: {
+    //       Authorization: storedToken
+    //     }
+    //   })
+    //   .then(async response => {
+    //     setLoading(false)
+    //     setUser({ ...response.data.userData })
+    //   })
+    //   .catch(() => {
+    //     localStorage.removeItem('userData')
+    //     localStorage.removeItem('refreshToken')
+    //     localStorage.removeItem('accessToken')
+    //     setUser(null)
+    //     setLoading(false)
+    //     if (authConfig.onTokenExpiration === 'logout' && !router.pathname.includes('login')) {
+    //       router.replace('/login')
+    //     }
+    //   })
     initAuth()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
