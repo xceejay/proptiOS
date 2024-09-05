@@ -15,7 +15,7 @@ const getDashboardRoute = user_type => {
     case 'inspector':
       return '/inspections'
     default:
-      return '/'
+      return '/login'
   }
 }
 

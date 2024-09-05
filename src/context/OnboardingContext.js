@@ -75,7 +75,7 @@ const OnboardingProvider = ({ children }) => {
         }
 
         if (response.data.user) {
-          window.localStorage.setItem('userData', JSON.stringify(response.data.user))
+          window.localStorage.setItem('accessToken', JSON.stringify(response.data.user))
         }
 
         setRegistrationDetails(params)
