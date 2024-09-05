@@ -38,7 +38,7 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const initAuth = async () => {
       // try {
-      //   const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)
+      const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)
 
       //   if (storedToken) {
       //     const decoded = jwt.decode(storedToken, { complete: true })
