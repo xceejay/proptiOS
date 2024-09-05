@@ -92,7 +92,7 @@ const schema = yup.object().shape({
   email: yup.string().email().required(),
   password: yup.string().min(5).required(),
   full_name: yup.string().min(2).required(),
-  site_domain: yup.string().min(2).required(),
+  site_id: yup.string().min(2).required(),
   site_name: yup.string(),
   id_card: yup
     .mixed()
@@ -496,7 +496,7 @@ const Register = () => {
               <FormControl sx={{ mb: 4, width: '30ch' }} variant='outlined'>
                 <FormHelperText>Custom site domain</FormHelperText>
                 <Controller
-                  name='site_domain'
+                  name='site_id'
                   control={control}
                   rules={{ required: true }}
                   render={({ field: { value, onChange, onBlur } }) => (
@@ -504,11 +504,11 @@ const Register = () => {
                       <OutlinedInput
                         id='outlined-adornment-weight'
                         value={value?.toLowerCase()}
-                        name='site_domain'
+                        name='site_id'
                         autoFocus
                         onChange={onChange}
                         onBlur={onBlur}
-                        error={Boolean(errors.site_domain)}
+                        error={Boolean(errors.site_id)}
                         required
                         endAdornment={<InputAdornment position='end'>.manages.homes</InputAdornment>}
                         aria-describedby='outlined-weight-helper-text'

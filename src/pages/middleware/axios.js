@@ -38,7 +38,7 @@ axios.interceptors.response.use(
       console.log('Unauthorized. Logging out..')
       window.localStorage.removeItem('accessToken')
 
-      if (!window.location.pathname.startsWith('/login')) {
+      if (!window.location.pathname.startsWith('/login') || !window.location.pathname.startsWith('/register')) {
         toast.error('Unauthorized Access, redirecting to login page', { duration: 3000 })
         setTimeout(function () {
           console.log('redirecting')
