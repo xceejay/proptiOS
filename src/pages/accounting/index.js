@@ -76,5 +76,6 @@ const Accounting = () => {
     </Box>
   )
 }
+Accounting.acl = { action: 'read', subject: 'accounting' }
 
 export default Accounting

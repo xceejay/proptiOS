@@ -103,4 +103,6 @@ const Dashboard = DashboardData => {
 //   }
 // }
 
+Dashboard.acl = { action: 'read', subject: 'dashboard' }
+
 export default Dashboard

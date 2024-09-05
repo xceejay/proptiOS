@@ -3,110 +3,66 @@ const navigation = () => {
     {
       title: 'Dashboard',
       path: '/dashboard',
-      icon: 'tabler:smart-home'
+      icon: 'tabler:smart-home',
+      action: 'read', // Action for viewing
+      subject: 'dashboard' // Subject linked to permissions
     },
     {
       title: 'Properties',
       path: '/properties',
-      icon: 'tabler:home-edit'
-
-      // children: [
-      // {
-      //   title: 'Property Quick Setup',
-      //   path: '/properties/quick-setup'
-      // },
-      // {
-      //   title: 'Manage properties',
-      //   path: '/properties'
-      // }
-
-      // {
-      //   title: 'Property Search',
-      //   path: '/properties/search',
-      //   badgeContent: ''
-      // }
-      // ]
+      icon: 'tabler:home-edit',
+      action: 'read',
+      subject: 'properties'
     },
     {
       title: 'Tenants',
       icon: 'tabler:friends',
-      path: '/tenants'
-
-      // children: [
-      // {
-      //   title: 'Tenant Quick Setup',
-      //   path: '/tenants/quick-setup'
-      // },
-      // {
-      //   title: 'Manage Tenants',
-      //   path: '/tenants'
-
-      // children: [{}]
-      // }
-
-      // {
-      //   title: 'Tenant Search',
-      //   path: '/tenants/search',
-      //   badgeContent: ''
-      // },
-      // ]
+      path: '/tenants',
+      action: 'read',
+      subject: 'tenants'
     },
-
     {
       title: 'Leases',
       path: '/leases',
-      icon: 'tabler:contract'
+      icon: 'tabler:contract',
+      action: 'read',
+      subject: 'leases'
     },
-
-    // {
-    // title: 'Notifications',
-    // path: '/notifications',
-    //
-    // icon: 'tabler:bell',
-    // badgeContent: '3',
-    // badgeColor: 'success'
-    // },
-
     {
       title: 'Accounting',
       path: '/accounting',
-      icon: 'tabler:file-dollar'
+      icon: 'tabler:file-dollar',
+      action: 'read',
+      subject: 'accounting'
     },
 
     {
       title: 'Reports',
       path: '/reports',
-      icon: 'tabler:receipt'
+      icon: 'tabler:receipt',
+      action: 'read',
+      subject: 'reports'
     },
-
-    // {
-    //   title: 'Second Page',
-    //   path: '/second-page',
-    //   icon: 'tabler:mail'
-    // },
-    // {
-    // path: '/acl',
-    // action: 'read',
-    // subject: 'acl-page',
-    // title: 'Access Control',
-    // icon: 'tabler:shield'
-    // },
+    {
+      title: 'User Management',
+      path: '/user-management',
+      icon: 'tabler:users',
+      action: 'read',
+      subject: 'user-management'
+    },
     {
       title: 'Communication',
       path: '/communication',
-      icon: 'tabler:brand-telegram'
-
-      // badgeContent: '3',
-      // badgeColor: 'success'
+      icon: 'tabler:brand-telegram',
+      action: 'read',
+      subject: 'communication'
     },
-
     {
       title: 'Support',
       path: 'https://manages.homes/support',
       icon: 'tabler:help',
-
-      // badgeContent: '3',
-      badgeColor: 'success'
+      action: 'read',
+      subject: 'support'
     }
   ]
 }

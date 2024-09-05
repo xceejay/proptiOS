@@ -1,9 +1,22 @@
 /**
  *  Set Dashboard URL based on User Roles
  */
-const getDashboardRoute = role => {
-  if (role === 'client') return '/acl'
-  else return '/dashboard'
+const getDashboardRoute = user_type => {
+  switch (user_type) {
+    case 'property_manager':
+    case 'property_coordinator':
+      return '/dashboard' // Full access
+    case 'maintenance_worker':
+      return '/maintenance'
+    case 'accounting_staff':
+      return '/accounting'
+    case 'vendor':
+      return '/vendor'
+    case 'inspector':
+      return '/inspections'
+    default:
+      return '/'
+  }
 }
 
 export default getDashboardRoute
