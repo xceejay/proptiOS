@@ -438,7 +438,7 @@ ADD PROPERTY OPTIONS LATER
                 <Autocomplete
                   options={tenantData.property_id}
                   getOptionLabel={unit => unit.name}
-                  getOptionDisabled={unit => !!unit.unit_tenant_id}
+                  getOptionDisabled={unit => !!unit.tenant_id}
                   onChange={(event, newValue) => {
                     // Pass the new value's id or an empty string to handle the form state
                     onChange(newValue ? newValue.id : '')

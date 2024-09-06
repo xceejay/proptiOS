@@ -107,15 +107,15 @@ const EditPropertyTenantDrawer = props => {
     address: yup.string().nullable(),
     country: yup.string().nullable(),
     tel_number: yup.string().nullable(),
-    unit_id: yup.string().nullable()
+    units: yup.string().nullable()
   })
 
   const blockedUnit = () => {
-    let unit_id = propertyData.units.find(unit => unit.unit_tenant_id == tenantData.id)?.id || ''
+    let units = propertyData.units.find(unit => unit.tenant_id == tenantData.id)?.id || ''
 
-    console.log('found unit', unit_id)
+    console.log('found unit', units)
 
-    return unit_id
+    return units
   }
 
   const defaultValues = {
@@ -126,7 +126,7 @@ const EditPropertyTenantDrawer = props => {
     country: tenantData?.country,
     status: tenantData?.status,
     tel_number: tenantData?.tel_number,
-    unit_id: tenantData?.unit_id
+    units: tenantData?.units
   }
 
   const {
@@ -154,7 +154,7 @@ const EditPropertyTenantDrawer = props => {
         country: tenantData?.country,
         status: tenantData?.status,
         tel_number: tenantData?.tel_number,
-        unit_id: tenantData?.unit_id
+        units: tenantData?.units
       })
     }
   }, [tenantData, propertyData, reset])
@@ -191,7 +191,9 @@ const EditPropertyTenantDrawer = props => {
 
   const onSubmit = formData => {
     setLoading(true)
-    formData.property_id = tenantData.property_id
+
+    console.log('propertyData', propertyData)
+    formData.property_id = propertyData.id
     formData.id = tenantData.id
 
     let requestData = [formData]
@@ -422,25 +424,26 @@ const EditPropertyTenantDrawer = props => {
 
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
-              name='unit_id'
+              name='units'
               control={control}
-              defaultValue='' // Ensure this matches your form's initial value
+              defaultValue={[]} // Ensure this matches your form's initial value for multiple selections
               render={({ field: { onChange, onBlur, value, ref } }) => (
                 <Autocomplete
+                  multiple
                   options={propertyData.units}
                   getOptionLabel={unit => unit.name}
-                  getOptionDisabled={unit => !!unit.unit_tenant_id}
+                  getOptionDisabled={unit => !!unit.tenant_id}
                   onChange={(event, newValue) => {
-                    // Pass the new value's id or an empty string to handle the form state
-                    onChange(newValue ? newValue.id : '')
+                    // Pass the array of selected unit ids to handle the form state
+                    onChange(newValue ? newValue.map(unit => unit.id) : [])
                   }}
-                  value={propertyData.units.find(unit => unit.id === value) || null} // Set the selected value
-                  renderInput={params => <TextField {...params} label='Unit Occupied' />}
+                  value={propertyData.units.filter(unit => value.includes(unit.id))} // Set the selected values
+                  renderInput={params => <TextField {...params} label='Units Occupied' />}
                   isOptionEqualToValue={(option, value) => option.id === value} // Ensure proper comparison
                 />
               )}
             />
-            {errors.unit_id && <FormHelperText sx={{ color: 'error.main' }}>{errors.unit_id.message}</FormHelperText>}
+            {errors.units && <FormHelperText sx={{ color: 'error.main' }}>{errors.units.message}</FormHelperText>}
           </FormControl>
 
           <Button type='submit' variant='contained' color='warning'>

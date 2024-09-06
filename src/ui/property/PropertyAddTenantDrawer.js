@@ -51,7 +51,7 @@ const schema = yup.object().shape({
   address: yup.string(),
   tel_number: yup.string(),
   user_type: yup.string(),
-  unit_id: yup.string().nullable()
+  units: yup.array().of(yup.string())
 })
 
 const countries = [
@@ -118,7 +118,7 @@ const defaultValues = {
   country: '',
   tel_number: '',
   property_name: '',
-  unit_id: undefined,
+  units: [],
   user_type: 'tenant'
 }
 
@@ -334,25 +334,26 @@ const PropertyAddTenantDrawer = props => {
 
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
-              name='unit_id'
+              name='units'
               control={control}
-              defaultValue='' // Ensure this matches your form's initial value
+              defaultValue={[]} // Ensure this matches your form's initial value for multiple selections
               render={({ field: { onChange, onBlur, value, ref } }) => (
                 <Autocomplete
-                  options={propertyData.units}
+                  multiple
+                  options={propertyData?.units}
                   getOptionLabel={unit => unit.name}
-                  getOptionDisabled={unit => !!unit.unit_tenant_id}
+                  getOptionDisabled={unit => !!unit.tenant_id}
                   onChange={(event, newValue) => {
-                    // Pass the new value's id or an empty string to handle the form state
-                    onChange(newValue ? newValue.id : '')
+                    // Pass the array of selected unit ids to handle the form state
+                    onChange(newValue ? newValue.map(unit => unit.id) : [])
                   }}
-                  value={propertyData.units.find(unit => unit.id === value) || null} // Set the selected value
-                  renderInput={params => <TextField {...params} label='Unit Occupied' />}
+                  value={propertyData?.units.filter(unit => value.includes(unit.id))} // Set the selected values
+                  renderInput={params => <TextField {...params} label='Units Occupied' />}
                   isOptionEqualToValue={(option, value) => option.id === value} // Ensure proper comparison
                 />
               )}
             />
-            {errors.unit_id && <FormHelperText sx={{ color: 'error.main' }}>{errors.unit_id.message}</FormHelperText>}
+            {errors.units && <FormHelperText sx={{ color: 'error.main' }}>{errors.units.message}</FormHelperText>}
           </FormControl>
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller

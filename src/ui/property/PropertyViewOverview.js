@@ -24,7 +24,7 @@ const PropertyViewOverview = ({ setPropertyData, propertyData }) => {
   useEffect(() => {
     if (propertyData && propertyData.units && propertyData.tenants) {
       const units = propertyData.units.map(unit => {
-        const foundTenant = propertyData.tenants.find(tenant => tenant.id === unit.unit_tenant_id)
+        const foundTenant = propertyData.tenants.find(tenant => tenant.id === unit.tenant_id)
 
         return {
           ...unit,
