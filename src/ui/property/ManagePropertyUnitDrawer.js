@@ -16,6 +16,9 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, Controller } from 'react-hook-form'
 import Icon from 'src/@core/components/icon'
 import { useDispatch, useSelector } from 'react-redux'
+import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
+import DatePicker from 'react-datepicker'
+
 import { addUser } from 'src/store/apps/user'
 import { useProperties } from 'src/hooks/useProperties'
 import toast from 'react-hot-toast'
@@ -24,6 +27,44 @@ import CustomChip from 'src/@core/components/mui/chip'
 
 import { useTenants } from 'src/hooks/useTenants'
 import { useRouter } from 'next/router'
+import { InputAdornment, OutlinedInput } from '@mui/material'
+
+const currencies = [
+  { code: 'USD', name: 'United States Dollar', symbol: '$' },
+  { code: 'EUR', name: 'Euro', symbol: '€' },
+  { code: 'GBP', name: 'British Pound Sterling', symbol: '£' },
+  { code: 'JPY', name: 'Japanese Yen', symbol: '¥' },
+  { code: 'CHF', name: 'Swiss Franc', symbol: 'CHF' },
+  { code: 'CAD', name: 'Canadian Dollar', symbol: '$' },
+  { code: 'AUD', name: 'Australian Dollar', symbol: '$' },
+  { code: 'CNY', name: 'Chinese Yuan', symbol: '¥' },
+  { code: 'INR', name: 'Indian Rupee', symbol: '₹' },
+  { code: 'ZAR', name: 'South African Rand', symbol: 'R' },
+  { code: 'NGN', name: 'Nigerian Naira', symbol: '₦' },
+  { code: 'GHS', name: 'Ghanaian Cedi', symbol: '₵' },
+  { code: 'KES', name: 'Kenyan Shilling', symbol: 'KSh' },
+  { code: 'UGX', name: 'Ugandan Shilling', symbol: 'USh' },
+  { code: 'TZS', name: 'Tanzanian Shilling', symbol: 'TSh' },
+  { code: 'BRL', name: 'Brazilian Real', symbol: 'R$' },
+  { code: 'MXN', name: 'Mexican Peso', symbol: '$' },
+  { code: 'RUB', name: 'Russian Ruble', symbol: '₽' },
+  { code: 'SGD', name: 'Singapore Dollar', symbol: '$' },
+  { code: 'HKD', name: 'Hong Kong Dollar', symbol: '$' },
+  { code: 'SEK', name: 'Swedish Krona', symbol: 'kr' },
+  { code: 'NOK', name: 'Norwegian Krone', symbol: 'kr' },
+  { code: 'DKK', name: 'Danish Krone', symbol: 'kr' },
+  { code: 'PLN', name: 'Polish Zloty', symbol: 'zł' },
+  { code: 'TRY', name: 'Turkish Lira', symbol: '₺' },
+  { code: 'KRW', name: 'South Korean Won', symbol: '₩' },
+  { code: 'MYR', name: 'Malaysian Ringgit', symbol: 'RM' },
+  { code: 'THB', name: 'Thai Baht', symbol: '฿' },
+  { code: 'PHP', name: 'Philippine Peso', symbol: '₱' },
+  { code: 'IDR', name: 'Indonesian Rupiah', symbol: 'Rp' },
+  { code: 'SAR', name: 'Saudi Riyal', symbol: '﷼' },
+  { code: 'AED', name: 'United Arab Emirates Dirham', symbol: 'د.إ' },
+  { code: 'EGP', name: 'Egyptian Pound', symbol: '£' },
+  { code: 'MAD', name: 'Moroccan Dirham', symbol: 'د.م.' }
+]
 
 const countries = [
   { name: 'Algeria', code: 'DZA' },
@@ -82,32 +123,73 @@ const countries = [
   { name: 'Zimbabwe', code: 'ZWE' }
 ]
 
-const unitTypes = [
-  { name: 'Single-Family Home', value: 'single_family_home' },
-  { name: 'Multi-Family Home', value: 'multi_family_home' },
-  { name: 'Apartment', value: 'apartment' },
-  { name: 'Single-Unit Office', value: 'single_unit_office' },
-  { name: 'Multi-Unit Office', value: 'multi_unit_office' },
-  { name: 'Condo', value: 'condo' },
-  { name: 'Townhouse', value: 'townhouse' },
-  { name: 'Retail Space', value: 'retail_space' }
-]
-
 const ManagePropertyUnitDrawer = props => {
   const { unitData, setUnitsData, propertyData, setPropertyData, open, toggle, setLoading } = props
-  const unit = useTenants()
   const properties = useProperties()
   const router = useRouter()
   const { id } = router.query
 
   // Updated validation schema to include unit-specific fields
   const schema = yup.object().shape({
-    name: yup.string().min(3).required('Unit Name field is required'),
-    email: yup.string().email().required('Owner Email field is required'),
-    address: yup.string().nullable(),
-    country: yup.string().nullable(),
-    tel_number: yup.string().nullable(),
-    unit_id: yup.string().nullable()
+    name: yup
+      .string()
+      .min(3, obj => showErrors('name', obj.value.length, obj.min))
+      .required(),
+    rent_amount: yup.number().min(1, 'Rent amount must be at least 1'),
+    rent_amount_currency: yup.string().required('Currency is required'),
+    floor_no: yup
+      .number()
+      .min(1, 'Floor number must be at least 1')
+      .nullable(true)
+      .transform((_, val) => (val === Number(val) ? val : null)),
+    bedrooms: yup
+      .number()
+      .min(1, 'Bedrooms must be at least 1')
+      .nullable(true)
+      .transform((_, val) => (val === Number(val) ? val : null)),
+    bathroom: yup
+      .number()
+      .min(1, 'Bathroom count must be at least 1')
+      .nullable(true)
+      .transform((_, val) => (val === Number(val) ? val : null)),
+    furnished: yup
+      .number()
+      .min(0)
+      .max(1, 'Furnished should be either 0 or 1')
+      .nullable(true)
+      .transform((_, val) => (val === Number(val) ? val : null)),
+    common_area: yup
+      .number()
+      .min(0)
+      .max(1, 'Common Area should be either 0 or 1')
+      .nullable(true)
+      .transform((_, val) => (val === Number(val) ? val : null)),
+    address: yup
+      .string()
+      .nullable(true)
+      .transform((_, val) => (val === Number(val) ? val : null)),
+    tenancy_start_date: yup
+      .date()
+      .nullable(true)
+      .transform((_, val) => (val === Number(val) ? val : null)),
+    tenancy_end_date: yup
+      .date()
+      .nullable(true)
+      .transform((_, val) => (val === Number(val) ? val : null)),
+    unit_image_url: yup
+      .string()
+      .url('Invalid image URL')
+      .nullable(true)
+      .transform((_, val) => (val === Number(val) ? val : null)),
+    description: yup
+      .string()
+      .max(1000, 'Description can not exceed 1000 characters')
+      .nullable(true)
+      .transform((_, val) => (val === Number(val) ? val : null)),
+    lease_id: yup
+      .number()
+      .nullable(true)
+      .transform((_, val) => (val === Number(val) ? val : null))
   })
 
   const blockedUnit = () => {
@@ -119,14 +201,22 @@ const ManagePropertyUnitDrawer = props => {
   }
 
   const defaultValues = {
-    uuid: unitData?.uuid,
     name: unitData?.name,
-    email: unitData?.email,
+    rent_amount: unitData?.rent_amount || 1,
+    rent_amount_currency: unitData?.rent_amount_currency || 'USD',
+    floor_no: unitData?.floor_no,
+    bedrooms: unitData?.bedrooms,
+    bathroom: unitData?.bathroom,
+    furnished: unitData?.furnished,
+    common_area: unitData?.common_area,
     address: unitData?.address,
-    country: unitData?.country,
-    status: unitData?.status,
-    tel_number: unitData?.tel_number,
-    unit_id: unitData?.unit_id
+    tenancy_start_date: unitData?.tenancy_start_date,
+    tenancy_end_date: unitData?.tenancy_end_date,
+    unit_image_url: unitData?.unit_image_url,
+    description: unitData?.description,
+    tenant_id: unitData?.tenant_id,
+
+    lease_id: unitData?.lease_id
   }
 
   const {
@@ -147,14 +237,21 @@ const ManagePropertyUnitDrawer = props => {
       console.log('resenting default values')
 
       reset({
-        uuid: unitData?.uuid,
         name: unitData?.name,
-        email: unitData?.email,
+        rent_amount: unitData?.rent_amount || 1,
+        rent_amount_currency: unitData?.rent_amount_currency || 'USD',
+        floor_no: unitData?.floor_no,
+        bedrooms: unitData?.bedrooms,
+        bathroom: unitData?.bathroom,
+        furnished: unitData?.furnished,
+        common_area: unitData?.common_area,
         address: unitData?.address,
-        country: unitData?.country,
-        status: unitData?.status,
-        tel_number: unitData?.tel_number,
-        unit_id: unitData?.unit_id
+        tenancy_start_date: unitData?.tenancy_start_date,
+        tenancy_end_date: unitData?.tenancy_end_date,
+        unit_image_url: unitData?.unit_image_url,
+        description: unitData?.description,
+        tenant_id: unitData?.tenant_id,
+        lease_id: unitData?.lease_id
       })
     }
   }, [unitData, propertyData, reset])
@@ -190,13 +287,18 @@ const ManagePropertyUnitDrawer = props => {
   }, [open])
 
   const onSubmit = formData => {
+    console.log('triggered')
     setLoading(true)
-    formData.property_id = unitData.property_id
+    formData.property_id = propertyData.id
     formData.id = unitData.id
 
     let requestData = [formData]
 
-    unit.editUnits(
+    console.log('unitData', unitData)
+
+    console.log('reqdata', requestData)
+
+    properties.editUnits(
       requestData,
       responseData => {
         let { data } = responseData
@@ -273,28 +375,18 @@ const ManagePropertyUnitDrawer = props => {
               render={({ field: { value, onChange } }) => (
                 <TextField
                   disabled
-                  value={value}
-                  label='Unique Id'
+                  value={unitUUID} // Directly use the value from the field
+                  label='Unit Unique Id'
                   onChange={onChange}
                   placeholder='Greenwood Apartments'
-                  error={Boolean(errors.name)}
+                  error={Boolean(errors.unit_uuid)}
                 />
               )}
             />
-            {errors.name && (
-              <FormHelperText sx={{ color: 'error.main' }}>{errors.name.message}</FormHelperText>
+            {errors.unit_uuid && (
+              <FormHelperText sx={{ color: 'error.main' }}>{errors.unit_uuid.message}</FormHelperText>
             )}
           </FormControl> */}
-
-          <CustomChip
-            rounded
-            skin='light'
-            size='small'
-            label={statusLabel}
-            color={statusColor}
-            sx={{ textTransform: 'capitalize', mt: 4, mb: 4 }}
-          />
-
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
               name='name'
@@ -304,32 +396,207 @@ const ManagePropertyUnitDrawer = props => {
                   value={value}
                   label='Unit Name'
                   onChange={onChange}
-                  placeholder='Greenwood Apartments'
+                  placeholder='Room 20A'
                   error={Boolean(errors.name)}
                 />
               )}
             />
             {errors.name && <FormHelperText sx={{ color: 'error.main' }}>{errors.name.message}</FormHelperText>}
           </FormControl>
+          <FormControl fullWidth sx={{ mb: 4 }}>
+            <Controller
+              name='rent_amount_currency'
+              control={control}
+              render={({ field: { value, onChange, onBlur } }) => (
+                <>
+                  <TextField
+                    select
+                    id='custom-select-native'
+                    value={value}
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    name='rent_amount_currency'
+                    fullWidth
+                    label='Currency'
+                  >
+                    {currencies.map(currency => (
+                      <MenuItem sx={{ fontSize: '15px' }} key={currency.code} value={currency.code}>
+                        {currency.symbol} : {currency.name}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </>
+              )}
+            />
+            {errors.rent_amount_currency && (
+              <FormHelperText sx={{ color: 'error.main' }}>{errors.rent_amount_currency.message}</FormHelperText>
+            )}
+          </FormControl>
+          <FormControl fullWidth sx={{ mb: 4 }} variant='outlined'>
+            <FormHelperText>Rent Amount</FormHelperText>
+            <Controller
+              name='rent_amount'
+              control={control}
+              render={({ field: { value, onChange, onBlur } }) => (
+                <>
+                  <OutlinedInput
+                    value={value}
+                    name='rent_amount'
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    error={Boolean(errors.rent_amount)}
+                    type='number'
+                    placeholder='2000.00'
+                  />
+                </>
+              )}
+            />
+            {errors.rent_amount && (
+              <FormHelperText sx={{ color: 'error.main' }}>{errors.rent_amount.message}</FormHelperText>
+            )}
+          </FormControl>
 
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
-              name='email'
+              name='lease_id'
               control={control}
-              render={({ field: { value = '', onChange } }) => (
-                <TextField
-                  type='email'
-                  value={value}
-                  label='Unit Email'
-                  onChange={onChange}
-                  placeholder='owner@example.com'
-                  error={Boolean(errors.email)}
+              defaultValue='' // Ensure this matches your form's initial value
+              render={({ field: { onChange, onBlur, value, ref } }) => (
+                <Autocomplete
+                  options={propertyData.leases}
+                  getOptionLabel={lease => lease.name + ' (' + lease.id + ')'}
+                  getOptionDisabled={lease => !!lease?.tenant_id}
+                  onChange={(event, newValue) => {
+                    // Pass the new value's id or an empty string to handle the form state
+                    onChange(newValue ? newValue.id : '')
+                  }}
+                  value={propertyData.leases.find(lease => lease.id === value) || null} // Set the selected value
+                  renderInput={params => <TextField {...params} label='Lease Attached' />}
+                  isOptionEqualToValue={(option, value) => option.id === value} // Ensure proper comparison
                 />
               )}
             />
-            {errors.email && <FormHelperText sx={{ color: 'error.main' }}>{errors.email.message}</FormHelperText>}
+
+            {errors.lease_id && <FormHelperText sx={{ color: 'error.main' }}>{errors.lease_id.message}</FormHelperText>}
           </FormControl>
 
+          <FormControl fullWidth sx={{ mb: 4 }}>
+            <Controller
+              name='tenant_id'
+              control={control}
+              render={({ field: { onChange, onBlur, value, ref } }) => (
+                <Autocomplete
+                  options={propertyData.tenants}
+                  getOptionLabel={tenant => tenant.name + ' (' + tenant.email + ')'}
+                  getOptionDisabled={tenant => !!tenant?.unit_id}
+                  onChange={(event, newValue) => {
+                    // Pass the new value's id or an empty string to handle the form state
+                    onChange(newValue ? newValue.id : '')
+                  }}
+                  isOptionEqualToValue={(option, value) => option.id === value} // Ensure proper comparison
+                  value={propertyData.tenants.find(tenant => tenant.id === value) || null} // Set the selected value
+                  renderInput={params => <TextField {...params} label='Tenant Occupied' />}
+                />
+              )}
+            />
+
+            {errors.tenant_id && (
+              <FormHelperText sx={{ color: 'error.main' }}>{errors.tenant_id.message}</FormHelperText>
+            )}
+          </FormControl>
+
+          <FormControl fullWidth sx={{ mb: 4 }}>
+            <Controller
+              name='floor_no'
+              control={control}
+              render={({ field: { value = 1, onChange } }) => (
+                <TextField
+                  value={value}
+                  label='Floor Number'
+                  onChange={onChange}
+                  placeholder='2'
+                  error={Boolean(errors.floor_no)}
+                />
+              )}
+            />
+            {errors.floor_no && <FormHelperText sx={{ color: 'error.main' }}>{errors.floor_no.message}</FormHelperText>}
+          </FormControl>
+          <FormControl fullWidth sx={{ mb: 4 }}>
+            <Controller
+              name='bedrooms'
+              control={control}
+              render={({ field: { value = 1, onChange } }) => (
+                <TextField
+                  value={value}
+                  label='Number of Bedrooms'
+                  onChange={onChange}
+                  placeholder='1'
+                  error={Boolean(errors.bedrooms)}
+                />
+              )}
+            />
+            {errors.bedrooms && <FormHelperText sx={{ color: 'error.main' }}>{errors.bedrooms.message}</FormHelperText>}
+          </FormControl>
+          <FormControl fullWidth sx={{ mb: 4 }}>
+            <Controller
+              name='bathroom'
+              control={control}
+              render={({ field: { value = 1, onChange } }) => (
+                <TextField
+                  value={value}
+                  label='Number of Bathrooms'
+                  onChange={onChange}
+                  placeholder='1'
+                  error={Boolean(errors.bathroom)}
+                />
+              )}
+            />
+            {errors.bathroom && <FormHelperText sx={{ color: 'error.main' }}>{errors.bathroom.message}</FormHelperText>}
+          </FormControl>
+          <FormControl fullWidth sx={{ mb: 4 }}>
+            <Controller
+              name='furnished'
+              control={control}
+              render={({ field: { value = 0, onChange } }) => (
+                <TextField
+                  select
+                  value={value}
+                  label='Furnished'
+                  onChange={onChange}
+                  placeholder='0'
+                  error={Boolean(errors.furnished)}
+                >
+                  <MenuItem value={0}>No</MenuItem>
+                  <MenuItem value={1}>Yes</MenuItem>
+                </TextField>
+              )}
+            />
+            {errors.furnished && (
+              <FormHelperText sx={{ color: 'error.main' }}>{errors.furnished.message}</FormHelperText>
+            )}
+          </FormControl>
+          <FormControl fullWidth sx={{ mb: 4 }}>
+            <Controller
+              name='common_area'
+              control={control}
+              render={({ field: { value = 1, onChange } }) => (
+                <TextField
+                  select
+                  value={value}
+                  label='Common Area'
+                  onChange={onChange}
+                  placeholder='1'
+                  error={Boolean(errors.common_area)}
+                >
+                  <MenuItem value={0}>No</MenuItem>
+                  <MenuItem value={1}>Yes</MenuItem>
+                </TextField>
+              )}
+            />
+            {errors.common_area && (
+              <FormHelperText sx={{ color: 'error.main' }}>{errors.common_area.message}</FormHelperText>
+            )}
+          </FormControl>
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
               name='address'
@@ -337,9 +604,9 @@ const ManagePropertyUnitDrawer = props => {
               render={({ field: { value = '', onChange } }) => (
                 <TextField
                   value={value}
-                  label='Unit Address'
+                  label='Address'
                   onChange={onChange}
-                  placeholder='123 Main St'
+                  placeholder='456 Oak St'
                   error={Boolean(errors.address)}
                 />
               )}
@@ -349,103 +616,140 @@ const ManagePropertyUnitDrawer = props => {
 
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
-              name='country'
+              name='tenancy_start_date'
               control={control}
-              render={({ field: { value, onChange, onBlur } }) => (
-                <TextField
-                  select
-                  id='custom-select-country'
-                  value={value} // Ensure default value is applied
-                  onChange={onChange}
-                  onBlur={onBlur}
-                  fullWidth
-                  label='Country'
+              render={({ field: { value, onChange } }) => (
+                <DatePickerWrapper
+                  sx={{
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    '& .react-datepicker': { boxShadow: 'none !important', border: 'none !important' }
+                  }}
                 >
-                  {countries.map(country => (
-                    <MenuItem key={country.code} value={country.code}>
-                      {country.name}
-                    </MenuItem>
-                  ))}
-                </TextField>
+                  <DatePicker
+                    selected={value}
+                    onChange={([selected]) => {
+                      if (selected.target.value) return selected.target.value
+
+                      return undefined
+                    }}
+                    dateFormat='yyyy-MM-dd'
+                    placeholderText='Select Tenancy Start Date'
+                    customInput={<TextField label='Tenancy Start Date' error={Boolean(errors.tenancy_start_date)} />}
+                  />
+                </DatePickerWrapper>
               )}
             />
-            {errors.country && <FormHelperText sx={{ color: 'error.main' }}>{errors.country.message}</FormHelperText>}
+            {errors.tenancy_start_date && (
+              <FormHelperText sx={{ color: 'error.main' }}>{errors.tenancy_start_date.message}</FormHelperText>
+            )}
           </FormControl>
-
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
-              name='tel_number'
+              name='tenancy_end_date'
+              control={control}
+              render={({ field: { value, onChange } }) => (
+                <DatePickerWrapper
+                  sx={{
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    '& .react-datepicker': { boxShadow: 'none !important', border: 'none !important' }
+                  }}
+                >
+                  <DatePicker
+                    selected={value}
+                    onChange={([selected]) => {
+                      if (selected.target.value) return selected.target.value
+
+                      return undefined
+                    }}
+                    dateFormat='yyyy-MM-dd'
+                    placeholderText='Select Tenancy End Date'
+                    customInput={
+                      <TextField
+                        label='Tenancy End Date'
+                        error={Boolean(errors.tenancy_end_date)}
+                        InputLabelProps={{
+                          shrink: true
+                        }}
+                      />
+                    }
+                  />
+                </DatePickerWrapper>
+              )}
+            />
+            {errors.tenancy_end_date && (
+              <FormHelperText sx={{ color: 'error.main' }}>{errors.tenancy_end_date.message}</FormHelperText>
+            )}
+          </FormControl>
+          {/* <FormControl fullWidth sx={{ mb: 4 }}>
+            <Controller
+              name='unit_image_url'
               control={control}
               render={({ field: { value = '', onChange } }) => (
                 <TextField
-                  type='tel'
                   value={value}
-                  label='Phone Number'
+                  label='Unit Image URL'
                   onChange={onChange}
-                  placeholder='123-456-7890'
-                  error={Boolean(errors.tel_number)}
+                  placeholder='http://example.com/image.jpg'
+                  error={Boolean(errors.unit_image_url)}
                 />
               )}
             />
-            {errors.tel_number && (
-              <FormHelperText sx={{ color: 'error.main' }}>{errors.tel_number.message}</FormHelperText>
-            )}
-          </FormControl>
-
-          {/*
-          <FormControl fullWidth sx={{ mb: 4 }}>
-            <Controller
-              name='type'
-              control={control}
-              render={({ field: { value, onChange, onBlur } }) => (
-                <TextField
-                  select
-                  id='custom-select-unit-type'
-                  value={value}
-                  onChange={onChange}
-                  onBlur={onBlur}
-                  fullWidth
-                  label='Unit Type'
-                >
-                  {unitTypes.map(type => (
-                    <MenuItem key={type.value} value={type.value}>
-                      {type.name}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              )}
-            />
-            {errors.type && (
-              <FormHelperText sx={{ color: 'error.main' }}>{errors.type.message}</FormHelperText>
+            {errors.unit_image_url && (
+              <FormHelperText sx={{ color: 'error.main' }}>{errors.unit_image_url.message}</FormHelperText>
             )}
           </FormControl> */}
-
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
-              name='unit_id'
+              name='description'
               control={control}
-              defaultValue='' // Ensure this matches your form's initial value
-              render={({ field: { onChange, onBlur, value, ref } }) => (
-                <Autocomplete
-                  options={propertyData.units}
-                  getOptionLabel={unit => unit.name}
-                  getOptionDisabled={unit => !!unit.unit_unit_id}
-                  onChange={(event, newValue) => {
-                    // Pass the new value's id or an empty string to handle the form state
-                    onChange(newValue ? newValue.id : '')
-                  }}
-                  value={propertyData.units.find(unit => unit.id === value) || null} // Set the selected value
-                  renderInput={params => <TextField {...params} label='Unit Occupied' />}
-                  isOptionEqualToValue={(option, value) => option.id === value} // Ensure proper comparison
+              render={({ field: { value = '', onChange } }) => (
+                <TextField
+                  value={value}
+                  label='Description'
+                  onChange={onChange}
+                  placeholder='Description of the unit'
+                  multiline
+                  rows={4}
+                  error={Boolean(errors.description)}
                 />
               )}
             />
-            {errors.unit_id && <FormHelperText sx={{ color: 'error.main' }}>{errors.unit_id.message}</FormHelperText>}
+            {errors.description && (
+              <FormHelperText sx={{ color: 'error.main' }}>{errors.description.message}</FormHelperText>
+            )}
           </FormControl>
 
-          <Button type='submit' variant='contained' color='warning'>
-            Edit Unit
-          </Button>
+          {/* <FormControl fullWidth sx={{ mb: 4 }}>
+            <Controller
+              name='lease_id'
+              control={control}
+              render={({ field: { value = '', onChange } }) => (
+                <Autocomplete
+                  options={propertyData.leases}
+                  getOptionLabel={lease => lease.id.toString()}
+                  onChange={(event, newValue) => onChange(newValue?.id)}
+                  renderInput={params => (
+                    <TextField
+                      {...params}
+                      label='Lease ID'
+                      placeholder='Select lease ID'
+                      error={Boolean(errors.lease_id)}
+                    />
+                  )}
+                />
+              )}
+            />
+            {errors.lease_id && <FormHelperText sx={{ color: 'error.main' }}>{errors.lease_id.message}</FormHelperText>}
+          </FormControl> */}
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Button type='submit' variant='contained' color='warning'>
+              Edit Unit
+            </Button>
+          </Box>
         </form>
       </Box>
     </Drawer>
