@@ -189,15 +189,25 @@ const PropertyTenantManageTable = ({ setPropertyData, propertyData }) => {
     {
       flex: 0.15,
       minWidth: 190,
-      field: 'unit_id',
-      headerName: 'Unit id',
-      renderCell: ({ row }) => (
-        <Typography noWrap sx={{ color: 'text.secondary' }}>
-          {row.unit_id}
-        </Typography>
-      )
+      field: 'units',
+      headerName: 'Units',
+      renderCell: ({ row }) => {
+        // Check if the tenant has any units assigned
+        if (row.units && row.units.length > 0) {
+          return (
+            <Typography noWrap sx={{ color: 'text.secondary' }}>
+              {row.units.map(unit => unit.name).join(', ')} {/* Assuming each unit has a 'name' property */}
+            </Typography>
+          )
+        } else {
+          return (
+            <Typography noWrap sx={{ color: 'text.secondary' }}>
+              No units assigned
+            </Typography>
+          )
+        }
+      }
     },
-
     {
       flex: 0.15,
       minWidth: 190,
@@ -251,10 +261,23 @@ const PropertyTenantManageTable = ({ setPropertyData, propertyData }) => {
   ]
 
   useEffect(() => {
-    if (propertyData?.tenants && JSON.stringify(tenantsData) !== JSON.stringify(propertyData.tenants)) {
+    if (propertyData?.tenants) {
       console.log('property Data changed i am setting tenants data')
 
-      setTenantsData([...propertyData.tenants])
+      const attachUnitsToTenants = () => {
+        const updatedTenantsData = propertyData.tenants.map(tenant => {
+          // Find units that belong to the current tenant
+          const tenantUnits = propertyData.units.filter(unit => unit.tenant_id === tenant.id)
+
+          // Attach the units array to the tenant data
+          return { ...tenant, units: tenantUnits }
+        })
+
+        // Set the tenants data with the attached units
+        setTenantsData(updatedTenantsData)
+      }
+
+      attachUnitsToTenants()
     }
 
     setLoading(false)
@@ -267,13 +290,17 @@ const PropertyTenantManageTable = ({ setPropertyData, propertyData }) => {
   const toggleAddUserDrawer = () => setAddUserOpen(!addUserOpen)
   const toggleExistingTenantDrawer = () => setExistingTenantOpen(!existingTenantOpen)
 
-  const filteredTenants = tenantsData.filter(
-    tenant =>
-      (tenant.name?.toLowerCase() || '').includes(value.toLowerCase()) ||
-      (tenant.email?.toLowerCase() || '').includes(value.toLowerCase())
+  const [filteredTenants, setFilteredTenants] = useState([])
 
-    // tenant.address?.toLowerCase() || '').includes(value.toLowerCase())
-  )
+  useEffect(() => {
+    const updatedFilteredTenants = tenantsData.filter(
+      tenant =>
+        (tenant.name?.toLowerCase() || '').includes(value.toLowerCase()) ||
+        (tenant.email?.toLowerCase() || '').includes(value.toLowerCase())
+    )
+
+    setFilteredTenants(updatedFilteredTenants)
+  }, [tenantsData, value])
 
   return (
     <Grid container spacing={6.5}>
@@ -310,7 +337,7 @@ const PropertyTenantManageTable = ({ setPropertyData, propertyData }) => {
                   columnVisibilityModel: {
                     // Hide columns status and traderName, the other columns will remain visible
                     country: false,
-                    unit_id: true,
+                    units: true,
                     address: false
                   }
                 }
