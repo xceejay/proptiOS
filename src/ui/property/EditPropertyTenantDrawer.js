@@ -107,7 +107,7 @@ const EditPropertyTenantDrawer = props => {
     address: yup.string().nullable(),
     country: yup.string().nullable(),
     tel_number: yup.string().nullable(),
-    units: yup.string().nullable()
+    units: yup.array().of(yup.string())
   })
 
   const blockedUnit = () => {
