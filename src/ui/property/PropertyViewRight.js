@@ -96,9 +96,14 @@ const UserViewRight = ({ tab, propertyData, setPropertyData }) => {
           icon={<Icon fontSize='1.125rem' icon='tabler:currency-dollar' />}
         /> */}
         <Tab value='maintenance' label='Maintenance' icon={<Icon fontSize='1.125rem' icon='tabler:tool' />} />
-        <Tab value='marketing' label='Marketing' icon={<Icon fontSize='1.125rem' icon='tabler:speakerphone' />} />
+        <Tab
+          disabled
+          value='marketing'
+          label='Marketing'
+          icon={<Icon fontSize='1.125rem' icon='tabler:speakerphone' />}
+        />
 
-        <Tab value='settings' label='Settings' icon={<Icon fontSize='1.125rem' icon='tabler:settings' />} />
+        <Tab disabled value='settings' label='Settings' icon={<Icon fontSize='1.125rem' icon='tabler:settings' />} />
       </TabList>
       <Box sx={{ mt: 6 }}>
         {isLoading ? (
