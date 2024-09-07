@@ -126,7 +126,7 @@ const EditPropertyTenantDrawer = props => {
     country: tenantData?.country,
     status: tenantData?.status,
     tel_number: tenantData?.tel_number,
-    units: tenantData?.units
+    units: tenantData?.units?.map(unit => unit.id) || [] // Extract only the unit IDs
   }
 
   const {
@@ -154,7 +154,7 @@ const EditPropertyTenantDrawer = props => {
         country: tenantData?.country,
         status: tenantData?.status,
         tel_number: tenantData?.tel_number,
-        units: tenantData?.units
+        units: tenantData?.units?.map(unit => unit.id) || [] // Extract only the unit IDs
       })
     }
   }, [tenantData, propertyData, reset])
@@ -426,17 +426,16 @@ const EditPropertyTenantDrawer = props => {
             <Controller
               name='units'
               control={control}
-              defaultValue={[]} // Ensure this matches your form's initial value for multiple selections
               render={({ field: { onChange, onBlur, value, ref } }) => (
                 <Autocomplete
                   multiple
                   options={propertyData.units}
                   getOptionLabel={unit => unit.name}
-                  getOptionDisabled={unit => !!unit.tenant_id}
                   onChange={(event, newValue) => {
                     // Pass the array of selected unit ids to handle the form state
                     onChange(newValue ? newValue.map(unit => unit.id) : [])
                   }}
+                  getOptionDisabled={unit => !!unit.tenant_id}
                   value={propertyData.units.filter(unit => value.includes(unit.id))} // Set the selected values
                   renderInput={params => <TextField {...params} label='Units Occupied' />}
                   isOptionEqualToValue={(option, value) => option.id === value} // Ensure proper comparison
