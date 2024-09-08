@@ -63,7 +63,7 @@ const AddUnitDrawer = props => {
     rent_amount_currency: yup.string().required('Currency is required'),
     floor_no: yup.number().min(1, 'Floor number must be at least 1').required(),
     bedrooms: yup.number().min(1, 'Bedrooms must be at least 1').required(),
-    bathroom: yup.number().min(1, 'Bathroom count must be at least 1').required(),
+    bathrooms: yup.number().min(1, 'Bathroom count must be at least 1').required(),
     furnished: yup.number().min(0).max(1, 'Furnished should be either 0 or 1').required(),
     common_area: yup.number().min(0).max(1, 'Common Area should be either 0 or 1').required(),
     address: yup.string().nullable(),
@@ -71,17 +71,19 @@ const AddUnitDrawer = props => {
     tenancy_end_date: yup.date().nullable(),
     unit_image_url: yup.string().url('Invalid image URL'),
     description: yup.string().max(1000, 'Description can not exceed 1000 characters'),
-    lease_id: yup.number().nullable()
+    lease_id: yup.number().nullable(),
+    description: yup.string().nullable()
   })
 
   // Updated default values based on the unit fields
   const defaultValues = {
     name: '',
+    description: '',
     rent_amount: 1,
     rent_amount_currency: '',
     floor_no: 1,
     bedrooms: 1,
-    bathroom: 1,
+    bathrooms: 1,
     furnished: 0,
     common_area: 1,
     address: '',
@@ -473,7 +475,7 @@ const AddUnitDrawer = props => {
           </FormControl>
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
-              name='bathroom'
+              name='bathrooms'
               control={control}
               render={({ field: { value = 1, onChange } }) => (
                 <TextField
@@ -481,11 +483,13 @@ const AddUnitDrawer = props => {
                   label='Number of Bathrooms'
                   onChange={onChange}
                   placeholder='1'
-                  error={Boolean(errors.bathroom)}
+                  error={Boolean(errors.bathrooms)}
                 />
               )}
             />
-            {errors.bathroom && <FormHelperText sx={{ color: 'error.main' }}>{errors.bathroom.message}</FormHelperText>}
+            {errors.bathrooms && (
+              <FormHelperText sx={{ color: 'error.main' }}>{errors.bathrooms.message}</FormHelperText>
+            )}
           </FormControl>
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller

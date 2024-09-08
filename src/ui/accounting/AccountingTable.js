@@ -1,211 +1,342 @@
 // ** React Imports
-import { useEffect, useState, useCallback } from 'react'
+import { useState, useEffect, useCallback } from 'react'
+
+// ** Next Imports
+import Link from 'next/link'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
+import Menu from '@mui/material/Menu'
+import Grid from '@mui/material/Grid'
+import Divider from '@mui/material/Divider'
+import MenuItem from '@mui/material/MenuItem'
+import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import CardHeader from '@mui/material/CardHeader'
+import InputLabel from '@mui/material/InputLabel'
+import FormControl from '@mui/material/FormControl'
+import CardContent from '@mui/material/CardContent'
 import { DataGrid } from '@mui/x-data-grid'
+import AddTransaction from './AddTransactionDrawer'
+import CustomNoRowsOverlay from '../CustomNoRowsOverlay'
+import Select from '@mui/material/Select'
 
-// ** ThirdParty Components
-import axios from 'src/pages/middleware/axios'
+// ** Icon Imports
+import Icon from 'src/@core/components/icon'
 
-// ** Custom Components
+// ** Store Imports
+import { useDispatch, useSelector } from 'react-redux'
+
+// ** Custom Components Imports
 import CustomChip from 'src/@core/components/mui/chip'
-import CustomAvatar from 'src/@core/components/mui/avatar'
-import ServerSideToolbar from 'src/views/table/data-grid/ServerSideToolbar'
+import CardStatsHorizontalWithDetails from 'src/@core/components/card-statistics/card-stats-horizontal-with-details'
 
-// ** Utils Import
-import { getInitials } from 'src/@core/utils/get-initials'
+// ** Hooks Imports
+import { useTenants } from 'src/hooks/useTenants'
+import AccountingTableHeader from './AccountingTableHeader'
+import ServerSideToolbarTenantManage from 'src/views/table/data-grid/ServerSideToolbarTenantManage'
+import CustomTenantToolbar from 'src/views/table/data-grid/CustomTenantToolbar'
+import EditPropertyTenantDrawer from '../property/EditPropertyTenantDrawer'
+import EditTransactionDrawer from './EditTransactionDrawer'
 
-// ** renders client column
-const renderClient = params => {
-  const { row } = params
-  const stateNum = Math.floor(Math.random() * 6)
-  const states = ['success', 'error', 'warning', 'info', 'primary', 'secondary']
-  const color = states[stateNum]
-  if (row.avatar.length) {
-    return <CustomAvatar src={`/images/avatars/${row.avatar}`} sx={{ mr: 3, width: '1.875rem', height: '1.875rem' }} />
-  } else {
-    return (
-      <CustomAvatar skin='light' color={color} sx={{ mr: 3, fontSize: '.8rem', width: '1.875rem', height: '1.875rem' }}>
-        {getInitials(row.full_name ? row.full_name : 'John Doe')}
-      </CustomAvatar>
-    )
-  }
-}
+const RowOptions = ({ id, row, setTenantsData, tenantsData, setLoading }) => {
+  const dispatch = useDispatch()
+  const [anchorEl, setAnchorEl] = useState(null)
+  const rowOptionsOpen = Boolean(anchorEl)
+  const [editTenantOpen, setEditTenantOpen] = useState(false)
+  const toggleEditTenantDrawer = () => setEditTenantOpen(!editTenantOpen)
 
-const statusObj = {
-  1: { title: 'current', color: 'primary' },
-  2: { title: 'professional', color: 'success' },
-  3: { title: 'rejected', color: 'error' },
-  4: { title: 'resigned', color: 'warning' },
-  5: { title: 'applied', color: 'info' }
-}
-
-const columns = [
-  {
-    flex: 0.25,
-    minWidth: 290,
-    field: 'full_name',
-    headerName: 'Name',
-    renderCell: params => {
-      const { row } = params
-
-      return (
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          {renderClient(params)}
-          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-            <Typography noWrap variant='body2' sx={{ color: 'text.primary', fontWeight: 600 }}>
-              {row.full_name}
-            </Typography>
-            <Typography noWrap variant='caption'>
-              {row.email}
-            </Typography>
-          </Box>
-        </Box>
-      )
-    }
-  },
-  {
-    flex: 0.175,
-    type: 'date',
-    minWidth: 120,
-    headerName: 'Date',
-    field: 'start_date',
-    valueGetter: params => new Date(params.value),
-    renderCell: params => (
-      <Typography variant='body2' sx={{ color: 'text.primary' }}>
-        {params.row.start_date}
-      </Typography>
-    )
-  },
-  {
-    flex: 0.175,
-    minWidth: 110,
-    field: 'salary',
-    headerName: 'Rent Payment',
-    renderCell: params => (
-      <Typography variant='body2' sx={{ color: 'text.primary' }}>
-        {params.row.salary}
-      </Typography>
-    )
-  },
-
-  // {
-  //   flex: 0.125,
-  //   field: 'age',
-  //   minWidth: 80,
-  //   headerName: 'Age',
-  //   renderCell: params => (
-  //     <Typography variant='body2' sx={{ color: 'text.primary' }}>
-  //       {params.row.age}
-  //     </Typography>
-  //   )
-  // },
-  {
-    flex: 0.175,
-    minWidth: 140,
-    field: 'status',
-    headerName: 'Status',
-    renderCell: params => {
-      const status = statusObj[params.row.status]
-
-      return (
-        <CustomChip
-          rounded
-          size='small'
-          skin='light'
-          color={status.color}
-          label={status.title}
-          sx={{ '& .MuiChip-label': { textTransform: 'capitalize' } }}
-        />
-      )
-    }
-  }
-]
-
-const AccountingTable = () => {
-  // ** States
-  const [total, setTotal] = useState(0)
-  const [sort, setSort] = useState('asc')
-  const [rows, setRows] = useState([])
-  const [searchValue, setSearchValue] = useState('')
-  const [sortColumn, setSortColumn] = useState('full_name')
-  const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 7 })
-  function loadServerRows(currentPage, data) {
-    return data.slice(currentPage * paginationModel.pageSize, (currentPage + 1) * paginationModel.pageSize)
+  const handleRowOptionsClick = event => {
+    setAnchorEl(event.currentTarget)
   }
 
-  const fetchTableData = useCallback(
-    async (sort, q, column) => {
-      await axios
-        .get('/api/table/data', {
-          params: {
-            q,
-            sort,
-            column
-          }
-        })
-        .then(res => {
-          setTotal(res.data.total)
-          setRows(loadServerRows(paginationModel.page, res.data.data))
-        })
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [paginationModel]
-  )
-  useEffect(() => {
-    fetchTableData(sort, searchValue, sortColumn)
-  }, [fetchTableData, searchValue, sort, sortColumn])
-
-  const handleSortModel = newModel => {
-    if (newModel.length) {
-      setSort(newModel[0].sort)
-      setSortColumn(newModel[0].field)
-      fetchTableData(newModel[0].sort, searchValue, newModel[0].field)
-    } else {
-      setSort('asc')
-      setSortColumn('full_name')
-    }
+  const handleRowOptionsClose = () => {
+    setAnchorEl(null)
   }
 
-  const handleSearch = value => {
-    setSearchValue(value)
-    fetchTableData(sort, value, sortColumn)
+  const handleDelete = () => {
+    dispatch(deleteUser(id))
+    handleRowOptionsClose()
+  }
+
+  const handleEdit = () => {
+    setEditTenantOpen(true)
+    handleRowOptionsClose()
   }
 
   return (
-    <Card>
-      <CardHeader title='Transactions' />
-      <DataGrid
-        autoHeight
-        pagination
-        rows={rows}
-        rowCount={total}
-        columns={columns}
-        checkboxSelection
-        sortingMode='server'
-        paginationMode='server'
-        pageSizeOptions={[7, 10, 25, 50]}
-        paginationModel={paginationModel}
-        onSortModelChange={handleSortModel}
-        slots={{ toolbar: ServerSideToolbar }}
-        onPaginationModelChange={setPaginationModel}
-        slotProps={{
-          baseButton: {
-            variant: 'outlined'
-          },
-          toolbar: {
-            value: searchValue,
-            clearSearch: () => handleSearch(''),
-            onChange: event => handleSearch(event.target.value)
-          }
+    <>
+      <IconButton size='small' onClick={handleRowOptionsClick}>
+        <Icon icon='tabler:dots-vertical' />
+      </IconButton>
+      <Menu
+        keepMounted
+        anchorEl={anchorEl}
+        open={rowOptionsOpen}
+        onClose={handleRowOptionsClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right'
         }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right'
+        }}
+        PaperProps={{ style: { minWidth: '8rem' } }}
+      >
+        <MenuItem
+          href={'/tenants/' + id + '/account'}
+          component={Link}
+          sx={{ '& svg': { mr: 2 } }}
+          onClick={handleRowOptionsClose}
+        >
+          <Icon icon='tabler:eye' fontSize={20} />
+          View
+        </MenuItem>
+
+        <MenuItem onClick={() => handleEdit()} sx={{ '& svg': { mr: 2 } }}>
+          <Icon icon='tabler:pencil' fontSize={20} />
+          Edit
+        </MenuItem>
+
+        <MenuItem onClick={handleDelete} sx={{ '& svg': { mr: 2 } }}>
+          <Icon icon='tabler:trash' fontSize={20} />
+          Quick Suspend
+        </MenuItem>
+      </Menu>
+      <EditTransactionDrawer
+        setLoading={setLoading}
+        tenantData={row}
+        setTenantsData={setTenantsData}
+        tenantsData={tenantsData}
+        open={editTenantOpen}
+        toggle={toggleEditTenantDrawer}
       />
-    </Card>
+    </>
   )
 }
+
+const AccountingTable = () => {
+  const columns = [
+    {
+      flex: 0.25,
+      minWidth: 280,
+      field: 'name',
+      headerName: 'Name',
+      renderCell: ({ row }) => {
+        const { id, name, email } = row
+
+        return (
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
+              <Typography
+                noWrap
+                component={Link}
+                href={'/tenants/' + id + '/account'}
+                sx={{
+                  fontWeight: 500,
+                  textDecoration: 'none',
+                  color: 'text.secondary',
+                  '&:hover': { color: 'primary.main' }
+                }}
+              >
+                {name}
+              </Typography>
+              <Typography noWrap variant='body2' sx={{ color: 'text.disabled' }}>
+                {email}
+              </Typography>
+            </Box>
+          </Box>
+        )
+      }
+    },
+    {
+      flex: 0.15,
+      minWidth: 190,
+      field: 'address',
+      headerName: 'Address',
+      renderCell: ({ row }) => (
+        <Typography noWrap sx={{ color: 'text.secondary' }}>
+          {row.address}
+        </Typography>
+      )
+    },
+    {
+      flex: 0.15,
+      minWidth: 190,
+      field: 'country',
+      headerName: 'Country',
+      renderCell: ({ row }) => (
+        <Typography noWrap sx={{ color: 'text.secondary' }}>
+          {row.country}
+        </Typography>
+      )
+    },
+    {
+      flex: 0.15,
+      minWidth: 190,
+      field: 'property',
+      headerName: 'Property',
+      renderCell: ({ row }) => (
+        <Typography noWrap sx={{ color: 'text.secondary' }}>
+          {row.property?.name}
+        </Typography>
+      )
+    },
+
+    {
+      flex: 0.15,
+      minWidth: 190,
+      field: 'tel_number',
+      headerName: 'Phone Number',
+      renderCell: ({ row }) => (
+        <Typography noWrap sx={{ color: 'text.secondary' }}>
+          {row.tel_number}
+        </Typography>
+      )
+    },
+
+    {
+      flex: 0.1,
+      minWidth: 110,
+      field: 'status',
+      headerName: 'Status',
+      renderCell: ({ row }) => {
+        const statusLabel = row.status === 'active' ? 'Active' : 'Inactive'
+        const statusColor = row.status === 'active' ? 'success' : 'secondary'
+
+        return (
+          <CustomChip
+            rounded
+            skin='light'
+            size='small'
+            label={statusLabel}
+            color={statusColor}
+            sx={{ textTransform: 'capitalize' }}
+          />
+        )
+      }
+    },
+    {
+      flex: 0.1,
+      minWidth: 100,
+      sortable: false,
+      field: 'actions',
+      headerName: 'Actions',
+      renderCell: ({ row }) => (
+        <RowOptions
+          setLoading={setLoading}
+          setTenantsData={setTenantsData}
+          tenantsData={tenantsData}
+          id={row.id}
+          row={row}
+        />
+      )
+    }
+  ]
+
+  const tenants = useTenants()
+  const [loading, setLoading] = useState(true) // New loading state
+
+  const [tenantsData, setTenantsData] = useState({ items: [] })
+  const [value, setValue] = useState('')
+  const [addUserOpen, setAddUserOpen] = useState(false)
+  const [paginationModel, setPaginationModel] = useState({ page: 1, pageSize: 25 })
+
+  useEffect(() => {
+    tenants.getTenants(
+      { page: paginationModel.page, limit: paginationModel.pageSize },
+      responseData => {
+        const { data } = responseData
+        setLoading(false)
+        if (data?.status === 'FAILED') {
+          alert(data.message || 'Failed to fetch tenants')
+
+          return
+        }
+
+        setTenantsData(data)
+        console.log(tenantsData)
+      },
+      error => {
+        setLoading(false)
+
+        console.error('Tenants Cannot be retrieved:', error)
+      }
+    )
+  }, [paginationModel])
+
+  const handleFilter = useCallback(val => {
+    setValue(val)
+  }, [])
+
+  const toggleAddUserDrawer = () => setAddUserOpen(!addUserOpen)
+
+  // Filter tenants based on the search value
+  const filteredTenants = tenantsData.items.filter(
+    tenant =>
+      (tenant.name?.toLowerCase() || '').includes(value.toLowerCase()) ||
+      (tenant.email?.toLowerCase() || '').includes(value.toLowerCase()) ||
+      (tenant.address?.toLowerCase() || '').includes(value.toLowerCase())
+  )
+
+  return (
+    <Grid container spacing={6.5}>
+      <Grid item xs={12}>
+        <Card>
+          <CardHeader title='Transactions' />
+          <CardContent>
+            {/* <TenantTableHeader
+              rows={filteredTenants}
+              columns={columns}
+              value={value}
+              handleFilter={handleFilter}
+              toggle={toggleAddUserDrawer}
+            /> */}
+            <DataGrid
+              loading={loading}
+              autoHeight
+              rowHeight={62}
+              rows={filteredTenants || []}
+              columns={columns}
+              slots={{
+                toolbar: CustomTenantToolbar,
+                noRowsOverlay: CustomNoRowsOverlay
+
+                // loadingOverlay: {
+                //   variant: 'skeleton',
+                //   noRowsVariant: 'skeleton'
+                // }
+              }}
+              slotProps={{
+                toolbar: {
+                  searchPlaceholder: 'Quick Search',
+                  value: value,
+                  addText: 'Add Tenant',
+                  toggle: toggleAddUserDrawer,
+                  handleFilter: handleFilter
+                }
+              }}
+              disableRowSelectionOnClick
+              pageSizeOptions={[10, 25, 50]}
+              paginationModel={paginationModel}
+              onPaginationModelChange={setPaginationModel}
+            />
+          </CardContent>
+          <Divider sx={{ m: '0 !important' }} />
+        </Card>
+      </Grid>
+      <AddTransaction
+        tenantsData={tenantsData}
+        setTenantsData={setTenantsData}
+        open={addUserOpen}
+        toggle={toggleAddUserDrawer}
+      />
+    </Grid>
+  )
+}
+
+// export const getServerSideProps = async () => {}
 
 export default AccountingTable

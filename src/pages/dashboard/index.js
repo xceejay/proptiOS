@@ -54,9 +54,9 @@ const Dashboard = DashboardData => {
                 chipText={'+0' + ' tenants'}
                 avatarColor='info'
                 chipColor='default'
-                title='Units Vacant'
+                title='Total tenants'
                 subtitle='This week'
-                avatarIcon='tabler:home'
+                avatarIcon='tabler:woman'
               />
             </Grid>
             <Grid item xs={12} sm={12} lg={7}>

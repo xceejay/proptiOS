@@ -147,7 +147,7 @@ const ManagePropertyUnitDrawer = props => {
       .min(1, 'Bedrooms must be at least 1')
       .nullable(true)
       .transform((_, val) => (val === Number(val) ? val : null)),
-    bathroom: yup
+    bathrooms: yup
       .number()
       .min(1, 'Bathroom count must be at least 1')
       .nullable(true)
@@ -202,11 +202,12 @@ const ManagePropertyUnitDrawer = props => {
 
   const defaultValues = {
     name: unitData?.name,
-    rent_amount: unitData?.rent_amount || 1,
-    rent_amount_currency: unitData?.rent_amount_currency || 'USD',
+
+    // rent_amount: unitData?.rent_amount || 1,
+    // rent_amount_currency: unitData?.rent_amount_currency || 'USD',
     floor_no: unitData?.floor_no,
     bedrooms: unitData?.bedrooms,
-    bathroom: unitData?.bathroom,
+    bathrooms: unitData?.bathrooms,
     furnished: unitData?.furnished,
     common_area: unitData?.common_area,
     address: unitData?.address,
@@ -238,11 +239,12 @@ const ManagePropertyUnitDrawer = props => {
 
       reset({
         name: unitData?.name,
-        rent_amount: unitData?.rent_amount || 1,
-        rent_amount_currency: unitData?.rent_amount_currency || 'USD',
+
+        // rent_amount: unitData?.rent_amount || 1,
+        // rent_amount_currency: unitData?.rent_amount_currency || 'USD',
         floor_no: unitData?.floor_no,
         bedrooms: unitData?.bedrooms,
-        bathroom: unitData?.bathroom,
+        bathrooms: unitData?.bathrooms,
         furnished: unitData?.furnished,
         common_area: unitData?.common_area,
         address: unitData?.address,
@@ -403,7 +405,7 @@ const ManagePropertyUnitDrawer = props => {
             />
             {errors.name && <FormHelperText sx={{ color: 'error.main' }}>{errors.name.message}</FormHelperText>}
           </FormControl>
-          <FormControl fullWidth sx={{ mb: 4 }}>
+          {/* <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
               name='rent_amount_currency'
               control={control}
@@ -454,7 +456,7 @@ const ManagePropertyUnitDrawer = props => {
             {errors.rent_amount && (
               <FormHelperText sx={{ color: 'error.main' }}>{errors.rent_amount.message}</FormHelperText>
             )}
-          </FormControl>
+          </FormControl> */}
 
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
@@ -539,7 +541,7 @@ const ManagePropertyUnitDrawer = props => {
           </FormControl>
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
-              name='bathroom'
+              name='bathrooms'
               control={control}
               render={({ field: { value = 1, onChange } }) => (
                 <TextField
@@ -547,11 +549,13 @@ const ManagePropertyUnitDrawer = props => {
                   label='Number of Bathrooms'
                   onChange={onChange}
                   placeholder='1'
-                  error={Boolean(errors.bathroom)}
+                  error={Boolean(errors.bathrooms)}
                 />
               )}
             />
-            {errors.bathroom && <FormHelperText sx={{ color: 'error.main' }}>{errors.bathroom.message}</FormHelperText>}
+            {errors.bathrooms && (
+              <FormHelperText sx={{ color: 'error.main' }}>{errors.bathrooms.message}</FormHelperText>
+            )}
           </FormControl>
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
