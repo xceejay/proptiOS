@@ -54,7 +54,7 @@ const LeasePage = () => {
           <Grid item xs={6} sm={6} lg={3}>
             <CardStatsVertical
               chipText={'0'}
-              avatarColor='info'
+              avatarColor='secondary'
               chipColor='default'
               title='Archived'
               subtitle='Total archived leases'
@@ -64,7 +64,7 @@ const LeasePage = () => {
           <Grid item xs={6} sm={6} lg={3}>
             <CardStatsVertical
               chipText={'0'}
-              avatarColor='info'
+              avatarColor='success'
               chipColor='default'
               title='Total'
               subtitle='Total leases'
@@ -74,7 +74,7 @@ const LeasePage = () => {
           <Grid item xs={6} sm={6} lg={3}>
             <CardStatsVertical
               chipText={'0'}
-              avatarColor='info'
+              avatarColor='warning'
               chipColor='default'
               title='Expiring Soon'
               subtitle='Leases expiring soon'
