@@ -15,117 +15,40 @@ import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, Controller } from 'react-hook-form'
 import Icon from 'src/@core/components/icon'
-import { useDispatch, useSelector } from 'react-redux'
-import { addUser } from 'src/store/apps/user'
-import { useProperties } from 'src/hooks/useProperties'
+import { useLeases } from 'src/hooks/useLeases'
 import toast from 'react-hot-toast'
-import Autocomplete from '@mui/material/Autocomplete'
-import CustomChip from 'src/@core/components/mui/chip'
-
-import { useTenants } from 'src/hooks/useTenants'
-import { useRouter } from 'next/router'
-
-const countries = [
-  { name: 'Algeria', code: 'DZA' },
-  { name: 'Angola', code: 'AGO' },
-  { name: 'Benin', code: 'BEN' },
-  { name: 'Botswana', code: 'BWA' },
-  { name: 'Burkina Faso', code: 'BFA' },
-  { name: 'Burundi', code: 'BDI' },
-  { name: 'Cabo Verde', code: 'CPV' },
-  { name: 'Cameroon', code: 'CMR' },
-  { name: 'Central African Republic', code: 'CAF' },
-  { name: 'Chad', code: 'TCD' },
-  { name: 'Comoros', code: 'COM' },
-  { name: 'Democratic Republic of the Congo', code: 'COD' },
-  { name: 'Republic of the Congo', code: 'COG' },
-  { name: 'Djibouti', code: 'DJI' },
-  { name: 'Egypt', code: 'EGY' },
-  { name: 'Equatorial Guinea', code: 'GNQ' },
-  { name: 'Eritrea', code: 'ERI' },
-  { name: 'Eswatini', code: 'SWZ' },
-  { name: 'Ethiopia', code: 'ETH' },
-  { name: 'Gabon', code: 'GAB' },
-  { name: 'Gambia', code: 'GMB' },
-  { name: 'Ghana', code: 'GHA' },
-  { name: 'Guinea', code: 'GIN' },
-  { name: 'Guinea-Bissau', code: 'GNB' },
-  { name: 'Ivory Coast', code: 'CIV' },
-  { name: 'Kenya', code: 'KEN' },
-  { name: 'Lesotho', code: 'LSO' },
-  { name: 'Liberia', code: 'LBR' },
-  { name: 'Libya', code: 'LBY' },
-  { name: 'Madagascar', code: 'MDG' },
-  { name: 'Malawi', code: 'MWI' },
-  { name: 'Mali', code: 'MLI' },
-  { name: 'Mauritania', code: 'MRT' },
-  { name: 'Mauritius', code: 'MUS' },
-  { name: 'Morocco', code: 'MAR' },
-  { name: 'Mozambique', code: 'MOZ' },
-  { name: 'Namibia', code: 'NAM' },
-  { name: 'Niger', code: 'NER' },
-  { name: 'Nigeria', code: 'NGA' },
-  { name: 'Rwanda', code: 'RWA' },
-  { name: 'Sao Tome and Principe', code: 'STP' },
-  { name: 'Senegal', code: 'SEN' },
-  { name: 'Seychelles', code: 'SYC' },
-  { name: 'Sierra Leone', code: 'SLE' },
-  { name: 'Somalia', code: 'SOM' },
-  { name: 'South Africa', code: 'ZAF' },
-  { name: 'South Sudan', code: 'SSD' },
-  { name: 'Sudan', code: 'SDN' },
-  { name: 'Tanzania', code: 'TZA' },
-  { name: 'Togo', code: 'TGO' },
-  { name: 'Tunisia', code: 'TUN' },
-  { name: 'Uganda', code: 'UGA' },
-  { name: 'Zambia', code: 'ZMB' },
-  { name: 'Zimbabwe', code: 'ZWE' }
-]
-
-const tenantTypes = [
-  { name: 'Single-Family Home', value: 'single_family_home' },
-  { name: 'Multi-Family Home', value: 'multi_family_home' },
-  { name: 'Apartment', value: 'apartment' },
-  { name: 'Single-Unit Office', value: 'single_unit_office' },
-  { name: 'Multi-Unit Office', value: 'multi_unit_office' },
-  { name: 'Condo', value: 'condo' },
-  { name: 'Townhouse', value: 'townhouse' },
-  { name: 'Retail Space', value: 'retail_space' }
-]
 
 const EditLeaseDrawer = props => {
-  const { tenantData, setTenantsData, tenantsData, open, toggle, setLoading } = props
-  const tenant = useTenants()
-  const properties = useProperties()
-  const router = useRouter()
-  const { id } = router.query
+  const { leaseData, setLeasesData, leasesData, open, toggle, setLoading } = props
+  const leases = useLeases()
 
-  // Updated validation schema to include tenant-specific fields
+  // Validation schema for lease-specific fields
   const schema = yup.object().shape({
-    name: yup.string().min(3).required('Tenant Name field is required'),
-    email: yup.string().email().required('Owner Email field is required'),
-    address: yup.string().nullable(),
-    country: yup.string().nullable(),
-    tel_number: yup.string().nullable(),
-    property_id: yup.string().nullable()
+    lease_type: yup.string().required('Lease Type is required'),
+    tenant_id: yup.string().required('Tenant is required'),
+    property_id: yup.string().required('Property is required'),
+    unit_id: yup.string().required('Unit is required'),
+    start_date: yup.date().required('Start Date is required'),
+    end_date: yup
+      .date()
+      .required('End Date is required')
+      .min(yup.ref('start_date'), 'End Date must be later than Start Date'),
+    rent_amount: yup.number().required('Rent amount is required').positive('Rent amount must be positive')
   })
 
   const defaultValues = {
-    uuid: tenantData?.uuid,
-    name: tenantData?.name,
-    email: tenantData?.email,
-    address: tenantData?.address,
-    country: tenantData?.country,
-    status: tenantData?.status,
-    tel_number: tenantData?.tel_number,
-    property_id: tenantData?.property_id
+    lease_type: leaseData?.lease_type || '',
+    tenant_id: leaseData?.tenant?.id || '',
+    property_id: leaseData?.property?.id || '',
+    unit_id: leaseData?.unit?.id || '',
+    start_date: leaseData?.start_date || '',
+    end_date: leaseData?.end_date || '',
+    rent_amount: leaseData?.rent_amount || ''
   }
 
   const {
     reset,
     control,
-    setValue,
-    setError,
     handleSubmit,
     formState: { errors }
   } = useForm({
@@ -135,100 +58,52 @@ const EditLeaseDrawer = props => {
   })
 
   useEffect(() => {
-    if (tenantData) {
-      console.log('resenting default values')
-
+    if (leaseData) {
       reset({
-        uuid: tenantData?.uuid,
-        name: tenantData?.name,
-        email: tenantData?.email,
-        address: tenantData?.address,
-        country: tenantData?.country,
-        status: tenantData?.status,
-        tel_number: tenantData?.tel_number,
-        property_id: tenantData?.property_id
+        lease_type: leaseData?.lease_type || '',
+        tenant_id: leaseData?.tenant?.id || '',
+        property_id: leaseData?.property?.id || '',
+        unit_id: leaseData?.unit?.id || '',
+        start_date: leaseData?.start_date || '',
+        end_date: leaseData?.end_date || '',
+        rent_amount: leaseData?.rent_amount || ''
       })
     }
-  }, [tenantData, tenantData, reset])
-
-  // const refreshPropertyData = () => {
-  //   if (id) {
-  //     // Ensure id is defined before making the API call
-  //     properties.getProperty(
-  //       id,
-  //       responseData => {
-  //         console.log('refreshed data')
-  //         let { data } = responseData
-  //         setPropertyData(data)
-  //         console.log('FROM Edit tenant PAGE: refreshing property Data', responseData)
-
-  //         if (responseData?.status === 'FAILED') {
-  //           alert(responseData.message || 'Failed to fetch properties')
-  //         }
-
-  //         setTenantsData([...propertyData?.tenants])
-  //         setLoading(false)
-  //       },
-  //       error => {
-  //         console.log(id)
-  //         console.error('FROM refresh btn PAGE:', error)
-  //       }
-  //     )
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   refreshPropertyData()
-  // }, [open])
+  }, [leaseData, reset])
 
   const onSubmit = formData => {
     setLoading(true)
-    console.log
-    formData.unit_id = tenantData.unit.id
-    formData.property_id = tenantData.property.id
-    formData.id = tenantData.id
+    formData.id = leaseData.id // Ensure the lease ID is included
 
     let requestData = [formData]
 
-    tenant.editTenants(
+    leases.editLeases(
       requestData,
       responseData => {
         let { data } = responseData
 
         if (data?.status === 'FAILED') {
-          alert(data.description || 'Failed to add tenant')
-          setError('email', {
-            type: 'manual',
-            message: data.description || 'Unknown error occurred'
-          })
+          alert(data.description || 'Failed to update lease')
 
           return
         }
 
-        const updatedRequestData = requestData.map(tenant => {
-          const matchingTenant = data.find(response => response.uuid === tenant.uuid)
+        toast.success('Lease updated successfully', { duration: 3000 })
 
-          if (matchingTenant) {
-            return {
-              ...tenant,
-              id: matchingTenant.id
-            }
-          }
-
-          return tenant
-        })
-
-        toast.success('Change applied', { duration: 3000 })
+        const updatedLeases = leasesData.items.map(lease =>
+          lease.id === leaseData.id ? { ...lease, ...formData } : lease
+        )
+        setLeasesData(prevData => ({
+          ...prevData,
+          items: updatedLeases
+        }))
         setLoading(false)
-
         handleClose()
       },
       error => {
-        toast.error('Failed to edit tenant', { duration: 3000 })
-
+        toast.error('Failed to update lease', { duration: 3000 })
         setLoading(false)
-
-        console.error('Error from Add Tenant Drawer:', error)
+        console.error('Error updating lease:', error)
       }
     )
   }
@@ -237,9 +112,6 @@ const EditLeaseDrawer = props => {
     toggle()
     reset()
   }
-
-  const statusLabel = tenantData?.status === 'active' ? 'Active' : 'Inactive'
-  const statusColor = tenantData?.status === 'active' ? 'success' : 'secondary'
 
   return (
     <Drawer
@@ -251,7 +123,7 @@ const EditLeaseDrawer = props => {
       sx={{ '& .MuiDrawer-paper': { width: { xs: 300, sm: 400 } } }}
     >
       <Header>
-        <Typography variant='h6'>Edit Tenant</Typography>
+        <Typography variant='h6'>Edit Lease</Typography>
         <IconButton
           size='small'
           onClick={handleClose}
@@ -262,200 +134,128 @@ const EditLeaseDrawer = props => {
       </Header>
       <Box sx={{ p: theme => theme.spacing(0, 6, 6) }}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          {/* <FormControl fullWidth sx={{ mb: 4, mt: 4 }}>
+          <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
-              name='uuid'
+              name='lease_type'
               control={control}
-              render={({ field: { value, onChange } }) => (
+              render={({ field }) => (
                 <TextField
-                  disabled
-                  value={value}
-                  label='Unique Id'
-                  onChange={onChange}
-                  placeholder='Greenwood Apartments'
-                  error={Boolean(errors.name)}
+                  {...field}
+                  label='Lease Type'
+                  placeholder='Enter Lease Type'
+                  error={Boolean(errors.lease_type)}
                 />
               )}
             />
-            {errors.name && (
-              <FormHelperText sx={{ color: 'error.main' }}>{errors.name.message}</FormHelperText>
-            )}
-          </FormControl> */}
-
-          <CustomChip
-            rounded
-            skin='light'
-            size='small'
-            label={statusLabel}
-            color={statusColor}
-            sx={{ textTransform: 'capitalize', mt: 4, mb: 4 }}
-          />
-
-          <FormControl fullWidth sx={{ mb: 4 }}>
-            <Controller
-              name='name'
-              control={control}
-              render={({ field: { value = '', onChange } }) => (
-                <TextField
-                  value={value}
-                  label='Tenant Name'
-                  onChange={onChange}
-                  placeholder='Greenwood Apartments'
-                  error={Boolean(errors.name)}
-                />
-              )}
-            />
-            {errors.name && <FormHelperText sx={{ color: 'error.main' }}>{errors.name.message}</FormHelperText>}
-          </FormControl>
-
-          <FormControl fullWidth sx={{ mb: 4 }}>
-            <Controller
-              name='email'
-              control={control}
-              render={({ field: { value = '', onChange } }) => (
-                <TextField
-                  type='email'
-                  value={value}
-                  label='Tenant Email'
-                  onChange={onChange}
-                  placeholder='owner@example.com'
-                  error={Boolean(errors.email)}
-                />
-              )}
-            />
-            {errors.email && <FormHelperText sx={{ color: 'error.main' }}>{errors.email.message}</FormHelperText>}
-          </FormControl>
-
-          <FormControl fullWidth sx={{ mb: 4 }}>
-            <Controller
-              name='address'
-              control={control}
-              render={({ field: { value = '', onChange } }) => (
-                <TextField
-                  value={value}
-                  label='Tenant Address'
-                  onChange={onChange}
-                  placeholder='123 Main St'
-                  error={Boolean(errors.address)}
-                />
-              )}
-            />
-            {errors.address && <FormHelperText sx={{ color: 'error.main' }}>{errors.address.message}</FormHelperText>}
-          </FormControl>
-
-          <FormControl fullWidth sx={{ mb: 4 }}>
-            <Controller
-              name='country'
-              control={control}
-              render={({ field: { value, onChange, onBlur } }) => (
-                <TextField
-                  select
-                  id='custom-select-country'
-                  value={value} // Ensure default value is applied
-                  onChange={onChange}
-                  onBlur={onBlur}
-                  fullWidth
-                  label='Country'
-                >
-                  {countries.map(country => (
-                    <MenuItem key={country.code} value={country.code}>
-                      {country.name}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              )}
-            />
-            {errors.country && <FormHelperText sx={{ color: 'error.main' }}>{errors.country.message}</FormHelperText>}
-          </FormControl>
-
-          <FormControl fullWidth sx={{ mb: 4 }}>
-            <Controller
-              name='tel_number'
-              control={control}
-              render={({ field: { value = '', onChange } }) => (
-                <TextField
-                  type='tel'
-                  value={value}
-                  label='Phone Number'
-                  onChange={onChange}
-                  placeholder='123-456-7890'
-                  error={Boolean(errors.tel_number)}
-                />
-              )}
-            />
-            {errors.tel_number && (
-              <FormHelperText sx={{ color: 'error.main' }}>{errors.tel_number.message}</FormHelperText>
+            {errors.lease_type && (
+              <FormHelperText sx={{ color: 'error.main' }}>{errors.lease_type.message}</FormHelperText>
             )}
           </FormControl>
 
-          {/*
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
-              name='type'
+              name='tenant_id'
               control={control}
-              render={({ field: { value, onChange, onBlur } }) => (
+              render={({ field }) => (
                 <TextField
-                  select
-                  id='custom-select-tenant-type'
-                  value={value}
-                  onChange={onChange}
-                  onBlur={onBlur}
-                  fullWidth
-                  label='Tenant Type'
-                >
-                  {tenantTypes.map(type => (
-                    <MenuItem key={type.value} value={type.value}>
-                      {type.name}
-                    </MenuItem>
-                  ))}
-                </TextField>
+                  {...field}
+                  label='Tenant ID'
+                  placeholder='Enter Tenant ID'
+                  error={Boolean(errors.tenant_id)}
+                />
               )}
             />
-            {errors.type && (
-              <FormHelperText sx={{ color: 'error.main' }}>{errors.type.message}</FormHelperText>
+            {errors.tenant_id && (
+              <FormHelperText sx={{ color: 'error.main' }}>{errors.tenant_id.message}</FormHelperText>
             )}
-          </FormControl> */}
-          {/*
+          </FormControl>
 
-
-
-
-
-
-
-ADD PROPERTY OPTIONS LATER
-
-
-
-
-*/}
-          {/* <FormControl fullWidth sx={{ mb: 4 }}>
+          <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
               name='property_id'
               control={control}
-              defaultValue='' // Ensure this matches your form's initial value
-              render={({ field: { onChange, onBlur, value, ref } }) => (
-                <Autocomplete
-                  options={tenantData.property_id}
-                  getOptionLabel={unit => unit.name}
-                  getOptionDisabled={unit => !!unit.tenant_id}
-                  onChange={(event, newValue) => {
-                    // Pass the new value's id or an empty string to handle the form state
-                    onChange(newValue ? newValue.id : '')
-                  }}
-                  value={tenantData.property_id || null} // Set the selected value
-                  renderInput={params => <TextField {...params} label='Associated property' />}
-                  isOptionEqualToValue={(option, value) => option.id === value} // Ensure proper comparison
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  label='Property ID'
+                  placeholder='Enter Property ID'
+                  error={Boolean(errors.property_id)}
                 />
               )}
             />
             {errors.property_id && (
               <FormHelperText sx={{ color: 'error.main' }}>{errors.property_id.message}</FormHelperText>
             )}
-          </FormControl> */}
+          </FormControl>
+
+          <FormControl fullWidth sx={{ mb: 4 }}>
+            <Controller
+              name='unit_id'
+              control={control}
+              render={({ field }) => (
+                <TextField {...field} label='Unit ID' placeholder='Enter Unit ID' error={Boolean(errors.unit_id)} />
+              )}
+            />
+            {errors.unit_id && <FormHelperText sx={{ color: 'error.main' }}>{errors.unit_id.message}</FormHelperText>}
+          </FormControl>
+
+          <FormControl fullWidth sx={{ mb: 4 }}>
+            <Controller
+              name='start_date'
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  type='date'
+                  label='Start Date'
+                  InputLabelProps={{ shrink: true }}
+                  error={Boolean(errors.start_date)}
+                />
+              )}
+            />
+            {errors.start_date && (
+              <FormHelperText sx={{ color: 'error.main' }}>{errors.start_date.message}</FormHelperText>
+            )}
+          </FormControl>
+
+          <FormControl fullWidth sx={{ mb: 4 }}>
+            <Controller
+              name='end_date'
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  type='date'
+                  label='End Date'
+                  InputLabelProps={{ shrink: true }}
+                  error={Boolean(errors.end_date)}
+                />
+              )}
+            />
+            {errors.end_date && <FormHelperText sx={{ color: 'error.main' }}>{errors.end_date.message}</FormHelperText>}
+          </FormControl>
+
+          <FormControl fullWidth sx={{ mb: 4 }}>
+            <Controller
+              name='rent_amount'
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  type='number'
+                  label='Rent Amount'
+                  placeholder='Enter Rent Amount'
+                  error={Boolean(errors.rent_amount)}
+                />
+              )}
+            />
+            {errors.rent_amount && (
+              <FormHelperText sx={{ color: 'error.main' }}>{errors.rent_amount.message}</FormHelperText>
+            )}
+          </FormControl>
 
           <Button type='submit' variant='contained' color='warning'>
-            Edit Tenant
+            Edit Lease
           </Button>
         </form>
       </Box>

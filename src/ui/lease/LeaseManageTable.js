@@ -14,30 +14,28 @@ import MenuItem from '@mui/material/MenuItem'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import CardHeader from '@mui/material/CardHeader'
-import InputLabel from '@mui/material/InputLabel'
-import FormControl from '@mui/material/FormControl'
 import CardContent from '@mui/material/CardContent'
 import { DataGrid } from '@mui/x-data-grid'
-import AddUserDrawer from './AddLeaseDrawer'
-import CustomNoRowsOverlay from '../CustomNoRowsOverlay'
 import Select from '@mui/material/Select'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
 // ** Store Imports
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 // ** Custom Components Imports
 import CustomChip from 'src/@core/components/mui/chip'
-import CardStatsHorizontalWithDetails from 'src/@core/components/card-statistics/card-stats-horizontal-with-details'
+import CustomNoRowsOverlay from '../CustomNoRowsOverlay'
+import AddLeaseDrawer from './AddLeaseDrawer'
+import EditLeaseDrawer from './EditLeaseDrawer'
 
 // ** Hooks Imports
 import { useLeases } from 'src/hooks/useLeases'
-import LeaseTableHeader from './LeaseTableHeader'
 
+// ** Components
+import LeaseTableHeader from './LeaseTableHeader'
 import CustomTenantToolbar from 'src/views/table/data-grid/CustomTenantToolbar'
-import EditLeaseDrawer from './EditLeaseDrawer'
 
 const RowOptions = ({ id, row, setLeasesData, leasesData, setLoading }) => {
   const dispatch = useDispatch()
@@ -122,53 +120,38 @@ const LeaseManageTable = () => {
       flex: 0.25,
       minWidth: 280,
       field: 'name',
-      headerName: 'Name',
-      renderCell: ({ row }) => {
-        const { id, name, email } = row
-
-        return (
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
-              <Typography
-                noWrap
-                component={Link}
-                href={'/leases/' + id + '/account'}
-                sx={{
-                  fontWeight: 500,
-                  textDecoration: 'none',
-                  color: 'text.secondary',
-                  '&:hover': { color: 'primary.main' }
-                }}
-              >
-                {name}
-              </Typography>
-              <Typography noWrap variant='body2' sx={{ color: 'text.disabled' }}>
-                {email}
-              </Typography>
-            </Box>
-          </Box>
-        )
-      }
-    },
-    {
-      flex: 0.15,
-      minWidth: 190,
-      field: 'address',
-      headerName: 'Address',
+      headerName: 'Tenant Name',
       renderCell: ({ row }) => (
-        <Typography noWrap sx={{ color: 'text.secondary' }}>
-          {row.address}
-        </Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
+            <Typography
+              noWrap
+              component={Link}
+              href={'/leases/' + row.id + '/account'}
+              sx={{
+                fontWeight: 500,
+                textDecoration: 'none',
+                color: 'text.secondary',
+                '&:hover': { color: 'primary.main' }
+              }}
+            >
+              {row.tenant?.name}
+            </Typography>
+            <Typography noWrap variant='body2' sx={{ color: 'text.disabled' }}>
+              {row.tenant?.email}
+            </Typography>
+          </Box>
+        </Box>
       )
     },
     {
-      flex: 0.15,
-      minWidth: 190,
-      field: 'country',
-      headerName: 'Country',
+      flex: 0.2,
+      minWidth: 150,
+      field: 'lease_type',
+      headerName: 'Lease Type',
       renderCell: ({ row }) => (
         <Typography noWrap sx={{ color: 'text.secondary' }}>
-          {row.country}
+          {row.lease_type}
         </Typography>
       )
     },
@@ -183,19 +166,39 @@ const LeaseManageTable = () => {
         </Typography>
       )
     },
-
     {
       flex: 0.15,
       minWidth: 190,
-      field: 'tel_number',
-      headerName: 'Phone Number',
+      field: 'unit',
+      headerName: 'Unit',
       renderCell: ({ row }) => (
         <Typography noWrap sx={{ color: 'text.secondary' }}>
-          {row.tel_number}
+          {row.unit?.name}
         </Typography>
       )
     },
-
+    {
+      flex: 0.15,
+      minWidth: 190,
+      field: 'start_date',
+      headerName: 'Start Date',
+      renderCell: ({ row }) => (
+        <Typography noWrap sx={{ color: 'text.secondary' }}>
+          {row.start_date}
+        </Typography>
+      )
+    },
+    {
+      flex: 0.15,
+      minWidth: 190,
+      field: 'end_date',
+      headerName: 'End Date',
+      renderCell: ({ row }) => (
+        <Typography noWrap sx={{ color: 'text.secondary' }}>
+          {row.end_date}
+        </Typography>
+      )
+    },
     {
       flex: 0.1,
       minWidth: 110,
@@ -275,9 +278,9 @@ const LeaseManageTable = () => {
   // Filter leases based on the search value
   const filteredLeases = leasesData.items.filter(
     lease =>
-      (lease.name?.toLowerCase() || '').includes(value.toLowerCase()) ||
-      (lease.email?.toLowerCase() || '').includes(value.toLowerCase()) ||
-      (lease.address?.toLowerCase() || '').includes(value.toLowerCase())
+      (lease.tenant?.name?.toLowerCase() || '').includes(value.toLowerCase()) ||
+      (lease.property?.name?.toLowerCase() || '').includes(value.toLowerCase()) ||
+      (lease.unit?.name?.toLowerCase() || '').includes(value.toLowerCase())
   )
 
   return (
@@ -286,13 +289,6 @@ const LeaseManageTable = () => {
         <Card>
           <CardHeader title='Leases' />
           <CardContent>
-            {/* <LeaseTableHeader
-              rows={filteredLeases}
-              columns={columns}
-              value={value}
-              handleFilter={handleFilter}
-              toggle={toggleAddUserDrawer}
-            /> */}
             <DataGrid
               loading={loading}
               autoHeight
@@ -302,11 +298,6 @@ const LeaseManageTable = () => {
               slots={{
                 toolbar: CustomTenantToolbar,
                 noRowsOverlay: CustomNoRowsOverlay
-
-                // loadingOverlay: {
-                //   variant: 'skeleton',
-                //   noRowsVariant: 'skeleton'
-                // }
               }}
               slotProps={{
                 toolbar: {
@@ -326,7 +317,7 @@ const LeaseManageTable = () => {
           <Divider sx={{ m: '0 !important' }} />
         </Card>
       </Grid>
-      <AddUserDrawer
+      <AddLeaseDrawer
         leasesData={leasesData}
         setLeasesData={setLeasesData}
         open={addUserOpen}
@@ -335,7 +326,5 @@ const LeaseManageTable = () => {
     </Grid>
   )
 }
-
-// export const getServerSideProps = async () => {}
 
 export default LeaseManageTable
