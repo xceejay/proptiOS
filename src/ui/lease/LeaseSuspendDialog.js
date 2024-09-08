@@ -12,7 +12,7 @@ import DialogActions from '@mui/material/DialogActions'
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
-const LeasesSuspendDialog = props => {
+const LeaseSuspendDialog = props => {
   // ** Props
   const { open, setOpen } = props
 

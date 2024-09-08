@@ -98,7 +98,7 @@ const data = [
   }
 ]
 
-const LeasesViewArchived = () => {
+const LeaseViewArchived = () => {
   // ** States
   const [cvc, setCvc] = useState('')
   const [name, setName] = useState('')

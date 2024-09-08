@@ -98,7 +98,7 @@ const data = [
   }
 ]
 
-const LeasesViewActive = () => {
+const LeaseViewActive = () => {
   // ** States
   const [cvc, setCvc] = useState('')
   const [name, setName] = useState('')
