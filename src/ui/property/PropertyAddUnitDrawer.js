@@ -59,8 +59,9 @@ const AddUnitDrawer = props => {
       .string()
       .min(3, obj => showErrors('name', obj.value.length, obj.min))
       .required(),
-    rent_amount: yup.number().min(1, 'Rent amount must be at least 1').required(),
-    rent_amount_currency: yup.string().required('Currency is required'),
+
+    // rent_amount: yup.number().min(1, 'Rent amount must be at least 1').required(),
+    // rent_amount_currency: yup.string().required('Currency is required'),
     floor_no: yup.number().min(1, 'Floor number must be at least 1').required(),
     bedrooms: yup.number().min(1, 'Bedrooms must be at least 1').required(),
     bathrooms: yup.number().min(1, 'Bathroom count must be at least 1').required(),
@@ -79,8 +80,9 @@ const AddUnitDrawer = props => {
   const defaultValues = {
     name: '',
     description: '',
-    rent_amount: 1,
-    rent_amount_currency: '',
+
+    // rent_amount: 1,
+    // rent_amount_currency: '',
     floor_no: 1,
     bedrooms: 1,
     bathrooms: 1,
@@ -341,7 +343,7 @@ const AddUnitDrawer = props => {
             />
             {errors.name && <FormHelperText sx={{ color: 'error.main' }}>{errors.name.message}</FormHelperText>}
           </FormControl>
-          <FormControl fullWidth sx={{ mb: 4 }}>
+          {/* <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
               name='rent_amount_currency'
               control={control}
@@ -369,8 +371,8 @@ const AddUnitDrawer = props => {
             {errors.rent_amount_currency && (
               <FormHelperText sx={{ color: 'error.main' }}>{errors.rent_amount_currency.message}</FormHelperText>
             )}
-          </FormControl>
-          <FormControl fullWidth sx={{ mb: 4 }} variant='outlined'>
+          </FormControl> */}
+          {/* <FormControl fullWidth sx={{ mb: 4 }} variant='outlined'>
             <FormHelperText>Rent Amount</FormHelperText>
             <Controller
               name='rent_amount'
@@ -395,7 +397,7 @@ const AddUnitDrawer = props => {
             {errors.rent_amount && (
               <FormHelperText sx={{ color: 'error.main' }}>{errors.rent_amount.message}</FormHelperText>
             )}
-          </FormControl>
+          </FormControl> */}
 
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
