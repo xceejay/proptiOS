@@ -39,7 +39,7 @@ import LeaseTableHeader from './LeaseTableHeader'
 import CustomTenantToolbar from 'src/views/table/data-grid/CustomTenantToolbar'
 import EditLeaseDrawer from './EditLeaseDrawer'
 
-const RowOptions = ({ id, row, setLeasesData, tenantsData, setLoading }) => {
+const RowOptions = ({ id, row, setLeasesData, leasesData, setLoading }) => {
   const dispatch = useDispatch()
   const [anchorEl, setAnchorEl] = useState(null)
   const rowOptionsOpen = Boolean(anchorEl)
@@ -85,7 +85,7 @@ const RowOptions = ({ id, row, setLeasesData, tenantsData, setLoading }) => {
         PaperProps={{ style: { minWidth: '8rem' } }}
       >
         <MenuItem
-          href={'/tenants/' + id + '/account'}
+          href={'/leases/' + id + '/account'}
           component={Link}
           sx={{ '& svg': { mr: 2 } }}
           onClick={handleRowOptionsClose}
@@ -106,9 +106,9 @@ const RowOptions = ({ id, row, setLeasesData, tenantsData, setLoading }) => {
       </Menu>
       <EditLeaseDrawer
         setLoading={setLoading}
-        tenantData={row}
+        leaseData={row}
         setLeasesData={setLeasesData}
-        tenantsData={tenantsData}
+        leasesData={leasesData}
         open={editLeaseOpen}
         toggle={toggleEditLeaseDrawer}
       />
@@ -132,7 +132,7 @@ const LeaseManageTable = () => {
               <Typography
                 noWrap
                 component={Link}
-                href={'/tenants/' + id + '/account'}
+                href={'/leases/' + id + '/account'}
                 sx={{
                   fontWeight: 500,
                   textDecoration: 'none',
@@ -227,7 +227,7 @@ const LeaseManageTable = () => {
         <RowOptions
           setLoading={setLoading}
           setLeasesData={setLeasesData}
-          tenantsData={tenantsData}
+          leasesData={leasesData}
           id={row.id}
           row={row}
         />
@@ -238,7 +238,7 @@ const LeaseManageTable = () => {
   const leases = useLeases()
   const [loading, setLoading] = useState(true) // New loading state
 
-  const [tenantsData, setLeasesData] = useState({ items: [] })
+  const [leasesData, setLeasesData] = useState({ items: [] })
   const [value, setValue] = useState('')
   const [addUserOpen, setAddUserOpen] = useState(false)
   const [paginationModel, setPaginationModel] = useState({ page: 1, pageSize: 25 })
@@ -250,13 +250,13 @@ const LeaseManageTable = () => {
         const { data } = responseData
         setLoading(false)
         if (data?.status === 'FAILED') {
-          alert(data.message || 'Failed to fetch tenants')
+          alert(data.message || 'Failed to fetch leases')
 
           return
         }
 
         setLeasesData(data)
-        console.log(tenantsData)
+        console.log(leasesData)
       },
       error => {
         setLoading(false)
@@ -272,12 +272,12 @@ const LeaseManageTable = () => {
 
   const toggleAddUserDrawer = () => setAddUserOpen(!addUserOpen)
 
-  // Filter tenants based on the search value
-  const filteredLeases = tenantsData.items.filter(
-    tenant =>
-      (tenant.name?.toLowerCase() || '').includes(value.toLowerCase()) ||
-      (tenant.email?.toLowerCase() || '').includes(value.toLowerCase()) ||
-      (tenant.address?.toLowerCase() || '').includes(value.toLowerCase())
+  // Filter leases based on the search value
+  const filteredLeases = leasesData.items.filter(
+    lease =>
+      (lease.name?.toLowerCase() || '').includes(value.toLowerCase()) ||
+      (lease.email?.toLowerCase() || '').includes(value.toLowerCase()) ||
+      (lease.address?.toLowerCase() || '').includes(value.toLowerCase())
   )
 
   return (
@@ -327,7 +327,7 @@ const LeaseManageTable = () => {
         </Card>
       </Grid>
       <AddUserDrawer
-        tenantsData={tenantsData}
+        leasesData={leasesData}
         setLeasesData={setLeasesData}
         open={addUserOpen}
         toggle={toggleAddUserDrawer}
