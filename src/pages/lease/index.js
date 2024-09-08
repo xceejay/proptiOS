@@ -38,6 +38,7 @@ const LeasePage = () => {
                 avatarIcon='tabler:home'
               />
           </Grid>
+
           {/*
           THIS ONE has stats
           <Grid item xs={6} sm={6} lg={3}>
