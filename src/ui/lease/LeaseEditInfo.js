@@ -2,10 +2,10 @@
 import Grid from '@mui/material/Grid'
 
 // ** Demo Components Imports
-import LeasesViewLeft from 'src/ui/leases/LeasesViewLeft'
-import LeasesViewRight from 'src/ui/leases/LeasesViewRight'
+import LeaseViewLeft from 'src/ui/leases/LeaseViewLeft'
+import LeaseViewRight from 'src/ui/leases/LeaseViewRight'
 
-const LeasesEditInfo = ({ leasesData, tab }) => {
+const LeaseEditInfo = ({ leasesData, tab }) => {
   return (
     <Grid container spacing={6}>
       {/* <Grid item xs={12} md={5} lg={4}>
@@ -14,10 +14,10 @@ const LeasesEditInfo = ({ leasesData, tab }) => {
 
       {/* doubled all the values for size of grid */}
       <Grid item xs={24} md={14} lg={16}>
-        <LeasesViewRight leasesData={leasesData} tab={tab} />
+        <LeaseViewRight leasesData={leasesData} tab={tab} />
       </Grid>
     </Grid>
   )
 }
 
-export default LeasesEditInfo
+export default LeaseEditInfo
