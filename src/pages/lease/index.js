@@ -64,7 +64,7 @@ const LeasePage = () => {
           <Grid item xs={6} sm={6} lg={3}>
             <CardStatsVertical
               chipText={'0'}
-              avatarColor='success'
+              avatarColor='primary'
               chipColor='default'
               title='Total'
               subtitle='Total leases'
