@@ -38,9 +38,21 @@ const LeasePage = () => {
                 avatarIcon='tabler:home'
               />
           </Grid>
+          {/*
+          THIS ONE has stats
           <Grid item xs={6} sm={6} lg={3}>
             <CardStatsVertical
-              // stats={"0"}
+              stats={"0"}
+              chipText={'0'}
+              avatarColor='info'
+              chipColor='default'
+              title='Archived'
+              subtitle='Total archived leases'
+              avatarIcon='tabler:woman'
+            />
+          </Grid> */}
+          <Grid item xs={6} sm={6} lg={3}>
+            <CardStatsVertical
               chipText={'0'}
               avatarColor='info'
               chipColor='default'
@@ -51,7 +63,6 @@ const LeasePage = () => {
           </Grid>
           <Grid item xs={6} sm={6} lg={3}>
             <CardStatsVertical
-              // stats={"0"}
               chipText={'0'}
               avatarColor='info'
               chipColor='default'
@@ -62,7 +73,6 @@ const LeasePage = () => {
           </Grid>
           <Grid item xs={6} sm={6} lg={3}>
             <CardStatsVertical
-              // stats={"0"}
               chipText={'0'}
               avatarColor='info'
               chipColor='default'
