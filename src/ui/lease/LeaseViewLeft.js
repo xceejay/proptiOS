@@ -71,7 +71,7 @@ const Sub = styled('sub')(({ theme }) => ({
   color: theme.palette.text.secondary
 }))
 
-const LeasesViewLeft = ({ leasesData }) => {
+const LeaseViewLeft = ({ leasesData }) => {
   const router = useRouter()
 
   // ** States
@@ -527,4 +527,4 @@ const LeasesViewLeft = ({ leasesData }) => {
   }
 }
 
-export default LeasesViewLeft
+export default LeaseViewLeft
