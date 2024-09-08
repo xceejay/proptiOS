@@ -2,8 +2,8 @@
 import Grid from '@mui/material/Grid'
 
 // ** Demo Components Imports
-// import LeaseViewLeft from 'src/ui/leases/LeaseViewLeft'
-import LeaseViewRight from 'src/ui/leases/LeaseViewRight'
+// import LeaseViewLeft from 'src/ui/lease/LeaseViewLeft'
+import LeaseViewRight from 'src/ui/lease/LeaseViewRight'
 
 const LeaseEditInfo = ({ leasesData, tab }) => {
   return (
