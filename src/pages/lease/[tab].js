@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 import Grid from '@mui/material/Grid'
-import LeasesEditInfo from '../../ui/leases/LeasesEditInfo'
+import LeasesEditInfo from '../../ui/lease/LeasesEditInfo'
 import { useRouter } from 'next/router'
 
 const LeasesPage = () => {

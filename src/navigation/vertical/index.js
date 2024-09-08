@@ -23,7 +23,7 @@ const navigation = () => {
     },
     {
       title: 'Leases',
-      path: '/leases',
+      path: '/lease',
       icon: 'tabler:contract',
       action: 'read',
       subject: 'leases'

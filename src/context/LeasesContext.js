@@ -12,94 +12,199 @@ import authConfig from 'src/configs/auth'
 
 // ** Defaults
 const defaultProvider = {
-  user: null,
   loading: true,
-  setUser: () => null,
-  setLoading: () => Boolean,
-  registerAccount: () => Promise.resolve()
+  accessToken: null,
+  setAccessToken: () => {},
+  setUser: () => {},
+  setLoading: () => {},
+  getAllLeases: () => Promise.resolve(),
+  getLease: () => Promise.resolve(),
+  addLeases: () => Promise.resolve(),
+  editLeases: () => Promise.resolve(),
+  lease: null,
+  setLeases: () => {},
+  setLease: () => {},
+  leases: null
 }
+
 const LeasesContext = createContext(defaultProvider)
 
 const LeasesProvider = ({ children }) => {
   // ** States
-  const [user, setUser] = useState(defaultProvider.user)
+  const [leases, setLeases] = useState(defaultProvider.leases)
+  const [lease, setLease] = useState(defaultProvider.lease)
   const [loading, setLoading] = useState(defaultProvider.loading)
+  const [accessToken, setAccessToken] = useState(null)
 
   // ** Hooks
   const router = useRouter()
 
   useEffect(() => {
-    console.log('test')
+    const storedToken = window.localStorage.getItem('accessToken')
+    if (storedToken) {
+      setAccessToken(storedToken)
+      console.log('Leases Context accessToken Set')
+    }
   }, [])
 
-  // useEffect(() => {
-  //   const initRegister = async () => {
-  //     const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)
-  //     if (storedToken) {
-  //       let userData = window.localStorage.getItem('userData')
-  //       console.log('Register::site_id', userData.site_id)
-  //     } else {
-  //       setLoading(false)
-  //     }
-  //   }
-  //   initRegister()
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [])
+  // Function for getting leases
+  const getAllLeases = (params, successCallback, errorCallback) => {
+    const token = window.localStorage.getItem('accessToken') || accessToken
 
-  //function for registering an account.
-  const registerAccount = (params, errorCallback) => {
-    console.log('Creating account')
+    if (!token) {
+      const error = new Error('No access token found')
+      if (errorCallback) errorCallback(error)
 
-    console.log('param', params)
+      return
+    }
+
     axios
-      .post('https://api.pm.manages.homes/auth/register', {
-        role: params.data.role,
-        site_name: params.data.site_name,
-        site_domain: params.data.site_domain.toLowerCase() + '.manages.homes',
-        country: params.data.country,
-        full_name: params.data.full_name,
-        email: params.data.email,
-        password: params.data.password
+      .get('https://api.pm.manages.homes/leases', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        params
       })
-      .then(async response => {
-        console.log('REGISTER:::response', response.data)
-
-        // Optionally, handle response data if needed
-        // e.g., storing token, user data, or redirecting
-
-        // Example: Store token if available
-        if (response.data.token) {
-          window.localStorage.setItem('authToken', response.data.token)
+      .then(response => {
+        if (successCallback) {
+          successCallback(response.data)
+          setLeases(response.data)
         }
-
-        // Example: Store user data if needed
-        if (response.data.user) {
-          window.localStorage.setItem('userData', JSON.stringify(response.data.user))
-        }
-
-        // Redirect user if needed
-        const redirectURL = '/'
-        router.replace(redirectURL)
       })
       .catch(err => {
         if (errorCallback) errorCallback(err)
       })
   }
 
-  const handleLogout = () => {
-    console.log('logged out')
-    setUser(null)
-    window.localStorage.removeItem('userData')
-    window.localStorage.removeItem(authConfig.storageTokenKeyName)
-    router.push('/login')
+  // Function for getting a single lease
+  const getLease = (id, successCallback, errorCallback) => {
+    const token = window.localStorage.getItem('accessToken') || accessToken
+
+    if (!token) {
+      const error = new Error('No access token found')
+      if (errorCallback) errorCallback(error)
+
+      return
+    }
+
+    axios
+      .get(`https://api.pm.manages.homes/leases/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then(response => {
+        if (successCallback) {
+          successCallback(response.data)
+          setLease(response.data)
+        }
+      })
+      .catch(err => {
+        if (errorCallback) errorCallback(err)
+      })
+  }
+
+  // Function for adding leases
+  const addLeases = (data, successCallback, errorCallback) => {
+    const token = window.localStorage.getItem('accessToken') || accessToken
+
+    if (!token) {
+      const error = new Error('No access token found')
+      if (errorCallback) errorCallback(error)
+
+      return
+    }
+
+    axios
+      .post('https://api.pm.manages.homes/leases', data, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then(response => {
+        if (successCallback) {
+          successCallback(response.data)
+
+          // Map the request data to include empty arrays/default values for other fields
+          // const newLease = data.map(lease => ({
+          //   ...lease,
+          //   id: response.data.id || null, // Assuming the response contains a unique id
+          //   uuid: response.data.uuid || null, // Assuming the response contains a unique UUID
+          //   contract_documents: [],
+          //   id_documents: [],
+          //   maintenance_requests: [],
+          //   transactions: [],
+          //   property: {},
+          //   unit: {
+          //     id: null,
+          //     floor_no: null,
+          //     bedrooms: null,
+          //     furnished_status: null,
+          //     monthly_rent: null
+          //   },
+          //   status: 'active',
+          //   created_at: new Date().toISOString(),
+          //   updated_at: new Date().toISOString(),
+          //   logged_in: null,
+          //   logged_out: null
+          // }))
+
+          // // Update the leases state
+          // setLeases(prevLeases => ({
+          //   ...prevLeases,
+          //   data: {
+          //     ...prevLeases.data,
+          //     items: [...(prevLeases.data.items || []), ...newLease]
+          //   }
+          // }))
+
+          // console.log('Updated leases:', leases)
+        }
+      })
+      .catch(err => {
+        if (errorCallback) errorCallback(err)
+      })
+  }
+
+  const editLeases = (data, successCallback, errorCallback) => {
+    const token = window.localStorage.getItem('accessToken') || accessToken
+
+    if (!token) {
+      const error = new Error('No access token found')
+      if (errorCallback) errorCallback(error)
+
+      return
+    }
+
+    axios
+      .put('https://api.pm.manages.homes/leases', data, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then(response => {
+        if (successCallback) {
+          successCallback(response.data)
+        }
+      })
+      .catch(err => {
+        if (errorCallback) errorCallback(err)
+      })
   }
 
   const values = {
-    user,
+    leases,
+    lease,
+    setLease,
+    setLeases,
+    addLeases,
+    editLeases,
     loading,
-    setUser,
     setLoading,
-    registerAccount: registerAccount
+    setAccessToken,
+    accessToken,
+    getAllLeases,
+    getLease
   }
 
   return <LeasesContext.Provider value={values}>{children}</LeasesContext.Provider>
