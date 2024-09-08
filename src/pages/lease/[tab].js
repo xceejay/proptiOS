@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 import Grid from '@mui/material/Grid'
-import LeaseEditInfo from '../../ui/lease/LeaseEditInfo'
+import LeasesEditInfo from '../../ui/lease/LeaseEditInfo'
 import { useRouter } from 'next/router'
 
 const LeasesPage = () => {
@@ -32,7 +32,7 @@ const LeasesPage = () => {
   //   }
   // }, [id])
 
-  return <LeaseEditInfo tab={tab} tenantData={tenantData} />
+  return <LeasesEditInfo tab={tab} tenantData={tenantData} />
 }
 
 export default LeasesPage
