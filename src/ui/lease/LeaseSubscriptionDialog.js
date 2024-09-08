@@ -116,4 +116,4 @@ const LeaseSuspendDialog = props => {
   )
 }
 
-export default LeasesSuspendDialog
+export default LeaseSuspendDialog

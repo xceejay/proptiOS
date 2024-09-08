@@ -741,4 +741,4 @@ const LeaseViewPast = () => {
   )
 }
 
-export default LeasesViewPast
+export default LeaseViewPast
