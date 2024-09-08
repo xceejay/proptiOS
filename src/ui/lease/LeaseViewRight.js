@@ -48,7 +48,7 @@
 //   }
 // }))
 
-const LeasesViewRight = ({ tab, leasesData }) => {
+const LeaseViewRight = ({ tab, leasesData }) => {
   // const router = useRouter()
   // const { id } = router.query
   // // ** State
@@ -128,4 +128,4 @@ const LeasesViewRight = ({ tab, leasesData }) => {
   // )
 }
 
-export default LeasesViewRight
+export default LeaseViewRight
