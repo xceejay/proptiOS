@@ -94,7 +94,11 @@ const ParentTenantViewRight = ({ tab, tenantData, setTenantData }) => {
         scrollButtons='auto'
         onChange={handleChange}
         aria-label='forced scroll tabs example'
-        sx={{ borderBottom: theme => `1px solid ${theme.palette.divider}`, position: 'fixed' }}
+        sx={{
+          borderBottom: theme => `1px solid ${theme.palette.divider}`,
+          position: 'fixed',
+          backgroundColor: theme => `1px solid ${theme.palette.primary.main}`
+        }}
       >
         <Tab value='overview' label='overview' icon={<Icon fontSize='1.125rem' icon='tabler:home' />} />
         <Tab value='management' label='management' icon={<Icon fontSize='1.125rem' icon='tabler:eye-edit' />} />
