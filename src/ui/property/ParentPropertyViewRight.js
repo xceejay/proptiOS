@@ -24,6 +24,7 @@ import PropertyViewUnits from 'src/ui/property/PropertyViewUnits'
 import PropertyViewMaintenance from 'src/ui/property/PropertyViewMaintenance'
 import PropertyViewMarketing from './PropertyViewMarketing'
 import PropertyViewSettings from 'src/ui/property/PropertyViewSettings'
+import ParentPropertyViewOverview from './ParentPropertyOverview'
 
 // ** Styled Tab component
 const Tab = styled(MuiTab)(({ theme }) => ({
@@ -49,7 +50,7 @@ const TabList = styled(MuiTabList)(({ theme }) => ({
   }
 }))
 
-const UserViewRight = ({ tab, propertyData, setPropertyData }) => {
+const ParentPropertyViewRight = ({ tab, propertyData, setPropertyData }) => {
   // ** State
   const [activeTab, setActiveTab] = useState(tab)
   const [isLoading, setIsLoading] = useState(true)
@@ -63,7 +64,7 @@ const UserViewRight = ({ tab, propertyData, setPropertyData }) => {
     setActiveTab(value)
     router
       .push({
-        pathname: `/properties/manage/${id}/${value.toLowerCase()}`
+        pathname: `/properties/${tab}/${value.toLowerCase()}`
       })
       .then(() => setIsLoading(false))
   }
@@ -74,9 +75,11 @@ const UserViewRight = ({ tab, propertyData, setPropertyData }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tab])
   useEffect(() => {
-    if (propertyData) {
-      setIsLoading(false)
-    }
+    // if (propertyData) {
+    //   setIsLoading(false)
+    // }
+
+    setIsLoading(false)
   }, [propertyData])
 
   return (
@@ -89,21 +92,6 @@ const UserViewRight = ({ tab, propertyData, setPropertyData }) => {
         sx={{ borderBottom: theme => `1px solid ${theme.palette.divider}` }}
       >
         <Tab value='overview' label='Overview' icon={<Icon fontSize='1.125rem' icon='tabler:home' />} />
-        <Tab value='units' label='Units' icon={<Icon fontSize='1.125rem' icon='tabler:cash' />} />
-        {/* <Tab
-          value='billing-plan'
-          label='Billing & Plan'
-          icon={<Icon fontSize='1.125rem' icon='tabler:currency-dollar' />}
-        /> */}
-        <Tab value='maintenance' label='Maintenance' icon={<Icon fontSize='1.125rem' icon='tabler:tool' />} />
-        <Tab
-          disabled
-          value='marketing'
-          label='Marketing'
-          icon={<Icon fontSize='1.125rem' icon='tabler:speakerphone' />}
-        />
-
-        <Tab disabled value='settings' label='Settings' icon={<Icon fontSize='1.125rem' icon='tabler:settings' />} />
       </TabList>
       <Box sx={{ mt: 6 }}>
         {isLoading ? (
@@ -114,22 +102,7 @@ const UserViewRight = ({ tab, propertyData, setPropertyData }) => {
         ) : (
           <>
             <TabPanel sx={{ p: 0 }} value='overview'>
-              <PropertyViewOverview setPropertyData={setPropertyData} propertyData={propertyData} />
-            </TabPanel>
-            <TabPanel sx={{ p: 0 }} value='units'>
-              <PropertyViewUnits setPropertyData={setPropertyData} propertyData={propertyData} />
-            </TabPanel>
-            {/* <TabPanel sx={{ p: 0 }} value='billing'>
-              <PropertyViewBilling />
-            </TabPanel> */}
-            <TabPanel sx={{ p: 0 }} value='maintenance'>
-              <PropertyViewMaintenance setPropertyData={setPropertyData} propertyData={propertyData} />
-            </TabPanel>
-            <TabPanel sx={{ p: 0 }} value='marketing'>
-              <PropertyViewMarketing setPropertyData={setPropertyData} propertyData={propertyData} />
-            </TabPanel>
-            <TabPanel sx={{ p: 0 }} value='settings'>
-              <PropertyViewSettings setPropertyData={setPropertyData} propertyData={propertyData} />
+              <ParentPropertyViewOverview setPropertyData={setPropertyData} propertyData={propertyData} />
             </TabPanel>
           </>
         )}
@@ -138,4 +111,4 @@ const UserViewRight = ({ tab, propertyData, setPropertyData }) => {
   )
 }
 
-export default UserViewRight
+export default ParentPropertyViewRight

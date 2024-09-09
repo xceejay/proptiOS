@@ -83,7 +83,7 @@ const RowOptions = ({ id }) => {
         <MenuItem
           component={Link}
           sx={{ '& svg': { mr: 2 } }}
-          href={'/properties/' + id}
+          href={'/properties/manage/' + id}
           onClick={handleRowOptionsClose}
         >
           <Icon icon='tabler:eye' fontSize={20} />
@@ -118,7 +118,7 @@ const columns = [
             <Typography
               noWrap
               component={Link}
-              href={'/properties/' + id + '/overview'}
+              href={'/properties/manage/' + id + '/overview'}
               sx={{
                 fontWeight: 500,
                 textDecoration: 'none',

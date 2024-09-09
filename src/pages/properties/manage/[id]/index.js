@@ -5,12 +5,13 @@ import { useEffect, useState } from 'react'
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 import PropertyEditInfo from 'src/ui/property/PropertyEditInfo'
 import { useRouter } from 'next/router'
+import { useProperties } from 'src/hooks/useProperties'
 
 const PropertyEdit = ({}) => {
   const router = useRouter()
   const [propertyData, setPropertyData] = useState(null)
   const { id } = router.query
-
+  const properties = useProperties()
   useEffect(() => {
     if (id) {
       // Ensure id is defined before making the API call
