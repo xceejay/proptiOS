@@ -17,7 +17,8 @@ import CardHeader from '@mui/material/CardHeader'
 import InputLabel from '@mui/material/InputLabel'
 import FormControl from '@mui/material/FormControl'
 import CardContent from '@mui/material/CardContent'
-import { DataGrid } from '@mui/x-data-grid'
+import { DataGrid, getGridBooleanOperators } from '@mui/x-data-grid'
+
 import AddUserDrawer from './AddPropertyDrawer'
 
 import Select from '@mui/material/Select'
@@ -39,6 +40,7 @@ import ServerSideToolbarPropertyManage from 'src/views/table/data-grid/ServerSid
 import CustomTenantToolbar from 'src/views/table/data-grid/CustomTenantToolbar'
 import CustomNoRowsOverlay from '../CustomNoRowsOverlay'
 import PropertyAddExistingTenantDrawer from './PropertyAddExistingTenantDrawer'
+import { TextField } from '@mui/material'
 
 const RowOptions = ({ id }) => {
   const dispatch = useDispatch()
@@ -159,11 +161,13 @@ const columns = [
   {
     flex: 0.1,
     minWidth: 110,
-    field: 'active',
+    field: 'status',
     headerName: 'Status',
+    type: 'boolean',
+
     renderCell: ({ row }) => {
-      const statusLabel = row.active === 1 ? 'Active' : 'Inactive'
-      const statusColor = row.active === 1 ? 'success' : 'secondary'
+      const statusLabel = row.status === 'active' ? 'Active' : 'Inactive'
+      const statusColor = row.status === 'active' ? 'success' : 'secondary'
 
       return (
         <CustomChip

@@ -45,10 +45,10 @@ const navigation = () => {
     },
     {
       title: 'User Management',
-      path: '/user-management',
+      path: '/users',
       icon: 'tabler:users',
       action: 'read',
-      subject: 'user-management'
+      subject: 'users'
     },
     {
       title: 'Communication',
