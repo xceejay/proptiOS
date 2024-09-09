@@ -31,15 +31,24 @@ const Tab = styled(MuiTab)(({ theme }) => ({
   }
 }))
 
+// const TabList = styled(MuiTabList)(({ theme }) => ({
+//   borderBottom: '0 !important',
+//   '& .MuiTabs-indicator': {
+//     display: 'none'
+//   },
+//   '& .Mui-selected': {
+//     backgroundColor: theme.palette.primary.main,
+//     color: `${theme.palette.common.white} !important`
+//   },
+//   '& .MuiTab-root': {
+//     lineHeight: 1,
+//     borderRadius: theme.shape.borderRadius
+//   }
+// }))
+
 const TabList = styled(MuiTabList)(({ theme }) => ({
   borderBottom: '0 !important',
-  '& .MuiTabs-indicator': {
-    display: 'none'
-  },
-  '& .Mui-selected': {
-    backgroundColor: theme.palette.primary.main,
-    color: `${theme.palette.common.white} !important`
-  },
+
   '& .MuiTab-root': {
     lineHeight: 1,
     borderRadius: theme.shape.borderRadius
