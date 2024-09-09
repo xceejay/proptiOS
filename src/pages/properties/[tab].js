@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import Grid from '@mui/material/Grid'
 
 import { useRouter } from 'next/router'
-import PropertyEditInfo from 'src/ui/property/PropertyEditInfo'
+import ParentPropertyEditInfo from 'src/ui/property/ParentPropertyEditInfo'
 
 const PropertiesTab = () => {
   const router = useRouter()
@@ -33,7 +33,7 @@ const PropertiesTab = () => {
   //   }
   // }, [id])
 
-  return <PropertyEditInfo tab={tab} propertiesData={propertiesData} />
+  return <ParentPropertyEditInfo tab={tab} propertiesData={propertiesData} />
 }
 
 export default PropertiesTab
