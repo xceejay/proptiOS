@@ -94,17 +94,7 @@ const ParentPropertyViewRight = ({ tab, propertyData, setPropertyData }) => {
         scrollButtons='auto'
         onChange={handleChange}
         aria-label='forced scroll tabs example'
-        sx={{
-          borderBottom: theme => `1px solid ${theme.palette.divider}`,
-          position: 'fixed',
-          borderRadius: theme => theme.shape.borderRadius,
-          backgroundColor: theme =>
-            `${
-              theme.palette.mode === 'light'
-                ? `rgba(${theme.palette.customColors.main}, 0.08)`
-                : `rgba(${theme.palette.customColors.main}, 0.08)`
-            }`
-        }}
+        sx={{ borderBottom: theme => `1px solid ${theme.palette.divider}` }}
       >
         <Tab value='overview' label='overview' icon={<Icon fontSize='1.125rem' icon='tabler:home' />} />
         <Tab value='management' label='management' icon={<Icon fontSize='1.125rem' icon='tabler:eye-edit' />} />
@@ -117,11 +107,11 @@ const ParentPropertyViewRight = ({ tab, propertyData, setPropertyData }) => {
           </Box>
         ) : (
           <>
-            <TabPanel sx={{ p: 0, mt: 16 }} value='overview'>
+            <TabPanel sx={{ p: 0 }} value='overview'>
               <ParentPropertyViewOverview setPropertyData={setPropertyData} propertyData={propertyData} />
             </TabPanel>
 
-            <TabPanel sx={{ p: 0, mt: 16 }} value='management'>
+            <TabPanel sx={{ p: 0 }} value='management'>
               <ParentPropertyViewManagement setPropertyData={setPropertyData} propertyData={propertyData} />
             </TabPanel>
           </>
