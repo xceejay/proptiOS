@@ -97,7 +97,9 @@ const ParentPropertyViewRight = ({ tab, propertyData, setPropertyData }) => {
         sx={{
           borderBottom: theme => `1px solid ${theme.palette.divider}`,
           position: 'fixed',
-          backgroundColor: theme => `${theme.palette.background}`
+          borderRadius: theme => `${theme.shape.borderRadius}`,
+          backgroundColor: theme =>
+            `${theme.palette.mode === 'light' ? theme.palette.customColors.main : theme.palette.customColors.main}`
         }}
       >
         <Tab value='overview' label='overview' icon={<Icon fontSize='1.125rem' icon='tabler:home' />} />
