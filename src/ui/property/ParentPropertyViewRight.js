@@ -20,6 +20,7 @@ import Icon from 'src/@core/components/icon'
 // ** Demo Components Imports
 
 import ParentPropertyViewOverview from './ParentPropertyOverview'
+import ParentPropertyViewManagement from './ParentPropertyManagement'
 
 // ** Styled Tab component
 const Tab = styled(MuiTab)(({ theme }) => ({
@@ -102,7 +103,7 @@ const ParentPropertyViewRight = ({ tab, propertyData, setPropertyData }) => {
             </TabPanel>
 
             <TabPanel sx={{ p: 0 }} value='management'>
-              <ParentPropertyViewOverview setPropertyData={setPropertyData} propertyData={propertyData} />
+              <ParentPropertyViewManagement setPropertyData={setPropertyData} propertyData={propertyData} />
             </TabPanel>
           </>
         )}
