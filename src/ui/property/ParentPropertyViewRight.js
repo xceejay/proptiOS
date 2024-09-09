@@ -18,12 +18,7 @@ import CircularProgress from '@mui/material/CircularProgress'
 import Icon from 'src/@core/components/icon'
 
 // ** Demo Components Imports
-import PropertyViewBilling from 'src/ui/property/PropertyViewBilling'
-import PropertyViewOverview from 'src/ui/property/PropertyViewOverview'
-import PropertyViewUnits from 'src/ui/property/PropertyViewUnits'
-import PropertyViewMaintenance from 'src/ui/property/PropertyViewMaintenance'
-import PropertyViewMarketing from './PropertyViewMarketing'
-import PropertyViewSettings from 'src/ui/property/PropertyViewSettings'
+
 import ParentPropertyViewOverview from './ParentPropertyOverview'
 
 // ** Styled Tab component
@@ -64,7 +59,7 @@ const ParentPropertyViewRight = ({ tab, propertyData, setPropertyData }) => {
     setActiveTab(value)
     router
       .push({
-        pathname: `/properties/${tab}/${value.toLowerCase()}`
+        pathname: `/properties/${value.toLowerCase()}`
       })
       .then(() => setIsLoading(false))
   }
@@ -91,7 +86,8 @@ const ParentPropertyViewRight = ({ tab, propertyData, setPropertyData }) => {
         aria-label='forced scroll tabs example'
         sx={{ borderBottom: theme => `1px solid ${theme.palette.divider}` }}
       >
-        <Tab value='overview' label='Overview' icon={<Icon fontSize='1.125rem' icon='tabler:home' />} />
+        <Tab value='overview' label='overview' icon={<Icon fontSize='1.125rem' icon='tabler:home' />} />
+        <Tab value='management' label='management' icon={<Icon fontSize='1.125rem' icon='tabler:eye-edit' />} />
       </TabList>
       <Box sx={{ mt: 6 }}>
         {isLoading ? (
@@ -102,6 +98,10 @@ const ParentPropertyViewRight = ({ tab, propertyData, setPropertyData }) => {
         ) : (
           <>
             <TabPanel sx={{ p: 0 }} value='overview'>
+              <ParentPropertyViewOverview setPropertyData={setPropertyData} propertyData={propertyData} />
+            </TabPanel>
+
+            <TabPanel sx={{ p: 0 }} value='management'>
               <ParentPropertyViewOverview setPropertyData={setPropertyData} propertyData={propertyData} />
             </TabPanel>
           </>
