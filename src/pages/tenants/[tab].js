@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/router'
 import { useTenants } from 'src/hooks/useTenants'
-import TenantEditInfo from 'src/ui/tenant/TenantEditInfo'
+import ParentTenantEditInfo from 'src/ui/tenant/ParentTenantEditInfo'
 
 const TenantTab = ({ invoiceData }) => {
   const router = useRouter()
@@ -33,7 +33,7 @@ const TenantTab = ({ invoiceData }) => {
     }
   }, [id, tab])
 
-  return <TenantEditInfo tab={tab} setTenantData={setTenantData} tenantData={tenantData} />
+  return <ParentTenantEditInfo tab={tab} setTenantData={setTenantData} tenantData={tenantData} />
 }
 
 export default TenantTab

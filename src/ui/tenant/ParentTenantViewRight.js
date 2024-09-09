@@ -19,8 +19,8 @@ import Icon from 'src/@core/components/icon'
 
 // ** Demo Components Imports
 
-import ParentTenantViewOverview from './ParentTenantOverview'
-import ParentTenantViewManagement from './ParentTenantManagement'
+import ParentTenantViewOverview from './ParentTenantViewOverview'
+import ParentTenantViewManagement from './ParentTenantViewManagement'
 
 // ** Styled Tab component
 const Tab = styled(MuiTab)(({ theme }) => ({

@@ -23,6 +23,7 @@ import TenantProjectListTable from 'src/ui/tenant/TenantProjectListTable'
 
 // ** Custom Components Imports
 import OptionsMenu from 'src/@core/components/option-menu'
+import CardStatsVertical from 'src/@core/components/card-statistics/card-stats-vertical'
 
 // Styled Timeline component
 const Timeline = styled(MuiTimeline)(({ theme }) => ({
