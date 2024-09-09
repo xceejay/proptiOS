@@ -115,7 +115,7 @@ const ParentTenantViewRight = ({ tab, tenantData, setTenantData }) => {
               <ParentTenantViewOverview setTenantData={setTenantData} tenantData={tenantData} />
             </TabPanel>
 
-            <TabPanel sx={{ p: 0 }} value='management'>
+            <TabPanel sx={{ p: 0, mt: 16 }} value='management'>
               <ParentTenantViewManagement setTenantData={setTenantData} tenantData={tenantData} />
             </TabPanel>
           </>

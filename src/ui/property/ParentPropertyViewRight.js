@@ -115,7 +115,7 @@ const ParentPropertyViewRight = ({ tab, propertyData, setPropertyData }) => {
               <ParentPropertyViewOverview setPropertyData={setPropertyData} propertyData={propertyData} />
             </TabPanel>
 
-            <TabPanel sx={{ p: 0 }} value='management'>
+            <TabPanel sx={{ p: 0, mt: 16 }} value='management'>
               <ParentPropertyViewManagement setPropertyData={setPropertyData} propertyData={propertyData} />
             </TabPanel>
           </>
