@@ -214,8 +214,8 @@ const UserViewLeft = ({ tenantData }) => {
                   </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', mb: 3 }}>
-                  <Typography sx={{ mr: 2, fontWeight: 500 }}>Tax ID:</Typography>
-                  <Typography sx={{ color: 'text.secondary' }}>Tax-8894</Typography>
+                  <Typography sx={{ mr: 2, fontWeight: 500 }}>Total Units :</Typography>
+                  <Typography sx={{ color: 'text.secondary' }}>{tenantData.units.length}</Typography>
                 </Box>
                 <Box sx={{ display: 'flex', mb: 3 }}>
                   <Typography sx={{ mr: 2, fontWeight: 500 }}>Contact:</Typography>
@@ -303,7 +303,7 @@ const UserViewLeft = ({ tenantData }) => {
                       </FormControl>
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                      <TextField fullWidth label='TAX ID' defaultValue='Tax-8894' />
+                      <TextField fullWidth label='Total Units' defaultValue={tenantData.units?.length} />
                     </Grid>
                     <Grid item xs={12} sm={6}>
                       <TextField fullWidth label='Contact' defaultValue={`${tenantData.tel_number}`} />

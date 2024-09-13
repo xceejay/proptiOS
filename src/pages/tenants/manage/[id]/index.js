@@ -44,7 +44,7 @@ const TenantEdit = () => {
   return (
     <Grid>
       {console.log(tenants)}
-      <TenantEditInfo tenantData={tenantData} tab={'account'}></TenantEditInfo>
+      <TenantEditInfo tenantData={tenantData} tab={'details'}></TenantEditInfo>
     </Grid>
   )
 }

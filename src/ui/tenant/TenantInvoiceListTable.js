@@ -231,7 +231,7 @@ const TenantInvoiceListTable = ({ tenantTransactionData }) => {
         autoHeight
         rowHeight={54}
         columns={columns}
-        loading={tenantTransactionData.length === 0}
+        loading={false}
         slots={{ toolbar: CustomTenantToolbar }}
         rows={tenantTransactionData}
         disableRowSelectionOnClick

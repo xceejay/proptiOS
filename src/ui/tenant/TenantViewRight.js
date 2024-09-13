@@ -19,7 +19,7 @@ import Icon from 'src/@core/components/icon'
 
 // ** Demo Components Imports
 import TenantViewBilling from 'src/ui/tenant/TenantViewBilling'
-import TenantViewAccount from 'src/ui/tenant/TenantViewAccount'
+import TenantViewDetails from 'src/ui/tenant/TenantViewDetails'
 import TenantViewSecurity from 'src/ui/tenant/TenantViewSecurity'
 import TenantViewConnection from 'src/ui/tenant/TenantViewConnection'
 import TenantViewNotification from 'src/ui/tenant/TenantViewNotification'
@@ -66,7 +66,7 @@ const UserViewRight = ({ tab, tenantData }) => {
     setActiveTab(value)
     router
       .push({
-        pathname: `/tenants/${id}/${value.toLowerCase()}`
+        pathname: `/tenants/manage/${id}/${value.toLowerCase()}`
       })
       .then(() => setIsLoading(false))
   }
@@ -93,8 +93,8 @@ const UserViewRight = ({ tab, tenantData }) => {
       >
         <Tab
           sx={{ fontSize: '13px' }}
-          value='account'
-          label='Account'
+          value='details'
+          label='Details'
           icon={<Icon fontSize='14px' icon='tabler:user-check' />}
         />
         <Tab
@@ -121,8 +121,8 @@ const UserViewRight = ({ tab, tenantData }) => {
           </Box>
         ) : (
           <>
-            <TabPanel sx={{ p: 0 }} value='account'>
-              <TenantViewAccount tenantData={tenantData} />
+            <TabPanel sx={{ p: 0 }} value='details'>
+              <TenantViewDetails tenantData={tenantData} />
             </TabPanel>
             <TabPanel sx={{ p: 0 }} value='security'>
               <TenantViewSecurity />

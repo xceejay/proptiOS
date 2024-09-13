@@ -19,7 +19,6 @@ import Icon from 'src/@core/components/icon'
 
 // ** Demo Component Imports
 import TenantInvoiceListTable from 'src/ui/tenant/TenantInvoiceListTable'
-import TenantProjectListTable from 'src/ui/tenant/TenantProjectListTable'
 
 // ** Custom Components Imports
 import OptionsMenu from 'src/@core/components/option-menu'
@@ -39,7 +38,7 @@ const Timeline = styled(MuiTimeline)(({ theme }) => ({
   }
 }))
 
-const TenantViewAccount = ({ tenantData }) => {
+const TenantViewDetails = ({ tenantData }) => {
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
@@ -174,4 +173,4 @@ const TenantViewAccount = ({ tenantData }) => {
   )
 }
 
-export default TenantViewAccount
+export default TenantViewDetails
