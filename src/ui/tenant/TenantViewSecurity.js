@@ -271,7 +271,7 @@ const TenantViewSecurity = () => {
       </Grid> */}
 
       <Grid item xs={12}>
-        <Card>
+        <Card sx={{ paddingBottom: 10 }}>
           <CardHeader title='Recent devices' />
 
           <Divider sx={{ m: '0 !important' }} />
