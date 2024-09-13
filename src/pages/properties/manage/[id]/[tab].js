@@ -1,14 +1,14 @@
 import { useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/router'
 import { useLeases } from 'src/hooks/useLeases'
-import PropertyEditInfo from 'src/ui/lease/PropertyEditInfo'
+import PropertyEditInfo from 'src/ui/property/PropertyEditInfo'
 
 const UserView = ({ invoiceData }) => {
   const router = useRouter()
   const { id } = router.query
   const { tab } = router.query
   const leases = useLeases()
-  const [leaseData, setPropertyData] = useState(null)
+  const [propertyData, setPropertyData] = useState(null)
 
   useEffect(() => {
     if (id) {
@@ -33,7 +33,7 @@ const UserView = ({ invoiceData }) => {
     }
   }, [id, tab])
 
-  return <PropertyEditInfo tab={tab} setPropertyData={setPropertyData} leaseData={leaseData} />
+  return <PropertyEditInfo tab={tab} setPropertyData={setPropertyData} propertyData={propertyData} />
 }
 
 export default UserView
