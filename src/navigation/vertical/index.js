@@ -41,6 +41,7 @@ const navigation = () => {
       path: '/reports',
       icon: 'tabler:receipt',
       action: 'read',
+      disabled: true,
       subject: 'reports'
     },
     {

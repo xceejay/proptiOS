@@ -6,7 +6,7 @@ import ParentPropertyEditInfo from 'src/ui/property/ParentPropertyEditInfo'
 
 const PropertiesPage = () => {
   const router = useRouter
-  const tab = router.query?.tab || 'overview'
+  const tab = router.query?.tab || 'management'
   const [propertiesData, setPropertiesData] = useState(null)
 
   return <ParentPropertyEditInfo tab={tab} propertiesData={propertiesData} />

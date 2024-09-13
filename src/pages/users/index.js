@@ -6,7 +6,7 @@ import { useRouter } from 'next/router'
 
 const UserManagementPage = () => {
   const router = useRouter
-  const tab = router.query?.tab || 'manage'
+  const tab = router.query?.tab || 'invite'
   const [usersData, setUsersData] = useState(null)
 
   return <UserEditInfo tab={tab} usersData={usersData} />
