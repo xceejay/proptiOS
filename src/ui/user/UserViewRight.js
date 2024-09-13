@@ -18,11 +18,11 @@ import CircularProgress from '@mui/material/CircularProgress'
 import Icon from 'src/@core/components/icon'
 
 // ** Demo Components Imports
-import UserViewPast from './UserViewPast'
+import UserViewManage from './UserViewManage'
 
 import { fontSize } from '@mui/system'
 import UserViewArchived from './UserViewArchived'
-import UserViewActive from './UserViewActive'
+import UserViewInvite from './UserViewInvite'
 
 // ** Styled Tab component
 const Tab = styled(MuiTab)(({ theme }) => ({
@@ -90,22 +90,22 @@ const UserViewRight = ({ tab, usersData }) => {
       >
         <Tab
           sx={{ fontSize: '13px' }}
-          value='active'
-          label='Active users'
+          value='invite'
+          label='Invite users'
           icon={<Icon fontSize='14px' icon='tabler:contract' />}
         />
         <Tab
           sx={{ fontSize: '13px' }}
-          value='past'
-          label='Past users'
+          value='manage'
+          label='Manage users'
           icon={<Icon fontSize='14px' icon='tabler:contract' />}
         />
-        <Tab
+        {/* <Tab
           sx={{ fontSize: '13px' }}
           value='archived'
           label='Archived users'
           icon={<Icon fontSize='14px' icon='tabler:archive' />}
-        />
+        /> */}
       </TabList>
       <Box sx={{ mt: 6 }}>
         {isLoading ? (
@@ -115,15 +115,15 @@ const UserViewRight = ({ tab, usersData }) => {
           </Box>
         ) : (
           <>
-            <TabPanel sx={{ p: 0 }} value='active'>
-              <UserViewActive />
+            <TabPanel sx={{ p: 0 }} value='invite'>
+              <UserViewInvite />
             </TabPanel>
-            <TabPanel sx={{ p: 0 }} value='past'>
-              <UserViewPast />
+            <TabPanel sx={{ p: 0 }} value='manage'>
+              <UserViewManage />
             </TabPanel>
-            <TabPanel sx={{ p: 0 }} value='archived'>
+            {/* <TabPanel sx={{ p: 0 }} value='archived'>
               <UserViewArchived />
-            </TabPanel>
+            </TabPanel> */}
           </>
         )}
       </Box>

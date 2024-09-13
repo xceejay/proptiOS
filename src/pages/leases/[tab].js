@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react'
 
 import Grid from '@mui/material/Grid'
-import LeaseEditInfo from '../../ui/lease/LeaseEditInfo'
-import { useRouter } from 'next/router'
 
-const LeasesPage = () => {
+import { useRouter } from 'next/router'
+import ParentLeaseEditInfo from 'src/ui/lease/ParentLeaseEditInfo'
+
+const LeasesTab = () => {
   const router = useRouter()
   const { tab } = router.query
-  const [tenantData, setTenantData] = useState(null)
+  const [leasesData, setLeasesData] = useState(null)
 
   // useEffect(() => {
   //   if (id) {
@@ -32,7 +33,7 @@ const LeasesPage = () => {
   //   }
   // }, [id])
 
-  return <LeaseEditInfo tab={tab} tenantData={tenantData} />
+  return <ParentLeaseEditInfo tab={tab} leasesData={leasesData} />
 }
 
-export default LeasesPage
+export default LeasesTab

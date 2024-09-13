@@ -96,7 +96,7 @@ const ParentPropertyViewRight = ({ tab, propertyData, setPropertyData }) => {
         aria-label='forced scroll tabs example'
         sx={{ borderBottom: theme => `1px solid ${theme.palette.divider}` }}
       >
-        <Tab value='overview' label='overview' icon={<Icon fontSize='1.125rem' icon='tabler:home' />} />
+        <Tab disabled value='overview' label='overview' icon={<Icon fontSize='1.125rem' icon='tabler:home' />} />
         <Tab value='management' label='management' icon={<Icon fontSize='1.125rem' icon='tabler:eye-edit' />} />
       </TabList>
       <Box sx={{ mt: 6 }}>

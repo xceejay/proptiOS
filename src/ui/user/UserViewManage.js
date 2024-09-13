@@ -98,7 +98,7 @@ const data = [
   }
 ]
 
-const UserViewPast = () => {
+const UserViewManage = () => {
   // ** States
   const [cvc, setCvc] = useState('')
   const [name, setName] = useState('')
@@ -741,4 +741,4 @@ const UserViewPast = () => {
   )
 }
 
-export default UserViewPast
+export default UserViewManage

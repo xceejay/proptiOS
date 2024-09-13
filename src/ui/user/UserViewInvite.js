@@ -98,7 +98,7 @@ const data = [
   }
 ]
 
-const UserViewActive = () => {
+const UserViewInvite = () => {
   // ** States
   const [cvc, setCvc] = useState('')
   const [name, setName] = useState('')
@@ -741,4 +741,4 @@ const UserViewActive = () => {
   )
 }
 
-export default UserViewActive
+export default UserViewInvite

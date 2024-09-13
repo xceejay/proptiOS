@@ -23,7 +23,7 @@ const navigation = () => {
     },
     {
       title: 'Leases',
-      path: '/lease',
+      path: '/leases',
       icon: 'tabler:contract',
       action: 'read',
       subject: 'leases'
@@ -51,9 +51,18 @@ const navigation = () => {
       subject: 'users'
     },
     {
+      title: 'Audit Log',
+      path: '/audit',
+      icon: 'tabler:eye',
+      disabled: true,
+      action: 'read',
+      subject: 'audit'
+    },
+    {
       title: 'Communication',
       path: '/communication',
       icon: 'tabler:brand-telegram',
+      disabled: true,
       action: 'read',
       subject: 'communication'
     },

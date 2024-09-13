@@ -11,7 +11,7 @@ const PropertyEdit = ({}) => {
   const router = useRouter()
   const [propertyData, setPropertyData] = useState(null)
   const { id } = router.query
-  const { tab } = router.query || 'overview'
+  const { tab } = router.query || 'management'
 
   const properties = useProperties()
   useEffect(() => {
