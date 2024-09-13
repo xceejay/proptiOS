@@ -1,19 +1,19 @@
 import { useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/router'
-import { useLeases } from 'src/hooks/useLeases'
+import { useProperties } from 'src/hooks/useProperties'
 import PropertyEditInfo from 'src/ui/property/PropertyEditInfo'
 
 const UserView = ({ invoiceData }) => {
   const router = useRouter()
   const { id } = router.query
   const { tab } = router.query
-  const leases = useLeases()
+  const properties = useProperties()
   const [propertyData, setPropertyData] = useState(null)
 
   useEffect(() => {
     if (id) {
       // Ensure id is defined before making the API call
-      leases.getProperty(
+      properties.getProperty(
         id,
         responseData => {
           console.log('called')
@@ -22,7 +22,7 @@ const UserView = ({ invoiceData }) => {
           console.log('FROM INDEX PAGE:', responseData)
 
           if (responseData?.status === 'FAILED') {
-            alert(responseData.message || 'Failed to fetch leases')
+            alert(responseData.message || 'Failed to fetch properties')
           }
         },
         error => {
