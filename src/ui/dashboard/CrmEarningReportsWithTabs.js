@@ -192,10 +192,10 @@ const CrmEarningReportsWithTabs = ({ DashData }) => {
     tooltip: { enabled: true },
     dataLabels: {
       offsetY: -15,
-      formatter: val => `${val}k`,
+      formatter: val => `${val}`,
       style: {
         fontWeight: 500,
-        fontSize: '1rem',
+        fontSize: '0.8rem',
         colors: [theme.palette.text.secondary]
       }
     },
@@ -222,9 +222,11 @@ const CrmEarningReportsWithTabs = ({ DashData }) => {
       }
     },
     yaxis: {
+      showForNullSeries: false,
+
       labels: {
-        offsetX: -15,
-        formatter: val => `$${val}k`,
+        offsetX: -5,
+        formatter: val => (val > 999 ? `$${val / 1000}k ` : val),
         style: {
           fontSize: '12px',
           colors: theme.palette.text.disabled,
