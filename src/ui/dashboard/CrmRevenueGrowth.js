@@ -15,12 +15,49 @@ import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
 
 const series = [{ data: [32, 52, 72, 94, 116, 94, 72] }]
 
+const currencies = [
+  { code: 'USD', name: 'United States Dollar', symbol: '$' },
+  { code: 'EUR', name: 'Euro', symbol: '€' },
+  { code: 'GBP', name: 'British Pound Sterling', symbol: '£' },
+  { code: 'JPY', name: 'Japanese Yen', symbol: '¥' },
+  { code: 'CHF', name: 'Swiss Franc', symbol: 'CHF' },
+  { code: 'CAD', name: 'Canadian Dollar', symbol: '$' },
+  { code: 'AUD', name: 'Australian Dollar', symbol: '$' },
+  { code: 'CNY', name: 'Chinese Yuan', symbol: '¥' },
+  { code: 'INR', name: 'Indian Rupee', symbol: '₹' },
+  { code: 'ZAR', name: 'South African Rand', symbol: 'R' },
+  { code: 'NGN', name: 'Nigerian Naira', symbol: '₦' },
+  { code: 'GHS', name: 'Ghanaian Cedi', symbol: '₵' },
+  { code: 'KES', name: 'Kenyan Shilling', symbol: 'KSh' },
+  { code: 'UGX', name: 'Ugandan Shilling', symbol: 'USh' },
+  { code: 'TZS', name: 'Tanzanian Shilling', symbol: 'TSh' },
+  { code: 'BRL', name: 'Brazilian Real', symbol: 'R$' },
+  { code: 'MXN', name: 'Mexican Peso', symbol: '$' },
+  { code: 'RUB', name: 'Russian Ruble', symbol: '₽' },
+  { code: 'SGD', name: 'Singapore Dollar', symbol: '$' },
+  { code: 'HKD', name: 'Hong Kong Dollar', symbol: '$' },
+  { code: 'SEK', name: 'Swedish Krona', symbol: 'kr' },
+  { code: 'NOK', name: 'Norwegian Krone', symbol: 'kr' },
+  { code: 'DKK', name: 'Danish Krone', symbol: 'kr' },
+  { code: 'PLN', name: 'Polish Zloty', symbol: 'zł' },
+  { code: 'TRY', name: 'Turkish Lira', symbol: '₺' },
+  { code: 'KRW', name: 'South Korean Won', symbol: '₩' },
+  { code: 'MYR', name: 'Malaysian Ringgit', symbol: 'RM' },
+  { code: 'THB', name: 'Thai Baht', symbol: '฿' },
+  { code: 'PHP', name: 'Philippine Peso', symbol: '₱' },
+  { code: 'IDR', name: 'Indonesian Rupiah', symbol: 'Rp' },
+  { code: 'SAR', name: 'Saudi Riyal', symbol: '﷼' },
+  { code: 'AED', name: 'United Arab Emirates Dirham', symbol: 'د.إ' },
+  { code: 'EGP', name: 'Egyptian Pound', symbol: '£' },
+  { code: 'MAD', name: 'Moroccan Dirham', symbol: 'د.م.' }
+]
+
 const CrmRevenueGrowth = ({ DashData }) => {
   const [transactionCategories, setTransactionCategories] = useState([])
 
   useEffect(() => {
     if (transactionCategories.length === 0 && DashData) {
-      console.log('data being restructured', DashData.transaction_categories)
+      console.log('data being restructured in rev', DashData.transaction_categories)
       restructureTransactionCategories(DashData?.transaction_categories)
     }
   }, [DashData])
@@ -130,7 +167,7 @@ const CrmRevenueGrowth = ({ DashData }) => {
             </div>
             <div>
               <Typography variant='h5' sx={{ mb: 2 }}>
-                $4,673
+                {currencies.find(currency => currency.code == DashData?.currency)?.symbol + DashData?.revenue}
               </Typography>
               <CustomChip rounded size='small' skin='light' color='success' label='+15.2%' />
             </div>
