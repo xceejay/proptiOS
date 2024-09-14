@@ -93,7 +93,7 @@ const CrmSalesWithRadarChart = ({ DashData }) => {
     markers: { size: 4 }, // Add visible markers
     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
     grid: {
-      show: true, // Show grid lines to visualize radar structure
+      show: false, // Show grid lines to visualize radar structure
       padding: {
         top: 10
       }
