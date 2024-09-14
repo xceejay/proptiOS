@@ -15,11 +15,20 @@ const series = [
 ]
 
 const CrmSalesWithRadarChart = ({ DashData }) => {
-  const [transactionCategories, setTransactionCategories] = useState([])
+  const [transactionCategories, setTransactionCategories] = useState([
+    {
+      name: 'Rent',
+      data: [] // Assuming rent counts as revenue
+    },
+    {
+      name: 'Administrative Cost',
+      data: [] // Replace with actual expense types
+    }
+  ])
 
   useEffect(() => {
-    if (transactionCategories.length === 0 && DashData) {
-      console.log('data being restructured', DashData.transaction_categories)
+    if (DashData) {
+      console.log('data being restructured', DashData?.transaction_categories)
       restructureTransactionCategories(DashData?.transaction_categories)
     }
   }, [DashData])
