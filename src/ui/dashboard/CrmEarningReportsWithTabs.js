@@ -165,7 +165,7 @@ const CrmEarningReportsWithTabs = ({ DashData }) => {
   const handleChange = (event, newValue) => {
     setValue(newValue)
   }
-  const colors = Array(9).fill(hexToRGBA(theme.palette.primary.main, 0.16))
+  const colors = Array(12).fill(hexToRGBA(theme.palette.primary.main, 0.16))
 
   const options = {
     chart: {
