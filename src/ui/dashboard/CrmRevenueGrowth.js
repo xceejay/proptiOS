@@ -55,8 +55,37 @@ const currencies = [
 const CrmRevenueGrowth = ({ DashData }) => {
   const [transactionCategories, setTransactionCategories] = useState([])
 
+  const averageMonthlyPercentageChange = series => {
+    const data = series[0].data
+    let totalChange = 0
+    const changes = []
+
+    // Loop through data to calculate percentage changes
+    for (let i = 1; i < data.length; i++) {
+      const previous = data[i - 1]
+      const current = data[i]
+
+      // Avoid division by zero
+      if (previous === 0) {
+        changes.push(0) // Assign 0% change if previous value is 0
+      } else {
+        const percentageChange = ((current - previous) / previous) * 100
+        changes.push(percentageChange)
+        totalChange += percentageChange
+      }
+    }
+
+    // Calculate the average percentage change
+    const averageChange = totalChange / (data.length - 1)
+    console.log('change:', changes)
+
+    return {
+      changes,
+      averageChange: parseFloat(averageChange).toFixed() // Rounded to nearest whole number
+    }
+  }
   useEffect(() => {
-    if (transactionCategories.length === 0 && DashData) {
+    if (transactionCategories && DashData) {
       console.log('data being restructured in rev', DashData.transaction_categories)
       restructureTransactionCategories(DashData?.transaction_categories)
     }
@@ -169,7 +198,17 @@ const CrmRevenueGrowth = ({ DashData }) => {
               <Typography variant='h5' sx={{ mb: 2 }}>
                 {currencies.find(currency => currency.code == DashData?.currency)?.symbol + DashData?.revenue}
               </Typography>
-              <CustomChip rounded size='small' skin='light' color='success' label='+15.2%' />
+              <CustomChip
+                rounded
+                size='small'
+                skin='light'
+                color='success'
+                label={
+                  transactionCategories.length != 0
+                    ? averageMonthlyPercentageChange(transactionCategories).averageChange + ' %'
+                    : '0+%'
+                }
+              />
             </div>
           </Box>
           <ReactApexcharts type='bar' width={500} height={178} series={transactionCategories} options={options} />
