@@ -223,7 +223,6 @@ const CrmEarningReportsWithTabs = ({ DashData }) => {
     },
     yaxis: {
       showForNullSeries: false,
-
       labels: {
         offsetX: -5,
         formatter: val => (val > 999 ? `$${val / 1000}k ` : val),
