@@ -60,23 +60,23 @@ const Dashboard = () => {
             <Grid item xs={12} sm={6} lg={2.5}>
               {/* prettier-ignore */}
               <CardStatsVertical
-                stats={DashData?.heartbeat}
-                chipText='+2 tenants'
+                stats={"No Data"}
+                chipText='No Data'
                 avatarColor='success'
                 chipColor='default'
                 title='Units Occupied'
-                subtitle='API response below'
+                subtitle='All time'
                 avatarIcon='tabler:home'
               />
             </Grid>
             <Grid item xs={12} sm={6} lg={2.5}>
               <CardStatsVertical
-                stats={'4' + ' tenants'}
-                chipText={'+0' + ' tenants'}
+                stats={'No Data'}
+                chipText={'No Data'}
                 avatarColor='info'
                 chipColor='default'
                 title='Total tenants'
-                subtitle='This week'
+                subtitle='All time'
                 avatarIcon='tabler:woman'
               />
             </Grid>

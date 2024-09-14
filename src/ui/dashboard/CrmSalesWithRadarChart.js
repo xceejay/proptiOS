@@ -22,7 +22,7 @@ const CrmSalesWithRadarChart = ({ DashData }) => {
       console.log('data being restructured', DashData.transaction_categories)
       restructureTransactionCategories(DashData?.transaction_categories)
     }
-  }, [transactionCategories, DashData])
+  }, [DashData])
 
   const restructureTransactionCategories = data => {
     // Helper function to get month from date
@@ -77,12 +77,44 @@ const CrmSalesWithRadarChart = ({ DashData }) => {
         }
       }
     },
-    stroke: { width: 0 },
+    stroke: { width: 2 }, // Adjust stroke width for visibility
     fill: {
-      opacity: [1, 0.85]
+      opacity: [0.7, 0.4] // Adjust fill opacity for better visibility
     },
+    markers: { size: 4 }, // Add visible markers
     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-    markers: { size: 0 },
+    grid: {
+      show: true, // Show grid lines to visualize radar structure
+      padding: {
+        top: 10
+      }
+    },
+    xaxis: {
+      labels: {
+        show: true,
+        style: {
+          fontSize: '12px',
+          colors: [
+            theme.palette.text.primary,
+            theme.palette.text.primary,
+            theme.palette.text.primary,
+            theme.palette.text.primary,
+            theme.palette.text.primary,
+            theme.palette.text.primary,
+            theme.palette.text.primary,
+            theme.palette.text.primary,
+            theme.palette.text.primary,
+            theme.palette.text.primary,
+            theme.palette.text.primary,
+            theme.palette.text.primary
+          ]
+        }
+      }
+    },
+    yaxis: {
+      show: false,
+      min: 0
+    },
     legend: {
       fontSize: '12px',
       fontFamily: theme.typography.fontFamily,
@@ -99,29 +131,6 @@ const CrmSalesWithRadarChart = ({ DashData }) => {
         offsetX: theme.direction === 'ltr' ? -4 : 5
       }
     },
-    grid: {
-      show: false,
-      padding: {
-        top: 10
-      }
-    },
-    xaxis: {
-      labels: {
-        show: true,
-        style: {
-          fontSize: '12px',
-          colors: [
-            theme.palette.text.disabled,
-            theme.palette.text.disabled,
-            theme.palette.text.disabled,
-            theme.palette.text.disabled,
-            theme.palette.text.disabled,
-            theme.palette.text.disabled
-          ]
-        }
-      }
-    },
-    yaxis: { show: true },
     responsive: [
       {
         breakpoint: theme.breakpoints.values.lg,
