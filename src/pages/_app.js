@@ -123,27 +123,29 @@ const App = props => {
               <PropertiesProvider>
                 <TenantsProvider>
                   <LeasesProvider>
-                    <SettingsProvider {...(setConfig ? { pageSettings: setConfig() } : {})}>
-                      <SettingsConsumer>
-                        {({ settings }) => {
-                          return (
-                            <ThemeComponent settings={settings}>
-                              <Guard authGuard={authGuard} guestGuard={guestGuard}>
-                                <AclGuard aclAbilities={aclAbilities} guestGuard={guestGuard} authGuard={authGuard}>
-                                  {getLayout(<Component {...pageProps} />)}
-                                </AclGuard>
-                              </Guard>
-                              <ReactHotToast>
-                                <Toaster
-                                  position={settings.toastPosition}
-                                  toastOptions={{ className: 'react-hot-toast' }}
-                                />
-                              </ReactHotToast>
-                            </ThemeComponent>
-                          )
-                        }}
-                      </SettingsConsumer>
-                    </SettingsProvider>
+                    <AccountingProvider>
+                      <SettingsProvider {...(setConfig ? { pageSettings: setConfig() } : {})}>
+                        <SettingsConsumer>
+                          {({ settings }) => {
+                            return (
+                              <ThemeComponent settings={settings}>
+                                <Guard authGuard={authGuard} guestGuard={guestGuard}>
+                                  <AclGuard aclAbilities={aclAbilities} guestGuard={guestGuard} authGuard={authGuard}>
+                                    {getLayout(<Component {...pageProps} />)}
+                                  </AclGuard>
+                                </Guard>
+                                <ReactHotToast>
+                                  <Toaster
+                                    position={settings.toastPosition}
+                                    toastOptions={{ className: 'react-hot-toast' }}
+                                  />
+                                </ReactHotToast>
+                              </ThemeComponent>
+                            )
+                          }}
+                        </SettingsConsumer>
+                      </SettingsProvider>
+                    </AccountingProvider>
                   </LeasesProvider>
                 </TenantsProvider>
               </PropertiesProvider>

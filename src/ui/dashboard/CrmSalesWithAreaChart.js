@@ -10,7 +10,7 @@ import ReactApexcharts from 'src/@core/components/react-apexcharts'
 
 const series = [{ data: [40, 20, 65, 50] }]
 
-const CrmSalesWithAreaChart = () => {
+const CrmSalesWithAreaChart = DashData => {
   // ** Hook
   const theme = useTheme()
 

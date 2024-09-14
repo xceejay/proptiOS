@@ -41,7 +41,7 @@ const CardHeader = styled(MuiCardHeader)(({ theme }) => ({
   }
 }))
 
-const CrmActivityTimeline = () => {
+const CrmActivityTimeline = DashData => {
   return (
     <Card>
       <CardHeader

@@ -33,6 +33,7 @@
   "npm.packageManager": "yarn",
   // Extension: cSpell
   "cSpell.words": [
+    "categorised",
     "Customizer"
   ],
   "search-node-modules.path": "node_modules",

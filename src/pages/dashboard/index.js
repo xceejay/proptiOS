@@ -20,14 +20,35 @@ import ApexChartWrapper from 'src/@core/styles/libs/react-apexcharts'
 import CardStatsVertical from 'src/@core/components/card-statistics/card-stats-vertical'
 import { useEffect, useState } from 'react'
 import axios from 'src/pages/middleware/axios'
+import { useAccounting } from 'src/hooks/useAccounting'
 
-const Dashboard = DashboardData => {
-  const [DashData, setDashData] = useState(DashboardData)
+const Dashboard = () => {
+  const [DashData, setDashData] = useState(null)
+  const accounting = useAccounting()
+  const [loading, setLoading] = useState(false)
+  const [accountingData, setAccountingData] = useState({})
+  const [transactionCategories, setTransactionCategories] = useState([])
+  const paginationModel = {}
 
   useEffect(() => {
-    console.log('dash', DashData)
+    accounting.getAllAccounting(
+      { page: paginationModel?.page || 0, limit: paginationModel?.pageSize || 0 },
+      responseData => {
+        const { data } = responseData
 
-    // setDashData(response.data)
+        if (data?.status === 'FAILED') {
+          alert(response.message || 'Failed to fetch properties')
+        } else {
+          setDashData(data)
+        }
+
+        setLoading(false) // Stop loading when the request completes
+      },
+      error => {
+        console.error('Accounting data cannot be retrieved:', error)
+        setLoading(false) // Stop loading on error
+      }
+    )
   }, [])
 
   return (
@@ -60,31 +81,31 @@ const Dashboard = DashboardData => {
               />
             </Grid>
             <Grid item xs={12} sm={12} lg={7}>
-              <CrmRevenueGrowth />
+              <CrmRevenueGrowth DashData={DashData} setDashData={setDashData} />
             </Grid>
           </Grid>
         </Grid>
 
         <Grid item xs={12} lg={8}>
-          <CrmEarningReportsWithTabs />
+          <CrmEarningReportsWithTabs DashData={DashData} setDashData={setDashData} />
         </Grid>
         <Grid item xs={12} md={6} lg={4}>
-          <CrmSalesWithRadarChart />
+          <CrmSalesWithRadarChart DashData={DashData} setDashData={setDashData} />
         </Grid>
         {/* <Grid item xs={12} md={6} lg={4}>
-          <CrmBrowserStates />
+          <CrmBrowserStates DashData={DashData} setDashData={setDashData} />
         </Grid> */}
         {/* <Grid item xs={12} md={6} lg={4}>
-          <CrmProjectStatus />
+          <CrmProjectStatus DashData={DashData} setDashData={setDashData} />
         </Grid> */}
         {/* <Grid item xs={12} md={6} lg={4}>
-          <CrmActiveProjects />
+          <CrmActiveProjects DashData={DashData} setDashData={setDashData} />
         </Grid> */}
         <Grid item xs={12} md={6} lg={12}>
-          <CrmLastTransaction />
+          <CrmLastTransaction DashData={DashData} setDashData={setDashData} />
         </Grid>
         {/* <Grid item xs={12} md={6}>
-          <CrmActivityTimeline />
+          <CrmActivityTimeline DashData={DashData} setDashData={setDashData} />
         </Grid> */}
       </Grid>
     </ApexChartWrapper>

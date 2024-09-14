@@ -14,7 +14,7 @@ import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
 
 const series = [{ data: [32, 52, 72, 94, 116, 94, 72] }]
 
-const CrmRevenueGrowth = () => {
+const CrmRevenueGrowth = DashData => {
   // ** Hook
   const theme = useTheme()
 

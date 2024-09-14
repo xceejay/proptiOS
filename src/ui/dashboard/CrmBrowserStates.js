@@ -54,7 +54,7 @@ const data = [
   }
 ]
 
-const CrmBrowserStates = () => {
+const CrmBrowserStates = DashData => {
   return (
     <Card>
       <CardHeader

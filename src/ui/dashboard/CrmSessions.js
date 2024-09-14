@@ -16,7 +16,7 @@ const series = [
   { name: 'Expense', data: [-17, -22, -17, -11, -22] }
 ]
 
-const CrmSessions = () => {
+const CrmSessions = DashData => {
   // ** Hook
   const theme = useTheme()
 

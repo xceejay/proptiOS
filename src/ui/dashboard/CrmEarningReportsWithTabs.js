@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 // ** MUI Imports
 import Tab from '@mui/material/Tab'
@@ -22,32 +22,10 @@ import ReactApexcharts from 'src/@core/components/react-apexcharts'
 
 // ** Util Import
 import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
+import { useAccounting } from 'src/hooks/useAccounting'
 
-const tabData = [
-  {
-    type: 'revenue',
-    avatarIcon: 'tabler:shopping-cart',
-    series: [{ data: [28, 10, 45, 38, 15, 30, 35, 28, 8] }]
-  },
-  {
-    type: 'expenses',
-    avatarIcon: 'tabler:chart-bar',
-    series: [{ data: [35, 25, 15, 40, 42, 25, 48, 8, 30] }]
-  },
-  {
-    type: 'income',
-    avatarIcon: 'tabler:currency-dollar',
-    series: [{ data: [10, 22, 27, 33, 42, 32, 27, 22, 8] }]
-  },
-  {
-    type: 'maintenance',
-    avatarIcon: 'tabler:chart-pie-2',
-    series: [{ data: [5, 9, 12, 18, 20, 25, 30, 36, 48] }]
-  }
-]
-
-const renderTabs = (value, theme) => {
-  return tabData.map((item, index) => {
+const renderTabs = (value, theme, transactionCategories) => {
+  return transactionCategories.map((item, index) => {
     const RenderAvatar = item.type === value ? CustomAvatar : Avatar
 
     return (
@@ -86,8 +64,8 @@ const renderTabs = (value, theme) => {
   })
 }
 
-const renderTabPanels = (value, theme, options, colors) => {
-  return tabData.map((item, index) => {
+const renderTabPanels = (value, theme, options, colors, transactionCategories) => {
+  return transactionCategories.map((item, index) => {
     const max = Math.max(...item.series[0].data)
     const seriesIndex = item.series[0].data.indexOf(max)
     const finalColors = colors.map((color, i) => (seriesIndex === i ? hexToRGBA(theme.palette.primary.main, 1) : color))
@@ -100,7 +78,84 @@ const renderTabPanels = (value, theme, options, colors) => {
   })
 }
 
-const CrmEarningReportsWithTabs = () => {
+const CrmEarningReportsWithTabs = ({ DashData }) => {
+  const tabData = [
+    {
+      type: 'revenue',
+      avatarIcon: 'tabler:shopping-cart',
+      series: [{ data: [28, 10, 45, 38, 15, 30, 35, 28, 8] }]
+    },
+    {
+      type: 'expenses',
+      avatarIcon: 'tabler:chart-bar',
+      series: [{ data: [35, 25, 15, 40, 42, 25, 48, 8, 30] }]
+    },
+
+    {
+      type: 'income',
+      avatarIcon: 'tabler:currency-dollar',
+      series: [{ data: [10, 22, 27, 33, 42, 32, 27, 22, 8] }]
+    },
+    {
+      type: 'maintenance',
+      avatarIcon: 'tabler:chart-pie-2',
+      series: [{ data: [5, 9, 12, 18, 20, 25, 30, 36, 48] }]
+    }
+  ]
+
+  const [transactionCategories, setTransactionCategories] = useState([])
+
+  useEffect(() => {
+    if (transactionCategories.length === 0 && DashData) {
+      restructureTransactionCategories(DashData?.transaction_categories)
+    }
+  }, [transactionCategories, DashData])
+
+  const restructureTransactionCategories = data => {
+    // Helper function to get month from date
+    const getMonth = dateString => new Date(dateString).getMonth()
+
+    // Function to aggregate payments by month for a given type
+    const aggregateByMonth = paymentArray => {
+      const monthlyTotals = Array(12).fill(0) // Create an array of 12 months
+      paymentArray?.forEach(payment => {
+        const month = getMonth(payment.created_at)
+        monthlyTotals[month] += parseFloat(payment.amount)
+      })
+
+      return monthlyTotals
+    }
+
+    // Aggregate your payments
+    const rentData = aggregateByMonth(data?.rent)
+
+    // Map to the structure you want
+    const tabData = [
+      {
+        type: 'revenue',
+        avatarIcon: 'tabler:shopping-cart',
+        series: [{ data: rentData }] // Assuming rent counts as revenue
+      },
+      {
+        type: 'expenses',
+        avatarIcon: 'tabler:chart-bar',
+        series: [{ data: aggregateByMonth(data?.administrative_cost) }] // Replace with actual expense types
+      },
+      {
+        type: 'income',
+        avatarIcon: 'tabler:currency-dollar',
+        series: [{ data: rentData }] // Assuming rent is a major income source
+      },
+      {
+        type: 'maintenance',
+        avatarIcon: 'tabler:chart-pie-2',
+        series: [{ data: aggregateByMonth(data?.maintenance_and_repairs) }]
+      }
+    ]
+
+    setTransactionCategories(tabData)
+  }
+
   // ** State
   const [value, setValue] = useState('revenue')
 
@@ -115,7 +170,7 @@ const CrmEarningReportsWithTabs = () => {
   const options = {
     chart: {
       parentHeightOffset: 0,
-      toolbar: { show: false }
+      toolbar: { show: true }
     },
     plotOptions: {
       bar: {
@@ -127,7 +182,7 @@ const CrmEarningReportsWithTabs = () => {
       }
     },
     legend: { show: false },
-    tooltip: { enabled: false },
+    tooltip: { enabled: true },
     dataLabels: {
       offsetY: -15,
       formatter: val => `${val}k`,
@@ -158,7 +213,7 @@ const CrmEarningReportsWithTabs = () => {
     xaxis: {
       axisTicks: { show: false },
       axisBorder: { color: theme.palette.divider },
-      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
       labels: {
         style: {
           fontSize: '12px',
@@ -219,7 +274,7 @@ const CrmEarningReportsWithTabs = () => {
               '& .MuiTab-root': { p: 0, minWidth: 0, borderRadius: '10px', '&:not(:last-child)': { mr: 4 } }
             }}
           >
-            {renderTabs(value, theme)}
+            {renderTabs(value, theme, transactionCategories)}
             {/* <Tab
               disabled
               value='add'
@@ -243,7 +298,7 @@ const CrmEarningReportsWithTabs = () => {
               }
             /> */}
           </TabList>
-          {renderTabPanels(value, theme, options, colors)}
+          {renderTabPanels(value, theme, options, colors, transactionCategories)}
         </TabContext>
       </CardContent>
     </Card>

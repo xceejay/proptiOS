@@ -54,7 +54,7 @@ const data = [
   }
 ]
 
-const CrmActiveProjects = () => {
+const CrmActiveProjects = DashData => {
   return (
     <Card>
       <CardHeader

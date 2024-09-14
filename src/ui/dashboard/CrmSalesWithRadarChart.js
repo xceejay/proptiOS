@@ -1,6 +1,7 @@
 // ** MUI Imports
 import Card from '@mui/material/Card'
 import { useTheme } from '@mui/material/styles'
+import { useState, useEffect } from 'react'
 import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 
@@ -13,14 +14,58 @@ const series = [
   { name: 'Rent Due', data: [25, 35, 20, 20, 20, 20] }
 ]
 
-const CrmSalesWithRadarChart = () => {
+const CrmSalesWithRadarChart = ({ DashData }) => {
+  const [transactionCategories, setTransactionCategories] = useState([])
+
+  useEffect(() => {
+    if (transactionCategories.length === 0 && DashData) {
+      console.log('data being restructured', DashData.transaction_categories)
+      restructureTransactionCategories(DashData?.transaction_categories)
+    }
+  }, [transactionCategories, DashData])
+
+  const restructureTransactionCategories = data => {
+    // Helper function to get month from date
+    const getMonth = dateString => new Date(dateString).getMonth()
+
+    // Function to aggregate payments by month for a given type
+    const aggregateByMonth = paymentArray => {
+      const monthlyTotals = Array(12).fill(0) // Create an array of 12 months
+      paymentArray?.forEach(payment => {
+        const month = getMonth(payment.created_at)
+        monthlyTotals[month] += parseFloat(payment.amount)
+      })
+
+      return monthlyTotals
+    }
+
+    // Aggregate your payments
+    const rentData = aggregateByMonth(data?.rent)
+    const administrativeCostData = aggregateByMonth(data?.administrative_cost)
+
+    // Map to the structure you want
+    const tabData = [
+      {
+        name: 'Rent',
+        data: [...rentData] // Assuming rent counts as revenue
+      },
+      {
+        name: 'Administrative Cost',
+        data: [...administrativeCostData] // Replace with actual expense types
+      }
+    ]
+
+    console.log('tabsdata', tabData)
+    setTransactionCategories(tabData)
+  }
+
   // ** Hook
   const theme = useTheme()
 
   const options = {
     chart: {
       parentHeightOffset: 0,
-      toolbar: { show: false }
+      toolbar: { show: true }
     },
     colors: [theme.palette.primary.main, theme.palette.error.main],
     plotOptions: {
@@ -36,7 +81,7 @@ const CrmSalesWithRadarChart = () => {
     fill: {
       opacity: [1, 0.85]
     },
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
     markers: { size: 0 },
     legend: {
       fontSize: '12px',
@@ -76,7 +121,7 @@ const CrmSalesWithRadarChart = () => {
         }
       }
     },
-    yaxis: { show: false },
+    yaxis: { show: true },
     responsive: [
       {
         breakpoint: theme.breakpoints.values.lg,
@@ -91,7 +136,7 @@ const CrmSalesWithRadarChart = () => {
     <Card>
       <CardHeader
         title='Rent Payments'
-        subheader='Last 6 Months'
+        subheader={'Year ' + new Date().getFullYear()}
         subheaderTypographyProps={{ sx: { mt: '0 !important' } }}
         action={
           <OptionsMenu
@@ -101,7 +146,7 @@ const CrmSalesWithRadarChart = () => {
         }
       />
       <CardContent>
-        <ReactApexcharts type='radar' height={352} series={series} options={options} />
+        <ReactApexcharts type='radar' height={352} series={transactionCategories} options={options} />
       </CardContent>
     </Card>
   )

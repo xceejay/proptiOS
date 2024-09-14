@@ -30,7 +30,7 @@ const data = [
   }
 ]
 
-const CrmProjectStatus = () => {
+const CrmProjectStatus = DashData => {
   // ** Hook
   const theme = useTheme()
 

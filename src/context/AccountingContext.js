@@ -12,17 +12,17 @@ import authConfig from 'src/configs/auth'
 
 // ** Defaults
 const defaultProvider = {
-  user: null,
+  accounting: null,
   loading: true,
-  setUser: () => null,
+  setAccounting: () => null,
   setLoading: () => Boolean,
-  registerAccount: () => Promise.resolve()
+  getAllAccounting: () => Promise.resolve()
 }
 const AccountingContext = createContext(defaultProvider)
 
 const AccountingProvider = ({ children }) => {
   // ** States
-  const [user, setUser] = useState(defaultProvider.user)
+  const [accounting, setAccounting] = useState(defaultProvider.user)
   const [loading, setLoading] = useState(defaultProvider.loading)
 
   // ** Hooks
@@ -47,59 +47,40 @@ const AccountingProvider = ({ children }) => {
   // }, [])
 
   //function for registering an account.
-  const registerAccount = (params, errorCallback) => {
-    console.log('Creating account')
+  const getAllAccounting = (params, successCallback, errorCallback) => {
+    const token = window.localStorage.getItem('accessToken') || accessToken
 
-    console.log('param', params)
+    if (!token) {
+      const error = new Error('No access token found')
+      if (errorCallback) errorCallback(error)
+
+      return
+    }
+
     axios
-      .post('https://api.pm.manages.homes/auth/register', {
-        role: params.data.role,
-        site_name: params.data.site_name,
-        site_domain: params.data.site_domain.toLowerCase() + '.manages.homes',
-        country: params.data.country,
-        full_name: params.data.full_name,
-        email: params.data.email,
-        password: params.data.password
+      .get('https://api.pm.manages.homes/accounting', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        params
       })
-      .then(async response => {
-        console.log('REGISTER:::response', response.data)
-
-        // Optionally, handle response data if needed
-        // e.g., storing token, user data, or redirecting
-
-        // Example: Store token if available
-        if (response.data.token) {
-          window.localStorage.setItem('authToken', response.data.token)
+      .then(response => {
+        if (successCallback) {
+          successCallback(response.data)
+          setAccounting(response.data)
         }
-
-        // Example: Store user data if needed
-        if (response.data.user) {
-          window.localStorage.setItem('userData', JSON.stringify(response.data.user))
-        }
-
-        // Redirect user if needed
-        const redirectURL = '/'
-        router.replace(redirectURL)
       })
       .catch(err => {
         if (errorCallback) errorCallback(err)
       })
   }
 
-  const handleLogout = () => {
-    console.log('logged out')
-    setUser(null)
-    window.localStorage.removeItem('userData')
-    window.localStorage.removeItem(authConfig.storageTokenKeyName)
-    router.push('/login')
-  }
-
   const values = {
-    user,
+    accounting,
     loading,
-    setUser,
+    setAccounting,
     setLoading,
-    registerAccount: registerAccount
+    getAllAccounting: getAllAccounting
   }
 
   return <AccountingContext.Provider value={values}>{children}</AccountingContext.Provider>

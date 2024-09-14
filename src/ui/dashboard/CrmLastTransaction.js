@@ -94,7 +94,7 @@ const statusObj = {
   verified: { text: 'Verified', color: 'success' }
 }
 
-const CrmLastTransaction = () => {
+const CrmLastTransaction = DashData => {
   return (
     <Card>
       <CardHeader
