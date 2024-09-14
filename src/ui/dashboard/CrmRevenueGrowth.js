@@ -12,6 +12,7 @@ import ReactApexcharts from 'src/@core/components/react-apexcharts'
 
 // ** Util Import
 import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
+import { useMediaQuery } from '@mui/material'
 
 const series = [{ data: [32, 52, 72, 94, 116, 94, 72] }]
 
@@ -60,44 +61,36 @@ const CrmRevenueGrowth = ({ DashData }) => {
     let totalChange = 0
     const changes = []
 
-    // Loop through data to calculate percentage changes
     for (let i = 1; i < data.length; i++) {
       const previous = data[i - 1]
       const current = data[i]
-
-      // Avoid division by zero
       if (previous === 0) {
-        changes.push(0) // Assign 0% change if previous value is 0
+        changes.push(0)
       } else {
         const percentageChange = ((current - previous) / previous) * 100
         changes.push(percentageChange)
         totalChange += percentageChange
       }
     }
-
-    // Calculate the average percentage change
     const averageChange = totalChange / (data.length - 1)
-    console.log('change:', changes)
 
     return {
       changes,
-      averageChange: parseFloat(averageChange).toFixed() // Rounded to nearest whole number
+      averageChange: parseFloat(averageChange).toFixed()
     }
   }
+
   useEffect(() => {
     if (transactionCategories && DashData) {
-      console.log('data being restructured in rev', DashData.transaction_categories)
       restructureTransactionCategories(DashData?.transaction_categories)
     }
   }, [DashData])
 
   const restructureTransactionCategories = data => {
-    // Helper function to get month from date
     const getMonth = dateString => new Date(dateString).getMonth()
 
-    // Function to aggregate payments by month for a given type
     const aggregateByMonth = paymentArray => {
-      const monthlyTotals = Array(12).fill(0) // Create an array of 12 months
+      const monthlyTotals = Array(12).fill(0)
       paymentArray?.forEach(payment => {
         const month = getMonth(payment.created_at)
         monthlyTotals[month] += parseFloat(payment.amount)
@@ -105,34 +98,21 @@ const CrmRevenueGrowth = ({ DashData }) => {
 
       return monthlyTotals
     }
-
-    // Aggregate your payments
     const revenueData = aggregateByMonth(data?.rent)
-
-    // Map to the structure you want
-    const tabData = [
-      {
-        data: [...revenueData] // Replace with actual expense types
-      }
-    ]
-
-    console.log('tabsdata rev', tabData)
+    const tabData = [{ data: [...revenueData] }]
     setTransactionCategories(tabData)
   }
 
-  // ** Hook
   const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm')) // Detect screen size
 
   const options = {
-    chart: {
-      parentHeightOffset: 0,
-      toolbar: { show: false }
-    },
+    chart: { parentHeightOffset: 0, toolbar: { show: false } },
     plotOptions: {
       bar: {
         borderRadius: 6,
         distributed: true,
-        columnWidth: '42%',
+        columnWidth: '30%',
         endingShape: 'rounded',
         startingShape: 'rounded'
       }
@@ -150,22 +130,10 @@ const CrmRevenueGrowth = ({ DashData }) => {
       hexToRGBA(theme.palette.success.main, 0.16)
     ],
     states: {
-      hover: {
-        filter: { type: 'none' }
-      },
-      active: {
-        filter: { type: 'none' }
-      }
+      hover: { filter: { type: 'none' } },
+      active: { filter: { type: 'none' } }
     },
-    grid: {
-      show: false,
-      padding: {
-        top: -4,
-        left: -9,
-        right: -5,
-        bottom: -12
-      }
-    },
+    grid: { show: false, padding: { top: -4, left: -9, right: -5, bottom: -12 } },
     xaxis: {
       categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
       axisTicks: { show: false },
@@ -185,18 +153,32 @@ const CrmRevenueGrowth = ({ DashData }) => {
   return (
     <Card>
       <CardContent>
-        <Box sx={{ gap: 2, display: 'flex', alignItems: 'stretch', justifyContent: 'space-between' }}>
-          <Box sx={{ gap: 3, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+        <Box
+          sx={{
+            gap: 2,
+            display: 'flex',
+            alignItems: 'stretch',
+            justifyContent: 'space-between',
+            flexDirection: isMobile ? 'column' : 'row' // Use column layout on mobile
+          }}
+        >
+          <Box
+            sx={{
+              gap: 3,
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between'
+            }}
+          >
             <div>
               <Typography variant='h6' sx={{ mb: 1.5 }}>
                 Revenue Growth
-                {/* <a href='/api/auth/login'>Login</a> */}
               </Typography>
               <Typography variant='body2'>{new Date().getFullYear()} Report</Typography>
             </div>
             <div>
               <Typography variant='h5' sx={{ mb: 2 }}>
-                {currencies.find(currency => currency.code == DashData?.currency)?.symbol + DashData?.revenue}
+                {currencies.find(currency => currency.code === DashData?.currency)?.symbol + DashData?.revenue}
               </Typography>
               <CustomChip
                 rounded
@@ -204,14 +186,20 @@ const CrmRevenueGrowth = ({ DashData }) => {
                 skin='light'
                 color='success'
                 label={
-                  transactionCategories.length != 0
+                  transactionCategories.length !== 0
                     ? '% ' + averageMonthlyPercentageChange(transactionCategories).averageChange
                     : '0+%'
                 }
               />
             </div>
           </Box>
-          <ReactApexcharts type='bar' width={500} height={178} series={transactionCategories} options={options} />
+          <ReactApexcharts
+            type='bar'
+            width={isMobile ? '100%' : 500} // Full width on mobile, fixed width on desktop
+            height={178}
+            series={transactionCategories}
+            options={options}
+          />
         </Box>
       </CardContent>
     </Card>
