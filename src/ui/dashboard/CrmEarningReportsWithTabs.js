@@ -21,6 +21,8 @@ import CustomAvatar from 'src/@core/components/mui/avatar'
 import ReactApexcharts from 'src/@core/components/react-apexcharts'
 
 // ** Util Import
+import { useMediaQuery } from '@mui/material'
+
 import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
 import { useAccounting } from 'src/hooks/useAccounting'
 
@@ -103,14 +105,6 @@ const CrmEarningReportsWithTabs = ({ DashData }) => {
     }
   ]
 
-  const [transactionCategories, setTransactionCategories] = useState([])
-
-  useEffect(() => {
-    if (transactionCategories.length === 0 && DashData) {
-      restructureTransactionCategories(DashData?.transaction_categories)
-    }
-  }, [transactionCategories, DashData])
-
   const restructureTransactionCategories = data => {
     // Helper function to get month from date
     const getMonth = dateString => new Date(dateString).getMonth()
@@ -157,14 +151,27 @@ const CrmEarningReportsWithTabs = ({ DashData }) => {
   }
 
   // ** State
+
+  // ** Hook
+
+  // ** State
   const [value, setValue] = useState('revenue')
+  const [transactionCategories, setTransactionCategories] = useState([])
 
   // ** Hook
   const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm')) // Add this
+
+  useEffect(() => {
+    if (DashData) {
+      restructureTransactionCategories(DashData?.transaction_categories)
+    }
+  }, [DashData, value])
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
   }
+
   const colors = Array(12).fill(hexToRGBA(theme.palette.primary.main, 0.16))
 
   const options = {
@@ -176,7 +183,7 @@ const CrmEarningReportsWithTabs = ({ DashData }) => {
       bar: {
         borderRadius: 6,
         distributed: true,
-        columnWidth: '35%',
+        columnWidth: isMobile ? '45%' : '35%', // Adjust column width for mobile
         startingShape: 'rounded',
         dataLabels: { position: 'top' }
       }
@@ -193,20 +200,12 @@ const CrmEarningReportsWithTabs = ({ DashData }) => {
       }
     },
     colors,
-    states: {
-      hover: {
-        filter: { type: 'none' }
-      },
-      active: {
-        filter: { type: 'none' }
-      }
-    },
     grid: {
       show: false,
       padding: {
         top: 20,
-        left: -5,
-        right: -8,
+        left: isMobile ? 15 : -5, // Adjust padding for mobile
+        right: isMobile ? 15 : -8,
         bottom: -12
       }
     },
@@ -232,22 +231,22 @@ const CrmEarningReportsWithTabs = ({ DashData }) => {
           fontFamily: theme.typography.fontFamily
         }
       }
-    },
-    responsive: [
-      {
-        breakpoint: theme.breakpoints.values.sm,
-        options: {
-          plotOptions: {
-            bar: { columnWidth: '60%' }
-          },
-          grid: {
-            padding: { right: 20 }
-          }
-        }
-      }
-    ]
+    }
   }
 
+  // responsive: [
+  //   {
+  //     breakpoint: theme.breakpoints.values.sm,
+  //     options: {
+  //       plotOptions: {
+  //         bar: { columnWidth: '30%' }
+  //       },
+  //       grid: {
+  //         padding: { right: 20 }
+  //       }
+  //     }
+  //   }
+  // ]
   return (
     <Card>
       <CardHeader
@@ -271,32 +270,15 @@ const CrmEarningReportsWithTabs = ({ DashData }) => {
             sx={{
               border: '0 !important',
               '& .MuiTabs-indicator': { display: 'none' },
-              '& .MuiTab-root': { p: 0, minWidth: 0, borderRadius: '10px', '&:not(:last-child)': { mr: 4 } }
+              '& .MuiTab-root': {
+                p: 0,
+                minWidth: isMobile ? 60 : 110, // Adjust tab size for mobile
+                borderRadius: '10px',
+                '&:not(:last-child)': { mr: isMobile ? 2 : 4 } // Adjust margin for mobile
+              }
             }}
           >
             {renderTabs(value, theme, transactionCategories)}
-            {/* <Tab
-              disabled
-              value='add'
-              label={
-                <Box
-                  sx={{
-                    width: 110,
-                    height: 94,
-                    display: 'flex',
-                    alignItems: 'center',
-                    borderRadius: '10px',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    border: `1px dashed ${theme.palette.divider}`
-                  }}
-                >
-                  <Avatar variant='rounded' sx={{ width: 34, height: 34, backgroundColor: 'action.selected' }}>
-                    <Icon icon='tabler:plus' />
-                  </Avatar>
-                </Box>
-              }
-            /> */}
           </TabList>
           {renderTabPanels(value, theme, options, colors, transactionCategories)}
         </TabContext>

@@ -81,7 +81,7 @@ const CrmRevenueGrowth = ({ DashData }) => {
   }
 
   useEffect(() => {
-    if (transactionCategories && DashData) {
+    if (DashData) {
       restructureTransactionCategories(DashData?.transaction_categories)
     }
   }, [DashData])
