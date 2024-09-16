@@ -39,7 +39,7 @@ import { CardActions, Menu, MenuItem } from '@mui/material'
 import CustomTenantToolbar from 'src/views/table/data-grid/CustomTenantToolbar'
 import CustomNoRowsOverlay from '../CustomNoRowsOverlay'
 import { useDispatch } from 'react-redux'
-import ManagePropertyUnitDrawer from './ManagePropertyUnitDrawer'
+import PropertyManageUnitDrawer from './PropertyManageUnitDrawer'
 
 const RowOptions = ({ id, row, setUnitsData, setPropertyData, propertyData, setLoading }) => {
   const dispatch = useDispatch()
@@ -106,7 +106,7 @@ const RowOptions = ({ id, row, setUnitsData, setPropertyData, propertyData, setL
         </MenuItem>
       </Menu>
 
-      <ManagePropertyUnitDrawer
+      <PropertyManageUnitDrawer
         propertyData={propertyData}
         setPropertyData={setPropertyData}
         setLoading={setLoading}

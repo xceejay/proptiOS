@@ -22,11 +22,24 @@ import CustomNoRowsOverlay from '../CustomNoRowsOverlay'
 import { useDispatch } from 'react-redux'
 import PropertyAddMaintenanceRequestDrawer from './PropertyAddMaintenanceRequestDrawer'
 import CustomTenantToolbar from 'src/views/table/data-grid/CustomTenantToolbar'
+import PropertyManageMaintenanceRequestDrawer from './PropertyManageMaintenanceRequestDrawer'
 
-const RowOptions = ({ id, row, setPropertyData, propertyData }) => {
+const RowOptions = ({
+  id,
+  row,
+  setPropertyData,
+  propertyData,
+  setMaintenanceRequestsData,
+  maintenanceRequestsData
+}) => {
   const dispatch = useDispatch()
   const [anchorEl, setAnchorEl] = useState(null)
+  const [loading, setLoading] = useState(false)
+
   const rowOptionsOpen = Boolean(anchorEl)
+
+  const [manageUnitOpen, setManageUnitOpen] = useState(false)
+  const toggleManageUnitDrawer = () => setManageUnitOpen(!manageUnitOpen)
 
   const handleRowOptionsClick = event => {
     setAnchorEl(event.currentTarget)
@@ -38,6 +51,11 @@ const RowOptions = ({ id, row, setPropertyData, propertyData }) => {
 
   const handleDelete = () => {
     dispatch(deleteUser(id))
+    handleRowOptionsClose()
+  }
+
+  const handleManage = () => {
+    setManageUnitOpen(true)
     handleRowOptionsClose()
   }
 
@@ -61,7 +79,7 @@ const RowOptions = ({ id, row, setPropertyData, propertyData }) => {
         }}
         PaperProps={{ style: { minWidth: '8rem' } }}
       >
-        <MenuItem onClick={handleDelete} sx={{ '& svg': { mr: 2 } }}>
+        <MenuItem onClick={handleManage} sx={{ '& svg': { mr: 2 } }}>
           <Icon icon='tabler:pencil' fontSize={20} />
           Manage
         </MenuItem>
@@ -70,6 +88,16 @@ const RowOptions = ({ id, row, setPropertyData, propertyData }) => {
           Quick Suspend
         </MenuItem>
       </Menu>
+
+      <PropertyManageMaintenanceRequestDrawer
+        propertyData={propertyData}
+        setPropertyData={setPropertyData}
+        setLoading={setLoading}
+        maintenanceRequestData={row}
+        setMaintenanceRequestsData={setMaintenanceRequestsData}
+        open={manageUnitOpen}
+        toggle={toggleManageUnitDrawer}
+      />
     </>
   )
 }
@@ -144,7 +172,14 @@ const PropertyViewMaintenance = ({ setPropertyData, propertyData }) => {
       field: 'actions',
       headerName: 'Actions',
       renderCell: ({ row }) => (
-        <RowOptions row={row} id={row.id} setPropertyData={propertyData} propertyData={propertyData} />
+        <RowOptions
+          row={row}
+          id={row.id}
+          setPropertyData={propertyData}
+          propertyData={propertyData}
+          setMaintenanceRequestsData={setMaintenanceRequestsData}
+          maintenanceRequestsData={maintenanceRequestsData}
+        />
       )
     }
   ]
