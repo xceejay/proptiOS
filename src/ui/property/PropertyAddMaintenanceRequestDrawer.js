@@ -21,7 +21,7 @@ import { FileUploadOutlined } from '@mui/icons-material'
 const PropertyAddMaintenanceRequestDrawer = props => {
   const { setMaintenanceRequestsData, maintenanceRequestsData, setPropertyData, propertyData, open, toggle } = props
 
-  const [requestUUID, setRequestUUID] = useState(v4())
+  const [requestUUID, setRequestUUID] = useState(null)
 
   const [mediaPreview, setMediaPreview] = useState('')
   const [loadingVideo, setLoadingVideo] = useState(false)
@@ -68,6 +68,7 @@ const PropertyAddMaintenanceRequestDrawer = props => {
   const schema = yup.object().shape({
     title: yup.string().required('Title is required').max(50),
     tenant_id: yup.string().nullable(),
+    unit_id: yup.string().nullable(),
     description: yup.string().required('Description is required').max(255),
     request_media: yup
       .mixed()
@@ -81,12 +82,12 @@ const PropertyAddMaintenanceRequestDrawer = props => {
   })
 
   const defaultValues = {
-    request_media: '',
+    request_media: null,
     request_owner: '',
-    tenant_id: '',
+    tenant_id: null,
     title: '',
     description: '',
-    unit_id: '',
+    unit_id: null,
     uuid: requestUUID
   }
 
@@ -107,6 +108,8 @@ const PropertyAddMaintenanceRequestDrawer = props => {
 
   const onSubmit = formData => {
     console.log('triggered')
+
+    setRequestUUID(v4())
     formData.uuid = formData.uuid ? formData.uuid : requestUUID
     const property_id = propertyData.id
 
@@ -136,6 +139,13 @@ const PropertyAddMaintenanceRequestDrawer = props => {
           return
         }
 
+        console.log('tenants', propertyData.tenants)
+        console.log('reqData', requestData)
+        const MatchingUnit = propertyData.units.find(unit => unit.id == requestData[0].unit_id)
+        const MatchingTenant = propertyData.tenants.find(tenant => tenant.id == requestData[0].tenant_id)
+
+        console.log('matching pairs', MatchingTenant, MatchingUnit)
+
         const updatedRequestData = requestData.map(maintenance_request => {
           const matchingMaintenanceRequest = data.find(response => response.uuid === maintenance_request.uuid)
 
@@ -144,10 +154,8 @@ const PropertyAddMaintenanceRequestDrawer = props => {
               ...maintenance_request,
               id: matchingMaintenanceRequest.id,
               uuid: matchingMaintenanceRequest.uuid,
-              tenant: {
-                id: matchingMaintenanceRequest.tenant_id,
-                name: matchingMaintenanceRequest.tenant_name
-              }
+              tenant: MatchingTenant,
+              unit: MatchingUnit
             }
           }
 
@@ -170,7 +178,7 @@ const PropertyAddMaintenanceRequestDrawer = props => {
   const handleClose = () => {
     toggle()
     reset()
-    setMediaPreview('')
+    setMediaPreview(null)
   }
 
   return (

@@ -87,7 +87,7 @@ const RowOptions = ({ id, row, setTenantsData, setPropertyData, propertyData, se
         PaperProps={{ style: { minWidth: '8rem' } }}
       >
         <MenuItem
-          href={'/tenants/manage/' + id + '/account'}
+          href={'/tenants/manage/' + id + '/details'}
           component={Link}
           sx={{ '& svg': { mr: 2 } }}
           onClick={handleRowOptionsClose}
@@ -146,7 +146,7 @@ const PropertyTenantManageTable = ({ setPropertyData, propertyData }) => {
               <Typography
                 noWrap
                 component={Link}
-                href={'/tenants/manage/' + id + '/account'}
+                href={'/tenants/manage/' + id + '/details'}
                 sx={{
                   fontWeight: 500,
                   textDecoration: 'none',
