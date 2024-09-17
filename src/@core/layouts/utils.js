@@ -42,6 +42,8 @@ export const hasActiveChild = (item, currentURL) => {
       currentURL &&
       (childPath === currentURL || (currentURL.includes(childPath) && childPath !== '/'))
     ) {
+      console.log('child', child, 'childpath', childPath, 'currentURL', currentURL)
+
       return true
     }
   }

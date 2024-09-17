@@ -79,8 +79,19 @@ const VerticalNavLink = ({
   const { navCollapsed } = settings
   const icon = parent && !item.icon ? themeConfig.navSubItemIcon : item.icon
 
+  // const isNavLinkActive = () => {
+  //   if (router.pathname === item.path || handleURLQueries(router, item.path)) {
+  //     return true
+  //   } else {
+  //     return false
+  //   }
+  // }
   const isNavLinkActive = () => {
-    if (router.pathname === item.path || handleURLQueries(router, item.path)) {
+    const currentPath = router.pathname
+    const basePath = item.path.split('/')[1] // Get the first path segment of the item (e.g., 'properties')
+
+    // Split the current path and check if the first segment matches the base path
+    if (currentPath.split('/')[1] === basePath) {
       return true
     } else {
       return false

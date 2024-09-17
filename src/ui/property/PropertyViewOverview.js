@@ -169,9 +169,9 @@ const PropertyViewOverview = ({ setPropertyData, propertyData }) => {
             </Grid>
           </Grid>
 
-          <Grid item xs={12}>
+          {/* <Grid item xs={12}>
             <PropertyTenantManageTable setPropertyData={setPropertyData} propertyData={propertyData} />
-          </Grid>
+          </Grid> */}
         </Grid>
       </Grid>
 
