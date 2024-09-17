@@ -168,13 +168,22 @@ const PropertyViewUnits = ({ setPropertyData, propertyData }) => {
     }
   ]
 
-  const filteredUnits = unitsData.filter(
-    unit =>
-      (unit.tenant?.name?.toLowerCase() || '').includes(value.toLowerCase()) ||
-      (unit?.name?.toLowerCase() || '').includes(value.toLowerCase())
+  const [filteredUnits, setFilteredUnits] = useState([])
 
-    // tenant.address?.toLowerCase() || '').includes(value.toLowerCase())
-  )
+  useEffect(() => {
+    if (unitsData) {
+      const updatedFilteredUnits = unitsData.filter(
+        unit =>
+          (unit.tenant?.name?.toLowerCase() || '').includes(value.toLowerCase()) ||
+          (unit?.name?.toLowerCase() || '').includes(value.toLowerCase())
+
+        // tenant.address?.toLowerCase() || '').includes(value.toLowerCase())
+      )
+
+      setFilteredUnits(updatedFilteredUnits)
+    }
+  }, [value, unitsData])
+
   const toggleAddUnitDrawer = () => setAddUnitOpen(!addUnitOpen)
 
   useEffect(() => {

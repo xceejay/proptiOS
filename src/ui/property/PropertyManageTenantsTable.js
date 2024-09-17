@@ -281,7 +281,7 @@ const PropertyTenantManageTable = ({ setPropertyData, propertyData }) => {
     }
 
     setLoading(false)
-  }, [propertyData])
+  }, [propertyData?.tenants, propertyData?.units])
 
   const handleFilter = useCallback(val => {
     setValue(val)
@@ -293,14 +293,18 @@ const PropertyTenantManageTable = ({ setPropertyData, propertyData }) => {
   const [filteredTenants, setFilteredTenants] = useState([])
 
   useEffect(() => {
-    const updatedFilteredTenants = tenantsData.filter(
-      tenant =>
-        (tenant.name?.toLowerCase() || '').includes(value.toLowerCase()) ||
-        (tenant.email?.toLowerCase() || '').includes(value.toLowerCase())
-    )
+    if (tenantsData) {
+      const updatedFilteredTenants = tenantsData.filter(
+        tenant =>
+          (tenant.name?.toLowerCase() || '').includes(value.toLowerCase()) ||
+          (tenant.email?.toLowerCase() || '').includes(value.toLowerCase())
+      )
 
-    setFilteredTenants(updatedFilteredTenants)
-  }, [tenantsData, value])
+      console.log('are you triggering')
+
+      setFilteredTenants(updatedFilteredTenants)
+    }
+  }, [value, tenantsData])
 
   return (
     <Grid container spacing={6.5}>
