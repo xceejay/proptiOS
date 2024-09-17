@@ -29,100 +29,6 @@ import { useTenants } from 'src/hooks/useTenants'
 import { useRouter } from 'next/router'
 import { InputAdornment, OutlinedInput } from '@mui/material'
 
-const currencies = [
-  { code: 'USD', name: 'United States Dollar', symbol: '$' },
-  { code: 'EUR', name: 'Euro', symbol: '€' },
-  { code: 'GBP', name: 'British Pound Sterling', symbol: '£' },
-  { code: 'JPY', name: 'Japanese Yen', symbol: '¥' },
-  { code: 'CHF', name: 'Swiss Franc', symbol: 'CHF' },
-  { code: 'CAD', name: 'Canadian Dollar', symbol: '$' },
-  { code: 'AUD', name: 'Australian Dollar', symbol: '$' },
-  { code: 'CNY', name: 'Chinese Yuan', symbol: '¥' },
-  { code: 'INR', name: 'Indian Rupee', symbol: '₹' },
-  { code: 'ZAR', name: 'South African Rand', symbol: 'R' },
-  { code: 'NGN', name: 'Nigerian Naira', symbol: '₦' },
-  { code: 'GHS', name: 'Ghanaian Cedi', symbol: '₵' },
-  { code: 'KES', name: 'Kenyan Shilling', symbol: 'KSh' },
-  { code: 'UGX', name: 'Ugandan Shilling', symbol: 'USh' },
-  { code: 'TZS', name: 'Tanzanian Shilling', symbol: 'TSh' },
-  { code: 'BRL', name: 'Brazilian Real', symbol: 'R$' },
-  { code: 'MXN', name: 'Mexican Peso', symbol: '$' },
-  { code: 'RUB', name: 'Russian Ruble', symbol: '₽' },
-  { code: 'SGD', name: 'Singapore Dollar', symbol: '$' },
-  { code: 'HKD', name: 'Hong Kong Dollar', symbol: '$' },
-  { code: 'SEK', name: 'Swedish Krona', symbol: 'kr' },
-  { code: 'NOK', name: 'Norwegian Krone', symbol: 'kr' },
-  { code: 'DKK', name: 'Danish Krone', symbol: 'kr' },
-  { code: 'PLN', name: 'Polish Zloty', symbol: 'zł' },
-  { code: 'TRY', name: 'Turkish Lira', symbol: '₺' },
-  { code: 'KRW', name: 'South Korean Won', symbol: '₩' },
-  { code: 'MYR', name: 'Malaysian Ringgit', symbol: 'RM' },
-  { code: 'THB', name: 'Thai Baht', symbol: '฿' },
-  { code: 'PHP', name: 'Philippine Peso', symbol: '₱' },
-  { code: 'IDR', name: 'Indonesian Rupiah', symbol: 'Rp' },
-  { code: 'SAR', name: 'Saudi Riyal', symbol: '﷼' },
-  { code: 'AED', name: 'United Arab Emirates Dirham', symbol: 'د.إ' },
-  { code: 'EGP', name: 'Egyptian Pound', symbol: '£' },
-  { code: 'MAD', name: 'Moroccan Dirham', symbol: 'د.م.' }
-]
-
-const countries = [
-  { name: 'Algeria', code: 'DZA' },
-  { name: 'Angola', code: 'AGO' },
-  { name: 'Benin', code: 'BEN' },
-  { name: 'Botswana', code: 'BWA' },
-  { name: 'Burkina Faso', code: 'BFA' },
-  { name: 'Burundi', code: 'BDI' },
-  { name: 'Cabo Verde', code: 'CPV' },
-  { name: 'Cameroon', code: 'CMR' },
-  { name: 'Central African Republic', code: 'CAF' },
-  { name: 'Chad', code: 'TCD' },
-  { name: 'Comoros', code: 'COM' },
-  { name: 'Democratic Republic of the Congo', code: 'COD' },
-  { name: 'Republic of the Congo', code: 'COG' },
-  { name: 'Djibouti', code: 'DJI' },
-  { name: 'Egypt', code: 'EGY' },
-  { name: 'Equatorial Guinea', code: 'GNQ' },
-  { name: 'Eritrea', code: 'ERI' },
-  { name: 'Eswatini', code: 'SWZ' },
-  { name: 'Ethiopia', code: 'ETH' },
-  { name: 'Gabon', code: 'GAB' },
-  { name: 'Gambia', code: 'GMB' },
-  { name: 'Ghana', code: 'GHA' },
-  { name: 'Guinea', code: 'GIN' },
-  { name: 'Guinea-Bissau', code: 'GNB' },
-  { name: 'Ivory Coast', code: 'CIV' },
-  { name: 'Kenya', code: 'KEN' },
-  { name: 'Lesotho', code: 'LSO' },
-  { name: 'Liberia', code: 'LBR' },
-  { name: 'Libya', code: 'LBY' },
-  { name: 'Madagascar', code: 'MDG' },
-  { name: 'Malawi', code: 'MWI' },
-  { name: 'Mali', code: 'MLI' },
-  { name: 'Mauritania', code: 'MRT' },
-  { name: 'Mauritius', code: 'MUS' },
-  { name: 'Morocco', code: 'MAR' },
-  { name: 'Mozambique', code: 'MOZ' },
-  { name: 'Namibia', code: 'NAM' },
-  { name: 'Niger', code: 'NER' },
-  { name: 'Nigeria', code: 'NGA' },
-  { name: 'Rwanda', code: 'RWA' },
-  { name: 'Sao Tome and Principe', code: 'STP' },
-  { name: 'Senegal', code: 'SEN' },
-  { name: 'Seychelles', code: 'SYC' },
-  { name: 'Sierra Leone', code: 'SLE' },
-  { name: 'Somalia', code: 'SOM' },
-  { name: 'South Africa', code: 'ZAF' },
-  { name: 'South Sudan', code: 'SSD' },
-  { name: 'Sudan', code: 'SDN' },
-  { name: 'Tanzania', code: 'TZA' },
-  { name: 'Togo', code: 'TGO' },
-  { name: 'Tunisia', code: 'TUN' },
-  { name: 'Uganda', code: 'UGA' },
-  { name: 'Zambia', code: 'ZMB' },
-  { name: 'Zimbabwe', code: 'ZWE' }
-]
-
 const ManagePropertyUnitDrawer = props => {
   const { unitData, setUnitsData, propertyData, setPropertyData, open, toggle, setLoading } = props
   const properties = useProperties()
@@ -135,76 +41,33 @@ const ManagePropertyUnitDrawer = props => {
       .string()
       .min(3, obj => showErrors('name', obj.value.length, obj.min))
       .required(),
-    rent_amount: yup.number().min(1, 'Rent amount must be at least 1'),
-    rent_amount_currency: yup.string().required('Currency is required'),
-    floor_no: yup
-      .number()
-      .min(1, 'Floor number must be at least 1')
-      .nullable(true)
-      .transform((_, val) => (val === Number(val) ? val : null)),
-    bedrooms: yup
-      .number()
-      .min(1, 'Bedrooms must be at least 1')
-      .nullable(true)
-      .transform((_, val) => (val === Number(val) ? val : null)),
-    bathrooms: yup
-      .number()
-      .min(1, 'Bathroom count must be at least 1')
-      .nullable(true)
-      .transform((_, val) => (val === Number(val) ? val : null)),
-    furnished: yup
-      .number()
-      .min(0)
-      .max(1, 'Furnished should be either 0 or 1')
-      .nullable(true)
-      .transform((_, val) => (val === Number(val) ? val : null)),
-    common_area: yup
-      .number()
-      .min(0)
-      .max(1, 'Common Area should be either 0 or 1')
-      .nullable(true)
-      .transform((_, val) => (val === Number(val) ? val : null)),
-    address: yup
-      .string()
-      .nullable(true)
-      .transform((_, val) => (val === Number(val) ? val : null)),
-    tenancy_start_date: yup
-      .date()
-      .nullable(true)
-      .transform((_, val) => (val === Number(val) ? val : null)),
-    tenancy_end_date: yup
-      .date()
-      .nullable(true)
-      .transform((_, val) => (val === Number(val) ? val : null)),
-    unit_image_url: yup
-      .string()
-      .url('Invalid image URL')
-      .nullable(true)
-      .transform((_, val) => (val === Number(val) ? val : null)),
-    description: yup
-      .string()
-      .max(1000, 'Description can not exceed 1000 characters')
-      .nullable(true)
-      .transform((_, val) => (val === Number(val) ? val : null)),
-    lease_id: yup
-      .number()
-      .nullable(true)
-      .transform((_, val) => (val === Number(val) ? val : null))
+
+    floor_no: yup.number().min(1, 'Floor number must be at least 1').nullable(true),
+
+    bedrooms: yup.number().min(1, 'Bedrooms must be at least 1').nullable(true),
+    bathrooms: yup.number().min(1, 'Bathroom count must be at least 1').nullable(true),
+    furnished: yup.number().required(),
+    common_area: yup.number().required(),
+    address: yup.string().nullable(true),
+
+    tenancy_start_date: yup.string().nullable(),
+    tenancy_end_date: yup.string().nullable(),
+
+    description: yup.string().max(1000, 'Description can not exceed 1000 characters').nullable(true)
   })
 
-  const blockedUnit = () => {
-    let unit_id = propertyData.units.find(unit => unit.unit_unit_id == unitData.id)?.id || ''
-
-    console.log('found unit', unit_id)
-
-    return unit_id
-  }
+  // unit_image_url: yup
+  // .string()
+  // .url('Invalid image URL')
+  // .nullable(true)
+  // .transform((_, val) => (val === Number(val) ? val : null)),
+  // lease_id: yup
+  // .number()
+  // .nullable(true)
+  // .transform((_, val) => (val === Number(val) ? val : null))
 
   const defaultValues = {
     name: unitData?.name,
-
-    // rent_amount: unitData?.rent_amount || 1,
-    // rent_amount_currency: unitData?.rent_amount_currency || 'USD',
     floor_no: unitData?.floor_no,
     bedrooms: unitData?.bedrooms,
     bathrooms: unitData?.bathrooms,
@@ -239,14 +102,11 @@ const ManagePropertyUnitDrawer = props => {
 
       reset({
         name: unitData?.name,
-
-        // rent_amount: unitData?.rent_amount || 1,
-        // rent_amount_currency: unitData?.rent_amount_currency || 'USD',
         floor_no: unitData?.floor_no,
         bedrooms: unitData?.bedrooms,
         bathrooms: unitData?.bathrooms,
-        furnished: unitData?.furnished,
-        common_area: unitData?.common_area,
+        furnished: unitData?.furnished || 0,
+        common_area: unitData?.common_area || 0,
         address: unitData?.address,
         tenancy_start_date: unitData?.tenancy_start_date,
         tenancy_end_date: unitData?.tenancy_end_date,
@@ -370,25 +230,6 @@ const ManagePropertyUnitDrawer = props => {
       </Header>
       <Box sx={{ p: theme => theme.spacing(0, 6, 6) }}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          {/* <FormControl fullWidth sx={{ mb: 4, mt: 4 }}>
-            <Controller
-              name='uuid'
-              control={control}
-              render={({ field: { value, onChange } }) => (
-                <TextField
-                  disabled
-                  value={unitUUID} // Directly use the value from the field
-                  label='Unit Unique Id'
-                  onChange={onChange}
-                  placeholder='Greenwood Apartments'
-                  error={Boolean(errors.unit_uuid)}
-                />
-              )}
-            />
-            {errors.unit_uuid && (
-              <FormHelperText sx={{ color: 'error.main' }}>{errors.unit_uuid.message}</FormHelperText>
-            )}
-          </FormControl> */}
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
               name='name'
@@ -405,58 +246,6 @@ const ManagePropertyUnitDrawer = props => {
             />
             {errors.name && <FormHelperText sx={{ color: 'error.main' }}>{errors.name.message}</FormHelperText>}
           </FormControl>
-          {/* <FormControl fullWidth sx={{ mb: 4 }}>
-            <Controller
-              name='rent_amount_currency'
-              control={control}
-              render={({ field: { value, onChange, onBlur } }) => (
-                <>
-                  <TextField
-                    select
-                    id='custom-select-native'
-                    value={value}
-                    onChange={onChange}
-                    onBlur={onBlur}
-                    name='rent_amount_currency'
-                    fullWidth
-                    label='Currency'
-                  >
-                    {currencies.map(currency => (
-                      <MenuItem sx={{ fontSize: '15px' }} key={currency.code} value={currency.code}>
-                        {currency.symbol} : {currency.name}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </>
-              )}
-            />
-            {errors.rent_amount_currency && (
-              <FormHelperText sx={{ color: 'error.main' }}>{errors.rent_amount_currency.message}</FormHelperText>
-            )}
-          </FormControl>
-          <FormControl fullWidth sx={{ mb: 4 }} variant='outlined'>
-            <FormHelperText>Rent Amount</FormHelperText>
-            <Controller
-              name='rent_amount'
-              control={control}
-              render={({ field: { value, onChange, onBlur } }) => (
-                <>
-                  <OutlinedInput
-                    value={value}
-                    name='rent_amount'
-                    onChange={onChange}
-                    onBlur={onBlur}
-                    error={Boolean(errors.rent_amount)}
-                    type='number'
-                    placeholder='2000.00'
-                  />
-                </>
-              )}
-            />
-            {errors.rent_amount && (
-              <FormHelperText sx={{ color: 'error.main' }}>{errors.rent_amount.message}</FormHelperText>
-            )}
-          </FormControl> */}
 
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
@@ -481,7 +270,6 @@ const ManagePropertyUnitDrawer = props => {
 
             {errors.lease_id && <FormHelperText sx={{ color: 'error.main' }}>{errors.lease_id.message}</FormHelperText>}
           </FormControl>
-
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
               name='tenant_id'
@@ -489,13 +277,13 @@ const ManagePropertyUnitDrawer = props => {
               render={({ field: { onChange, onBlur, value, ref } }) => (
                 <Autocomplete
                   options={propertyData.tenants}
-                  getOptionLabel={tenant => tenant.name + ' (' + tenant.email + ')'}
+                  getOptionLabel={tenant => `${tenant.name} (${tenant.email})`}
                   getOptionDisabled={tenant => !!tenant?.unit_id}
                   onChange={(event, newValue) => {
                     // Pass the new value's id or an empty string to handle the form state
                     onChange(newValue ? newValue.id : '')
                   }}
-                  isOptionEqualToValue={(option, value) => option.id === value} // Ensure proper comparison
+                  isOptionEqualToValue={(option, value) => option.id === value?.id} // Corrected comparison
                   value={propertyData.tenants.find(tenant => tenant.id === value) || null} // Set the selected value
                   renderInput={params => <TextField {...params} label='Tenant Occupied' />}
                 />
@@ -632,14 +420,11 @@ const ManagePropertyUnitDrawer = props => {
                   }}
                 >
                   <DatePicker
-                    selected={value}
-                    onChange={([selected]) => {
-                      if (selected.target.value) return selected.target.value
-
-                      return undefined
-                    }}
+                    selected={value ? new Date(value) : null} // Handle null or undefined values
+                    onChange={date => onChange(date ? date.toISOString().split('T')[0] : null)} // Handle nullable dates
                     dateFormat='yyyy-MM-dd'
                     placeholderText='Select Tenancy Start Date'
+                    isClearable // Optional: Allows clearing the date
                     customInput={<TextField label='Tenancy Start Date' error={Boolean(errors.tenancy_start_date)} />}
                   />
                 </DatePickerWrapper>
@@ -663,23 +448,12 @@ const ManagePropertyUnitDrawer = props => {
                   }}
                 >
                   <DatePicker
-                    selected={value}
-                    onChange={([selected]) => {
-                      if (selected.target.value) return selected.target.value
-
-                      return undefined
-                    }}
+                    selected={value ? new Date(value) : null} // Handle null or undefined values
+                    onChange={date => onChange(date ? date.toISOString().split('T')[0] : null)} // Handle nullable dates
                     dateFormat='yyyy-MM-dd'
-                    placeholderText='Select Tenancy End Date'
-                    customInput={
-                      <TextField
-                        label='Tenancy End Date'
-                        error={Boolean(errors.tenancy_end_date)}
-                        InputLabelProps={{
-                          shrink: true
-                        }}
-                      />
-                    }
+                    placeholderText='Select Tenancy Start Date'
+                    isClearable // Optional: Allows clearing the date
+                    customInput={<TextField label='Tenancy Start Date' error={Boolean(errors.tenancy_end_date)} />}
                   />
                 </DatePickerWrapper>
               )}
