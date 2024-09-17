@@ -38,7 +38,7 @@ const Timeline = styled(MuiTimeline)(({ theme }) => ({
   }
 }))
 
-const TenantViewDetails = ({ tenantData }) => {
+const TenantViewTransactions = ({ tenantData }) => {
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
@@ -173,4 +173,4 @@ const TenantViewDetails = ({ tenantData }) => {
   )
 }
 
-export default TenantViewDetails
+export default TenantViewTransactions

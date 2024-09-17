@@ -223,9 +223,9 @@ const PropertyViewUnits = ({ setPropertyData, propertyData }) => {
           </CardContent>
         </Card>
 
-        <Card>
+        {/* <Card>
           <CardContent></CardContent>
-        </Card>
+        </Card> */}
       </Grid>
 
       <AddUnitDrawer

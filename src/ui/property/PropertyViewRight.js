@@ -24,6 +24,7 @@ import PropertyViewUnits from 'src/ui/property/PropertyViewUnits'
 import PropertyViewMaintenance from 'src/ui/property/PropertyViewMaintenance'
 import PropertyViewMarketing from './PropertyViewMarketing'
 import PropertyViewSettings from 'src/ui/property/PropertyViewSettings'
+import PropertyViewTenants from './PropertyViewTenants'
 
 // ** Styled Tab component
 const Tab = styled(MuiTab)(({ theme }) => ({
@@ -89,6 +90,8 @@ const UserViewRight = ({ tab, propertyData, setPropertyData }) => {
         sx={{ borderBottom: theme => `1px solid ${theme.palette.divider}` }}
       >
         <Tab value='overview' label='Overview' icon={<Icon fontSize='1.125rem' icon='tabler:home' />} />
+        <Tab value='tenants' label='Tenants' icon={<Icon fontSize='1.125rem' icon='tabler:friends' />} />
+
         <Tab value='units' label='Units' icon={<Icon fontSize='1.125rem' icon='tabler:cash' />} />
         {/* <Tab
           value='billing-plan'
@@ -115,6 +118,10 @@ const UserViewRight = ({ tab, propertyData, setPropertyData }) => {
           <>
             <TabPanel sx={{ p: 0 }} value='overview'>
               <PropertyViewOverview setPropertyData={setPropertyData} propertyData={propertyData} />
+            </TabPanel>
+
+            <TabPanel sx={{ p: 0 }} value='tenants'>
+              <PropertyViewTenants setPropertyData={setPropertyData} propertyData={propertyData} />
             </TabPanel>
             <TabPanel sx={{ p: 0 }} value='units'>
               <PropertyViewUnits setPropertyData={setPropertyData} propertyData={propertyData} />

@@ -19,7 +19,7 @@ import Icon from 'src/@core/components/icon'
 
 // ** Demo Components Imports
 import TenantViewBilling from 'src/ui/tenant/TenantViewBilling'
-import TenantViewDetails from 'src/ui/tenant/TenantViewDetails'
+import TenantViewTransactions from 'src/ui/tenant/TenantViewTransactions'
 import TenantViewSecurity from 'src/ui/tenant/TenantViewSecurity'
 import TenantViewConnection from 'src/ui/tenant/TenantViewConnection'
 import TenantViewNotification from 'src/ui/tenant/TenantViewNotification'
@@ -93,8 +93,8 @@ const UserViewRight = ({ tab, tenantData }) => {
       >
         <Tab
           sx={{ fontSize: '13px' }}
-          value='details'
-          label='Details'
+          value='transactions'
+          label='Transactions'
           icon={<Icon fontSize='14px' icon='tabler:user-check' />}
         />
         <Tab
@@ -121,8 +121,8 @@ const UserViewRight = ({ tab, tenantData }) => {
           </Box>
         ) : (
           <>
-            <TabPanel sx={{ p: 0 }} value='details'>
-              <TenantViewDetails tenantData={tenantData} />
+            <TabPanel sx={{ p: 0 }} value='transactions'>
+              <TenantViewTransactions tenantData={tenantData} />
             </TabPanel>
             <TabPanel sx={{ p: 0 }} value='security'>
               <TenantViewSecurity />
