@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid'
 import axios from 'src/pages/middleware/axios'
 import { useEffect, useState } from 'react'
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
-import PropertyEditInfo from 'src/ui/property/ParentPropertyEditInfo'
+import ParentPropertyEditInfo from 'src/ui/property/ParentPropertyEditInfo'
 import { useRouter } from 'next/router'
 import { useProperties } from 'src/hooks/useProperties'
 
@@ -39,7 +39,11 @@ const PropertyEdit = ({}) => {
 
   return (
     <Grid>
-      <PropertyEditInfo tab={tab} setPropertyData={setPropertyData} propertyData={propertyData}></PropertyEditInfo>
+      <ParentPropertyEditInfo
+        tab={tab}
+        setPropertyData={setPropertyData}
+        propertyData={propertyData}
+      ></ParentPropertyEditInfo>
     </Grid>
   )
 }
