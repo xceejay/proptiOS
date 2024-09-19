@@ -90,6 +90,7 @@
     "@iconify/tools": "2.2.6",
     "@iconify/types": "2.0.0",
     "@iconify/utils": "2.1.5",
+    "@next/eslint-plugin-next": "^14.2.12",
     "babel-eslint": "^10.1.0",
     "eslint": "^8.57.1",
     "eslint-config-airbnb": "^19.0.4",
