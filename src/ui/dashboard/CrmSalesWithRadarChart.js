@@ -164,7 +164,13 @@ const CrmSalesWithRadarChart = ({ DashData }) => {
         }
       />
       <CardContent>
-        <ReactApexcharts type='radar' height={352} series={transactionCategories} options={options} />
+        {transactionCategories.length > 0 ? (
+          <>
+            <ReactApexcharts type='radar' height={352} series={transactionCategories} options={options} />
+          </>
+        ) : (
+          <> No Data</>
+        )}
       </CardContent>
     </Card>
   )

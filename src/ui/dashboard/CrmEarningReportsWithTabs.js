@@ -263,25 +263,37 @@ const CrmEarningReportsWithTabs = ({ DashData }) => {
       />
       <CardContent sx={{ '& .MuiTabPanel-root': { p: 0 } }}>
         <TabContext value={value}>
-          <TabList
-            variant='scrollable'
-            scrollButtons='auto'
-            onChange={handleChange}
-            aria-label='earning report tabs'
-            sx={{
-              border: '0 !important',
-              '& .MuiTabs-indicator': { display: 'none' },
-              '& .MuiTab-root': {
-                p: 0,
-                minWidth: isMobile ? 60 : 110, // Adjust tab size for mobile
-                borderRadius: '10px',
-                '&:not(:last-child)': { mr: isMobile ? 2 : 4 } // Adjust margin for mobile
-              }
-            }}
-          >
-            {renderTabs(value, theme, transactionCategories)}
-          </TabList>
-          {renderTabPanels(value, theme, options, colors, transactionCategories)}
+          {transactionCategories.length > 0 ? (
+            <>
+              <TabList
+                variant='scrollable'
+                scrollButtons='auto'
+                onChange={handleChange}
+                aria-label='earning report tabs'
+                sx={{
+                  border: '0 !important',
+                  '& .MuiTabs-indicator': { display: 'none' },
+                  '& .MuiTab-root': {
+                    p: 0,
+                    minWidth: isMobile ? 60 : 110, // Adjust tab size for mobile
+                    borderRadius: '10px',
+                    '&:not(:last-child)': { mr: isMobile ? 2 : 4 } // Adjust margin for mobile
+                  }
+                }}
+              >
+                {renderTabs(value, theme, transactionCategories)}
+              </TabList>
+              {renderTabPanels(value, theme, options, colors, transactionCategories)}
+            </>
+          ) : (
+            <>
+              {' '}
+              <Box pb={81}>
+                {' '}
+                <Typography variant='h5'> No data </Typography>{' '}
+              </Box>
+            </>
+          )}
         </TabContext>
       </CardContent>
     </Card>

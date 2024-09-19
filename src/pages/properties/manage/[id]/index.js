@@ -6,6 +6,7 @@ import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 import ParentPropertyEditInfo from 'src/ui/property/ParentPropertyEditInfo'
 import { useRouter } from 'next/router'
 import { useProperties } from 'src/hooks/useProperties'
+import PropertyEditInfo from 'src/ui/property/PropertyEditInfo'
 
 const PropertyEdit = ({}) => {
   const router = useRouter()
@@ -39,11 +40,7 @@ const PropertyEdit = ({}) => {
 
   return (
     <Grid>
-      <ParentPropertyEditInfo
-        tab={tab}
-        setPropertyData={setPropertyData}
-        propertyData={propertyData}
-      ></ParentPropertyEditInfo>
+      <PropertyEditInfo tab={tab} setPropertyData={setPropertyData} propertyData={propertyData}></PropertyEditInfo>
     </Grid>
   )
 }

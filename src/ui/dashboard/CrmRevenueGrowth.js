@@ -178,7 +178,8 @@ const CrmRevenueGrowth = ({ DashData }) => {
             </div>
             <div>
               <Typography variant='h5' sx={{ mb: 2 }}>
-                {currencies.find(currency => currency.code === DashData?.currency)?.symbol + DashData?.revenue}
+                {currencies?.find(currency => currency.code === DashData?.currency)?.symbol + DashData?.revenue ||
+                  'No data'}
               </Typography>
               <CustomChip
                 rounded
@@ -193,6 +194,7 @@ const CrmRevenueGrowth = ({ DashData }) => {
               />
             </div>
           </Box>
+
           <ReactApexcharts
             type='bar'
             width={isMobile ? '100%' : 500} // Full width on mobile, fixed width on desktop
