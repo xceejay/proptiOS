@@ -17,7 +17,7 @@ const { dirname } = require('path')
 const { importDirectory, cleanupSVG, parseColors, isEmptyColor, runSVGO } = require('@iconify/tools')
 const { getIcons, stringToIcon, minifyIconSet } = require('@iconify/utils')
 
-/* eslint-enable */
+ 
 const sources = {
   json: [
     // Iconify JSON file (@iconify/json is a package name, /json/ is directory where files are, then filename)

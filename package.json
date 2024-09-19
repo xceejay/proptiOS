@@ -42,7 +42,6 @@
     "apexcharts-clevision": "3.28.5",
     "axios": "^1.7.4",
     "axios-mock-adapter": "^1.22.0",
-    "babel-eslint": "10.1.0",
     "bootstrap-icons": "1.10.3",
     "chart.js": "4.2.1",
     "cleave.js": "1.6.0",
@@ -50,6 +49,7 @@
     "clsx": "1.2.1",
     "date-fns": "2.29.3",
     "draft-js": "0.11.7",
+    "g": "^2.0.1",
     "i18next": "22.4.11",
     "i18next-browser-languagedetector": "7.0.1",
     "i18next-http-backend": "2.2.0",
@@ -84,17 +84,25 @@
     "yup": "1.0.2"
   },
   "devDependencies": {
+    "@eslint/js": "^9.10.0",
     "@iconify/iconify": "3.1.0",
     "@iconify/json": "2.2.34",
     "@iconify/tools": "2.2.6",
     "@iconify/types": "2.0.0",
     "@iconify/utils": "2.1.5",
+    "babel-eslint": "10.1.0",
     "eslint": "8.36.0",
+    "eslint-config-airbnb": "^19.0.4",
     "eslint-config-next": "13.2.4",
     "eslint-config-prettier": "8.7.0",
     "eslint-import-resolver-alias": "1.1.2",
     "eslint-import-resolver-typescript": "3.5.3",
     "eslint-plugin-import": "2.27.5",
+    "eslint-plugin-jsx-a11y": "^6.10.0",
+    "eslint-plugin-react": "^7.36.1",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-unused-imports": "^4.1.4",
+    "globals": "^15.9.0",
     "prettier": "2.8.4"
   }
 }

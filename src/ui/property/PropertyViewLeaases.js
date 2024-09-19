@@ -16,7 +16,7 @@ import { useDispatch } from 'react-redux'
 import PropertyManageUnitDrawer from './PropertyManageUnitDrawer'
 import PropertyTenantManageTable from './PropertyManageTenantsTable'
 
-const PropertyViewTenants = ({ setPropertyData, propertyData }) => {
+const PropertyViewLeases = ({ setPropertyData, propertyData }) => {
   return (
     <Grid container spacing={6}>
       <Grid item xs={12} lg={24}>
@@ -32,4 +32,4 @@ const PropertyViewTenants = ({ setPropertyData, propertyData }) => {
   )
 }
 
-export default PropertyViewTenants
+export default PropertyViewLeases

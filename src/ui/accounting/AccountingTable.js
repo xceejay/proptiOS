@@ -34,10 +34,7 @@ import CardStatsHorizontalWithDetails from 'src/@core/components/card-statistics
 
 // ** Hooks Imports
 import { useTenants } from 'src/hooks/useTenants'
-import AccountingTableHeader from './AccountingTableHeader'
-import ServerSideToolbarTenantManage from 'src/views/table/data-grid/ServerSideToolbarTenantManage'
 import CustomTenantToolbar from 'src/views/table/data-grid/CustomTenantToolbar'
-import EditPropertyTenantDrawer from '../property/EditPropertyTenantDrawer'
 import EditTransactionDrawer from './EditTransactionDrawer'
 
 const RowOptions = ({ id, row, setTenantsData, tenantsData, setLoading }) => {
@@ -177,7 +174,7 @@ const AccountingTable = () => {
       flex: 0.15,
       minWidth: 190,
       field: 'property',
-      headerName: 'Property',
+      headerName: 'Accounting',
       renderCell: ({ row }) => (
         <Typography noWrap sx={{ color: 'text.secondary' }}>
           {row.property?.name}

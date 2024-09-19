@@ -73,7 +73,7 @@ const StretchyDataGrid = props => {
         onResize={autoSizeColumns}
         columns={mappedColumns}
         {
-          ...restProps /* eslint-disable-line react/jsx-props-no-spreading */
+          ...restProps  
         }
       />
     </>
