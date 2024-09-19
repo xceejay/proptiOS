@@ -81,44 +81,22 @@ const renderTabPanels = (value, theme, options, colors, transactionCategories) =
 }
 
 const CrmEarningReportsWithTabs = ({ DashData }) => {
-  const tabData = [
-    {
-      type: 'revenue',
-      avatarIcon: 'tabler:shopping-cart',
-      series: [{ data: [28, 10, 45, 38, 15, 30, 35, 28, 8] }]
-    },
-    {
-      type: 'expenses',
-      avatarIcon: 'tabler:chart-bar',
-      series: [{ data: [35, 25, 15, 40, 42, 25, 48, 8, 30] }]
-    },
+  const aggregateByMonth = paymentArray => {
+    const getMonth = dateString => new Date(dateString).getMonth()
 
-    {
-      type: 'income',
-      avatarIcon: 'tabler:currency-dollar',
-      series: [{ data: [10, 22, 27, 33, 42, 32, 27, 22, 8] }]
-    },
-    {
-      type: 'maintenance',
-      avatarIcon: 'tabler:chart-pie-2',
-      series: [{ data: [5, 9, 12, 18, 20, 25, 30, 36, 48] }]
-    }
-  ]
+    const monthlyTotals = Array(12).fill(0) // Create an array of 12 months
+    paymentArray?.forEach(payment => {
+      const month = getMonth(payment.created_at)
+      monthlyTotals[month] += parseFloat(payment.amount)
+    })
+
+    return monthlyTotals
+  }
 
   const restructureTransactionCategories = data => {
     // Helper function to get month from date
-    const getMonth = dateString => new Date(dateString).getMonth()
 
     // Function to aggregate payments by month for a given type
-    const aggregateByMonth = paymentArray => {
-      const monthlyTotals = Array(12).fill(0) // Create an array of 12 months
-      paymentArray?.forEach(payment => {
-        const month = getMonth(payment.created_at)
-        monthlyTotals[month] += parseFloat(payment.amount)
-      })
-
-      return monthlyTotals
-    }
 
     // Aggregate your payments
     const rentData = aggregateByMonth(data?.rent)
@@ -153,6 +131,29 @@ const CrmEarningReportsWithTabs = ({ DashData }) => {
   // ** State
 
   // ** Hook
+
+  const DefaultTabData = [
+    {
+      type: 'revenue',
+      avatarIcon: 'tabler:shopping-cart',
+      series: [{ data: [] }] // Assuming rent counts as revenue
+    },
+    {
+      type: 'expenses',
+      avatarIcon: 'tabler:chart-bar',
+      series: [{ data: aggregateByMonth([]) }] // Replace with actual expense types
+    },
+    {
+      type: 'income',
+      avatarIcon: 'tabler:currency-dollar',
+      series: [{ data: [] }] // Assuming rent is a major income source
+    },
+    {
+      type: 'maintenance',
+      avatarIcon: 'tabler:chart-pie-2',
+      series: [{ data: aggregateByMonth([]) }]
+    }
+  ]
 
   // ** State
   const [value, setValue] = useState('revenue')
@@ -287,11 +288,25 @@ const CrmEarningReportsWithTabs = ({ DashData }) => {
             </>
           ) : (
             <>
-              {' '}
-              <Box pb={81}>
-                {' '}
-                <Typography variant='h5'> No data </Typography>{' '}
-              </Box>
+              <TabList
+                variant='scrollable'
+                scrollButtons='auto'
+                onChange={handleChange}
+                aria-label='earning report tabs'
+                sx={{
+                  border: '0 !important',
+                  '& .MuiTabs-indicator': { display: 'none' },
+                  '& .MuiTab-root': {
+                    p: 0,
+                    minWidth: isMobile ? 60 : 110, // Adjust tab size for mobile
+                    borderRadius: '10px',
+                    '&:not(:last-child)': { mr: isMobile ? 2 : 4 } // Adjust margin for mobile
+                  }
+                }}
+              >
+                {renderTabs(value, theme, DefaultTabData)}
+              </TabList>
+              {renderTabPanels(value, theme, options, colors, DefaultTabData)}
             </>
           )}
         </TabContext>
