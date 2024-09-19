@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/router'
 import { useProperties } from 'src/hooks/useProperties'
-import PropertyEditInfo from 'src/ui/property/PropertyEditInfo'
+import ParentPropertyEditInfo from 'src/ui/property/ParentPropertyEditInfo'
 
 const UserView = ({ invoiceData }) => {
   const router = useRouter()
@@ -33,7 +33,7 @@ const UserView = ({ invoiceData }) => {
     }
   }, [id, tab])
 
-  return <PropertyEditInfo tab={tab} setPropertyData={setPropertyData} propertyData={propertyData} />
+  return <ParentPropertyEditInfo tab={tab} setPropertyData={setPropertyData} propertyData={propertyData} />
 }
 
 export default UserView

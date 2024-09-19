@@ -1,20 +1,19 @@
 import globals from 'globals'
 import pluginJs from '@eslint/js'
 import pluginReact from 'eslint-plugin-react'
-import pluginNext from '@next/eslint-plugin-next' // Import the Next.js ESLint plugin
+import pluginNext from '@next/eslint-plugin-next'
 
 export default [
   {
-    files: ['**/*.{js,mjs,cjs,jsx}'],
+    files: ['**/*.{js,mjs,cjs,jsx,ts,tsx}'],
     languageOptions: {
       globals: globals.browser
     },
     plugins: {
       react: pluginReact,
-      next: pluginNext // Include the Next.js plugin
+      next: pluginNext
     },
     rules: {
-      // Remove unused imports
       'no-unused-vars': [
         'error',
         {
@@ -24,15 +23,18 @@ export default [
           ignoreRestSiblings: true
         }
       ],
-      'react-in-jsx-scope': 'off' // React 17+ doesn't require React in scope
+      'react-in-jsx-scope': 'off'
     },
     settings: {
       react: {
-        version: 'detect' // Automatically detects React version
+        version: 'detect'
       }
     }
   },
-  pluginJs.configs.recommended, // Recommended JavaScript config
-  pluginReact.configs.flat.recommended, // Recommended React config
-  pluginNext.configs.core // Next.js core rules
+  {
+    files: ['**/*.{js,mjs,cjs,jsx,ts,tsx}'],
+    ...pluginJs.configs.recommended,
+    ...pluginReact.configs.flat.recommended,
+    ...pluginNext.configs.recommended
+  }
 ]
