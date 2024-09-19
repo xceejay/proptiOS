@@ -16,7 +16,7 @@ export default [
     },
     settings: {
       react: {
-        version: 'detect' // Automatically detects the React version
+        version: 'latest' // Automatically detects the React version
       }
     }
   },
