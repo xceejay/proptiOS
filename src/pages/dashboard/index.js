@@ -20,18 +20,18 @@ import ApexChartWrapper from 'src/@core/styles/libs/react-apexcharts'
 import CardStatsVertical from 'src/@core/components/card-statistics/card-stats-vertical'
 import { useEffect, useState } from 'react'
 import axios from 'src/pages/middleware/axios'
-import { useFinancial } from 'src/hooks/useFinancial'
+import { useFinance } from 'src/hooks/useFinance'
 
 const Dashboard = () => {
   const [DashData, setDashData] = useState(null)
-  const financial = useFinancial()
+  const finance = useFinance()
   const [loading, setLoading] = useState(false)
-  const [financialData, setFinancialData] = useState({})
+  const [financeData, setFinanceData] = useState({})
   const [transactionCategories, setTransactionCategories] = useState([])
   const paginationModel = {}
 
   useEffect(() => {
-    financial.getAllFinancial(
+    finance.getAllFinance(
       { page: paginationModel?.page || 0, limit: paginationModel?.pageSize || 0 },
       responseData => {
         const { data } = responseData
@@ -45,7 +45,7 @@ const Dashboard = () => {
         setLoading(false) // Stop loading when the request completes
       },
       error => {
-        console.error('Financial data cannot be retrieved:', error)
+        console.error('Finance data cannot be retrieved:', error)
         setLoading(false) // Stop loading on error
       }
     )

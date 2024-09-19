@@ -12,17 +12,17 @@ import authConfig from 'src/configs/auth'
 
 // ** Defaults
 const defaultProvider = {
-  financial: null,
+  finance: null,
   loading: true,
-  setFinancial: () => null,
+  setFinance: () => null,
   setLoading: () => Boolean,
-  getAllFinancial: () => Promise.resolve()
+  getAllFinance: () => Promise.resolve()
 }
-const FinancialContext = createContext(defaultProvider)
+const FinanceContext = createContext(defaultProvider)
 
-const FinancialProvider = ({ children }) => {
+const FinanceProvider = ({ children }) => {
   // ** States
-  const [financial, setFinancial] = useState(defaultProvider.user)
+  const [finance, setFinance] = useState(defaultProvider.user)
   const [loading, setLoading] = useState(defaultProvider.loading)
 
   // ** Hooks
@@ -47,7 +47,7 @@ const FinancialProvider = ({ children }) => {
   // }, [])
 
   //function for registering an account.
-  const getAllFinancial = (params, successCallback, errorCallback) => {
+  const getAllFinance = (params, successCallback, errorCallback) => {
     const token = window.localStorage.getItem('accessToken') || accessToken
 
     if (!token) {
@@ -58,7 +58,7 @@ const FinancialProvider = ({ children }) => {
     }
 
     axios
-      .get('https://api.pm.manages.homes/financial', {
+      .get('https://api.pm.manages.homes/dashboard', {
         headers: {
           Authorization: `Bearer ${token}`
         },
@@ -67,7 +67,7 @@ const FinancialProvider = ({ children }) => {
       .then(response => {
         if (successCallback) {
           successCallback(response.data)
-          setFinancial(response.data)
+          setFinance(response.data)
         }
       })
       .catch(err => {
@@ -76,14 +76,14 @@ const FinancialProvider = ({ children }) => {
   }
 
   const values = {
-    financial,
+    finance,
     loading,
-    setFinancial,
+    setFinance,
     setLoading,
-    getAllFinancial: getAllFinancial
+    getAllFinance: getAllFinance
   }
 
-  return <FinancialContext.Provider value={values}>{children}</FinancialContext.Provider>
+  return <FinanceContext.Provider value={values}>{children}</FinanceContext.Provider>
 }
 
-export { FinancialContext, FinancialProvider }
+export { FinanceContext, FinanceProvider }

@@ -36,7 +36,7 @@ import { AuthProvider } from 'src/context/AuthContext'
 import { OnboardingProvider } from 'src/context/OnboardingContext'
 import { TenantsProvider } from 'src/context/TenantsContext'
 import { PropertiesProvider } from 'src/context/PropertiesContext'
-import { FinancialProvider } from 'src/context/FinancialContext'
+import { FinanceProvider } from 'src/context/FinanceContext'
 import { ReportsProvider } from 'src/context/ReportsContext'
 import { MaintenanceProvider } from 'src/context/MaintenanceContext'
 
@@ -123,7 +123,7 @@ const App = props => {
               <PropertiesProvider>
                 <TenantsProvider>
                   <LeasesProvider>
-                    <FinancialProvider>
+                    <FinanceProvider>
                       <SettingsProvider {...(setConfig ? { pageSettings: setConfig() } : {})}>
                         <SettingsConsumer>
                           {({ settings }) => {
@@ -145,7 +145,7 @@ const App = props => {
                           }}
                         </SettingsConsumer>
                       </SettingsProvider>
-                    </FinancialProvider>
+                    </FinanceProvider>
                   </LeasesProvider>
                 </TenantsProvider>
               </PropertiesProvider>

@@ -656,11 +656,11 @@ const data = {
           email: 'johndoe@furl.net'
         }
       ],
-      subject: 'Financial software',
+      subject: 'Finance software',
       cc: [],
       bcc: [],
       message:
-        '<p>Hey John, </p><p>Take on the market with our powerful platforms.</p><p>Log in online anytime, anywhere on your Mac, PC, tablet or phone and see up-to-date financials. Financial software with all the time-saving tools you need to grow your business.</p><p>Regards</p><p>Dagmar Mallall</p>',
+        '<p>Hey John, </p><p>Take on the market with our powerful platforms.</p><p>Log in online anytime, anywhere on your Mac, PC, tablet or phone and see up-to-date finances. Finance software with all the time-saving tools you need to grow your business.</p><p>Regards</p><p>Dagmar Mallall</p>',
       attachments: [],
       isStarred: false,
       labels: ['company'],

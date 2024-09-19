@@ -46,7 +46,7 @@ const rolesArr = [
   'Content Management',
   'Disputes Management',
   'Database Management',
-  'Financial Management',
+  'Finance Management',
   'Reporting',
   'API Control',
   'Repository Management',

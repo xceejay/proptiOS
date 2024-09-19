@@ -2,10 +2,10 @@ import Grid from '@mui/material/Grid'
 import ApexChartWrapper from 'src/@core/styles/libs/react-apexcharts'
 import CrmEarningReportsWithTabs from 'src/ui/dashboard/CrmEarningReportsWithTabs'
 import CardStatsVertical from 'src/@core/components/card-statistics/card-stats-vertical'
-import FinancialTable from 'src/ui/financial/FinancialTable'
+import FinanceTable from 'src/ui/finance/FinanceTable'
 import { Box } from '@mui/material'
 
-const Financial = () => {
+const Finance = () => {
   return (
     <Box>
       <ApexChartWrapper>
@@ -47,7 +47,7 @@ const Financial = () => {
                       chipText='-12.2%'
                       chipColor='default'
                       avatarColor='info'
-                      title='Financial Value'
+                      title='Finance Value'
                       subtitle='Last week'
                       avatarIcon='tabler:home'
                     />
@@ -69,13 +69,13 @@ const Financial = () => {
           </Grid>
 
           <Grid item xs={12} md={12} lg={12}>
-            <FinancialTable></FinancialTable>
+            <FinanceTable></FinanceTable>
           </Grid>
         </Grid>
       </ApexChartWrapper>
     </Box>
   )
 }
-Financial.acl = { action: 'read', subject: 'financial' }
+Finance.acl = { action: 'read', subject: 'finance' }
 
-export default Financial
+export default Finance

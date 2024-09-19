@@ -8,8 +8,8 @@ const getDashboardRoute = user_type => {
       return '/dashboard' // Full access
     case 'maintenance_worker':
       return '/maintenance'
-    case 'financial_staff':
-      return '/financial'
+    case 'finance_staff':
+      return '/finance'
     case 'vendor':
       return '/vendor'
     case 'inspector':

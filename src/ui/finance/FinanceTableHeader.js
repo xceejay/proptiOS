@@ -6,7 +6,7 @@ import TextField from '@mui/material/TextField'
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
-const FinancialTableHeader = props => {
+const FinanceTableHeader = props => {
   // ** Props
   const { handleFilter, toggle, toggleExisting, value } = props
 
@@ -59,4 +59,4 @@ const FinancialTableHeader = props => {
   )
 }
 
-export default FinancialTableHeader
+export default FinanceTableHeader

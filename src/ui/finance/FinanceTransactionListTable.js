@@ -181,7 +181,7 @@ const columns = [
   // }
 ]
 
-const FinancialTransactionListTable = ({ financialData }) => {
+const FinanceTransactionListTable = ({ financeData }) => {
   // ** State
   const [anchorEl, setAnchorEl] = useState(null)
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 7 })
@@ -206,7 +206,7 @@ const FinancialTransactionListTable = ({ financialData }) => {
     <Grid container spacing={6.5}>
       <Grid item xs={12} lg={12}>
         <Card>
-          {console.log('so the transaction data', financialData)}
+          {console.log('so the transaction data', financeData)}
           {/* <CardHeader
         title='Transaction History'
         sx={{ '& .MuiCardHeader-action': { m: 0 } }}
@@ -237,7 +237,7 @@ const FinancialTransactionListTable = ({ financialData }) => {
             columns={columns}
             loading={false}
             slots={{ toolbar: CustomTenantToolbar }}
-            rows={[...(financialData?.transactions?.expenses || []), ...(financialData?.transactions?.revenue || [])]}
+            rows={[...(financeData?.transactions?.expenses || []), ...(financeData?.transactions?.revenue || [])]}
             disableRowSelectionOnClick
             pageSizeOptions={[7, 10, 25, 50]}
             paginationModel={paginationModel}
@@ -266,4 +266,4 @@ const FinancialTransactionListTable = ({ financialData }) => {
   )
 }
 
-export default FinancialTransactionListTable
+export default FinanceTransactionListTable

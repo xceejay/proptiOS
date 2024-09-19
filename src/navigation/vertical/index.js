@@ -29,11 +29,11 @@ const navigation = () => {
       subject: 'leases'
     },
     {
-      title: 'Financial',
-      path: '/financial',
+      title: 'Finance',
+      path: '/finance',
       icon: 'tabler:file-dollar',
       action: 'read',
-      subject: 'financial'
+      subject: 'finance'
     },
 
     {

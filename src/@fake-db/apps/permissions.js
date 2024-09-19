@@ -47,7 +47,7 @@ const data = {
     },
     {
       id: 8,
-      name: 'Financial Management',
+      name: 'Finance Management',
       createdDate: '25 Feb 2021, 10:30 AM',
       assignedTo: ['administrator', 'manager']
     },

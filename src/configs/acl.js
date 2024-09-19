@@ -14,8 +14,8 @@ const defineRulesFor = (user_type, subject) => {
     can('manage', 'all') // Full access
   } else if (user_type === 'maintenance_worker') {
     can('read', ['maintenance', 'properties', 'support']) // Maintenance can view specific pages
-  } else if (user_type === 'financial_staff') {
-    can('read', ['financial', 'support']) // Financial can view dashboard and financial sections
+  } else if (user_type === 'finance_staff') {
+    can('read', ['finance', 'support']) // Finance can view dashboard and finance sections
   } else if (user_type === 'vendor') {
     can('read', ['vendor', 'support']) // Vendors can view specific pages
   } else if (user_type === 'inspector') {

@@ -1,21 +1,21 @@
 import { useState, useEffect } from 'react'
 
 import { useRouter } from 'next/router'
-import ParentFinancialEditInfo from 'src/ui/financial/ParentFinancialEditInfo'
-import { useFinancial } from 'src/hooks/useFinancial'
+import ParentFinanceEditInfo from 'src/ui/finance/ParentFinanceEditInfo'
+import { useFinance } from 'src/hooks/useFinance'
 
-const FinancialPage = () => {
+const FinancePage = () => {
   const router = useRouter
   const tab = router.query?.tab || 'payments'
-  const [financialData, setFinancialData] = useState(null)
+  const [financeData, setFinanceData] = useState(null)
   const paginationModel = {}
 
   const [loading, setLoading] = useState(false)
 
-  const financial = useFinancial()
+  const finance = useFinance()
   useEffect(() => {
-    if (!financialData) {
-      financial.getAllFinancial(
+    if (!financeData) {
+      finance.getAllFinance(
         { page: paginationModel?.page || 0, limit: paginationModel?.pageSize || 0 },
         responseData => {
           const { data } = responseData
@@ -23,20 +23,20 @@ const FinancialPage = () => {
           if (data?.status === 'FAILED') {
             alert(response.message || 'Failed to fetch properties')
           } else {
-            setFinancialData(data)
+            setFinanceData(data)
           }
 
           setLoading(false) // Stop loading when the request completes
         },
         error => {
-          console.error('Financial data cannot be retrieved:', error)
+          console.error('Finance data cannot be retrieved:', error)
           setLoading(false) // Stop loading on error
         }
       )
     }
   }, [])
 
-  return <ParentFinancialEditInfo tab={tab} financialData={financialData} setFinancialData={setFinancialData} />
+  return <ParentFinanceEditInfo tab={tab} financeData={financeData} setFinanceData={setFinanceData} />
 }
 
-export default FinancialPage
+export default FinancePage
