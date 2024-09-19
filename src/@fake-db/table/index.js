@@ -630,7 +630,7 @@ const data = [
     id: 49,
     avatar: '5.png',
     full_name: 'Krishnah Stilldale',
-    post: 'VP Accounting',
+    post: 'VP Financial',
     email: 'kstilldale1c@chronoengine.com',
     city: 'Slavs’ke',
     start_date: '03/18/2017',

@@ -181,7 +181,7 @@ const columns = [
   // }
 ]
 
-const AccountingTransactionListTable = ({ accountingData }) => {
+const FinancialTransactionListTable = ({ financialData }) => {
   // ** State
   const [anchorEl, setAnchorEl] = useState(null)
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 7 })
@@ -206,7 +206,7 @@ const AccountingTransactionListTable = ({ accountingData }) => {
     <Grid container spacing={6.5}>
       <Grid item xs={12} lg={12}>
         <Card>
-          {console.log('so the transaction data', accountingData)}
+          {console.log('so the transaction data', financialData)}
           {/* <CardHeader
         title='Transaction History'
         sx={{ '& .MuiCardHeader-action': { m: 0 } }}
@@ -237,7 +237,7 @@ const AccountingTransactionListTable = ({ accountingData }) => {
             columns={columns}
             loading={false}
             slots={{ toolbar: CustomTenantToolbar }}
-            rows={[...(accountingData?.transactions?.expenses || []), ...(accountingData?.transactions?.revenue || [])]}
+            rows={[...(financialData?.transactions?.expenses || []), ...(financialData?.transactions?.revenue || [])]}
             disableRowSelectionOnClick
             pageSizeOptions={[7, 10, 25, 50]}
             paginationModel={paginationModel}
@@ -266,4 +266,4 @@ const AccountingTransactionListTable = ({ accountingData }) => {
   )
 }
 
-export default AccountingTransactionListTable
+export default FinancialTransactionListTable

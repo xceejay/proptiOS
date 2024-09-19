@@ -12,17 +12,17 @@ import authConfig from 'src/configs/auth'
 
 // ** Defaults
 const defaultProvider = {
-  accounting: null,
+  financial: null,
   loading: true,
-  setAccounting: () => null,
+  setFinancial: () => null,
   setLoading: () => Boolean,
-  getAllAccounting: () => Promise.resolve()
+  getAllFinancial: () => Promise.resolve()
 }
-const AccountingContext = createContext(defaultProvider)
+const FinancialContext = createContext(defaultProvider)
 
-const AccountingProvider = ({ children }) => {
+const FinancialProvider = ({ children }) => {
   // ** States
-  const [accounting, setAccounting] = useState(defaultProvider.user)
+  const [financial, setFinancial] = useState(defaultProvider.user)
   const [loading, setLoading] = useState(defaultProvider.loading)
 
   // ** Hooks
@@ -47,7 +47,7 @@ const AccountingProvider = ({ children }) => {
   // }, [])
 
   //function for registering an account.
-  const getAllAccounting = (params, successCallback, errorCallback) => {
+  const getAllFinancial = (params, successCallback, errorCallback) => {
     const token = window.localStorage.getItem('accessToken') || accessToken
 
     if (!token) {
@@ -58,7 +58,7 @@ const AccountingProvider = ({ children }) => {
     }
 
     axios
-      .get('https://api.pm.manages.homes/accounting', {
+      .get('https://api.pm.manages.homes/financial', {
         headers: {
           Authorization: `Bearer ${token}`
         },
@@ -67,7 +67,7 @@ const AccountingProvider = ({ children }) => {
       .then(response => {
         if (successCallback) {
           successCallback(response.data)
-          setAccounting(response.data)
+          setFinancial(response.data)
         }
       })
       .catch(err => {
@@ -76,14 +76,14 @@ const AccountingProvider = ({ children }) => {
   }
 
   const values = {
-    accounting,
+    financial,
     loading,
-    setAccounting,
+    setFinancial,
     setLoading,
-    getAllAccounting: getAllAccounting
+    getAllFinancial: getAllFinancial
   }
 
-  return <AccountingContext.Provider value={values}>{children}</AccountingContext.Provider>
+  return <FinancialContext.Provider value={values}>{children}</FinancialContext.Provider>
 }
 
-export { AccountingContext, AccountingProvider }
+export { FinancialContext, FinancialProvider }

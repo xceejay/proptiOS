@@ -2,15 +2,15 @@ import Grid from '@mui/material/Grid'
 import ApexChartWrapper from 'src/@core/styles/libs/react-apexcharts'
 import CrmEarningReportsWithTabs from 'src/ui/dashboard/CrmEarningReportsWithTabs'
 import CardStatsVertical from 'src/@core/components/card-statistics/card-stats-vertical'
-import AccountingTable from 'src/ui/accounting/AccountingTable'
+import FinancialTable from 'src/ui/financial/FinancialTable'
 import { Box } from '@mui/material'
 
-const Accounting = () => {
+const Financial = () => {
   return (
     <Box>
       <ApexChartWrapper>
         <Grid container spacing={6}>
-          <Grid item lg={12} xs={12}>
+    <Grid item lg={12} xs={12}>
             <Grid container spacing={6}>
               <Grid item xs={12} md={6} lg={8}>
                 <CrmEarningReportsWithTabs />
@@ -47,7 +47,7 @@ const Accounting = () => {
                       chipText='-12.2%'
                       chipColor='default'
                       avatarColor='info'
-                      title='Accounting Value'
+                      title='Financial Value'
                       subtitle='Last week'
                       avatarIcon='tabler:home'
                     />
@@ -69,13 +69,13 @@ const Accounting = () => {
           </Grid>
 
           <Grid item xs={12} md={12} lg={12}>
-            <AccountingTable></AccountingTable>
+            <FinancialTable></FinancialTable>
           </Grid>
         </Grid>
       </ApexChartWrapper>
     </Box>
   )
 }
-Accounting.acl = { action: 'read', subject: 'accounting' }
+Financial.acl = { action: 'read', subject: 'financial' }
 
-export default Accounting
+export default Financial

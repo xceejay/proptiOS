@@ -151,22 +151,22 @@ const EditTransactionDrawer = props => {
     }
   }, [tenantData, tenantData, reset])
 
-  // const refreshAccountingData = () => {
+  // const refreshFinancialData = () => {
   //   if (id) {
   //     // Ensure id is defined before making the API call
-  //     properties.getAccounting(
+  //     properties.getFinancial(
   //       id,
   //       responseData => {
   //         console.log('refreshed data')
   //         let { data } = responseData
-  //         setAccountingData(data)
+  //         setFinancialData(data)
   //         console.log('FROM Edit tenant PAGE: refreshing property Data', responseData)
 
   //         if (responseData?.status === 'FAILED') {
   //           alert(responseData.message || 'Failed to fetch properties')
   //         }
 
-  //         setTenantsData([...accountingData?.tenants])
+  //         setTenantsData([...financialData?.tenants])
   //         setLoading(false)
   //       },
   //       error => {
@@ -178,7 +178,7 @@ const EditTransactionDrawer = props => {
   // }
 
   // useEffect(() => {
-  //   refreshAccountingData()
+  //   refreshFinancialData()
   // }, [open])
 
   const onSubmit = formData => {

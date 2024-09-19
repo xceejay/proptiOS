@@ -1,7 +1,7 @@
 import { Grid } from '@mui/material'
 import CardStatsVertical from 'src/@core/components/card-statistics/card-stats-vertical'
 
-const ParentAccountingViewOverview = ({ setAccountingData, accountingData }) => {
+const ParentFinancialViewOverview = ({ setFinancialData, financialData }) => {
   return (
     <Grid>
       <Grid item xs={12} sm={12} lg={12}>
@@ -70,4 +70,4 @@ const ParentAccountingViewOverview = ({ setAccountingData, accountingData }) => 
   )
 }
 
-export default ParentAccountingViewOverview
+export default ParentFinancialViewOverview

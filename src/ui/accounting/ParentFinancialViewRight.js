@@ -19,8 +19,8 @@ import Icon from 'src/@core/components/icon'
 
 // ** Demo Components Imports
 
-import ParentAccountingViewOverview from './ParentAccountingViewOverview'
-import ParentAccountingViewPayments from './ParentAccountingViewPayments'
+import ParentFinancialViewOverview from './ParentFinancialViewOverview'
+import ParentFinancialViewPayments from './ParentFinancialViewPayments'
 
 // ** Styled Tab component
 const Tab = styled(MuiTab)(({ theme }) => ({
@@ -55,7 +55,7 @@ const TabList = styled(MuiTabList)(({ theme }) => ({
 //   }
 // }))
 
-const ParentAccountingViewRight = ({ tab, accountingData, setAccountingData }) => {
+const ParentFinancialViewRight = ({ tab, financialData, setFinancialData }) => {
   // ** State
   const [activeTab, setActiveTab] = useState(tab)
   const [isLoading, setIsLoading] = useState(true)
@@ -69,7 +69,7 @@ const ParentAccountingViewRight = ({ tab, accountingData, setAccountingData }) =
     setActiveTab(value)
     router
       .push({
-        pathname: `/accounting/${value.toLowerCase()}`
+        pathname: `/financial/${value.toLowerCase()}`
       })
       .then(() => setIsLoading(false))
   }
@@ -80,12 +80,12 @@ const ParentAccountingViewRight = ({ tab, accountingData, setAccountingData }) =
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tab])
   useEffect(() => {
-    // if (accountingData) {
+    // if (financialData) {
     //   setIsLoading(false)
     // }
 
     setIsLoading(false)
-  }, [accountingData])
+  }, [financialData])
 
   return (
     <TabContext value={activeTab}>
@@ -113,11 +113,11 @@ const ParentAccountingViewRight = ({ tab, accountingData, setAccountingData }) =
         ) : (
           <>
             <TabPanel sx={{ p: 0 }} value='overview'>
-              <ParentAccountingViewOverview setAccountingData={setAccountingData} accountingData={accountingData} />
+              <ParentFinancialViewOverview setFinancialData={setFinancialData} financialData={financialData} />
             </TabPanel>
 
             <TabPanel sx={{ p: 0 }} value='payments'>
-              <ParentAccountingViewPayments setAccountingData={setAccountingData} accountingData={accountingData} />
+              <ParentFinancialViewPayments setFinancialData={setFinancialData} financialData={financialData} />
             </TabPanel>
           </>
         )}
@@ -126,4 +126,4 @@ const ParentAccountingViewRight = ({ tab, accountingData, setAccountingData }) =
   )
 }
 
-export default ParentAccountingViewRight
+export default ParentFinancialViewRight
