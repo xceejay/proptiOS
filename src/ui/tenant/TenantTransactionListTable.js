@@ -180,7 +180,7 @@ const columns = [
   // }
 ]
 
-const TenantInvoiceListTable = ({ tenantTransactionData }) => {
+const TenantTransactionListTable = ({ tenantTransactionData }) => {
   // ** State
   const [anchorEl, setAnchorEl] = useState(null)
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 7 })
@@ -202,8 +202,10 @@ const TenantInvoiceListTable = ({ tenantTransactionData }) => {
   }
 
   return (
-    <Card>
-      {/* <CardHeader
+    <Grid container spacing={6.5}>
+      <Grid item xs={12} lg={12}>
+        <Card>
+          {/* <CardHeader
         title='Transaction History'
         sx={{ '& .MuiCardHeader-action': { m: 0 } }}
         action={
@@ -227,37 +229,39 @@ const TenantInvoiceListTable = ({ tenantTransactionData }) => {
           </>
         }
       /> */}
-      <DataGrid
-        autoHeight
-        rowHeight={54}
-        columns={columns}
-        loading={false}
-        slots={{ toolbar: CustomTenantToolbar }}
-        rows={tenantTransactionData}
-        disableRowSelectionOnClick
-        pageSizeOptions={[7, 10, 25, 50]}
-        paginationModel={paginationModel}
-        onPaginationModelChange={setPaginationModel}
-        initialState={{
-          columns: {
-            columnVisibilityModel: {
-              // Hide columns status and traderName, the other columns will remain visible
-              status: true,
-              payment_type: false
-            }
-          }
-        }}
-        slotProps={{
-          toolbar: {
-            title: 'Tenant Transactions',
-            searchPlaceholder: 'Quick Search',
-            value: value,
-            handleFilter: handleFilter
-          }
-        }}
-      />
-    </Card>
+          <DataGrid
+            autoHeight
+            rowHeight={54}
+            columns={columns}
+            loading={false}
+            slots={{ toolbar: CustomTenantToolbar }}
+            rows={tenantTransactionData}
+            disableRowSelectionOnClick
+            pageSizeOptions={[7, 10, 25, 50]}
+            paginationModel={paginationModel}
+            onPaginationModelChange={setPaginationModel}
+            initialState={{
+              columns: {
+                columnVisibilityModel: {
+                  // Hide columns status and traderName, the other columns will remain visible
+                  status: true,
+                  payment_type: false
+                }
+              }
+            }}
+            slotProps={{
+              toolbar: {
+                title: 'Tenant Transactions',
+                searchPlaceholder: 'Quick Search',
+                value: value,
+                handleFilter: handleFilter
+              }
+            }}
+          />
+        </Card>
+      </Grid>
+    </Grid>
   )
 }
 
-export default TenantInvoiceListTable
+export default TenantTransactionListTable

@@ -1,39 +1,41 @@
 import { useEffect, useState } from 'react'
 
-import Grid from '@mui/material/Grid'
-
 import { useRouter } from 'next/router'
 import ParentAccountingEditInfo from 'src/ui/accounting/ParentAccountingEditInfo'
+import { useAccounting } from 'src/hooks/useAccounting'
 
 const AccountingTab = () => {
   const router = useRouter()
   const { tab } = router.query
   const [accountingData, setAccountingData] = useState(null)
+  const paginationModel = {}
+  const [loading, setLoading] = useState(false)
 
-  // useEffect(() => {
-  //   if (id) {
-  //     // Ensure id is defined before making the API call
-  //     tenants.getTenant(
-  //       id,
-  //       responseData => {
-  //         console.log('called')
-  //         let { data } = responseData
-  //         setTenantData(data)
-  //         console.log('FROM INDEX PAGE:', responseData)
+  const accounting = useAccounting()
+  useEffect(() => {
+    if (!accountingData) {
+      accounting.getAllAccounting(
+        { page: paginationModel?.page || 0, limit: paginationModel?.pageSize || 0 },
+        responseData => {
+          const { data } = responseData
 
-  //         if (responseData?.status === 'FAILED') {
-  //           alert(responseData.message || 'Failed to fetch tenants')
-  //         }
-  //       },
-  //       error => {
-  //         console.log(id)
-  //         console.error('FROM INDEX PAGE:', error)
-  //       }
-  //     )
-  //   }
-  // }, [id])
+          if (data?.status === 'FAILED') {
+            alert(response.message || 'Failed to fetch properties')
+          } else {
+            setAccountingData(data)
+          }
 
-  return <ParentAccountingEditInfo tab={tab} accountingData={accountingData} />
+          setLoading(false) // Stop loading when the request completes
+        },
+        error => {
+          console.error('Accounting data cannot be retrieved:', error)
+          setLoading(false) // Stop loading on error
+        }
+      )
+    }
+  }, [])
+
+  return <ParentAccountingEditInfo tab={tab} setAccountingData={setAccountingData} accountingData={accountingData} />
 }
 
 export default AccountingTab

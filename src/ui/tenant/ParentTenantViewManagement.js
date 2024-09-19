@@ -18,7 +18,7 @@ import MuiTimeline from '@mui/lab/Timeline'
 import Icon from 'src/@core/components/icon'
 
 // ** Demo Component Imports
-import TenantInvoiceListTable from 'src/ui/tenant/TenantInvoiceListTable'
+import TenantTransactionListTable from 'src/ui/tenant/TenantTransactionListTable'
 import TenantProjectListTable from 'src/ui/tenant/TenantProjectListTable'
 
 // ** Custom Components Imports
