@@ -98,6 +98,11 @@ const ParentAccountingViewRight = ({ tab, accountingData, setAccountingData }) =
       >
         <Tab disabled value='overview' label='overview' icon={<Icon fontSize='1.125rem' icon='tabler:home' />} />
         <Tab value='payments' label='payments' icon={<Icon fontSize='1.125rem' icon='tabler:cash-register' />} />
+        <Tab value='configuration' label='configuration' icon={<Icon fontSize='1.125rem' icon='tabler:tool' />} />
+
+        {/* <Tab value='reminders' label='' icon={<Icon fontSize='1.125rem' icon='tabler:bell' />} /> */}
+
+        <Tab value='reminders' label='reminders' icon={<Icon fontSize='1.125rem' icon='tabler:bell' />} />
       </TabList>
       <Box sx={{ mt: 6 }}>
         {isLoading ? (
