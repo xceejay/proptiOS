@@ -25,6 +25,7 @@ const navigation = () => {
       title: 'Leases',
       path: '/leases',
       icon: 'tabler:contract',
+      disabled: true,
       action: 'read',
       subject: 'leases'
     },
@@ -32,6 +33,7 @@ const navigation = () => {
       title: 'Finance',
       path: '/finance',
       icon: 'tabler:file-dollar',
+      disabled: true,
       action: 'read',
       subject: 'finance'
     },
@@ -48,6 +50,7 @@ const navigation = () => {
       title: 'User Management',
       path: '/users',
       icon: 'tabler:users',
+      disabled: true,
       action: 'read',
       subject: 'users'
     },
@@ -70,6 +73,7 @@ const navigation = () => {
     {
       title: 'Support',
       path: 'https://manages.homes/support',
+      disabled: true,
       icon: 'tabler:help',
       action: 'read',
       subject: 'support'
