@@ -11,7 +11,7 @@ const TenantEditInfo = ({ tenantData, tab }) => {
       <Grid item xs={12} md={5} lg={4}>
         <TenantViewLeft tenantData={tenantData} />
       </Grid>
-      <Grid item xs={12} md={7} lg={8}>
+      <Grid item xs={12} md={12} lg={8}>
         <TenantViewRight tenantData={tenantData} tab={tab} />
       </Grid>
     </Grid>
