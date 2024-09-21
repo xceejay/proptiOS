@@ -17,12 +17,14 @@ import Icon from 'src/@core/components/icon'
 import AddCard from 'src/views/apps/lease/add/AddCard'
 import AddActions from 'src/views/apps/lease/add/AddActions'
 import AddNewCustomer from 'src/views/apps/lease/add/AddNewCustomer'
+import { useRouter } from 'next/router'
 
 const InvoiceAdd = ({}) => {
   // ** State
   const [addCustomerOpen, setAddCustomerOpen] = useState(false)
   const [selectedClient, setSelectedClient] = useState(null)
   const [clients, setClients] = useState([])
+  const router = useRouter()
   const toggleAddCustomerDrawer = () => setAddCustomerOpen(!addCustomerOpen)
 
   return (
