@@ -254,7 +254,7 @@ const AddCard = props => {
 
       <Divider />
 
-      <CardContent sx={{ px: [6, 10] }}>
+      <CardContent sx={{}}>
         <CustomLeaseEditor></CustomLeaseEditor>
       </CardContent>
       <Divider />
