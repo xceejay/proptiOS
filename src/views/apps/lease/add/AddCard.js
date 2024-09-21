@@ -35,6 +35,8 @@ import themeConfig from 'src/configs/themeConfig'
 
 // ** Custom Component Imports
 import Repeater from 'src/@core/components/repeater'
+import Editor from 'src/views/editor/Editor'
+import CustomLeaseEditor from 'src/views/editor/CustomLeaseEditor'
 
 const CustomInput = forwardRef(({ ...props }, ref) => {
   return <TextField size='small' inputRef={ref} sx={{ width: { sm: '250px', xs: '170px' } }} {...props} />
@@ -209,9 +211,9 @@ const AddCard = props => {
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: { xl: 'flex-end', xs: 'flex-start' } }}>
               <Box sx={{ mb: 3, display: 'flex', alignItems: 'center' }}>
                 <Typography variant='h6' sx={{ mr: 2, width: '105px' }}>
-                  Invoice
+                  Lease title
                 </Typography>
-                <TextField
+                {/* <TextField
                   size='small'
                   value={invoiceNumber}
                   sx={{ width: { sm: '250px', xs: '170px' } }}
@@ -219,6 +221,12 @@ const AddCard = props => {
                     disabled: true,
                     startAdornment: <InputAdornment position='start'>#</InputAdornment>
                   }}
+                /> */}
+
+                <TextField
+                  size='small'
+                  sx={{ width: { sm: '250px', xs: '170px' } }}
+                  defaultValue='Embassy Heights 1 Bedroom Lease Agreement'
                 />
               </Box>
               <Box sx={{ mb: 3, display: 'flex', alignItems: 'center' }}>
@@ -246,199 +254,26 @@ const AddCard = props => {
 
       <Divider />
 
-      <CardContent sx={{ p: [`${theme.spacing(6)} !important`, `${theme.spacing(10)} !important`] }}>
-        <Grid container>
-          <Grid item xs={12} sm={6} sx={{ mb: { lg: 0, xs: 4 } }}>
-            <Typography sx={{ mb: 6, fontWeight: 500 }}>Invoice To:</Typography>
-            <Select size='small' value={selected} onChange={handleInvoiceChange} sx={{ mb: 4, width: '200px' }}>
-              <CustomSelectItem value='' onClick={handleAddNewCustomer}>
-                <Box sx={{ display: 'flex', alignItems: 'center', '& svg': { mr: 2 } }}>
-                  <Icon icon='tabler:plus' fontSize='1.125rem' />
-                  Add New Customer
-                </Box>
-              </CustomSelectItem>
-              {clients !== undefined &&
-                clients.map(client => (
-                  <MenuItem key={client.name} value={client.name}>
-                    {client.name}
-                  </MenuItem>
-                ))}
-            </Select>
-            {selectedClient !== null && selectedClient !== undefined ? (
-              <>
-                <Typography sx={{ mb: 1.5, color: 'text.secondary' }}>{selectedClient.company}</Typography>
-                <Typography sx={{ mb: 1.5, color: 'text.secondary' }}>{selectedClient.address}</Typography>
-                <Typography sx={{ mb: 1.5, color: 'text.secondary' }}>{selectedClient.contact}</Typography>
-                <Typography sx={{ mb: 1.5, color: 'text.secondary' }}>{selectedClient.companyEmail}</Typography>
-              </>
-            ) : null}
-          </Grid>
-          <Grid item xs={12} sm={6} sx={{ display: 'flex', justifyContent: ['flex-start', 'flex-end'] }}>
-            <div>
-              <Typography sx={{ mb: 6, fontWeight: 500 }}>Bill To:</Typography>
-              <TableContainer>
-                <Table>
-                  <TableBody sx={{ '& .MuiTableCell-root': { py: `${theme.spacing(0.75)} !important` } }}>
-                    <TableRow>
-                      <MUITableCell>
-                        <Typography sx={{ color: 'text.secondary' }}>Total Due:</Typography>
-                      </MUITableCell>
-                      <MUITableCell>
-                        <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>$12,110.55</Typography>
-                      </MUITableCell>
-                    </TableRow>
-                    <TableRow>
-                      <MUITableCell>
-                        <Typography sx={{ color: 'text.secondary' }}>Bank name:</Typography>
-                      </MUITableCell>
-                      <MUITableCell>
-                        <Typography sx={{ color: 'text.secondary' }}>American Bank</Typography>
-                      </MUITableCell>
-                    </TableRow>
-                    <TableRow>
-                      <MUITableCell>
-                        <Typography sx={{ color: 'text.secondary' }}>Country:</Typography>
-                      </MUITableCell>
-                      <MUITableCell>
-                        <Typography sx={{ color: 'text.secondary' }}>United States</Typography>
-                      </MUITableCell>
-                    </TableRow>
-                    <TableRow>
-                      <MUITableCell>
-                        <Typography sx={{ color: 'text.secondary' }}>IBAN:</Typography>
-                      </MUITableCell>
-                      <MUITableCell>
-                        <Typography sx={{ color: 'text.secondary' }}>ETD95476213874685</Typography>
-                      </MUITableCell>
-                    </TableRow>
-                    <TableRow>
-                      <MUITableCell>
-                        <Typography sx={{ color: 'text.secondary' }}>SWIFT code:</Typography>
-                      </MUITableCell>
-                      <MUITableCell>
-                        <Typography sx={{ color: 'text.secondary' }}>BR91905</Typography>
-                      </MUITableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </div>
-          </Grid>
-        </Grid>
+      <CardContent sx={{ px: [6, 10] }}>
+        <CustomLeaseEditor></CustomLeaseEditor>
       </CardContent>
-
       <Divider />
 
-      <RepeaterWrapper>
-        <Repeater count={count}>
-          {i => {
-            const Tag = i === 0 ? Box : Collapse
-
-            return (
-              <Tag key={i} className='repeater-wrapper' {...(i !== 0 ? { in: true } : {})}>
-                <Grid container>
-                  <RepeatingContent item xs={12}>
-                    <Grid container sx={{ py: 4, width: '100%', pr: { lg: 0, xs: 4 } }}>
-                      <Grid item lg={6} md={5} xs={12} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
-                        <Typography className='col-title' sx={{ mb: { md: 2, xs: 0 }, color: 'text.secondary' }}>
-                          Item
-                        </Typography>
-                        <Select fullWidth size='small' defaultValue='App Design'>
-                          <MenuItem value='App Design'>App Design</MenuItem>
-                          <MenuItem value='App Customization'>App Customization</MenuItem>
-                          <MenuItem value='ABC Template'>ABC Template</MenuItem>
-                          <MenuItem value='App Development'>App Development</MenuItem>
-                        </Select>
-                        <TextField
-                          rows={2}
-                          fullWidth
-                          multiline
-                          size='small'
-                          sx={{ mt: 3.5 }}
-                          defaultValue='Customization & Bug Fixes'
-                        />
-                      </Grid>
-                      <Grid item lg={2} md={3} xs={12} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
-                        <Typography className='col-title' sx={{ mb: { md: 2, xs: 0 }, color: 'text.secondary' }}>
-                          Cost
-                        </Typography>
-                        <TextField
-                          size='small'
-                          type='number'
-                          placeholder='24'
-                          defaultValue='24'
-                          InputProps={{ inputProps: { min: 0 } }}
-                        />
-                        <Box sx={{ mt: 3.5 }}>
-                          <Typography component='span' sx={{ color: 'text.secondary' }}>
-                            Discount:
-                          </Typography>{' '}
-                          <Typography component='span' sx={{ color: 'text.secondary' }}>
-                            0%
-                          </Typography>
-                          <Tooltip title='Tax 1' placement='top'>
-                            <Typography component='span' sx={{ mx: 2, color: 'text.secondary' }}>
-                              0%
-                            </Typography>
-                          </Tooltip>
-                          <Tooltip title='Tax 2' placement='top'>
-                            <Typography component='span' sx={{ color: 'text.secondary' }}>
-                              0%
-                            </Typography>
-                          </Tooltip>
-                        </Box>
-                      </Grid>
-                      <Grid item lg={2} md={2} xs={12} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
-                        <Typography className='col-title' sx={{ mb: { md: 2, xs: 0 }, color: 'text.secondary' }}>
-                          Hours
-                        </Typography>
-                        <TextField
-                          size='small'
-                          type='number'
-                          placeholder='1'
-                          defaultValue='1'
-                          InputProps={{ inputProps: { min: 0 } }}
-                        />
-                      </Grid>
-                      <Grid item lg={2} md={1} xs={12} sx={{ px: 4, my: { lg: 0 }, mt: 2 }}>
-                        <Typography className='col-title' sx={{ mb: { md: 2, xs: 0 }, color: 'text.secondary' }}>
-                          Price
-                        </Typography>
-                        <Typography sx={{ color: 'text.secondary' }}>$24.00</Typography>
-                      </Grid>
-                    </Grid>
-                    <InvoiceAction>
-                      <IconButton size='small' onClick={deleteForm}>
-                        <Icon icon='tabler:x' fontSize='1.25rem' />
-                      </IconButton>
-                    </InvoiceAction>
-                  </RepeatingContent>
-                </Grid>
-              </Tag>
-            )
-          }}
-        </Repeater>
-
-        <Grid container sx={{ mt: 4 }}>
-          <Grid item xs={12} sx={{ px: 0 }}>
-            <Button size='small' variant='contained' onClick={() => setCount(count + 1)}>
-              Add Item
-            </Button>
-          </Grid>
-        </Grid>
-      </RepeaterWrapper>
-
-      <Divider />
       <CardContent sx={{ p: [`${theme.spacing(6)} !important`, `${theme.spacing(10)} !important`] }}>
         <Grid container>
           <Grid item xs={12} sm={7} lg={9} sx={{ order: { sm: 1, xs: 2 } }}>
             <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
               <Typography variant='body2' sx={{ mr: 2, fontWeight: 600 }}>
-                Salesperson:
+                Tenant:
               </Typography>
               <TextField size='small' sx={{ maxWidth: '150px' }} defaultValue='Tommy Shelby' />
             </Box>
-            <TextField size='small' sx={{ maxWidth: '300px' }} placeholder='Thanks for your business' />
+            <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
+              <Typography variant='body2' sx={{ mr: 2, fontWeight: 600 }}>
+                Signature:
+              </Typography>
+              <TextField size='small' sx={{ maxWidth: '150px' }} defaultValue='' />
+            </Box>
           </Grid>
           <Grid item xs={12} sm={5} lg={3} sx={{ mb: { sm: 0, xs: 4 }, order: { sm: 2, xs: 1 } }}>
             <CalcWrapper>
