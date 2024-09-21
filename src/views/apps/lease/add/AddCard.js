@@ -26,6 +26,7 @@ import MenuItem from '@mui/material/MenuItem'
 import TableCell from '@mui/material/TableCell'
 import CardContent from '@mui/material/CardContent'
 import { useForm, Controller } from 'react-hook-form'
+import Autocomplete from '@mui/material/Autocomplete'
 
 const currencies = [
   { code: 'USD', name: 'United States Dollar', symbol: '$' },
@@ -192,6 +193,7 @@ const AddCard = props => {
   // ** Props
   const { clients, invoiceNumber, selectedClient, setSelectedClient, toggleAddCustomerDrawer } = props
 
+  const allTenantsData = []
   // ** States
   const [count, setCount] = useState(1)
   const [selected, setSelected] = useState('')
@@ -353,6 +355,25 @@ const AddCard = props => {
                 Tenant:
               </Typography>
               {/* <TextField size='small' defaultValue='Tommy Shelby' /> */}
+
+              <FormControl>
+                <Controller
+                  render={({ onChange, ...props }) => (
+                    <Autocomplete
+                      size='small'
+                      options={allTenantsData?.items || []}
+                      getOptionLabel={tenant => tenant.name + '(' + tenant.email + ')'} // Display the tenant name
+                      getOptionDisabled={tenant => !!tenant.property?.id}
+                      sx={{ minWidth: 150 }}
+                      renderInput={params => <TextField {...params} label='Select Tenant' />}
+                    />
+                  )}
+                  onChange={([, data]) => data}
+                  defaultValue={''}
+                  name={name}
+                  control={control}
+                />
+              </FormControl>
             </Box>
             <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
               <Typography variant='body2' sx={{ mr: 2, fontWeight: 600 }}>
