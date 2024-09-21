@@ -252,12 +252,12 @@ const AddCard = props => {
         </Grid>
       </CardContent>
 
-      <Divider />
+      {/* <Divider /> */}
 
       <CardContent sx={{}}>
         <CustomLeaseEditor></CustomLeaseEditor>
       </CardContent>
-      <Divider />
+      {/* <Divider /> */}
 
       <CardContent sx={{ p: [`${theme.spacing(6)} !important`, `${theme.spacing(10)} !important`] }}>
         <Grid container>
