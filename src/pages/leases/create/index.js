@@ -39,7 +39,7 @@ const InvoiceAdd = ({}) => {
 
         <DatePickerWrapper sx={{ '& .react-datepicker-wrapper': { width: 'auto' } }}>
           <Grid container spacing={6}>
-            <Grid item xl={9} md={8} xs={12}>
+            <Grid item xl={9} lg={9.5} md={8} xs={12}>
               <AddCard
                 clients={clients}
                 invoiceNumber={1}
@@ -48,7 +48,7 @@ const InvoiceAdd = ({}) => {
                 toggleAddCustomerDrawer={toggleAddCustomerDrawer}
               />
             </Grid>
-            <Grid item xl={3} md={4} xs={12}>
+            <Grid item xl={3} lg={2.5} md={4} xs={12}>
               <AddActions />
             </Grid>
           </Grid>

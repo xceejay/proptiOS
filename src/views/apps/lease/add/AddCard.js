@@ -20,9 +20,49 @@ import InputAdornment from '@mui/material/InputAdornment'
 import TableContainer from '@mui/material/TableContainer'
 import { styled, alpha, useTheme } from '@mui/material/styles'
 import Select from '@mui/material/Select'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
 import MenuItem from '@mui/material/MenuItem'
 import TableCell from '@mui/material/TableCell'
 import CardContent from '@mui/material/CardContent'
+import { useForm, Controller } from 'react-hook-form'
+
+const currencies = [
+  { code: 'USD', name: 'United States Dollar', symbol: '$' },
+  { code: 'EUR', name: 'Euro', symbol: '€' },
+  { code: 'GBP', name: 'British Pound Sterling', symbol: '£' },
+  { code: 'JPY', name: 'Japanese Yen', symbol: '¥' },
+  { code: 'CHF', name: 'Swiss Franc', symbol: 'CHF' },
+  { code: 'CAD', name: 'Canadian Dollar', symbol: '$' },
+  { code: 'AUD', name: 'Australian Dollar', symbol: '$' },
+  { code: 'CNY', name: 'Chinese Yuan', symbol: '¥' },
+  { code: 'INR', name: 'Indian Rupee', symbol: '₹' },
+  { code: 'ZAR', name: 'South African Rand', symbol: 'R' },
+  { code: 'NGN', name: 'Nigerian Naira', symbol: '₦' },
+  { code: 'GHS', name: 'Ghanaian Cedi', symbol: '₵' },
+  { code: 'KES', name: 'Kenyan Shilling', symbol: 'KSh' },
+  { code: 'UGX', name: 'Ugandan Shilling', symbol: 'USh' },
+  { code: 'TZS', name: 'Tanzanian Shilling', symbol: 'TSh' },
+  { code: 'BRL', name: 'Brazilian Real', symbol: 'R$' },
+  { code: 'MXN', name: 'Mexican Peso', symbol: '$' },
+  { code: 'RUB', name: 'Russian Ruble', symbol: '₽' },
+  { code: 'SGD', name: 'Singapore Dollar', symbol: '$' },
+  { code: 'HKD', name: 'Hong Kong Dollar', symbol: '$' },
+  { code: 'SEK', name: 'Swedish Krona', symbol: 'kr' },
+  { code: 'NOK', name: 'Norwegian Krone', symbol: 'kr' },
+  { code: 'DKK', name: 'Danish Krone', symbol: 'kr' },
+  { code: 'PLN', name: 'Polish Zloty', symbol: 'zł' },
+  { code: 'TRY', name: 'Turkish Lira', symbol: '₺' },
+  { code: 'KRW', name: 'South Korean Won', symbol: '₩' },
+  { code: 'MYR', name: 'Malaysian Ringgit', symbol: 'RM' },
+  { code: 'THB', name: 'Thai Baht', symbol: '฿' },
+  { code: 'PHP', name: 'Philippine Peso', symbol: '₱' },
+  { code: 'IDR', name: 'Indonesian Rupiah', symbol: 'Rp' },
+  { code: 'SAR', name: 'Saudi Riyal', symbol: '﷼' },
+  { code: 'AED', name: 'United Arab Emirates Dirham', symbol: 'د.إ' },
+  { code: 'EGP', name: 'Egyptian Pound', symbol: '£' },
+  { code: 'MAD', name: 'Moroccan Dirham', symbol: 'د.م.' }
+]
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
@@ -130,6 +170,25 @@ const now = new Date()
 const tomorrowDate = now.setDate(now.getDate() + 7)
 
 const AddCard = props => {
+  const defaultValues = {
+    // country: countries.[]
+  }
+
+  const schema = yup.object().shape({
+    // email: yup.string().email().required()
+  })
+
+  const {
+    control,
+    setError,
+    handleSubmit,
+    formState: { errors }
+  } = useForm({
+    defaultValues,
+    mode: 'onBlur',
+    resolver: yupResolver(schema)
+  })
+
   // ** Props
   const { clients, invoiceNumber, selectedClient, setSelectedClient, toggleAddCustomerDrawer } = props
 
@@ -289,29 +348,63 @@ const AddCard = props => {
           r
         >
           <Grid item xs={12} sm={6} lg={6} sx={{ order: { sm: 1, xs: 2 } }}>
-            <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
+            <Box sx={{ mb: 6, display: 'flex', alignItems: 'center' }}>
               <Typography variant='body2' sx={{ mr: 2, fontWeight: 600 }}>
                 Tenant:
               </Typography>
-              <TextField size='small' defaultValue='Tommy Shelby' />
+              {/* <TextField size='small' defaultValue='Tommy Shelby' /> */}
             </Box>
             <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
               <Typography variant='body2' sx={{ mr: 2, fontWeight: 600 }}>
                 Signature:
               </Typography>
-              <TextField size='small' defaultValue='' />
+              {/* <TextField size='small' defaultValue='' /> */}
             </Box>
           </Grid>
           <Grid item xs={12} sm={5} lg={4} sx={{ mb: { sm: 0, xs: 4 }, order: { sm: 2, xs: 1 } }}>
             <CalcWrapperNew>
+              <Typography sx={{ color: 'text.secondary' }}>Currency:</Typography>
+
+              <FormControl sx={{}}>
+                <Controller
+                  name='Currency'
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { value, onChange, onBlur } }) => (
+                    <>
+                      <TextField
+                        select
+                        id='custom-select-native'
+                        value={value}
+                        onChange={onChange}
+                        onBlur={onBlur}
+                        name='currency'
+                        required
+                        size='small'
+                        fullWidth
+                      >
+                        {currencies.map(currency => (
+                          <MenuItem key={currency.code} value={currency.code}>
+                            {currency.name}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                    </>
+                  )}
+                />
+              </FormControl>
+            </CalcWrapperNew>
+
+            <CalcWrapperNew>
               <Typography sx={{ color: 'text.secondary' }}>Rent Amount:</Typography>
               {/* <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>$2000</Typography> */}
               <FormControl>
-                <TextField size='small' defaultValue='1' />
+                <TextField sx={{ width: '142px' }} size='small' defaultValue='1' />
               </FormControl>
             </CalcWrapperNew>
+
             <CalcWrapperNew>
-              <Typography sx={{ color: 'text.secondary' }}>Payment Frequency:</Typography>
+              <Typography sx={{ color: 'text.secondary' }}>Rent Payment Frequency:</Typography>
               <FormControl>
                 <Select value={paymentFrequencyValue} size='small' onChange={handlePaymentFrequencyValue}>
                   {statuses?.map((payment_frequency, index) => {
@@ -320,25 +413,7 @@ const AddCard = props => {
                 </Select>
               </FormControl>
             </CalcWrapperNew>
-            <CalcWrapperNew>
-              <Typography sx={{ color: 'text.secondary' }}>Extra Contributions:</Typography>
-              {/* <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>$2000</Typography> */}
-              <TextField size='small' defaultValue='1' />
-            </CalcWrapperNew>
 
-            <CalcWrapperNew>
-              <Typography sx={{ color: 'text.secondary' }}>Currency:</Typography>
-              {/* <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>$2000</Typography> */}
-              <TextField
-                size='small'
-                value={''}
-                sx={{ ml: 2 }}
-                InputProps={{
-                  disabled: false,
-                  startAdornment: <InputAdornment position='start'>$</InputAdornment>
-                }}
-              />
-            </CalcWrapperNew>
             <CalcWrapperNew>
               <Typography sx={{ color: 'text.secondary' }}>Additional Fees:</Typography>
               <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>$0</Typography>
