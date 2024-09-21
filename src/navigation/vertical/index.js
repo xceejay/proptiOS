@@ -63,6 +63,14 @@ const navigation = () => {
       subject: 'audit'
     },
     {
+      title: 'Integrations',
+      path: '/integrations',
+      icon: 'tabler:cloud-upload',
+      disabled: true,
+      action: 'read',
+      subject: 'communication'
+    },
+    {
       title: 'Communication',
       path: '/communication',
       icon: 'tabler:brand-telegram',
@@ -70,14 +78,7 @@ const navigation = () => {
       action: 'read',
       subject: 'communication'
     },
-    {
-      title: 'Data Integration',
-      path: '/communication',
-      icon: 'tabler:cloud-upload',
-      disabled: true,
-      action: 'read',
-      subject: 'communication'
-    },
+
     {
       title: 'Support',
       path: 'https://manages.homes/support',
