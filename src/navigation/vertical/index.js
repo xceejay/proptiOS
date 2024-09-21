@@ -65,7 +65,7 @@ const navigation = () => {
     {
       title: 'Integrations',
       path: '/integrations',
-      icon: 'tabler:cloud-upload',
+      icon: 'tabler:layout-grid-add',
       disabled: true,
       action: 'read',
       subject: 'communication'
