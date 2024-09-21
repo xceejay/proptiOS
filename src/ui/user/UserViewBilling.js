@@ -41,7 +41,7 @@ import Cards from 'react-credit-cards'
 
 // ** Custom Components
 import CustomChip from 'src/@core/components/mui/chip'
-import TenantSubscriptionDialog from 'src/ui/tenant/TenantSubscriptionDialog'
+import UserSubscriptionDialog from 'src/ui/user/UserSubscriptionDialog'
 
 // ** Util Import
 import { formatCVC, formatExpirationDate, formatCreditCardNumber } from 'src/@core/utils/format'
@@ -98,7 +98,7 @@ const data = [
   }
 ]
 
-const UserViewInvite = () => {
+const UserViewBilling = () => {
   // ** States
   const [cvc, setCvc] = useState('')
   const [name, setName] = useState('')
@@ -212,7 +212,7 @@ const UserViewInvite = () => {
             </Grid>
           </CardContent>
 
-          <TenantSubscriptionDialog open={subscriptionDialogOpen} setOpen={setSubscriptionDialogOpen} />
+          <UserSubscriptionDialog open={subscriptionDialogOpen} setOpen={setSubscriptionDialogOpen} />
 
           <Dialog
             open={openUpgradePlans}
@@ -741,4 +741,4 @@ const UserViewInvite = () => {
   )
 }
 
-export default UserViewInvite
+export default UserViewBilling

@@ -15,40 +15,117 @@ import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, Controller } from 'react-hook-form'
 import Icon from 'src/@core/components/icon'
-import { useUsers } from 'src/hooks/useUsers'
+import { useDispatch, useSelector } from 'react-redux'
+import { addUser } from 'src/store/apps/user'
+import { useProperties } from 'src/hooks/useProperties'
 import toast from 'react-hot-toast'
+import Autocomplete from '@mui/material/Autocomplete'
+import CustomChip from 'src/@core/components/mui/chip'
+
+import { useUsers } from 'src/hooks/useUsers'
+import { useRouter } from 'next/router'
+
+const countries = [
+  { name: 'Algeria', code: 'DZA' },
+  { name: 'Angola', code: 'AGO' },
+  { name: 'Benin', code: 'BEN' },
+  { name: 'Botswana', code: 'BWA' },
+  { name: 'Burkina Faso', code: 'BFA' },
+  { name: 'Burundi', code: 'BDI' },
+  { name: 'Cabo Verde', code: 'CPV' },
+  { name: 'Cameroon', code: 'CMR' },
+  { name: 'Central African Republic', code: 'CAF' },
+  { name: 'Chad', code: 'TCD' },
+  { name: 'Comoros', code: 'COM' },
+  { name: 'Democratic Republic of the Congo', code: 'COD' },
+  { name: 'Republic of the Congo', code: 'COG' },
+  { name: 'Djibouti', code: 'DJI' },
+  { name: 'Egypt', code: 'EGY' },
+  { name: 'Equatorial Guinea', code: 'GNQ' },
+  { name: 'Eritrea', code: 'ERI' },
+  { name: 'Eswatini', code: 'SWZ' },
+  { name: 'Ethiopia', code: 'ETH' },
+  { name: 'Gabon', code: 'GAB' },
+  { name: 'Gambia', code: 'GMB' },
+  { name: 'Ghana', code: 'GHA' },
+  { name: 'Guinea', code: 'GIN' },
+  { name: 'Guinea-Bissau', code: 'GNB' },
+  { name: 'Ivory Coast', code: 'CIV' },
+  { name: 'Kenya', code: 'KEN' },
+  { name: 'Lesotho', code: 'LSO' },
+  { name: 'Liberia', code: 'LBR' },
+  { name: 'Libya', code: 'LBY' },
+  { name: 'Madagascar', code: 'MDG' },
+  { name: 'Malawi', code: 'MWI' },
+  { name: 'Mali', code: 'MLI' },
+  { name: 'Mauritania', code: 'MRT' },
+  { name: 'Mauritius', code: 'MUS' },
+  { name: 'Morocco', code: 'MAR' },
+  { name: 'Mozambique', code: 'MOZ' },
+  { name: 'Namibia', code: 'NAM' },
+  { name: 'Niger', code: 'NER' },
+  { name: 'Nigeria', code: 'NGA' },
+  { name: 'Rwanda', code: 'RWA' },
+  { name: 'Sao Tome and Principe', code: 'STP' },
+  { name: 'Senegal', code: 'SEN' },
+  { name: 'Seychelles', code: 'SYC' },
+  { name: 'Sierra Leone', code: 'SLE' },
+  { name: 'Somalia', code: 'SOM' },
+  { name: 'South Africa', code: 'ZAF' },
+  { name: 'South Sudan', code: 'SSD' },
+  { name: 'Sudan', code: 'SDN' },
+  { name: 'Tanzania', code: 'TZA' },
+  { name: 'Togo', code: 'TGO' },
+  { name: 'Tunisia', code: 'TUN' },
+  { name: 'Uganda', code: 'UGA' },
+  { name: 'Zambia', code: 'ZMB' },
+  { name: 'Zimbabwe', code: 'ZWE' }
+]
+
+const userTypes = [
+  { name: 'Single-Family Home', value: 'single_family_home' },
+  { name: 'Multi-Family Home', value: 'multi_family_home' },
+  { name: 'Apartment', value: 'apartment' },
+  { name: 'Single-Unit Office', value: 'single_unit_office' },
+  { name: 'Multi-Unit Office', value: 'multi_unit_office' },
+  { name: 'Condo', value: 'condo' },
+  { name: 'Townhouse', value: 'townhouse' },
+  { name: 'Retail Space', value: 'retail_space' }
+]
 
 const EditUserDrawer = props => {
   const { userData, setUsersData, usersData, open, toggle, setLoading } = props
-  const users = useUsers()
+  const user = useUsers()
+  const properties = useProperties()
+  const router = useRouter()
+  const { id } = router.query
 
-  // Validation schema for user-specific fields
+  // Updated validation schema to include user-specific fields
   const schema = yup.object().shape({
-    user_type: yup.string().required('User Type is required'),
-    tenant_id: yup.string().required('Tenant is required'),
-    property_id: yup.string().required('Property is required'),
-    unit_id: yup.string().required('Unit is required'),
-    start_date: yup.date().required('Start Date is required'),
-    end_date: yup
-      .date()
-      .required('End Date is required')
-      .min(yup.ref('start_date'), 'End Date must be later than Start Date'),
-    rent_amount: yup.number().required('Rent amount is required').positive('Rent amount must be positive')
+    name: yup.string().min(3).required('User Name field is required'),
+    email: yup.string().email().required('Owner Email field is required'),
+    address: yup.string().nullable(),
+    country: yup.string().nullable(),
+    tel_number: yup.string().nullable(),
+    property_id: yup.string().nullable()
   })
 
   const defaultValues = {
-    user_type: userData?.user_type || '',
-    tenant_id: userData?.tenant?.id || '',
-    property_id: userData?.property?.id || '',
-    unit_id: userData?.unit?.id || '',
-    start_date: userData?.start_date || '',
-    end_date: userData?.end_date || '',
-    rent_amount: userData?.rent_amount || ''
+    uuid: userData?.uuid,
+    name: userData?.name,
+    email: userData?.email,
+    address: userData?.address,
+    country: userData?.country,
+    status: userData?.status,
+    tel_number: userData?.tel_number,
+    property_id: userData?.property_id
   }
 
   const {
     reset,
     control,
+    setValue,
+    setError,
     handleSubmit,
     formState: { errors }
   } = useForm({
@@ -59,49 +136,98 @@ const EditUserDrawer = props => {
 
   useEffect(() => {
     if (userData) {
+      console.log('resenting default values')
+
       reset({
-        user_type: userData?.user_type || '',
-        tenant_id: userData?.tenant?.id || '',
-        property_id: userData?.property?.id || '',
-        unit_id: userData?.unit?.id || '',
-        start_date: userData?.start_date || '',
-        end_date: userData?.end_date || '',
-        rent_amount: userData?.rent_amount || ''
+        uuid: userData?.uuid,
+        name: userData?.name,
+        email: userData?.email,
+        address: userData?.address,
+        country: userData?.country,
+        status: userData?.status,
+        tel_number: userData?.tel_number,
+        property_id: userData?.property_id
       })
     }
-  }, [userData, reset])
+  }, [userData])
+
+  // const refreshPropertyData = () => {
+  //   if (id) {
+  //     // Ensure id is defined before making the API call
+  //     properties.getProperty(
+  //       id,
+  //       responseData => {
+  //         console.log('refreshed data')
+  //         let { data } = responseData
+  //         setPropertyData(data)
+  //         console.log('FROM Edit user PAGE: refreshing property Data', responseData)
+
+  //         if (responseData?.status === 'FAILED') {
+  //           alert(responseData.message || 'Failed to fetch properties')
+  //         }
+
+  //         setUsersData([...propertyData?.users])
+  //         setLoading(false)
+  //       },
+  //       error => {
+  //         console.log(id)
+  //         console.error('FROM refresh btn PAGE:', error)
+  //       }
+  //     )
+  //   }
+  // }
+
+  // useEffect(() => {
+  //   refreshPropertyData()
+  // }, [open])
 
   const onSubmit = formData => {
     setLoading(true)
-    formData.id = userData.id // Ensure the user ID is included
+    formData.unit_id = userData.unit.id
+    formData.property_id = userData.property.id
+    formData.id = userData.id
 
     let requestData = [formData]
 
-    users.editUsers(
+    user.editUsers(
       requestData,
       responseData => {
         let { data } = responseData
 
         if (data?.status === 'FAILED') {
-          alert(data.description || 'Failed to update user')
+          alert(data.description || 'Failed to add user')
+          setError('email', {
+            type: 'manual',
+            message: data.description || 'Unknown error occurred'
+          })
 
           return
         }
 
-        toast.success('User updated successfully', { duration: 3000 })
+        const updatedRequestData = requestData.map(user => {
+          const matchingUser = data.find(response => response.uuid === user.uuid)
 
-        const updatedUsers = usersData.items.map(user => (user.id === userData.id ? { ...user, ...formData } : user))
-        setUsersData(prevData => ({
-          ...prevData,
-          items: updatedUsers
-        }))
+          if (matchingUser) {
+            return {
+              ...user,
+              id: matchingUser.id
+            }
+          }
+
+          return user
+        })
+
+        toast.success('Change applied', { duration: 3000 })
         setLoading(false)
+
         handleClose()
       },
       error => {
-        toast.error('Failed to update user', { duration: 3000 })
+        toast.error('Failed to edit user', { duration: 3000 })
+
         setLoading(false)
-        console.error('Error updating user:', error)
+
+        console.error('Error from Add User Drawer:', error)
       }
     )
   }
@@ -110,6 +236,9 @@ const EditUserDrawer = props => {
     toggle()
     reset()
   }
+
+  const statusLabel = userData?.status === 'active' ? 'Active' : 'Inactive'
+  const statusColor = userData?.status === 'active' ? 'success' : 'secondary'
 
   return (
     <Drawer
@@ -132,125 +261,197 @@ const EditUserDrawer = props => {
       </Header>
       <Box sx={{ p: theme => theme.spacing(0, 6, 6) }}>
         <form onSubmit={handleSubmit(onSubmit)}>
+          {/* <FormControl fullWidth sx={{ mb: 4, mt: 4 }}>
+            <Controller
+              name='uuid'
+              control={control}
+              render={({ field: { value, onChange } }) => (
+                <TextField
+                  disabled
+                  value={value}
+                  label='Unique Id'
+                  onChange={onChange}
+                  placeholder='Greenwood Apartments'
+                  error={Boolean(errors.name)}
+                />
+              )}
+            />
+            {errors.name && (
+              <FormHelperText sx={{ color: 'error.main' }}>{errors.name.message}</FormHelperText>
+            )}
+          </FormControl> */}
+
+          <CustomChip
+            rounded
+            skin='light'
+            size='small'
+            label={statusLabel}
+            color={statusColor}
+            sx={{ textTransform: 'capitalize', mt: 4, mb: 4 }}
+          />
+
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
-              name='user_type'
+              name='name'
               control={control}
-              render={({ field }) => (
+              render={({ field: { value = '', onChange } }) => (
                 <TextField
-                  {...field}
+                  value={value}
+                  label='User Name'
+                  onChange={onChange}
+                  placeholder='Greenwood Apartments'
+                  error={Boolean(errors.name)}
+                />
+              )}
+            />
+            {errors.name && <FormHelperText sx={{ color: 'error.main' }}>{errors.name.message}</FormHelperText>}
+          </FormControl>
+
+          <FormControl fullWidth sx={{ mb: 4 }}>
+            <Controller
+              name='email'
+              control={control}
+              render={({ field: { value = '', onChange } }) => (
+                <TextField
+                  type='email'
+                  value={value}
+                  label='User Email'
+                  onChange={onChange}
+                  placeholder='owner@example.com'
+                  error={Boolean(errors.email)}
+                />
+              )}
+            />
+            {errors.email && <FormHelperText sx={{ color: 'error.main' }}>{errors.email.message}</FormHelperText>}
+          </FormControl>
+
+          <FormControl fullWidth sx={{ mb: 4 }}>
+            <Controller
+              name='address'
+              control={control}
+              render={({ field: { value = '', onChange } }) => (
+                <TextField
+                  value={value}
+                  label='User Address'
+                  onChange={onChange}
+                  placeholder='123 Main St'
+                  error={Boolean(errors.address)}
+                />
+              )}
+            />
+            {errors.address && <FormHelperText sx={{ color: 'error.main' }}>{errors.address.message}</FormHelperText>}
+          </FormControl>
+
+          <FormControl fullWidth sx={{ mb: 4 }}>
+            <Controller
+              name='country'
+              control={control}
+              render={({ field: { value, onChange, onBlur } }) => (
+                <TextField
+                  select
+                  id='custom-select-country'
+                  value={value} // Ensure default value is applied
+                  onChange={onChange}
+                  onBlur={onBlur}
+                  fullWidth
+                  label='Country'
+                >
+                  {countries.map(country => (
+                    <MenuItem key={country.code} value={country.code}>
+                      {country.name}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              )}
+            />
+            {errors.country && <FormHelperText sx={{ color: 'error.main' }}>{errors.country.message}</FormHelperText>}
+          </FormControl>
+
+          <FormControl fullWidth sx={{ mb: 4 }}>
+            <Controller
+              name='tel_number'
+              control={control}
+              render={({ field: { value = '', onChange } }) => (
+                <TextField
+                  type='tel'
+                  value={value}
+                  label='Phone Number'
+                  onChange={onChange}
+                  placeholder='123-456-7890'
+                  error={Boolean(errors.tel_number)}
+                />
+              )}
+            />
+            {errors.tel_number && (
+              <FormHelperText sx={{ color: 'error.main' }}>{errors.tel_number.message}</FormHelperText>
+            )}
+          </FormControl>
+
+          {/*
+          <FormControl fullWidth sx={{ mb: 4 }}>
+            <Controller
+              name='type'
+              control={control}
+              render={({ field: { value, onChange, onBlur } }) => (
+                <TextField
+                  select
+                  id='custom-select-user-type'
+                  value={value}
+                  onChange={onChange}
+                  onBlur={onBlur}
+                  fullWidth
                   label='User Type'
-                  placeholder='Enter User Type'
-                  error={Boolean(errors.user_type)}
-                />
+                >
+                  {userTypes.map(type => (
+                    <MenuItem key={type.value} value={type.value}>
+                      {type.name}
+                    </MenuItem>
+                  ))}
+                </TextField>
               )}
             />
-            {errors.user_type && (
-              <FormHelperText sx={{ color: 'error.main' }}>{errors.user_type.message}</FormHelperText>
+            {errors.type && (
+              <FormHelperText sx={{ color: 'error.main' }}>{errors.type.message}</FormHelperText>
             )}
-          </FormControl>
+          </FormControl> */}
+          {/*
 
-          <FormControl fullWidth sx={{ mb: 4 }}>
-            <Controller
-              name='tenant_id'
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  label='Tenant ID'
-                  placeholder='Enter Tenant ID'
-                  error={Boolean(errors.tenant_id)}
-                />
-              )}
-            />
-            {errors.tenant_id && (
-              <FormHelperText sx={{ color: 'error.main' }}>{errors.tenant_id.message}</FormHelperText>
-            )}
-          </FormControl>
 
-          <FormControl fullWidth sx={{ mb: 4 }}>
+
+
+
+
+
+ADD PROPERTY OPTIONS LATER
+
+
+
+
+*/}
+          {/* <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
               name='property_id'
               control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  label='Property ID'
-                  placeholder='Enter Property ID'
-                  error={Boolean(errors.property_id)}
+              defaultValue='' // Ensure this matches your form's initial value
+              render={({ field: { onChange, onBlur, value, ref } }) => (
+                <Autocomplete
+                  options={userData.property_id}
+                  getOptionLabel={unit => unit.name}
+                  getOptionDisabled={unit => !!unit.user_id}
+                  onChange={(event, newValue) => {
+                    // Pass the new value's id or an empty string to handle the form state
+                    onChange(newValue ? newValue.id : '')
+                  }}
+                  value={userData.property_id || null} // Set the selected value
+                  renderInput={params => <TextField {...params} label='Associated property' />}
+                  isOptionEqualToValue={(option, value) => option.id === value} // Ensure proper comparison
                 />
               )}
             />
             {errors.property_id && (
               <FormHelperText sx={{ color: 'error.main' }}>{errors.property_id.message}</FormHelperText>
             )}
-          </FormControl>
-
-          <FormControl fullWidth sx={{ mb: 4 }}>
-            <Controller
-              name='unit_id'
-              control={control}
-              render={({ field }) => (
-                <TextField {...field} label='Unit ID' placeholder='Enter Unit ID' error={Boolean(errors.unit_id)} />
-              )}
-            />
-            {errors.unit_id && <FormHelperText sx={{ color: 'error.main' }}>{errors.unit_id.message}</FormHelperText>}
-          </FormControl>
-
-          <FormControl fullWidth sx={{ mb: 4 }}>
-            <Controller
-              name='start_date'
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  type='date'
-                  label='Start Date'
-                  InputLabelProps={{ shrink: true }}
-                  error={Boolean(errors.start_date)}
-                />
-              )}
-            />
-            {errors.start_date && (
-              <FormHelperText sx={{ color: 'error.main' }}>{errors.start_date.message}</FormHelperText>
-            )}
-          </FormControl>
-
-          <FormControl fullWidth sx={{ mb: 4 }}>
-            <Controller
-              name='end_date'
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  type='date'
-                  label='End Date'
-                  InputLabelProps={{ shrink: true }}
-                  error={Boolean(errors.end_date)}
-                />
-              )}
-            />
-            {errors.end_date && <FormHelperText sx={{ color: 'error.main' }}>{errors.end_date.message}</FormHelperText>}
-          </FormControl>
-
-          <FormControl fullWidth sx={{ mb: 4 }}>
-            <Controller
-              name='rent_amount'
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  type='number'
-                  label='Rent Amount'
-                  placeholder='Enter Rent Amount'
-                  error={Boolean(errors.rent_amount)}
-                />
-              )}
-            />
-            {errors.rent_amount && (
-              <FormHelperText sx={{ color: 'error.main' }}>{errors.rent_amount.message}</FormHelperText>
-            )}
-          </FormControl>
+          </FormControl> */}
 
           <Button type='submit' variant='contained' color='warning'>
             Edit User

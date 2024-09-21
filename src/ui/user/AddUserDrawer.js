@@ -15,8 +15,20 @@ import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, Controller } from 'react-hook-form'
 import Icon from 'src/@core/components/icon'
+import { useDispatch, useSelector } from 'react-redux'
+import { addUser } from 'src/store/apps/user'
 import { useUsers } from 'src/hooks/useUsers'
 import toast from 'react-hot-toast'
+
+const showErrors = (field, valueLen, min) => {
+  if (valueLen === 0) {
+    return `${field} field is required`
+  } else if (valueLen > 0 && valueLen < min) {
+    return `${field} must be at least ${min} characters`
+  } else {
+    return ''
+  }
+}
 
 const Header = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -25,38 +37,141 @@ const Header = styled(Box)(({ theme }) => ({
   justifyContent: 'space-between'
 }))
 
-// Validation schema for user fields
+// Update validation schema based on the user fields
 const schema = yup.object().shape({
-  tenant_id: yup.string().required('Tenant is required'),
-  property_id: yup.string().required('Property is required'),
-  unit_id: yup.string().required('Unit is required'),
-  user_type: yup.string().required('User Type is required'),
-  start_date: yup.date().required('Start Date is required'),
-  end_date: yup
-    .date()
-    .required('End Date is required')
-    .min(yup.ref('start_date'), 'End date must be later than start date'),
-  rent_amount: yup.number().required('Rent amount is required').positive('Rent amount must be positive')
+  name: yup
+    .string()
+    .min(3, obj => showErrors('name', obj.value.length, obj.min))
+    .required(),
+  email: yup.string().email().required(),
+  address: yup.string(),
+  tel_number: yup.string(),
+  user_type: yup.string()
 })
 
+const countries = [
+  { name: 'Algeria', code: 'DZA' },
+  { name: 'Angola', code: 'AGO' },
+  { name: 'Benin', code: 'BEN' },
+  { name: 'Botswana', code: 'BWA' },
+  { name: 'Burkina Faso', code: 'BFA' },
+  { name: 'Burundi', code: 'BDI' },
+  { name: 'Cabo Verde', code: 'CPV' },
+  { name: 'Cameroon', code: 'CMR' },
+  { name: 'Central African Republic', code: 'CAF' },
+  { name: 'Chad', code: 'TCD' },
+  { name: 'Comoros', code: 'COM' },
+  { name: 'Democratic Republic of the Congo', code: 'COD' },
+  { name: 'Republic of the Congo', code: 'COG' },
+  { name: 'Djibouti', code: 'DJI' },
+  { name: 'Egypt', code: 'EGY' },
+  { name: 'Equatorial Guinea', code: 'GNQ' },
+  { name: 'Eritrea', code: 'ERI' },
+  { name: 'Eswatini', code: 'SWZ' },
+  { name: 'Ethiopia', code: 'ETH' },
+  { name: 'Gabon', code: 'GAB' },
+  { name: 'Gambia', code: 'GMB' },
+  { name: 'Ghana', code: 'GHA' },
+  { name: 'Guinea', code: 'GIN' },
+  { name: 'Guinea-Bissau', code: 'GNB' },
+  { name: 'Ivory Coast', code: 'CIV' },
+  { name: 'Kenya', code: 'KEN' },
+  { name: 'Lesotho', code: 'LSO' },
+  { name: 'Liberia', code: 'LBR' },
+  { name: 'Libya', code: 'LBY' },
+  { name: 'Madagascar', code: 'MDG' },
+  { name: 'Malawi', code: 'MWI' },
+  { name: 'Mali', code: 'MLI' },
+  { name: 'Mauritania', code: 'MRT' },
+  { name: 'Mauritius', code: 'MUS' },
+  { name: 'Morocco', code: 'MAR' },
+  { name: 'Mozambique', code: 'MOZ' },
+  { name: 'Namibia', code: 'NAM' },
+  { name: 'Niger', code: 'NER' },
+  { name: 'Nigeria', code: 'NGA' },
+  { name: 'Rwanda', code: 'RWA' },
+  { name: 'Sao Tome and Principe', code: 'STP' },
+  { name: 'Senegal', code: 'SEN' },
+  { name: 'Seychelles', code: 'SYC' },
+  { name: 'Sierra Leone', code: 'SLE' },
+  { name: 'Somalia', code: 'SOM' },
+  { name: 'South Africa', code: 'ZAF' },
+  { name: 'South Sudan', code: 'SSD' },
+  { name: 'Sudan', code: 'SDN' },
+  { name: 'Tanzania', code: 'TZA' },
+  { name: 'Togo', code: 'TGO' },
+  { name: 'Tunisia', code: 'TUN' },
+  { name: 'Uganda', code: 'UGA' },
+  { name: 'Zambia', code: 'ZMB' },
+  { name: 'Zimbabwe', code: 'ZWE' }
+]
+
 const defaultValues = {
-  tenant_id: '',
-  property_id: '',
-  unit_id: '',
-  user_type: '',
-  start_date: '',
-  end_date: '',
-  rent_amount: ''
+  name: '',
+  email: '',
+  address: '',
+  country: '',
+  tel_number: '',
+  user_type: 'user'
+}
+
+const onSubmit = formData => {
+  // If formData should be an array, keep it as is
+  let requestData = [formData]
+
+  users.addUsers(
+    requestData,
+    responseData => {
+      console.log('Add User Drawer')
+      let { data } = responseData
+
+      if (data?.status === 'FAILED') {
+        alert(data.description || 'Failed to add user')
+        setError('email', {
+          type: 'manual',
+          message: data.description || 'Unknown error occurred'
+        })
+
+        return
+      }
+
+      const updatedRequestData = requestData.map(user => {
+        const matchingUser = data.find(response => response.email === user.email)
+
+        if (matchingUser) {
+          return {
+            ...user,
+            id: matchingUser.id
+          }
+        }
+
+        return user
+      })
+      setUsersData(prevData => ({
+        ...prevData,
+        items: [...prevData.items, ...updatedRequestData]
+      }))
+
+      // Close the drawer
+      handleClose()
+    },
+    error => {
+      console.error('error FROM User drawer PAGE:', error)
+    }
+  )
 }
 
 const SidebarAddUser = props => {
-  const { setUsersData, open, toggle } = props
-  const [loading, setLoading] = useState(false)
+  const { setUsersData, usersData, open, toggle } = props
+
+  const [role, setRole] = useState('user')
+
   const users = useUsers()
 
   const {
     reset,
     control,
+    setValue,
     setError,
     handleSubmit,
     formState: { errors }
@@ -67,18 +182,18 @@ const SidebarAddUser = props => {
   })
 
   const onSubmit = formData => {
-    setLoading(true)
+    // If formData should be an array, keep it as is
     let requestData = [formData]
 
     users.addUsers(
       requestData,
       responseData => {
-        setLoading(false)
-        const { data } = responseData
+        console.log('Add User Drawer')
+        let { data } = responseData
 
         if (data?.status === 'FAILED') {
           alert(data.description || 'Failed to add user')
-          setError('tenant_id', {
+          setError('email', {
             type: 'manual',
             message: data.description || 'Unknown error occurred'
           })
@@ -87,31 +202,40 @@ const SidebarAddUser = props => {
         }
 
         const updatedRequestData = requestData.map(user => {
-          const matchingUser = data.find(response => response.id === user.id)
+          const matchingUser = data.find(response => response.email === user.email)
+
           if (matchingUser) {
-            return { ...user, id: matchingUser.id }
+            return {
+              ...user,
+              id: matchingUser.id
+            }
           }
 
           return user
         })
 
-        toast.success('User added successfully', { duration: 5000 })
+        toast.success('Invitation email has been sent to ' + updatedRequestData[0].email, {
+          duration: 5000
+        })
 
         setUsersData(prevData => ({
           ...prevData,
           items: [...prevData.items, ...updatedRequestData]
         }))
 
+        // Close the drawer
         handleClose()
       },
       error => {
-        setLoading(false)
-        console.error('Error adding user:', error)
+        console.error('error FROM User drawer PAGE:', error)
       }
     )
   }
 
   const handleClose = () => {
+    setRole('user')
+
+    // setValue('tel_number', '')
     toggle()
     reset()
   }
@@ -139,126 +263,117 @@ const SidebarAddUser = props => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
-              name='tenant_id'
+              name='name'
               control={control}
-              render={({ field }) => (
+              render={({ field: { value = '', onChange } }) => (
                 <TextField
-                  {...field}
-                  label='Tenant ID'
-                  placeholder='Enter Tenant ID'
-                  error={Boolean(errors.tenant_id)}
+                  value={value}
+                  label='Full name'
+                  onChange={onChange}
+                  placeholder='Mary Johnson'
+                  error={Boolean(errors.name)}
                 />
               )}
             />
-            {errors.tenant_id && (
-              <FormHelperText sx={{ color: 'error.main' }}>{errors.tenant_id.message}</FormHelperText>
+            {errors.name && <FormHelperText sx={{ color: 'error.main' }}>{errors.name.message}</FormHelperText>}
+          </FormControl>
+          <FormControl fullWidth sx={{ mb: 4 }}>
+            <Controller
+              name='email'
+              control={control}
+              render={({ field: { value = '', onChange } }) => (
+                <TextField
+                  type='email'
+                  value={value}
+                  label='Email'
+                  onChange={onChange}
+                  placeholder='mary.johnson@example.com'
+                  error={Boolean(errors.email)}
+                />
+              )}
+            />
+            {errors.email && <FormHelperText sx={{ color: 'error.main' }}>{errors.email.message}</FormHelperText>}
+          </FormControl>
+          <FormControl fullWidth sx={{ mb: 4 }}>
+            <Controller
+              name='address'
+              control={control}
+              render={({ field: { value = '', onChange } }) => (
+                <TextField
+                  value={value}
+                  label='Address'
+                  onChange={onChange}
+                  placeholder='456 Oak St'
+                  error={Boolean(errors.address)}
+                />
+              )}
+            />
+            {errors.address && <FormHelperText sx={{ color: 'error.main' }}>{errors.address.message}</FormHelperText>}
+          </FormControl>
+          <FormControl fullWidth sx={{ mb: 4 }}>
+            <Controller
+              name='country'
+              control={control}
+              render={({ field: { value, onChange, onBlur } }) => (
+                <>
+                  <TextField
+                    select
+                    id='custom-select-native'
+                    value={value}
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    name='country'
+                    fullWidth
+                    sx={{ mb: 4 }}
+                    label='Country'
+                  >
+                    {countries.map(country => (
+                      <MenuItem sx={{ fontSize: '15px' }} key={country.code} value={country.code}>
+                        {country.name}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </>
+              )}
+            />
+            {errors.country && <FormHelperText sx={{ color: 'error.main' }}>{errors.country.message}</FormHelperText>}
+          </FormControl>
+          <FormControl fullWidth sx={{ mb: 4 }}>
+            <Controller
+              name='tel_number'
+              control={control}
+              render={({ field: { value = '', onChange } }) => (
+                <TextField
+                  type='tel'
+                  value={value}
+                  label='Phone Number'
+                  onChange={onChange}
+                  placeholder='9876543210'
+                  error={Boolean(errors.tel_number)}
+                />
+              )}
+            />
+            {errors.tel_number && (
+              <FormHelperText sx={{ color: 'error.main' }}>{errors.tel_number.message}</FormHelperText>
             )}
           </FormControl>
-
           <FormControl fullWidth sx={{ mb: 4 }}>
-            <Controller
-              name='property_id'
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  label='Property ID'
-                  placeholder='Enter Property ID'
-                  error={Boolean(errors.property_id)}
-                />
-              )}
-            />
-            {errors.property_id && (
-              <FormHelperText sx={{ color: 'error.main' }}>{errors.property_id.message}</FormHelperText>
-            )}
+            <InputLabel id='role-select'>User Type</InputLabel>
+            <Select
+              fullWidth
+              value={role}
+              id='select-role'
+              label='User Type'
+              labelId='role-select'
+              disabled
+              onChange={e => setRole(e.target.value)}
+              inputProps={{ placeholder: 'Select Role' }}
+            >
+              <MenuItem value='user'>User</MenuItem>
+            </Select>
           </FormControl>
-
-          <FormControl fullWidth sx={{ mb: 4 }}>
-            <Controller
-              name='unit_id'
-              control={control}
-              render={({ field }) => (
-                <TextField {...field} label='Unit ID' placeholder='Enter Unit ID' error={Boolean(errors.unit_id)} />
-              )}
-            />
-            {errors.unit_id && <FormHelperText sx={{ color: 'error.main' }}>{errors.unit_id.message}</FormHelperText>}
-          </FormControl>
-
-          <FormControl fullWidth sx={{ mb: 4 }}>
-            <Controller
-              name='user_type'
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  label='User Type'
-                  placeholder='Enter User Type'
-                  error={Boolean(errors.user_type)}
-                />
-              )}
-            />
-            {errors.user_type && (
-              <FormHelperText sx={{ color: 'error.main' }}>{errors.user_type.message}</FormHelperText>
-            )}
-          </FormControl>
-
-          <FormControl fullWidth sx={{ mb: 4 }}>
-            <Controller
-              name='start_date'
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  type='date'
-                  label='Start Date'
-                  InputLabelProps={{ shrink: true }}
-                  error={Boolean(errors.start_date)}
-                />
-              )}
-            />
-            {errors.start_date && (
-              <FormHelperText sx={{ color: 'error.main' }}>{errors.start_date.message}</FormHelperText>
-            )}
-          </FormControl>
-
-          <FormControl fullWidth sx={{ mb: 4 }}>
-            <Controller
-              name='end_date'
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  type='date'
-                  label='End Date'
-                  InputLabelProps={{ shrink: true }}
-                  error={Boolean(errors.end_date)}
-                />
-              )}
-            />
-            {errors.end_date && <FormHelperText sx={{ color: 'error.main' }}>{errors.end_date.message}</FormHelperText>}
-          </FormControl>
-
-          <FormControl fullWidth sx={{ mb: 4 }}>
-            <Controller
-              name='rent_amount'
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  type='number'
-                  label='Rent Amount'
-                  placeholder='Enter Rent Amount'
-                  error={Boolean(errors.rent_amount)}
-                />
-              )}
-            />
-            {errors.rent_amount && (
-              <FormHelperText sx={{ color: 'error.main' }}>{errors.rent_amount.message}</FormHelperText>
-            )}
-          </FormControl>
-
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Button size='small' type='submit' variant='contained' sx={{ mr: 3 }} disabled={loading}>
+            <Button size='small' type='submit' variant='contained' sx={{ mr: 3 }}>
               Submit
             </Button>
             <Button size='small' variant='outlined' color='secondary' onClick={handleClose}>

@@ -33,8 +33,8 @@ import Icon from 'src/@core/components/icon'
 // ** Custom Components
 import CustomChip from 'src/@core/components/mui/chip'
 import CustomAvatar from 'src/@core/components/mui/avatar'
-import UsersSuspendDialog from 'src/ui/users/UsersSuspendDialog'
-import UsersSubscriptionDialog from 'src/ui/users/UsersSubscriptionDialog'
+import UserSuspendDialog from 'src/ui/user/UserSuspendDialog'
+import UserSubscriptionDialog from 'src/ui/user/UserSubscriptionDialog'
 
 // ** Utils Import
 import { getInitials } from 'src/@core/utils/get-initials'
@@ -71,7 +71,7 @@ const Sub = styled('sub')(({ theme }) => ({
   color: theme.palette.text.secondary
 }))
 
-const UserViewLeft = ({ usersData }) => {
+const UserViewLeft = ({ userData }) => {
   const router = useRouter()
 
   // ** States
@@ -91,31 +91,29 @@ const UserViewLeft = ({ usersData }) => {
   const { id } = router.query
 
   useEffect(() => {
-    if (!usersData) {
+    if (!userData) {
       console.log('data???????')
+      users.getUser(
+        id,
+        responseData => {
+          let { data } = responseData
 
-      // users.getUsers(
-      //   id,
-      //   responseData => {
-      //     let { data } = responseData
+          userData = { ...data }
 
-      //     usersData = { ...data }
+          if (response?.status === 'FAILED') {
+            alert(response.message || 'Failed to fetch users')
 
-      //     if (response?.status === 'FAILED') {
-      //       alert(response.message || 'Failed to fetch users')
+            return
+          }
 
-      //       return
-      //     }
-
-      //     // setUsersData(response)
-      //   },
-      //   error => {}
-      // )
+          // setUsersData(response)
+        },
+        error => {}
+      )
     }
-  }, [usersData])
+  }, [userData])
 
-  //changed ! temporarily
-  if (!usersData) {
+  if (userData) {
     return (
       <Grid container spacing={6}>
         <Grid item xs={12}>
@@ -128,32 +126,32 @@ const UserViewLeft = ({ usersData }) => {
 
           <Card>
             <CardContent sx={{ pt: 13.5, display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
-              {usersData?.id ? (
+              {userData.id ? (
                 <CustomAvatar
-                  src={usersData?.id}
+                  src={userData.id}
                   variant='rounded'
-                  alt={usersData?.name}
+                  alt={userData.name}
                   sx={{ width: 100, height: 100, mb: 4 }}
                 />
               ) : (
                 <CustomAvatar
                   skin='light'
                   variant='rounded'
-                  color={usersData?.avatarColor}
+                  color={userData.avatarColor}
                   sx={{ width: 100, height: 100, mb: 4, fontSize: '3rem' }}
                 >
-                  {/* {getInitials(usersData?.name)} */}
+                  {getInitials(userData.name)}
                 </CustomAvatar>
               )}
               <Typography variant='h5' sx={{ mb: 3 }}>
-                {usersData?.name}
+                {userData.name}
               </Typography>
               <CustomChip
                 rounded
                 skin='light'
                 size='small'
-                label={usersData?.status}
-                color={statusColors[usersData?.status]}
+                label={userData.status}
+                color={statusColors[userData.status]}
                 sx={{ textTransform: 'capitalize' }}
               />
             </CardContent>
@@ -189,12 +187,12 @@ const UserViewLeft = ({ usersData }) => {
               </Typography>
               <Box sx={{ pt: 4 }}>
                 <Box sx={{ display: 'flex', mb: 3 }}>
-                  <Typography sx={{ mr: 2, fontWeight: 500 }}>Users ID:</Typography>
-                  <Typography sx={{ color: 'text.secondary' }}>{usersData?.uuid} </Typography>
+                  <Typography sx={{ mr: 2, fontWeight: 500 }}>User ID:</Typography>
+                  <Typography sx={{ color: 'text.secondary' }}>{userData.uuid} </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', mb: 3 }}>
                   <Typography sx={{ mr: 2, fontWeight: 500 }}>Email:</Typography>
-                  <Typography sx={{ color: 'text.secondary' }}>{usersData?.email}</Typography>
+                  <Typography sx={{ color: 'text.secondary' }}>{userData.email}</Typography>
                 </Box>
                 <Box sx={{ display: 'flex', mb: 3 }}>
                   <Typography sx={{ mr: 2, fontWeight: 500 }}>Status:</Typography>
@@ -202,8 +200,8 @@ const UserViewLeft = ({ usersData }) => {
                     rounded
                     skin='light'
                     size='small'
-                    label={usersData?.status}
-                    color={statusColors[usersData?.status]}
+                    label={userData.status}
+                    color={statusColors[userData.status]}
                     sx={{
                       textTransform: 'capitalize'
                     }}
@@ -212,16 +210,16 @@ const UserViewLeft = ({ usersData }) => {
                 <Box sx={{ display: 'flex', mb: 3 }}>
                   <Typography sx={{ mr: 2, fontWeight: 500 }}>Property:</Typography>
                   <Typography sx={{ color: 'text.secondary', textTransform: 'capitalize' }}>
-                    {usersData?.property.name}
+                    {userData.property.name}
                   </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', mb: 3 }}>
-                  <Typography sx={{ mr: 2, fontWeight: 500 }}>Tax ID:</Typography>
-                  <Typography sx={{ color: 'text.secondary' }}>Tax-8894</Typography>
+                  <Typography sx={{ mr: 2, fontWeight: 500 }}>Total Units :</Typography>
+                  <Typography sx={{ color: 'text.secondary' }}>{userData.units.length}</Typography>
                 </Box>
                 <Box sx={{ display: 'flex', mb: 3 }}>
                   <Typography sx={{ mr: 2, fontWeight: 500 }}>Contact:</Typography>
-                  <Typography sx={{ color: 'text.secondary' }}>{usersData?.tel_number}</Typography>
+                  <Typography sx={{ color: 'text.secondary' }}>{userData.tel_number}</Typography>
                 </Box>
                 <Box sx={{ display: 'flex', mb: 3 }}>
                   <Typography sx={{ mr: 2, fontWeight: 500 }}>Language:</Typography>
@@ -229,7 +227,7 @@ const UserViewLeft = ({ usersData }) => {
                 </Box>
                 <Box sx={{ display: 'flex' }}>
                   <Typography sx={{ mr: 2, fontWeight: 500 }}>Country:</Typography>
-                  <Typography sx={{ color: 'text.secondary' }}>{usersData?.country}</Typography>
+                  <Typography sx={{ color: 'text.secondary' }}>{userData.country}</Typography>
                 </Box>
               </Box>
             </CardContent>
@@ -273,27 +271,27 @@ const UserViewLeft = ({ usersData }) => {
                 <form>
                   <Grid container spacing={6}>
                     <Grid item xs={12} sm={6}>
-                      <TextField fullWidth label='Full Name' defaultValue={usersData?.name} />
+                      <TextField fullWidth label='Full Name' defaultValue={userData.name} />
                     </Grid>
                     <Grid item xs={12} sm={6}>
                       <TextField
                         fullWidth
-                        label='Users ID'
-                        defaultValue={usersData?.uuid}
+                        label='User ID'
+                        defaultValue={userData.uuid}
                         disabled
 
                         // InputProps={{ startAdornment: <InputAdornment position='start'></InputAdornment> }}
                       />
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                      <TextField fullWidth type='email' label='Billing Email' defaultValue={usersData?.email} />
+                      <TextField fullWidth type='email' label='Billing Email' defaultValue={userData.email} />
                     </Grid>
                     <Grid item xs={12} sm={6}>
                       <FormControl fullWidth>
                         <InputLabel id='user-view-status-label'>Status</InputLabel>
                         <Select
                           label='Status'
-                          defaultValue={usersData?.status}
+                          defaultValue={userData.status}
                           id='user-view-status'
                           labelId='user-view-status-label'
                           disabled
@@ -305,10 +303,10 @@ const UserViewLeft = ({ usersData }) => {
                       </FormControl>
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                      <TextField fullWidth label='TAX ID' defaultValue='Tax-8894' />
+                      <TextField fullWidth label='Total Units' defaultValue={userData.units?.length} />
                     </Grid>
                     <Grid item xs={12} sm={6}>
-                      <TextField fullWidth label='Contact' defaultValue={`${usersData?.tel_number}`} />
+                      <TextField fullWidth label='Contact' defaultValue={`${userData.tel_number}`} />
                     </Grid>
                     <Grid item xs={12} sm={6}>
                       <FormControl fullWidth>
@@ -329,7 +327,7 @@ const UserViewLeft = ({ usersData }) => {
                         <InputLabel id='user-view-country-label'>Country</InputLabel>
                         <Select
                           label='Country'
-                          defaultValue={usersData?.country}
+                          defaultValue={userData.country}
                           id='user-view-country'
                           disabled
                           labelId='user-view-country-label'
@@ -369,8 +367,8 @@ const UserViewLeft = ({ usersData }) => {
               </DialogActions>
             </Dialog>
 
-            <UsersSuspendDialog open={suspendDialogOpen} setOpen={setSuspendDialogOpen} />
-            <UsersSubscriptionDialog open={subscriptionDialogOpen} setOpen={setSubscriptionDialogOpen} />
+            <UserSuspendDialog open={suspendDialogOpen} setOpen={setSuspendDialogOpen} />
+            <UserSubscriptionDialog open={subscriptionDialogOpen} setOpen={setSubscriptionDialogOpen} />
           </Card>
         </Grid>
 

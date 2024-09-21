@@ -18,12 +18,9 @@ import CircularProgress from '@mui/material/CircularProgress'
 import Icon from 'src/@core/components/icon'
 
 // ** Demo Components Imports
-import UserViewBilling from 'src/ui/user/UserViewBilling'
-import UserViewTransactions from 'src/ui/user/UserViewTransactions'
-import UserViewSecurity from 'src/ui/user/UserViewSecurity'
-import UserViewConnection from 'src/ui/user/UserViewConnection'
-import UserViewNotification from 'src/ui/user/UserViewNotification'
-import { fontSize } from '@mui/system'
+
+import ParentUserViewInviteUsers from './ParentUserViewInviteUsers'
+import ParentUserViewManageUsers from './ParentUserViewManageUsers'
 
 // ** Styled Tab component
 const Tab = styled(MuiTab)(({ theme }) => ({
@@ -49,24 +46,30 @@ const TabList = styled(MuiTabList)(({ theme }) => ({
   }
 }))
 
-const UserViewRight = ({ tab, userData }) => {
-  const router = useRouter()
-  const { id } = router.query
+// const TabList = styled(MuiTabList)(({ theme }) => ({
+//   borderBottom: '0 !important',
 
-  // const { tab } = router.query
+//   '& .MuiTab-root': {
+//     lineHeight: 1,
+//     borderRadius: theme.shape.borderRadius
+//   }
+// }))
 
+const ParentUserViewRight = ({ tab, userData, setUserData }) => {
   // ** State
   const [activeTab, setActiveTab] = useState(tab)
   const [isLoading, setIsLoading] = useState(true)
 
   // ** Hooks
+  const router = useRouter()
+  const { id } = router.query
 
   const handleChange = (event, value) => {
     setIsLoading(true)
     setActiveTab(value)
     router
       .push({
-        pathname: `/users/manage/${id}/${value.toLowerCase()}`
+        pathname: `/users/${value.toLowerCase()}`
       })
       .then(() => setIsLoading(false))
   }
@@ -77,9 +80,11 @@ const UserViewRight = ({ tab, userData }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tab])
   useEffect(() => {
-    if (userData) {
-      setIsLoading(false)
-    }
+    // if (userData) {
+    //   setIsLoading(false)
+    // }
+
+    setIsLoading(false)
   }, [userData])
 
   return (
@@ -91,27 +96,8 @@ const UserViewRight = ({ tab, userData }) => {
         aria-label='forced scroll tabs example'
         sx={{ borderBottom: theme => `1px solid ${theme.palette.divider}` }}
       >
-        <Tab
-          sx={{ fontSize: '13px' }}
-          value='transactions'
-          label='Transactions'
-          icon={<Icon fontSize='14px' icon='tabler:user-check' />}
-        />
-        <Tab
-          sx={{ fontSize: '13px' }}
-          value='security'
-          label='Security'
-          icon={<Icon fontSize='14px' icon='tabler:lock' />}
-        />
-        <Tab
-          sx={{ fontSize: '13px' }}
-          disabled
-          value='billing-plan'
-          label='Billing & Plan'
-          icon={<Icon fontSize='14px' icon='tabler:currency-dollar' />}
-        />
-        {/* <Tab value='notification' label='Notification' icon={<Icon fontSize='1.125rem' icon='tabler:bell' />} /> */}
-        {/* <Tab value='connection' label='Connection' icon={<Icon fontSize='1.125rem' icon='tabler:link' />} /> */}
+        <Tab value='invite' label='Invite Users' icon={<Icon fontSize='1.125rem' icon='tabler:users-plus' />} />
+        <Tab value='manage' label='Manage Users' icon={<Icon fontSize='1.125rem' icon='tabler:users' />} />
       </TabList>
       <Box sx={{ mt: 6 }}>
         {isLoading ? (
@@ -121,20 +107,12 @@ const UserViewRight = ({ tab, userData }) => {
           </Box>
         ) : (
           <>
-            <TabPanel sx={{ p: 0 }} value='transactions'>
-              <UserViewTransactions userData={userData} />
+            <TabPanel sx={{ p: 0 }} value='invite'>
+              <ParentUserViewInviteUsers setUserData={setUserData} userData={userData} />
             </TabPanel>
-            <TabPanel sx={{ p: 0 }} value='security'>
-              <UserViewSecurity />
-            </TabPanel>
-            <TabPanel sx={{ p: 0 }} value='billing-plan'>
-              <UserViewBilling />
-            </TabPanel>
-            {/* <TabPanel sx={{ p: 0 }} value='notification'>
-              <UserViewNotification />
-            </TabPanel> */}
-            <TabPanel sx={{ p: 0 }} value='connection'>
-              <UserViewConnection />
+
+            <TabPanel sx={{ p: 0 }} value='manage'>
+              <ParentUserViewManageUsers setUserData={setUserData} userData={userData} />
             </TabPanel>
           </>
         )}
@@ -143,4 +121,4 @@ const UserViewRight = ({ tab, userData }) => {
   )
 }
 
-export default UserViewRight
+export default ParentUserViewRight
