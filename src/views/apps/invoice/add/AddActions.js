@@ -33,14 +33,7 @@ const AddActions = () => {
               <Icon fontSize='14px' icon='tabler:send' />
               Send Invoice
             </Button>
-            <Button
-              fullWidth
-              sx={{ mb: 2 }}
-              component={Link}
-              color='secondary'
-              variant='outlined'
-              href='/apps/invoice/preview/4987'
-            >
+            <Button fullWidth sx={{ mb: 2 }} component={Link} color='secondary' variant='outlined' href='view/4987'>
               Preview
             </Button>
             <Button size='small' fullWidth variant='outlined' color='secondary'>

@@ -39,6 +39,7 @@ import CustomTenantToolbar from 'src/views/table/data-grid/CustomTenantToolbar'
 import { FormControl, InputLabel } from '@mui/material'
 import { DatePicker, CustomInput } from '@mui/material'
 import CustomStatusToolbar from 'src/views/table/data-grid/CustomStatusToolbar'
+import CustomLeaseToolbar from 'src/views/table/data-grid/CustomLeaseToolbar'
 
 const RowOptions = ({ id, row, setLeasesData, leasesData, setLoading }) => {
   const dispatch = useDispatch()
@@ -364,18 +365,18 @@ const LeaseManageTable = () => {
           rows={filteredLeases || []}
           columns={columns}
           slots={{
-            toolbar: CustomStatusToolbar,
+            toolbar: CustomLeaseToolbar,
             noRowsOverlay: CustomNoRowsOverlay
           }}
           slotProps={{
             toolbar: {
               searchPlaceholder: 'Quick Search',
               value: value,
-              addText: 'Add Lease',
+              addText: 'Create Lease',
               statusValue: statusValue,
               setStatusValue: setStatusValue,
               statuses: statuses,
-              toggle: toggleAddUserDrawer,
+              // toggle: toggleAddUserDrawer,
               handleFilter: handleFilter
             }
           }}
@@ -384,12 +385,12 @@ const LeaseManageTable = () => {
           paginationModel={paginationModel}
           onPaginationModelChange={setPaginationModel}
         />
-        <AddLeaseDrawer
+        {/* <AddLeaseDrawer
           leasesData={leasesData}
           setLeasesData={setLeasesData}
           open={addUserOpen}
           toggle={toggleAddUserDrawer}
-        />
+        /> */}
       </Grid>
     </Grid>
   )

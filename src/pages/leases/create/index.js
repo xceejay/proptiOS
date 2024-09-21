@@ -15,11 +15,11 @@ import AddNewCustomers from 'src/views/apps/invoice/add/AddNewCustomer'
 // ** Styled Component
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 
-const InvoiceAdd = ({ apiClientData, invoiceNumber }) => {
+const InvoiceAdd = ({}) => {
   // ** State
   const [addCustomerOpen, setAddCustomerOpen] = useState(false)
   const [selectedClient, setSelectedClient] = useState(null)
-  const [clients, setClients] = useState(apiClientData)
+  const [clients, setClients] = useState([])
   const toggleAddCustomerDrawer = () => setAddCustomerOpen(!addCustomerOpen)
 
   return (
@@ -28,7 +28,7 @@ const InvoiceAdd = ({ apiClientData, invoiceNumber }) => {
         <Grid item xl={9} md={8} xs={12}>
           <AddCard
             clients={clients}
-            invoiceNumber={invoiceNumber}
+            invoiceNumber={1}
             selectedClient={selectedClient}
             setSelectedClient={setSelectedClient}
             toggleAddCustomerDrawer={toggleAddCustomerDrawer}
@@ -47,20 +47,6 @@ const InvoiceAdd = ({ apiClientData, invoiceNumber }) => {
       />
     </DatePickerWrapper>
   )
-}
-
-export const getStaticProps = async () => {
-  const clientResponse = await axios.get('/apps/invoice/clients')
-  const apiClientData = clientResponse.data
-  const allInvoicesResponse = await axios.get('/apps/invoice/invoices', { params: { q: '', status: '' } })
-  const lastInvoiceNumber = Math.max(...allInvoicesResponse.data.allData.map(i => i.id))
-
-  return {
-    props: {
-      apiClientData,
-      invoiceNumber: lastInvoiceNumber + 1
-    }
-  }
 }
 
 export default InvoiceAdd
