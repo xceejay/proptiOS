@@ -37,6 +37,7 @@ import themeConfig from 'src/configs/themeConfig'
 import Repeater from 'src/@core/components/repeater'
 import Editor from 'src/views/editor/Editor'
 import CustomLeaseEditor from 'src/views/editor/CustomLeaseEditor'
+import { FormControl } from '@mui/material'
 
 const CustomInput = forwardRef(({ ...props }, ref) => {
   return <TextField size='small' inputRef={ref} sx={{ width: { sm: '250px', xs: '170px' } }} {...props} />
@@ -60,6 +61,14 @@ const CalcWrapper = styled(Box)(({ theme }) => ({
   }
 }))
 
+const CalcWrapperNew = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  '&:not(:last-of-type)': {
+    marginBottom: theme.spacing(2)
+  }
+}))
 const RepeatingContent = styled(Grid)(({ theme }) => ({
   paddingRight: 0,
   display: 'flex',
@@ -129,6 +138,18 @@ const AddCard = props => {
   const [selected, setSelected] = useState('')
   const [issueDate, setIssueDate] = useState(new Date())
   const [dueDate, setDueDate] = useState(new Date(tomorrowDate))
+
+  const [paymentFrequencyValue, setStatusValue] = useState('monthly')
+  const [statuses, setStatuses] = useState([
+    { text: 'Bi-Yearly', value: 'bi-yearly' },
+    { text: 'Yearly', value: 'yearly' },
+    { text: 'Quarterly', value: 'quarterly' },
+    { text: 'Monthly', value: 'monthly' }
+  ])
+
+  const handlePaymentFrequencyValue = event => {
+    setStatusValue(event.target.value)
+  }
 
   // ** Hook
   const theme = useTheme()
@@ -260,39 +281,77 @@ const AddCard = props => {
       {/* <Divider /> */}
 
       <CardContent sx={{ p: [`${theme.spacing(6)} !important`, `${theme.spacing(10)} !important`] }}>
-        <Grid container>
-          <Grid item xs={12} sm={7} lg={9} sx={{ order: { sm: 1, xs: 2 } }}>
+        <Grid
+          container
+          sx={{
+            justifyContent: 'space-between'
+          }}
+          r
+        >
+          <Grid item xs={12} sm={6} lg={6} sx={{ order: { sm: 1, xs: 2 } }}>
             <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
               <Typography variant='body2' sx={{ mr: 2, fontWeight: 600 }}>
                 Tenant:
               </Typography>
-              <TextField size='small' sx={{ maxWidth: '150px' }} defaultValue='Tommy Shelby' />
+              <TextField size='small' defaultValue='Tommy Shelby' />
             </Box>
             <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
               <Typography variant='body2' sx={{ mr: 2, fontWeight: 600 }}>
                 Signature:
               </Typography>
-              <TextField size='small' sx={{ maxWidth: '150px' }} defaultValue='' />
+              <TextField size='small' defaultValue='' />
             </Box>
           </Grid>
-          <Grid item xs={12} sm={5} lg={3} sx={{ mb: { sm: 0, xs: 4 }, order: { sm: 2, xs: 1 } }}>
-            <CalcWrapper>
-              <Typography sx={{ color: 'text.secondary' }}>Subtotal:</Typography>
-              <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>$1800</Typography>
-            </CalcWrapper>
-            <CalcWrapper>
-              <Typography sx={{ color: 'text.secondary' }}>Discount:</Typography>
-              <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>$28</Typography>
-            </CalcWrapper>
-            <CalcWrapper sx={{ mb: '0 !important' }}>
+          <Grid item xs={12} sm={5} lg={4} sx={{ mb: { sm: 0, xs: 4 }, order: { sm: 2, xs: 1 } }}>
+            <CalcWrapperNew>
+              <Typography sx={{ color: 'text.secondary' }}>Rent Amount:</Typography>
+              {/* <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>$2000</Typography> */}
+              <FormControl>
+                <TextField size='small' defaultValue='1' />
+              </FormControl>
+            </CalcWrapperNew>
+            <CalcWrapperNew>
+              <Typography sx={{ color: 'text.secondary' }}>Payment Frequency:</Typography>
+              <FormControl>
+                <Select value={paymentFrequencyValue} size='small' onChange={handlePaymentFrequencyValue}>
+                  {statuses?.map((payment_frequency, index) => {
+                    return <MenuItem value={payment_frequency?.value}>{payment_frequency?.text}</MenuItem>
+                  })}
+                </Select>
+              </FormControl>
+            </CalcWrapperNew>
+            <CalcWrapperNew>
+              <Typography sx={{ color: 'text.secondary' }}>Extra Contributions:</Typography>
+              {/* <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>$2000</Typography> */}
+              <TextField size='small' defaultValue='1' />
+            </CalcWrapperNew>
+
+            <CalcWrapperNew>
+              <Typography sx={{ color: 'text.secondary' }}>Currency:</Typography>
+              {/* <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>$2000</Typography> */}
+              <TextField
+                size='small'
+                value={''}
+                sx={{ ml: 2 }}
+                InputProps={{
+                  disabled: false,
+                  startAdornment: <InputAdornment position='start'>$</InputAdornment>
+                }}
+              />
+            </CalcWrapperNew>
+            <CalcWrapperNew>
+              <Typography sx={{ color: 'text.secondary' }}>Additional Fees:</Typography>
+              <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>$0</Typography>
+            </CalcWrapperNew>
+            <CalcWrapperNew sx={{ mb: '0 !important' }}>
               <Typography sx={{ color: 'text.secondary' }}>Tax:</Typography>
-              <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>21%</Typography>
-            </CalcWrapper>
+              <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>1%</Typography>
+            </CalcWrapperNew>
             <Divider sx={{ my: `${theme.spacing(2)} !important` }} />
-            <CalcWrapper>
+            <CalcWrapperNew>
               <Typography sx={{ color: 'text.secondary' }}>Total:</Typography>
-              <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>$1690</Typography>
-            </CalcWrapper>
+              <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>$1800</Typography>
+            </CalcWrapperNew>
           </Grid>
         </Grid>
       </CardContent>
