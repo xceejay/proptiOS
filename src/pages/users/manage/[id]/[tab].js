@@ -1,9 +1,9 @@
 import { useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/router'
 import { useUsers } from 'src/hooks/useUsers'
-import ParentUserEditInfo from 'src/ui/user/ParentUserEditInfo'
+import UserEditInfo from 'src/ui/user/UserEditInfo'
 
-const UserTab = ({ invoiceData }) => {
+const UserView = () => {
   const router = useRouter()
   const { id } = router.query
   const { tab } = router.query
@@ -33,7 +33,7 @@ const UserTab = ({ invoiceData }) => {
     }
   }, [id, tab])
 
-  return <ParentUserEditInfo tab={tab} setUserData={setUserData} userData={userData} />
+  return <UserEditInfo tab={tab} setUserData={setUserData} userData={userData} />
 }
 
-export default UserTab
+export default UserView
