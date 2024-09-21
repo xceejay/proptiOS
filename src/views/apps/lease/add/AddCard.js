@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState, forwardRef } from 'react'
+import { useState, forwardRef, useEffect } from 'react'
 
 // ** MUI Imports
 import Card from '@mui/material/Card'
@@ -27,6 +27,21 @@ import TableCell from '@mui/material/TableCell'
 import CardContent from '@mui/material/CardContent'
 import { useForm, Controller } from 'react-hook-form'
 import Autocomplete from '@mui/material/Autocomplete'
+// ** Icon Imports
+import Icon from 'src/@core/components/icon'
+
+// ** Third Party Imports
+import DatePicker from 'react-datepicker'
+
+// ** Configs
+import themeConfig from 'src/configs/themeConfig'
+
+// ** Custom Component Imports
+import Repeater from 'src/@core/components/repeater'
+import Editor from 'src/views/editor/Editor'
+import CustomLeaseEditor from 'src/views/editor/CustomLeaseEditor'
+import { FormControl } from '@mui/material'
+import { useAuth } from 'src/hooks/useAuth'
 
 const currencies = [
   { code: 'USD', name: 'United States Dollar', symbol: '$' },
@@ -64,21 +79,6 @@ const currencies = [
   { code: 'EGP', name: 'Egyptian Pound', symbol: '£' },
   { code: 'MAD', name: 'Moroccan Dirham', symbol: 'د.م.' }
 ]
-
-// ** Icon Imports
-import Icon from 'src/@core/components/icon'
-
-// ** Third Party Imports
-import DatePicker from 'react-datepicker'
-
-// ** Configs
-import themeConfig from 'src/configs/themeConfig'
-
-// ** Custom Component Imports
-import Repeater from 'src/@core/components/repeater'
-import Editor from 'src/views/editor/Editor'
-import CustomLeaseEditor from 'src/views/editor/CustomLeaseEditor'
-import { FormControl } from '@mui/material'
 
 const CustomInput = forwardRef(({ ...props }, ref) => {
   return <TextField size='small' inputRef={ref} sx={{ width: { sm: '250px', xs: '170px' } }} {...props} />
@@ -170,6 +170,43 @@ const CustomSelectItem = styled(MenuItem)(({ theme }) => ({
 const now = new Date()
 const tomorrowDate = now.setDate(now.getDate() + 7)
 
+const tenancyAgreementContent = `
+  <h1 style="text-align: center; text-decoration: underline;">Short Let Agreement</h1>
+  <p style="text-align: center;">(the “Agreement”)</p>
+  <p style="text-align: center;">Made and entered into this [DATE]</p>
+
+  <p><strong>BETWEEN</strong> <span style="border-bottom: 1px solid #000;">___________________________</span> (hereinafter called the “Landlord”)</p>
+  <p><strong>AND</strong> <span style="border-bottom: 1px solid #000;">___________________________</span> (hereinafter called the “Tenant”) of the other part.</p>
+
+  <h2>WHEREAS:</h2>
+  <ul>
+    <li>The Landlord is the legal and beneficial owner of the furnished/ unfurnished <span style="border-bottom: 1px solid #000;">___________________________</span> (hereinafter called the “Property”).</li>
+    <li>The Tenant requires suitable accommodation for its use and has therefore requested the Landlord to let to the Tenant the Property together with the standard appliances therein (together called the “Premises”).</li>
+    <li>The Landlord has agreed to let the Premises to the Tenant on the terms stated in this Agreement.</li>
+  </ul>
+
+  <h2>IT IS HEREBY AGREED AS FOLLOWS:</h2>
+  <ul>
+    <li>This Agreement shall commence on <span style="border-bottom: 1px solid #000;">___________________________</span> and expire on <span style="border-bottom: 1px solid #000;">___________________________</span>.</li>
+    <li>To pay in advance a Rent of <span style="border-bottom: 1px solid #000;">___________________________</span>.</li>
+    <li>A refundable security deposit of <span style="border-bottom: 1px solid #000;">___________________________</span> shall be paid with this Agreement and an extra deposit charged for any additional rental period.</li>
+    <li>All rents due are payable in the Ghana Cedi equivalent at the prevailing interbank rate confirmed by both parties.</li>
+    <li>Rent paid to exclude/includes DSTV, internet subscriptions, cleaning, and utilities unless otherwise agreed.</li>
+    <li>Continued occupancy after the expiration date stated herein shall attract a daily rate of <span style="border-bottom: 1px solid #000;">___________________________</span>.</li>
+    <li>The security deposit shall be used to remedy any faults and damage to the Premises by the Tenant or guests, exclusive of ordinary wear and tear.</li>
+    <li>The Landlord shall refund the security deposit, less any deductions, within <span style="border-bottom: 1px solid #000;">___________________________</span> days of the Tenant vacating the Premises via cheque or bank transfer or other agreed payment.</li>
+    <li>This Agreement may be renewed for a further agreed term in writing between the Landlord and Tenant upon the expiration of this current term, with prior notice of not less than 14 days.</li>
+    <li>The Landlord may terminate this Agreement if the Tenant is in breach of any provision of this Agreement, the House Rules, or engages in any action that violates the security or privacy of other tenants and occupants.</li>
+    <li>The Tenant agrees to abide by the attached House Rules for the house or apartment.</li>
+  </ul>
+
+  <h2>IN WITNESS WHEREOF</h2>
+  <p>The parties hereto have executed this Tenancy Agreement on the day and year first above written.</p>
+
+  <div>
+    <p>READ, ACCEPTED, AND SIGNED BY THE LANDLORD AND TENANT</p>
+  </div>
+`
 const AddCard = props => {
   const defaultValues = {
     // country: countries.[]
@@ -208,12 +245,18 @@ const AddCard = props => {
     { text: 'Monthly', value: 'monthly' }
   ])
 
+  const [siteId, setSiteId] = useState(null)
   const handlePaymentFrequencyValue = event => {
     setStatusValue(event.target.value)
   }
 
   // ** Hook
   const theme = useTheme()
+  const auth = useAuth()
+
+  useEffect(() => {
+    setSiteId(auth.user.site_id)
+  }, [auth])
 
   // ** Deletes form
   const deleteForm = e => {
@@ -279,7 +322,7 @@ const AddCard = props => {
                     fontSize: '1.375rem !important'
                   }}
                 >
-                  {themeConfig.templateName}
+                  {siteId}
                 </Typography>
               </Box>
               <div>
@@ -332,12 +375,41 @@ const AddCard = props => {
             </Box>
           </Grid>
         </Grid>
+
+        <Grid sx={{ mt: 4 }} container>
+          <Grid item xl={6} xs={12} sx={{ mb: { xl: 0, xs: 4 } }}>
+            <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'left', justifyContent: 'flex-start' }}>
+              <CalcWrapper>
+                <Typography sx={{ mr: 2 }}>Dear </Typography>
+                <FormControl>
+                  <Controller
+                    render={({ onChange, ...props }) => (
+                      <Autocomplete
+                        size='small'
+                        options={allTenantsData?.items || []}
+                        getOptionLabel={tenant => tenant.name + '(' + tenant.email + ')'} // Display the tenant name
+                        getOptionDisabled={tenant => !!tenant.property?.id}
+                        sx={{ minWidth: 150 }}
+                        renderInput={params => <TextField {...params} label='Select Tenant' />}
+                      />
+                    )}
+                    onChange={([, data]) => data}
+                    defaultValue={''}
+                    name={name}
+                    control={control}
+                  />
+                </FormControl>
+              </CalcWrapper>
+            </Box>
+          </Grid>
+          <Grid item xl={6} xs={12}></Grid>
+        </Grid>
       </CardContent>
 
       {/* <Divider /> */}
 
       <CardContent sx={{}}>
-        <CustomLeaseEditor></CustomLeaseEditor>
+        <CustomLeaseEditor defaultLeaseText={tenancyAgreementContent}></CustomLeaseEditor>
       </CardContent>
       {/* <Divider /> */}
 
@@ -350,6 +422,36 @@ const AddCard = props => {
           r
         >
           <Grid item xs={12} sm={6} lg={6} sx={{ order: { sm: 1, xs: 2 } }}>
+            <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
+              <Typography variant='body2' sx={{ mr: 2, fontWeight: 600 }}>
+                Landlord:
+              </Typography>
+              {/* <TextField size='small' defaultValue='Tommy Shelby' /> */}
+              <FormControl>
+                <Controller
+                  render={({ onChange, ...props }) => (
+                    <Autocomplete
+                      size='small'
+                      options={allTenantsData?.items || []}
+                      getOptionLabel={tenant => tenant.name + '(' + tenant.email + ')'} // Display the tenant name
+                      getOptionDisabled={tenant => !!tenant.property?.id}
+                      sx={{ minWidth: 150 }}
+                      renderInput={params => <TextField {...params} label='Select Tenant' />}
+                    />
+                  )}
+                  onChange={([, data]) => data}
+                  defaultValue={''}
+                  name={name}
+                  control={control}
+                />
+              </FormControl>
+            </Box>
+            <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
+              <Typography variant='body2' sx={{ mr: 2, fontWeight: 600 }}>
+                Signature:
+              </Typography>
+              {/* <TextField size='small' defaultValue='' /> */}
+            </Box>
             <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
               <Typography variant='body2' sx={{ mr: 2, fontWeight: 600 }}>
                 Tenant:
