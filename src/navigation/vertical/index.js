@@ -25,7 +25,7 @@ const navigation = () => {
       title: 'Leases',
       path: '/leases',
       icon: 'tabler:contract',
-      disabled: true,
+      disabled: false,
       action: 'read',
       subject: 'leases'
     },

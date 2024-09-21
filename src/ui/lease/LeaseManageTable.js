@@ -36,6 +36,9 @@ import { useLeases } from 'src/hooks/useLeases'
 // ** Components
 import LeaseTableHeader from './LeaseTableHeader'
 import CustomTenantToolbar from 'src/views/table/data-grid/CustomTenantToolbar'
+import { FormControl, InputLabel } from '@mui/material'
+import { DatePicker, CustomInput } from '@mui/material'
+import CustomStatusToolbar from 'src/views/table/data-grid/CustomStatusToolbar'
 
 const RowOptions = ({ id, row, setLeasesData, leasesData, setLoading }) => {
   const dispatch = useDispatch()
@@ -242,9 +245,24 @@ const LeaseManageTable = () => {
   const [loading, setLoading] = useState(true) // New loading state
 
   const [leasesData, setLeasesData] = useState({ items: [] })
-  const [value, setValue] = useState('')
   const [addUserOpen, setAddUserOpen] = useState(false)
-  const [paginationModel, setPaginationModel] = useState({ page: 1, pageSize: 25 })
+  const [dates, setDates] = useState([])
+  const [value, setValue] = useState('')
+  // const [endDateRange, setEndDateRange] = useState(null)
+  // const [selectedRows, setSelectedRows] = useState([])
+  // const [startDateRange, setStartDateRange] = useState(null)
+  const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
+  const [statusValue, setStatusValue] = useState('')
+  const [statuses, setStatuses] = useState([])
+
+  const handleOnChangeRange = dates => {
+    const [start, end] = dates
+    if (start !== null && end !== null) {
+      setDates(dates)
+    }
+    setStartDateRange(start)
+    setEndDateRange(end)
+  }
 
   useEffect(() => {
     leases.getAllLeases(
@@ -284,45 +302,95 @@ const LeaseManageTable = () => {
   )
 
   return (
-    <Grid container spacing={6.5}>
-      <Grid item xs={12}>
-        <Card>
-          <CardHeader title='Leases' />
+    <Grid container spacing={6}>
+      {/* <Grid item xs={12}>
+        <Card sx={{ p: 0 }}>
+          <CardHeader title='Filters' />
           <CardContent>
-            <DataGrid
-              loading={loading}
-              autoHeight
-              rowHeight={62}
-              rows={filteredLeases || []}
-              columns={columns}
-              slots={{
-                toolbar: CustomTenantToolbar,
-                noRowsOverlay: CustomNoRowsOverlay
-              }}
-              slotProps={{
-                toolbar: {
-                  searchPlaceholder: 'Quick Search',
-                  value: value,
-                  addText: 'Add Lease',
-                  toggle: toggleAddUserDrawer,
-                  handleFilter: handleFilter
-                }
-              }}
-              disableRowSelectionOnClick
-              pageSizeOptions={[10, 25, 50]}
-              paginationModel={paginationModel}
-              onPaginationModelChange={setPaginationModel}
-            />
+            <Grid container spacing={6}>
+              <Grid item xs={12} sm={6}>
+                <FormControl fullWidth>
+                  <InputLabel id='invoice-status-select'>Invoice Status</InputLabel>
+
+                  <Select
+                    fullWidth
+                    value={statusValue}
+                    sx={{ mr: 4, mb: 2 }}
+                    label='Invoice Status'
+                    onChange={handleStatusValue}
+                    labelId='invoice-status-select'
+                  >
+                    <MenuItem value=''>none</MenuItem>
+                    <MenuItem value='downloaded'>Downloaded</MenuItem>
+                    <MenuItem value='draft'>Draft</MenuItem>
+                    <MenuItem value='paid'>Paid</MenuItem>
+                    <MenuItem value='partial payment'>Partial Payment</MenuItem>
+                    <MenuItem value='past due'>Past Due</MenuItem>
+                    <MenuItem value='sent'>Sent</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <DatePicker
+                  isClearable
+                  selectsRange
+                  monthsShown={2}
+                  endDate={endDateRange}
+                  selected={startDateRange}
+                  startDate={startDateRange}
+                  shouldCloseOnSelect={false}
+                  id='date-range-picker-months'
+                  onChange={handleOnChangeRange}
+                  customInput={
+                    <CustomInput
+                      dates={dates}
+                      setDates={setDates}
+                      label='Invoice Date'
+                      end={endDateRange}
+                      start={startDateRange}
+                    />
+                  }
+                />
+              </Grid>
+            </Grid>
           </CardContent>
-          <Divider sx={{ m: '0 !important' }} />
         </Card>
+      </Grid> */}
+      <Grid item xs={12}>
+        <DataGrid
+          loading={loading}
+          autoHeight
+          rowHeight={62}
+          rows={filteredLeases || []}
+          columns={columns}
+          slots={{
+            toolbar: CustomStatusToolbar,
+            noRowsOverlay: CustomNoRowsOverlay
+          }}
+          slotProps={{
+            toolbar: {
+              searchPlaceholder: 'Quick Search',
+              value: value,
+              addText: 'Add Lease',
+              statusValue: statusValue,
+              setStatusValue: setStatusValue,
+              statuses: statuses,
+              toggle: toggleAddUserDrawer,
+              handleFilter: handleFilter
+            }
+          }}
+          disableRowSelectionOnClick
+          pageSizeOptions={[10, 25, 50]}
+          paginationModel={paginationModel}
+          onPaginationModelChange={setPaginationModel}
+        />
+        <AddLeaseDrawer
+          leasesData={leasesData}
+          setLeasesData={setLeasesData}
+          open={addUserOpen}
+          toggle={toggleAddUserDrawer}
+        />
       </Grid>
-      <AddLeaseDrawer
-        leasesData={leasesData}
-        setLeasesData={setLeasesData}
-        open={addUserOpen}
-        toggle={toggleAddUserDrawer}
-      />
     </Grid>
   )
 }

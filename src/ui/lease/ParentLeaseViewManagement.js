@@ -1,13 +1,13 @@
 // ** MUI Imports
 
-import Grid from '@mui/material/Grid'
-
 import { styled } from '@mui/material/styles'
 
+import { useState } from 'react'
 import MuiTimeline from '@mui/lab/Timeline'
 
 // ** Custom Components Imports
 import LeaseManageTable from './LeaseManageTable'
+import { Grid, FormControl, InputLabel, MenuItem, Select, Card, CardHeader, CardContent } from '@mui/material'
 
 // Styled Timeline component
 const Timeline = styled(MuiTimeline)(({ theme }) => ({
@@ -26,8 +26,12 @@ const Timeline = styled(MuiTimeline)(({ theme }) => ({
 
 const ParentLeaseViewManagement = ({ leaseData }) => {
   return (
-    <Grid>
-      <LeaseManageTable></LeaseManageTable>
+    <Grid container spacing={6}>
+      <Grid item xs={12}>
+        <Card>
+          <LeaseManageTable></LeaseManageTable>
+        </Card>
+      </Grid>
     </Grid>
   )
 }

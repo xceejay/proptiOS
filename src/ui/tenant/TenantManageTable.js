@@ -39,6 +39,7 @@ import ServerSideToolbarTenantManage from 'src/views/table/data-grid/ServerSideT
 import CustomTenantToolbar from 'src/views/table/data-grid/CustomTenantToolbar'
 import EditPropertyTenantDrawer from '../property/EditPropertyTenantDrawer'
 import EditTenantDrawer from './EditTenantDrawer'
+import CustomStatusToolbar from 'src/views/table/data-grid/CustomStatusToolbar'
 
 const RowOptions = ({ id, row, setTenantsData, tenantsData, setLoading }) => {
   const dispatch = useDispatch()
@@ -243,6 +244,13 @@ const TenantManageTable = () => {
   const [value, setValue] = useState('')
   const [addUserOpen, setAddUserOpen] = useState(false)
   const [paginationModel, setPaginationModel] = useState({ page: 1, pageSize: 25 })
+  const [statusValue, setStatusValue] = useState('')
+  const [statuses, setStatuses] = useState([
+    { text: 'None', value: '' },
+
+    { text: 'Active', value: 'active' },
+    { text: 'Inactive', value: 'inactive' }
+  ])
 
   useEffect(() => {
     tenants.getTenants(
@@ -301,7 +309,7 @@ const TenantManageTable = () => {
               rows={filteredTenants || []}
               columns={columns}
               slots={{
-                toolbar: CustomTenantToolbar,
+                toolbar: CustomStatusToolbar,
                 noRowsOverlay: CustomNoRowsOverlay
 
                 // loadingOverlay: {
@@ -309,11 +317,17 @@ const TenantManageTable = () => {
                 //   noRowsVariant: 'skeleton'
                 // }
               }}
+              filterModel={{
+                items: [{ field: 'status', operator: 'equals', value: statusValue }]
+              }}
               slotProps={{
                 toolbar: {
                   searchPlaceholder: 'Quick Search',
                   value: value,
                   addText: 'Add Tenant',
+                  statusValue: statusValue,
+                  setStatusValue: setStatusValue,
+                  statuses: statuses,
                   toggle: toggleAddUserDrawer,
                   handleFilter: handleFilter
                 }
