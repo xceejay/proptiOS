@@ -175,26 +175,26 @@ const tenancyAgreementContent = `
   <p style="text-align: center;">(the “Agreement”)</p>
   <p style="text-align: center;">Made and entered into this [DATE]</p>
 
-  <p><strong>BETWEEN</strong> <span style="border-bottom: 1px solid #000;">___________________________</span> (hereinafter called the “Landlord”)</p>
-  <p><strong>AND</strong> <span style="border-bottom: 1px solid #000;">___________________________</span> (hereinafter called the “Tenant”) of the other part.</p>
+  <p><strong>BETWEEN</strong> <span style="border-bottom: 1px solid #000;"><b>{{name}}</b></span> (hereinafter called the “Landlord”)</p>
+  <p><strong>AND</strong> <span style="border-bottom: 1px solid #000;"><b>{{name}}</b></span> (hereinafter called the “Tenant”) of the other part.</p>
 
   <h2>WHEREAS:</h2>
   <ul>
-    <li>The Landlord is the legal and beneficial owner of the furnished/ unfurnished <span style="border-bottom: 1px solid #000;">___________________________</span> (hereinafter called the “Property”).</li>
+    <li>The Landlord is the legal and beneficial owner of the furnished/ unfurnished <span style="border-bottom: 1px solid #000;"><b>{{name}}</b></span> (hereinafter called the “Property”).</li>
     <li>The Tenant requires suitable accommodation for its use and has therefore requested the Landlord to let to the Tenant the Property together with the standard appliances therein (together called the “Premises”).</li>
     <li>The Landlord has agreed to let the Premises to the Tenant on the terms stated in this Agreement.</li>
   </ul>
 
   <h2>IT IS HEREBY AGREED AS FOLLOWS:</h2>
   <ul>
-    <li>This Agreement shall commence on <span style="border-bottom: 1px solid #000;">___________________________</span> and expire on <span style="border-bottom: 1px solid #000;">___________________________</span>.</li>
-    <li>To pay in advance a Rent of <span style="border-bottom: 1px solid #000;">___________________________</span>.</li>
-    <li>A refundable security deposit of <span style="border-bottom: 1px solid #000;">___________________________</span> shall be paid with this Agreement and an extra deposit charged for any additional rental period.</li>
+    <li>This Agreement shall commence on <span style="border-bottom: 1px solid #000;"><b>{{name}}</b></span> and expire on <span style="border-bottom: 1px solid #000;"><b>{{name}}</b></span>.</li>
+    <li>To pay in advance a Rent of <span style="border-bottom: 1px solid #000;"><b>{{name}}</b></span>.</li>
+    <li>A refundable security deposit of <span style="border-bottom: 1px solid #000;"><b>{{name}}</b></span> shall be paid with this Agreement and an extra deposit charged for any additional rental period.</li>
     <li>All rents due are payable in the Ghana Cedi equivalent at the prevailing interbank rate confirmed by both parties.</li>
     <li>Rent paid to exclude/includes DSTV, internet subscriptions, cleaning, and utilities unless otherwise agreed.</li>
-    <li>Continued occupancy after the expiration date stated herein shall attract a daily rate of <span style="border-bottom: 1px solid #000;">___________________________</span>.</li>
+    <li>Continued occupancy after the expiration date stated herein shall attract a daily rate of <span style="border-bottom: 1px solid #000;"><b>{{name}}</b></span>.</li>
     <li>The security deposit shall be used to remedy any faults and damage to the Premises by the Tenant or guests, exclusive of ordinary wear and tear.</li>
-    <li>The Landlord shall refund the security deposit, less any deductions, within <span style="border-bottom: 1px solid #000;">___________________________</span> days of the Tenant vacating the Premises via cheque or bank transfer or other agreed payment.</li>
+    <li>The Landlord shall refund the security deposit, less any deductions, within <span style="border-bottom: 1px solid #000;"><b>{{name}}</b></span> days of the Tenant vacating the Premises via cheque or bank transfer or other agreed payment.</li>
     <li>This Agreement may be renewed for a further agreed term in writing between the Landlord and Tenant upon the expiration of this current term, with prior notice of not less than 14 days.</li>
     <li>The Landlord may terminate this Agreement if the Tenant is in breach of any provision of this Agreement, the House Rules, or engages in any action that violates the security or privacy of other tenants and occupants.</li>
     <li>The Tenant agrees to abide by the attached House Rules for the house or apartment.</li>
@@ -230,11 +230,12 @@ const AddCard = props => {
   // ** Props
   const { clients, invoiceNumber, selectedClient, setSelectedClient, toggleAddCustomerDrawer } = props
 
-  const allTenantsData = []
+  const allTenantsData = [{ name: 'Joel Amoako', email: 'joel@gmail.com', id: 1 }]
   // ** States
   const [count, setCount] = useState(1)
   const [selected, setSelected] = useState('')
   const [issueDate, setIssueDate] = useState(new Date())
+  const [tenant, setTenant] = useState(null)
   const [dueDate, setDueDate] = useState(new Date(tomorrowDate))
 
   const [paymentFrequencyValue, setStatusValue] = useState('monthly')
@@ -379,16 +380,20 @@ const AddCard = props => {
         <Grid sx={{ mt: 10 }} container>
           <Grid item xl={6} xs={12} sx={{ mb: { xl: 0, xs: 4 } }}>
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'left', justifyContent: 'flex-start' }}>
-              <CalcWrapper>
+              <CalcWrapper flex={0.5}>
                 <Typography sx={{ mr: 2 }}>Dear </Typography>
-                <FormControl>
+                <FormControl fullWidth>
                   <Controller
                     render={({ onChange, ...props }) => (
                       <Autocomplete
                         size='small'
-                        options={allTenantsData?.items || []}
-                        getOptionLabel={tenant => tenant.name + '(' + tenant.email + ')'} // Display the tenant name
-                        getOptionDisabled={tenant => !!tenant.property?.id}
+                        value={tenant}
+                        onChange={(event, newValue) => {
+                          setTenant(newValue)
+                        }}
+                        options={allTenantsData ? allTenantsData : []}
+                        getOptionLabel={tenant => tenant.name} // Display the tenant name
+                        // getOptionDisabled={tenant => !!tenant.property?.id}
                         sx={{ minWidth: 150 }}
                         renderInput={params => <TextField {...params} label='Select Tenant' />}
                       />
@@ -409,7 +414,11 @@ const AddCard = props => {
       {/* <Divider /> */}
 
       <CardContent sx={{}}>
-        <CustomLeaseEditor defaultLeaseText={tenancyAgreementContent}></CustomLeaseEditor>
+        <CustomLeaseEditor
+          defaultLeaseText={tenancyAgreementContent}
+          tenant={tenant}
+          setTenant={setTenant}
+        ></CustomLeaseEditor>
       </CardContent>
       {/* <Divider /> */}
 
@@ -431,12 +440,21 @@ const AddCard = props => {
                 <Controller
                   render={({ onChange, ...props }) => (
                     <Autocomplete
+                      value={tenant}
                       size='small'
-                      options={allTenantsData?.items || []}
-                      getOptionLabel={tenant => tenant.name + '(' + tenant.email + ')'} // Display the tenant name
-                      getOptionDisabled={tenant => !!tenant.property?.id}
-                      sx={{ minWidth: 150 }}
-                      renderInput={params => <TextField {...params} label='Select Tenant' />}
+                      onChange={(event, newValue) => {
+                        console.log('new lanlord val', newValue)
+                        setTenant(newValue)
+                      }}
+                      options={allTenantsData ? allTenantsData : []}
+                      getOptionLabel={tenant => tenant.name} // Display the tenant name
+                      renderInput={params => (
+                        <TextField
+                          {...params}
+                          label='Select Tenant'
+                          sx={{ minWidth: 200 }} // Set a flexible minimum width
+                        />
+                      )}
                     />
                   )}
                   onChange={([, data]) => data}
@@ -462,12 +480,20 @@ const AddCard = props => {
                 <Controller
                   render={({ onChange, ...props }) => (
                     <Autocomplete
+                      value={tenant}
                       size='small'
-                      options={allTenantsData?.items || []}
-                      getOptionLabel={tenant => tenant.name + '(' + tenant.email + ')'} // Display the tenant name
-                      getOptionDisabled={tenant => !!tenant.property?.id}
-                      sx={{ minWidth: 150 }}
-                      renderInput={params => <TextField {...params} label='Select Tenant' />}
+                      onChange={(event, newValue) => {
+                        setTenant(newValue)
+                      }}
+                      options={allTenantsData ? allTenantsData : []}
+                      getOptionLabel={tenant => tenant.name} // Display the tenant name
+                      renderInput={params => (
+                        <TextField
+                          {...params}
+                          label='Select Tenant'
+                          sx={{ minWidth: 200 }} // Set a flexible minimum width
+                        />
+                      )}
                     />
                   )}
                   onChange={([, data]) => data}
