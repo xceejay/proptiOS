@@ -376,7 +376,7 @@ const AddCard = props => {
           </Grid>
         </Grid>
 
-        <Grid sx={{ mt: 4 }} container>
+        <Grid sx={{ mt: 10 }} container>
           <Grid item xl={6} xs={12} sx={{ mb: { xl: 0, xs: 4 } }}>
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'left', justifyContent: 'flex-start' }}>
               <CalcWrapper>
