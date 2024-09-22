@@ -43,6 +43,7 @@ import CustomLeaseEditor from 'src/views/editor/CustomLeaseEditor'
 import { FormControl } from '@mui/material'
 import { useAuth } from 'src/hooks/useAuth'
 import { fontWeight } from '@mui/system'
+import SignatureCanvas from './SignatureCanvas'
 
 const currencies = [
   { code: 'USD', name: 'United States Dollar', symbol: '$' },
@@ -153,8 +154,9 @@ const CustomAutocomplete = styled(Autocomplete)({
     color: '#000' // Optional: Add a color for the label when focused
   },
   '& .MuiInputBase-input': {
-    opacity: 1 // Always show the input text\
+    opacity: 1, // Always show the input text\
     // fontStyle: 'italic'
+    fontWeight: 'bold'
   },
   '& .MuiAutocomplete-endAdornment': {
     display: 'none' // Hide the dropdown icon when not focused
@@ -273,6 +275,17 @@ const AddCard = props => {
   const [issueDate, setIssueDate] = useState(new Date())
   const [tenant, setTenant] = useState(null)
   const [dueDate, setDueDate] = useState(new Date(tomorrowDate))
+
+  const [landlordSignature, setLandlordSignature] = useState('')
+  const [tenantSignature, setTenantSignature] = useState('')
+
+  const handleLandlordSignature = signature => {
+    setLandlordSignature(signature)
+  }
+
+  const handleTenantSignature = signature => {
+    setTenantSignature(signature)
+  }
 
   const [paymentFrequencyValue, setStatusValue] = useState('monthly')
   const [statuses, setStatuses] = useState([
@@ -504,6 +517,7 @@ const AddCard = props => {
               <Typography variant='body2' sx={{ mr: 2, fontWeight: 600 }}>
                 Signature:
               </Typography>
+              {/* <SignatureCanvas onSave={handleLandlordSignature} /> */}
               {/* <TextField size='small' defaultValue='' /> */}
             </Box>
             <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
@@ -544,6 +558,7 @@ const AddCard = props => {
                 Signature:
               </Typography>
               {/* <TextField size='small' defaultValue='' /> */}
+              {/* <SignatureCanvas onSave={handleTenantSignature} /> */}
             </Box>
           </Grid>
           <Grid item xs={12} sm={5} lg={4} sx={{ mb: { sm: 0, xs: 4 }, order: { sm: 2, xs: 1 } }}>

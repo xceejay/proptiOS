@@ -3,7 +3,7 @@ import { Box, Button, Stack, Typography } from '@mui/material'
 import { useCallback, useRef, useState } from 'react'
 import { LinkBubbleMenu, MenuButton, RichTextEditor, RichTextReadOnly, TableBubbleMenu, insertImages } from 'mui-tiptap'
 import EditorMenuControls from './EditorMenuControls'
-
+import toast from 'react-hot-toast'
 import useExtensions from './useExtensions'
 
 const CustomLeaseEditor = props => {
@@ -84,6 +84,17 @@ const CustomLeaseEditor = props => {
       return
     }
 
+    // Check if the variable placeholders exist
+    const hasVariable = htmlContent.match(/{{name}}/g)
+
+    if (!hasVariable) {
+      // Trigger a toast error if variable is missing
+      toast.error('We couldn’t find any "{{variable}}" in the document. Please undo your last changes and try again.', {
+        autoClose: 6000 // Duration for the toast
+      })
+      return
+    }
+
     // Replace the variables in the HTML content
     const updatedContent = htmlContent.replace(/{{name}}/g, tenant?.name)
 
@@ -130,17 +141,6 @@ const CustomLeaseEditor = props => {
                 px: 1.5
               }}
             >
-              <Button
-                variant='contained'
-                size='small'
-                onClick={() => {
-                  const currentHtmlContent = rteRef.current?.editor?.getHTML() ?? ''
-                  handleReplaceVars(currentHtmlContent)
-                }}
-              >
-                Replace Variables
-              </Button>
-
               {/* Undo Button */}
               {/* <Button
                 variant='contained'
@@ -167,6 +167,16 @@ const CustomLeaseEditor = props => {
                 selected={showMenuBar}
                 IconComponent={TextFields}
               />
+              <Button
+                variant='contained'
+                size='small'
+                onClick={() => {
+                  const currentHtmlContent = rteRef.current?.editor?.getHTML() ?? ''
+                  handleReplaceVars(currentHtmlContent)
+                }}
+              >
+                Insert Details
+              </Button>
               <Button
                 variant='contained'
                 size='small'
