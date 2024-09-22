@@ -274,7 +274,28 @@ const AddCard = props => {
   const [selected, setSelected] = useState('')
   const [issueDate, setIssueDate] = useState(new Date())
   const [tenant, setTenant] = useState(null)
+  const [landlord, setLandlord] = useState(null)
+  const [leaseTitle, setLeaseTitle] = useState(null)
+
+  const [currency, setCurrency] = useState('USD') // Default to USD
+  const [rentAmount, setRentAmount] = useState(1000) // Default to 1000
+  const [paymentFrequency, setPaymentFrequency] = useState('monthly') // Default to monthly
   const [dueDate, setDueDate] = useState(new Date(tomorrowDate))
+  const [leaseStartDate, setLeaseStartDate] = useState(null)
+  const [leaseEndDate, setLeaseEndDate] = useState(null)
+
+  const [formVariables, setFormVariables] = useState({
+    landlord: {},
+    tenant: {},
+    currency: '',
+    rent_amount: '',
+    payment_frequency: '',
+    lease_start_date: '',
+    lease_end_date: '',
+    title: '',
+    unit_name: '',
+    property_name: ''
+  })
 
   const [landlordSignature, setLandlordSignature] = useState('')
   const [tenantSignature, setTenantSignature] = useState('')
@@ -288,7 +309,7 @@ const AddCard = props => {
   }
 
   const [paymentFrequencyValue, setStatusValue] = useState('monthly')
-  const [statuses, setStatuses] = useState([
+  const [paymentFrequencies, setPaymentFrequencies] = useState([
     { text: 'Bi-Yearly', value: 'bi-yearly' },
     { text: 'Yearly', value: 'yearly' },
     { text: 'Quarterly', value: 'quarterly' },
@@ -308,6 +329,23 @@ const AddCard = props => {
     setSiteId(auth.user.site_id)
   }, [auth])
 
+  useEffect(() => {
+    console.log('Select Changed!')
+    console.log(formVariables)
+
+    setFormVariables({
+      landlord: landlord || '',
+      tenant: tenant || '',
+      currency: currency || '',
+      rent_amount: rentAmount || '',
+      payment_frequency: paymentFrequency || '',
+      lease_start_date: leaseStartDate || '',
+      lease_end_date: leaseEndDate || '',
+      title: leaseTitle || '',
+      unit_name: '',
+      property_name: ''
+    })
+  }, [currency, rentAmount, paymentFrequency, tenant, landlord, leaseTitle, leaseStartDate, leaseEndDate])
   // ** Deletes form
   const deleteForm = e => {
     e.preventDefault()
@@ -463,11 +501,7 @@ const AddCard = props => {
       {/* <Divider /> */}
 
       <CardContent sx={{}}>
-        <CustomLeaseEditor
-          defaultLeaseText={tenancyAgreementContent}
-          tenant={tenant}
-          setTenant={setTenant}
-        ></CustomLeaseEditor>
+        <CustomLeaseEditor defaultLeaseText={tenancyAgreementContent} formVariables={formVariables}></CustomLeaseEditor>
       </CardContent>
       {/* <Divider /> */}
 
@@ -575,8 +609,8 @@ const AddCard = props => {
                       <TextField
                         select
                         id='custom-select-native'
-                        value={value}
-                        onChange={onChange}
+                        onChange={event => setCurrency(event.target.value)}
+                        value={currency}
                         onBlur={onBlur}
                         name='currency'
                         required
@@ -599,15 +633,26 @@ const AddCard = props => {
               <Typography sx={{ color: 'text.secondary' }}>Rent Amount:</Typography>
               {/* <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>$2000</Typography> */}
               <FormControl>
-                <TextField sx={{ width: '142px' }} size='small' defaultValue='1' />
+                <TextField
+                  onChange={event => setRentAmount(event.target.value)}
+                  value={rentAmount}
+                  sx={{ width: '142px' }}
+                  size='small'
+                  defaultValue='1'
+                />
               </FormControl>
             </CalcWrapperNew>
 
             <CalcWrapperNew>
               <Typography sx={{ color: 'text.secondary' }}>Rent Payment Frequency:</Typography>
               <FormControl>
-                <Select value={paymentFrequencyValue} size='small' onChange={handlePaymentFrequencyValue}>
-                  {statuses?.map((payment_frequency, index) => {
+                <Select
+                  onSelect={() => setPaymentFrequency(paymentFrequency)}
+                  value={paymentFrequencyValue}
+                  size='small'
+                  onChange={handlePaymentFrequencyValue}
+                >
+                  {paymentFrequencies?.map((payment_frequency, index) => {
                     return <MenuItem value={payment_frequency?.value}>{payment_frequency?.text}</MenuItem>
                   })}
                 </Select>

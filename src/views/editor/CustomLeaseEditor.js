@@ -7,7 +7,7 @@ import toast from 'react-hot-toast'
 import useExtensions from './useExtensions'
 
 const CustomLeaseEditor = props => {
-  const { defaultLeaseText, tenant, setTenant } = props
+  const { defaultLeaseText, formVariables } = props
   const extensions = useExtensions({
     placeholder: 'Add your own content here...'
   })
@@ -84,19 +84,35 @@ const CustomLeaseEditor = props => {
       return
     }
 
-    // Check if the variable placeholders exist
-    const hasVariable = htmlContent.match(/{{name}}/g)
+    // Check if any variable placeholders exist
+    const hasVariable = htmlContent.match(/{{\w+}}/g)
 
     if (!hasVariable) {
-      // Trigger a toast error if variable is missing
+      // Trigger a toast error if no variable placeholders are found
       toast.error('We couldn’t find any "{{variable}}" in the document. Please undo your last changes and try again.', {
         autoClose: 6000 // Duration for the toast
       })
       return
     }
 
-    // Replace the variables in the HTML content
-    const updatedContent = htmlContent.replace(/{{name}}/g, tenant?.name)
+    // Define a map for replacement variables
+    const variableMap = {
+      tenant_name: formVariables.tenant?.name || '{{tenant_name}}',
+      landlord_name: formVariables.landlord_name || '{{landlord_name}}',
+      currency: formVariables.currency || '{{currency}}',
+      rent_amount: formVariables.rent_amount || '{{rent_amount}}',
+      payment_frequency: formVariables.payment_frequency || '{{payment_frequency}}',
+      lease_start_date: formVariables.lease_start_date || '{{lease_start_date}}',
+      lease_end_date: formVariables.lease_end_date || '{{lease_end_date}}',
+      title: formVariables.title || '{{title}}',
+      unit_name: formVariables.unit_name || '{{unit_name}}',
+      property_name: formVariables.property_name || '{{property_name}}'
+    }
+
+    // Replace each variable using the variableMap
+    const updatedContent = htmlContent.replace(/{{(\w+)}}/g, (match, variableName) => {
+      return variableMap[variableName] || match // Replace or leave unchanged if not found in the map
+    })
 
     // Set the updated content in the editor
     rteRef.current.editor.commands.setContent(updatedContent)
