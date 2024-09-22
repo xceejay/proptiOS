@@ -98,7 +98,7 @@ const CustomLeaseEditor = props => {
     // Define a map for replacement variables
     const variableMap = {
       tenant_name: formVariables.tenant?.name || '{{tenant_name}}',
-      landlord_name: formVariables.landlord_name || '{{landlord_name}}',
+      landlord_name: formVariables.landlord?.name || '{{landlord_name}}',
       currency: formVariables.currency || '{{currency}}',
       rent_amount: formVariables.rent_amount || '{{rent_amount}}',
       payment_frequency: formVariables.payment_frequency || '{{payment_frequency}}',

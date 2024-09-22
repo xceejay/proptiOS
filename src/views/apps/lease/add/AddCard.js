@@ -209,42 +209,64 @@ const now = new Date()
 const tomorrowDate = now.setDate(now.getDate() + 7)
 
 const tenancyAgreementContent = `
-  <h1 style="text-align: center; text-decoration: underline;">Short Let Agreement</h1>
-  <p style="text-align: center;">(the “Agreement”)</p>
-  <p style="text-align: center;">Made and entered into this [DATE]</p>
+<h1 style="text-align: center; text-decoration: underline;">{{title}}</h1>
+<p style="text-align: center;">(the “Agreement”)</p>
+<p style="text-align: center;">Made and entered into this [DATE]</p>
 
-  <p><strong>BETWEEN</strong> <span style="border-bottom: 1px solid #000;"><b>{{name}}</b></span> (hereinafter called the “Landlord”)</p>
-  <p><strong>AND</strong> <span style="border-bottom: 1px solid #000;"><b>{{name}}</b></span> (hereinafter called the “Tenant”) of the other part.</p>
+<p><strong>BETWEEN</strong> <span style="border-bottom: 1px solid #000;"><b>{{landlord_name}}</b></span> (hereinafter called the “Landlord”)</p>
+<p><strong>AND</strong> <span style="border-bottom: 1px solid #000;"><b>{{tenant_name}}</b></span> (hereinafter called the “Tenant”) of the other part.</p>
 
-  <h2>WHEREAS:</h2>
-  <ul>
-    <li>The Landlord is the legal and beneficial owner of the furnished/ unfurnished <span style="border-bottom: 1px solid #000;"><b>{{name}}</b></span> (hereinafter called the “Property”).</li>
-    <li>The Tenant requires suitable accommodation for its use and has therefore requested the Landlord to let to the Tenant the Property together with the standard appliances therein (together called the “Premises”).</li>
-    <li>The Landlord has agreed to let the Premises to the Tenant on the terms stated in this Agreement.</li>
-  </ul>
+<h2>WHEREAS:</h2>
+<ul>
+  <li>The Landlord is the legal and beneficial owner of the furnished/unfurnished property known as <span style="border-bottom: 1px solid #000;"><b>{{property_name}}</b></span>, located at <span style="border-bottom: 1px solid #000;"><b>{{unit_name}}</b></span> (hereinafter called the “Property”).</li>
+  <li>The Tenant requires suitable accommodation and has requested the Landlord to let the Property along with standard appliances and amenities therein (together called the “Premises”).</li>
+  <li>The Landlord has agreed to let the Premises to the Tenant on the terms set out in this Agreement.</li>
+</ul>
 
-  <h2>IT IS HEREBY AGREED AS FOLLOWS:</h2>
-  <ul>
-    <li>This Agreement shall commence on <span style="border-bottom: 1px solid #000;"><b>{{name}}</b></span> and expire on <span style="border-bottom: 1px solid #000;"><b>{{name}}</b></span>.</li>
-    <li>To pay in advance a Rent of <span style="border-bottom: 1px solid #000;"><b>{{name}}</b></span>.</li>
-    <li>A refundable security deposit of <span style="border-bottom: 1px solid #000;"><b>{{name}}</b></span> shall be paid with this Agreement and an extra deposit charged for any additional rental period.</li>
-    <li>All rents due are payable in the Ghana Cedi equivalent at the prevailing interbank rate confirmed by both parties.</li>
-    <li>Rent paid to exclude/includes DSTV, internet subscriptions, cleaning, and utilities unless otherwise agreed.</li>
-    <li>Continued occupancy after the expiration date stated herein shall attract a daily rate of <span style="border-bottom: 1px solid #000;"><b>{{name}}</b></span>.</li>
-    <li>The security deposit shall be used to remedy any faults and damage to the Premises by the Tenant or guests, exclusive of ordinary wear and tear.</li>
-    <li>The Landlord shall refund the security deposit, less any deductions, within <span style="border-bottom: 1px solid #000;"><b>{{name}}</b></span> days of the Tenant vacating the Premises via cheque or bank transfer or other agreed payment.</li>
-    <li>This Agreement may be renewed for a further agreed term in writing between the Landlord and Tenant upon the expiration of this current term, with prior notice of not less than 14 days.</li>
-    <li>The Landlord may terminate this Agreement if the Tenant is in breach of any provision of this Agreement, the House Rules, or engages in any action that violates the security or privacy of other tenants and occupants.</li>
-    <li>The Tenant agrees to abide by the attached House Rules for the house or apartment.</li>
-  </ul>
+<h2>NOW IT IS HEREBY AGREED AS FOLLOWS:</h2>
+<ul>
+  <li>This Agreement shall commence on <span style="border-bottom: 1px solid #000;"><b>{{lease_start_date}}</b></span> and shall expire on <span style="border-bottom: 1px solid #000;"><b>{{lease_end_date}}</b></span> (the "Term").</li>
 
-  <h2>IN WITNESS WHEREOF</h2>
-  <p>The parties hereto have executed this Tenancy Agreement on the day and year first above written.</p>
+  <li>The Tenant agrees to pay in advance a total rent of <span style="border-bottom: 1px solid #000;"><b>{{currency}} {{rent_amount}}</b></span>, payable {{payment_frequency}}.</li>
 
-  <div>
-    <p>READ, ACCEPTED, AND SIGNED BY THE LANDLORD AND TENANT</p>
-  </div>
-`
+  <li>A refundable security deposit of <span style="border-bottom: 1px solid #000;"><b>{{currency}} [SECURITY_DEPOSIT]</b></span> shall be paid upon signing this Agreement. This deposit will be returned within <span style="border-bottom: 1px solid #000;"><b>[REFUND_DAYS]</b></span> days after the Tenant vacates the Premises, subject to any deductions for damage or unpaid rent.</li>
+
+  <li>All rents are to be paid in the local currency equivalent ({{currency}}) based on the prevailing interbank rate at the time of payment, unless otherwise agreed upon in writing.</li>
+
+  <li>Rent does/does not include services such as DSTV, internet subscriptions, cleaning, and utilities, unless otherwise agreed in writing.</li>
+
+  <li>Should the Tenant remain in the Premises after the expiration of the Term without a formal extension, the Tenant will be charged a daily rate of <span style="border-bottom: 1px solid #000;"><b>{{currency}} [DAILY_RATE]</b></span>.</li>
+
+  <li>The security deposit may be used to cover any damages or repairs to the Property, beyond ordinary wear and tear, caused by the Tenant or guests during their stay.</li>
+
+  <li>The Landlord shall refund the security deposit, less any deductions, via cheque, bank transfer, or other agreed methods within <span style="border-bottom: 1px solid #000;"><b>[REFUND_DAYS]</b></span> days of the Tenant vacating the Property.</li>
+
+  <li>This Agreement may be renewed for a further term, subject to mutual agreement in writing, with a prior notice period of no less than 14 days before the end of the current Term.</li>
+
+  <li>The Landlord may terminate this Agreement if the Tenant breaches any term of this Agreement, violates house rules, or engages in activities that jeopardize the security or privacy of other occupants.</li>
+
+  <li>The Tenant agrees to comply with the attached House Rules, which form part of this Agreement.</li>
+</ul>
+
+<h2>MISCELLANEOUS:</h2>
+<ul>
+  <li>All notices under this Agreement shall be in writing and delivered to the respective addresses of the parties, or sent via email to addresses confirmed by both parties.</li>
+
+  <li>The Landlord agrees to maintain the Property in good condition and to make necessary repairs as required by law.</li>
+
+  <li>The Tenant shall not sublet or assign the Property without the prior written consent of the Landlord.</li>
+
+  <li>If any provision of this Agreement is found to be invalid or unenforceable by a court of law, the remaining provisions shall continue to be fully effective.</li>
+
+  <li>This Agreement shall be governed by the laws of [Jurisdiction], and any disputes shall be resolved in the courts of that jurisdiction.</li>
+</ul>
+
+<h2>IN WITNESS WHEREOF</h2>
+<p>The parties hereto have executed this Agreement on the day and year first above written.</p>
+
+<div>
+  <p>READ, ACCEPTED, AND SIGNED BY THE LANDLORD AND TENANT:</p>
+</div>`
 const AddCard = props => {
   const defaultValues = {
     // country: countries.[]
@@ -268,7 +290,7 @@ const AddCard = props => {
   // ** Props
   const { clients, invoiceNumber, selectedClient, setSelectedClient, toggleAddCustomerDrawer } = props
 
-  const allTenantsData = [{ name: 'Joel Amoako', email: 'joel@gmail.com', id: 1 }]
+  const allTenantsData = [{ name: 'Tenant 1', email: 'joel@gmail.com', id: 1 }]
   // ** States
   const [count, setCount] = useState(1)
   const [selected, setSelected] = useState('')
@@ -317,6 +339,7 @@ const AddCard = props => {
   ])
 
   const [siteId, setSiteId] = useState(null)
+  const [siteUser, setSiteUser] = useState([])
   const handlePaymentFrequencyValue = event => {
     setStatusValue(event.target.value)
   }
@@ -327,6 +350,7 @@ const AddCard = props => {
 
   useEffect(() => {
     setSiteId(auth.user.site_id)
+    setSiteUser([auth.user])
   }, [auth])
 
   useEffect(() => {
@@ -523,18 +547,18 @@ const AddCard = props => {
                 <Controller
                   render={({ onChange, ...props }) => (
                     <CustomAutocomplete
-                      value={tenant}
+                      value={landlord}
                       size='small'
                       onChange={(event, newValue) => {
                         console.log('new lanlord val', newValue)
-                        setTenant(newValue)
+                        setLandlord(newValue)
                       }}
-                      options={allTenantsData ? allTenantsData : []}
-                      getOptionLabel={tenant => tenant.name} // Display the tenant name
+                      options={siteUser ? siteUser : []}
+                      getOptionLabel={landlord => landlord.name} // Display the tenant name
                       renderInput={params => (
                         <TextField
                           {...params}
-                          label='Select Tenant'
+                          label='Select Landlord'
                           sx={{ minWidth: 200 }} // Set a flexible minimum width
                         />
                       )}
