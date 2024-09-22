@@ -297,7 +297,7 @@ const AddCard = props => {
   const [issueDate, setIssueDate] = useState(new Date())
   const [tenant, setTenant] = useState(null)
   const [landlord, setLandlord] = useState(null)
-  const [leaseTitle, setLeaseTitle] = useState(null)
+  const [leaseTitle, setLeaseTitle] = useState('Lease Agreement')
 
   const [currency, setCurrency] = useState('USD') // Default to USD
   const [rentAmount, setRentAmount] = useState(1000) // Default to 1000
@@ -464,6 +464,8 @@ const AddCard = props => {
                   size='small'
                   sx={{ width: { sm: '250px', xs: '170px' } }}
                   defaultValue='Embassy Heights 1 Bedroom Lease Agreement'
+                  value={leaseTitle}
+                  onChange={event => setLeaseTitle(event.target.value)}
                 />
               </Box>
               <Box sx={{ mb: 3, display: 'flex', alignItems: 'center' }}>
