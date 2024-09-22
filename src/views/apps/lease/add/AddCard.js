@@ -42,6 +42,7 @@ import Editor from 'src/views/editor/Editor'
 import CustomLeaseEditor from 'src/views/editor/CustomLeaseEditor'
 import { FormControl } from '@mui/material'
 import { useAuth } from 'src/hooks/useAuth'
+import { fontWeight } from '@mui/system'
 
 const currencies = [
   { code: 'USD', name: 'United States Dollar', symbol: '$' },
@@ -127,6 +128,41 @@ const RepeatingContent = styled(Grid)(({ theme }) => ({
     }
   }
 }))
+
+const CustomAutocomplete = styled(Autocomplete)({
+  '& .MuiOutlinedInput-root': {
+    '& fieldset': {
+      borderColor: 'transparent' // Hide the border when not focused
+    },
+    '&:hover fieldset': {
+      borderColor: 'transparent' // Keep border hidden on hover
+    },
+    '&.Mui-focused fieldset': {
+      borderColor: 'blue' // Show the border when focused
+    }
+  },
+  '& .MuiInputLabel-root': {
+    display: 'none' // Hide the label by default
+  },
+  '&:hover .MuiInputLabel-root': {
+    display: 'block', // Show the label on hover
+    color: '#000' // Optional: Add a color for the label when hovered
+  },
+  '& .Mui-focused .MuiInputLabel-root': {
+    display: 'block', // Show the label when focused
+    color: '#000' // Optional: Add a color for the label when focused
+  },
+  '& .MuiInputBase-input': {
+    opacity: 1 // Always show the input text\
+    // fontStyle: 'italic'
+  },
+  '& .MuiAutocomplete-endAdornment': {
+    display: 'none' // Hide the dropdown icon when not focused
+  },
+  '& .Mui-focused .MuiAutocomplete-endAdornment': {
+    display: 'flex' // Show the dropdown icon when focused
+  }
+})
 
 const RepeaterWrapper = styled(CardContent)(({ theme }) => ({
   padding: theme.spacing(16, 10, 10),
@@ -381,18 +417,18 @@ const AddCard = props => {
           <Grid item xl={6} xs={12} sx={{ mb: { xl: 0, xs: 4 } }}>
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'left', justifyContent: 'flex-start' }}>
               <CalcWrapper flex={0.5}>
-                <Typography sx={{ mr: 2 }}>Dear </Typography>
+                <Typography>Dear </Typography>
                 <FormControl fullWidth>
                   <Controller
                     render={({ onChange, ...props }) => (
-                      <Autocomplete
+                      <CustomAutocomplete
                         size='small'
                         value={tenant}
                         onChange={(event, newValue) => {
                           setTenant(newValue)
                         }}
                         options={allTenantsData ? allTenantsData : []}
-                        getOptionLabel={tenant => tenant.name} // Display the tenant name
+                        getOptionLabel={tenant => tenant.name + ','} // Display the tenant name
                         // getOptionDisabled={tenant => !!tenant.property?.id}
                         sx={{ minWidth: 150 }}
                         renderInput={params => <TextField {...params} label='Select Tenant' />}
@@ -439,7 +475,7 @@ const AddCard = props => {
               <FormControl>
                 <Controller
                   render={({ onChange, ...props }) => (
-                    <Autocomplete
+                    <CustomAutocomplete
                       value={tenant}
                       size='small'
                       onChange={(event, newValue) => {
@@ -479,7 +515,7 @@ const AddCard = props => {
               <FormControl>
                 <Controller
                   render={({ onChange, ...props }) => (
-                    <Autocomplete
+                    <CustomAutocomplete
                       value={tenant}
                       size='small'
                       onChange={(event, newValue) => {
