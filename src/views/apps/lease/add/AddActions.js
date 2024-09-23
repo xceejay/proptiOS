@@ -127,6 +127,72 @@ const AddActions = () => {
             <li>
               <code>{'{{tenant_name}}'}</code> - The name of the tenant (repeated)
             </li>
+            <li>
+              <code>{'{{security_deposit}}'}</code> - The amount of the security deposit
+            </li>
+            <li>
+              <code>{'{{late_fee}}'}</code> - The late fee charged for delayed payments
+            </li>
+            <li>
+              <code>{'{{grace_period}}'}</code> - The number of days allowed for rent payment without penalty
+            </li>
+            <li>
+              <code>{'{{renewal_terms}}'}</code> - The terms for lease renewal
+            </li>
+            <li>
+              <code>{'{{termination_clause}}'}</code> - The conditions for terminating the lease
+            </li>
+            <li>
+              <code>{'{{notice_period}}'}</code> - The required notice period for termination
+            </li>
+            <li>
+              <code>{'{{early_termination_fee}}'}</code> - The fee for early termination of the lease
+            </li>
+            <li>
+              <code>{'{{rent_increase_rate}}'}</code> - The percentage rate of rent increase upon renewal
+            </li>
+            <li>
+              <code>{'{{guarantor_name}}'}</code> - The name of the guarantor, if applicable
+            </li>
+            <li>
+              <code>{'{{maintenance_responsibility}}'}</code> - Responsibilities for maintenance (tenant/landlord)
+            </li>
+            <li>
+              <code>{'{{payment_method}}'}</code> - The method of rent payment (e.g., bank transfer, credit card)
+            </li>
+            <li>
+              <code>{'{{lease_signed_date}}'}</code> - The date the lease was signed
+            </li>
+            <li>
+              <code>{'{{tenant_signature}}'}</code> - Placeholder for the tenant’s signature
+            </li>
+            <li>
+              <code>{'{{landlord_signature}}'}</code> - Placeholder for the landlord’s signature
+            </li>
+            <li>
+              <code>{'{{insurance_policy}}'}</code> - Details of required insurance policies, if applicable
+            </li>
+            <li>
+              <code>{'{{pet_policy}}'}</code> - The terms related to pet allowance, if applicable
+            </li>
+            <li>
+              <code>{'{{occupants_count}}'}</code> - The number of occupants allowed in the unit
+            </li>
+            <li>
+              <code>{'{{utilities_included}}'}</code> - Whether utilities are included in the rent
+            </li>
+            <li>
+              <code>{'{{utility_details}}'}</code> - Specifics about included utilities
+            </li>
+            <li>
+              <code>{'{{sublet_permission}}'}</code> - Whether subletting is allowed or not
+            </li>
+            <li>
+              <code>{'{{move_in_condition}}'}</code> - The condition of the property upon move-in
+            </li>
+            <li>
+              <code>{'{{move_out_condition}}'}</code> - The expected condition of the property upon move-out
+            </li>
           </ul>
           <Typography variant='body2' paragraph>
             Ensure the correct format and variables are used to avoid any errors.
