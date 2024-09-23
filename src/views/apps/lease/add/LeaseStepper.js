@@ -161,7 +161,7 @@ const LeaseStepper = ({ onFormDataChange, onFormSubmit }) => {
   }
 
   return (
-    <Box sx={{ width: '100%', mt: 4 }}>
+    <Box sx={{ mt: 4 }}>
       <Typography variant='h4' align='center' gutterBottom>
         Create Lease Agreement
       </Typography>
