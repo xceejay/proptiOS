@@ -19,10 +19,13 @@ import AddActions from 'src/views/apps/lease/add/AddActions'
 import AddNewCustomer from 'src/views/apps/lease/add/AddNewCustomer'
 import { useRouter } from 'next/router'
 
-const InvoiceAdd = ({}) => {
+const LeaseAdd = ({}) => {
   // ** State
   const [addCustomerOpen, setAddCustomerOpen] = useState(false)
   const [selectedClient, setSelectedClient] = useState(null)
+
+  const [submittedContent, setSubmittedContent] = useState('')
+
   const [clients, setClients] = useState([])
   const router = useRouter()
   const toggleAddCustomerDrawer = () => setAddCustomerOpen(!addCustomerOpen)
@@ -42,14 +45,16 @@ const InvoiceAdd = ({}) => {
             <Grid item xl={9} lg={9.5} md={8} xs={12}>
               <AddCard
                 clients={clients}
-                invoiceNumber={1}
+                leaseNumber={1}
                 selectedClient={selectedClient}
                 setSelectedClient={setSelectedClient}
                 toggleAddCustomerDrawer={toggleAddCustomerDrawer}
+                setSubmittedContent={setSubmittedContent}
+                submittedContent={submittedContent}
               />
             </Grid>
             <Grid item xl={3} lg={2.5} md={4} xs={12}>
-              <AddActions />
+              <AddActions setSubmittedContent={setSubmittedContent} submittedContent={submittedContent} />
             </Grid>
           </Grid>
           <AddNewCustomer
@@ -58,6 +63,8 @@ const InvoiceAdd = ({}) => {
             setClients={setClients}
             toggle={toggleAddCustomerDrawer}
             setSelectedClient={setSelectedClient}
+            setSubmittedContent={setSubmittedContent}
+            submittedContent={submittedContent}
           />
         </DatePickerWrapper>
       </Grid>
@@ -65,4 +72,4 @@ const InvoiceAdd = ({}) => {
   )
 }
 
-export default InvoiceAdd
+export default LeaseAdd

@@ -2,12 +2,12 @@
 import axios from 'axios'
 
 // ** Demo Components Imports
-import Edit from 'src/views/apps/invoice/edit/Edit'
+import Edit from 'src/views/apps/lease/edit/Edit'
 
 // ** Styled Component
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 
-const InvoiceEdit = ({ id }) => {
+const LeaseEdit = ({ id }) => {
   return (
     <DatePickerWrapper sx={{ '& .react-datepicker-wrapper': { width: 'auto' } }}>
       <Edit id={id} />
@@ -15,4 +15,4 @@ const InvoiceEdit = ({ id }) => {
   )
 }
 
-export default InvoiceEdit
+export default LeaseEdit

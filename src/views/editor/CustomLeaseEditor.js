@@ -7,7 +7,7 @@ import toast from 'react-hot-toast'
 import useExtensions from './useExtensions'
 
 const CustomLeaseEditor = props => {
-  const { defaultLeaseText, formVariables } = props
+  const { defaultLeaseText, formVariables, submittedContent, setSubmittedContent } = props
   const extensions = useExtensions({
     placeholder: 'Add your own content here...'
   })
@@ -16,7 +16,6 @@ const CustomLeaseEditor = props => {
   const [isEditable, setIsEditable] = useState(true)
 
   const [showMenuBar, setShowMenuBar] = useState(true)
-  const [submittedContent, setSubmittedContent] = useState('')
   const [originalContent, setOriginalContent] = useState('')
 
   const handleNewImageFiles = useCallback((files, insertPosition) => {
@@ -208,6 +207,8 @@ const CustomLeaseEditor = props => {
                 size='small'
                 onClick={() => {
                   setSubmittedContent(rteRef.current?.editor?.getHTML() ?? '')
+
+                  alert('submitted content set')
                 }}
               >
                 Save

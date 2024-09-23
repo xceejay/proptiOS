@@ -1,11 +1,11 @@
 // ** Third Party Imports
 import axios from 'axios'
+import PreviewCard from 'src/views/apps/lease/preview/PreviewCard'
 
 // ** Demo Components Imports
-import Preview from 'src/views/apps/invoice/preview/Preview'
 
-const InvoicePreview = ({ id }) => {
-  return <Preview id={id} />
+const LeasePreview = ({ id }) => {
+  return <PreviewCard id={id} />
 }
 
-export default InvoicePreview
+export default LeasePreview

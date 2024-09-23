@@ -23,7 +23,8 @@ const OptionsWrapper = styled(Box)(() => ({
   justifyContent: 'space-between'
 }))
 
-const AddActions = () => {
+const AddActions = props => {
+  const { submittedContent } = props
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
@@ -33,7 +34,17 @@ const AddActions = () => {
               <Icon fontSize='14px' icon='tabler:pencil' />
               Sign Lease
             </Button>
-            <Button fullWidth sx={{ mb: 2 }} component={Link} color='secondary' variant='outlined' href='view/4987'>
+            <Button
+              href={{
+                pathname: 'view/[id]',
+                query: { id: '4987', submittedContent: submittedContent }
+              }}
+              fullWidth
+              sx={{ mb: 2 }}
+              component={Link}
+              color='secondary'
+              variant='outlined'
+            >
               Preview
             </Button>
             <Button size='small' fullWidth variant='outlined' color='secondary'>

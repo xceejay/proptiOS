@@ -210,64 +210,91 @@ const now = new Date()
 const tomorrowDate = now.setDate(now.getDate() + 7)
 
 const tenancyAgreementContent = `
-<h1 style="text-align: center; text-decoration: underline;">{{title}}</h1>
-<p style="text-align: center;">(the “Agreement”)</p>
-<p style="text-align: center;">Made and entered into this [DATE]</p>
+<div style="margin-top: 60px;">
+  <div>
+    <div style="margin-bottom: 30px;">
+      <h2 style="font-weight: 600; line-height: 28px; font-size: 1.375rem;">{{siteId}}</h2>
+    </div>
+    <div style="margin-bottom: 20px;">
+      <p style="margin-bottom: 15px; color: #6c757d;">Office 149, 450 South Brand Brooklyn</p>
+      <p style="margin-bottom: 15px; color: #6c757d;">San Diego County, CA 91905, USA</p>
+      <p style="color: #6c757d;">+1 (123) 456 7891, +44 (876) 543 2198</p>
+    </div>
+  </div>
+</div>
 
-<p><strong>BETWEEN</strong> <span style="border-bottom: 1px solid #000;"><b>{{landlord_name}}</b></span> (hereinafter called the “Landlord”)</p>
-<p><strong>AND</strong> <span style="border-bottom: 1px solid #000;"><b>{{tenant_name}}</b></span> (hereinafter called the “Tenant”) of the other part.</p>
+<div style="margin-top: 50px; margin-bottom: 30px;">
+  <div style="display: flex; align-items: left;">
+  </div>
+</div>
 
-<h2>WHEREAS:</h2>
-<ul>
-  <li>The Landlord is the legal and beneficial owner of the furnished/unfurnished property known as <span style="border-bottom: 1px solid #000;"><b>{{property_name}}</b></span>, located at <span style="border-bottom: 1px solid #000;"><b>{{unit_name}}</b></span> (hereinafter called the “Property”).</li>
-  <li>The Tenant requires suitable accommodation and has requested the Landlord to let the Property along with standard appliances and amenities therein (together called the “Premises”).</li>
-  <li>The Landlord has agreed to let the Premises to the Tenant on the terms set out in this Agreement.</li>
+<h1 style="text-align: center; text-decoration: underline; margin-bottom: 20px;">{{title}}</h1>
+<p style="text-align: center; margin-bottom: 10px;">(hereinafter referred to as the “Agreement”)</p>
+<p style="text-align: center; margin-bottom: 30px;">This Agreement is made and entered into on [DATE],</p>
+
+<p style="margin-bottom: 30px;"><strong>BY AND BETWEEN</strong> <span style="border-bottom: 1px solid #000;"><b>{{landlord_name}}</b></span> (hereinafter referred to as the “Landlord”),</p>
+<p style="margin-bottom: 30px;"><strong>AND</strong> <span style="border-bottom: 1px solid #000;"><b>{{tenant_name}}</b></span> (hereinafter referred to as the “Tenant”).</p>
+
+<h2 style="margin-top: 50px; margin-bottom: 20px;">RECITALS:</h2>
+<ul style="margin-left: 20px; margin-bottom: 40px;">
+  <li style="margin-bottom: 10px;">WHEREAS, the Landlord is the legal and beneficial owner of the furnished/unfurnished property, described as <span style="border-bottom: 1px solid #000;"><b>{{property_name}}</b></span> located at <span style="border-bottom: 1px solid #000;"><b>{{unit_name}}</b></span> (hereinafter referred to as the “Property”);</li>
+  <li style="margin-bottom: 10px;">AND WHEREAS, the Tenant is desirous of leasing the Property from the Landlord under the terms and conditions outlined herein;</li>
+  <li style="margin-bottom: 10px;">NOW, THEREFORE, in consideration of the mutual covenants contained herein, the parties hereby agree as follows:</li>
 </ul>
 
-<h2>NOW IT IS HEREBY AGREED AS FOLLOWS:</h2>
-<ul>
-  <li>This Agreement shall commence on <span style="border-bottom: 1px solid #000;"><b>{{lease_start_date}}</b></span> and shall expire on <span style="border-bottom: 1px solid #000;"><b>{{lease_end_date}}</b></span> (the "Term").</li>
+<h2 style="margin-top: 50px; margin-bottom: 20px;">TERMS AND CONDITIONS:</h2>
+<ol style="margin-left: 20px; margin-bottom: 40px;">
+  <li style="margin-bottom: 15px;">The term of this Agreement shall commence on <span style="border-bottom: 1px solid #000;"><b>{{lease_start_date}}</b></span> and shall terminate on <span style="border-bottom: 1px solid #000;"><b>{{lease_end_date}}</b></span> (hereinafter referred to as the “Term”).</li>
+  <li style="margin-bottom: 15px;">The Tenant agrees to pay the Landlord a total rent of <span style="border-bottom: 1px solid #000;"><b>{{currency}} {{rent_amount}}</b></span>, payable in accordance with the following schedule: {{payment_frequency}}.</li>
+  <li style="margin-bottom: 15px;">Upon the execution of this Agreement, the Tenant shall deposit a refundable security deposit in the amount of <span style="border-bottom: 1px solid #000;"><b>{{currency}} [SECURITY_DEPOSIT]</b></span>, which shall be refunded to the Tenant within <span style="border-bottom: 1px solid #000;"><b>[REFUND_DAYS]</b></span> days of vacating the Premises, subject to deductions for damages or unpaid rent.</li>
+  <li style="margin-bottom: 15px;">All rents shall be paid in {{currency}} at the prevailing interbank exchange rate, unless otherwise agreed in writing.</li>
+  <li style="margin-bottom: 15px;">Unless explicitly stated in writing, the rent shall not include services such as DSTV, internet, cleaning, or utilities.</li>
+  <li style="margin-bottom: 15px;">In the event that the Tenant remains in possession of the Property after the expiration of the Term without a formal extension, the Tenant shall pay a daily rental rate of <span style="border-bottom: 1px solid #000;"><b>{{currency}} [DAILY_RATE]</b></span>.</li>
+  <li style="margin-bottom: 15px;">The security deposit may be used to cover the cost of repairing any damage to the Property caused by the Tenant, beyond normal wear and tear.</li>
+  <li style="margin-bottom: 15px;">The Landlord agrees to refund the security deposit, less any applicable deductions, within <span style="border-bottom: 1px solid #000;"><b>[REFUND_DAYS]</b></span> days of the Tenant vacating the Property.</li>
+  <li style="margin-bottom: 15px;">This Agreement may be renewed for a further term upon mutual agreement in writing, provided that notice is given no less than 14 days prior to the end of the Term.</li>
+  <li style="margin-bottom: 15px;">The Landlord reserves the right to terminate this Agreement should the Tenant breach any of its terms, violate any house rules, or engage in conduct that endangers the safety or privacy of other occupants.</li>
+  <li style="margin-bottom: 15px;">The Tenant agrees to comply with the attached House Rules, which are hereby incorporated into this Agreement by reference.</li>
+</ol>
 
-  <li>The Tenant agrees to pay in advance a total rent of <span style="border-bottom: 1px solid #000;"><b>{{currency}} {{rent_amount}}</b></span>, payable {{payment_frequency}}.</li>
-
-  <li>A refundable security deposit of <span style="border-bottom: 1px solid #000;"><b>{{currency}} [SECURITY_DEPOSIT]</b></span> shall be paid upon signing this Agreement. This deposit will be returned within <span style="border-bottom: 1px solid #000;"><b>[REFUND_DAYS]</b></span> days after the Tenant vacates the Premises, subject to any deductions for damage or unpaid rent.</li>
-
-  <li>All rents are to be paid in the local currency equivalent ({{currency}}) based on the prevailing interbank rate at the time of payment, unless otherwise agreed upon in writing.</li>
-
-  <li>Rent does/does not include services such as DSTV, internet subscriptions, cleaning, and utilities, unless otherwise agreed in writing.</li>
-
-  <li>Should the Tenant remain in the Premises after the expiration of the Term without a formal extension, the Tenant will be charged a daily rate of <span style="border-bottom: 1px solid #000;"><b>{{currency}} [DAILY_RATE]</b></span>.</li>
-
-  <li>The security deposit may be used to cover any damages or repairs to the Property, beyond ordinary wear and tear, caused by the Tenant or guests during their stay.</li>
-
-  <li>The Landlord shall refund the security deposit, less any deductions, via cheque, bank transfer, or other agreed methods within <span style="border-bottom: 1px solid #000;"><b>[REFUND_DAYS]</b></span> days of the Tenant vacating the Property.</li>
-
-  <li>This Agreement may be renewed for a further term, subject to mutual agreement in writing, with a prior notice period of no less than 14 days before the end of the current Term.</li>
-
-  <li>The Landlord may terminate this Agreement if the Tenant breaches any term of this Agreement, violates house rules, or engages in activities that jeopardize the security or privacy of other occupants.</li>
-
-  <li>The Tenant agrees to comply with the attached House Rules, which form part of this Agreement.</li>
+<h2 style="margin-top: 50px; margin-bottom: 20px;">MISCELLANEOUS PROVISIONS:</h2>
+<ul style="margin-left: 20px; margin-bottom: 40px;">
+  <li style="margin-bottom: 15px;">All notices required under this Agreement shall be provided in writing and delivered to the parties at the addresses listed above, or sent via email to the respective email addresses confirmed by the parties.</li>
+  <li style="margin-bottom: 15px;">The Landlord agrees to maintain the Property in a habitable condition and to carry out necessary repairs as required by law.</li>
+  <li style="margin-bottom: 15px;">The Tenant shall not assign or sublet the Property without the prior written consent of the Landlord.</li>
+  <li style="margin-bottom: 15px;">If any provision of this Agreement is held to be invalid or unenforceable, the remainder of this Agreement shall continue in full force and effect.</li>
+  <li style="margin-bottom: 15px;">This Agreement shall be governed by the laws of [Jurisdiction], and any disputes arising hereunder shall be resolved in the courts of said jurisdiction.</li>
 </ul>
 
-<h2>MISCELLANEOUS:</h2>
-<ul>
-  <li>All notices under this Agreement shall be in writing and delivered to the respective addresses of the parties, or sent via email to addresses confirmed by both parties.</li>
+<h2 style="margin-top: 50px; margin-bottom: 20px;">IN WITNESS WHEREOF</h2>
+<p style="margin-bottom: 30px;">The parties hereto have executed this Agreement as of the day and year first above written.</p>
+<p></p>
+<p></p>
+<div style="margin-top: 40px; margin-bottom: 30px;">
+  <p><strong>SIGNED BY THE LANDLORD:</strong></p>
+    <p></p>
+    <p></p>
 
-  <li>The Landlord agrees to maintain the Property in good condition and to make necessary repairs as required by law.</li>
+  <p>_________________________________</p>
+  <p>Name: <span style="border-bottom: 1px solid #000;"><b>{{landlord_name}}</b></span></p>
+      <p></p>
+    <p></p>
+  <p>Date: _________________________________</p>
+</div>
+<p></p>
+<p></p>
+<div style="margin-top: 6px; margin-bottom: 30px;">
+  <p><strong>SIGNED BY THE TENANT:</strong></p>
+      <p></p>
+    <p></p>
+  <p>_________________________________</p>
+  <p>Name: <span style="border-bottom: 1px solid #000;"><b>{{tenant_name}}</b></span></p>
+      <p></p>
+    <p></p>
+  <p>Date: _________________________________</p>
+</div>
+`
 
-  <li>The Tenant shall not sublet or assign the Property without the prior written consent of the Landlord.</li>
-
-  <li>If any provision of this Agreement is found to be invalid or unenforceable by a court of law, the remaining provisions shall continue to be fully effective.</li>
-
-  <li>This Agreement shall be governed by the laws of [Jurisdiction], and any disputes shall be resolved in the courts of that jurisdiction.</li>
-</ul>
-
-<h2>IN WITNESS WHEREOF</h2>
-<p>The parties hereto have executed this Agreement on the day and year first above written.</p>
-
-<div>
-  <p>READ, ACCEPTED, AND SIGNED BY THE LANDLORD AND TENANT:</p>
-</div>`
 const AddCard = props => {
   const defaultValues = {
     // country: countries.[]
@@ -289,7 +316,15 @@ const AddCard = props => {
   })
 
   // ** Props
-  const { clients, invoiceNumber, selectedClient, setSelectedClient, toggleAddCustomerDrawer } = props
+  const {
+    clients,
+    invoiceNumber,
+    selectedClient,
+    setSelectedClient,
+    toggleAddCustomerDrawer,
+    submittedContent,
+    setSubmittedContent
+  } = props
 
   const allTenantsData = [{ name: 'Tenant 1', email: 'joel@gmail.com', id: 1 }]
   // ** States
@@ -526,9 +561,9 @@ const AddCard = props => {
           </Grid> */}
         </Grid>
 
-        <Divider sx={{ mt: 10 }}></Divider>
+        {/* <Divider sx={{ mt: 10 }}></Divider> */}
 
-        <Grid sx={{ mt: 10 }} container>
+        {/* <Grid sx={{ mt: 10 }} container>
           <Grid container>
             <Grid item xl={6} xs={12} sx={{ mb: { xl: 0, xs: 4 } }}>
               <Box sx={{ display: 'flex', flexDirection: 'column' }}>
@@ -612,201 +647,207 @@ const AddCard = props => {
             </Box>
           </Grid>
           <Grid item xl={6} xs={12}></Grid>
-        </Grid>
+        </Grid> */}
       </CardContent>
 
       {/* <Divider /> */}
+      {true ? (
+        <>
+          <CardContent sx={{}}>
+            <CustomLeaseEditor
+              submittedContent={submittedContent}
+              setSubmittedContent={setSubmittedContent}
+              defaultLeaseText={tenancyAgreementContent}
+              formVariables={formVariables}
+            ></CustomLeaseEditor>
+          </CardContent>
+          {/* <Divider /> */}
 
-      <CardContent sx={{}}>
-        <CustomLeaseEditor defaultLeaseText={tenancyAgreementContent} formVariables={formVariables}></CustomLeaseEditor>
-      </CardContent>
-      {/* <Divider /> */}
-
-      <CardContent sx={{ p: [`${theme.spacing(6)} !important`, `${theme.spacing(10)} !important`] }}>
-        <Grid
-          container
-          sx={{
-            justifyContent: 'space-between'
-          }}
-          r
-        >
-          <Grid item xs={12} sm={6} lg={6} sx={{ order: { sm: 1, xs: 2 } }}>
-            <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
-              <Typography variant='body2' sx={{ mr: 2, fontWeight: 600 }}>
-                Landlord:
-              </Typography>
-              {/* <TextField size='small' defaultValue='Tommy Shelby' /> */}
-              <FormControl>
-                <Controller
-                  render={({ onChange, ...props }) => (
-                    <CustomAutocomplete
-                      value={landlord}
-                      size='small'
-                      onChange={(event, newValue) => {
-                        console.log('new lanlord val', newValue)
-                        setLandlord(newValue)
-                      }}
-                      options={siteUser ? siteUser : []}
-                      getOptionLabel={landlord => landlord.name} // Display the tenant name
-                      renderInput={params => (
-                        <TextField
-                          {...params}
-                          label='Select Landlord'
-                          sx={{ minWidth: 200 }} // Set a flexible minimum width
+          {/* <CardContent sx={{ p: [`${theme.spacing(6)} !important`, `${theme.spacing(10)} !important`] }}>
+            <Grid
+              container
+              sx={{
+                justifyContent: 'space-between'
+              }}
+              r
+            >
+              <Grid item xs={12} sm={6} lg={6} sx={{ order: { sm: 1, xs: 2 } }}>
+                <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
+                  <Typography variant='body2' sx={{ mr: 2, fontWeight: 600 }}>
+                    Landlord:
+                  </Typography>
+                  <FormControl>
+                    <Controller
+                      render={({ onChange, ...props }) => (
+                        <CustomAutocomplete
+                          value={landlord}
+                          size='small'
+                          onChange={(event, newValue) => {
+                            console.log('new lanlord val', newValue)
+                            setLandlord(newValue)
+                          }}
+                          options={siteUser ? siteUser : []}
+                          getOptionLabel={landlord => landlord.name}
+                          renderInput={params => (
+                            <TextField
+                              {...params}
+                              label='Select Landlord'
+                              sx={{ minWidth: 200 }}
+                            />
+                          )}
                         />
                       )}
+                      onChange={([, data]) => data}
+                      defaultValue={''}
+                      name={name}
+                      control={control}
                     />
-                  )}
-                  onChange={([, data]) => data}
-                  defaultValue={''}
-                  name={name}
-                  control={control}
-                />
-              </FormControl>
-            </Box>
-            <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
-              <Typography variant='body2' sx={{ mr: 2, fontWeight: 600 }}>
-                Signature:
-              </Typography>
-              {/* <SignatureCanvas onSave={handleLandlordSignature} /> */}
-              {/* <TextField size='small' defaultValue='' /> */}
-            </Box>
-            <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
-              <Typography variant='body2' sx={{ mr: 2, fontWeight: 600 }}>
-                Tenant:
-              </Typography>
-              {/* <TextField size='small' defaultValue='Tommy Shelby' /> */}
+                  </FormControl>
+                </Box>
+                <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
+                  <Typography variant='body2' sx={{ mr: 2, fontWeight: 600 }}>
+                    Signature:
+                  </Typography>
 
-              <FormControl>
-                <Controller
-                  render={({ onChange, ...props }) => (
-                    <CustomAutocomplete
-                      value={tenant}
-                      size='small'
-                      onChange={(event, newValue) => {
-                        setTenant(newValue)
-                      }}
-                      options={allTenantsData ? allTenantsData : []}
-                      getOptionLabel={tenant => tenant.name} // Display the tenant name
-                      renderInput={params => (
-                        <TextField
-                          {...params}
-                          label='Select Tenant'
-                          sx={{ minWidth: 200 }} // Set a flexible minimum width
+                </Box>
+                <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
+                  <Typography variant='body2' sx={{ mr: 2, fontWeight: 600 }}>
+                    Tenant:
+                  </Typography>
+
+
+                  <FormControl>
+                    <Controller
+                      render={({ onChange, ...props }) => (
+                        <CustomAutocomplete
+                          value={tenant}
+                          size='small'
+                          onChange={(event, newValue) => {
+                            setTenant(newValue)
+                          }}
+                          options={allTenantsData ? allTenantsData : []}
+                          getOptionLabel={tenant => tenant.name} // Display the tenant name
+                          renderInput={params => (
+                            <TextField
+                              {...params}
+                              label='Select Tenant'
+                              sx={{ minWidth: 200 }} // Set a flexible minimum width
+                            />
+                          )}
                         />
                       )}
+                      onChange={([, data]) => data}
+                      defaultValue={''}
+                      name={name}
+                      control={control}
                     />
-                  )}
-                  onChange={([, data]) => data}
-                  defaultValue={''}
-                  name={name}
-                  control={control}
-                />
-              </FormControl>
-            </Box>
-            <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
-              <Typography variant='body2' sx={{ mr: 2, fontWeight: 600 }}>
-                Signature:
-              </Typography>
-              {/* <TextField size='small' defaultValue='' /> */}
-              {/* <SignatureCanvas onSave={handleTenantSignature} /> */}
-            </Box>
-          </Grid>
-          <Grid item xs={12} sm={5} lg={4} sx={{ mb: { sm: 0, xs: 4 }, order: { sm: 2, xs: 1 } }}>
-            <CalcWrapperNew>
-              <Typography sx={{ color: 'text.secondary' }}>Currency:</Typography>
+                  </FormControl>
+                </Box>
+                <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
+                  <Typography variant='body2' sx={{ mr: 2, fontWeight: 600 }}>
+                    Signature:
+                  </Typography>
 
-              <FormControl sx={{}}>
-                <Controller
-                  name='Currency'
-                  control={control}
-                  rules={{ required: true }}
-                  render={({ field: { value, onChange, onBlur } }) => (
-                    <>
-                      <TextField
-                        select
-                        id='custom-select-native'
-                        onChange={event => setCurrency(event.target.value)}
-                        value={currency}
-                        onBlur={onBlur}
-                        name='currency'
-                        required
-                        size='small'
-                        fullWidth
-                      >
-                        {currencies.map(currency => (
-                          <MenuItem key={currency.code} value={currency.code}>
-                            {currency.name}
-                          </MenuItem>
-                        ))}
-                      </TextField>
-                    </>
-                  )}
-                />
-              </FormControl>
-            </CalcWrapperNew>
+                </Box>
+              </Grid>
+              <Grid item xs={12} sm={5} lg={4} sx={{ mb: { sm: 0, xs: 4 }, order: { sm: 2, xs: 1 } }}>
+                <CalcWrapperNew>
+                  <Typography sx={{ color: 'text.secondary' }}>Currency:</Typography>
 
-            <CalcWrapperNew>
-              <Typography sx={{ color: 'text.secondary' }}>Rent Amount:</Typography>
-              {/* <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>$2000</Typography> */}
-              <FormControl>
-                <TextField
-                  onChange={event => setRentAmount(event.target.value)}
-                  value={rentAmount}
-                  sx={{ width: '142px' }}
-                  size='small'
-                  defaultValue='1'
-                />
-              </FormControl>
-            </CalcWrapperNew>
+                  <FormControl sx={{}}>
+                    <Controller
+                      name='Currency'
+                      control={control}
+                      rules={{ required: true }}
+                      render={({ field: { value, onChange, onBlur } }) => (
+                        <>
+                          <TextField
+                            select
+                            id='custom-select-native'
+                            onChange={event => setCurrency(event.target.value)}
+                            value={currency}
+                            onBlur={onBlur}
+                            name='currency'
+                            required
+                            size='small'
+                            fullWidth
+                          >
+                            {currencies.map(currency => (
+                              <MenuItem key={currency.code} value={currency.code}>
+                                {currency.name}
+                              </MenuItem>
+                            ))}
+                          </TextField>
+                        </>
+                      )}
+                    />
+                  </FormControl>
+                </CalcWrapperNew>
 
-            <CalcWrapperNew>
-              <Typography sx={{ color: 'text.secondary' }}>Rent Payment Frequency:</Typography>
-              <FormControl>
-                <Select
-                  onSelect={() => setPaymentFrequency(paymentFrequency)}
-                  value={paymentFrequencyValue}
-                  size='small'
-                  onChange={handlePaymentFrequencyValue}
-                >
-                  {paymentFrequencies?.map((payment_frequency, index) => {
-                    return <MenuItem value={payment_frequency?.value}>{payment_frequency?.text}</MenuItem>
-                  })}
-                </Select>
-              </FormControl>
-            </CalcWrapperNew>
+                <CalcWrapperNew>
+                  <Typography sx={{ color: 'text.secondary' }}>Rent Amount:</Typography>
+                  <FormControl>
+                    <TextField
+                      onChange={event => setRentAmount(event.target.value)}
+                      value={rentAmount}
+                      sx={{ width: '142px' }}
+                      size='small'
+                      defaultValue='1'
+                    />
+                  </FormControl>
+                </CalcWrapperNew>
 
-            <CalcWrapperNew>
-              <Typography sx={{ color: 'text.secondary' }}>Additional Fees:</Typography>
-              <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>$0</Typography>
-            </CalcWrapperNew>
-            <CalcWrapperNew sx={{ mb: '0 !important' }}>
-              <Typography sx={{ color: 'text.secondary' }}>Tax:</Typography>
-              <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>1%</Typography>
-            </CalcWrapperNew>
-            <Divider sx={{ my: `${theme.spacing(2)} !important` }} />
-            <CalcWrapperNew>
-              <Typography sx={{ color: 'text.secondary' }}>Total:</Typography>
-              <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>$1800</Typography>
-            </CalcWrapperNew>
-          </Grid>
-        </Grid>
-      </CardContent>
+                <CalcWrapperNew>
+                  <Typography sx={{ color: 'text.secondary' }}>Rent Payment Frequency:</Typography>
+                  <FormControl>
+                    <Select
+                      onSelect={() => setPaymentFrequency(paymentFrequency)}
+                      value={paymentFrequencyValue}
+                      size='small'
+                      onChange={handlePaymentFrequencyValue}
+                    >
+                      {paymentFrequencies?.map((payment_frequency, index) => {
+                        return <MenuItem value={payment_frequency?.value}>{payment_frequency?.text}</MenuItem>
+                      })}
+                    </Select>
+                  </FormControl>
+                </CalcWrapperNew>
 
-      <Divider />
+                <CalcWrapperNew>
+                  <Typography sx={{ color: 'text.secondary' }}>Additional Fees:</Typography>
+                  <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>$0</Typography>
+                </CalcWrapperNew>
+                <CalcWrapperNew sx={{ mb: '0 !important' }}>
+                  <Typography sx={{ color: 'text.secondary' }}>Tax:</Typography>
+                  <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>1%</Typography>
+                </CalcWrapperNew>
+                <Divider sx={{ my: `${theme.spacing(2)} !important` }} />
+                <CalcWrapperNew>
+                  <Typography sx={{ color: 'text.secondary' }}>Total:</Typography>
+                  <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>$1800</Typography>
+                </CalcWrapperNew>
+              </Grid>
+            </Grid>
+          </CardContent> */}
 
-      <CardContent sx={{ px: [6, 10] }}>
-        <InputLabel htmlFor='invoice-note' sx={{ mb: 2, fontWeight: 500, fontSize: '0.875rem' }}>
-          Note:
-        </InputLabel>
-        <TextField
-          rows={2}
-          fullWidth
-          multiline
-          id='invoice-note'
-          defaultValue='It was a pleasure working with you and your team. We hope you will keep us in mind for future freelance projects. Thank You!'
-        />
-      </CardContent>
+          <Divider />
+
+          <CardContent sx={{ px: [6, 10] }}>
+            <InputLabel htmlFor='invoice-note' sx={{ mb: 2, fontWeight: 500, fontSize: '0.875rem' }}>
+              Note:
+            </InputLabel>
+            <TextField
+              rows={2}
+              fullWidth
+              multiline
+              id='invoice-note'
+              defaultValue='It was a pleasure working with you and your team. We hope you will keep us in mind for future freelance projects. Thank You!'
+            />
+          </CardContent>
+        </>
+      ) : (
+        <></>
+      )}
     </Card>
   )
 }

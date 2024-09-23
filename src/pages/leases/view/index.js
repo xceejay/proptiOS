@@ -1,8 +1,9 @@
 // ** Demo Components Imports
-import Preview from 'src/views/apps/invoice/preview/Preview'
+// import Preview from 'src/views/apps/lease/preview/Preview'
+import PreviewCard from 'src/views/apps/lease/preview/PreviewCard'
 
-const InvoicePreview = () => {
-  return <Preview id='4987' />
+const LeasePreview = () => {
+  return <PreviewCard id='4987' />
 }
 
-export default InvoicePreview
+export default LeasePreview

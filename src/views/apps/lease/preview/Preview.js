@@ -12,10 +12,10 @@ import Alert from '@mui/material/Alert'
 import axios from 'axios'
 
 // ** Demo Components Imports
-import PreviewCard from 'src/views/apps/invoice/preview/PreviewCard'
-import PreviewActions from 'src/views/apps/invoice/preview/PreviewActions'
-import AddPaymentDrawer from 'src/views/apps/invoice/shared-drawer/AddPaymentDrawer'
-import SendInvoiceDrawer from 'src/views/apps/invoice/shared-drawer/SendInvoiceDrawer'
+import PreviewCard from 'src/views/apps/lease/preview/PreviewCard'
+import PreviewActions from 'src/views/apps/lease/preview/PreviewActions'
+import AddPaymentDrawer from 'src/views/apps/lease/shared-drawer/AddPaymentDrawer'
+import SendInvoiceDrawer from 'src/views/apps/lease/shared-drawer/SendInvoiceDrawer'
 
 const InvoicePreview = ({ id }) => {
   // ** State
@@ -25,7 +25,7 @@ const InvoicePreview = ({ id }) => {
   const [sendInvoiceOpen, setSendInvoiceOpen] = useState(false)
   useEffect(() => {
     // axios
-    //   .get('/apps/invoice/single-invoice', { params: { id } })
+    //   .get('/apps/lease/single-lease', { params: { id } })
     //   .then(res => {
     //     setData(res.data)
     //     setError(false)
@@ -61,7 +61,7 @@ const InvoicePreview = ({ id }) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
           <Alert severity='error'>
-            Invoice with the id: {id} does not exist. Please check the list of invoices:{' '}
+            Invoice with the id: {id} does not exist. Please check the list of leases:{' '}
             <Link href='/leases'>Invoice List</Link>
           </Alert>
         </Grid>
