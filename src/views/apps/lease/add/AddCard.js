@@ -507,7 +507,7 @@ const AddCard = props => {
     <Card>
       <CardContent sx={{ p: [`${theme.spacing(6)} !important`, `${theme.spacing(10)} !important`] }}>
         <Grid container>
-          <Grid item xl={12} sm={12} xs={12}>
+          <Grid item xl={12} xs={12}>
             <LeaseStepper onFormDataChange={handleFormDataChange} onFormSubmit={handleFormSubmit} />
           </Grid>
           {/* <Grid item xl={6} xs={12}>

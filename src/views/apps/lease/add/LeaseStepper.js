@@ -1,11 +1,24 @@
 import { useState, useEffect } from 'react'
-import { Box, Button, FormControl, MenuItem, Step, StepLabel, Stepper, TextField, Typography } from '@mui/material'
+import {
+  Box,
+  Button,
+  FormControl,
+  MenuItem,
+  Step,
+  StepLabel,
+  Stepper,
+  TextField,
+  Typography,
+  useMediaQuery
+} from '@mui/material'
 import { Controller, useForm, useWatch } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import DatePicker from 'react-datepicker'
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
+import { useTheme } from '@mui/material/styles'
+
 import toast from 'react-hot-toast'
 
 // Sample data for properties, units, tenants (Replace with actual data)
@@ -159,13 +172,21 @@ const LeaseStepper = ({ onFormDataChange, onFormSubmit }) => {
         return 'Unknown step'
     }
   }
+  const theme = useTheme()
+
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm')) // Add this
 
   return (
-    <Box sx={{ mt: 4 }}>
+    <Box sx={{ mt: 4, width: '100%' }}>
       <Typography variant='h4' align='center' gutterBottom>
         Create Lease Agreement
       </Typography>
-      <Stepper activeStep={activeStep} alternativeLabel>
+      <Stepper
+        sx={{ mt: 4, mb: 4 }}
+        activeStep={activeStep}
+        alternativeLabel={!isMobile}
+        orientation={isMobile ? 'vertical' : 'horizontal'}
+      >
         {steps.map(label => (
           <Step key={label}>
             <StepLabel>{label}</StepLabel>
