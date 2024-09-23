@@ -21,6 +21,7 @@ import Icon from 'src/@core/components/icon'
 
 import ParentLeaseViewOverview from './ParentLeaseViewOverview'
 import ParentLeaseViewManagement from './ParentLeaseViewManagement'
+import ParentLeaseViewTemplates from './ParentLeaseViewTemplates'
 
 // ** Styled Tab component
 const Tab = styled(MuiTab)(({ theme }) => ({
@@ -96,8 +97,14 @@ const ParentLeaseViewRight = ({ tab, leaseData, setLeaseData }) => {
         aria-label='forced scroll tabs example'
         sx={{ borderBottom: theme => `1px solid ${theme.palette.divider}` }}
       >
-        <Tab disabled value='overview' label='overview' icon={<Icon fontSize='1.125rem' icon='tabler:home' />} />
+        <Tab value='overview' label='overview' icon={<Icon fontSize='1.125rem' icon='tabler:home' />} />
         <Tab value='management' label='management' icon={<Icon fontSize='1.125rem' icon='tabler:eye-edit' />} />
+        <Tab
+          value='templates'
+          disabled
+          label='templates'
+          icon={<Icon fontSize='1.125rem' icon='tabler:layers-selected' />}
+        />
       </TabList>
       <Box sx={{ mt: 6 }}>
         {isLoading ? (
@@ -113,6 +120,10 @@ const ParentLeaseViewRight = ({ tab, leaseData, setLeaseData }) => {
 
             <TabPanel sx={{ p: 0 }} value='management'>
               <ParentLeaseViewManagement setLeaseData={setLeaseData} leaseData={leaseData} />
+            </TabPanel>
+
+            <TabPanel sx={{ p: 0 }} value='templates'>
+              <ParentLeaseViewTemplates setLeaseData={setLeaseData} leaseData={leaseData} />
             </TabPanel>
           </>
         )}

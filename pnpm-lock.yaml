@@ -80,6 +80,9 @@ dependencies:
   '@mui/x-data-grid':
     specifier: ^6.20.4
     version: 6.20.4(@mui/material@5.15.6)(@mui/system@5.15.6)(react-dom@18.2.0)(react@18.2.0)
+  '@mui/x-date-pickers':
+    specifier: ^7.18.0
+    version: 7.18.0(@emotion/react@11.10.6)(@emotion/styled@11.10.6)(@mui/material@5.15.6)(@mui/system@5.15.6)(date-fns@2.29.3)(react-dom@18.2.0)(react@18.2.0)
   '@popperjs/core':
     specifier: 2.11.6
     version: 2.11.6
@@ -206,6 +209,9 @@ dependencies:
   '@tiptap/starter-kit':
     specifier: ^2.7.2
     version: 2.7.2
+  RtlProvider:
+    specifier: link:@mui/system/RtlProvider
+    version: link:@mui/system/RtlProvider
   apexcharts-clevision:
     specifier: 3.28.5
     version: 3.28.5
@@ -1362,6 +1368,74 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
       reselect: 4.1.8
+    transitivePeerDependencies:
+      - '@types/react'
+    dev: false
+
+  /@mui/x-date-pickers@7.18.0(@emotion/react@11.10.6)(@emotion/styled@11.10.6)(@mui/material@5.15.6)(@mui/system@5.15.6)(date-fns@2.29.3)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-12tXIoMj9vpS8fS/bS3kWPCoVrH38vNGCxgplI0vOnUrN9rJuYJz3agLPJe1S0xciTw+9W8ZSe3soaW+owoz1Q==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      '@emotion/react': ^11.9.0
+      '@emotion/styled': ^11.8.1
+      '@mui/material': ^5.15.14 || ^6.0.0
+      '@mui/system': ^5.15.14 || ^6.0.0
+      date-fns: ^2.25.0 || ^3.2.0 || ^4.0.0
+      date-fns-jalali: ^2.13.0-0 || ^3.2.0-0
+      dayjs: ^1.10.7
+      luxon: ^3.0.2
+      moment: ^2.29.4
+      moment-hijri: ^2.1.2
+      moment-jalaali: ^0.7.4 || ^0.8.0 || ^0.9.0 || ^0.10.0
+      react: ^17.0.0 || ^18.0.0
+      react-dom: ^17.0.0 || ^18.0.0
+    peerDependenciesMeta:
+      '@emotion/react':
+        optional: true
+      '@emotion/styled':
+        optional: true
+      date-fns:
+        optional: true
+      date-fns-jalali:
+        optional: true
+      dayjs:
+        optional: true
+      luxon:
+        optional: true
+      moment:
+        optional: true
+      moment-hijri:
+        optional: true
+      moment-jalaali:
+        optional: true
+    dependencies:
+      '@babel/runtime': 7.25.6
+      '@emotion/react': 11.10.6(react@18.2.0)
+      '@emotion/styled': 11.10.6(@emotion/react@11.10.6)(react@18.2.0)
+      '@mui/material': 5.15.6(@emotion/react@11.10.6)(@emotion/styled@11.10.6)(react-dom@18.2.0)(react@18.2.0)
+      '@mui/system': 5.15.6(@emotion/react@11.10.6)(@emotion/styled@11.10.6)(react@18.2.0)
+      '@mui/utils': 5.16.6(react@18.2.0)
+      '@mui/x-internals': 7.18.0(react@18.2.0)
+      '@types/react-transition-group': 4.4.11
+      clsx: 2.1.1
+      date-fns: 2.29.3
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      react-transition-group: 4.4.5(react-dom@18.2.0)(react@18.2.0)
+    transitivePeerDependencies:
+      - '@types/react'
+    dev: false
+
+  /@mui/x-internals@7.18.0(react@18.2.0):
+    resolution: {integrity: sha512-lzCHOWIR0cAIY1bGrWSprYerahbnH5C31ql/2OWCEjcngL2NAV1M6oKI2Vp4HheqzJ822c60UyWyapvyjSzY/A==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      react: ^17.0.0 || ^18.0.0
+    dependencies:
+      '@babel/runtime': 7.25.6
+      '@mui/utils': 5.16.6(react@18.2.0)
+      react: 18.2.0
     transitivePeerDependencies:
       - '@types/react'
     dev: false

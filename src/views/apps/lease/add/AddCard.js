@@ -44,6 +44,7 @@ import { FormControl } from '@mui/material'
 import { useAuth } from 'src/hooks/useAuth'
 import { fontWeight } from '@mui/system'
 import SignatureCanvas from './SignatureCanvas'
+import LeaseStepper from './LeaseStepper'
 
 const currencies = [
   { code: 'USD', name: 'United States Dollar', symbol: '$' },
@@ -353,23 +354,23 @@ const AddCard = props => {
     setSiteUser([auth.user])
   }, [auth])
 
-  useEffect(() => {
-    console.log('Select Changed!')
-    console.log(formVariables)
+  // useEffect(() => {
+  //   console.log('Select Changed!')
+  //   console.log(formVariables)
 
-    setFormVariables({
-      landlord: landlord || '',
-      tenant: tenant || '',
-      currency: currency || '',
-      rent_amount: rentAmount || '',
-      payment_frequency: paymentFrequency || '',
-      lease_start_date: leaseStartDate || '',
-      lease_end_date: leaseEndDate || '',
-      title: leaseTitle || '',
-      unit_name: '',
-      property_name: ''
-    })
-  }, [currency, rentAmount, paymentFrequency, tenant, landlord, leaseTitle, leaseStartDate, leaseEndDate])
+  //   setFormVariables({
+  //     landlord: landlord || '',
+  //     tenant: tenant || '',
+  //     currency: currency || '',
+  //     rent_amount: rentAmount || '',
+  //     payment_frequency: paymentFrequency || '',
+  //     lease_start_date: leaseStartDate || '',
+  //     lease_end_date: leaseEndDate || '',
+  //     title: leaseTitle || '',
+  //     unit_name: '',
+  //     property_name: ''
+  //   })
+  // }, [currency, rentAmount, paymentFrequency, tenant, landlord, leaseTitle, leaseStartDate, leaseEndDate])
   // ** Deletes form
   const deleteForm = e => {
     e.preventDefault()
@@ -389,118 +390,38 @@ const AddCard = props => {
   const handleAddNewCustomer = () => {
     toggleAddCustomerDrawer()
   }
+  const [formData, setFormData] = useState({})
+
+  const handleFormDataChange = data => {
+    setFormData(data)
+
+    console.log('Form data from child:', data)
+
+    // You can use this data to update state, make API calls, etc.
+  }
+
+  useEffect(() => {
+    if (formData !== null) {
+      console.log('setting form vars')
+
+      setFormVariables(formData)
+    }
+  }, [formData])
 
   return (
     <Card>
       <CardContent sx={{ p: [`${theme.spacing(6)} !important`, `${theme.spacing(10)} !important`] }}>
         <Grid container>
           <Grid item xl={6} xs={12}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: { xl: 'flex-start', xs: 'flex-start' } }}>
-              <Box sx={{ mb: 3, display: 'flex', alignItems: 'center' }}>
-                <Typography variant='h6' sx={{ mr: 2, width: '105px' }}>
-                  Lease title
-                </Typography>
-                {/* <TextField
-                  size='small'
-                  value={invoiceNumber}
-                  sx={{ width: { sm: '250px', xs: '170px' } }}
-                  InputProps={{
-                    disabled: true,
-                    startAdornment: <InputAdornment position='start'>#</InputAdornment>
-                  }}
-                /> */}
-
-                <TextField
-                  size='small'
-                  sx={{ width: { sm: '250px', xs: '170px' } }}
-                  defaultValue='Embassy Heights 1 Bedroom Lease Agreement'
-                  value={leaseTitle}
-                  onChange={event => setLeaseTitle(event.target.value)}
-                />
-              </Box>
-              <Box sx={{ mb: 3, display: 'flex', alignItems: 'center' }}>
-                <Typography sx={{ mr: 3, width: '100px', color: 'text.secondary' }}>Date Issued:</Typography>
-                <DatePicker
-                  id='issue-date'
-                  selected={issueDate}
-                  customInput={<CustomInput />}
-                  onChange={date => setIssueDate(date)}
-                />
-              </Box>
-              <Box sx={{ mb: 3, display: 'flex', alignItems: 'center' }}>
-                <Typography sx={{ mr: 3, width: '100px', color: 'text.secondary' }}>Date Due:</Typography>
-                <DatePicker
-                  id='due-date'
-                  selected={dueDate}
-                  customInput={<CustomInput />}
-                  onChange={date => setDueDate(date)}
-                />
-              </Box>
-
-              <Box sx={{ mb: 3, display: 'flex', alignItems: 'center' }}>
-                <Typography sx={{ mr: 3, width: '100px', color: 'text.secondary' }}>Property:</Typography>
-                <FormControl>
-                  <Controller
-                    render={({ onChange, ...props }) => (
-                      <Autocomplete
-                        size='small'
-                        value={tenant}
-                        onChange={(event, newValue) => {
-                          setTenant(newValue)
-                        }}
-                        options={allTenantsData ? allTenantsData : []}
-                        getOptionLabel={tenant => tenant.name + ','} // Display the tenant name
-                        // getOptionDisabled={tenant => !!tenant.property?.id}
-                        sx={{ minWidth: 150 }}
-                        renderInput={params => (
-                          <TextField sx={{ width: { sm: '250px', xs: '170px' } }} {...params} label='Select Property' />
-                        )}
-                      />
-                    )}
-                    onChange={([, data]) => data}
-                    defaultValue={''}
-                    name={name}
-                    control={control}
-                  />
-                </FormControl>
-              </Box>
-
-              <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                <Typography sx={{ mr: 3, width: '100px', color: 'text.secondary' }}>Unit:</Typography>
-                <FormControl>
-                  <Controller
-                    render={({ onChange, ...props }) => (
-                      <Autocomplete
-                        size='small'
-                        value={tenant}
-                        onChange={(event, newValue) => {
-                          setTenant(newValue)
-                        }}
-                        options={allTenantsData ? allTenantsData : []}
-                        getOptionLabel={tenant => tenant.name + ','} // Display the tenant name
-                        // getOptionDisabled={tenant => !!tenant.property?.id}
-                        sx={{ minWidth: 150 }}
-                        renderInput={params => (
-                          <TextField sx={{ width: { sm: '250px', xs: '170px' } }} {...params} label='Select Unit' />
-                        )}
-                      />
-                    )}
-                    onChange={([, data]) => data}
-                    defaultValue={''}
-                    name={name}
-                    control={control}
-                  />
-                </FormControl>
-              </Box>
-            </Box>
+            <LeaseStepper onFormDataChange={handleFormDataChange} />
           </Grid>
-          <Grid item xl={6} xs={12}>
+          {/* <Grid item xl={6} xs={12}>
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: { xl: 'flex-end', xs: 'flex-start' } }}>
-              <Box sx={{ mb: 3, display: 'flex', alignItems: 'center' }}>
+              <Box sx={{ mt: 3, mb: 3, display: 'flex', alignItems: 'center' }}>
                 <Typography variant='h6' sx={{ mr: 2, width: '105px' }}>
                   Lease title
                 </Typography>
-                {/* <TextField
+                <TextField
                   size='small'
                   value={invoiceNumber}
                   sx={{ width: { sm: '250px', xs: '170px' } }}
@@ -508,7 +429,7 @@ const AddCard = props => {
                     disabled: true,
                     startAdornment: <InputAdornment position='start'>#</InputAdornment>
                   }}
-                /> */}
+                />
 
                 <TextField
                   size='small'
@@ -593,7 +514,7 @@ const AddCard = props => {
                 </FormControl>
               </Box>
             </Box>
-          </Grid>
+          </Grid> */}
         </Grid>
 
         <Divider sx={{ mt: 10 }}></Divider>
