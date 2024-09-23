@@ -24,7 +24,7 @@ const Timeline = styled(MuiTimeline)(({ theme }) => ({
   }
 }))
 
-const ParentLeaseViewManagement = ({ leaseData }) => {
+const ParentLeaseViewTemplates = ({ leaseData }) => {
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
@@ -36,4 +36,4 @@ const ParentLeaseViewManagement = ({ leaseData }) => {
   )
 }
 
-export default ParentLeaseViewManagement
+export default ParentLeaseViewTemplates
