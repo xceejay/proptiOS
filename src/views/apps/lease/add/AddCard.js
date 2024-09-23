@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState, forwardRef, useEffect } from 'react'
+import { useState, forwardRef, useEffect, useRef } from 'react'
 
 // ** MUI Imports
 import Card from '@mui/material/Card'
@@ -341,6 +341,50 @@ const AddCard = props => {
   const [dueDate, setDueDate] = useState(new Date(tomorrowDate))
   const [leaseStartDate, setLeaseStartDate] = useState(null)
   const [leaseEndDate, setLeaseEndDate] = useState(null)
+  const rteRef = useRef(null)
+
+  const [originalContent, setOriginalContent] = useState('')
+
+  const handleReplaceVars = htmlContent => {
+    setOriginalContent(htmlContent)
+
+    if (!rteRef.current?.editor || !htmlContent) {
+      return
+    }
+
+    // Check if any variable placeholders exist
+    const hasVariable = htmlContent.match(/{{\w+}}/g)
+
+    if (!hasVariable) {
+      // Trigger a toast error if no variable placeholders are found
+      toast.error('We couldn’t find any "{{variable}}" in the document. Please undo your last changes and try again.', {
+        autoClose: 6000 // Duration for the toast
+      })
+      return
+    }
+
+    // Define a map for replacement variables
+    const variableMap = {
+      tenant_name: formVariables.tenant?.name || '{{tenant_name}}',
+      landlord_name: formVariables.landlord?.name || '{{landlord_name}}',
+      currency: formVariables.currency || '{{currency}}',
+      rent_amount: formVariables.rent_amount || '{{rent_amount}}',
+      payment_frequency: formVariables.payment_frequency || '{{payment_frequency}}',
+      lease_start_date: formVariables.lease_start_date || '{{lease_start_date}}',
+      lease_end_date: formVariables.lease_end_date || '{{lease_end_date}}',
+      title: formVariables.title || '{{title}}',
+      unit_name: formVariables.unit_name || '{{unit_name}}',
+      property_name: formVariables.property_name || '{{property_name}}'
+    }
+
+    // Replace each variable using the variableMap
+    const updatedContent = htmlContent.replace(/{{(\w+)}}/g, (match, variableName) => {
+      return variableMap[variableName] || match // Replace or leave unchanged if not found in the map
+    })
+
+    // Set the updated content in the editor
+    rteRef.current.editor.commands.setContent(updatedContent)
+  }
 
   const [formVariables, setFormVariables] = useState({
     landlord: {},
@@ -435,6 +479,13 @@ const AddCard = props => {
     // You can use this data to update state, make API calls, etc.
   }
 
+  const handleFormSubmit = data => {
+    console.log('Form data from child has been submitted:', data)
+    setSubmittedContent(rteRef.current?.editor?.getHTML() ?? '')
+    handleReplaceVars(rteRef.current?.editor?.getHTML())
+
+    // You can use this data to update state, make API calls, etc.
+  }
   useEffect(() => {
     if (formData !== null) {
       console.log('setting form vars')
@@ -457,7 +508,7 @@ const AddCard = props => {
       <CardContent sx={{ p: [`${theme.spacing(6)} !important`, `${theme.spacing(10)} !important`] }}>
         <Grid container>
           <Grid item xl={12} xs={12}>
-            <LeaseStepper onFormDataChange={handleFormDataChange} />
+            <LeaseStepper onFormDataChange={handleFormDataChange} onFormSubmit={handleFormSubmit} />
           </Grid>
           {/* <Grid item xl={6} xs={12}>
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: { xl: 'flex-end', xs: 'flex-start' } }}>
@@ -655,6 +706,10 @@ const AddCard = props => {
         <>
           <CardContent sx={{}}>
             <CustomLeaseEditor
+              originalContent={originalContent}
+              setOriginalContent={setOriginalContent}
+              handleReplaceVars={handleReplaceVars}
+              rteRef={rteRef}
               submittedContent={submittedContent}
               setSubmittedContent={setSubmittedContent}
               defaultLeaseText={tenancyAgreementContent}

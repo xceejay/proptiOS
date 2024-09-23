@@ -7,16 +7,23 @@ import toast from 'react-hot-toast'
 import useExtensions from './useExtensions'
 
 const CustomLeaseEditor = props => {
-  const { defaultLeaseText, formVariables, submittedContent, setSubmittedContent } = props
+  const {
+    defaultLeaseText,
+    formVariables,
+    submittedContent,
+    setSubmittedContent,
+    rteRef,
+    originalContent,
+    setOriginalContent,
+    handleReplaceVars
+  } = props
   const extensions = useExtensions({
     placeholder: 'Add your own content here...'
   })
-  const rteRef = useRef(null)
 
   const [isEditable, setIsEditable] = useState(true)
 
-  const [showMenuBar, setShowMenuBar] = useState(true)
-  const [originalContent, setOriginalContent] = useState('')
+  const [showMenuBar, setShowMenuBar] = useState(false)
 
   const handleNewImageFiles = useCallback((files, insertPosition) => {
     if (!rteRef.current?.editor) {
@@ -85,47 +92,6 @@ const CustomLeaseEditor = props => {
     },
     [handleNewImageFiles]
   )
-
-  const handleReplaceVars = htmlContent => {
-    setOriginalContent(htmlContent)
-
-    if (!rteRef.current?.editor || !htmlContent) {
-      return
-    }
-
-    // Check if any variable placeholders exist
-    const hasVariable = htmlContent.match(/{{\w+}}/g)
-
-    if (!hasVariable) {
-      // Trigger a toast error if no variable placeholders are found
-      toast.error('We couldn’t find any "{{variable}}" in the document. Please undo your last changes and try again.', {
-        autoClose: 6000 // Duration for the toast
-      })
-      return
-    }
-
-    // Define a map for replacement variables
-    const variableMap = {
-      tenant_name: formVariables.tenant?.name || '{{tenant_name}}',
-      landlord_name: formVariables.landlord?.name || '{{landlord_name}}',
-      currency: formVariables.currency || '{{currency}}',
-      rent_amount: formVariables.rent_amount || '{{rent_amount}}',
-      payment_frequency: formVariables.payment_frequency || '{{payment_frequency}}',
-      lease_start_date: formVariables.lease_start_date || '{{lease_start_date}}',
-      lease_end_date: formVariables.lease_end_date || '{{lease_end_date}}',
-      title: formVariables.title || '{{title}}',
-      unit_name: formVariables.unit_name || '{{unit_name}}',
-      property_name: formVariables.property_name || '{{property_name}}'
-    }
-
-    // Replace each variable using the variableMap
-    const updatedContent = htmlContent.replace(/{{(\w+)}}/g, (match, variableName) => {
-      return variableMap[variableName] || match // Replace or leave unchanged if not found in the map
-    })
-
-    // Set the updated content in the editor
-    rteRef.current.editor.commands.setContent(updatedContent)
-  }
 
   const handleUndoReplace = () => {
     if (!rteRef.current?.editor || !originalContent) return

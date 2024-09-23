@@ -6,6 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import DatePicker from 'react-datepicker'
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
+import toast from 'react-hot-toast'
 
 // Sample data for properties, units, tenants (Replace with actual data)
 const properties = [
@@ -84,7 +85,7 @@ const steps = [
   'Review and Submit'
 ]
 
-const LeaseStepper = ({ onFormDataChange }) => {
+const LeaseStepper = ({ onFormDataChange, onFormSubmit }) => {
   const [activeStep, setActiveStep] = useState(0)
 
   const {
@@ -133,9 +134,12 @@ const LeaseStepper = ({ onFormDataChange }) => {
   }
 
   const onSubmit = data => {
-    console.log('Form data:', data)
+    // console.log('Form data:', data)
     if (onFormDataChange) {
-      onFormDataChange(data)
+      // onFormDataChange(data)
+      onFormSubmit(data)
+
+      toast.success('Lease has been created and saved successfully ')
     }
   }
 
@@ -182,7 +186,7 @@ const LeaseStepper = ({ onFormDataChange }) => {
           )}
           {isLastStep && (
             <Button type='submit' variant='contained'>
-              Submit
+              Save
             </Button>
           )}
         </Box>

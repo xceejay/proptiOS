@@ -14,6 +14,8 @@ import FormControl from '@mui/material/FormControl'
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 
+import { toast } from 'react-hot-toast' // Make sure to import toast
+
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
@@ -35,21 +37,29 @@ const AddActions = props => {
               Sign Lease
             </Button>
             <Button
-              href={{
-                pathname: 'view/[id]',
-                query: { id: '4987', submittedContent: submittedContent }
+              onClick={() => {
+                if (!submittedContent) {
+                  toast.error(
+                    'No document available for preview. Please save your changes before trying to preview the document.'
+                  )
+                } else {
+                  // Navigate to the preview page if submittedContent is not empty
+                  window.location.href = {
+                    pathname: 'view/[id]',
+                    query: { id: '4987', submittedContent: submittedContent }
+                  }
+                }
               }}
               fullWidth
               sx={{ mb: 2 }}
-              component={Link}
               color='secondary'
               variant='outlined'
             >
               Preview
             </Button>
-            <Button size='small' fullWidth variant='outlined' color='secondary'>
+            {/* <Button size='small' fullWidth variant='outlined' color='secondary'>
               Save
-            </Button>
+            </Button> */}
           </CardContent>
         </Card>
       </Grid>
