@@ -60,6 +60,16 @@ const CustomLeaseEditor = props => {
     [handleNewImageFiles]
   )
 
+  function fileListToImageFiles(fileList) {
+    // You may want to use a package like attr-accept
+    // (https://www.npmjs.com/package/attr-accept) to restrict to certain file
+    // types.
+    return Array.from(fileList).filter(file => {
+      const mimeType = (file.type || '').toLowerCase()
+      return mimeType.startsWith('image/')
+    })
+  }
+
   const handlePaste = useCallback(
     (_view, event, _slice) => {
       if (!event.clipboardData) {

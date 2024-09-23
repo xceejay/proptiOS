@@ -36,7 +36,8 @@ const tenants = [
 const paymentFrequencies = [
   { value: 'monthly', label: 'Monthly' },
   { value: 'quarterly', label: 'Quarterly' },
-  { value: 'yearly', label: 'Yearly' }
+  { value: 'yearly', label: 'Yearly' },
+  { value: 'bi-yearly', label: 'Bi-Yearly' }
 ]
 
 // Validation schema
