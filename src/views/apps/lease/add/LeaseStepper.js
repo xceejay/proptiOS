@@ -177,7 +177,7 @@ const LeaseStepper = ({ onFormDataChange, onFormSubmit }) => {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm')) // Add this
 
   return (
-    <Box sx={{ mt: 4, width: '100%' }}>
+    <Box sx={{ width: '100%' }}>
       <Typography variant='h4' align='center' gutterBottom>
         Create Lease Agreement
       </Typography>

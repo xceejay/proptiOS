@@ -328,19 +328,9 @@ const AddCard = props => {
 
   const allTenantsData = [{ name: 'Tenant 1', email: 'joel@gmail.com', id: 1 }]
   // ** States
-  const [count, setCount] = useState(1)
-  const [selected, setSelected] = useState('')
-  const [issueDate, setIssueDate] = useState(new Date())
-  const [tenant, setTenant] = useState(null)
-  const [landlord, setLandlord] = useState(null)
-  const [leaseTitle, setLeaseTitle] = useState('Lease Agreement')
 
-  const [currency, setCurrency] = useState('USD') // Default to USD
-  const [rentAmount, setRentAmount] = useState(1000) // Default to 1000
-  const [paymentFrequency, setPaymentFrequency] = useState('monthly') // Default to monthly
-  const [dueDate, setDueDate] = useState(new Date(tomorrowDate))
-  const [leaseStartDate, setLeaseStartDate] = useState(null)
-  const [leaseEndDate, setLeaseEndDate] = useState(null)
+  const [tenant, setTenant] = useState(null)
+
   const rteRef = useRef(null)
 
   const [originalContent, setOriginalContent] = useState('')
@@ -481,8 +471,8 @@ const AddCard = props => {
 
   const handleFormSubmit = data => {
     console.log('Form data from child has been submitted:', data)
-    setSubmittedContent(rteRef.current?.editor?.getHTML() ?? '')
     handleReplaceVars(rteRef.current?.editor?.getHTML())
+    setSubmittedContent(rteRef.current?.editor?.getHTML() ?? '')
 
     // You can use this data to update state, make API calls, etc.
   }

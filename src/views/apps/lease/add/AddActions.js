@@ -18,6 +18,7 @@ import { toast } from 'react-hot-toast' // Make sure to import toast
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
+import { useRouter } from 'next/router'
 
 const OptionsWrapper = styled(Box)(() => ({
   display: 'flex',
@@ -26,6 +27,8 @@ const OptionsWrapper = styled(Box)(() => ({
 }))
 
 const AddActions = props => {
+  const router = useRouter()
+
   const { submittedContent } = props
   return (
     <Grid container spacing={6}>
@@ -43,11 +46,13 @@ const AddActions = props => {
                     'No document available for preview. Please save your changes before trying to preview the document.'
                   )
                 } else {
+                  console.log('else Running')
                   // Navigate to the preview page if submittedContent is not empty
-                  window.location.href = {
+
+                  router.push({
                     pathname: 'view/[id]',
                     query: { id: '4987', submittedContent: submittedContent }
-                  }
+                  })
                 }
               }}
               fullWidth
