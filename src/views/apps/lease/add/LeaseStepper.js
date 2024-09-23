@@ -76,7 +76,7 @@ const defaultValues = {
   lease_terms: ''
 }
 
-const steps = ['Select Property and Tenant', 'Lease Details', 'Review and Submit']
+const steps = ['Select Property and Tenant', 'Lease Details', 'Payment Details', 'Review and Submit']
 
 const LeaseStepper = ({ onFormDataChange }) => {
   const [activeStep, setActiveStep] = useState(0)
@@ -117,6 +117,15 @@ const LeaseStepper = ({ onFormDataChange }) => {
         'payment_frequency',
         'lease_terms'
       ]
+    } else if (activeStep === 2) {
+      fieldsToValidate = [
+        'lease_start_date',
+        'lease_end_date',
+        'rent_amount',
+        'security_deposit',
+        'payment_frequency',
+        'lease_terms'
+      ]
     }
 
     const valid = await trigger(fieldsToValidate)
@@ -144,6 +153,8 @@ const LeaseStepper = ({ onFormDataChange }) => {
       case 1:
         return <Step2Form control={control} errors={errors} />
       case 2:
+        return <Step3Form control={control} errors={errors} />
+      case 3:
         return <ReviewForm data={formData} />
       default:
         return 'Unknown step'
@@ -243,6 +254,136 @@ const Step1Form = ({ control, errors }) => (
 )
 
 const Step2Form = ({ control, errors }) => (
+  <Box sx={{ mt: 2 }}>
+    <FormControl fullWidth sx={{ mb: 4 }}>
+      <Controller
+        name='lease_start_date'
+        control={control}
+        render={({ field }) => (
+          <DatePickerWrapper
+            sx={{
+              width: '100%',
+              '& .react-datepicker': { boxShadow: 'none !important', border: 'none !important' }
+            }}
+          >
+            <DatePicker
+              selected={field.value}
+              onChange={date => field.onChange(date)}
+              dateFormat='yyyy-MM-dd'
+              placeholderText='Select Lease Start Date'
+              customInput={
+                <TextField
+                  label='Lease Start Date'
+                  error={Boolean(errors.lease_start_date)}
+                  helperText={errors.lease_start_date?.message}
+                  fullWidth
+                />
+              }
+            />
+          </DatePickerWrapper>
+        )}
+      />
+    </FormControl>
+    <FormControl fullWidth sx={{ mb: 4 }}>
+      <Controller
+        name='lease_end_date'
+        control={control}
+        render={({ field }) => (
+          <DatePickerWrapper
+            sx={{
+              width: '100%',
+              '& .react-datepicker': { boxShadow: 'none !important', border: 'none !important' }
+            }}
+          >
+            <DatePicker
+              selected={field.value}
+              onChange={date => field.onChange(date)}
+              dateFormat='yyyy-MM-dd'
+              placeholderText='Select Lease End Date'
+              customInput={
+                <TextField
+                  label='Lease End Date'
+                  error={Boolean(errors.lease_end_date)}
+                  helperText={errors.lease_end_date?.message}
+                  fullWidth
+                />
+              }
+            />
+          </DatePickerWrapper>
+        )}
+      />
+    </FormControl>
+    <FormControl fullWidth sx={{ mb: 4 }}>
+      <Controller
+        name='rent_amount'
+        control={control}
+        render={({ field }) => (
+          <TextField
+            label='Rent Amount'
+            type='number'
+            {...field}
+            error={Boolean(errors.rent_amount)}
+            helperText={errors.rent_amount?.message}
+          />
+        )}
+      />
+    </FormControl>
+    <FormControl fullWidth sx={{ mb: 4 }}>
+      <Controller
+        name='security_deposit'
+        control={control}
+        render={({ field }) => (
+          <TextField
+            label='Security Deposit'
+            type='number'
+            {...field}
+            error={Boolean(errors.security_deposit)}
+            helperText={errors.security_deposit?.message}
+          />
+        )}
+      />
+    </FormControl>
+    <FormControl fullWidth sx={{ mb: 4 }}>
+      <Controller
+        name='payment_frequency'
+        control={control}
+        render={({ field }) => (
+          <TextField
+            select
+            label='Payment Frequency'
+            {...field}
+            error={Boolean(errors.payment_frequency)}
+            helperText={errors.payment_frequency?.message}
+          >
+            {paymentFrequencies.map(option => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
+        )}
+      />
+    </FormControl>
+    <FormControl fullWidth sx={{ mb: 4 }}>
+      <Controller
+        name='lease_terms'
+        control={control}
+        render={({ field }) => (
+          <TextField
+            label='Lease Terms'
+            multiline
+            rows={4}
+            {...field}
+            error={Boolean(errors.lease_terms)}
+            helperText={errors.lease_terms?.message}
+          />
+        )}
+      />
+    </FormControl>
+  </Box>
+)
+
+const Step3Form = ({ control, errors }) => (
   <Box sx={{ mt: 2 }}>
     <FormControl fullWidth sx={{ mb: 4 }}>
       <Controller
