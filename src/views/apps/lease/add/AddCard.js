@@ -404,6 +404,15 @@ const AddCard = props => {
     if (formData !== null) {
       console.log('setting form vars')
 
+      const tenants = [
+        { id: 'tenant1', name: 'Tenant 1' },
+        { id: 'tenant2', name: 'Tenant 2' }
+        // ...other tenants
+      ]
+
+      formData.tenant = tenants.find(tenant => formData.tenant_id === tenant.id)
+      setTenant(formData.tenant)
+      console.log('new Form data', formData)
       setFormVariables(formData)
     }
   }, [formData])
@@ -412,7 +421,7 @@ const AddCard = props => {
     <Card>
       <CardContent sx={{ p: [`${theme.spacing(6)} !important`, `${theme.spacing(10)} !important`] }}>
         <Grid container>
-          <Grid item xl={6} xs={12}>
+          <Grid item xl={12} xs={12}>
             <LeaseStepper onFormDataChange={handleFormDataChange} />
           </Grid>
           {/* <Grid item xl={6} xs={12}>
