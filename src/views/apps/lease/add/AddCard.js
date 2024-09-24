@@ -411,7 +411,7 @@ const AddCard = props => {
       occupants_count: formData.occupants_count || '{{occupants_count}}',
       utilities_included: formData.utilities_included || '{{utilities_included}}',
       utility_details: formData.utility_details || '{{utility_details}}',
-      sublet_permission: formData.sublet_permission == true ? 'Allowed' : 'Not Allowed' || '{{sublet_permission}}',
+      sublet_permission: formData.sublet_permission || '{{sublet_permission}}',
       move_in_condition: formData.move_in_condition || '{{move_in_condition}}',
       move_out_condition: formData.move_out_condition || '{{move_out_condition}}'
     }
