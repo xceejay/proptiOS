@@ -214,7 +214,7 @@ const tenancyAgreementContent = `
  <div style="margin-top: 60px;">
   <div>
     <div style="margin-bottom: 30px;">
-      <h2 style="font-weight: 600; line-height: 28px; font-size: 1.375rem;">{{siteId}}</h2>
+      <h2 style="font-weight: 600; line-height: 28px; font-size: 1.375rem;">{{site_id}}</h2>
     </div>
     <div style="margin-bottom: 20px;">
       <p style="margin-bottom: 15px; color: #6c757d;">Office 149, 450 South Brand Brooklyn</p>
@@ -381,18 +381,39 @@ const AddCard = props => {
 
     // Define a map for replacement variables
     const variableMap = {
+      site_id: siteId || '{{site_id}}',
       tenant_name: formData.tenant?.name || '{{tenant_name}}',
-      landlord_name: formData.landlord?.name || '{{landlord_name}}',
+      landlord_name: formData.landlord?.name || siteUser?.name || '{{landlord_name}}',
+      unit_name: formData.unit?.name || '{{unit_name}}',
+      property_name: formData.property?.name || '{{property_name}}',
       currency: formData.currency || '{{currency}}',
       rent_amount: formData.rent_amount || '{{rent_amount}}',
       payment_frequency: formData.payment_frequency || '{{payment_frequency}}',
       lease_start_date: formData.lease_start_date || '{{lease_start_date}}',
       lease_end_date: formData.lease_end_date || '{{lease_end_date}}',
+      lease_created_date: formData.lease_created_date || '{{lease_created_date}}',
       title: formData.title || '{{title}}',
-      unit_name: formData.unit_name || '{{unit_name}}',
-      property_name: formData.property_name || '{{property_name}}',
       late_fee: formData.late_fee || '{{late_fee}}',
-      security_deposit: formData.security_deposit || '{{security_deposit}}'
+      security_deposit: formData.security_deposit || '{{security_deposit}}',
+      grace_period: formData.grace_period || '{{grace_period}}',
+      renewal_terms: formData.renewal_terms || '{{renewal_terms}}',
+      termination_clause: formData.termination_clause || '{{termination_clause}}',
+      notice_period: formData.notice_period || '{{notice_period}}',
+      early_termination_fee: formData.early_termination_fee || '{{early_termination_fee}}',
+      rent_increase_rate: formData.rent_increase_rate || '{{rent_increase_rate}}',
+      guarantor_name: formData.guarantor_name || '{{guarantor_name}}',
+      maintenance_responsibility: formData.maintenance_responsibility || '{{maintenance_responsibility}}',
+      payment_method: formData.payment_method || '{{payment_method}}',
+      tenant_signature: formData.tenant_signature || '{{tenant_signature}}',
+      landlord_signature: formData.landlord_signature || '{{landlord_signature}}',
+      insurance_policy: formData.insurance_policy || '{{insurance_policy}}',
+      pet_policy: formData.pet_policy || '{{pet_policy}}',
+      occupants_count: formData.occupants_count || '{{occupants_count}}',
+      utilities_included: formData.utilities_included || '{{utilities_included}}',
+      utility_details: formData.utility_details || '{{utility_details}}',
+      sublet_permission: formData.sublet_permission == true ? 'Allowed' : 'Not Allowed' || '{{sublet_permission}}',
+      move_in_condition: formData.move_in_condition || '{{move_in_condition}}',
+      move_out_condition: formData.move_out_condition || '{{move_out_condition}}'
     }
 
     // Replace each variable using the variableMap
@@ -437,7 +458,7 @@ const AddCard = props => {
   ])
 
   const [siteId, setSiteId] = useState(null)
-  const [siteUser, setSiteUser] = useState([])
+  const [siteUser, setSiteUser] = useState({})
   const handlePaymentFrequencyValue = event => {
     setStatusValue(event.target.value)
   }
@@ -448,7 +469,7 @@ const AddCard = props => {
 
   useEffect(() => {
     setSiteId(auth.user.site_id)
-    setSiteUser([auth.user])
+    setSiteUser(auth.user)
   }, [auth])
 
   // useEffect(() => {
@@ -514,7 +535,20 @@ const AddCard = props => {
         // ...other tenants
       ]
 
+      const properties = [
+        { id: 'property1', name: 'Property 1' },
+        { id: 'property2', name: 'Property 2' }
+      ]
+
+      const units = [
+        { id: 'unit1', name: 'Unit 1 - 2 Bedrooms', property_id: 'property1' },
+        { id: 'unit2', name: 'Unit 2 - 3 Bedrooms', property_id: 'property1' }
+      ]
+
       formData.tenant = tenants.find(tenant => formData.tenant_id === tenant.id)
+      formData.unit = units.find(unit => formData.unit_id === unit.id)
+      formData.property = properties.find(property => formData.property_id === property.id)
+
       setTenant(formData.tenant)
       console.log('new Form data', formData)
       setFormVariables(formData)
@@ -628,6 +662,39 @@ const AddCard = props => {
               </Box>
             </Box>
           </Grid> */}
+        </Grid>
+
+        <Grid sx={{ display: 'flex', justifyContent: 'center' }} container>
+          <Grid
+            item
+            xl={3}
+            xs={6}
+            sx={{
+              mt: 10,
+              mb: { xl: 0, xs: 4 }
+            }}
+          >
+            <FormControl fullWidth>
+              <Controller
+                render={({ onChange, ...props }) => (
+                  <Autocomplete
+                    value={tenant}
+                    onChange={(event, newValue) => {
+                      setTenant(newValue)
+                    }}
+                    options={allTenantsData ? allTenantsData : []}
+                    getOptionLabel={tenant => tenant.name + ','} // Display the tenant name
+                    getOptionDisabled={tenant => !!tenant.property?.id}
+                    renderInput={params => <TextField full {...params} label='Choose Lease Template' />}
+                  />
+                )}
+                onChange={([, data]) => data}
+                defaultValue={''}
+                name={name}
+                control={control}
+              />
+            </FormControl>
+          </Grid>
         </Grid>
 
         {/* <Divider sx={{ mt: 10 }}></Divider> */}

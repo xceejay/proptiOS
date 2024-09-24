@@ -84,16 +84,15 @@ const currencies = [
 
 // Validation schema
 const schema = yup.object().shape({
-  title: yup.string().required('A Lease title is required'),
-  property_id: yup.string().required('Property is required'),
-  unit_id: yup.string().required('Unit is required'),
-  tenant_id: yup.string().required('Tenant is required'),
-  lease_start_date: yup.date().required('Start date is required'),
-  lease_end_date: yup
+  title: yup.string().max(100),
+  tenant_id: yup.number().integer().required('Tenant is required'),
+  property_id: yup.number().integer().required('Property is required'),
+  unit_id: yup.number().integer().required('Unit is required'),
+  start_date: yup.date().required('Start date is required'),
+  end_date: yup
     .date()
-    .min(yup.ref('lease_start_date'), 'End date cannot be before start date')
+    .min(yup.ref('start_date'), 'End date cannot be before start date')
     .required('End date is required'),
-  currency: yup.string().required('Currency is required'),
   rent_amount: yup
     .number()
     .typeError('Rent amount must be a number')
@@ -102,13 +101,36 @@ const schema = yup.object().shape({
   security_deposit: yup
     .number()
     .typeError('Security deposit must be a number')
-    .positive('Security deposit must be positive')
-    .required('Security deposit is required'),
-  payment_frequency: yup.string().required('Payment frequency is required'),
-  lease_terms: yup.string().required('Lease terms are required'),
+    .positive('Security deposit must be positive'),
   late_fee: yup.number().typeError('Late fee must be a number').positive('Late fee must be positive'),
-  grace_period: yup.number().typeError('Grace period must be a number').positive('Grace period must be positive'),
-  rent_increase_rate: yup.number().typeError('Rent increase rate must be a number').positive('Must be positive')
+  grace_period: yup.number().integer().positive('Grace period must be a positive number'),
+  renewal_terms: yup.string().oneOf(['auto_renewal', 'manual_renewal']).required('Renewal terms are required'),
+  termination_clause: yup.string(),
+  notice_period: yup.number().integer().positive(),
+  early_termination_fee: yup.number().positive(),
+  rent_increase_rate: yup.number().positive(),
+  guarantor_name: yup.string().max(100),
+  payment_frequency: yup
+    .string()
+    .oneOf(['bi_yearly', 'yearly', 'quarterly', 'monthly'])
+    .required('Payment frequency is required'),
+  maintenance_responsibility: yup
+    .string()
+    .oneOf(['tenant', 'property', 'shared'])
+    .required('Maintenance responsibility is required'),
+  payment_method: yup
+    .string()
+    .oneOf(['bank_transfer', 'cash', 'credit_card', 'mobile_money'])
+    .required('Payment method is required'),
+  is_furnished: yup.boolean(),
+  move_in_condition: yup.string(),
+  move_out_condition: yup.string(),
+  insurance_policy: yup.string().max(255),
+  pet_policy: yup.string().oneOf(['allowed', 'not_allowed']),
+  occupants_count: yup.number().integer(),
+  utilities_included: yup.boolean(),
+  utility_details: yup.string(),
+  sublet_permission: yup.string().oneOf(['allowed', 'not_allowed', 'with_permission'])
 })
 
 // Default values
@@ -134,6 +156,7 @@ const steps = [
   'Lease Details',
   'Payment Details',
   'Policies and Responsibilities',
+  'Optional Terms',
   'Review and Submit'
 ]
 
@@ -165,6 +188,7 @@ const LeaseStepper = ({ onFormDataChange, onFormSubmit }) => {
 
   const handleNext = async () => {
     let fieldsToValidate = []
+
     if (activeStep === 0) {
       fieldsToValidate = ['property_id', 'unit_id', 'tenant_id']
     } else if (activeStep === 1) {
@@ -173,7 +197,6 @@ const LeaseStepper = ({ onFormDataChange, onFormSubmit }) => {
       fieldsToValidate = [
         'currency',
         'rent_amount',
-        ,
         'payment_frequency',
         'security_deposit',
         'late_fee',
@@ -181,6 +204,18 @@ const LeaseStepper = ({ onFormDataChange, onFormSubmit }) => {
       ]
     } else if (activeStep === 3) {
       fieldsToValidate = ['maintenance_responsibility', 'pet_policy', 'insurance_policy']
+    } else if (activeStep === 4) {
+      fieldsToValidate = [
+        'guarantor_name',
+        'insurance_policy',
+        'pet_policy',
+        'occupants_count',
+        'utilities_included',
+        'utility_details',
+        'sublet_permission',
+        'move_in_condition',
+        'move_out_condition'
+      ]
     }
 
     const valid = await trigger(fieldsToValidate)
@@ -214,6 +249,8 @@ const LeaseStepper = ({ onFormDataChange, onFormSubmit }) => {
       case 3:
         return <Step4Form control={control} errors={errors} />
       case 4:
+        return <Step5Form control={control} errors={errors} />
+      case 5:
         return <ReviewForm data={formData} />
       default:
         return 'Unknown step'
@@ -607,6 +644,175 @@ const Step4Form = ({ control, errors }) => (
     </FormControl>
   </Box>
 )
+
+const Step5Form = ({ control, errors }) => {
+  return (
+    <Box sx={{ mt: 2 }}>
+      {/* Guarantor Name */}
+      <FormControl fullWidth sx={{ mb: 4 }}>
+        <Controller
+          name='guarantor_name'
+          control={control}
+          render={({ field }) => (
+            <TextField
+              label='Guarantor Name'
+              type='text'
+              {...field}
+              error={Boolean(errors.guarantor_name)}
+              helperText={errors.guarantor_name?.message}
+            />
+          )}
+        />
+      </FormControl>
+
+      {/* Insurance Policy */}
+      <FormControl fullWidth sx={{ mb: 4 }}>
+        <Controller
+          name='insurance_policy'
+          control={control}
+          render={({ field }) => (
+            <TextField
+              label='Insurance Policy'
+              type='text'
+              {...field}
+              error={Boolean(errors.insurance_policy)}
+              helperText={errors.insurance_policy?.message}
+            />
+          )}
+        />
+      </FormControl>
+
+      {/* Pet Policy */}
+      <FormControl fullWidth sx={{ mb: 4 }}>
+        <Controller
+          name='pet_policy'
+          control={control}
+          render={({ field }) => (
+            <TextField
+              select
+              label='Pet Policy'
+              {...field}
+              error={Boolean(errors.pet_policy)}
+              helperText={errors.pet_policy?.message}
+            >
+              <MenuItem value='allowed'>Allowed</MenuItem>
+              <MenuItem value='not_allowed'>Not Allowed</MenuItem>
+            </TextField>
+          )}
+        />
+      </FormControl>
+
+      {/* Occupants Count */}
+      <FormControl fullWidth sx={{ mb: 4 }}>
+        <Controller
+          name='occupants_count'
+          control={control}
+          render={({ field }) => (
+            <TextField
+              label='Occupants Count'
+              type='number'
+              {...field}
+              error={Boolean(errors.occupants_count)}
+              helperText={errors.occupants_count?.message}
+            />
+          )}
+        />
+      </FormControl>
+
+      {/* Utilities Included */}
+      <FormControl fullWidth sx={{ mb: 4 }}>
+        <Controller
+          name='utilities_included'
+          control={control}
+          render={({ field }) => (
+            <TextField
+              select
+              label='Utilities Included'
+              {...field}
+              error={Boolean(errors.utilities_included)}
+              helperText={errors.utilities_included?.message}
+            >
+              <MenuItem value={true}>Yes</MenuItem>
+              <MenuItem value={false}>No</MenuItem>
+            </TextField>
+          )}
+        />
+      </FormControl>
+
+      {/* Utility Details */}
+      <FormControl fullWidth sx={{ mb: 4 }}>
+        <Controller
+          name='utility_details'
+          control={control}
+          render={({ field }) => (
+            <TextField
+              label='Utility Details'
+              type='text'
+              {...field}
+              error={Boolean(errors.utility_details)}
+              helperText={errors.utility_details?.message}
+            />
+          )}
+        />
+      </FormControl>
+
+      {/* Sublet Permission */}
+      <FormControl fullWidth sx={{ mb: 4 }}>
+        <Controller
+          name='sublet_permission'
+          control={control}
+          render={({ field }) => (
+            <TextField
+              select
+              label='Sublet Permission'
+              {...field}
+              error={Boolean(errors.sublet_permission)}
+              helperText={errors.sublet_permission?.message}
+            >
+              <MenuItem value='allowed'>Allowed</MenuItem>
+              <MenuItem value='not_allowed'>Not Allowed</MenuItem>
+              <MenuItem value='with_permission'>With Permission</MenuItem>
+            </TextField>
+          )}
+        />
+      </FormControl>
+
+      {/* Move-In Condition */}
+      <FormControl fullWidth sx={{ mb: 4 }}>
+        <Controller
+          name='move_in_condition'
+          control={control}
+          render={({ field }) => (
+            <TextField
+              label='Move-In Condition'
+              type='text'
+              {...field}
+              error={Boolean(errors.move_in_condition)}
+              helperText={errors.move_in_condition?.message}
+            />
+          )}
+        />
+      </FormControl>
+
+      {/* Move-Out Condition */}
+      <FormControl fullWidth sx={{ mb: 4 }}>
+        <Controller
+          name='move_out_condition'
+          control={control}
+          render={({ field }) => (
+            <TextField
+              label='Move-Out Condition'
+              type='text'
+              {...field}
+              error={Boolean(errors.move_out_condition)}
+              helperText={errors.move_out_condition?.message}
+            />
+          )}
+        />
+      </FormControl>
+    </Box>
+  )
+}
 
 const ReviewForm = ({ data }) => {
   const getPropertyName = id => {
