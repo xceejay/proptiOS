@@ -168,7 +168,10 @@ const EditPropertyTenantDrawer = props => {
           console.log('refreshed data')
           let { data } = responseData
           setPropertyData(data)
-          console.log('FROM Edit tenant PAGE: refreshing property Data', responseData)
+          console.log(
+            'FROM Edit tenant PAGE: refreshing property Data its me edit property data making reqs',
+            responseData
+          )
 
           if (responseData?.status === 'FAILED') {
             alert(responseData.message || 'Failed to fetch properties')
@@ -186,6 +189,7 @@ const EditPropertyTenantDrawer = props => {
   }
 
   useEffect(() => {
+    // removed open
     refreshPropertyData()
   }, [open])
 
