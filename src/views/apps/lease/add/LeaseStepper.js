@@ -18,6 +18,7 @@ import DatePicker from 'react-datepicker'
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { useTheme } from '@mui/material/styles'
+import InputAdornment from '@mui/material/InputAdornment'
 
 import toast from 'react-hot-toast'
 
@@ -44,6 +45,43 @@ const paymentFrequencies = [
   { value: 'bi-yearly', label: 'Bi-Yearly' }
 ]
 
+const currencies = [
+  { code: 'USD', name: 'United States Dollar', symbol: '$' },
+  { code: 'EUR', name: 'Euro', symbol: '€' },
+  { code: 'GBP', name: 'British Pound Sterling', symbol: '£' },
+  { code: 'JPY', name: 'Japanese Yen', symbol: '¥' },
+  { code: 'CHF', name: 'Swiss Franc', symbol: 'CHF' },
+  { code: 'CAD', name: 'Canadian Dollar', symbol: '$' },
+  { code: 'AUD', name: 'Australian Dollar', symbol: '$' },
+  { code: 'CNY', name: 'Chinese Yuan', symbol: '¥' },
+  { code: 'INR', name: 'Indian Rupee', symbol: '₹' },
+  { code: 'ZAR', name: 'South African Rand', symbol: 'R' },
+  { code: 'NGN', name: 'Nigerian Naira', symbol: '₦' },
+  { code: 'GHS', name: 'Ghanaian Cedi', symbol: '₵' },
+  { code: 'KES', name: 'Kenyan Shilling', symbol: 'KSh' },
+  { code: 'UGX', name: 'Ugandan Shilling', symbol: 'USh' },
+  { code: 'TZS', name: 'Tanzanian Shilling', symbol: 'TSh' },
+  { code: 'BRL', name: 'Brazilian Real', symbol: 'R$' },
+  { code: 'MXN', name: 'Mexican Peso', symbol: '$' },
+  { code: 'RUB', name: 'Russian Ruble', symbol: '₽' },
+  { code: 'SGD', name: 'Singapore Dollar', symbol: '$' },
+  { code: 'HKD', name: 'Hong Kong Dollar', symbol: '$' },
+  { code: 'SEK', name: 'Swedish Krona', symbol: 'kr' },
+  { code: 'NOK', name: 'Norwegian Krone', symbol: 'kr' },
+  { code: 'DKK', name: 'Danish Krone', symbol: 'kr' },
+  { code: 'PLN', name: 'Polish Zloty', symbol: 'zł' },
+  { code: 'TRY', name: 'Turkish Lira', symbol: '₺' },
+  { code: 'KRW', name: 'South Korean Won', symbol: '₩' },
+  { code: 'MYR', name: 'Malaysian Ringgit', symbol: 'RM' },
+  { code: 'THB', name: 'Thai Baht', symbol: '฿' },
+  { code: 'PHP', name: 'Philippine Peso', symbol: '₱' },
+  { code: 'IDR', name: 'Indonesian Rupiah', symbol: 'Rp' },
+  { code: 'SAR', name: 'Saudi Riyal', symbol: '﷼' },
+  { code: 'AED', name: 'United Arab Emirates Dirham', symbol: 'د.إ' },
+  { code: 'EGP', name: 'Egyptian Pound', symbol: '£' },
+  { code: 'MAD', name: 'Moroccan Dirham', symbol: 'د.م.' }
+]
+
 // Validation schema
 const schema = yup.object().shape({
   title: yup.string().required('A Lease title is required'),
@@ -55,6 +93,7 @@ const schema = yup.object().shape({
     .date()
     .min(yup.ref('lease_start_date'), 'End date cannot be before start date')
     .required('End date is required'),
+  currency: yup.string().required('Currency is required'),
   rent_amount: yup
     .number()
     .typeError('Rent amount must be a number')
@@ -129,9 +168,17 @@ const LeaseStepper = ({ onFormDataChange, onFormSubmit }) => {
     if (activeStep === 0) {
       fieldsToValidate = ['property_id', 'unit_id', 'tenant_id']
     } else if (activeStep === 1) {
-      fieldsToValidate = ['lease_start_date', 'lease_end_date', 'rent_amount', 'security_deposit', 'lease_terms']
+      fieldsToValidate = ['lease_start_date', 'lease_end_date', 'lease_terms']
     } else if (activeStep === 2) {
-      fieldsToValidate = ['payment_frequency', 'late_fee', 'grace_period']
+      fieldsToValidate = [
+        'currency',
+        'rent_amount',
+        ,
+        'payment_frequency',
+        'security_deposit',
+        'late_fee',
+        'grace_period'
+      ]
     } else if (activeStep === 3) {
       fieldsToValidate = ['maintenance_responsibility', 'pet_policy', 'insurance_policy']
     }
@@ -163,7 +210,7 @@ const LeaseStepper = ({ onFormDataChange, onFormSubmit }) => {
       case 1:
         return <Step2Form control={control} errors={errors} />
       case 2:
-        return <Step3Form control={control} errors={errors} />
+        return <Step3Form watch={watch} control={control} errors={errors} />
       case 3:
         return <Step4Form control={control} errors={errors} />
       case 4:
@@ -352,38 +399,6 @@ const Step2Form = ({ control, errors }) => (
 
     <FormControl fullWidth sx={{ mb: 4 }}>
       <Controller
-        name='rent_amount'
-        control={control}
-        render={({ field }) => (
-          <TextField
-            label='Rent Amount'
-            type='number'
-            {...field}
-            error={Boolean(errors.rent_amount)}
-            helperText={errors.rent_amount?.message}
-          />
-        )}
-      />
-    </FormControl>
-
-    <FormControl fullWidth sx={{ mb: 4 }}>
-      <Controller
-        name='security_deposit'
-        control={control}
-        render={({ field }) => (
-          <TextField
-            label='Security Deposit'
-            type='number'
-            {...field}
-            error={Boolean(errors.security_deposit)}
-            helperText={errors.security_deposit?.message}
-          />
-        )}
-      />
-    </FormControl>
-
-    <FormControl fullWidth sx={{ mb: 4 }}>
-      <Controller
         name='lease_terms'
         control={control}
         render={({ field }) => (
@@ -401,80 +416,149 @@ const Step2Form = ({ control, errors }) => (
   </Box>
 )
 
-const Step3Form = ({ control, errors }) => (
-  <Box sx={{ mt: 2 }}>
-    <FormControl fullWidth sx={{ mb: 4 }}>
-      <Controller
-        name='payment_frequency'
-        control={control}
-        render={({ field }) => (
-          <TextField
-            select
-            label='Payment Frequency'
-            {...field}
-            error={Boolean(errors.payment_frequency)}
-            helperText={errors.payment_frequency?.message}
-          >
-            {paymentFrequencies.map(option => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
-        )}
-      />
-    </FormControl>
+const Step3Form = ({ watch, control, errors }) => {
+  const selectedCurrency =
+    currencies.find(currency => {
+      const watchedCurrency = watch('currency')
+      return watchedCurrency === currency.code
+    })?.symbol || ''
+  return (
+    <Box sx={{ mt: 2 }}>
+      <FormControl fullWidth sx={{ mb: 4 }}>
+        <Controller
+          name='currency'
+          control={control}
+          rules={{ required: true }}
+          render={({ field: { value, onChange, onBlur } }) => (
+            <>
+              <TextField
+                select
+                id='custom-select-native'
+                value={value}
+                onChange={onChange}
+                onBlur={onBlur}
+                name='currency'
+                required
+                fullWidth
+                label='Payment Currency'
+              >
+                {currencies.map(currency => (
+                  <MenuItem sx={{ fontSize: '15px' }} key={currency.code} value={currency.code}>
+                    {currency.name}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </>
+          )}
+        />
+      </FormControl>
 
-    <FormControl fullWidth sx={{ mb: 4 }}>
-      <Controller
-        name='late_fee'
-        control={control}
-        render={({ field }) => (
-          <TextField
-            label='Late Fee'
-            type='number'
-            {...field}
-            error={Boolean(errors.late_fee)}
-            helperText={errors.late_fee?.message}
-          />
-        )}
-      />
-    </FormControl>
+      <FormControl fullWidth sx={{ mb: 4 }}>
+        <Controller
+          name='rent_amount'
+          control={control}
+          render={({ field }) => (
+            <TextField
+              label='Rent Amount'
+              InputProps={{ startAdornment: <InputAdornment position='start'> {selectedCurrency} </InputAdornment> }}
+              type='number'
+              {...field}
+              error={Boolean(errors.rent_amount)}
+              helperText={errors.rent_amount?.message}
+            />
+          )}
+        />
+      </FormControl>
 
-    <FormControl fullWidth sx={{ mb: 4 }}>
-      <Controller
-        name='grace_period'
-        control={control}
-        render={({ field }) => (
-          <TextField
-            label='Grace Period (days)'
-            type='number'
-            {...field}
-            error={Boolean(errors.grace_period)}
-            helperText={errors.grace_period?.message}
-          />
-        )}
-      />
-    </FormControl>
+      <FormControl fullWidth sx={{ mb: 4 }}>
+        <Controller
+          name='payment_frequency'
+          control={control}
+          render={({ field }) => (
+            <TextField
+              select
+              label='Rent Payment Frequency'
+              {...field}
+              error={Boolean(errors.payment_frequency)}
+              helperText={errors.payment_frequency?.message}
+            >
+              {paymentFrequencies.map(option => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+          )}
+        />
+      </FormControl>
 
-    <FormControl fullWidth sx={{ mb: 4 }}>
-      <Controller
-        name='rent_increase_rate'
-        control={control}
-        render={({ field }) => (
-          <TextField
-            label='Rent Increase Rate (%)'
-            type='number'
-            {...field}
-            error={Boolean(errors.rent_increase_rate)}
-            helperText={errors.rent_increase_rate?.message}
-          />
-        )}
-      />
-    </FormControl>
-  </Box>
-)
+      <FormControl fullWidth sx={{ mb: 4 }}>
+        <Controller
+          name='security_deposit'
+          control={control}
+          render={({ field }) => (
+            <TextField
+              label='Security Deposit'
+              type='number'
+              InputProps={{ startAdornment: <InputAdornment position='start'> {selectedCurrency} </InputAdornment> }}
+              {...field}
+              error={Boolean(errors.security_deposit)}
+              helperText={errors.security_deposit?.message}
+            />
+          )}
+        />
+      </FormControl>
+      <FormControl fullWidth sx={{ mb: 4 }}>
+        <Controller
+          name='late_fee'
+          control={control}
+          render={({ field }) => (
+            <TextField
+              label='Late Fee'
+              type='number'
+              InputProps={{ startAdornment: <InputAdornment position='start'> {selectedCurrency} </InputAdornment> }}
+              {...field}
+              error={Boolean(errors.late_fee)}
+              helperText={errors.late_fee?.message}
+            />
+          )}
+        />
+      </FormControl>
 
+      <FormControl fullWidth sx={{ mb: 4 }}>
+        <Controller
+          name='grace_period'
+          control={control}
+          render={({ field }) => (
+            <TextField
+              label='Grace Period (days)'
+              type='number'
+              {...field}
+              error={Boolean(errors.grace_period)}
+              helperText={errors.grace_period?.message}
+            />
+          )}
+        />
+      </FormControl>
+
+      <FormControl fullWidth sx={{ mb: 4 }}>
+        <Controller
+          name='rent_increase_rate'
+          control={control}
+          render={({ field }) => (
+            <TextField
+              label='Rent Increase Rate (%)'
+              type='number'
+              {...field}
+              error={Boolean(errors.rent_increase_rate)}
+              helperText={errors.rent_increase_rate?.message}
+            />
+          )}
+        />
+      </FormControl>
+    </Box>
+  )
+}
 const Step4Form = ({ control, errors }) => (
   <Box sx={{ mt: 2 }}>
     <FormControl fullWidth sx={{ mb: 4 }}>
@@ -564,20 +648,22 @@ const ReviewForm = ({ data }) => {
         <strong>Lease End Date:</strong> {data.lease_end_date ? data.lease_end_date.toLocaleDateString() : ''}
       </Typography>
       <Typography variant='subtitle1'>
-        <strong>Rent Amount:</strong> {data.rent_amount}
+        <strong> Rent Amount:</strong> {data.rent_amount} {data.currency}
+      </Typography>
+
+      <Typography variant='subtitle1'>
+        <strong>Rent Payment Frequency:</strong> {data.payment_frequency}
       </Typography>
       <Typography variant='subtitle1'>
-        <strong>Security Deposit:</strong> {data.security_deposit}
+        <strong>Security Deposit:</strong> {data.security_deposit} {data.currency}
       </Typography>
       <Typography variant='subtitle1'>
-        <strong>Payment Frequency:</strong> {data.payment_frequency}
+        <strong>Late Fee:</strong> {data.late_fee} {data.currency}
       </Typography>
       <Typography variant='subtitle1'>
         <strong>Lease Terms:</strong> {data.lease_terms}
       </Typography>
-      <Typography variant='subtitle1'>
-        <strong>Late Fee:</strong> {data.late_fee}
-      </Typography>
+
       <Typography variant='subtitle1'>
         <strong>Grace Period:</strong> {data.grace_period} days
       </Typography>

@@ -210,7 +210,8 @@ const now = new Date()
 const tomorrowDate = now.setDate(now.getDate() + 7)
 
 const tenancyAgreementContent = `
-<div style="margin-top: 60px;">
+<div>
+ <div style="margin-top: 60px;">
   <div>
     <div style="margin-bottom: 30px;">
       <h2 style="font-weight: 600; line-height: 28px; font-size: 1.375rem;">{{siteId}}</h2>
@@ -229,44 +230,69 @@ const tenancyAgreementContent = `
 </div>
 
 <h1 style="text-align: center; text-decoration: underline; margin-bottom: 20px;">{{title}}</h1>
-<p style="text-align: center; margin-bottom: 10px;">(hereinafter referred to as the “Agreement”)</p>
-<p style="text-align: center; margin-bottom: 30px;">This Agreement is made and entered into on [DATE],</p>
+  <p>This agreement is made on this ………… day of ………… between {{tenant_name}} (Tenant) and {{landlord_name}} (Landlord). The landlord agrees to rent the {{unit_name}} located at {{property_name}} for a period of ………… years/months at a rental rate of {{currency}} {{rent_amount}} per {{payment_frequency}}, starting from {{lease_start_date}} and expiring on {{lease_end_date}}.</p>
 
-<p style="margin-bottom: 30px;"><strong>BY AND BETWEEN</strong> <span style="border-bottom: 1px solid #000;"><b>{{landlord_name}}</b></span> (hereinafter referred to as the “Landlord”),</p>
-<p style="margin-bottom: 30px;"><strong>AND</strong> <span style="border-bottom: 1px solid #000;"><b>{{tenant_name}}</b></span> (hereinafter referred to as the “Tenant”).</p>
+  <p><strong>Responsibilities of the Tenant:</strong></p>
+  <ul>
+    <li>Pay rent on time as stated in this agreement.</li>
+    <li>Be responsible for the payment of all utility bills, including water, electricity, gas, and waste collection, unless otherwise agreed in writing.</li>
+    <li>Maintain the property in good condition and repair any damage caused, except for normal wear and tear.</li>
+    <li>Use the premises solely for residential purposes and not sublet without prior written consent.</li>
+    <li>Allow the landlord access for inspections or repairs with proper notice.</li>
+  </ul>
 
-<h2 style="margin-top: 50px; margin-bottom: 20px;">RECITALS:</h2>
-<ul style="margin-left: 20px; margin-bottom: 40px;">
-  <li style="margin-bottom: 10px;">WHEREAS, the Landlord is the legal and beneficial owner of the furnished/unfurnished property, described as <span style="border-bottom: 1px solid #000;"><b>{{property_name}}</b></span> located at <span style="border-bottom: 1px solid #000;"><b>{{unit_name}}</b></span> (hereinafter referred to as the “Property”);</li>
-  <li style="margin-bottom: 10px;">AND WHEREAS, the Tenant is desirous of leasing the Property from the Landlord under the terms and conditions outlined herein;</li>
-  <li style="margin-bottom: 10px;">NOW, THEREFORE, in consideration of the mutual covenants contained herein, the parties hereby agree as follows:</li>
-</ul>
+  <p><strong>Responsibilities of the Landlord:</strong></p>
+  <ul>
+    <li>Ensure the property is in good condition and fit for habitation at the start of the tenancy.</li>
+    <li>Perform structural repairs and maintenance.</li>
+    <li>Provide the tenant with quiet enjoyment of the premises.</li>
+    <li>Pay property taxes and applicable charges associated with ownership.</li>
+  </ul>
 
-<h2 style="margin-top: 50px; margin-bottom: 20px;">TERMS AND CONDITIONS:</h2>
-<ol style="margin-left: 20px; margin-bottom: 40px;">
-  <li style="margin-bottom: 15px;">The term of this Agreement shall commence on <span style="border-bottom: 1px solid #000;"><b>{{lease_start_date}}</b></span> and shall terminate on <span style="border-bottom: 1px solid #000;"><b>{{lease_end_date}}</b></span> (hereinafter referred to as the “Term”).</li>
-  <li style="margin-bottom: 15px;">The Tenant agrees to pay the Landlord a total rent of <span style="border-bottom: 1px solid #000;"><b>{{currency}} {{rent_amount}}</b></span>, payable in accordance with the following schedule: {{payment_frequency}}.</li>
-  <li style="margin-bottom: 15px;">Upon the execution of this Agreement, the Tenant shall deposit a refundable security deposit in the amount of <span style="border-bottom: 1px solid #000;"><b>{{currency}} [SECURITY_DEPOSIT]</b></span>, which shall be refunded to the Tenant within <span style="border-bottom: 1px solid #000;"><b>[REFUND_DAYS]</b></span> days of vacating the Premises, subject to deductions for damages or unpaid rent.</li>
-  <li style="margin-bottom: 15px;">All rents shall be paid in {{currency}} at the prevailing interbank exchange rate, unless otherwise agreed in writing.</li>
-  <li style="margin-bottom: 15px;">Unless explicitly stated in writing, the rent shall not include services such as DSTV, internet, cleaning, or utilities.</li>
-  <li style="margin-bottom: 15px;">In the event that the Tenant remains in possession of the Property after the expiration of the Term without a formal extension, the Tenant shall pay a daily rental rate of <span style="border-bottom: 1px solid #000;"><b>{{currency}} [DAILY_RATE]</b></span>.</li>
-  <li style="margin-bottom: 15px;">The security deposit may be used to cover the cost of repairing any damage to the Property caused by the Tenant, beyond normal wear and tear.</li>
-  <li style="margin-bottom: 15px;">The Landlord agrees to refund the security deposit, less any applicable deductions, within <span style="border-bottom: 1px solid #000;"><b>[REFUND_DAYS]</b></span> days of the Tenant vacating the Property.</li>
-  <li style="margin-bottom: 15px;">This Agreement may be renewed for a further term upon mutual agreement in writing, provided that notice is given no less than 14 days prior to the end of the Term.</li>
-  <li style="margin-bottom: 15px;">The Landlord reserves the right to terminate this Agreement should the Tenant breach any of its terms, violate any house rules, or engage in conduct that endangers the safety or privacy of other occupants.</li>
-  <li style="margin-bottom: 15px;">The Tenant agrees to comply with the attached House Rules, which are hereby incorporated into this Agreement by reference.</li>
-</ol>
+  <p><strong>Termination of the Tenancy:</strong></p>
+  <p>The tenancy may be terminated by either party with {{notice_period}} written notice. In the case of early termination, the tenant is liable for rent unless otherwise agreed. The early termination fee is {{currency}} {{early_termination_fee}}.</p>
 
-<h2 style="margin-top: 50px; margin-bottom: 20px;">MISCELLANEOUS PROVISIONS:</h2>
-<ul style="margin-left: 20px; margin-bottom: 40px;">
-  <li style="margin-bottom: 15px;">All notices required under this Agreement shall be provided in writing and delivered to the parties at the addresses listed above, or sent via email to the respective email addresses confirmed by the parties.</li>
-  <li style="margin-bottom: 15px;">The Landlord agrees to maintain the Property in a habitable condition and to carry out necessary repairs as required by law.</li>
-  <li style="margin-bottom: 15px;">The Tenant shall not assign or sublet the Property without the prior written consent of the Landlord.</li>
-  <li style="margin-bottom: 15px;">If any provision of this Agreement is held to be invalid or unenforceable, the remainder of this Agreement shall continue in full force and effect.</li>
-  <li style="margin-bottom: 15px;">This Agreement shall be governed by the laws of [Jurisdiction], and any disputes arising hereunder shall be resolved in the courts of said jurisdiction.</li>
-</ul>
+  <p><strong>Renewal of the Tenancy:</strong></p>
+  <p>The tenancy agreement may be renewed upon mutual agreement, with terms including a {{rent_increase_rate}}% rent increase rate.</p>
 
-<h2 style="margin-top: 50px; margin-bottom: 20px;">IN WITNESS WHEREOF</h2>
+  <p><strong>Rent Payment Terms:</strong></p>
+  <ul>
+    <li>Rent must be paid {{payment_frequency}} in advance into the specified account by the {{payment_frequency}} day of each period.</li>
+    <li>Late payments will incur a {{currency}} {{late_fee}} after a {{grace_period}} day grace period.</li>
+  </ul>
+
+  <p><strong>Use of Premises:</strong></p>
+  <ul>
+    <li>The tenant shall use the premises for residential purposes only and shall not engage in any illegal activities or any business on the premises without prior written consent from the landlord.</li>
+    <li>Any activity that constitutes a nuisance or disturbance to neighbors or the landlord is prohibited.</li>
+  </ul>
+
+  <p><strong>Inspection and Access to Property:</strong></p>
+  <p>The landlord has the right to inspect the property with at least 24 hours’ notice to the tenant, except in cases of emergency where immediate access is required.</p>
+
+  <p><strong>Security Deposit:</strong></p>
+  <p>A security deposit of {{currency}} {{security_deposit}} is required, which will be returned within ………… days after the lease end, minus any damages or unpaid bills.</p>
+
+  <p><strong>Dispute Resolution:</strong></p>
+  <p>Any disputes arising from this agreement will be resolved through mediation. If mediation fails, the matter may be referred to the appropriate court in ………… (jurisdiction).</p>
+
+  <p><strong>Miscellaneous:</strong></p>
+  <ul>
+    <li>Pets: {{pet_policy}}</li>
+    <li>Occupants: Maximum of {{occupants_count}} occupants.</li>
+    <li>Utilities: {{utilities_included}}, specifically {{utility_details}}.</li>
+    <li>Subletting: {{sublet_permission}}</li>
+    <li>Move-in Condition: {{move_in_condition}}</li>
+    <li>Move-out Condition: {{move_out_condition}}</li>
+    <li>Insurance Policy: {{insurance_policy}}</li>
+    <li>The tenant shall not keep pets on the premises without prior written permission from the landlord.</li>
+    <li>The tenant shall ensure the property is adequately secured and that doors and windows are properly locked when leaving the premises.</li>
+    <li>Any amendments to this agreement must be made in writing and signed by both parties.</li>
+  </ul>
+
+  <p>This tenancy agreement takes effect from the {{lease_start_date}}.</p>
+
+  <h2 style="margin-top: 50px; margin-bottom: 20px;">IN WITNESS WHEREOF</h2>
 <p style="margin-bottom: 30px;">The parties hereto have executed this Agreement as of the day and year first above written.</p>
 <p></p>
 <p></p>
@@ -355,16 +381,18 @@ const AddCard = props => {
 
     // Define a map for replacement variables
     const variableMap = {
-      tenant_name: formVariables.tenant?.name || '{{tenant_name}}',
-      landlord_name: formVariables.landlord?.name || '{{landlord_name}}',
-      currency: formVariables.currency || '{{currency}}',
-      rent_amount: formVariables.rent_amount || '{{rent_amount}}',
-      payment_frequency: formVariables.payment_frequency || '{{payment_frequency}}',
-      lease_start_date: formVariables.lease_start_date || '{{lease_start_date}}',
-      lease_end_date: formVariables.lease_end_date || '{{lease_end_date}}',
-      title: formVariables.title || '{{title}}',
-      unit_name: formVariables.unit_name || '{{unit_name}}',
-      property_name: formVariables.property_name || '{{property_name}}'
+      tenant_name: formData.tenant?.name || '{{tenant_name}}',
+      landlord_name: formData.landlord?.name || '{{landlord_name}}',
+      currency: formData.currency || '{{currency}}',
+      rent_amount: formData.rent_amount || '{{rent_amount}}',
+      payment_frequency: formData.payment_frequency || '{{payment_frequency}}',
+      lease_start_date: formData.lease_start_date || '{{lease_start_date}}',
+      lease_end_date: formData.lease_end_date || '{{lease_end_date}}',
+      title: formData.title || '{{title}}',
+      unit_name: formData.unit_name || '{{unit_name}}',
+      property_name: formData.property_name || '{{property_name}}',
+      late_fee: formData.late_fee || '{{late_fee}}',
+      security_deposit: formData.security_deposit || '{{security_deposit}}'
     }
 
     // Replace each variable using the variableMap
