@@ -104,20 +104,20 @@ const AddActions = props => {
         {/* Documentation Paragraph */}
         <Box sx={{ mt: 4 }}>
           <Typography variant='h6' gutterBottom>
-            Tenant Agreement Variables:
+            Tenant Agreement Placeholders:
           </Typography>
           <Typography variant='body2' paragraph>
-            When modifying a tenant agreement, you can insert variables into the document by using the{' '}
-            {'{{variable_name}}'}
+            When modifying a tenant agreement, you can insert placeholders into the document by using the{' '}
+            {'{{placeholder_name}}'}
             format. After clicking "Insert Details," the system will replace these placeholders with the correct values.
             If the document does not contain any {'{{}}'} placeholders, the system will return an error when you try to
             insert details.<br></br>
             <br></br>
-            <strong>Note:</strong> It is recommended to use these variables for accuracy, but you can also manually type
-            the names or details if needed.
+            <strong>Note:</strong> It is recommended to use these placeholders for accuracy, but you can also manually
+            type the names or details if needed.
           </Typography>
           <Typography variant='body2' paragraph>
-            Here are the available variables you can use:
+            Here are the available placeholders you can use:
           </Typography>
           <ul>
             <li>
@@ -221,7 +221,7 @@ const AddActions = props => {
             </li>
           </ul>
           <Typography variant='body2' paragraph>
-            Ensure the correct format and variables are used to avoid any errors.
+            Ensure the correct format and placeholders are used to avoid any errors.
           </Typography>
         </Box>
       </Grid>
