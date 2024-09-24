@@ -255,7 +255,7 @@ const ManagePropertyUnitDrawer = props => {
               render={({ field: { onChange, onBlur, value, ref } }) => (
                 <Autocomplete
                   options={propertyData.leases}
-                  getOptionLabel={lease => lease.name + ' (' + lease.id + ')'}
+                  getOptionLabel={lease => lease.title + ' (' + lease.id + ')'}
                   getOptionDisabled={lease => !!lease?.tenant_id}
                   onChange={(event, newValue) => {
                     // Pass the new value's id or an empty string to handle the form state
