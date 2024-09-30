@@ -23,7 +23,7 @@ const CustomLeaseEditor = props => {
 
   const [isEditable, setIsEditable] = useState(true)
 
-  const [showMenuBar, setShowMenuBar] = useState(false)
+  const [showMenuBar, setShowMenuBar] = useState(true)
 
   const handleNewImageFiles = useCallback((files, insertPosition) => {
     if (!rteRef.current?.editor) {

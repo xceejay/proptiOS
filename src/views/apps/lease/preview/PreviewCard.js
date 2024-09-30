@@ -70,8 +70,7 @@ const PreviewCard = ({}) => {
           <Typography component='span' sx={{ mr: 1.5, fontWeight: 500, color: 'inherit' }}>
             Note:
           </Typography>
-          It was a pleasure working with you and your team. We hope you will keep us in mind for future freelance
-          projects. Thank You!
+          Thank you
         </Typography>
       </CardContent>
     </Card>

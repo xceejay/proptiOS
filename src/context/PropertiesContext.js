@@ -16,6 +16,7 @@ const defaultProvider = {
   accessToken: null,
   setAccessToken: () => {},
   setLoading: () => {},
+  getAllProperties: () => Promise.resolve(),
   getProperties: () => Promise.resolve(),
   getProperty: () => Promise.resolve(),
   addProperties: () => Promise.resolve(), // Renamed for consistency
@@ -61,6 +62,35 @@ const PropertiesProvider = ({ children }) => {
 
     axios
       .get('https://api.pm.manages.homes/properties', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        params
+      })
+      .then(response => {
+        if (successCallback) {
+          successCallback(response.data)
+          setProperties(response.data)
+        }
+      })
+      .catch(err => {
+        if (errorCallback) errorCallback(err)
+      })
+  }
+
+  // get all properties and all its data
+  const getAllProperties = (params, successCallback, errorCallback) => {
+    const token = window.localStorage.getItem('accessToken') || accessToken
+
+    if (!token) {
+      const error = new Error('No access token found')
+      if (errorCallback) errorCallback(error)
+
+      return
+    }
+
+    axios
+      .get('https://api.pm.manages.homes/properties/all', {
         headers: {
           Authorization: `Bearer ${token}`
         },
@@ -231,6 +261,7 @@ const PropertiesProvider = ({ children }) => {
     setAccessToken,
     accessToken,
     getProperties,
+    getAllProperties,
     getProperty
   }
 

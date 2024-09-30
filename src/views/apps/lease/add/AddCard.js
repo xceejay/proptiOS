@@ -45,6 +45,7 @@ import { useAuth } from 'src/hooks/useAuth'
 import { fontWeight } from '@mui/system'
 import SignatureCanvas from './SignatureCanvas'
 import LeaseStepper from './LeaseStepper'
+import { useLeases } from 'src/hooks/useLeases'
 
 const currencies = [
   { code: 'USD', name: 'United States Dollar', symbol: '$' },
@@ -343,6 +344,8 @@ const AddCard = props => {
 
   // ** Props
   const {
+    setPropertiesData,
+    propertiesData,
     clients,
     invoiceNumber,
     selectedClient,
@@ -466,6 +469,7 @@ const AddCard = props => {
   // ** Hook
   const theme = useTheme()
   const auth = useAuth()
+  const leases = useLeases()
 
   useEffect(() => {
     setSiteId(auth.user.site_id)
@@ -523,31 +527,97 @@ const AddCard = props => {
     handleReplaceVars(rteRef.current?.editor?.getHTML())
     setSubmittedContent(rteRef.current?.editor?.getHTML() ?? '')
 
-    // You can use this data to update state, make API calls, etc.
+    // API CALLS
+
+    let requestData = [data]
+
+    leases.addLeases(
+      requestData,
+      responseData => {
+        console.log('Add Lease Card Page')
+        let { data } = responseData
+
+        if (data?.status === 'FAILED') {
+          alert(data.description || 'Failed to add lease')
+
+          // yup form set error
+          // setError('tenant_id', {
+          //   type: 'manual',
+          //   message: data.description || 'Unknown error occurred'
+          // })
+
+          return
+        }
+
+        const updatedRequestData = requestData.map(lease => {
+          const matchingLease = data.items?.find(response => response.id === lease.id)
+
+          if (matchingLease) {
+            return {
+              ...lease,
+              id: matchingLease.id
+            }
+          }
+
+          return lease
+        })
+
+        toast.success('Lease successfully added for tenant ID ' + updatedRequestData[0].tenant_id, {
+          duration: 5000
+        })
+
+        setLeasesData(prevData => ({
+          ...prevData,
+          items: [...prevData.items, ...updatedRequestData]
+        }))
+
+        // Close the drawer
+        handleClose()
+      },
+      error => {
+        console.error('Error from Lease drawer page:', error)
+      }
+    )
   }
   useEffect(() => {
-    if (formData !== null) {
+    if (formData !== null && propertiesData) {
       console.log('setting form vars')
 
-      const tenants = [
-        { id: 'tenant1', name: 'Tenant 1' },
-        { id: 'tenant2', name: 'Tenant 2' }
-        // ...other tenants
-      ]
+      // const tenants = [
+      //   { id: 'tenant1', name: 'Tenant 1' },
+      //   { id: 'tenant2', name: 'Tenant 2' }
+      //   // ...other tenants
+      // ]
 
-      const properties = [
-        { id: 'property1', name: 'Property 1' },
-        { id: 'property2', name: 'Property 2' }
-      ]
+      // const properties = [
+      //   { id: 'property1', name: 'Property 1' },
+      //   { id: 'property2', name: 'Property 2' }
+      // ]
 
-      const units = [
-        { id: 'unit1', name: 'Unit 1 - 2 Bedrooms', property_id: 'property1' },
-        { id: 'unit2', name: 'Unit 2 - 3 Bedrooms', property_id: 'property1' }
-      ]
+      // const units = [
+      //   { id: 'unit1', name: 'Unit 1 - 2 Bedrooms', property_id: 'property1' },
+      //   { id: 'unit2', name: 'Unit 2 - 3 Bedrooms', property_id: 'property1' }
+      // ]
+
+      const tenants = propertiesData.flatMap(property =>
+        property.tenants.map(tenant => ({
+          id: tenant.id,
+          name: tenant.name,
+          property_id: property.id
+        }))
+      )
+
+      const units = propertiesData.flatMap(property =>
+        property.units.map(unit => ({
+          id: unit.id,
+          name: unit.name,
+          property_id: property.id
+        }))
+      )
 
       formData.tenant = tenants.find(tenant => formData.tenant_id === tenant.id)
       formData.unit = units.find(unit => formData.unit_id === unit.id)
-      formData.property = properties.find(property => formData.property_id === property.id)
+      formData.property = propertiesData.find(property => formData.property_id === property.id)
 
       setTenant(formData.tenant)
       console.log('new Form data', formData)
@@ -663,7 +733,7 @@ const AddCard = props => {
             </Box>
           </Grid> */}
         </Grid>
-
+        {/*
         <Grid sx={{ display: 'flex', justifyContent: 'center' }} container>
           <Grid
             item
@@ -695,7 +765,7 @@ const AddCard = props => {
               />
             </FormControl>
           </Grid>
-        </Grid>
+        </Grid> */}
 
         {/* <Divider sx={{ mt: 10 }}></Divider> */}
 
@@ -981,7 +1051,7 @@ const AddCard = props => {
               fullWidth
               multiline
               id='invoice-note'
-              defaultValue='It was a pleasure working with you and your team. We hope you will keep us in mind for future freelance projects. Thank You!'
+              defaultValue='Please sign the document. Thank You!'
             />
           </CardContent>
         </>

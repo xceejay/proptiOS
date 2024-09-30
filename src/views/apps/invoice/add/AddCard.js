@@ -468,13 +468,7 @@ const AddCard = props => {
         <InputLabel htmlFor='invoice-note' sx={{ mb: 2, fontWeight: 500, fontSize: '0.875rem' }}>
           Note:
         </InputLabel>
-        <TextField
-          rows={2}
-          fullWidth
-          multiline
-          id='invoice-note'
-          defaultValue='It was a pleasure working with you and your team. We hope you will keep us in mind for future freelance projects. Thank You!'
-        />
+        <TextField rows={2} fullWidth multiline id='lease-note' defaultValue='Thank you' />
       </CardContent>
     </Card>
   )

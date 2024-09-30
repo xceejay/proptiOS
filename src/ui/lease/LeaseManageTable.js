@@ -46,6 +46,7 @@ const RowOptions = ({ id, row, setLeasesData, leasesData, setLoading }) => {
   const [anchorEl, setAnchorEl] = useState(null)
   const rowOptionsOpen = Boolean(anchorEl)
   const [editLeaseOpen, setEditLeaseOpen] = useState(false)
+
   const toggleEditLeaseDrawer = () => setEditLeaseOpen(!editLeaseOpen)
 
   const handleRowOptionsClick = event => {

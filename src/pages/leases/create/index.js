@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
@@ -18,8 +18,36 @@ import AddCard from 'src/views/apps/lease/add/AddCard'
 import AddActions from 'src/views/apps/lease/add/AddActions'
 import AddNewCustomer from 'src/views/apps/lease/add/AddNewCustomer'
 import { useRouter } from 'next/router'
+import { useProperties } from 'src/hooks/useProperties'
 
 const LeaseAdd = ({}) => {
+  const properties = useProperties()
+  const [propertiesData, setPropertiesData] = useState(null)
+  const paginationModel = {}
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    properties.getAllProperties(
+      { page: paginationModel.page, limit: paginationModel.pageSize },
+      responseData => {
+        const { data } = responseData
+
+        if (data?.status === 'FAILED') {
+          alert(response.message || 'Failed to fetch properties')
+        } else {
+          console.log('properties data has been fetched in leases', data)
+          setPropertiesData(data)
+        }
+
+        setLoading(false) // Stop loading when the request completes
+      },
+      error => {
+        console.error('Properties cannot be retrieved:', error)
+        setLoading(false) // Stop loading on error
+      }
+    )
+  }, [paginationModel])
+
   // ** State
   const [addCustomerOpen, setAddCustomerOpen] = useState(false)
   const [selectedClient, setSelectedClient] = useState(null)
@@ -44,6 +72,8 @@ const LeaseAdd = ({}) => {
           <Grid container spacing={6}>
             <Grid item xl={9} lg={9.5} md={8} xs={12}>
               <AddCard
+                propertiesData={propertiesData}
+                setPropertiesData={setPropertiesData}
                 clients={clients}
                 leaseNumber={1}
                 selectedClient={selectedClient}
