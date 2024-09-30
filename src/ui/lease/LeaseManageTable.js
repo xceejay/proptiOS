@@ -88,7 +88,7 @@ const RowOptions = ({ id, row, setLeasesData, leasesData, setLoading }) => {
         PaperProps={{ style: { minWidth: '8rem' } }}
       >
         <MenuItem
-          href={'/leases/' + id + '/account'}
+          href={'/leases/view/' + id}
           component={Link}
           sx={{ '& svg': { mr: 2 } }}
           onClick={handleRowOptionsClose}
@@ -123,16 +123,16 @@ const LeaseManageTable = () => {
   const columns = [
     {
       flex: 0.25,
-      minWidth: 280,
+      minWidth: 150,
       field: 'name',
-      headerName: 'Tenant Name',
+      headerName: 'Tenant',
       renderCell: ({ row }) => (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
             <Typography
               noWrap
               component={Link}
-              href={'/leases/' + row.id + '/account'}
+              href={'/tenants/manage/' + row.id + '/transactions'}
               sx={{
                 fontWeight: 500,
                 textDecoration: 'none',

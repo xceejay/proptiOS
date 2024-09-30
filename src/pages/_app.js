@@ -39,6 +39,7 @@ import { PropertiesProvider } from 'src/context/PropertiesContext'
 import { FinanceProvider } from 'src/context/FinanceContext'
 import { ReportsProvider } from 'src/context/ReportsContext'
 import { MaintenanceProvider } from 'src/context/MaintenanceContext'
+import { LeasesProvider } from 'src/context/LeasesContext'
 
 import { SettingsConsumer, SettingsProvider } from 'src/@core/context/settingsContext'
 import { UserProvider } from '@auth0/nextjs-auth0/client'
@@ -61,7 +62,6 @@ import 'src/iconify-bundle/icons-bundle-react'
 
 // ** Global css styles
 import '../../styles/globals.css'
-import { LeasesProvider } from 'src/context/LeasesContext'
 
 const clientSideEmotionCache = createEmotionCache()
 

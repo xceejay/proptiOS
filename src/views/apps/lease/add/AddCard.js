@@ -532,6 +532,8 @@ const AddCard = props => {
     setSubmittedContent(rteRef.current?.editor?.getHTML() ?? '')
 
     // API CALLS
+    data.lease_html = rteRef.current?.editor?.getHTML() ?? ''
+    data.lease_text = rteRef.current?.editor?.getText() ?? ''
 
     let requestData = [data]
 
