@@ -29,20 +29,6 @@ import Alert from '@mui/material/Alert'
 import toast from 'react-hot-toast'
 
 // Sample data for properties, units, tenants (Replace with actual data)
-const properties = [
-  { id: 'property1', name: 'Property 1' },
-  { id: 'property2', name: 'Property 2' }
-]
-
-const units = [
-  { id: 'unit1', name: 'Unit 1 - 2 Bedrooms', property_id: 'property1' },
-  { id: 'unit2', name: 'Unit 2 - 3 Bedrooms', property_id: 'property1' }
-]
-
-const tenants = [
-  { id: 'tenant1', name: 'Tenant 1' },
-  { id: 'tenant2', name: 'Tenant 2' }
-]
 
 const paymentFrequencies = [
   { value: 'monthly', label: 'Monthly' },
@@ -166,7 +152,7 @@ const steps = [
   'Review and Submit'
 ]
 
-const LeaseStepper = ({ onFormDataChange, onFormSubmit }) => {
+const LeaseStepper = ({ onFormDataChange, onFormSubmit, tenants, units, properties }) => {
   const [activeStep, setActiveStep] = useState(0)
   const [open, setOpen] = useState(false)
 
@@ -244,7 +230,16 @@ const LeaseStepper = ({ onFormDataChange, onFormSubmit }) => {
   const renderStepContent = step => {
     switch (step) {
       case 0:
-        return <Step1Form control={control} errors={errors} watch={watch} />
+        return (
+          <Step1Form
+            control={control}
+            errors={errors}
+            watch={watch}
+            tenants={tenants}
+            units={units}
+            properties={properties}
+          />
+        )
       case 1:
         return <Step2Form control={control} errors={errors} />
       case 2:
@@ -254,7 +249,7 @@ const LeaseStepper = ({ onFormDataChange, onFormSubmit }) => {
       case 4:
         return <Step5Form control={control} errors={errors} />
       case 5:
-        return <ReviewForm data={formData} />
+        return <ReviewForm data={formData} tenants={tenants} units={units} properties={properties} />
       default:
         return 'Unknown step'
     }
@@ -327,7 +322,7 @@ const LeaseStepper = ({ onFormDataChange, onFormSubmit }) => {
   )
 }
 
-const Step1Form = ({ control, errors, watch }) => (
+const Step1Form = ({ control, errors, watch, properties, units, tenants }) => (
   <Box sx={{ mt: 2 }}>
     <FormControl fullWidth sx={{ mb: 4 }}>
       <Controller
@@ -397,11 +392,14 @@ const Step1Form = ({ control, errors, watch }) => (
             error={Boolean(errors.tenant_id)}
             helperText={errors.tenant_id?.message}
           >
-            {tenants.map(tenant => (
-              <MenuItem key={tenant.id} value={tenant.id}>
-                {tenant.name}
-              </MenuItem>
-            ))}
+            {tenants
+              .filter(tenant => tenant.property_id === watch('property_id'))
+              .filter(tenant => tenant.units.some(unit => unit.id === watch('unit_id')))
+              .map(tenant => (
+                <MenuItem key={tenant.id} value={tenant.id}>
+                  {tenant.name}
+                </MenuItem>
+              ))}
           </TextField>
         )}
       />
@@ -910,7 +908,7 @@ const Step5Form = ({ control, errors }) => {
   )
 }
 
-const ReviewForm = ({ data }) => {
+const ReviewForm = ({ data, properties, units, tenants }) => {
   const getPropertyName = id => {
     const property = properties.find(p => p.id === id)
     return property ? property.name : ''

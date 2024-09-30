@@ -46,7 +46,7 @@ const LeaseAdd = ({}) => {
         setLoading(false) // Stop loading on error
       }
     )
-  }, [paginationModel])
+  }, [])
 
   // ** State
   const [addCustomerOpen, setAddCustomerOpen] = useState(false)
@@ -62,7 +62,7 @@ const LeaseAdd = ({}) => {
     <Grid container spacing={6}>
       <Grid item xs={12}>
         <Grid pb={5}>
-          <Button size='small' variant='outlined' onClick={() => router.push('/tenants')}>
+          <Button size='small' variant='outlined' onClick={() => router.push('/leases')}>
             <Icon icon='tabler:arrow-left' fontSize={20} />
             Back
           </Button>

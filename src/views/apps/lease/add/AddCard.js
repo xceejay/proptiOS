@@ -360,6 +360,10 @@ const AddCard = props => {
 
   const [tenant, setTenant] = useState(null)
 
+  const [FormProperties, setFormProperties] = useState([])
+  const [FormTenants, setFormTenants] = useState([])
+  const [FormUnits, setFormUnits] = useState([])
+
   const rteRef = useRef(null)
 
   const [originalContent, setOriginalContent] = useState('')
@@ -599,21 +603,45 @@ const AddCard = props => {
       //   { id: 'unit2', name: 'Unit 2 - 3 Bedrooms', property_id: 'property1' }
       // ]
 
-      const tenants = propertiesData.flatMap(property =>
-        property.tenants.map(tenant => ({
-          id: tenant.id,
-          name: tenant.name,
-          property_id: property.id
-        }))
+      const extractUnique = (array, key) => {
+        const seen = new Set()
+        return array.filter(item => {
+          if (seen.has(item[key])) {
+            return false
+          } else {
+            seen.add(item[key])
+            return true
+          }
+        })
+      }
+
+      const units = extractUnique(
+        propertiesData.flatMap(property =>
+          property.units.map(unit => ({
+            id: unit.id,
+            name: unit.name,
+            property_id: property.id,
+            tenant_id: unit.tenant_id
+          }))
+        ),
+        'id'
       )
 
-      const units = propertiesData.flatMap(property =>
-        property.units.map(unit => ({
-          id: unit.id,
-          name: unit.name,
-          property_id: property.id
-        }))
+      const tenants = extractUnique(
+        propertiesData.flatMap(property =>
+          property.tenants.map(tenant => ({
+            id: tenant.id,
+            name: tenant.name,
+            property_id: property.id,
+            units: units.filter(unit => unit.tenant_id === tenant.id)
+          }))
+        ),
+        'id'
       )
+
+      setFormProperties(propertiesData)
+      setFormTenants(tenants)
+      setFormUnits(units)
 
       formData.tenant = tenants.find(tenant => formData.tenant_id === tenant.id)
       formData.unit = units.find(unit => formData.unit_id === unit.id)
@@ -630,7 +658,13 @@ const AddCard = props => {
       <CardContent sx={{ p: [`${theme.spacing(6)} !important`, `${theme.spacing(10)} !important`] }}>
         <Grid container>
           <Grid item xl={12} xs={12}>
-            <LeaseStepper onFormDataChange={handleFormDataChange} onFormSubmit={handleFormSubmit} />
+            <LeaseStepper
+              properties={FormProperties}
+              units={FormUnits}
+              tenants={FormTenants}
+              onFormDataChange={handleFormDataChange}
+              onFormSubmit={handleFormSubmit}
+            />
           </Grid>
           {/* <Grid item xl={6} xs={12}>
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: { xl: 'flex-end', xs: 'flex-start' } }}>
