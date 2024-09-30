@@ -32,7 +32,7 @@ const PreviewCardById = ({ setLeaseData, leaseData }) => {
         {leaseData ? (
           <>
             <Box mt={3}>
-              <RichTextReadOnly content={leaseData.html} extensions={extensions} />
+              <RichTextReadOnly content={leaseData.lease_html} extensions={extensions} />
             </Box>
           </>
         ) : (
