@@ -261,7 +261,9 @@ const PropertyTenantManageTable = ({ setPropertyData, propertyData }) => {
   ]
 
   useEffect(() => {
-    if (propertyData?.tenants) {
+    setLoading(true)
+
+    if (propertyData) {
       console.log('property Data changed i am setting tenants data')
 
       const attachUnitsToTenants = () => {
@@ -278,8 +280,8 @@ const PropertyTenantManageTable = ({ setPropertyData, propertyData }) => {
       }
 
       attachUnitsToTenants()
+      setLoading(false)
     }
-
     setLoading(false)
   }, [propertyData?.tenants, propertyData?.units])
 
