@@ -161,6 +161,7 @@ const EditPropertyTenantDrawer = props => {
 
   const refreshPropertyData = () => {
     if (id) {
+      setLoading(true)
       // Ensure id is defined before making the API call
       properties.getProperty(
         id,
@@ -182,6 +183,8 @@ const EditPropertyTenantDrawer = props => {
         },
         error => {
           console.log(id)
+          setLoading(false)
+
           console.error('FROM refresh btn PAGE:', error)
         }
       )
