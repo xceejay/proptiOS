@@ -193,7 +193,10 @@ const EditPropertyTenantDrawer = props => {
 
   useEffect(() => {
     // removed open
-    refreshPropertyData()
+    if (!open) {
+      console.log('refreshing from add tenant drawer')
+      refreshPropertyData()
+    }
   }, [open])
 
   const onSubmit = formData => {

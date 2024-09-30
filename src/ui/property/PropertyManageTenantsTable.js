@@ -263,7 +263,7 @@ const PropertyTenantManageTable = ({ setPropertyData, propertyData }) => {
   useEffect(() => {
     setLoading(true)
 
-    if (propertyData) {
+    if (propertyData.tenants) {
       console.log('property Data changed i am setting tenants data')
 
       const attachUnitsToTenants = () => {
@@ -283,7 +283,7 @@ const PropertyTenantManageTable = ({ setPropertyData, propertyData }) => {
       setLoading(false)
     }
     setLoading(false)
-  }, [propertyData?.tenants, propertyData?.units])
+  }, [propertyData.tenants, propertyData.units])
 
   const handleFilter = useCallback(val => {
     setValue(val)
