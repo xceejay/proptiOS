@@ -8,6 +8,7 @@ import Icon from 'src/@core/components/icon'
 // ** Components
 import ModeToggler from 'src/@core/layouts/components/shared-components/ModeToggler'
 import UserDropdown from 'src/@core/layouts/components/shared-components/UserDropdown'
+import BackButton from 'src/@core/layouts/components/shared-components/BackButton'
 
 const AppBarContent = props => {
   // ** Props
@@ -21,6 +22,8 @@ const AppBarContent = props => {
             <Icon fontSize='1.5rem' icon='tabler:menu-2' />
           </IconButton>
         ) : null}
+
+        <BackButton></BackButton>
 
         <ModeToggler settings={settings} saveSettings={saveSettings} />
       </Box>

@@ -94,27 +94,27 @@ const RowOptions = ({ id, row, setLeasesData, leasesData, setLoading }) => {
           onClick={handleRowOptionsClose}
         >
           <Icon icon='tabler:eye' fontSize={20} />
-          View
+          View Lease
         </MenuItem>
 
-        <MenuItem onClick={() => handleEdit()} sx={{ '& svg': { mr: 2 } }}>
+        {/* <MenuItem onClick={() => handleEdit()} sx={{ '& svg': { mr: 2 } }}>
           <Icon icon='tabler:pencil' fontSize={20} />
           Edit
-        </MenuItem>
+        </MenuItem> */}
 
         <MenuItem onClick={handleDelete} sx={{ '& svg': { mr: 2 } }}>
           <Icon icon='tabler:trash' fontSize={20} />
-          Quick Suspend
+          Delete Lease
         </MenuItem>
       </Menu>
-      <EditLeaseDrawer
+      {/* <EditLeaseDrawer
         setLoading={setLoading}
         leaseData={row}
         setLeasesData={setLeasesData}
         leasesData={leasesData}
         open={editLeaseOpen}
         toggle={toggleEditLeaseDrawer}
-      />
+      /> */}
     </>
   )
 }

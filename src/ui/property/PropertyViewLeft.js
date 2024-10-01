@@ -154,16 +154,16 @@ const UserViewLeft = ({ setPropertyData, propertyData }) => {
       <Grid container spacing={6}>
         <Grid item xs={12}>
           <Grid pb={5}>
-            <Button size='small' variant='outlined' onClick={() => router.push('/properties')}>
+            {/* <Button size='small' variant='outlined' onClick={() => router.push('/properties')}>
               <Icon icon='tabler:arrow-left' fontSize={20} />
               Back
-            </Button>
+            </Button> */}
 
             {!loading ? (
               <>
                 {' '}
                 <Tooltip title='Refresh Property'>
-                  <IconButton sx={{ ml: 2 }} onClick={() => refreshPropertyData()}>
+                  <IconButton onClick={() => refreshPropertyData()}>
                     <RefreshRounded color='primary'></RefreshRounded>
                   </IconButton>
                 </Tooltip>
@@ -171,7 +171,7 @@ const UserViewLeft = ({ setPropertyData, propertyData }) => {
             ) : (
               <>
                 {' '}
-                <CircularProgress sx={{ ml: 2 }} size={20} disableShrink color='primary'></CircularProgress>{' '}
+                <CircularProgress size={20} disableShrink color='primary'></CircularProgress>{' '}
               </>
             )}
 

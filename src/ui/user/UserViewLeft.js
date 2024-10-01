@@ -117,12 +117,12 @@ const UserViewLeft = ({ userData }) => {
     return (
       <Grid container spacing={6}>
         <Grid item xs={12}>
-          <Grid pb={5}>
+          {/* <Grid pb={5}>
             <Button size='small' variant='outlined' onClick={() => router.push('/users')}>
               <Icon icon='tabler:arrow-left' fontSize={20} />
               Back
             </Button>
-          </Grid>
+          </Grid> */}
 
           <Card>
             <CardContent sx={{ pt: 13.5, display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
