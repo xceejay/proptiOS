@@ -166,9 +166,9 @@ const CustomLeaseEditor = props => {
                   handleReplaceVars(currentHtmlContent)
                 }}
               >
-                Insert Details
+                Update Placeholders
               </Button>
-              <Button
+              {/* <Button
                 variant='contained'
                 size='small'
                 onClick={() => {
@@ -178,7 +178,7 @@ const CustomLeaseEditor = props => {
                 }}
               >
                 Save
-              </Button>
+              </Button> */}
             </Stack>
           )
         }}

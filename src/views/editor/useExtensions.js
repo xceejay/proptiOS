@@ -29,6 +29,8 @@ import { TableRow } from '@tiptap/extension-table-row'
 import { TaskItem } from '@tiptap/extension-task-item'
 import { TaskList } from '@tiptap/extension-task-list'
 import { Text } from '@tiptap/extension-text'
+import { Image } from '@tiptap/extension-image'
+
 import { TextAlign } from '@tiptap/extension-text-align'
 import { TextStyle } from '@tiptap/extension-text-style'
 import { Underline } from '@tiptap/extension-underline'
@@ -72,6 +74,7 @@ export default function UseExtensions({ placeholder } = {}) {
       Italic,
       Underline,
       Strike,
+
       CustomLinkExtension.configure({
         autolink: true,
         linkOnPaste: true,

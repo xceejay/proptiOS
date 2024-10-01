@@ -50,11 +50,12 @@ const AddActions = props => {
                   // Navigate to the preview page if submittedContent is not empty
 
                   router.push({
-                    pathname: 'view/[id]',
-                    query: { id: '4987', submittedContent: submittedContent }
+                    pathname: 'view',
+                    query: { submittedContent: submittedContent }
                   })
                 }
               }}
+              size='small'
               fullWidth
               sx={{ mb: 2 }}
               color='secondary'
