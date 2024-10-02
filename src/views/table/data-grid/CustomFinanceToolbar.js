@@ -16,6 +16,9 @@ const CustomFinanceToolbar = props => {
     toggle,
     value,
     addText,
+    setPaymentTypeValue,
+    paymentTypeValue,
+    paymentTypes,
     setPaymentMethodValue,
     paymentMethodValue,
     paymentMethods,
@@ -35,6 +38,10 @@ const CustomFinanceToolbar = props => {
 
   const handlePaymentMethodValue = event => {
     setPaymentMethodValue(event.target.value)
+  }
+
+  const handlePaymentTypeValue = event => {
+    setPaymentTypeValue(event.target.value)
   }
 
   return (
@@ -150,6 +157,36 @@ const CustomFinanceToolbar = props => {
           <></>
         )}
 
+        {paymentTypes?.length > 0 ? (
+          <>
+            <Box>
+              <FormControl fullWidth>
+                <InputLabel size='small' id='invoice-status-select'>
+                  Payment Type
+                </InputLabel>
+
+                <Select
+                  fullWidth
+                  value={paymentTypeValue}
+                  sx={{ mr: 4 }}
+                  size='small'
+                  label='Invoice Status'
+                  onChange={handlePaymentTypeValue}
+                  labelId='invoice-status-select'
+                >
+                  {paymentTypes?.map((type, index) => {
+                    return <MenuItem value={type?.value}>{type?.text}</MenuItem>
+                  })}
+                </Select>
+              </FormControl>{' '}
+            </Box>
+          </>
+        ) : (
+          <></>
+        )}
+        <Box>
+          <Typography variant='subtitle'>Filter By: </Typography>
+        </Box>
         {/* <Box>
           <FormControl fullWidth>
             <InputLabel size='small' id='invoice-status-select'>

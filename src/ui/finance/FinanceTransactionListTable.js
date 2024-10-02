@@ -111,9 +111,7 @@ const columns = [
     field: 'payment_type',
     headerName: 'Payment Type',
     renderCell: ({ row }) => (
-      <Typography sx={{ textTransform: 'capitalize', color: 'text.secondary' }}>
-        {row.payment_type || 'Rent'}
-      </Typography>
+      <Typography sx={{ textTransform: 'capitalize', color: 'text.secondary' }}>{row.payment_type}</Typography>
     )
   },
   {
@@ -209,6 +207,21 @@ const FinanceTransactionListTable = ({ financeData }) => {
     { text: 'Credit Card', value: 'credit_card' }
   ])
 
+  const [paymentTypes, setPaymentTypes] = useState([
+    { text: 'None', value: '' },
+    { text: 'Rent', value: 'rent' },
+    { text: 'Management Fee', value: 'management_fee' },
+    { text: 'Maintenance and Repairs', value: 'maintenance_and_repairs' },
+    { text: 'Tenant Management', value: 'tenant_management' },
+    { text: 'Administrative Cost', value: 'administrative_cost' },
+    { text: 'Marketing and Advertising', value: 'marketing_and_advertising' },
+    { text: 'Legal and Accounting', value: 'legal_and_accounting' },
+    { text: 'Insurance', value: 'insurance' },
+    { text: 'Miscellaneous', value: 'miscellaneous' }
+  ])
+
+  const [paymentTypeValue, setPaymentTypeValue] = useState('')
+
   const handleFilter = useCallback(val => {
     setValue(val)
   }, [])
@@ -228,7 +241,8 @@ const FinanceTransactionListTable = ({ financeData }) => {
     ? [...(financeData?.transactions?.expenses || []), ...(financeData?.transactions?.revenue || [])].filter(
         row =>
           (statusValue ? row.status === statusValue : true) &&
-          (paymentMethodValue ? row.payment_method === paymentMethodValue : true)
+          (paymentMethodValue ? row.payment_method === paymentMethodValue : true) &&
+          (paymentTypeValue ? row.payment_type === paymentTypeValue : true)
       )
     : []
 
@@ -275,7 +289,8 @@ const FinanceTransactionListTable = ({ financeData }) => {
             filterModel={{
               items: [
                 { field: 'status', operator: 'equals', value: statusValue },
-                { field: 'payment_method', operator: 'equals', value: paymentMethodValue }
+                { field: 'payment_method', operator: 'equals', value: paymentMethodValue },
+                { field: 'payment_type', operator: 'equals', value: paymentTypeValue }
               ]
             }}
             onFilterModelChange={newFilterModel => {
@@ -285,6 +300,8 @@ const FinanceTransactionListTable = ({ financeData }) => {
                   setStatusValue(item.value)
                 } else if (item.field === 'payment_method') {
                   setPaymentMethodValue(item.value)
+                } else if (item.field === 'payment_type') {
+                  setPaymentTypeValue(item.value)
                 }
               })
             }}
@@ -294,7 +311,7 @@ const FinanceTransactionListTable = ({ financeData }) => {
                   // Hide columns status and traderName, the other columns will remain visible
                   status: true,
                   payment_method: true,
-                  payment_type: false
+                  payment_type: true
                 }
               }
             }}
@@ -306,6 +323,10 @@ const FinanceTransactionListTable = ({ financeData }) => {
                 paymentMethodValue: paymentMethodValue,
                 setPaymentMethodValue: setPaymentMethodValue,
                 paymentMethods: paymentMethods,
+                paymentTypeValue: paymentTypeValue,
+                setPaymentTypeValue: setPaymentTypeValue,
+                paymentTypes: paymentTypes,
+
                 title: 'All Transactions',
                 searchPlaceholder: 'Quick Search',
                 addText: 'Create Invoice',
