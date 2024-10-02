@@ -26,6 +26,7 @@ import OptionsMenu from 'src/@core/components/option-menu'
 import ServerSideToolbarTenantManage from 'src/views/table/data-grid/ServerSideToolbarTenantManage'
 import CustomTenantToolbar from 'src/views/table/data-grid/CustomTenantToolbar'
 import { Grid } from '@mui/material'
+import CustomFinanceToolbar from 'src/views/table/data-grid/CustomFinanceToolbar'
 
 const LinkStyled = styled(Link)(({ theme, color }) => ({
   fontSize: '13px',
@@ -187,6 +188,27 @@ const FinanceTransactionListTable = ({ financeData }) => {
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 7 })
   const [value, setValue] = useState('')
 
+  const [statusValue, setStatusValue] = useState('')
+  const [statuses, setStatuses] = useState([
+    { text: 'None', value: '' },
+    { text: 'Pending', value: 'pending' },
+    { text: 'Completed', value: 'completed' },
+    { text: 'Failed', value: 'failed' },
+    { text: 'Refunded', value: 'refunded' }
+  ])
+
+  const [paymentMethodValue, setPaymentMethodValue] = useState('')
+
+  const [paymentMethods, setPaymentMethods] = useState([
+    { text: 'None', value: '' },
+    { text: 'Cash', value: 'cash' },
+    { text: 'Mobile Money', value: 'mobile_money' },
+    { text: 'Bank Transfer', value: 'bank_transfer' },
+    { text: 'Check', value: 'check' },
+    { text: 'Debit Card', value: 'debit_card' },
+    { text: 'Credit Card', value: 'credit_card' }
+  ])
+
   const handleFilter = useCallback(val => {
     setValue(val)
   }, [])
@@ -201,6 +223,14 @@ const FinanceTransactionListTable = ({ financeData }) => {
   const handleClose = () => {
     setAnchorEl(null)
   }
+
+  const filteredRows = financeData
+    ? [...(financeData?.transactions?.expenses || []), ...(financeData?.transactions?.revenue || [])].filter(
+        row =>
+          (statusValue ? row.status === statusValue : true) &&
+          (paymentMethodValue ? row.payment_method === paymentMethodValue : true)
+      )
+    : []
 
   return (
     <Grid container spacing={6.5}>
@@ -236,25 +266,49 @@ const FinanceTransactionListTable = ({ financeData }) => {
             rowHeight={54}
             columns={columns}
             loading={false}
-            slots={{ toolbar: CustomTenantToolbar }}
-            rows={[...(financeData?.transactions?.expenses || []), ...(financeData?.transactions?.revenue || [])]}
+            slots={{ toolbar: CustomFinanceToolbar }}
+            rows={filteredRows}
             disableRowSelectionOnClick
             pageSizeOptions={[7, 10, 25, 50]}
             paginationModel={paginationModel}
             onPaginationModelChange={setPaginationModel}
+            filterModel={{
+              items: [
+                { field: 'status', operator: 'equals', value: statusValue },
+                { field: 'payment_method', operator: 'equals', value: paymentMethodValue }
+              ]
+            }}
+            onFilterModelChange={newFilterModel => {
+              // Update the filter model states here
+              newFilterModel.items.forEach(item => {
+                if (item.field === 'status') {
+                  setStatusValue(item.value)
+                } else if (item.field === 'payment_method') {
+                  setPaymentMethodValue(item.value)
+                }
+              })
+            }}
             initialState={{
               columns: {
                 columnVisibilityModel: {
                   // Hide columns status and traderName, the other columns will remain visible
                   status: true,
+                  payment_method: true,
                   payment_type: false
                 }
               }
             }}
             slotProps={{
               toolbar: {
-                title: 'Tenant Transactions',
+                statusValue: statusValue,
+                setStatusValue: setStatusValue,
+                statuses: statuses,
+                paymentMethodValue: paymentMethodValue,
+                setPaymentMethodValue: setPaymentMethodValue,
+                paymentMethods: paymentMethods,
+                title: 'All Transactions',
                 searchPlaceholder: 'Quick Search',
+                addText: 'Create Invoice',
                 value: value,
                 handleFilter: handleFilter
               }

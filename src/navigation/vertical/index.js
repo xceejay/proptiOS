@@ -33,7 +33,7 @@ const navigation = () => {
       title: 'Finance',
       path: '/finance',
       icon: 'tabler:file-dollar',
-      disabled: true,
+      disabled: false,
       action: 'read',
       subject: 'finance'
     },
