@@ -57,7 +57,7 @@ const columns = [
       return (
         <LinkStyled
           color={statusObj[status] ? statusObj[status].color : 'primary'}
-          href={`/apps/invoice/preview/${row.id}`}
+          href={`/finance/invoice/view/${row.id}`}
         >{`${row.uuid}`}</LinkStyled>
       )
     }

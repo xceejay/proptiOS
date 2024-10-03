@@ -34,7 +34,8 @@
   // Extension: cSpell
   "cSpell.words": [
     "categorised",
-    "Customizer"
+    "Customizer",
+    "tabler"
   ],
   "search-node-modules.path": "node_modules",
   "markdown.extension.toc.updateOnSave": false

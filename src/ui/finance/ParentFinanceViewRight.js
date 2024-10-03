@@ -21,6 +21,7 @@ import Icon from 'src/@core/components/icon'
 
 import ParentFinanceViewOverview from './ParentFinanceViewOverview'
 import ParentFinanceViewPayments from './ParentFinanceViewPayments'
+import ParentFinanceViewConfiguration from './ParentFinanceViewConfiguration'
 
 // ** Styled Tab component
 const Tab = styled(MuiTab)(({ theme }) => ({
@@ -118,6 +119,10 @@ const ParentFinanceViewRight = ({ tab, financeData, setFinanceData }) => {
 
             <TabPanel sx={{ p: 0 }} value='payments'>
               <ParentFinanceViewPayments setFinanceData={setFinanceData} financeData={financeData} />
+            </TabPanel>
+
+            <TabPanel sx={{ p: 0 }} value='configuration'>
+              <ParentFinanceViewConfiguration setFinanceData={setFinanceData} financeData={financeData} />
             </TabPanel>
           </>
         )}
