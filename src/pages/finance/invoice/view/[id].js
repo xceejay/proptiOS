@@ -1,20 +1,20 @@
 // ** Third Party Imports
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { useInvoices } from 'src/hooks/useInvoices'
+import { useFinance } from 'src/hooks/useFinance'
 import PreviewCardById from 'src/views/apps/invoice/preview/PreviewCardById'
 
 // ** Demo Components Imports
 
 const InvoicePreview = () => {
   const [invoiceData, setInvoiceData] = useState(null)
-  const invoices = useInvoices()
+  const finance = useFinance()
   const router = useRouter()
   const { id } = router.query
   useEffect(() => {
     if (id) {
       // Ensure id is defined before making the API call
-      invoices.getInvoice(
+      finance.getInvoice(
         id,
         responseData => {
           console.log('called')

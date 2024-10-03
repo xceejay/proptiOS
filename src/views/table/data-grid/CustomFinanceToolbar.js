@@ -4,6 +4,7 @@ import TextField from '@mui/material/TextField'
 import IconButton from '@mui/material/IconButton'
 import { GridToolbarExport } from '@mui/x-data-grid'
 import { useTheme, styled } from '@mui/material/styles'
+import Link from 'next/link'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
@@ -81,10 +82,12 @@ const CustomFinanceToolbar = props => {
 
           {addText ? (
             <>
-              <Button size='small' onClick={toggle} variant='contained' sx={{ '& svg': { mr: 2 } }}>
-                <Icon fontSize='14px' icon='tabler:plus' />
-                {addText}
-              </Button>
+              <Link href={'/finance/invoice/create'}>
+                <Button size='small' onClick={toggle} variant='contained' sx={{ '& svg': { mr: 2 } }}>
+                  <Icon fontSize='14px' icon='tabler:plus' />
+                  {addText}
+                </Button>
+              </Link>
             </>
           ) : (
             <></>
