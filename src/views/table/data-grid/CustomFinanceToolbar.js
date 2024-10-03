@@ -184,9 +184,9 @@ const CustomFinanceToolbar = props => {
         ) : (
           <></>
         )}
-        <Box>
+        {/* <Box>
           <Typography variant='subtitle'>Filter By: </Typography>
-        </Box>
+        </Box> */}
         {/* <Box>
           <FormControl fullWidth>
             <InputLabel size='small' id='invoice-status-select'>
