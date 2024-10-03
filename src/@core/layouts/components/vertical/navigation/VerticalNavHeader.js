@@ -12,6 +12,8 @@ import Icon from 'src/@core/components/icon'
 
 // ** Configs
 import themeConfig from 'src/configs/themeConfig'
+import { useEffect, useState } from 'react'
+import { useAuth } from 'src/hooks/useAuth'
 
 // ** Styled Components
 const MenuHeaderWrapper = styled(Box)(({ theme }) => ({
@@ -26,7 +28,7 @@ const MenuHeaderWrapper = styled(Box)(({ theme }) => ({
 const HeaderTitle = styled(Typography)(({ theme }) => ({
   fontWeight: 600,
   lineHeight: '24px',
-  fontSize: '1.375rem !important',
+  fontSize: '1rem !important',
   color: theme.palette.text.primary,
   transition: 'opacity .25s ease-in-out, margin .25s ease-in-out'
 }))
@@ -54,8 +56,17 @@ const VerticalNavHeader = props => {
 
   // ** Hooks & Vars
   const theme = useTheme()
+
+  const auth = useAuth()
+  const [user, setUser] = useState()
   const { navCollapsed } = settings
   const menuCollapsedStyles = navCollapsed && !navHover ? { opacity: 0 } : { opacity: 1 }
+
+  useEffect(() => {
+    console.log('set user within vertical nav')
+
+    setUser(auth.user)
+  }, [auth])
 
   const menuHeaderPaddingLeft = () => {
     if (navCollapsed && !navHover) {
@@ -86,7 +97,7 @@ const VerticalNavHeader = props => {
       ) : (
         <LinkStyled href='/'>
           <></>
-          {/* <svg width={32} height={22} viewBox='0 0 32 22' fill='none' xmlns='http://www.w3.org/2000/svg'>
+          <svg width={32} height={22} viewBox='0 0 32 22' fill='none' xmlns='http://www.w3.org/2000/svg'>
             <path
               fillRule='evenodd'
               clipRule='evenodd'
@@ -113,9 +124,9 @@ const VerticalNavHeader = props => {
               fill={theme.palette.primary.main}
               d='M7.77295 16.3566L23.6563 0H32V6.88383C32 6.88383 31.8262 9.17836 30.6591 10.4057L19.7824 22H13.6938L7.77295 16.3566Z'
             />
-          </svg> */}
+          </svg>
           <HeaderTitle variant='h6' sx={{ ...menuCollapsedStyles, ...(navCollapsed && !navHover ? {} : { ml: 2.5 }) }}>
-            {themeConfig.templateName}
+            {user?.site_id ? user.site_id : themeConfig.templateName}
           </HeaderTitle>
         </LinkStyled>
       )}
