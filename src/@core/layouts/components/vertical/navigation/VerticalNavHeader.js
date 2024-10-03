@@ -103,7 +103,7 @@ const VerticalNavHeader = props => {
               32x30
             </text>
           </svg>
-          <HeaderTitle variant='h6' sx={{ ...menuCollapsedStyles, ...(navCollapsed && !navHover ? {} : { ml: 2.5 }) }}>
+          <HeaderTitle variant='h6' sx={{ ...menuCollapsedStyles, ...(navCollapsed && !navHover ? {} : { ml: 2 }) }}>
             {user?.site_id ? user.site_id : themeConfig.templateName}
           </HeaderTitle>
         </LinkStyled>
@@ -120,7 +120,7 @@ const VerticalNavHeader = props => {
             color: `${theme.palette.text.secondary} !important`
           }}
         >
-          <Icon icon='tabler:x' fontSize='1.25rem' />
+          <Icon icon='tabler:x' fontSize='1rem' />
         </IconButton>
       ) : userMenuLockedIcon === null && userMenuUnlockedIcon === null ? null : (
         <></>
