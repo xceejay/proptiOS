@@ -314,65 +314,48 @@ const ParentFinanceViewConfiguration = ({ setFinanceData, financeData }) => {
 
       <Grid item xs={12}>
         <Card>
-          <CardHeader
+          {/* <CardHeader
             title='Settlement Accounts'
             action={
               <Button size='small' variant='contained' onClick={handleAddCardClickOpen} sx={{ '& svg': { mr: 1 } }}>
                 <Icon icon='tabler:plus' fontSize='1rem' />
-                Add Card
+                Add Account
               </Button>
             }
-          />
-          <CardContent>
-            {data.map((item, index) => (
-              <Box
-                key={index}
-                sx={{
-                  p: 4,
-                  display: 'flex',
-                  borderRadius: 1,
-                  flexDirection: ['column', 'row'],
-                  justifyContent: ['space-between'],
-                  alignItems: ['flex-start', 'center'],
-                  mb: index !== data.length - 1 ? 4 : undefined,
-                  border: theme => `1px solid ${theme.palette.divider}`
-                }}
-              >
-                <div>
-                  <img height='26' alt={item.imgAlt} src={item.imgSrc} />
-                  <Box sx={{ mt: 3.5, mb: 2.5, display: 'flex', alignItems: 'center' }}>
-                    <Typography sx={{ mr: 2, color: 'text.secondary' }}>{item.name}</Typography>
-                    {item.cardStatus ? (
-                      <CustomChip rounded skin='light' size='small' label={item.cardStatus} color={item.badgeColor} />
-                    ) : null}
-                  </Box>
-                  <Typography sx={{ color: 'text.secondary' }}>
-                    {item.cardNumber ? (
-                      <>**** **** **** {item.cardNumber?.substring(item.cardNumber.length - 4)}</>
-                    ) : (
-                      <></>
-                    )}
-                  </Typography>
-                </div>
+          /> */}
 
-                <Box sx={{ mt: [3, 0], textAlign: ['start', 'end'] }}>
-                  <Button
-                    size='small'
-                    variant='outlined'
-                    sx={{ mr: 2.5 }}
-                    onClick={() => handleEditCardClickOpen(index)}
-                  >
-                    Edit
-                  </Button>
-                  <Button size='small' variant='outlined' color='secondary'>
-                    Delete
-                  </Button>
-                  <Typography sx={{ mt: [6, 10], color: 'text.secondary' }}>
-                    {item.expiryDate ? <>Card expires at {item.expiryDate} </> : <></>}
-                  </Typography>
+          <CardHeader title='Settlement Accounts' />
+          <CardContent>
+            <Box
+              sx={{
+                p: 4,
+                display: 'flex',
+                borderRadius: 1,
+                flexDirection: ['column', 'row'],
+                justifyContent: ['space-between'],
+                alignItems: ['flex-start', 'center'],
+                border: theme => `1px solid ${theme.palette.divider}`
+              }}
+            >
+              <div>
+                <img height='26' alt={''} />
+                <Box sx={{ mt: 3.5, mb: 2.5, display: 'flex', alignItems: 'center' }}>
+                  <Typography sx={{ mr: 2, color: 'text.secondary' }}>{''}</Typography>
+                  {'active' ? <CustomChip rounded skin='light' size='small' label={''} /> : null}
                 </Box>
+                <Typography sx={{ color: 'text.secondary' }}>{'number' ? <>**** **** **** {''}</> : <></>}</Typography>
+              </div>
+
+              <Box sx={{ mt: [3, 0], textAlign: ['start', 'end'] }}>
+                <Button size='small' variant='outlined' sx={{ mr: 2.5 }} onClick={() => handleEditCardClickOpen(index)}>
+                  Edit
+                </Button>
+                <Button size='small' variant='outlined' color='secondary'>
+                  Delete
+                </Button>
+                <Typography sx={{ mt: [6, 10], color: 'text.secondary' }}>{''}</Typography>
               </Box>
-            ))}
+            </Box>
           </CardContent>
 
           <Dialog

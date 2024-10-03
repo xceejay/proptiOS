@@ -120,6 +120,7 @@ const VerticalNavHeader = props => {
             color: `${theme.palette.text.secondary} !important`
           }}
         >
+          {/* disabled close icon because it does not look good */}
           {/* <Icon icon='tabler:x' fontSize='1rem' /> */}
         </IconButton>
       ) : userMenuLockedIcon === null && userMenuUnlockedIcon === null ? null : (

@@ -188,7 +188,7 @@ const FinanceTransactionListTable = ({ financeData }) => {
 
   const [statusValue, setStatusValue] = useState('')
   const [statuses, setStatuses] = useState([
-    { text: 'None', value: '' },
+    { text: 'All', value: '' },
     { text: 'Pending', value: 'pending' },
     { text: 'Completed', value: 'completed' },
     { text: 'Failed', value: 'failed' },
@@ -198,7 +198,7 @@ const FinanceTransactionListTable = ({ financeData }) => {
   const [paymentMethodValue, setPaymentMethodValue] = useState('')
 
   const [paymentMethods, setPaymentMethods] = useState([
-    { text: 'None', value: '' },
+    { text: 'All', value: '' },
     { text: 'Cash', value: 'cash' },
     { text: 'Mobile Money', value: 'mobile_money' },
     { text: 'Bank Transfer', value: 'bank_transfer' },
@@ -208,7 +208,7 @@ const FinanceTransactionListTable = ({ financeData }) => {
   ])
 
   const [paymentTypes, setPaymentTypes] = useState([
-    { text: 'None', value: '' },
+    { text: 'All', value: '' },
     { text: 'Rent', value: 'rent' },
     { text: 'Management Fee', value: 'management_fee' },
     { text: 'Maintenance and Repairs', value: 'maintenance_and_repairs' },

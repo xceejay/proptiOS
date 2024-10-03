@@ -246,7 +246,7 @@ const TenantManageTable = () => {
   const [paginationModel, setPaginationModel] = useState({ page: 1, pageSize: 25 })
   const [statusValue, setStatusValue] = useState('')
   const [statuses, setStatuses] = useState([
-    { text: 'None', value: '' },
+    { text: 'All', value: '' },
 
     { text: 'Active', value: 'active' },
     { text: 'Inactive', value: 'inactive' }
