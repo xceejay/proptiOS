@@ -120,7 +120,7 @@ const VerticalNavHeader = props => {
             color: `${theme.palette.text.secondary} !important`
           }}
         >
-          <Icon icon='tabler:x' fontSize='1rem' />
+          {/* <Icon icon='tabler:x' fontSize='1rem' /> */}
         </IconButton>
       ) : userMenuLockedIcon === null && userMenuUnlockedIcon === null ? null : (
         <></>
