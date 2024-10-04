@@ -197,7 +197,7 @@ const ParentFinanceViewRentPayments = ({ setFinanceData, financeData }) => {
           <CardContent sx={{ mt: 2 }}>
             <TabContext value={value}>
               <TabList onChange={handleChange} aria-label='full width tabs example'>
-                <Tab value='1' label='Rent Payments' />
+                <Tab value='1' label='History' />
                 <Tab value='2' label='Reminders' />
                 {/* <Tab value='3' label='Settlement Accounts' /> */}
               </TabList>
