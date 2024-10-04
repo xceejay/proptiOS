@@ -200,10 +200,12 @@ const ParentFinanceViewSettlement = ({ setFinanceData, financeData }) => {
 
           <TabPanel sx={{ padding: 0, mt: 5 }} value='1'>
             <Card>
-              <Typography>
-                Settle rent payments to your primary account, whether it's a bank account or a mobile money wallet,
-                directly from our platform.
-              </Typography>
+              <CardContent>
+                <Typography variant='subtitle2'>
+                  Settle rent payments to your primary account, whether it's a bank account or a mobile money wallet,
+                  directly from our platform.
+                </Typography>
+              </CardContent>
             </Card>
           </TabPanel>
 
