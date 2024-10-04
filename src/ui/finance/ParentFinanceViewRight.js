@@ -22,6 +22,7 @@ import Icon from 'src/@core/components/icon'
 import ParentFinanceViewOverview from './ParentFinanceViewOverview'
 import ParentFinanceViewPayments from './ParentFinanceViewPayments'
 import ParentFinanceViewConfiguration from './ParentFinanceViewConfiguration'
+import ParentFinanceViewSettlement from './ParentFinanceViewSettlement'
 
 // ** Styled Tab component
 const Tab = styled(MuiTab)(({ theme }) => ({
@@ -99,6 +100,8 @@ const ParentFinanceViewRight = ({ tab, financeData, setFinanceData }) => {
       >
         <Tab disabled value='overview' label='overview' icon={<Icon fontSize='1.125rem' icon='tabler:home' />} />
         <Tab value='payments' label='payments' icon={<Icon fontSize='1.125rem' icon='tabler:cash-register' />} />
+        <Tab value='settlement' label='settlement' icon={<Icon fontSize='1.125rem' icon='tabler:pig-money' />} />
+
         <Tab value='configuration' label='configuration' icon={<Icon fontSize='1.125rem' icon='tabler:tool' />} />
 
         {/* <Tab value='reminders' label='' icon={<Icon fontSize='1.125rem' icon='tabler:bell' />} /> */}
@@ -121,6 +124,9 @@ const ParentFinanceViewRight = ({ tab, financeData, setFinanceData }) => {
               <ParentFinanceViewPayments setFinanceData={setFinanceData} financeData={financeData} />
             </TabPanel>
 
+            <TabPanel sx={{ p: 0 }} value='settlement'>
+              <ParentFinanceViewSettlement setFinanceData={setFinanceData} financeData={financeData} />
+            </TabPanel>
             <TabPanel sx={{ p: 0 }} value='configuration'>
               <ParentFinanceViewConfiguration setFinanceData={setFinanceData} financeData={financeData} />
             </TabPanel>

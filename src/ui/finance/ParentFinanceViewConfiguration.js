@@ -51,6 +51,7 @@ import CardWrapper from 'src/@core/styles/libs/react-credit-cards'
 
 // ** Styles Import
 import 'react-credit-cards/es/styles-compiled.css'
+import { Accordion, AccordionDetails, AccordionSummary, Chip } from '@mui/material'
 
 // ** Styled <sup> component
 const Sup = styled('sup')(({ theme }) => ({
@@ -112,7 +113,13 @@ const ParentFinanceViewConfiguration = ({ setFinanceData, financeData }) => {
   const [openUpgradePlans, setOpenUpgradePlans] = useState(false)
   const [subscriptionDialogOpen, setSubscriptionDialogOpen] = useState(false)
 
+  const handleDelete = () => {
+    // eslint-disable-next-line no-console
+    console.info('You clicked the delete icon.')
+  }
+
   // Handle Edit Card dialog and get card ID
+
   const handleEditCardClickOpen = id => {
     setDialogTitle('Edit')
     setCardId(id)
@@ -158,6 +165,13 @@ const ParentFinanceViewConfiguration = ({ setFinanceData, financeData }) => {
       setCvc(target.value)
     }
   }
+
+  const row = { status: 'active' }
+  const statusLabel = row.status === 'active' ? 'Active' : 'Inactive'
+  const statusColor = row.status === 'active' ? 'success' : 'secondary'
+  const primary_account = true
+  const primaryAccountLabel = primary_account ? 'primary' : ''
+  const primaryAccountColor = primary_account ? 'primary' : 'secondary'
 
   return (
     <Grid container spacing={6}>
@@ -313,7 +327,12 @@ const ParentFinanceViewConfiguration = ({ setFinanceData, financeData }) => {
       </Grid> */}
 
       <Grid item xs={12}>
-        <Card>
+        <Card
+          sx={{
+            boxShadow: 'none !important',
+            background: 'none'
+          }}
+        >
           {/* <CardHeader
             title='Settlement Accounts'
             action={
@@ -325,36 +344,84 @@ const ParentFinanceViewConfiguration = ({ setFinanceData, financeData }) => {
           /> */}
 
           <CardHeader title='Settlement Accounts' />
-          <CardContent>
-            <Box
-              sx={{
-                p: 4,
-                display: 'flex',
-                borderRadius: 1,
-                flexDirection: ['column', 'row'],
-                justifyContent: ['space-between'],
-                alignItems: ['flex-start', 'center'],
-                border: theme => `1px solid ${theme.palette.divider}`
-              }}
-            >
-              <div>
-                <img height='26' alt={''} />
-                <Box sx={{ mt: 3.5, mb: 2.5, display: 'flex', alignItems: 'center' }}>
-                  <Typography sx={{ mr: 2, color: 'text.secondary' }}>{''}</Typography>
-                  {'active' ? <CustomChip rounded skin='light' size='small' label={''} /> : null}
-                </Box>
-                <Typography sx={{ color: 'text.secondary' }}>{'number' ? <>**** **** **** {''}</> : <></>}</Typography>
-              </div>
+          <CardContent sx={{ display: 'flex', flexDirection: 'column', padding: '0' }}>
+            <Box>
+              <Card>
+                <CardHeader
+                  title='Mobile Money Wallet'
+                  action={
+                    <Button
+                      size='small'
+                      variant='contained'
+                      onClick={handleAddCardClickOpen}
+                      sx={{ '& svg': { mr: 1 } }}
+                    >
+                      <Icon icon='tabler:wallet' fontSize='1rem' />
+                      Manage Wallet
+                    </Button>
+                  }
+                />
 
-              <Box sx={{ mt: [3, 0], textAlign: ['start', 'end'] }}>
-                <Button size='small' variant='outlined' sx={{ mr: 2.5 }} onClick={() => handleEditCardClickOpen(index)}>
-                  Edit
-                </Button>
-                <Button size='small' variant='outlined' color='secondary'>
-                  Delete
-                </Button>
-                <Typography sx={{ mt: [6, 10], color: 'text.secondary' }}>{''}</Typography>
-              </Box>
+                <CardContent sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <Box>sss</Box>
+                  <Box sx={{ mt: 2 }}>
+                    {true ? (
+                      <>
+                        <Chip
+                          label={primaryAccountLabel}
+                          color={primaryAccountColor}
+                          round={false}
+                          variant='outlined'
+                          onDelete={handleDelete}
+                          deleteIcon={<Icon icon='tabler:trash' />}
+                          sx={{ textTransform: 'uppercase', ml: 2 }}
+                        />
+                      </>
+                    ) : (
+                      <></>
+                    )}
+                  </Box>
+                </CardContent>
+              </Card>
+            </Box>
+            <Box sx={{ mt: 3 }}>
+              <Card>
+                <CardHeader
+                  title='Bank Account'
+                  action={
+                    <Button
+                      size='small'
+                      variant='contained'
+                      onClick={handleAddCardClickOpen}
+                      sx={{ '& svg': { mr: 1 } }}
+                    >
+                      <Icon icon='tabler:building-bank' fontSize='1rem' />
+                      Manage Account
+                    </Button>
+                  }
+                />
+
+                <CardContent sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <Box>sss</Box>
+                  <Box sx={{ mt: 2 }}>
+                    {false ? (
+                      <>
+                        <Chip
+                          label={primaryAccountLabel}
+                          color={primaryAccountColor}
+                          round={false}
+                          variant='outlined'
+                          onDelete={handleDelete}
+                          deleteIcon={<Icon icon='tabler:trash' />}
+                          sx={{ textTransform: 'uppercase', ml: 2 }}
+                        />
+                      </>
+                    ) : (
+                      <></>
+                    )}
+                  </Box>
+                </CardContent>
+              </Card>
             </Box>
           </CardContent>
 
