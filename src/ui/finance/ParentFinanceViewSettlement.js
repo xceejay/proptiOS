@@ -193,7 +193,7 @@ const ParentFinanceViewSettlement = ({ setFinanceData, financeData }) => {
       <Grid item xs={12}>
         <TabContext value={value}>
           <TabList variant='fullWidth' onChange={handleChange} aria-label='full width tabs example'>
-            <Tab value='1' label='Balance' />
+            <Tab value='1' label='Transfer' />
             <Tab value='2' label='History' />
             <Tab value='3' label='Accounts' />
           </TabList>
@@ -206,7 +206,7 @@ const ParentFinanceViewSettlement = ({ setFinanceData, financeData }) => {
                   directly from our platform.
                 </Typography>
 
-                <Box>ss</Box>
+                <Box>Jack</Box>
               </CardContent>
             </Card>
           </TabPanel>
