@@ -194,7 +194,7 @@ const ParentFinanceViewRentPayments = ({ setFinanceData, financeData }) => {
         <Card>
           <CardHeader title='' />
 
-          <CardContent sx={{ mt: 2 }}>
+          <CardContent sx={{ mt: 2, padding: 0 }}>
             <TabContext value={value}>
               <TabList onChange={handleChange} aria-label='full width tabs example'>
                 <Tab value='1' label='History' />
@@ -208,9 +208,7 @@ const ParentFinanceViewRentPayments = ({ setFinanceData, financeData }) => {
                 </Typography>
               </TabPanel> */}
               <TabPanel value='1'>
-                <Typography>
-                  <FinanceSettlementHistoryTable></FinanceSettlementHistoryTable>
-                </Typography>
+                <FinanceSettlementHistoryTable></FinanceSettlementHistoryTable>
               </TabPanel>
               <TabPanel value='2'>
                 <FinanceSettlementConfigurationTab></FinanceSettlementConfigurationTab>
