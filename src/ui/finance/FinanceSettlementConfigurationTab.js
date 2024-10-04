@@ -178,7 +178,7 @@ const FinanceSettlementConfigurationTab = ({ setFinanceData, financeData }) => {
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2, ml: 5, mr: 5 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', ml: 5, mr: 5 }}>
           <Box>
             <Typography variant='h5'>Settlement Accounts</Typography>
           </Box>

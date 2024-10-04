@@ -99,15 +99,15 @@ const columns = [
     }
   },
   {
-    flex: 0.2,
-    minWidth: 90,
+    flex: 0.5,
+    minWidth: 100,
     field: 'amount',
-    headerName: 'Total Amount',
+    headerName: 'Amount',
     renderCell: ({ row }) => <Typography sx={{ color: 'text.secondary' }}>${row.amount || 0}</Typography>
   },
   {
-    flex: 0.2,
-    minWidth: 90,
+    flex: 0.5,
+    minWidth: 150,
     field: 'payment_type',
     headerName: 'Payment Type',
     renderCell: ({ row }) => (
@@ -115,8 +115,8 @@ const columns = [
     )
   },
   {
-    flex: 0.2,
-    minWidth: 90,
+    flex: 0.5,
+    minWidth: 150,
     field: 'payment_method',
     headerName: 'Payment Method',
     renderCell: ({ row }) => (

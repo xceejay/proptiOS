@@ -197,21 +197,22 @@ const ParentFinanceViewSettlement = ({ setFinanceData, financeData }) => {
             <Tab value='2' label='History' />
             <Tab value='3' label='Accounts' />
           </TabList>
-          <Card sx={{ mt: 5 }}>
-            <TabPanel sx={{ padding: 0 }} value='1'>
+
+          <TabPanel sx={{ padding: 0, mt: 5 }} value='1'>
+            <Card>
               <Typography>
                 Settle rent payments to your primary account, whether it's a bank account or a mobile money wallet,
                 directly from our platform.
               </Typography>
-            </TabPanel>
-          </Card>
+            </Card>
+          </TabPanel>
 
-          <TabPanel sx={{ padding: 0 }} value='2'>
+          <TabPanel sx={{ mt: 5, padding: 0 }} value='2'>
             <Typography>
               <FinanceSettlementHistoryTable></FinanceSettlementHistoryTable>
             </Typography>
           </TabPanel>
-          <TabPanel sx={{ padding: 0 }} value='3'>
+          <TabPanel sx={{ mt: 5, padding: 0 }} value='3'>
             <FinanceSettlementConfigurationTab></FinanceSettlementConfigurationTab>
           </TabPanel>
         </TabContext>
