@@ -176,9 +176,9 @@ const FinanceSettlementConfigurationTab = ({ setFinanceData, financeData }) => {
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2, ml: 5, mr: 5 }}>
           <Box>
-            <Typography variant='h6'>Settlement Accounts</Typography>
+            <Typography variant='h5'>Settlement Accounts</Typography>
           </Box>
           <Box>
             <Button variant='outlined' size='small'>
@@ -423,7 +423,7 @@ const FinanceSettlementConfigurationTab = ({ setFinanceData, financeData }) => {
         </Card>
       </Grid>
 
-      <Grid item xs={12}>
+      {/* <Grid item xs={12}>
         <Card>
           <CardHeader
             title='Billing Address'
@@ -647,7 +647,7 @@ const FinanceSettlementConfigurationTab = ({ setFinanceData, financeData }) => {
             </DialogActions>
           </Dialog>
         </Card>
-      </Grid>
+      </Grid> */}
     </Grid>
   )
 }
