@@ -48,7 +48,7 @@ const columns = [
   {
     flex: 1,
     field: 'uuid',
-    minWidth: 150,
+    minWidth: 100,
     headerName: 'Transaction ID',
     renderCell: ({ row }) => {
       const { status } = row
