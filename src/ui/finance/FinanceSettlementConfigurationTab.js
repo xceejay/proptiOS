@@ -206,7 +206,7 @@ const FinanceSettlementConfigurationTab = ({ setFinanceData, financeData }) => {
                       sx={{ '& svg': { mr: 1 } }}
                     >
                       <Icon icon='tabler:wallet' fontSize='1rem' />
-                      Manage Wallet
+                      Manage
                     </Button>
                   }
                 />
@@ -245,7 +245,7 @@ const FinanceSettlementConfigurationTab = ({ setFinanceData, financeData }) => {
                       sx={{ '& svg': { mr: 1 } }}
                     >
                       <Icon icon='tabler:building-bank' fontSize='1rem' />
-                      Manage Account
+                      Manage
                     </Button>
                   }
                 />
