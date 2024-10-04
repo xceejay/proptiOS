@@ -48,7 +48,7 @@ const columns = [
   {
     flex: 1,
     field: 'uuid',
-    minWidth: 100,
+    minWidth: 200,
     headerName: 'Transaction ID',
     renderCell: ({ row }) => {
       const { status } = row
@@ -63,7 +63,7 @@ const columns = [
   },
   {
     flex: 0.15,
-    minWidth: 80,
+    minWidth: 100,
     field: 'status',
     renderHeader: () => <Icon icon='tabler:trending-up' fontSize='1.125rem' />,
     renderCell: ({ row }) => {
