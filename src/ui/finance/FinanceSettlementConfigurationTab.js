@@ -172,7 +172,9 @@ const FinanceSettlementConfigurationTab = ({ setFinanceData, financeData }) => {
   const primary_account = true
   const primaryAccountLabel = primary_account ? 'primary' : ''
   const primaryAccountColor = primary_account ? 'primary' : 'secondary'
-
+  const handleChangeDefault = () => {
+    console.log('Default!!!!!!!!!!!')
+  }
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
@@ -181,8 +183,8 @@ const FinanceSettlementConfigurationTab = ({ setFinanceData, financeData }) => {
             <Typography variant='h5'>Settlement Accounts</Typography>
           </Box>
           <Box>
-            <Button variant='outlined' size='small'>
-              Change Default
+            <Button onClick={handleChangeDefault} variant='outlined' size='small'>
+              Switch Default
             </Button>
           </Box>
         </Box>
