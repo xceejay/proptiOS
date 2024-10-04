@@ -417,7 +417,7 @@ const FinanceSettlementConfigurationTab = ({ setFinanceData, financeData }) => {
             title='Billing Address'
             action={
               <Button size='small' variant='contained' onClick={() => setOpenAddressCard(true)}>
-                Edit Address
+                Edit
               </Button>
             }
           />
