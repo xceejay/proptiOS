@@ -192,8 +192,6 @@ const ParentFinanceViewExpenses = ({ setFinanceData, financeData }) => {
     <Grid container spacing={6}>
       <Grid item xs={12}>
         <Card>
-          <CardHeader title='' />
-
           <CardContent sx={{ mt: 2, padding: 0 }}>
             <TabContext value={value}>
               <TabList variant='fullWidth' onChange={handleChange} aria-label='full width tabs example'>
