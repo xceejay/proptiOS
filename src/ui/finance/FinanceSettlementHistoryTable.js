@@ -101,14 +101,14 @@ const columns = [
     flex: 0.2,
     minWidth: 90,
     field: 'amount',
-    headerName: 'Total Amount',
+    headerName: 'Amount',
     renderCell: ({ row }) => <Typography sx={{ color: 'text.secondary' }}>${row.amount || 0}</Typography>
   },
   {
     flex: 0.2,
     minWidth: 90,
     field: 'settlement_account',
-    headerName: 'Settlement Account',
+    headerName: 'Account',
     renderCell: ({ row }) => (
       <Typography sx={{ textTransform: 'capitalize', color: 'text.secondary' }}>{row.payment_type}</Typography>
     )
@@ -128,7 +128,7 @@ const columns = [
     flex: 0.3,
     minWidth: 125,
     field: 'created_at',
-    headerName: 'Settlement Date',
+    headerName: 'Date',
     renderCell: ({ row }) => <Typography sx={{ color: 'text.secondary' }}>{row.created_at}</Typography>
   }
 
