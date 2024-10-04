@@ -98,15 +98,15 @@ const columns = [
     }
   },
   {
-    flex: 0.2,
-    minWidth: 90,
+    flex: 0.15,
+    minWidth: 190,
     field: 'amount',
     headerName: 'Amount',
     renderCell: ({ row }) => <Typography sx={{ color: 'text.secondary' }}>${row.amount || 0}</Typography>
   },
   {
-    flex: 0.2,
-    minWidth: 90,
+    flex: 0.15,
+    minWidth: 190,
     field: 'settlement_account',
     headerName: 'Account',
     renderCell: ({ row }) => (
@@ -125,8 +125,8 @@ const columns = [
   //   )
   // },
   {
-    flex: 0.3,
-    minWidth: 125,
+    flex: 0.15,
+    minWidth: 190,
     field: 'created_at',
     headerName: 'Date',
     renderCell: ({ row }) => <Typography sx={{ color: 'text.secondary' }}>{row.created_at}</Typography>

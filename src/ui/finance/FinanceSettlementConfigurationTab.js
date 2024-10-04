@@ -216,13 +216,14 @@ const FinanceSettlementConfigurationTab = ({ setFinanceData, financeData }) => {
                   <Box sx={{ mt: 2 }}>
                     {true ? (
                       <>
-                        <Chip
+                        <CustomChip
                           label={primaryAccountLabel}
                           color={primaryAccountColor}
-                          round={false}
-                          variant='outlined'
+                          rounded
+                          size='small'
+                          skin='light'
                           onDelete={handleDelete}
-                          deleteIcon={<Icon icon='tabler:trash' />}
+                          // deleteIcon={<Icon icon='tabler:trash' />}
                           sx={{ textTransform: 'uppercase', ml: 2 }}
                         />
                       </>
@@ -255,13 +256,14 @@ const FinanceSettlementConfigurationTab = ({ setFinanceData, financeData }) => {
                   <Box sx={{ mt: 2 }}>
                     {false ? (
                       <>
-                        <Chip
+                        <CustomChip
                           label={primaryAccountLabel}
                           color={primaryAccountColor}
-                          round={false}
-                          variant='outlined'
+                          rounded
+                          size='small'
+                          skin='light'
                           onDelete={handleDelete}
-                          deleteIcon={<Icon icon='tabler:trash' />}
+                          // deleteIcon={<Icon icon='tabler:trash' />}
                           sx={{ textTransform: 'uppercase', ml: 2 }}
                         />
                       </>
