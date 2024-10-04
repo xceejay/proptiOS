@@ -46,9 +46,9 @@ const statusObj = {
 
 const columns = [
   {
-    flex: 0.5,
+    flex: 1,
     field: 'uuid',
-    minWidth: 100,
+    minWidth: 150,
     headerName: 'Transaction ID',
     renderCell: ({ row }) => {
       const { status } = row
