@@ -71,7 +71,6 @@ const CustomSettlementToolbar = props => {
               <TextField
                 size='small'
                 value={value}
-                sx={{ mr: 4 }}
                 placeholder={searchPlaceholder}
                 onChange={e => handleFilter(e.target.value)}
               />
@@ -97,6 +96,7 @@ const CustomSettlementToolbar = props => {
       <Box
         sx={{
           gap: 2,
+          mr: 1,
           display: 'flex',
           flexDirection: 'row-reverse',
           flexWrap: 'wrap',

@@ -328,7 +328,7 @@ const FinanceSettlementHistoryTable = ({ financeData }) => {
 
                 // title: 'All Settlements',
                 searchPlaceholder: 'Quick Search',
-                addText: 'Create Invoice',
+                // addText: 'Create Invoice',
                 value: value,
                 handleFilter: handleFilter
               }
