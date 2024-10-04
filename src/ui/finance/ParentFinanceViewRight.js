@@ -101,7 +101,7 @@ const ParentFinanceViewRight = ({ tab, financeData, setFinanceData }) => {
         aria-label='forced scroll tabs example'
         sx={{ borderBottom: theme => `1px solid ${theme.palette.divider}` }}
       >
-        <Tab disabled value='overview' label='overview' icon={<Icon fontSize='1.125rem' icon='tabler:home' />} />
+        <Tab value='overview' label='overview' icon={<Icon fontSize='1.125rem' icon='tabler:home' />} />
         <Tab value='payments' label='rent payments' icon={<Icon fontSize='1.125rem' icon='tabler:cash-register' />} />
         <Tab value='expenses' label='expenses' icon={<Icon fontSize='1.125rem' icon='tabler:shopping-cart-minus' />} />
 

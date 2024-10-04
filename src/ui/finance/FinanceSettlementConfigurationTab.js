@@ -176,10 +176,21 @@ const FinanceSettlementConfigurationTab = ({ setFinanceData, financeData }) => {
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Box>
+            <Typography variant='h6'>Settlement Accounts</Typography>
+          </Box>
+          <Box>
+            <Button variant='outlined' size='small'>
+              Change Default
+            </Button>
+          </Box>
+        </Box>
         <Card
           sx={{
             boxShadow: 'none !important',
-            background: 'none'
+            background: 'none',
+            mt: 5
           }}
         >
           {/* <CardHeader
@@ -256,14 +267,13 @@ const FinanceSettlementConfigurationTab = ({ setFinanceData, financeData }) => {
                   <Box sx={{ mt: 2 }}>
                     {false ? (
                       <>
-                        <CustomChip
+                        <Chip
                           label={primaryAccountLabel}
                           color={primaryAccountColor}
-                          rounded
-                          size='small'
-                          skin='light'
+                          round={false}
+                          variant='outlined'
                           onDelete={handleDelete}
-                          // deleteIcon={<Icon icon='tabler:trash' />}
+                          deleteIcon={<Icon icon='tabler:trash' />}
                           sx={{ textTransform: 'uppercase', ml: 2 }}
                         />
                       </>

@@ -191,31 +191,30 @@ const ParentFinanceViewSettlement = ({ setFinanceData, financeData }) => {
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
-        <Card>
-          <CardContent sx={{ mt: 2, padding: 0 }}>
-            <TabContext value={value}>
-              <TabList variant='fullWidth' onChange={handleChange} aria-label='full width tabs example'>
-                <Tab value='1' label='Balance' />
-                <Tab value='2' label='History' />
-                <Tab value='3' label='Accounts' />
-              </TabList>
-              <TabPanel value='1'>
-                <Typography>
-                  Settle rent payments to your primary account, whether it's a bank account or a mobile money wallet,
-                  directly from our platform.
-                </Typography>
-              </TabPanel>
-              <TabPanel value='2'>
-                <Typography>
-                  <FinanceSettlementHistoryTable></FinanceSettlementHistoryTable>
-                </Typography>
-              </TabPanel>
-              <TabPanel value='3'>
-                <FinanceSettlementConfigurationTab></FinanceSettlementConfigurationTab>
-              </TabPanel>
-            </TabContext>
-          </CardContent>
-        </Card>
+        <TabContext value={value}>
+          <TabList variant='fullWidth' onChange={handleChange} aria-label='full width tabs example'>
+            <Tab value='1' label='Balance' />
+            <Tab value='2' label='History' />
+            <Tab value='3' label='Accounts' />
+          </TabList>
+          <Card sx={{ mt: 5 }}>
+            <TabPanel sx={{ padding: 0 }} value='1'>
+              <Typography>
+                Settle rent payments to your primary account, whether it's a bank account or a mobile money wallet,
+                directly from our platform.
+              </Typography>
+            </TabPanel>
+          </Card>
+
+          <TabPanel sx={{ padding: 0 }} value='2'>
+            <Typography>
+              <FinanceSettlementHistoryTable></FinanceSettlementHistoryTable>
+            </Typography>
+          </TabPanel>
+          <TabPanel sx={{ padding: 0 }} value='3'>
+            <FinanceSettlementConfigurationTab></FinanceSettlementConfigurationTab>
+          </TabPanel>
+        </TabContext>
       </Grid>
     </Grid>
   )

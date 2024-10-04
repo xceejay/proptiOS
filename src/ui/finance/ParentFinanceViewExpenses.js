@@ -191,12 +191,14 @@ const ParentFinanceViewExpenses = ({ setFinanceData, financeData }) => {
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
-        <Card>
+        <FinanceTransactionListTable></FinanceTransactionListTable>
+
+        {/* <Card>
           <CardContent sx={{ mt: 2, padding: 0 }}>
             <TabContext value={value}>
               <TabList variant='fullWidth' onChange={handleChange} aria-label='full width tabs example'>
                 <Tab value='1' label='History' />
-                <Tab value='2' label='Recurring' />
+                <Tab value='2' label='Scheduling' />
               </TabList>
 
               <TabPanel value='1'>
@@ -209,7 +211,7 @@ const ParentFinanceViewExpenses = ({ setFinanceData, financeData }) => {
               </TabPanel>
             </TabContext>
           </CardContent>
-        </Card>
+        </Card> */}
       </Grid>
     </Grid>
   )

@@ -189,31 +189,28 @@ const ParentFinanceViewRentPayments = ({ setFinanceData, financeData }) => {
   }
 
   return (
-    <Grid container spacing={6}>
+    <Grid container>
       <Grid item xs={12}>
-        <Card>
-          <CardContent sx={{ mt: 2, padding: 0 }}>
-            <TabContext value={value}>
-              <TabList variant='fullWidth' onChange={handleChange} aria-label='full width tabs example'>
-                <Tab value='1' label='History' />
-                <Tab value='2' label='Reminders' />
-                {/* <Tab value='3' label='Settlement Accounts' /> */}
-              </TabList>
-              {/* <TabPanel value='1'>
+        <TabContext value={value}>
+          <TabList variant='fullWidth' onChange={handleChange} aria-label='full width tabs example'>
+            <Tab value='1' label='History' />
+            <Tab value='2' label='Reminders' />
+            {/* <Tab value='3' label='Settlement Accounts' /> */}
+          </TabList>
+
+          {/* <TabPanel value='1'>
                 <Typography>
                   Settle rent payments to your primary account, whether it's a bank account or a mobile money wallet,
                   directly from our platform.
                 </Typography>
               </TabPanel> */}
-              <TabPanel value='1'>
-                <FinanceSettlementHistoryTable></FinanceSettlementHistoryTable>
-              </TabPanel>
-              <TabPanel value='2'>
-                <FinanceSettlementConfigurationTab></FinanceSettlementConfigurationTab>
-              </TabPanel>
-            </TabContext>
-          </CardContent>
-        </Card>
+          <TabPanel sx={{ mt: 5, padding: 0 }} value='1'>
+            <FinanceSettlementHistoryTable></FinanceSettlementHistoryTable>
+          </TabPanel>
+          <TabPanel sx={{ mt: 5, padding: 0 }} value='2'>
+            <FinanceSettlementConfigurationTab></FinanceSettlementConfigurationTab>
+          </TabPanel>
+        </TabContext>
       </Grid>
     </Grid>
   )
