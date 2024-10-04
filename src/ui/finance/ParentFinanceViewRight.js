@@ -23,6 +23,9 @@ import ParentFinanceViewOverview from './ParentFinanceViewOverview'
 import ParentFinanceViewPayments from './ParentFinanceViewPayments'
 import ParentFinanceViewConfiguration from './ParentFinanceViewConfiguration'
 import ParentFinanceViewSettlement from './ParentFinanceViewSettlement'
+import ParentFinanceViewRentPayments from './ParentFinanceViewRentPayments'
+import ParentFinanceViewExpenses from './ParentFinanceViewExpenses'
+import ParentFinanceViewStatements from './ParentFinanceViewStatements'
 
 // ** Styled Tab component
 const Tab = styled(MuiTab)(({ theme }) => ({
@@ -99,14 +102,22 @@ const ParentFinanceViewRight = ({ tab, financeData, setFinanceData }) => {
         sx={{ borderBottom: theme => `1px solid ${theme.palette.divider}` }}
       >
         <Tab disabled value='overview' label='overview' icon={<Icon fontSize='1.125rem' icon='tabler:home' />} />
-        <Tab value='payments' label='payments' icon={<Icon fontSize='1.125rem' icon='tabler:cash-register' />} />
-        <Tab value='settlement' label='settlement' icon={<Icon fontSize='1.125rem' icon='tabler:pig-money' />} />
+        <Tab value='payments' label='rent payments' icon={<Icon fontSize='1.125rem' icon='tabler:cash-register' />} />
+        <Tab value='expenses' label='expenses' icon={<Icon fontSize='1.125rem' icon='tabler:shopping-cart-minus' />} />
 
-        <Tab value='configuration' label='configuration' icon={<Icon fontSize='1.125rem' icon='tabler:tool' />} />
+        <Tab value='settlement' label='settlement' icon={<Icon fontSize='1.125rem' icon='tabler:pig-money' />} />
+        <Tab
+          disabled
+          value='statements'
+          label='statements'
+          icon={<Icon fontSize='1.125rem' icon='tabler:report-money' />}
+        />
+
+        {/* <Tab value='configuration' label='configuration' icon={<Icon fontSize='1.125rem' icon='tabler:tool' />} /> */}
 
         {/* <Tab value='reminders' label='' icon={<Icon fontSize='1.125rem' icon='tabler:bell' />} /> */}
 
-        <Tab value='reminders' label='reminders' icon={<Icon fontSize='1.125rem' icon='tabler:bell' />} />
+        {/* <Tab value='reminders' label='reminders' icon={<Icon fontSize='1.125rem' icon='tabler:bell' />} /> */}
       </TabList>
       <Box sx={{ mt: 6 }}>
         {isLoading ? (
@@ -121,15 +132,23 @@ const ParentFinanceViewRight = ({ tab, financeData, setFinanceData }) => {
             </TabPanel>
 
             <TabPanel sx={{ p: 0 }} value='payments'>
-              <ParentFinanceViewPayments setFinanceData={setFinanceData} financeData={financeData} />
+              <ParentFinanceViewRentPayments setFinanceData={setFinanceData} financeData={financeData} />
+            </TabPanel>
+
+            <TabPanel sx={{ p: 0 }} value='expenses'>
+              <ParentFinanceViewExpenses setFinanceData={setFinanceData} financeData={financeData} />
             </TabPanel>
 
             <TabPanel sx={{ p: 0 }} value='settlement'>
               <ParentFinanceViewSettlement setFinanceData={setFinanceData} financeData={financeData} />
             </TabPanel>
-            <TabPanel sx={{ p: 0 }} value='configuration'>
+
+            {/* <TabPanel sx={{ p: 0 }} value='statements'>
+              <ParentFinanceViewStatements setFinanceData={setFinanceData} financeData={financeData} />
+            </TabPanel> */}
+            {/* <TabPanel sx={{ p: 0 }} value='configuration'>
               <ParentFinanceViewConfiguration setFinanceData={setFinanceData} financeData={financeData} />
-            </TabPanel>
+            </TabPanel> */}
           </>
         )}
       </Box>

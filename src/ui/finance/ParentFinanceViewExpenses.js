@@ -107,7 +107,7 @@ const data = [
   }
 ]
 
-const ParentFinanceViewSettlement = ({ setFinanceData, financeData }) => {
+const ParentFinanceViewExpenses = ({ setFinanceData, financeData }) => {
   // ** States
   const [cvc, setCvc] = useState('')
   const [name, setName] = useState('')
@@ -197,22 +197,16 @@ const ParentFinanceViewSettlement = ({ setFinanceData, financeData }) => {
           <CardContent sx={{ mt: 2 }}>
             <TabContext value={value}>
               <TabList onChange={handleChange} aria-label='full width tabs example'>
-                <Tab value='1' label='Settlement Balance' />
-                <Tab value='2' label='Settlement History' />
-                <Tab value='3' label='Settlement Accounts' />
+                <Tab value='1' label='Expenses' />
+                <Tab value='2' label='Recurring Expenses' />
               </TabList>
+
               <TabPanel value='1'>
-                <Typography>
-                  Settle rent payments to your primary account, whether it's a bank account or a mobile money wallet,
-                  directly from our platform.
-                </Typography>
-              </TabPanel>
-              <TabPanel value='2'>
                 <Typography>
                   <FinanceSettlementHistoryTable></FinanceSettlementHistoryTable>
                 </Typography>
               </TabPanel>
-              <TabPanel value='3'>
+              <TabPanel value='2'>
                 <FinanceSettlementConfigurationTab></FinanceSettlementConfigurationTab>
               </TabPanel>
             </TabContext>
@@ -223,4 +217,4 @@ const ParentFinanceViewSettlement = ({ setFinanceData, financeData }) => {
   )
 }
 
-export default ParentFinanceViewSettlement
+export default ParentFinanceViewExpenses

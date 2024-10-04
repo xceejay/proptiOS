@@ -107,7 +107,7 @@ const data = [
   }
 ]
 
-const ParentFinanceViewSettlement = ({ setFinanceData, financeData }) => {
+const ParentFinanceViewStatements = ({ setFinanceData, financeData }) => {
   // ** States
   const [cvc, setCvc] = useState('')
   const [name, setName] = useState('')
@@ -196,7 +196,7 @@ const ParentFinanceViewSettlement = ({ setFinanceData, financeData }) => {
 
           <CardContent sx={{ mt: 2 }}>
             <TabContext value={value}>
-              <TabList onChange={handleChange} aria-label='full width tabs example'>
+              <TabList variant='fullWidth' onChange={handleChange} aria-label='full width tabs example'>
                 <Tab value='1' label='Settlement Balance' />
                 <Tab value='2' label='Settlement History' />
                 <Tab value='3' label='Settlement Accounts' />
@@ -223,4 +223,4 @@ const ParentFinanceViewSettlement = ({ setFinanceData, financeData }) => {
   )
 }
 
-export default ParentFinanceViewSettlement
+export default ParentFinanceViewStatements
