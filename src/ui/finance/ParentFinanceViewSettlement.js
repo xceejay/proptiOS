@@ -35,6 +35,8 @@ import DialogContentText from '@mui/material/DialogContentText'
 import MuiTab from '@mui/material/Tab'
 import TabList from '@mui/lab/TabList'
 import TabPanel from '@mui/lab/TabPanel'
+import { useTheme } from '@mui/material/styles'
+
 import TabContext from '@mui/lab/TabContext'
 
 // ** Icon Imports
@@ -134,6 +136,8 @@ const ParentFinanceViewSettlement = ({ setFinanceData, financeData }) => {
     }
   }))
 
+  const theme = useTheme()
+
   // Handle Edit Card dialog and get card ID
 
   const handleEditCardClickOpen = id => {
@@ -188,6 +192,12 @@ const ParentFinanceViewSettlement = ({ setFinanceData, financeData }) => {
     setValue(newValue)
   }
 
+  const [open, setOpen] = useState(false)
+
+  const handleClickOpen = () => setOpen(true)
+
+  const handleClose = () => setOpen(false)
+
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
@@ -206,7 +216,64 @@ const ParentFinanceViewSettlement = ({ setFinanceData, financeData }) => {
                   directly from our platform.
                 </Typography>
 
-                <Box>Jack</Box>
+                <Box sx={{ display: 'flex', flexDirection: 'column', mt: 5, gap: 5 }}>
+                  <Box display={'flex'} gap={2}>
+                    <Typography variant='h5'>Amount to settle: </Typography>
+                    <Typography color={'primary'} variant='h5'>
+                      {'$' + '20'}
+                    </Typography>
+                  </Box>
+                  <Box display={'flex'} gap={2}>
+                    <Typography variant='h5'>Primary Account: </Typography>
+                    <Typography textTransform={'uppercase'} color={'primary'} variant='h5'>
+                      {'Fidelity Bank'}
+                    </Typography>
+                  </Box>
+
+                  <Box display={'flex'} gap={2}>
+                    <Typography variant='h5'>Primary Account Address: </Typography>
+                    <Typography textTransform={'uppercase'} color={'primary'} variant='h5'>
+                      {'32208028430823048'}
+                    </Typography>
+                  </Box>
+                  <Box display={'flex'} gap={2}>
+                    <Typography variant='h5'>Account Type: </Typography>
+                    <Typography color={'primary'} variant='h5'>
+                      {'BANK'}
+                    </Typography>
+                  </Box>
+
+                  <Box>
+                    <Button variant='contained' onClick={handleClickOpen}>
+                      Transfer funds{' '}
+                    </Button>
+                    <Dialog
+                      open={open}
+                      disableEscapeKeyDown
+                      aria-labelledby='confirm-dialog-title'
+                      aria-describedby='confirm-dialog-description'
+                      onClose={(event, reason) => {
+                        if (reason !== 'backdropClick') {
+                          handleClose()
+                        }
+                      }}
+                    >
+                      <DialogTitle id='confirm-dialog-title'>Confirm Settlement</DialogTitle>
+                      <DialogContent>
+                        <DialogContentText id='confirm-dialog-description'>
+                          Are you sure you want to transfer the available funds to your primary account? Please review
+                          all details before proceeding.
+                        </DialogContentText>
+                      </DialogContent>
+                      <DialogActions>
+                        <Button onClick={handleClose}>Review Details</Button>
+                        <Button onClick={handleClose} variant='contained' color='primary'>
+                          Confirm & Settle
+                        </Button>
+                      </DialogActions>
+                    </Dialog>
+                  </Box>
+                </Box>
               </CardContent>
             </Card>
           </TabPanel>

@@ -106,6 +106,7 @@ const FinanceSettlementConfigurationTab = ({ setFinanceData, financeData }) => {
   const [focus, setFocus] = useState()
   const [cardId, setCardId] = useState(0)
   const [expiry, setExpiry] = useState('')
+
   const [cardNumber, setCardNumber] = useState('')
   const [dialogTitle, setDialogTitle] = useState('Add')
   const [openEditCard, setOpenEditCard] = useState(false)
@@ -224,8 +225,29 @@ const FinanceSettlementConfigurationTab = ({ setFinanceData, financeData }) => {
                   }
                 />
 
-                <CardContent sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <Box>sss</Box>
+                <CardContent sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'end' }}>
+                  <Box display={'flex'} flexDirection={'column'} gap={1}>
+                    <Box display={'flex'} flexDirection={'row'}>
+                      <Typography color={'primary'}>23354105353</Typography>
+                    </Box>
+                    <Box display={'flex'} flexDirection={'row'}>
+                      <Typography>MTN MOMO MTN</Typography>
+                    </Box>
+                    <Box display={'flex'} flexDirection={'row'}>
+                      <Typography color={'secondary'}>GHANA</Typography>
+                    </Box>
+                    <Box display={'flex'} flexDirection={'row'}>
+                      <CustomChip
+                        label={statusLabel}
+                        color={statusColor}
+                        rounded
+                        size='small'
+                        skin='light'
+                        // deleteIcon={<Icon icon' />}
+                        sx={{ textTransform: 'uppercase' }}
+                      />
+                    </Box>
+                  </Box>
                   <Box sx={{ mt: 2 }}>
                     {true ? (
                       <>
