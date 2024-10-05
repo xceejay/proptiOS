@@ -14,8 +14,8 @@ const ParentFinanceViewOverview = ({ setFinanceData, financeData }) => {
                 chipText={"0"}
                 avatarColor='success'
                 chipColor='default'
-                title='Active'
-                subtitle='Total active properties'
+                title='Expenses'
+                subtitle='Total property expenses'
                 avatarIcon='tabler:home'
               />
           </Grid>
@@ -39,8 +39,8 @@ const ParentFinanceViewOverview = ({ setFinanceData, financeData }) => {
               chipText={'0'}
               avatarColor='primary'
               chipColor='default'
-              title='Total'
-              subtitle='Total properties'
+              title='Revenue'
+              subtitle='Total property revenue'
               avatarIcon='tabler:woman'
             />
           </Grid>
@@ -49,8 +49,8 @@ const ParentFinanceViewOverview = ({ setFinanceData, financeData }) => {
               chipText={'0'}
               avatarColor='warning'
               chipColor='default'
-              title='Expiring Soon'
-              subtitle='Properties expiring soon'
+              title='Settlements'
+              subtitle='Total Settlements'
               avatarIcon='tabler:woman'
             />
           </Grid>
@@ -59,8 +59,8 @@ const ParentFinanceViewOverview = ({ setFinanceData, financeData }) => {
               chipText={'0'}
               avatarColor='secondary'
               chipColor='default'
-              title='Archived'
-              subtitle='Total archived properties'
+              title='Profit'
+              subtitle='Profit (revenue - expenses)'
               avatarIcon='tabler:woman'
             />
           </Grid>
