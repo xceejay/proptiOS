@@ -207,7 +207,7 @@ const FinanceSettlementConfigurationTab = ({ setFinanceData, financeData }) => {
           /> */}
 
           {/* <CardHeader title='Settlement Accounts' /> */}
-          <CardContent sx={{ display: 'flex', flexDirection: 'column', padding: '0' }}>
+          <CardContent sx={{ display: 'flex', flexDirection: 'column', padding: '0', gap: 2 }}>
             <Box>
               <Card>
                 <CardHeader
@@ -228,13 +228,17 @@ const FinanceSettlementConfigurationTab = ({ setFinanceData, financeData }) => {
                 <CardContent sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'end' }}>
                   <Box display={'flex'} flexDirection={'column'} gap={1}>
                     <Box display={'flex'} flexDirection={'row'}>
-                      <Typography color={'primary'}>23354105353</Typography>
+                      <Typography variant='button' color={'primary'}>
+                        23354105353
+                      </Typography>
                     </Box>
                     <Box display={'flex'} flexDirection={'row'}>
-                      <Typography>MTN MOMO MTN</Typography>
+                      <Typography textTransform={'uppercase'}>MTN MOMO MTN</Typography>
                     </Box>
                     <Box display={'flex'} flexDirection={'row'}>
-                      <Typography color={'secondary'}>GHANA</Typography>
+                      <Typography textTransform={'uppercase'} color={'secondary'}>
+                        GHANA
+                      </Typography>
                     </Box>
                     <Box display={'flex'} flexDirection={'row'}>
                       <CustomChip
@@ -269,7 +273,7 @@ const FinanceSettlementConfigurationTab = ({ setFinanceData, financeData }) => {
                 </CardContent>
               </Card>
             </Box>
-            <Box sx={{ mt: 3 }}>
+            <Box>
               <Card>
                 <CardHeader
                   title='Bank Account'
@@ -280,24 +284,55 @@ const FinanceSettlementConfigurationTab = ({ setFinanceData, financeData }) => {
                       onClick={handleAddCardClickOpen}
                       sx={{ '& svg': { mr: 1 } }}
                     >
-                      <Icon icon='tabler:building-bank' fontSize='1rem' />
+                      <Icon icon='tabler:wallet' fontSize='1rem' />
                       Manage
                     </Button>
                   }
                 />
 
-                <CardContent sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <Box>sss</Box>
+                <CardContent sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'end' }}>
+                  <Box display={'flex'} flexDirection={'column'} gap={1}>
+                    <Box display={'flex'} flexDirection={'row'}>
+                      <Typography variant='button' color={'primary'}>
+                        12738129379123
+                      </Typography>
+                    </Box>
+                    <Box display={'flex'} flexDirection={'row'}>
+                      <Typography textTransform={'uppercase'}>{'Fidelity Bank, Accra, Ghana'}</Typography>
+                    </Box>
+                    <Box display={'flex'} flexDirection={'row'}>
+                      <Typography textTransform={'uppercase'} color={'secondary'}>
+                        FBLIGHACXXX
+                      </Typography>
+                    </Box>
+                    <Box display={'flex'} flexDirection={'row'}>
+                      <Typography textTransform={'uppercase'} color={'secondary'}>
+                        GHANA
+                      </Typography>
+                    </Box>
+                    <Box display={'flex'} flexDirection={'row'}>
+                      <CustomChip
+                        label={statusLabel}
+                        color={statusColor}
+                        rounded
+                        size='small'
+                        skin='light'
+                        // deleteIcon={<Icon icon' />}
+                        sx={{ textTransform: 'uppercase' }}
+                      />
+                    </Box>
+                  </Box>
                   <Box sx={{ mt: 2 }}>
                     {false ? (
                       <>
-                        <Chip
+                        <CustomChip
                           label={primaryAccountLabel}
                           color={primaryAccountColor}
-                          round={false}
-                          variant='outlined'
+                          rounded
+                          size='small'
+                          skin='light'
                           onDelete={handleDelete}
-                          deleteIcon={<Icon icon='tabler:trash' />}
+                          // deleteIcon={<Icon icon='tabler:trash' />}
                           sx={{ textTransform: 'uppercase', ml: 2 }}
                         />
                       </>
