@@ -218,27 +218,27 @@ const ParentFinanceViewSettlement = ({ setFinanceData, financeData }) => {
 
                 <Box sx={{ display: 'flex', flexDirection: 'column', mt: 5, gap: 5 }}>
                   <Box display={'flex'} gap={2}>
-                    <Typography variant='h5'>Amount to settle: </Typography>
-                    <Typography color={'primary'} variant='h5'>
+                    <Typography variant='h6'>Balance: </Typography>
+                    <Typography color={'primary'} variant='h6'>
                       {'$' + '20'}
                     </Typography>
                   </Box>
                   <Box display={'flex'} gap={2}>
-                    <Typography variant='h5'>Primary Account: </Typography>
-                    <Typography textTransform={'uppercase'} color={'primary'} variant='h5'>
+                    <Typography variant='h6'>Primary Account: </Typography>
+                    <Typography textTransform={'uppercase'} color={'primary'} variant='h6'>
                       {'Fidelity Bank'}
                     </Typography>
                   </Box>
 
                   <Box display={'flex'} gap={2}>
-                    <Typography variant='h5'>Primary Account Address: </Typography>
-                    <Typography textTransform={'uppercase'} color={'primary'} variant='h5'>
+                    <Typography variant='h6'>Primary Account Address: </Typography>
+                    <Typography textTransform={'uppercase'} color={'primary'} variant='h6'>
                       {'32208028430823048'}
                     </Typography>
                   </Box>
                   <Box display={'flex'} gap={2}>
-                    <Typography variant='h5'>Account Type: </Typography>
-                    <Typography color={'primary'} variant='h5'>
+                    <Typography variant='h6'>Account Type: </Typography>
+                    <Typography color={'primary'} variant='h6'>
                       {'BANK'}
                     </Typography>
                   </Box>
