@@ -28,8 +28,12 @@ import FormControl from '@mui/material/FormControl'
 import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
 import LinearProgress from '@mui/material/LinearProgress'
+import { useForm, Controller } from 'react-hook-form'
+
 import TableContainer from '@mui/material/TableContainer'
 import FormControlLabel from '@mui/material/FormControlLabel'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
 import DialogContentText from '@mui/material/DialogContentText'
 
 // ** Icon Imports
@@ -51,7 +55,7 @@ import CardWrapper from 'src/@core/styles/libs/react-credit-cards'
 
 // ** Styles Import
 import 'react-credit-cards/es/styles-compiled.css'
-import { Accordion, AccordionDetails, AccordionSummary, Chip } from '@mui/material'
+import { Accordion, AccordionDetails, AccordionSummary, Chip, Modal } from '@mui/material'
 
 // ** Styled <sup> component
 const Sup = styled('sup')(({ theme }) => ({
@@ -68,103 +72,96 @@ const Sub = styled('sub')({
   alignSelf: 'flex-end'
 })
 
-const data = [
-  {
-    cardCvc: '587',
-    name: 'Tom McBride',
-    expiryDate: '12/24',
-    imgAlt: 'Mastercard',
-    cardNumber: '5577 0000 5577 9865',
-    imgSrc: '/images/logos/mastercard.png'
-  },
-  {
-    cardCvc: '681',
-    imgAlt: 'Mobile Money',
-
-    // expiryDate: '02/24',
-    badgeColor: 'primary',
-    cardStatus: 'Primary',
-    name: 'Mildred Wagner',
-
-    // cardNumber: '4532 3616 2070 5678',
-    imgSrc: '/images/logos/visa.png'
-  },
-  {
-    cardCvc: '3845',
-    expiryDate: '08/20',
-    name: 'Lester Jennings',
-    imgAlt: 'Master card',
-    cardNumber: '3700 000000 00002',
-    imgSrc: '/images/logos/american-express.png'
-  }
-]
-
 const FinanceSettlementConfigurationTab = ({ setFinanceData, financeData }) => {
-  // ** States
-  const [cvc, setCvc] = useState('')
-  const [name, setName] = useState('')
-  const [focus, setFocus] = useState()
-  const [cardId, setCardId] = useState(0)
-  const [expiry, setExpiry] = useState('')
+  // Validation Schemas
+  const mobileMoneySchema = yup.object().shape({
+    msisdn: yup.string().required('Mobile Money Number is required').min(10, 'Enter a valid number'),
+    provider: yup.string().required('Provider is required')
+  })
 
-  const [cardNumber, setCardNumber] = useState('')
-  const [dialogTitle, setDialogTitle] = useState('Add')
-  const [openEditCard, setOpenEditCard] = useState(false)
-  const [openAddressCard, setOpenAddressCard] = useState(false)
-  const [openUpgradePlans, setOpenUpgradePlans] = useState(false)
-  const [subscriptionDialogOpen, setSubscriptionDialogOpen] = useState(false)
+  const bankAccountSchema = yup.object().shape({
+    bankName: yup.string().required('Bank Name is required'),
+    accountNumber: yup.string().required('Account Number is required'),
+    branchCode: yup.string().required('Branch Code is required')
+  })
+
+  const [openMobileMoneyDialog, setOpenMobileMoneyDialog] = useState(false)
+  const [openBankAccountDialog, setOpenBankAccountDialog] = useState(false)
+
+  const [primaryAccount, setPrimaryAccount] = useState('bank_account')
+
+  const handleToggleDefaultAccountMobileMoney = event => {
+    if (event.target.checked) {
+      setPrimaryAccount('mobile_money')
+    } else {
+      setPrimaryAccount('')
+    }
+  }
+  const handleToggleDefaultAccountBankAccount = event => {
+    if (event.target.checked) {
+      setPrimaryAccount('bank_account')
+    } else {
+      setPrimaryAccount('')
+    }
+  }
+  // Mobile Money Form
+  const {
+    control: mobileMoneyControl,
+    handleSubmit: handleMobileMoneySubmit,
+    formState: { errors: mobileMoneyErrors }
+  } = useForm({
+    resolver: yupResolver(mobileMoneySchema),
+    mode: 'onBlur'
+  })
+
+  // Bank Account Form
+  const {
+    control: bankAccountControl,
+    handleSubmit: handleBankAccountSubmit,
+    formState: { errors: bankAccountErrors }
+  } = useForm({
+    resolver: yupResolver(bankAccountSchema),
+    mode: 'onBlur'
+  })
+
+  const handleMobileMoneyDialogOpen = () => {
+    setOpenMobileMoneyDialog(true)
+  }
+
+  const handleMobileMoneyDialogClose = () => {
+    setOpenMobileMoneyDialog(false)
+  }
+
+  const handleBankAccountDialogOpen = () => {
+    setOpenBankAccountDialog(true)
+  }
+
+  const handleBankAccountDialogClose = () => {
+    setOpenBankAccountDialog(false)
+  }
+
+  const handleMobileMoneyFormSubmit = data => {
+    console.log('Mobile Money Account Submitted:', data)
+    setOpenMobileMoneyDialog(false)
+  }
+
+  const handleBankAccountFormSubmit = data => {
+    console.log('Bank Account Submitted:', data)
+    setOpenBankAccountDialog(false)
+  }
 
   const handleDelete = () => {
-    // eslint-disable-next-line no-console
-    console.info('You clicked the delete icon.')
-  }
+    setPrimaryAccount('')
 
-  // Handle Edit Card dialog and get card ID
-
-  const handleEditCardClickOpen = id => {
-    setDialogTitle('Edit')
-    setCardId(id)
-    setCardNumber(data[id].cardNumber)
-    setName(data[id].name)
-    setCvc(data[id].cardCvc)
-    setExpiry(data[id].expiryDate)
-    setOpenEditCard(true)
-  }
-
-  const handleAddCardClickOpen = () => {
-    setDialogTitle('Add')
-    setCardNumber('')
-    setName('')
-    setCvc('')
-    setExpiry('')
-    setOpenEditCard(true)
-  }
-
-  const handleEditCardClose = () => {
-    setDialogTitle('Add')
-    setCardNumber('')
-    setName('')
-    setCvc('')
-    setExpiry('')
-    setOpenEditCard(false)
-  }
-
-  // Handle Upgrade Plan dialog
-  const handleUpgradePlansClickOpen = () => setOpenUpgradePlans(true)
-  const handleUpgradePlansClose = () => setOpenUpgradePlans(false)
-  const handleBlur = () => setFocus(undefined)
-
-  const handleInputChange = ({ target }) => {
-    if (target.name === 'number') {
-      target.value = formatCreditCardNumber(target.value, Payment)
-      setCardNumber(target.value)
-    } else if (target.name === 'expiry') {
-      target.value = formatExpirationDate(target.value)
-      setExpiry(target.value)
-    } else if (target.name === 'cvc') {
-      target.value = formatCVC(target.value, cardNumber, Payment)
-      setCvc(target.value)
-    }
+    return (
+      <>
+        <Dialog open={true}>
+          {' '}
+          <DialogContent> Nice one</DialogContent>
+        </Dialog>
+      </>
+    )
+    console.log('delete')
   }
 
   const row = { status: 'active' }
@@ -216,7 +213,7 @@ const FinanceSettlementConfigurationTab = ({ setFinanceData, financeData }) => {
                     <Button
                       size='small'
                       variant='contained'
-                      onClick={handleAddCardClickOpen}
+                      onClick={handleMobileMoneyDialogOpen}
                       sx={{ '& svg': { mr: 1 } }}
                     >
                       <Icon icon='tabler:wallet' fontSize='1rem' />
@@ -253,7 +250,7 @@ const FinanceSettlementConfigurationTab = ({ setFinanceData, financeData }) => {
                     </Box>
                   </Box>
                   <Box sx={{ mt: 2 }}>
-                    {true ? (
+                    {primaryAccount == 'mobile_money' ? (
                       <>
                         <CustomChip
                           label={primaryAccountLabel}
@@ -281,7 +278,7 @@ const FinanceSettlementConfigurationTab = ({ setFinanceData, financeData }) => {
                     <Button
                       size='small'
                       variant='contained'
-                      onClick={handleAddCardClickOpen}
+                      onClick={handleBankAccountDialogOpen}
                       sx={{ '& svg': { mr: 1 } }}
                     >
                       <Icon icon='tabler:wallet' fontSize='1rem' />
@@ -323,7 +320,7 @@ const FinanceSettlementConfigurationTab = ({ setFinanceData, financeData }) => {
                     </Box>
                   </Box>
                   <Box sx={{ mt: 2 }}>
-                    {false ? (
+                    {primaryAccount == 'bank_account' ? (
                       <>
                         <CustomChip
                           label={primaryAccountLabel}
@@ -344,369 +341,130 @@ const FinanceSettlementConfigurationTab = ({ setFinanceData, financeData }) => {
               </Card>
             </Box>
           </CardContent>
-
-          <Dialog
-            open={openEditCard}
-            onClose={handleEditCardClose}
-            aria-labelledby='user-view-billing-edit-card'
-            sx={{ '& .MuiPaper-root': { width: '100%', maxWidth: 650 } }}
-            aria-describedby='user-view-billing-edit-card-description'
-          >
-            <DialogTitle
-              id='user-view-billing-edit-card'
-              sx={{
-                textAlign: 'center',
-                fontSize: '1.5rem !important',
-                px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
-                pt: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
-              }}
-            >
-              {dialogTitle} Card
-            </DialogTitle>
-            <DialogContent
-              sx={{
-                pb: theme => `${theme.spacing(5)} !important`,
-                px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`]
-              }}
-            >
-              <DialogContentText
-                variant='body2'
-                id='user-view-billing-edit-card-description'
-                sx={{ textAlign: 'center', mb: 7 }}
-              >
-                {dialogTitle} card for future billing
-              </DialogContentText>
-              <form>
-                <Grid container spacing={6}>
-                  <Grid item xs={12}>
-                    <CardWrapper sx={{ '& .rccs': { m: '0 auto' } }}>
-                      <Cards cvc={cvc} focused={focus} expiry={expiry} name={name} number={cardNumber} />
-                    </CardWrapper>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Grid container spacing={6}>
-                      <Grid item xs={12}>
-                        <TextField
-                          fullWidth
-                          name='number'
-                          value={cardNumber}
-                          autoComplete='off'
-                          label='Card Number'
-                          onBlur={handleBlur}
-                          onChange={handleInputChange}
-                          placeholder='0000 0000 0000 0000'
-                          onFocus={e => setFocus(e.target.name)}
-                        />
-                      </Grid>
-                      <Grid item xs={12} sm={8}>
-                        <TextField
-                          fullWidth
-                          name='name'
-                          value={name}
-                          autoComplete='off'
-                          onBlur={handleBlur}
-                          label='Name on Card'
-                          placeholder='John Doe'
-                          onChange={e => setName(e.target.value)}
-                          onFocus={e => setFocus(e.target.name)}
-                        />
-                      </Grid>
-                      <Grid item xs={12} sm={4}>
-                        <TextField
-                          fullWidth
-                          name='expiry'
-                          label='Expiry'
-                          value={expiry}
-                          onBlur={handleBlur}
-                          placeholder='MM/YY'
-                          onChange={handleInputChange}
-                          inputProps={{ maxLength: '5' }}
-                          onFocus={e => setFocus(e.target.name)}
-                        />
-                      </Grid>
-                      <Grid item xs={12} sm={8}>
-                        <FormControl fullWidth>
-                          <InputLabel id='user-view-billing-edit-card-status-label'>Card Status</InputLabel>
-                          <Select
-                            label='Card Status'
-                            id='user-view-billing-edit-card-status'
-                            labelId='user-view-billing-edit-card-status-label'
-                            defaultValue={data[cardId].cardStatus ? data[cardId].cardStatus : ''}
-                          >
-                            <MenuItem value='Primary'>Primary</MenuItem>
-                            <MenuItem value='Expired'>Expired</MenuItem>
-                            <MenuItem value='Active'>Active</MenuItem>
-                          </Select>
-                        </FormControl>
-                      </Grid>
-                      <Grid item xs={12} sm={4}>
-                        <TextField
-                          fullWidth
-                          name='cvc'
-                          label='CVC'
-                          value={cvc}
-                          autoComplete='off'
-                          onBlur={handleBlur}
-                          onChange={handleInputChange}
-                          onFocus={e => setFocus(e.target.name)}
-                          placeholder={Payment.fns.cardType(cardNumber) === 'amex' ? '1234' : '123'}
-                        />
-                      </Grid>
-                      <Grid item xs={12}>
-                        <FormControlLabel
-                          control={<Switch defaultChecked />}
-                          label='Save Card for future billing?'
-                          sx={{ '& .MuiTypography-root': { color: 'text.secondary' } }}
-                        />
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                </Grid>
+          {/* Mobile Money Dialog */}
+          <Dialog open={openMobileMoneyDialog} onClose={handleMobileMoneyDialogClose}>
+            <DialogTitle>Add Mobile Money Account</DialogTitle>
+            <DialogContent>
+              <form onSubmit={handleMobileMoneySubmit(handleMobileMoneyFormSubmit)} noValidate>
+                <FormControl fullWidth sx={{ mb: 4 }}>
+                  <Controller
+                    name='msisdn'
+                    control={mobileMoneyControl}
+                    render={({ field }) => (
+                      <TextField
+                        required
+                        label='Mobile Money Number'
+                        {...field}
+                        error={Boolean(mobileMoneyErrors.msisdn)}
+                        helperText={mobileMoneyErrors.msisdn?.message}
+                      />
+                    )}
+                  />
+                </FormControl>
+                <FormControl fullWidth sx={{ mb: 4 }}>
+                  <Controller
+                    name='provider'
+                    control={mobileMoneyControl}
+                    render={({ field }) => (
+                      <TextField
+                        required
+                        label='Provider'
+                        {...field}
+                        error={Boolean(mobileMoneyErrors.provider)}
+                        helperText={mobileMoneyErrors.provider?.message}
+                      />
+                    )}
+                  />
+                </FormControl>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={primaryAccount == 'mobile_money'}
+                      onChange={handleToggleDefaultAccountMobileMoney}
+                    />
+                  }
+                  label='Set as Primary Account'
+                />
               </form>
             </DialogContent>
-            <DialogActions
-              sx={{
-                justifyContent: 'center',
-                px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
-                pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
-              }}
-            >
-              <Button size='small' variant='contained' sx={{ mr: 2 }} onClick={handleEditCardClose}>
+            <DialogActions>
+              <Button onClick={handleMobileMoneyDialogClose}>Cancel</Button>
+              <Button onClick={handleMobileMoneySubmit(handleMobileMoneyFormSubmit)} variant='contained'>
                 Submit
               </Button>
-              <Button size='small' variant='outlined' color='secondary' onClick={handleEditCardClose}>
-                Cancel
+            </DialogActions>
+          </Dialog>
+
+          {/* Bank Account Dialog */}
+          <Dialog open={openBankAccountDialog} onClose={handleBankAccountDialogClose}>
+            <DialogTitle>Add Bank Account</DialogTitle>
+            <DialogContent>
+              <form onSubmit={handleBankAccountSubmit(handleBankAccountFormSubmit)} noValidate>
+                <FormControl fullWidth sx={{ mb: 4 }}>
+                  <Controller
+                    name='bankName'
+                    control={bankAccountControl}
+                    render={({ field }) => (
+                      <TextField
+                        required
+                        label='Bank Name'
+                        {...field}
+                        error={Boolean(bankAccountErrors.bankName)}
+                        helperText={bankAccountErrors.bankName?.message}
+                      />
+                    )}
+                  />
+                </FormControl>
+                <FormControl fullWidth sx={{ mb: 4 }}>
+                  <Controller
+                    name='accountNumber'
+                    control={bankAccountControl}
+                    render={({ field }) => (
+                      <TextField
+                        required
+                        label='Account Number'
+                        {...field}
+                        error={Boolean(bankAccountErrors.accountNumber)}
+                        helperText={bankAccountErrors.accountNumber?.message}
+                      />
+                    )}
+                  />
+                </FormControl>
+                <FormControl fullWidth sx={{ mb: 4 }}>
+                  <Controller
+                    name='branchCode'
+                    control={bankAccountControl}
+                    render={({ field }) => (
+                      <TextField
+                        required
+                        label='Branch Code'
+                        {...field}
+                        error={Boolean(bankAccountErrors.branchCode)}
+                        helperText={bankAccountErrors.branchCode?.message}
+                      />
+                    )}
+                  />
+                </FormControl>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={primaryAccount == 'bank_account'}
+                      onChange={handleToggleDefaultAccountBankAccount}
+                    />
+                  }
+                  label='Set as Primary Account'
+                />
+              </form>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleBankAccountDialogClose}>Cancel</Button>
+              <Button onClick={handleBankAccountSubmit(handleBankAccountFormSubmit)} variant='contained'>
+                Submit
               </Button>
             </DialogActions>
           </Dialog>
         </Card>
       </Grid>
-
-      {/* <Grid item xs={12}>
-        <Card>
-          <CardHeader
-            title='Billing Address'
-            action={
-              <Button size='small' variant='contained' onClick={() => setOpenAddressCard(true)}>
-                Edit Address
-              </Button>
-            }
-          />
-          <CardContent>
-            <Grid container spacing={6}>
-              <Grid item xs={12} lg={6}>
-                <TableContainer>
-                  <Table size='small' sx={{ width: '95%' }}>
-                    <TableBody
-                      sx={{
-                        '& .MuiTableCell-root': {
-                          border: 0,
-                          pt: 2,
-                          pb: 2,
-                          pl: '0 !important',
-                          pr: '0 !important',
-                          verticalAlign: 'unset',
-                          '&:first-of-type': {
-                            width: 150
-                          }
-                        }
-                      }}
-                    >
-                      <TableRow>
-                        <TableCell>
-                          <Typography sx={{ fontWeight: 500 }}>Company Name:</Typography>
-                        </TableCell>
-                        <TableCell>
-                          <Typography sx={{ color: 'text.secondary' }}>Pixinvent</Typography>
-                        </TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell>
-                          <Typography sx={{ fontWeight: 500 }}>Billing Email:</Typography>
-                        </TableCell>
-                        <TableCell>
-                          <Typography sx={{ color: 'text.secondary' }}>gertrude@gmail.com</Typography>
-                        </TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell>
-                          <Typography sx={{ fontWeight: 500 }}>Tax ID:</Typography>
-                        </TableCell>
-                        <TableCell>
-                          <Typography sx={{ color: 'text.secondary' }}>TAX-875623</Typography>
-                        </TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell>
-                          <Typography sx={{ fontWeight: 500 }}>VAT Number:</Typography>
-                        </TableCell>
-                        <TableCell>
-                          <Typography sx={{ color: 'text.secondary' }}>SDF754K77</Typography>
-                        </TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell>
-                          <Typography sx={{ fontWeight: 500 }}>Billing Address:</Typography>
-                        </TableCell>
-                        <TableCell>
-                          <Typography sx={{ color: 'text.secondary' }}>
-                            100 Water Plant Avenue, Building 1303 Wake Island
-                          </Typography>
-                        </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              </Grid>
-
-              <Grid item xs={12} lg={6}>
-                <TableContainer>
-                  <Table size='small'>
-                    <TableBody
-                      sx={{
-                        '& .MuiTableCell-root': {
-                          border: 0,
-                          pt: 2,
-                          pb: 2,
-                          pl: '0 !important',
-                          pr: '0 !important',
-                          verticalAlign: 'unset',
-                          '&:first-of-type': {
-                            width: 150
-                          }
-                        }
-                      }}
-                    >
-                      <TableRow>
-                        <TableCell>
-                          <Typography sx={{ fontWeight: 500 }}>Contact:</Typography>
-                        </TableCell>
-                        <TableCell>
-                          <Typography sx={{ color: 'text.secondary' }}>+1(609) 933-44-22</Typography>
-                        </TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell>
-                          <Typography sx={{ fontWeight: 500 }}>Country:</Typography>
-                        </TableCell>
-                        <TableCell>
-                          <Typography sx={{ color: 'text.secondary' }}>Australia</Typography>
-                        </TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell>
-                          <Typography sx={{ fontWeight: 500 }}>State:</Typography>
-                        </TableCell>
-                        <TableCell>
-                          <Typography sx={{ color: 'text.secondary' }}>Queensland</Typography>
-                        </TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell>
-                          <Typography sx={{ fontWeight: 500 }}>Zip Code:</Typography>
-                        </TableCell>
-                        <TableCell>
-                          <Typography sx={{ color: 'text.secondary' }}>403114</Typography>
-                        </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              </Grid>
-            </Grid>
-          </CardContent>
-
-          <Dialog
-            open={openAddressCard}
-            onClose={() => setOpenAddressCard(false)}
-            aria-labelledby='user-address-edit'
-            sx={{ '& .MuiPaper-root': { width: '100%', maxWidth: 650 } }}
-            aria-describedby='user-address-edit-description'
-          >
-            <DialogTitle
-              id='user-address-edit'
-              sx={{
-                textAlign: 'center',
-                fontSize: '1.5rem !important',
-                px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
-                pt: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
-              }}
-            >
-              Edit Address
-            </DialogTitle>
-            <DialogContent
-              sx={{
-                pb: theme => `${theme.spacing(8)} !important`,
-                px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`]
-              }}
-            >
-              <DialogContentText variant='body2' id='user-address-edit-description' sx={{ textAlign: 'center', mb: 7 }}>
-                Edit Address for future billing
-              </DialogContentText>
-              <form>
-                <Grid container spacing={6}>
-                  <Grid item xs={12} sm={6}>
-                    <TextField fullWidth defaultValue='Pixinvent' label='Company Name' />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <TextField fullWidth type='email' defaultValue='gertrude@gmail.com' label='Email' />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <TextField fullWidth defaultValue='TAX-875623' label='Tax ID' />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <TextField fullWidth defaultValue='SDF754K77' label='VAT Number' />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <TextField
-                      fullWidth
-                      multiline
-                      minRows={2}
-                      label='Billing Address'
-                      defaultValue='100 Water Plant Avenue, Building 1303 Wake Island'
-                    />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <TextField fullWidth defaultValue='+1(609) 933-44-22' label='Contact' />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <FormControl fullWidth>
-                      <InputLabel id='country-select'>Country</InputLabel>
-                      <Select labelId='country-select' defaultValue='usa' label='Country'>
-                        <MenuItem value='usa'>USA</MenuItem>
-                        <MenuItem value='uk'>UK</MenuItem>
-                        <MenuItem value='france'>France</MenuItem>
-                        <MenuItem value='germany'>Germany</MenuItem>
-                        <MenuItem value='japan'>Japan</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <TextField fullWidth defaultValue='Capholim' label='State' />
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <TextField fullWidth type='number' defaultValue='403114' label='Zip Code' />
-                  </Grid>
-                </Grid>
-              </form>
-            </DialogContent>
-            <DialogActions
-              sx={{
-                justifyContent: 'center',
-                px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
-                pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
-              }}
-            >
-              <Button size='small' variant='contained' sx={{ mr: 2 }} onClick={() => setOpenAddressCard(false)}>
-                Submit
-              </Button>
-              <Button size='small' variant='outlined' color='secondary' onClick={() => setOpenAddressCard(false)}>
-                Cancel
-              </Button>
-            </DialogActions>
-          </Dialog>
-        </Card>
-      </Grid> */}
     </Grid>
   )
 }
