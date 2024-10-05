@@ -136,7 +136,7 @@ const ParentFinanceViewSettlement = ({ setFinanceData, financeData }) => {
                       color='primary'
                       onClick={handleOpenConfirmDialog}
                     >
-                      Save Frequency
+                      Change Frequency
                     </Button>
                   </Box>
                 </Box>
