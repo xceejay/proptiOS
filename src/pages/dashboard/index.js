@@ -20,18 +20,18 @@ import ApexChartWrapper from 'src/@core/styles/libs/react-apexcharts'
 import CardStatsVertical from 'src/@core/components/card-statistics/card-stats-vertical'
 import { useEffect, useState } from 'react'
 import axios from 'src/pages/middleware/axios'
-import { useFinance } from 'src/hooks/useFinance'
+import { useSite } from 'src/hooks/useSite'
 
 const Dashboard = () => {
   const [DashData, setDashData] = useState(null)
-  const finance = useFinance()
+  const site = useSite()
   const [loading, setLoading] = useState(false)
   const [financeData, setFinanceData] = useState({})
   const [transactionCategories, setTransactionCategories] = useState([])
   const paginationModel = {}
 
   useEffect(() => {
-    finance.getAllFinance(
+    site.getAllDashboard(
       { page: paginationModel?.page || 0, limit: paginationModel?.pageSize || 0 },
       responseData => {
         const { data } = responseData

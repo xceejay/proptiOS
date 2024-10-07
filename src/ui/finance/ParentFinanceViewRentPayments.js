@@ -37,23 +37,6 @@ import TabList from '@mui/lab/TabList'
 import TabPanel from '@mui/lab/TabPanel'
 import TabContext from '@mui/lab/TabContext'
 
-// ** Icon Imports
-import Icon from 'src/@core/components/icon'
-
-// ** Third Party Imports
-import Payment from 'payment'
-import Cards from 'react-credit-cards'
-
-// ** Custom Components
-import CustomChip from 'src/@core/components/mui/chip'
-import TenantSubscriptionDialog from 'src/ui/tenant/TenantSubscriptionDialog'
-
-// ** Util Import
-import { formatCVC, formatExpirationDate, formatCreditCardNumber } from 'src/@core/utils/format'
-
-// ** Styled Component Imports
-import CardWrapper from 'src/@core/styles/libs/react-credit-cards'
-
 // ** Styles Import
 import 'react-credit-cards/es/styles-compiled.css'
 import { Accordion, AccordionDetails, AccordionSummary, Chip } from '@mui/material'
@@ -61,52 +44,6 @@ import FinanceTransactionListTable from './FinanceTransactionListTable'
 import FinanceSettlementHistoryTable from './FinanceSettlementHistoryTable'
 import FinanceSettlementConfigurationTab from './FinanceSettlementConfigurationTab'
 import FinanceRentTransactionListTable from './FinanceRentTransactionListTable'
-
-// ** Styled <sup> component
-const Sup = styled('sup')(({ theme }) => ({
-  top: '0.2rem',
-  left: '-0.6rem',
-  position: 'absolute',
-  color: theme.palette.primary.main
-}))
-
-// ** Styled <sub> component
-const Sub = styled('sub')({
-  fontWeight: 300,
-  fontSize: '1rem',
-  alignSelf: 'flex-end'
-})
-
-const data = [
-  {
-    cardCvc: '587',
-    name: 'Tom McBride',
-    expiryDate: '12/24',
-    imgAlt: 'Mastercard',
-    cardNumber: '5577 0000 5577 9865',
-    imgSrc: '/images/logos/mastercard.png'
-  },
-  {
-    cardCvc: '681',
-    imgAlt: 'Mobile Money',
-
-    // expiryDate: '02/24',
-    badgeColor: 'primary',
-    cardStatus: 'Primary',
-    name: 'Mildred Wagner',
-
-    // cardNumber: '4532 3616 2070 5678',
-    imgSrc: '/images/logos/visa.png'
-  },
-  {
-    cardCvc: '3845',
-    expiryDate: '08/20',
-    name: 'Lester Jennings',
-    imgAlt: 'Master card',
-    cardNumber: '3700 000000 00002',
-    imgSrc: '/images/logos/american-express.png'
-  }
-]
 
 const ParentFinanceViewRentPayments = ({ setFinanceData, financeData }) => {
   // ** States

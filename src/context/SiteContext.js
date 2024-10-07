@@ -12,18 +12,17 @@ import authConfig from 'src/configs/auth'
 
 // ** Defaults
 const defaultProvider = {
-  finance: null,
+  site: null,
   loading: true,
-  setFinance: () => null,
+  setSite: () => null,
   setLoading: () => Boolean,
-  getAllFinance: () => Promise.resolve(),
-  getAllRentTransactions: () => Promise.resolve()
+  getAllDashboard: () => Promise.resolve()
 }
-const FinanceContext = createContext(defaultProvider)
+const SiteContext = createContext(defaultProvider)
 
-const FinanceProvider = ({ children }) => {
+const SiteProvider = ({ children }) => {
   // ** States
-  const [finance, setFinance] = useState(defaultProvider.user)
+  const [site, setSite] = useState(defaultProvider.user)
   const [loading, setLoading] = useState(defaultProvider.loading)
 
   // ** Hooks
@@ -48,7 +47,7 @@ const FinanceProvider = ({ children }) => {
   // }, [])
 
   //function for registering an account.
-  const getAllFinance = (params, successCallback, errorCallback) => {
+  const getAllDashboard = (params, successCallback, errorCallback) => {
     const token = window.localStorage.getItem('accessToken') || accessToken
 
     if (!token) {
@@ -68,35 +67,7 @@ const FinanceProvider = ({ children }) => {
       .then(response => {
         if (successCallback) {
           successCallback(response.data)
-          setFinance(response.data)
-        }
-      })
-      .catch(err => {
-        if (errorCallback) errorCallback(err)
-      })
-  }
-
-  const getAllRentTransactions = (params, successCallback, errorCallback) => {
-    const token = window.localStorage.getItem('accessToken') || accessToken
-
-    if (!token) {
-      const error = new Error('No access token found')
-      if (errorCallback) errorCallback(error)
-
-      return
-    }
-
-    axios
-      .get('https://api.pm.manages.homes/dashboard', {
-        headers: {
-          Authorization: `Bearer ${token}`
-        },
-        params
-      })
-      .then(response => {
-        if (successCallback) {
-          successCallback(response.data)
-          setFinance(response.data)
+          setSite(response.data)
         }
       })
       .catch(err => {
@@ -105,15 +76,14 @@ const FinanceProvider = ({ children }) => {
   }
 
   const values = {
-    finance,
+    site,
     loading,
-    setFinance,
+    setSite,
     setLoading,
-    getAllFinance: getAllFinance,
-    getAllRentTransactions: getAllRentTransactions
+    getAllDashboard: getAllDashboard
   }
 
-  return <FinanceContext.Provider value={values}>{children}</FinanceContext.Provider>
+  return <SiteContext.Provider value={values}>{children}</SiteContext.Provider>
 }
 
-export { FinanceContext, FinanceProvider }
+export { SiteContext, SiteProvider }

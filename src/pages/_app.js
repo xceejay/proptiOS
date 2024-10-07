@@ -40,6 +40,7 @@ import { FinanceProvider } from 'src/context/FinanceContext'
 import { ReportsProvider } from 'src/context/ReportsContext'
 import { MaintenanceProvider } from 'src/context/MaintenanceContext'
 import { LeasesProvider } from 'src/context/LeasesContext'
+import { SiteProvider } from 'src/context/SiteContext'
 
 import { SettingsConsumer, SettingsProvider } from 'src/@core/context/settingsContext'
 import { UserProvider } from '@auth0/nextjs-auth0/client'
@@ -118,39 +119,41 @@ const App = props => {
             <meta name='keywords' content='Simplify, property, management' />
             <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1' />
           </Head>
-          <AuthProvider>
-            <OnboardingProvider>
-              <PropertiesProvider>
-                <TenantsProvider>
-                  <LeasesProvider>
-                    <FinanceProvider>
-                      <SettingsProvider {...(setConfig ? { pageSettings: setConfig() } : {})}>
-                        <SettingsConsumer>
-                          {({ settings }) => {
-                            return (
-                              <ThemeComponent settings={settings}>
-                                <Guard authGuard={authGuard} guestGuard={guestGuard}>
-                                  <AclGuard aclAbilities={aclAbilities} guestGuard={guestGuard} authGuard={authGuard}>
-                                    {getLayout(<Component {...pageProps} />)}
-                                  </AclGuard>
-                                </Guard>
-                                <ReactHotToast>
-                                  <Toaster
-                                    position={settings.toastPosition}
-                                    toastOptions={{ className: 'react-hot-toast' }}
-                                  />
-                                </ReactHotToast>
-                              </ThemeComponent>
-                            )
-                          }}
-                        </SettingsConsumer>
-                      </SettingsProvider>
-                    </FinanceProvider>
-                  </LeasesProvider>
-                </TenantsProvider>
-              </PropertiesProvider>
-            </OnboardingProvider>
-          </AuthProvider>
+          <SiteProvider>
+            <AuthProvider>
+              <OnboardingProvider>
+                <PropertiesProvider>
+                  <TenantsProvider>
+                    <LeasesProvider>
+                      <FinanceProvider>
+                        <SettingsProvider {...(setConfig ? { pageSettings: setConfig() } : {})}>
+                          <SettingsConsumer>
+                            {({ settings }) => {
+                              return (
+                                <ThemeComponent settings={settings}>
+                                  <Guard authGuard={authGuard} guestGuard={guestGuard}>
+                                    <AclGuard aclAbilities={aclAbilities} guestGuard={guestGuard} authGuard={authGuard}>
+                                      {getLayout(<Component {...pageProps} />)}
+                                    </AclGuard>
+                                  </Guard>
+                                  <ReactHotToast>
+                                    <Toaster
+                                      position={settings.toastPosition}
+                                      toastOptions={{ className: 'react-hot-toast' }}
+                                    />
+                                  </ReactHotToast>
+                                </ThemeComponent>
+                              )
+                            }}
+                          </SettingsConsumer>
+                        </SettingsProvider>
+                      </FinanceProvider>
+                    </LeasesProvider>
+                  </TenantsProvider>
+                </PropertiesProvider>
+              </OnboardingProvider>
+            </AuthProvider>
+          </SiteProvider>
         </CacheProvider>
       </UserProvider>
     </Provider>
