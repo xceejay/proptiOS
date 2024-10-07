@@ -57,7 +57,7 @@ const columns = [
       return (
         <LinkStyled
           color={statusObj[status] ? statusObj[status].color : 'primary'}
-          href={`/finance/invoice/view/${row.id}`}
+          href={`/finance/receipt/view/${row.uuid}`}
         >{`${row.uuid}`}</LinkStyled>
       )
     }
@@ -100,23 +100,23 @@ const columns = [
   },
   {
     flex: 0.5,
-    minWidth: 100,
+    minWidth: 150,
     field: 'amount',
     headerName: 'Amount',
     renderCell: ({ row }) => <Typography sx={{ color: 'text.secondary' }}>${row.amount || 0}</Typography>
   },
+  // {
+  //   flex: 0.5,
+  //   minWidth: 150,
+  //   field: 'payment_type',
+  //   headerName: 'Payment Type',
+  //   renderCell: ({ row }) => (
+  //     <Typography sx={{ textTransform: 'capitalize', color: 'text.secondary' }}>{row.payment_type}</Typography>
+  //   )
+  // },
   {
     flex: 0.5,
-    minWidth: 150,
-    field: 'payment_type',
-    headerName: 'Payment Type',
-    renderCell: ({ row }) => (
-      <Typography sx={{ textTransform: 'capitalize', color: 'text.secondary' }}>{row.payment_type}</Typography>
-    )
-  },
-  {
-    flex: 0.5,
-    minWidth: 150,
+    minWidth: 100,
     field: 'payment_method',
     headerName: 'Payment Method',
     renderCell: ({ row }) => (
@@ -126,10 +126,10 @@ const columns = [
     )
   },
   {
-    flex: 0.3,
+    flex: 0.5,
     minWidth: 125,
     field: 'created_at',
-    headerName: 'Issued Date',
+    headerName: 'Payment Date',
     renderCell: ({ row }) => <Typography sx={{ color: 'text.secondary' }}>{row.created_at}</Typography>
   }
 
@@ -180,7 +180,7 @@ const columns = [
   // }
 ]
 
-const FinanceRentTransactionListTable = ({ financeData }) => {
+const FinanceRentTransactionListTable = ({ rentTransactions }) => {
   // ** State
   const [anchorEl, setAnchorEl] = useState(null)
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 7 })
@@ -237,8 +237,8 @@ const FinanceRentTransactionListTable = ({ financeData }) => {
     setAnchorEl(null)
   }
 
-  const filteredRows = financeData
-    ? [...(financeData?.transactions?.expenses || []), ...(financeData?.transactions?.revenue || [])].filter(
+  const filteredRows = rentTransactions
+    ? [...(rentTransactions || []), ...(rentTransactions || [])].filter(
         row =>
           (statusValue ? row.status === statusValue : true) &&
           (paymentMethodValue ? row.payment_method === paymentMethodValue : true) &&
@@ -250,7 +250,7 @@ const FinanceRentTransactionListTable = ({ financeData }) => {
     <Grid container spacing={6.5}>
       <Grid item xs={12} lg={12}>
         <Card>
-          {console.log('so the transaction data', financeData)}
+          {console.log('so the transaction data', rentTransactions)}
           {/* <CardHeader
         title='Transaction History'
         sx={{ '& .MuiCardHeader-action': { m: 0 } }}

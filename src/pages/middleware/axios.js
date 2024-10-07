@@ -47,6 +47,14 @@ axios.interceptors.response.use(
           window.location.href = '/login'
         }, 3000)
       }
+    } else if (402 === error.response.status) {
+      if (!window.location.pathname.startsWith('/login') && !window.location.pathname.startsWith('/register')) {
+        toast.error('Please upgrade or renew your subscription😃', { duration: 3000 })
+        setTimeout(function () {
+          console.log('Renew your subscription')
+          // window.history.back()
+        }, 6000)
+      }
     } else if (405 === error.response.status) {
       if (!window.location.pathname.startsWith('/login') && !window.location.pathname.startsWith('/register')) {
         toast.error('Unauthorized Access to this resource, Contact your admin😅', { duration: 3000 })

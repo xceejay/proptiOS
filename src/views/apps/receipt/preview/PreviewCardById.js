@@ -39,10 +39,10 @@ const statusObj = {
   completed: { color: 'success', icon: 'tabler:circle-check' }
 }
 
-const RentPaymentInvoice = ({ invoiceData }) => {
+const RentPaymentReceipt = ({ receiptData }) => {
   const theme = useTheme()
 
-  if (!invoiceData) {
+  if (!receiptData) {
     return null
   }
 
@@ -75,17 +75,17 @@ const RentPaymentInvoice = ({ invoiceData }) => {
               </div>
             </Box>
           </Grid>
-          {/* Invoice Details */}
+          {/* Receipt Details */}
           <Grid item sm={6} xs={12}>
             <Box sx={{ display: 'flex', justifyContent: { xs: 'flex-start', sm: 'flex-end' } }}>
               <Table sx={{ maxWidth: '210px' }}>
                 <TableBody>
                   <TableRow>
                     <MUITableCell>
-                      <Typography variant='h6'>Invoice</Typography>
+                      <Typography variant='h6'>Receipt</Typography>
                     </MUITableCell>
                     <MUITableCell>
-                      <Typography variant='h6' color={statusObj['completed'].color}>{`#${invoiceData.id}`}</Typography>
+                      <Typography variant='h6' color={statusObj['completed'].color}>{`#${receiptData.id}`}</Typography>
                     </MUITableCell>
                   </TableRow>
                   <TableRow>
@@ -94,7 +94,7 @@ const RentPaymentInvoice = ({ invoiceData }) => {
                     </MUITableCell>
                     <MUITableCell>
                       <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>
-                        {invoiceData.issuedDate}
+                        {receiptData.issuedDate}
                       </Typography>
                     </MUITableCell>
                   </TableRow>
@@ -112,16 +112,16 @@ const RentPaymentInvoice = ({ invoiceData }) => {
         <Box display={'flex'} justifyContent={'space-between'}>
           <Box>
             <Typography sx={{ fontWeight: 500 }}>Tenant Information</Typography>
-            <Typography sx={{ color: 'text.secondary' }}>Name: {invoiceData.tenantName}</Typography>
-            <Typography sx={{ color: 'text.secondary' }}>Email: {invoiceData.tenantEmail}</Typography>
-            <Typography sx={{ color: 'text.secondary' }}>Phone: {invoiceData.tenantPhone}</Typography>
+            <Typography sx={{ color: 'text.secondary' }}>Name: {receiptData.tenantName}</Typography>
+            <Typography sx={{ color: 'text.secondary' }}>Email: {receiptData.tenantEmail}</Typography>
+            <Typography sx={{ color: 'text.secondary' }}>Phone: {receiptData.tenantPhone}</Typography>
           </Box>
 
           <Box>
             <Typography sx={{ fontWeight: 500 }}>Property Information</Typography>
-            <Typography sx={{ color: 'text.secondary' }}>Property: {invoiceData.property_id}</Typography>
-            <Typography sx={{ color: 'text.secondary' }}>Unit: {invoiceData.propertyAddress}</Typography>
-            <Typography sx={{ color: 'text.secondary' }}>Rent Period: {invoiceData.rentPeriod}</Typography>
+            <Typography sx={{ color: 'text.secondary' }}>Property: {receiptData.property_id}</Typography>
+            <Typography sx={{ color: 'text.secondary' }}>Unit: {receiptData.propertyAddress}</Typography>
+            <Typography sx={{ color: 'text.secondary' }}>Rent Period: {receiptData.rentPeriod}</Typography>
           </Box>
         </Box>
       </CardContent>
@@ -143,7 +143,7 @@ const RentPaymentInvoice = ({ invoiceData }) => {
                     color: theme.palette[statusObj['completed'].color]?.main
                   }}
                 >
-                  {`${invoiceData.uuid}`}
+                  {`${receiptData.uuid}`}
                 </Typography>
               </Box>
               <Box sx={{ display: 'flex' }}>
@@ -155,7 +155,7 @@ const RentPaymentInvoice = ({ invoiceData }) => {
                     color: theme.palette[statusObj['completed'].color]?.main
                   }}
                 >
-                  {`${invoiceData.amount}`} {`${invoiceData.currency}`}
+                  {`${receiptData.amount}`} {`${receiptData.currency}`}
                 </Typography>
               </Box>
               <Typography sx={{ mb: 1.5, color: 'text.secondary' }}>
@@ -187,7 +187,7 @@ const RentPaymentInvoice = ({ invoiceData }) => {
           <Grid item xs={12} sm={5}>
             <CalcWrapper>
               <Typography sx={{ color: 'text.secondary' }}>Total Paid:</Typography>
-              <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>{`$${invoiceData.total}`}</Typography>
+              <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>{`$${receiptData.total}`}</Typography>
             </CalcWrapper>
           </Grid>
         </Grid>
@@ -201,11 +201,11 @@ const RentPaymentInvoice = ({ invoiceData }) => {
           <Typography component='span' sx={{ mr: 1.5, fontWeight: 500, color: 'inherit' }}>
             Note:
           </Typography>
-          We appreciate your business. Please retain this invoice for your records.
+          We appreciate your business. Please retain this receipt for your records.
         </Typography>
       </CardContent>
     </Card>
   )
 }
 
-export default RentPaymentInvoice
+export default RentPaymentReceipt

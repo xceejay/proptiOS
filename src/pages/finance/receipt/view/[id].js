@@ -2,12 +2,12 @@
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useFinance } from 'src/hooks/useFinance'
-import PreviewCardById from 'src/views/apps/invoice/preview/PreviewCardById'
+import PreviewCardById from 'src/views/apps/receipt/preview/PreviewCardById'
 
 // ** Demo Components Imports
 
-const InvoicePreview = () => {
-  const [invoiceData, setInvoiceData] = useState(null)
+const ReceiptPreview = () => {
+  const [receiptData, setReceiptData] = useState(null)
   const finance = useFinance()
   const router = useRouter()
   const { id } = router.query
@@ -20,21 +20,21 @@ const InvoicePreview = () => {
           console.log('called')
           let { data } = responseData
 
-          setInvoiceData(data)
-          console.log('FROM invoices single PAGE:', responseData)
+          setReceiptData(data)
+          console.log('FROM receipts single PAGE:', responseData)
           if (responseData?.status === 'FAILED') {
-            alert(responseData.message || 'Failed to fetch invoices')
+            alert(responseData.message || 'Failed to fetch receipts')
           }
         },
         error => {
           console.log(id)
-          console.error('FROM invoice preview PAGE:', error)
+          console.error('FROM receipt preview PAGE:', error)
         }
       )
     }
   }, [])
 
-  return <PreviewCardById id={id} setInvoiceData={setInvoiceData} invoiceData={invoiceData} />
+  return <PreviewCardById id={id} setReceiptData={setReceiptData} receiptData={receiptData} />
 }
 
-export default InvoicePreview
+export default ReceiptPreview

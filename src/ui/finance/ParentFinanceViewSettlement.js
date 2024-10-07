@@ -96,34 +96,34 @@ const ParentFinanceViewSettlement = ({ setFinanceData, financeData }) => {
 
                 <Box sx={{ display: 'flex', flexDirection: 'column', mt: 5, gap: 5 }}>
                   <Box display={'flex'} gap={2}>
-                    <Typography variant='body'>Balance: </Typography>
-                    <Typography color={'primary'} variant='body'>
+                    <Typography variant='body1'>Balance: </Typography>
+                    <Typography color={'primary'} variant='body1'>
                       {'$' + '20'}
                     </Typography>
                   </Box>
                   <Box display={'flex'} gap={2}>
-                    <Typography variant='body'>Primary Account: </Typography>
-                    <Typography textTransform={'uppercase'} color={'primary'} variant='body'>
+                    <Typography variant='body1'>Primary Account: </Typography>
+                    <Typography textTransform={'uppercase'} color={'primary'} variant='body1'>
                       {'Fidelity Bank'}
                     </Typography>
                   </Box>
 
                   <Box display={'flex'} gap={2}>
-                    <Typography variant='body'>Primary Account Address: </Typography>
-                    <Typography textTransform={'uppercase'} color={'primary'} variant='body'>
+                    <Typography variant='body1'>Primary Account Address: </Typography>
+                    <Typography textTransform={'uppercase'} color={'primary'} variant='body1'>
                       {'32208028430823048'}
                     </Typography>
                   </Box>
                   <Box display={'flex'} gap={2}>
-                    <Typography variant='body'>Account Type: </Typography>
-                    <Typography color={'primary'} variant='body'>
+                    <Typography variant='body1'>Account Type: </Typography>
+                    <Typography color={'primary'} variant='body1'>
                       {'BANK'}
                     </Typography>
                   </Box>
 
                   <Box display={'flex'} gap={2}>
-                    <Typography variant='body'>Next Settlement Date: </Typography>
-                    <Typography color={'primary'} variant='body'>
+                    <Typography variant='body1'>Next Settlement Date: </Typography>
+                    <Typography color={'primary'} variant='body1'>
                       {new Date().toLocaleDateString()}
                     </Typography>
                   </Box>

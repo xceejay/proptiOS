@@ -1,37 +1,11 @@
 // ** React Imports
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 // ** MUI Imports
-import Box from '@mui/material/Box'
-import Card from '@mui/material/Card'
-import Grid from '@mui/material/Grid'
-import Alert from '@mui/material/Alert'
-import Table from '@mui/material/Table'
-import Button from '@mui/material/Button'
-import Dialog from '@mui/material/Dialog'
-import Select from '@mui/material/Select'
-import Switch from '@mui/material/Switch'
-import Divider from '@mui/material/Divider'
-import MenuItem from '@mui/material/MenuItem'
-import TableRow from '@mui/material/TableRow'
-import { styled } from '@mui/material/styles'
-import TableCell from '@mui/material/TableCell'
-import TableBody from '@mui/material/TableBody'
-import TextField from '@mui/material/TextField'
-import CardHeader from '@mui/material/CardHeader'
-import Typography from '@mui/material/Typography'
-import AlertTitle from '@mui/material/AlertTitle'
-import InputLabel from '@mui/material/InputLabel'
-import CardContent from '@mui/material/CardContent'
-import DialogTitle from '@mui/material/DialogTitle'
-import FormControl from '@mui/material/FormControl'
-import DialogContent from '@mui/material/DialogContent'
-import DialogActions from '@mui/material/DialogActions'
-import LinearProgress from '@mui/material/LinearProgress'
-import TableContainer from '@mui/material/TableContainer'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import DialogContentText from '@mui/material/DialogContentText'
 
+import Grid from '@mui/material/Grid'
+
+import { styled } from '@mui/material/styles'
 import MuiTab from '@mui/material/Tab'
 import TabList from '@mui/lab/TabList'
 import TabPanel from '@mui/lab/TabPanel'
@@ -39,15 +13,17 @@ import TabContext from '@mui/lab/TabContext'
 
 // ** Styles Import
 import 'react-credit-cards/es/styles-compiled.css'
-import { Accordion, AccordionDetails, AccordionSummary, Chip } from '@mui/material'
-import FinanceTransactionListTable from './FinanceTransactionListTable'
-import FinanceSettlementHistoryTable from './FinanceSettlementHistoryTable'
-import FinanceSettlementConfigurationTab from './FinanceSettlementConfigurationTab'
+
 import FinanceRentTransactionListTable from './FinanceRentTransactionListTable'
+import { useFinance } from 'src/hooks/useFinance'
 
 const ParentFinanceViewRentPayments = ({ setFinanceData, financeData }) => {
   // ** States
   const [value, setValue] = useState('1')
+  const [loading, setLoading] = useState(false)
+  const [rentTransactions, setRentTransactions] = useState(false)
+
+  const finance = useFinance()
 
   const Tab = styled(MuiTab)(({ theme }) => ({
     flexDirection: 'row',
@@ -60,6 +36,29 @@ const ParentFinanceViewRentPayments = ({ setFinanceData, financeData }) => {
   const handleChange = (event, newValue) => {
     setValue(newValue)
   }
+  const paginationModel = {}
+
+  useEffect(() => {
+    finance.getAllRentTransactions(
+      { page: paginationModel.page, limit: paginationModel.pageSize },
+      responseData => {
+        const { data } = responseData
+
+        if (data?.status === 'FAILED') {
+          alert(response.message || 'Failed to fetch transactions')
+        } else {
+          console.log('properties data has been fetched in leases', data)
+          setRentTransactions(data)
+        }
+
+        setLoading(false) // Stop loading when the request completes
+      },
+      error => {
+        console.error('Properties cannot be retrieved:', error)
+        setLoading(false) // Stop loading on error
+      }
+    )
+  }, [])
 
   return (
     <Grid container>
@@ -72,7 +71,9 @@ const ParentFinanceViewRentPayments = ({ setFinanceData, financeData }) => {
           </TabList>
 
           <TabPanel sx={{ mt: 5, padding: 0 }} value='1'>
-            <FinanceRentTransactionListTable></FinanceRentTransactionListTable>
+            <FinanceRentTransactionListTable
+              rentTransactions={rentTransactions.transactions}
+            ></FinanceRentTransactionListTable>
           </TabPanel>
           <TabPanel sx={{ mt: 5, padding: 0 }} value='2'></TabPanel>
         </TabContext>

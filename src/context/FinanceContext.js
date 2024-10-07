@@ -17,7 +17,8 @@ const defaultProvider = {
   setFinance: () => null,
   setLoading: () => Boolean,
   getAllFinance: () => Promise.resolve(),
-  getAllRentTransactions: () => Promise.resolve()
+  getAllRentTransactions: () => Promise.resolve(),
+  getTransaction: () => Promise.resolve()
 }
 const FinanceContext = createContext(defaultProvider)
 
@@ -104,13 +105,41 @@ const FinanceProvider = ({ children }) => {
       })
   }
 
+  const getTransaction = (id, successCallback, errorCallback) => {
+    const token = window.localStorage.getItem('accessToken') || accessToken
+
+    if (!token) {
+      const error = new Error('No access token found')
+      if (errorCallback) errorCallback(error)
+
+      return
+    }
+
+    axios
+      .get(`https://api.pm.manages.homes/transactions/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then(response => {
+        if (successCallback) {
+          successCallback(response.data)
+          setProperty(response.data)
+        }
+      })
+      .catch(err => {
+        if (errorCallback) errorCallback(err)
+      })
+  }
+
   const values = {
     finance,
     loading,
     setFinance,
     setLoading,
     getAllFinance: getAllFinance,
-    getAllRentTransactions: getAllRentTransactions
+    getAllRentTransactions: getAllRentTransactions,
+    getTransaction: getTransaction
   }
 
   return <FinanceContext.Provider value={values}>{children}</FinanceContext.Provider>
