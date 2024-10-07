@@ -60,6 +60,7 @@ import { Accordion, AccordionDetails, AccordionSummary, Chip } from '@mui/materi
 import FinanceTransactionListTable from './FinanceTransactionListTable'
 import FinanceSettlementHistoryTable from './FinanceSettlementHistoryTable'
 import FinanceSettlementConfigurationTab from './FinanceSettlementConfigurationTab'
+import FinanceRentTransactionListTable from './FinanceRentTransactionListTable'
 
 // ** Styled <sup> component
 const Sup = styled('sup')(({ theme }) => ({
@@ -109,22 +110,7 @@ const data = [
 
 const ParentFinanceViewRentPayments = ({ setFinanceData, financeData }) => {
   // ** States
-  const [cvc, setCvc] = useState('')
-  const [name, setName] = useState('')
-  const [focus, setFocus] = useState()
-  const [cardId, setCardId] = useState(0)
-  const [expiry, setExpiry] = useState('')
-  const [cardNumber, setCardNumber] = useState('')
-  const [dialogTitle, setDialogTitle] = useState('Add')
-  const [openEditCard, setOpenEditCard] = useState(false)
-  const [openAddressCard, setOpenAddressCard] = useState(false)
-  const [openUpgradePlans, setOpenUpgradePlans] = useState(false)
-  const [subscriptionDialogOpen, setSubscriptionDialogOpen] = useState(false)
-
-  const handleDelete = () => {
-    // eslint-disable-next-line no-console
-    console.info('You clicked the delete icon.')
-  }
+  const [value, setValue] = useState('1')
 
   const Tab = styled(MuiTab)(({ theme }) => ({
     flexDirection: 'row',
@@ -133,56 +119,6 @@ const ParentFinanceViewRentPayments = ({ setFinanceData, financeData }) => {
       marginRight: theme.spacing(1.5)
     }
   }))
-
-  // Handle Edit Card dialog and get card ID
-
-  const handleEditCardClickOpen = id => {
-    setDialogTitle('Edit')
-    setCardId(id)
-    setCardNumber(data[id].cardNumber)
-    setName(data[id].name)
-    setCvc(data[id].cardCvc)
-    setExpiry(data[id].expiryDate)
-    setOpenEditCard(true)
-  }
-
-  const handleAddCardClickOpen = () => {
-    setDialogTitle('Add')
-    setCardNumber('')
-    setName('')
-    setCvc('')
-    setExpiry('')
-    setOpenEditCard(true)
-  }
-
-  const handleEditCardClose = () => {
-    setDialogTitle('Add')
-    setCardNumber('')
-    setName('')
-    setCvc('')
-    setExpiry('')
-    setOpenEditCard(false)
-  }
-
-  // Handle Upgrade Plan dialog
-  const handleUpgradePlansClickOpen = () => setOpenUpgradePlans(true)
-  const handleUpgradePlansClose = () => setOpenUpgradePlans(false)
-  const handleBlur = () => setFocus(undefined)
-
-  const handleInputChange = ({ target }) => {
-    if (target.name === 'number') {
-      target.value = formatCreditCardNumber(target.value, Payment)
-      setCardNumber(target.value)
-    } else if (target.name === 'expiry') {
-      target.value = formatExpirationDate(target.value)
-      setExpiry(target.value)
-    } else if (target.name === 'cvc') {
-      target.value = formatCVC(target.value, cardNumber, Payment)
-      setCvc(target.value)
-    }
-  }
-
-  const [value, setValue] = useState('1')
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
@@ -198,14 +134,8 @@ const ParentFinanceViewRentPayments = ({ setFinanceData, financeData }) => {
             {/* <Tab value='3' label='Settlement Accounts' /> */}
           </TabList>
 
-          {/* <TabPanel value='1'>
-                <Typography>
-                  Settle rent payments to your primary account, whether it's a bank account or a mobile money wallet,
-                  directly from our platform.
-                </Typography>
-              </TabPanel> */}
           <TabPanel sx={{ mt: 5, padding: 0 }} value='1'>
-            <FinanceSettlementHistoryTable></FinanceSettlementHistoryTable>
+            <FinanceRentTransactionListTable></FinanceRentTransactionListTable>
           </TabPanel>
           <TabPanel sx={{ mt: 5, padding: 0 }} value='2'></TabPanel>
         </TabContext>
