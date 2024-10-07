@@ -2,6 +2,8 @@ import axios from 'axios'
 
 import { useRouter } from 'next/router'
 import toast from 'react-hot-toast'
+import BlankLayout from 'src/@core/layouts/BlankLayout'
+import Error401 from '../401'
 
 // Add a request interceptor
 // axios.interceptors.request.use(
@@ -43,6 +45,14 @@ axios.interceptors.response.use(
         setTimeout(function () {
           console.log('redirecting')
           window.location.href = '/login'
+        }, 3000)
+      }
+    } else if (405 === error.response.status) {
+      if (!window.location.pathname.startsWith('/login') && !window.location.pathname.startsWith('/register')) {
+        toast.error('Unauthorized Access to this resource, Contact your admin😅', { duration: 3000 })
+        setTimeout(function () {
+          console.log('redirecting you back')
+          window.history.back()
         }, 3000)
       }
     } else {

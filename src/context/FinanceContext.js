@@ -87,7 +87,7 @@ const FinanceProvider = ({ children }) => {
     }
 
     axios
-      .get('https://api.pm.manages.homes/dashboard', {
+      .get('https://api.pm.manages.homes/transactions/type/rent', {
         headers: {
           Authorization: `Bearer ${token}`
         },
