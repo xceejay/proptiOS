@@ -200,10 +200,10 @@ const CustomSettlementToolbar = props => {
             <FormControl fullWidth>
               <Autocomplete
                 size='small'
-                sx={{ width: 157 }}
+                sx={{ width: 200 }}
                 disablePortal
                 options={updatedPaymentMethods}
-                renderInput={params => <TextField fullWidth {...params} label='Payments' />}
+                renderInput={params => <TextField fullWidth {...params} label='Property' />}
               />{' '}
             </FormControl>
           </Box>
