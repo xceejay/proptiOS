@@ -22,6 +22,7 @@ import Icon from 'src/@core/components/icon'
 import ParentLeaseViewOverview from './ParentLeaseViewOverview'
 import ParentLeaseViewManagement from './ParentLeaseViewManagement'
 import ParentLeaseViewTemplates from './ParentLeaseViewTemplates'
+import ParentLeaseViewCompose from './ParentLeaseViewCompose'
 
 // ** Styled Tab component
 const Tab = styled(MuiTab)(({ theme }) => ({
@@ -98,6 +99,8 @@ const ParentLeaseViewRight = ({ tab, leaseData, setLeaseData }) => {
         sx={{ borderBottom: theme => `1px solid ${theme.palette.divider}` }}
       >
         <Tab value='overview' label='overview' icon={<Icon fontSize='1.125rem' icon='tabler:home' />} />
+        <Tab value='compose' label='compose' icon={<Icon fontSize='1.125rem' icon='tabler:writing-sign' />} />
+
         <Tab value='management' label='management' icon={<Icon fontSize='1.125rem' icon='tabler:eye-edit' />} />
         <Tab
           value='templates'
@@ -117,7 +120,9 @@ const ParentLeaseViewRight = ({ tab, leaseData, setLeaseData }) => {
             <TabPanel sx={{ p: 0 }} value='overview'>
               <ParentLeaseViewOverview setLeaseData={setLeaseData} leaseData={leaseData} />
             </TabPanel>
-
+            <TabPanel sx={{ p: 0 }} value='compose'>
+              <ParentLeaseViewCompose />
+            </TabPanel>
             <TabPanel sx={{ p: 0 }} value='management'>
               <ParentLeaseViewManagement setLeaseData={setLeaseData} leaseData={leaseData} />
             </TabPanel>

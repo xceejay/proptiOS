@@ -24,10 +24,11 @@ import TabContext from '@mui/lab/TabContext'
 // ** Custom Components
 import FinanceSettlementHistoryTable from './FinanceSettlementHistoryTable'
 import FinanceSettlementConfigurationTab from './FinanceSettlementConfigurationTab'
+import { CardActionArea, CardActions, CardHeader, Icon } from '@mui/material'
 
 const ParentFinanceViewSettlement = ({ setFinanceData, financeData }) => {
   // State for settlement frequency selection
-  const [frequency, setFrequency] = useState(financeData?.settlementFrequency || '')
+  const [frequency, setFrequency] = useState(financeData?.settlementFrequency || 'daily')
   const [value, setValue] = useState('1')
 
   // State for confirmation dialog
@@ -74,6 +75,19 @@ const ParentFinanceViewSettlement = ({ setFinanceData, financeData }) => {
 
           <TabPanel sx={{ padding: 0, mt: 5 }} value='1'>
             <Card>
+              <CardActions>
+                {' '}
+                <Button
+                  size='small'
+                  endIcon={<Icon icon='tabler:upload' />}
+                  variant='text'
+                  color={'primary'}
+                  onClick={() => setValue('3')}
+                >
+                  Set Primary Settlement Account
+                </Button>
+              </CardActions>
+
               <CardContent>
                 <Typography fontSize={'13px'} variant='subtitle2'>
                   Settle rent payments to your primary account, whether it's a bank account or a mobile money wallet,
@@ -82,28 +96,35 @@ const ParentFinanceViewSettlement = ({ setFinanceData, financeData }) => {
 
                 <Box sx={{ display: 'flex', flexDirection: 'column', mt: 5, gap: 5 }}>
                   <Box display={'flex'} gap={2}>
-                    <Typography variant='h6'>Balance: </Typography>
-                    <Typography color={'primary'} variant='h6'>
+                    <Typography variant='body'>Balance: </Typography>
+                    <Typography color={'primary'} variant='body'>
                       {'$' + '20'}
                     </Typography>
                   </Box>
                   <Box display={'flex'} gap={2}>
-                    <Typography variant='h6'>Primary Account: </Typography>
-                    <Typography textTransform={'uppercase'} color={'primary'} variant='h6'>
+                    <Typography variant='body'>Primary Account: </Typography>
+                    <Typography textTransform={'uppercase'} color={'primary'} variant='body'>
                       {'Fidelity Bank'}
                     </Typography>
                   </Box>
 
                   <Box display={'flex'} gap={2}>
-                    <Typography variant='h6'>Primary Account Address: </Typography>
-                    <Typography textTransform={'uppercase'} color={'primary'} variant='h6'>
+                    <Typography variant='body'>Primary Account Address: </Typography>
+                    <Typography textTransform={'uppercase'} color={'primary'} variant='body'>
                       {'32208028430823048'}
                     </Typography>
                   </Box>
                   <Box display={'flex'} gap={2}>
-                    <Typography variant='h6'>Account Type: </Typography>
-                    <Typography color={'primary'} variant='h6'>
+                    <Typography variant='body'>Account Type: </Typography>
+                    <Typography color={'primary'} variant='body'>
                       {'BANK'}
+                    </Typography>
+                  </Box>
+
+                  <Box display={'flex'} gap={2}>
+                    <Typography variant='body'>Next Settlement Date: </Typography>
+                    <Typography color={'primary'} variant='body'>
+                      {new Date().toLocaleDateString()}
                     </Typography>
                   </Box>
 
@@ -116,7 +137,7 @@ const ParentFinanceViewSettlement = ({ setFinanceData, financeData }) => {
                       alignItems: 'center'
                     }}
                   >
-                    <Typography sx={{ alignItems: 'center' }} variant='h4'>
+                    <Typography sx={{ alignItems: 'center' }} variant='h6'>
                       Settlement Frequency
                     </Typography>
                     <TextField
