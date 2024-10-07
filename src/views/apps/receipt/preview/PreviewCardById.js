@@ -112,15 +112,15 @@ const RentPaymentReceipt = ({ receiptData }) => {
         <Box display={'flex'} justifyContent={'space-between'}>
           <Box>
             <Typography sx={{ fontWeight: 500 }}>Tenant Information</Typography>
-            <Typography sx={{ color: 'text.secondary' }}>Name: {receiptData.tenantName}</Typography>
-            <Typography sx={{ color: 'text.secondary' }}>Email: {receiptData.tenantEmail}</Typography>
-            <Typography sx={{ color: 'text.secondary' }}>Phone: {receiptData.tenantPhone}</Typography>
+            <Typography sx={{ color: 'text.secondary' }}>Name: {receiptData.tenant.name}</Typography>
+            <Typography sx={{ color: 'text.secondary' }}>Email: {receiptData.tenant.email}</Typography>
+            <Typography sx={{ color: 'text.secondary' }}>Phone: {receiptData.tenant.tel_number}</Typography>
           </Box>
 
           <Box>
             <Typography sx={{ fontWeight: 500 }}>Property Information</Typography>
-            <Typography sx={{ color: 'text.secondary' }}>Property: {receiptData.property_id}</Typography>
-            <Typography sx={{ color: 'text.secondary' }}>Unit: {receiptData.propertyAddress}</Typography>
+            <Typography sx={{ color: 'text.secondary' }}>Property: {receiptData.property.name}</Typography>
+            <Typography sx={{ color: 'text.secondary' }}>Unit: {receiptData.unit.name || 'None'}</Typography>
             <Typography sx={{ color: 'text.secondary' }}>Rent Period: {receiptData.rentPeriod}</Typography>
           </Box>
         </Box>
