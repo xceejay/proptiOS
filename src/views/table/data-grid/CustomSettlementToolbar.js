@@ -203,7 +203,7 @@ const CustomSettlementToolbar = props => {
                 sx={{ width: 200 }}
                 disablePortal
                 options={updatedPaymentMethods}
-                renderInput={params => <TextField fullWidth {...params} label='Property' />}
+                renderInput={params => <TextField size='small' fullWidth {...params} label='Property' />}
               />{' '}
             </FormControl>
           </Box>
