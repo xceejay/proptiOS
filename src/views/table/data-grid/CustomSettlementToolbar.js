@@ -9,6 +9,8 @@ import Link from 'next/link'
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 import { Button, CardHeader, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material'
+import { Controller } from 'react-hook-form'
+import Autocomplete from '@mui/material/Autocomplete'
 
 const CustomSettlementToolbar = props => {
   const {
@@ -45,6 +47,10 @@ const CustomSettlementToolbar = props => {
     setPaymentTypeValue(event.target.value)
   }
 
+  const updatedPaymentMethods = paymentMethods.map(method => ({
+    ...method, // Spread the existing fields (text, value)
+    label: method.text // Add a new `label` field with the same value as `text`
+  }))
   return (
     <>
       <Box style={{ width: '100%', display: 'flex', justifyContent: 'left', alignItems: 'start' }}>
@@ -158,9 +164,9 @@ const CustomSettlementToolbar = props => {
           </>
         ) : (
           <></>
-        )}
+        )} */}
 
-        {paymentTypes?.length > 0 ? (
+        {/* {paymentTypes?.length > 0 ? (
           <>
             <Box>
               <FormControl fullWidth>
@@ -185,6 +191,24 @@ const CustomSettlementToolbar = props => {
             </Box>
           </>
         ) : (
+          <></>
+        )} */}
+
+        {/* {paymentTypes?.length > 0 ? ( */}
+        <>
+          <Box>
+            <FormControl fullWidth>
+              <Autocomplete
+                size='small'
+                sx={{ width: 157 }}
+                disablePortal
+                options={updatedPaymentMethods}
+                renderInput={params => <TextField fullWidth {...params} label='Payments' />}
+              />{' '}
+            </FormControl>
+          </Box>
+        </>
+        {/* ) : (
           <></>
         )} */}
         {/* <Box>
