@@ -277,7 +277,7 @@ const FinanceTransactionListTable = ({ financeData }) => {
       /> */}
           <DataGrid
             autoHeight
-            rowHeight={54}
+            rowHeight={filteredRows.length == 0 ? 100 : 54}
             columns={columns}
             loading={false}
             slots={{ toolbar: CustomFinanceToolbar }}

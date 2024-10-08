@@ -279,7 +279,7 @@ const FinanceStatementsTable = ({ financeData }) => {
       /> */}
           <DataGrid
             autoHeight
-            rowHeight={200}
+            rowHeight={filteredRows.length == 0 ? 100 : 54}
             columns={columns}
             loading={false}
             slots={{ toolbar: CustomStatementsToolbar, noRowsOverlay: CustomNoRowsOverlay }}

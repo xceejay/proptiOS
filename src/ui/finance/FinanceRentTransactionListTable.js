@@ -327,7 +327,7 @@ const FinanceRentTransactionListTable = ({ rentTransactions }) => {
                 // setPaymentTypeValue: setPaymentTypeValue,
                 // paymentTypes: paymentTypes,
 
-                // title: 'Rent Transactions',
+                title: 'Rent Transactions',
                 searchPlaceholder: 'Quick Search',
                 addText: 'Create Invoice',
                 value: value,

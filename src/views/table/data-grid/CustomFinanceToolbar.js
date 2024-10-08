@@ -94,7 +94,7 @@ const CustomFinanceToolbar = props => {
 
       <Box
         sx={{
-          py: 10,
+          py: 4,
           px: 6,
           rowGap: 2,
           columnGap: 4,
