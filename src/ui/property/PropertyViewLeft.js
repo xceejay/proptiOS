@@ -301,6 +301,8 @@ const UserViewLeft = ({ setPropertyData, propertyData }) => {
             </CardContent>
 
             <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
+              {/* edit property dialog buttons */}
+
               {/* <Button size='small' variant='contained' sx={{ mr: 2 }} onClick={handleEditClickOpen}>
                 Edit
               </Button> */}
