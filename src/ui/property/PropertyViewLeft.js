@@ -281,10 +281,10 @@ const UserViewLeft = ({ setPropertyData, propertyData }) => {
                     {propertyData.name}
                   </Typography>
                 </Box>
-                <Box sx={{ display: 'flex', mb: 3 }}>
+                {/* <Box sx={{ display: 'flex', mb: 3 }}>
                   <Typography sx={{ mr: 2, fontWeight: 500 }}>Tax ID:</Typography>
                   <Typography sx={{ color: 'text.secondary' }}>Tax-8894</Typography>
-                </Box>
+                </Box> */}
                 {/* <Box sx={{ display: 'flex', mb: 3 }}>
                   <Typography sx={{ mr: 2, fontWeight: 500 }}>Contact:</Typography>
                   <Typography sx={{ color: 'text.secondary' }}>{propertyData.tel_number}</Typography>
@@ -294,8 +294,8 @@ const UserViewLeft = ({ setPropertyData, propertyData }) => {
                   <Typography sx={{ color: 'text.secondary' }}>English</Typography>
                 </Box>
                 <Box sx={{ display: 'flex' }}>
-                  <Typography sx={{ mr: 2, fontWeight: 500 }}>Country:</Typography>
-                  <Typography sx={{ color: 'text.secondary' }}>{propertyData.country}</Typography>
+                  <Typography sx={{ mr: 2, fontWeight: 500 }}>Address:</Typography>
+                  <Typography sx={{ color: 'text.secondary' }}>{propertyData.address}</Typography>
                 </Box>
               </Box>
             </CardContent>
