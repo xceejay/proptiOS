@@ -212,8 +212,8 @@ const UserViewLeft = ({ setPropertyData, propertyData }) => {
                 rounded
                 skin='light'
                 size='small'
-                label={propertyData.status}
-                color={statusColors[propertyData.status]}
+                label={propertyData.type}
+                color={statusColors['active']}
                 sx={{ textTransform: 'capitalize' }}
               />
             </CardContent>
@@ -222,20 +222,26 @@ const UserViewLeft = ({ setPropertyData, propertyData }) => {
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <Box sx={{ mr: 8, display: 'flex', alignItems: 'center' }}>
                   <CustomAvatar skin='light' variant='rounded' sx={{ mr: 2.5, width: 38, height: 38 }}>
-                    <Icon fontSize='1.75rem' icon='tabler:cash' />
+                    <Icon fontSize='1.75rem' icon='tabler:writing-sign' />
                   </CustomAvatar>
                   <div>
-                    <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}> GHC {0}</Typography>
-                    <Typography variant='body2'>Rent Paid</Typography>
+                    <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>
+                      {' '}
+                      {propertyData.leases.length}
+                    </Typography>
+                    <Typography variant='body2'>Leases</Typography>
                   </div>
                 </Box>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <CustomAvatar skin='light' variant='rounded' sx={{ mr: 2.5, width: 38, height: 38 }}>
-                    <Icon fontSize='1.75rem' icon='tabler:cash' color='red' />
+                    <Icon fontSize='1.75rem' icon='tabler:woman' color='green' />
                   </CustomAvatar>
                   <div>
-                    <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>GHC {0}</Typography>
-                    <Typography variant='body2'>Rent Due</Typography>
+                    <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>
+                      {' '}
+                      {propertyData.tenants.length}
+                    </Typography>
+                    <Typography variant='body2'>Tenants</Typography>
                   </div>
                 </Box>
               </Box>
@@ -252,25 +258,25 @@ const UserViewLeft = ({ setPropertyData, propertyData }) => {
                   <Typography sx={{ mr: 2, fontWeight: 500 }}>Property ID:</Typography>
                   <Typography sx={{ color: 'text.secondary' }}>{propertyData.uuid} </Typography>
                 </Box>
-                <Box sx={{ display: 'flex', mb: 3 }}>
+                {/* <Box sx={{ display: 'flex', mb: 3 }}>
                   <Typography sx={{ mr: 2, fontWeight: 500 }}>Email:</Typography>
                   <Typography sx={{ color: 'text.secondary' }}>{propertyData.email}</Typography>
-                </Box>
+                </Box> */}
                 <Box sx={{ display: 'flex', mb: 3 }}>
-                  <Typography sx={{ mr: 2, fontWeight: 500 }}>Status:</Typography>
+                  <Typography sx={{ mr: 2, fontWeight: 500 }}>Property Type:</Typography>
                   <CustomChip
                     rounded
                     skin='light'
                     size='small'
-                    label={propertyData.status}
-                    color={statusColors[propertyData.status]}
+                    label={propertyData.type}
+                    color={statusColors['active']}
                     sx={{
                       textTransform: 'capitalize'
                     }}
                   />
                 </Box>
                 <Box sx={{ display: 'flex', mb: 3 }}>
-                  <Typography sx={{ mr: 2, fontWeight: 500 }}>Property:</Typography>
+                  <Typography sx={{ mr: 2, fontWeight: 500 }}>Property name:</Typography>
                   <Typography sx={{ color: 'text.secondary', textTransform: 'capitalize' }}>
                     {propertyData.name}
                   </Typography>
@@ -279,10 +285,10 @@ const UserViewLeft = ({ setPropertyData, propertyData }) => {
                   <Typography sx={{ mr: 2, fontWeight: 500 }}>Tax ID:</Typography>
                   <Typography sx={{ color: 'text.secondary' }}>Tax-8894</Typography>
                 </Box>
-                <Box sx={{ display: 'flex', mb: 3 }}>
+                {/* <Box sx={{ display: 'flex', mb: 3 }}>
                   <Typography sx={{ mr: 2, fontWeight: 500 }}>Contact:</Typography>
                   <Typography sx={{ color: 'text.secondary' }}>{propertyData.tel_number}</Typography>
-                </Box>
+                </Box> */}
                 <Box sx={{ display: 'flex', mb: 3 }}>
                   <Typography sx={{ mr: 2, fontWeight: 500 }}>Language:</Typography>
                   <Typography sx={{ color: 'text.secondary' }}>English</Typography>

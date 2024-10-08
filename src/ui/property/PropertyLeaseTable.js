@@ -148,7 +148,7 @@ const PropertyLeaseTable = ({ setPropertyData, propertyData }) => {
       headerName: 'Lease Type',
       renderCell: ({ row }) => (
         <Typography noWrap sx={{ color: 'text.secondary' }}>
-          {row.lease_type}
+          {row.type}
         </Typography>
       )
     },
@@ -159,7 +159,7 @@ const PropertyLeaseTable = ({ setPropertyData, propertyData }) => {
       headerName: 'Property',
       renderCell: ({ row }) => (
         <Typography noWrap sx={{ color: 'text.secondary' }}>
-          {row.property?.name}
+          {row.property_name}
         </Typography>
       )
     },
@@ -279,10 +279,26 @@ const PropertyLeaseTable = ({ setPropertyData, propertyData }) => {
     //     console.error('Leases Cannot be retrieved:', error)
     //   }
     // )
+    if (propertyData) {
+      const structuredLeases = propertyData.leases.map(lease => {
+        const tenant = propertyData.tenants.find(t => t.id === lease.tenant_id)
+        const unit = propertyData.units.find(u => u.id === lease.unit_id)
 
-    setLeasesData(propertyData.leases)
+        return {
+          ...lease,
+          property_name: propertyData.name, // Attach the property name
+          tenant: tenant || null, // Attach tenant object or null if not found
+          unit: unit || null // Attach unit object or null if not found
+        }
+      })
 
-    console.log(leasesData)
+      // Final structured leases
+      console.log(structuredLeases)
+
+      setLeasesData(structuredLeases)
+
+      // console.log(leasesData)
+    }
   }, [propertyData])
 
   const handleFilter = useCallback(val => {
