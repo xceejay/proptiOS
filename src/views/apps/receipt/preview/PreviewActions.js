@@ -33,11 +33,11 @@ const PreviewActions = ({ id, toggleSendReceiptDrawer, toggleAddPaymentDrawer })
           component={Link}
           color='secondary'
           variant='outlined'
-          href={`/apps/receipt/print/${id}`}
+          href={`/finance/receipt/print/${id}`}
         >
           Print
         </Button>
-        <Button
+        {/* <Button
           fullWidth
           sx={{ mb: 2 }}
           component={Link}
@@ -46,7 +46,7 @@ const PreviewActions = ({ id, toggleSendReceiptDrawer, toggleAddPaymentDrawer })
           href={`/apps/receipt/edit/${id}`}
         >
           Edit Receipt
-        </Button>
+        </Button> */}
         <Button size='small' fullWidth variant='contained' sx={{ '& svg': { mr: 2 } }} onClick={toggleAddPaymentDrawer}>
           <Icon fontSize='14px' icon='tabler:currency-dollar' />
           Add Payment

@@ -59,7 +59,7 @@ const columns = [
       return (
         <LinkStyled
           color={statusObj[status] ? statusObj[status].color : 'primary'}
-          href={`/finance/invoice/view/${row.id}`}
+          href={`/finance/receipt/view/${row.uuid}`}
         >{`${row.uuid}`}</LinkStyled>
       )
     }
@@ -279,7 +279,7 @@ const FinanceStatementsTable = ({ financeData }) => {
       /> */}
           <DataGrid
             autoHeight
-            rowHeight={filteredRows.length == 0 ? 100 : 54}
+            rowHeight={filteredRows.length < 4 ? 100 : 54}
             columns={columns}
             loading={false}
             slots={{ toolbar: CustomStatementsToolbar, noRowsOverlay: CustomNoRowsOverlay }}

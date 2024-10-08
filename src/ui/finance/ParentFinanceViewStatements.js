@@ -1,6 +1,6 @@
 // ** React Imports
 // ** React Imports
-import { useState, forwardRef } from 'react'
+import { useState, forwardRef, useEffect } from 'react'
 
 // ** MUI Imports
 
@@ -23,8 +23,13 @@ import { TextField } from '@mui/material'
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 import FinanceTransactionListTable from './FinanceTransactionListTable'
 import FinanceStatementsTable from './FinanceStatementsTable'
+import { useFinance } from 'src/hooks/useFinance'
 
 const ParentFinanceViewStatements = ({ setFinanceData, financeData }) => {
+  const [transactions, setAllTransactions] = useState(null)
+  const finance = useFinance()
+  const paginationModel = {}
+  const [loading, setLoading] = useState(false)
   const [startDate, setStartDate] = useState(new Date())
   const [endDate, setEndDate] = useState(addDays(new Date(), 15))
   const [startDateRange, setStartDateRange] = useState(new Date())
@@ -49,6 +54,28 @@ const ParentFinanceViewStatements = ({ setFinanceData, financeData }) => {
     setStartDateRange(start)
     setEndDateRange(end)
   }
+
+  useEffect(() => {
+    finance.getAllTransactions(
+      { page: paginationModel.page, limit: paginationModel.pageSize },
+      responseData => {
+        const { data } = responseData
+
+        if (data?.status === 'FAILED') {
+          alert(response.message || 'Failed to fetch transactions')
+        } else {
+          console.log('properties data has been fetched in leases', data)
+          setAllTransactions(data)
+        }
+
+        setLoading(false) // Stop loading when the request completes
+      },
+      error => {
+        console.error('Properties cannot be retrieved:', error)
+        setLoading(false) // Stop loading on error
+      }
+    )
+  }, [])
 
   return (
     <Grid container spacing={6}>
@@ -133,7 +160,7 @@ const ParentFinanceViewStatements = ({ setFinanceData, financeData }) => {
             <FinanceStatementsTable></FinanceStatementsTable>
           </CardContent> */}
         {/* </Card> */}
-        <FinanceStatementsTable></FinanceStatementsTable>
+        <FinanceStatementsTable financeData={transactions}></FinanceStatementsTable>
       </Grid>
     </Grid>
   )

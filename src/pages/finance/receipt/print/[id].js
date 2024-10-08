@@ -2,15 +2,9 @@
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useFinance } from 'src/hooks/useFinance'
-import MaintenanceReceipt from 'src/views/apps/receipt/preview/MaintenanceReceipt'
-import RentPaymentReceipt from 'src/views/apps/receipt/preview/RentPaymentReceipt'
 import Spinner from 'src/@core/components/spinner'
-import { Grid } from '@mui/material'
-import EditActions from 'src/views/apps/receipt/edit/EditActions'
-import SendReceiptDrawer from 'src/views/apps/receipt/shared-drawer/SendReceiptDrawer'
-import AddPaymentDrawer from 'src/views/apps/receipt/shared-drawer/AddPaymentDrawer'
 
-import PreviewActions from 'src/views/apps/receipt/preview/PreviewActions'
+import ReceiptPrint from 'src/views/apps/receipt/print/PrintPage'
 
 // ** Demo Components Imports
 
@@ -50,25 +44,10 @@ const ReceiptPreview = () => {
   if (!receiptData) return <Spinner></Spinner>
   return (
     <>
-      {receiptData.payment_type === 'rent' ? (
+      {receiptData ? (
         <>
-          <Grid container spacing={6}>
-            <Grid item xl={9} md={8} xs={12}>
-              <RentPaymentReceipt id={id} setReceiptData={setReceiptData} receiptData={receiptData} />
-            </Grid>
-            <Grid item xl={3} md={4} xs={12}>
-              <PreviewActions
-                id={id}
-                toggleAddPaymentDrawer={toggleAddPaymentDrawer}
-                toggleSendReceiptDrawer={toggleSendReceiptDrawer}
-              />{' '}
-            </Grid>
-          </Grid>
-          <SendReceiptDrawer open={sendReceiptOpen} toggle={toggleSendReceiptDrawer} />
-          <AddPaymentDrawer open={addPaymentOpen} toggle={toggleAddPaymentDrawer} />
+          <ReceiptPrint receiptData={receiptData}></ReceiptPrint>
         </>
-      ) : receiptData.payment_type === 'maintenance' ? (
-        <MaintenanceReceipt id={id} setReceiptData={setReceiptData} receiptData={receiptData} />
       ) : (
         <>No receipt</>
       )}
