@@ -76,7 +76,7 @@ const CrmRevenueGrowth = ({ DashData }) => {
 
     return {
       changes,
-      averageChange: parseFloat(averageChange).toFixed()
+      averageChange: parseFloat(averageChange).toFixed(2)
     }
   }
 
