@@ -14,6 +14,8 @@ import MenuItem from '@mui/material/MenuItem'
 import { styled } from '@mui/material/styles'
 import CardHeader from '@mui/material/CardHeader'
 import IconButton from '@mui/material/IconButton'
+import addDays from 'date-fns/addDays'
+
 import Typography from '@mui/material/Typography'
 import { DataGrid, GridToolbar } from '@mui/x-data-grid'
 
@@ -27,6 +29,7 @@ import ServerSideToolbarTenantManage from 'src/views/table/data-grid/ServerSideT
 import CustomTenantToolbar from 'src/views/table/data-grid/CustomTenantToolbar'
 import { Grid } from '@mui/material'
 import CustomFinanceToolbar from 'src/views/table/data-grid/CustomFinanceToolbar'
+import CustomRangeDatePicker from '../CustomRangeDatePicker'
 
 const LinkStyled = styled(Link)(({ theme, color }) => ({
   fontSize: '13px',
@@ -181,6 +184,14 @@ const columns = [
 ]
 
 const FinanceRentTransactionListTable = ({ rentTransactions }) => {
+  const [startDateRange, setStartDateRange] = useState()
+  const [endDateRange, setEndDateRange] = useState()
+  const handleOnChangeRange = dates => {
+    const [start, end] = dates
+    setStartDateRange(start)
+    setEndDateRange(end)
+  }
+
   // ** State
   const [anchorEl, setAnchorEl] = useState(null)
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 7 })
@@ -222,6 +233,14 @@ const FinanceRentTransactionListTable = ({ rentTransactions }) => {
 
   const [paymentTypeValue, setPaymentTypeValue] = useState('')
 
+  const [filterModel, setFilterModel] = useState({
+    items: [
+      { field: 'status', operator: 'equals', value: statusValue },
+      { field: 'payment_method', operator: 'equals', value: paymentMethodValue },
+      { field: 'payment_type', operator: 'equals', value: paymentTypeValue }
+    ]
+  })
+
   const handleFilter = useCallback(val => {
     setValue(val)
   }, [])
@@ -251,30 +270,21 @@ const FinanceRentTransactionListTable = ({ rentTransactions }) => {
       <Grid item xs={12} lg={12}>
         <Card>
           {console.log('so the transaction data', rentTransactions)}
-          {/* <CardHeader
-        title='Transaction History'
-        sx={{ '& .MuiCardHeader-action': { m: 0 } }}
-        action={
-          <>
-            <Button
-              color='secondary'
-              variant='outlined'
-              aria-haspopup='true'
-              onClick={handleClick}
-              aria-expanded={open ? 'true' : undefined}
-              endIcon={<Icon icon='tabler:chevron-down' />}
-              aria-controls={open ? 'user-view-overview-export' : undefined}
-            >
-              Export
-            </Button>
-            <Menu open={open} anchorEl={anchorEl} onClose={handleClose} id='user-view-overview-export'>
-              <MenuItem onClick={handleClose}>PDF</MenuItem>
-              <MenuItem onClick={handleClose}>XLSX</MenuItem>
-              <MenuItem onClick={handleClose}>CSV</MenuItem>
-            </Menu>
-          </>
-        }
-      /> */}
+          <CardHeader
+            title='Rent Transactions'
+            sx={{ '& .MuiCardHeader-action': { m: 0 } }}
+            action={
+              <>
+                <Box>
+                  <CustomRangeDatePicker
+                    startDateRange={startDateRange}
+                    endDateRange={endDateRange}
+                    handleOnChangeRange={handleOnChangeRange}
+                  ></CustomRangeDatePicker>
+                </Box>
+              </>
+            }
+          />
           <DataGrid
             autoHeight
             rowHeight={54}
@@ -286,29 +296,32 @@ const FinanceRentTransactionListTable = ({ rentTransactions }) => {
             pageSizeOptions={[7, 10, 25, 50]}
             paginationModel={paginationModel}
             onPaginationModelChange={setPaginationModel}
-            filterModel={{
-              items: [
-                { field: 'status', operator: 'equals', value: statusValue },
-                { field: 'payment_method', operator: 'equals', value: paymentMethodValue },
-                { field: 'payment_type', operator: 'equals', value: paymentTypeValue }
-              ]
-            }}
+            filterModel={filterModel} // Track the filterModel state
             onFilterModelChange={newFilterModel => {
-              // Update the filter model states here
+              // Update the filterModel state dynamically for any field or operator change
+              setFilterModel(newFilterModel)
+
+              // Loop through each filter item and dynamically update values
               newFilterModel.items.forEach(item => {
-                if (item.field === 'status') {
-                  setStatusValue(item.value)
-                } else if (item.field === 'payment_method') {
-                  setPaymentMethodValue(item.value)
-                } else if (item.field === 'payment_type') {
-                  setPaymentTypeValue(item.value)
+                switch (item.field) {
+                  case 'status':
+                    setStatusValue(item.value)
+                    break
+                  case 'payment_method':
+                    setPaymentMethodValue(item.value)
+                    break
+                  case 'payment_type':
+                    setPaymentTypeValue(item.value)
+                    break
+                  default:
+                    // Handle other fields dynamically if needed
+                    break
                 }
               })
             }}
             initialState={{
               columns: {
                 columnVisibilityModel: {
-                  // Hide columns status and traderName, the other columns will remain visible
                   status: true,
                   payment_method: true,
                   payment_type: true
@@ -317,21 +330,16 @@ const FinanceRentTransactionListTable = ({ rentTransactions }) => {
             }}
             slotProps={{
               toolbar: {
-                statusValue: statusValue,
-                setStatusValue: setStatusValue,
-                statuses: statuses,
-                paymentMethodValue: paymentMethodValue,
-                setPaymentMethodValue: setPaymentMethodValue,
-                paymentMethods: paymentMethods,
-                // paymentTypeValue: paymentTypeValue,
-                // setPaymentTypeValue: setPaymentTypeValue,
-                // paymentTypes: paymentTypes,
-
-                title: 'Rent Transactions',
+                statusValue,
+                setStatusValue,
+                statuses,
+                paymentMethodValue,
+                setPaymentMethodValue,
+                paymentMethods,
                 searchPlaceholder: 'Quick Search',
                 addText: 'Create Invoice',
-                value: value,
-                handleFilter: handleFilter
+                value,
+                handleFilter
               }
             }}
           />

@@ -13,6 +13,8 @@ import { useState, forwardRef } from 'react'
 // ** Third Party Imports
 import format from 'date-fns/format'
 import addDays from 'date-fns/addDays'
+import subDays from 'date-fns/subDays'
+
 import DatePicker from 'react-datepicker'
 
 // ** MUI Imports
@@ -53,6 +55,7 @@ const CustomFinanceToolbar = props => {
   const [endDate, setEndDate] = useState(addDays(new Date(), 15))
   const [startDateRange, setStartDateRange] = useState(new Date())
   const [endDateRange, setEndDateRange] = useState(addDays(new Date(), 45))
+  const [dateExclude, setDateExclude] = useState(new Date())
 
   const handleOnChange = dates => {
     const [start, end] = dates
@@ -200,23 +203,7 @@ const CustomFinanceToolbar = props => {
         ) : (
           <></>
         )}
-        {/* <Box>
-          <>
-            <DatePickerWrapper>
-              <DatePicker
-                selectsRange
-                monthsShown={2}
-                endDate={endDateRange}
-                selected={startDateRange}
-                startDate={startDateRange}
-                shouldCloseOnSelect={false}
-                id='date-range-picker-months'
-                onChange={handleOnChangeRange}
-                customInput={<CustomInput label='Select period' end={endDateRange} start={startDateRange} />}
-              />
-            </DatePickerWrapper>
-          </>
-        </Box> */}
+
         {paymentTypes?.length > 0 ? (
           <>
             <Box>
@@ -244,7 +231,24 @@ const CustomFinanceToolbar = props => {
         ) : (
           <></>
         )}
-
+        {/* <Box display={'flex'}>
+          <>
+            <DatePickerWrapper>
+              <DatePicker
+                selectsRange
+                monthsShown={2}
+                endDate={endDateRange}
+                selected={startDateRange}
+                // excludeDates={[subDays(new Date(), 1), subDays(new Date(), 2)]}
+                startDate={startDateRange}
+                shouldCloseOnSelect={false}
+                id='date-range-picker-months'
+                onChange={handleOnChangeRange}
+                customInput={<CustomInput label='Select period' end={endDateRange} start={startDateRange} />}
+              />
+            </DatePickerWrapper>
+          </>
+        </Box> */}
         {/* <Box>
           <Typography variant='subtitle'>Filter By: </Typography>
         </Box> */}

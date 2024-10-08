@@ -53,7 +53,12 @@ const RentPaymentReceipt = ({ receiptData }) => {
         <Grid container spacing={6}>
           {/* Company Info */}
           <Grid item sm={6} xs={12}>
-            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column'
+              }}
+            >
               <Box sx={{ mb: 6, display: 'flex', alignItems: 'center' }}>
                 <Icon sx={{ fontSize: 34, color: theme.palette.primary.main }}>business</Icon>
                 <Typography

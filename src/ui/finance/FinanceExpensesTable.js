@@ -1,10 +1,12 @@
 // ** React Imports
-import { useState, useCallback } from 'react'
+import { useState, useCallback, forwardRef } from 'react'
 
 // ** Next Import
 import Link from 'next/link'
 
 // ** MUI Imports
+import { GridFilterInputDate, getGridDateOperators } from '@mui/x-data-grid'
+
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import Menu from '@mui/material/Menu'
@@ -16,6 +18,9 @@ import CardHeader from '@mui/material/CardHeader'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import { DataGrid, GridToolbar } from '@mui/x-data-grid'
+import format from 'date-fns/format'
+import addDays from 'date-fns/addDays'
+import subDays from 'date-fns/subDays'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
@@ -24,11 +29,48 @@ import Icon from 'src/@core/components/icon'
 import CustomAvatar from 'src/@core/components/mui/avatar'
 import OptionsMenu from 'src/@core/components/option-menu'
 import ServerSideToolbarTenantManage from 'src/views/table/data-grid/ServerSideToolbarTenantManage'
-import CustomSettlementToolbar from 'src/views/table/data-grid/CustomSettlementToolbar'
-import { Grid } from '@mui/material'
-import addDays from 'date-fns/addDays'
-import CustomRangeDatePicker from '../CustomRangeDatePicker'
+import CustomTenantToolbar from 'src/views/table/data-grid/CustomTenantToolbar'
 
+import CustomFinanceToolbar from 'src/views/table/data-grid/CustomFinanceToolbar'
+import CustomRangeDatePicker from '../CustomRangeDatePicker'
+import { Grid } from '@mui/material'
+import CustomNoRowsOverlay from '../CustomNoRowsOverlay'
+
+// Create custom date operators
+const customDateOperators = [
+  {
+    label: 'Before',
+    value: 'before',
+    getApplyFilterFn: filterItem => {
+      if (!filterItem.value) {
+        return null
+      }
+      return ({ value }) => {
+        if (!value) {
+          return false
+        }
+        return new Date(value) < new Date(filterItem.value)
+      }
+    },
+    InputComponent: GridFilterInputDate
+  },
+  {
+    label: 'After',
+    value: 'after',
+    getApplyFilterFn: filterItem => {
+      if (!filterItem.value) {
+        return null
+      }
+      return ({ value }) => {
+        if (!value) {
+          return false
+        }
+        return new Date(value) > new Date(filterItem.value)
+      }
+    },
+    InputComponent: GridFilterInputDate
+  }
+]
 const LinkStyled = styled(Link)(({ theme, color }) => ({
   fontSize: '13px',
   textDecoration: 'none',
@@ -48,9 +90,9 @@ const statusObj = {
 
 const columns = [
   {
-    flex: 1,
+    flex: 0.5,
     field: 'uuid',
-    minWidth: 200,
+    minWidth: 100,
     headerName: 'Transaction ID',
     renderCell: ({ row }) => {
       const { status } = row
@@ -65,7 +107,7 @@ const columns = [
   },
   {
     flex: 0.15,
-    minWidth: 100,
+    minWidth: 80,
     field: 'status',
     renderHeader: () => <Icon icon='tabler:trending-up' fontSize='1.125rem' />,
     renderCell: ({ row }) => {
@@ -100,37 +142,39 @@ const columns = [
     }
   },
   {
-    flex: 0.15,
-    minWidth: 190,
+    flex: 0.5,
+    minWidth: 100,
     field: 'amount',
     headerName: 'Amount',
     renderCell: ({ row }) => <Typography sx={{ color: 'text.secondary' }}>${row.amount || 0}</Typography>
   },
   {
-    flex: 0.15,
-    minWidth: 190,
-    field: 'settlement_account',
-    headerName: 'Account',
+    flex: 0.5,
+    minWidth: 150,
+    field: 'payment_type',
+    headerName: 'Payment Type',
     renderCell: ({ row }) => (
       <Typography sx={{ textTransform: 'capitalize', color: 'text.secondary' }}>{row.payment_type}</Typography>
     )
   },
-  // {
-  //   flex: 0.2,
-  //   minWidth: 90,
-  //   field: 'payment_method',
-  //   headerName: 'Payment Method',
-  //   renderCell: ({ row }) => (
-  //     <Typography sx={{ textTransform: 'capitalize', color: 'text.secondary' }}>
-  //       {row.payment_method.replace('_', ' ') || 0}
-  //     </Typography>
-  //   )
-  // },
   {
-    flex: 0.15,
-    minWidth: 190,
+    flex: 0.5,
+    minWidth: 150,
+    field: 'payment_method',
+    headerName: 'Payment Method',
+    renderCell: ({ row }) => (
+      <Typography sx={{ textTransform: 'capitalize', color: 'text.secondary' }}>
+        {row.payment_method.replace('_', ' ') || 0}
+      </Typography>
+    )
+  },
+  {
+    flex: 0.3,
+    minWidth: 125,
     field: 'created_at',
-    headerName: 'Date',
+    headerName: 'Issued Date',
+    filterOperators: customDateOperators,
+
     renderCell: ({ row }) => <Typography sx={{ color: 'text.secondary' }}>{row.created_at}</Typography>
   }
 
@@ -181,8 +225,9 @@ const columns = [
   // }
 ]
 
-const FinanceSettlementHistoryTable = ({ financeData }) => {
+const FinanceExpensesTable = ({ financeData }) => {
   // ** State
+
   const [anchorEl, setAnchorEl] = useState(null)
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 7 })
   const [value, setValue] = useState('')
@@ -195,6 +240,14 @@ const FinanceSettlementHistoryTable = ({ financeData }) => {
     { text: 'Failed', value: 'failed' },
     { text: 'Refunded', value: 'refunded' }
   ])
+
+  const [startDateRange, setStartDateRange] = useState()
+  const [endDateRange, setEndDateRange] = useState()
+  const handleOnChangeRange = dates => {
+    const [start, end] = dates
+    setStartDateRange(start)
+    setEndDateRange(end)
+  }
 
   const [paymentMethodValue, setPaymentMethodValue] = useState('')
 
@@ -210,7 +263,6 @@ const FinanceSettlementHistoryTable = ({ financeData }) => {
 
   const [paymentTypes, setPaymentTypes] = useState([
     { text: 'All', value: '' },
-    { text: 'Rent', value: 'rent' },
     { text: 'Management Fee', value: 'management_fee' },
     { text: 'Maintenance and Repairs', value: 'maintenance_and_repairs' },
     { text: 'Tenant Management', value: 'tenant_management' },
@@ -220,14 +272,6 @@ const FinanceSettlementHistoryTable = ({ financeData }) => {
     { text: 'Insurance', value: 'insurance' },
     { text: 'Miscellaneous', value: 'miscellaneous' }
   ])
-
-  const [startDateRange, setStartDateRange] = useState(null)
-  const [endDateRange, setEndDateRange] = useState(null)
-  const handleOnChangeRange = dates => {
-    const [start, end] = dates
-    setStartDateRange(start)
-    setEndDateRange(end)
-  }
 
   const [paymentTypeValue, setPaymentTypeValue] = useState('')
 
@@ -258,13 +302,30 @@ const FinanceSettlementHistoryTable = ({ financeData }) => {
   return (
     <Grid container spacing={6.5}>
       <Grid item xs={12} lg={12}>
-        <Card sx={{ boxShadow: 'none !important' }}>
+        <Card>
           {console.log('so the transaction data', financeData)}
           <CardHeader
-            title='Transaction History'
+            title='Expenses'
             sx={{ '& .MuiCardHeader-action': { m: 0 } }}
             action={
               <>
+                {/* <Button
+                  color='secondary'
+                  variant='outlined'
+                  aria-haspopup='true'
+                  onClick={handleClick}
+                  aria-expanded={open ? 'true' : undefined}
+                  endIcon={<Icon icon='tabler:chevron-down' />}
+                  aria-controls={open ? 'user-view-overview-export' : undefined}
+                >
+                  Export
+                </Button>
+                <Menu open={open} anchorEl={anchorEl} onClose={handleClose} id='user-view-overview-export'>
+                  <MenuItem onClick={handleClose}>PDF</MenuItem>
+                  <MenuItem onClick={handleClose}>XLSX</MenuItem>
+                  <MenuItem onClick={handleClose}>CSV</MenuItem>
+                </Menu> */}
+
                 <Box>
                   <CustomRangeDatePicker
                     startDateRange={startDateRange}
@@ -277,10 +338,10 @@ const FinanceSettlementHistoryTable = ({ financeData }) => {
           />
           <DataGrid
             autoHeight
-            rowHeight={54}
+            rowHeight={filteredRows.length == 0 ? 100 : 54}
             columns={columns}
             loading={false}
-            slots={{ toolbar: CustomSettlementToolbar }}
+            slots={{ toolbar: CustomFinanceToolbar, noRowsOverlay: CustomNoRowsOverlay }}
             rows={filteredRows}
             disableRowSelectionOnClick
             pageSizeOptions={[7, 10, 25, 50]}
@@ -290,7 +351,8 @@ const FinanceSettlementHistoryTable = ({ financeData }) => {
               items: [
                 { field: 'status', operator: 'equals', value: statusValue },
                 { field: 'payment_method', operator: 'equals', value: paymentMethodValue },
-                { field: 'payment_type', operator: 'equals', value: paymentTypeValue }
+                { field: 'payment_type', operator: 'equals', value: paymentTypeValue },
+                { field: 'issued_date', operator: 'before', value: '2024-01-01' } // example for custom date filter
               ]
             }}
             onFilterModelChange={newFilterModel => {
@@ -327,9 +389,9 @@ const FinanceSettlementHistoryTable = ({ financeData }) => {
                 setPaymentTypeValue: setPaymentTypeValue,
                 paymentTypes: paymentTypes,
 
-                // title: 'All Settlements',
+                // title: 'All Transactions',
                 searchPlaceholder: 'Quick Search',
-                // addText: 'Create Invoice',
+                addText: 'Create Invoice',
                 value: value,
                 handleFilter: handleFilter
               }
@@ -341,4 +403,4 @@ const FinanceSettlementHistoryTable = ({ financeData }) => {
   )
 }
 
-export default FinanceSettlementHistoryTable
+export default FinanceExpensesTable
