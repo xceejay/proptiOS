@@ -23,6 +23,7 @@ import axios from 'axios'
 // ** Configs
 import themeConfig from 'src/configs/themeConfig'
 import { useReactToPrint } from 'react-to-print'
+import { useRouter } from 'next/router'
 
 const statusObj = {
   completed: { color: 'success', icon: 'tabler:circle-check' }
@@ -49,8 +50,8 @@ const ReceiptPrint = ({ receiptData }) => {
   // ** State
   const [error, setError] = useState(false)
   const [data, setData] = useState(null)
-
-  const contentRef = useRef < HTMLDivElement > null
+  const router = useRouter()
+  const contentRef = useRef(null)
   const reactToPrintFn = useReactToPrint({ contentRef })
 
   useEffect(() => {
