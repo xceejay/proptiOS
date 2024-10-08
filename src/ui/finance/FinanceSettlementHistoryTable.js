@@ -28,6 +28,7 @@ import CustomSettlementToolbar from 'src/views/table/data-grid/CustomSettlementT
 import { Grid } from '@mui/material'
 import addDays from 'date-fns/addDays'
 import CustomRangeDatePicker from '../CustomRangeDatePicker'
+import CustomNoRowsOverlay from '../CustomNoRowsOverlay'
 
 const LinkStyled = styled(Link)(({ theme, color }) => ({
   fontSize: '13px',
@@ -288,7 +289,7 @@ const FinanceSettlementHistoryTable = ({ financeData }) => {
             rowHeight={54}
             columns={columns}
             loading={false}
-            slots={{ toolbar: CustomSettlementToolbar }}
+            slots={{ toolbar: CustomSettlementToolbar, noRowsOverlay: CustomNoRowsOverlay }}
             rows={filteredRows}
             disableRowSelectionOnClick
             pageSizeOptions={[7, 10, 25, 50]}

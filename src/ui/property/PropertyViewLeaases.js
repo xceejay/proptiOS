@@ -15,13 +15,14 @@ import Icon from 'src/@core/components/icon'
 import { useDispatch } from 'react-redux'
 import PropertyManageUnitDrawer from './PropertyManageUnitDrawer'
 import PropertyTenantManageTable from './PropertyManageTenantsTable'
+import PropertyLeaseTable from './PropertyLeaseTable'
 
 const PropertyViewLeases = ({ setPropertyData, propertyData }) => {
   return (
     <Grid container spacing={6}>
       <Grid item xs={12} lg={24}>
         <Card sx={{ mb: 4 }}>
-          <PropertyTenantManageTable setPropertyData={setPropertyData} propertyData={propertyData} />
+          <PropertyLeaseTable setPropertyData={setPropertyData} propertyData={propertyData} />
         </Card>
 
         {/* <Card>

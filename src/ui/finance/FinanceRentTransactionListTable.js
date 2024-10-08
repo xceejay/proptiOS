@@ -30,6 +30,7 @@ import CustomTenantToolbar from 'src/views/table/data-grid/CustomTenantToolbar'
 import { Grid } from '@mui/material'
 import CustomFinanceToolbar from 'src/views/table/data-grid/CustomFinanceToolbar'
 import CustomRangeDatePicker from '../CustomRangeDatePicker'
+import CustomNoRowsOverlay from '../CustomNoRowsOverlay'
 
 const LinkStyled = styled(Link)(({ theme, color }) => ({
   fontSize: '13px',
@@ -290,7 +291,7 @@ const FinanceRentTransactionListTable = ({ rentTransactions }) => {
             rowHeight={54}
             columns={columns}
             loading={false}
-            slots={{ toolbar: CustomFinanceToolbar }}
+            slots={{ toolbar: CustomFinanceToolbar, noRowsOverlay: CustomNoRowsOverlay }}
             rows={filteredRows}
             disableRowSelectionOnClick
             pageSizeOptions={[7, 10, 25, 50]}
