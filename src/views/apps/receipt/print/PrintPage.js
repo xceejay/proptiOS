@@ -49,16 +49,14 @@ const ReceiptPrint = ({ receiptData }) => {
   const [error, setError] = useState(false)
   const [data, setData] = useState(null)
   useEffect(() => {
+    var printContents = document.getElementById('print-section').innerHTML
+    var originalContents = document.body.innerHTML
+
+    document.body.innerHTML = printContents
     setTimeout(() => {
-      var printContents = document.getElementById('print-section').innerHTML
-      var originalContents = document.body.innerHTML
-
-      document.body.innerHTML = printContents
-
       window.print()
-
       document.body.innerHTML = originalContents
-    }, 100)
+    }, 150)
   }, [])
   // ** Hooks
   const theme = useTheme()
