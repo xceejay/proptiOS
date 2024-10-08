@@ -49,15 +49,25 @@ const ReceiptPrint = ({ receiptData }) => {
   const [error, setError] = useState(false)
   const [data, setData] = useState(null)
   useEffect(() => {
-    var printContents = document.getElementById('print-section').innerHTML
+    const originalContents = document.body.innerHTML
+    const printContents = document.getElementById('print-section').innerHTML
 
+    // Set the body to only contain the print contents
     document.body.innerHTML = printContents
+
     setTimeout(() => {
       window.print()
-      document.body.innerHTML = originalContents
     }, 150)
-  }, [])
-  // ** Hooks
+
+    // Listen for after print event to trigger "go back" or navigate
+    window.onafterprint = () => {
+      // Restore original contents
+      document.body.innerHTML = originalContents
+
+      // Optionally close the window/tab
+      window.close() // Only works if the window was opened via window.open()
+    }
+  })
   const theme = useTheme()
 
   if (receiptData) {
