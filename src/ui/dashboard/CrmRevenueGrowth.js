@@ -76,7 +76,7 @@ const CrmRevenueGrowth = ({ DashData }) => {
 
     return {
       changes,
-      averageChange: parseFloat(averageChange).toFixed(2)
+      averageChange: parseFloat(averageChange).toFixed()
     }
   }
 
@@ -93,7 +93,7 @@ const CrmRevenueGrowth = ({ DashData }) => {
       const monthlyTotals = Array(12).fill(0)
       paymentArray?.forEach(payment => {
         const month = getMonth(payment.created_at)
-        monthlyTotals[month] += parseFloat(payment.amount).toFixed(2)
+        monthlyTotals[month] += parseFloat(payment.amount)
       })
 
       return monthlyTotals
