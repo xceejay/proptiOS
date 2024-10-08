@@ -1,5 +1,5 @@
 // ** React Imports
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
@@ -22,6 +22,7 @@ import axios from 'axios'
 
 // ** Configs
 import themeConfig from 'src/configs/themeConfig'
+import { useReactToPrint } from 'react-to-print'
 
 const statusObj = {
   completed: { color: 'success', icon: 'tabler:circle-check' }
@@ -48,23 +49,21 @@ const ReceiptPrint = ({ receiptData }) => {
   // ** State
   const [error, setError] = useState(false)
   const [data, setData] = useState(null)
-  useEffect(() => {
-    var printContents = document.getElementById('print-section').innerHTML
-    var originalContents = document.body.innerHTML
 
-    document.body.innerHTML = printContents
-    setTimeout(() => {
-      window.print()
-      document.body.innerHTML = originalContents
-    }, 150)
+  const contentRef = useRef < HTMLDivElement > null
+  const reactToPrintFn = useReactToPrint({ contentRef })
+
+  useEffect(() => {
+    reactToPrintFn()
   }, [])
+
   // ** Hooks
   const theme = useTheme()
 
   if (receiptData) {
     return (
-      <Box id={'print-section'} sx={{ p: 12, pb: 6 }}>
-        <Card>
+      <Box sx={{ p: 12, pb: 6 }}>
+        <Card ref={contentRef}>
           {/* Header Section */}
           <CardContent sx={{ p: [`${theme.spacing(6)} !important`, `${theme.spacing(10)} !important`] }}>
             <Grid container spacing={6}>
@@ -232,5 +231,4 @@ const ReceiptPrint = ({ receiptData }) => {
     return null
   }
 }
-
 export default ReceiptPrint
