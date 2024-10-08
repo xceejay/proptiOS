@@ -90,7 +90,7 @@ const CrmEarningReportsWithTabs = ({ DashData }) => {
       monthlyTotals[month] += parseFloat(payment.amount)
     })
 
-    return monthlyTotals
+    return monthlyTotals.map(total => total.toFixed(2)) // Format each total to 2 decimal places
   }
 
   const restructureTransactionCategories = data => {

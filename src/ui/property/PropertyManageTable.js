@@ -236,43 +236,36 @@ const PropertyManageTable = () => {
   )
 
   return (
-    <Grid container spacing={6.5}>
-      <Grid item xs={12}>
-        <Card>
-          <CardHeader title='Properties' />
-          <CardContent>
-            <DataGrid
-              autoHeight
-              rowHeight={62}
-              loading={loading} // Use the new loading state
-              rows={filteredProperties || []}
-              columns={columns}
-              slots={{ toolbar: CustomTenantToolbar, noRowsOverlay: CustomNoRowsOverlay }}
-              slotProps={{
-                toolbar: {
-                  searchPlaceholder: 'Search Properties',
-                  value: value,
-                  addText: 'Add Property',
-                  toggle: toggleAddUserDrawer,
-                  handleFilter: handleFilter
-                }
-              }}
-              disableRowSelectionOnClick
-              pageSizeOptions={[10, 25, 50]}
-              paginationModel={paginationModel}
-              onPaginationModelChange={setPaginationModel}
-            />
-          </CardContent>
-          <Divider sx={{ m: '0 !important' }} />
-        </Card>
-      </Grid>
+    <>
+      <DataGrid
+        autoHeight
+        rowHeight={62}
+        loading={loading} // Use the new loading state
+        rows={filteredProperties || []}
+        columns={columns}
+        slots={{ toolbar: CustomTenantToolbar, noRowsOverlay: CustomNoRowsOverlay }}
+        slotProps={{
+          toolbar: {
+            searchPlaceholder: 'Search Properties',
+            value: value,
+            addText: 'Add Property',
+            toggle: toggleAddUserDrawer,
+            handleFilter: handleFilter
+          }
+        }}
+        disableRowSelectionOnClick
+        pageSizeOptions={[10, 25, 50]}
+        paginationModel={paginationModel}
+        onPaginationModelChange={setPaginationModel}
+      />
+
       <AddUserDrawer
         propertiesData={propertiesData}
         setPropertiesData={setPropertiesData}
         open={addUserOpen}
         toggle={toggleAddUserDrawer}
       />
-    </Grid>
+    </>
   )
 }
 

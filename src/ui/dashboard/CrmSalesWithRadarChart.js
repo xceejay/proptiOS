@@ -42,7 +42,7 @@ const CrmSalesWithRadarChart = ({ DashData }) => {
       const monthlyTotals = Array(12).fill(0) // Create an array of 12 months
       paymentArray?.forEach(payment => {
         const month = getMonth(payment.created_at)
-        monthlyTotals[month] += parseFloat(payment.amount)
+        monthlyTotals[month] += parseFloat(payment.amount).toFixed(2)
       })
 
       return monthlyTotals

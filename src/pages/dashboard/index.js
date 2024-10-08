@@ -26,8 +26,7 @@ const Dashboard = () => {
   const [DashData, setDashData] = useState(null)
   const site = useSite()
   const [loading, setLoading] = useState(false)
-  const [financeData, setFinanceData] = useState({})
-  const [transactionCategories, setTransactionCategories] = useState([])
+
   const paginationModel = {}
 
   useEffect(() => {
