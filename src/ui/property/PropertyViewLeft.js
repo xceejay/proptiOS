@@ -213,7 +213,7 @@ const UserViewLeft = ({ setPropertyData, propertyData }) => {
                 skin='light'
                 size='small'
                 label={propertyData.type}
-                color={statusColors['active']}
+                color={'primary'}
                 sx={{ textTransform: 'capitalize' }}
               />
             </CardContent>
@@ -269,7 +269,7 @@ const UserViewLeft = ({ setPropertyData, propertyData }) => {
                     skin='light'
                     size='small'
                     label={propertyData.type}
-                    color={statusColors['active']}
+                    color={'primary'}
                     sx={{
                       textTransform: 'capitalize'
                     }}
@@ -301,12 +301,12 @@ const UserViewLeft = ({ setPropertyData, propertyData }) => {
             </CardContent>
 
             <CardActions sx={{ display: 'flex', justifyContent: 'center' }}>
-              <Button size='small' variant='contained' sx={{ mr: 2 }} onClick={handleEditClickOpen}>
+              {/* <Button size='small' variant='contained' sx={{ mr: 2 }} onClick={handleEditClickOpen}>
                 Edit
-              </Button>
-              <Button size='small' color='error' variant='outlined' onClick={() => setSuspendDialogOpen(true)}>
+              </Button> */}
+              {/* <Button size='small' color='error' variant='outlined' onClick={() => setSuspendDialogOpen(true)}>
                 Suspend
-              </Button>
+              </Button> */}
             </CardActions>
 
             <Dialog
