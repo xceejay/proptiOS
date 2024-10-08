@@ -231,6 +231,14 @@ const FinanceSettlementHistoryTable = ({ financeData }) => {
 
   const [paymentTypeValue, setPaymentTypeValue] = useState('')
 
+  const [filterModel, setFilterModel] = useState({
+    items: [
+      { field: 'status', operator: 'equals', value: statusValue },
+      { field: 'payment_method', operator: 'equals', value: paymentMethodValue },
+      { field: 'payment_type', operator: 'equals', value: paymentTypeValue }
+    ]
+  })
+
   const handleFilter = useCallback(val => {
     setValue(val)
   }, [])
@@ -286,22 +294,25 @@ const FinanceSettlementHistoryTable = ({ financeData }) => {
             pageSizeOptions={[7, 10, 25, 50]}
             paginationModel={paginationModel}
             onPaginationModelChange={setPaginationModel}
-            filterModel={{
-              items: [
-                { field: 'status', operator: 'equals', value: statusValue },
-                { field: 'payment_method', operator: 'equals', value: paymentMethodValue },
-                { field: 'payment_type', operator: 'equals', value: paymentTypeValue }
-              ]
-            }}
             onFilterModelChange={newFilterModel => {
-              // Update the filter model states here
+              // Update the filterModel state dynamically for any field or operator change
+              setFilterModel(newFilterModel)
+
+              // Loop through each filter item and dynamically update values
               newFilterModel.items.forEach(item => {
-                if (item.field === 'status') {
-                  setStatusValue(item.value)
-                } else if (item.field === 'payment_method') {
-                  setPaymentMethodValue(item.value)
-                } else if (item.field === 'payment_type') {
-                  setPaymentTypeValue(item.value)
+                switch (item.field) {
+                  case 'status':
+                    setStatusValue(item.value)
+                    break
+                  case 'payment_method':
+                    setPaymentMethodValue(item.value)
+                    break
+                  case 'payment_type':
+                    setPaymentTypeValue(item.value)
+                    break
+                  default:
+                    // Handle other fields dynamically if needed
+                    break
                 }
               })
             }}

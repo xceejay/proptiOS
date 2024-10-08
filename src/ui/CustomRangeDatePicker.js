@@ -27,7 +27,7 @@ const CustomRangeDatePicker = ({ handleOnChangeRange, startDateRange, endDateRan
           shouldCloseOnSelect={false}
           id='date-range-picker-months'
           onChange={handleOnChangeRange}
-          customInput={<CustomInput label='Select period' end={endDateRange} start={startDateRange} />}
+          customInput={<CustomInput label='Choose date range' end={endDateRange} start={startDateRange} />}
         />
       </DatePickerWrapper>
     </>
