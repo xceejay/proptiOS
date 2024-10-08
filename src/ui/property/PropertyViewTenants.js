@@ -19,7 +19,7 @@ import PropertyTenantManageTable from './PropertyManageTenantsTable'
 const PropertyViewTenants = ({ setPropertyData, propertyData }) => {
   return (
     <Grid container spacing={6}>
-      <Grid item xs={12} lg={24}>
+      <Grid item xs={12} lg={12}>
         <Card sx={{ mb: 4 }}>
           <PropertyTenantManageTable setPropertyData={setPropertyData} propertyData={propertyData} />
         </Card>
