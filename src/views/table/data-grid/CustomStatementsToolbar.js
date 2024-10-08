@@ -26,7 +26,7 @@ import Icon from 'src/@core/components/icon'
 import { Button, CardHeader, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material'
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 
-const CustomFinanceToolbar = props => {
+const CustomStatementsToolbar = props => {
   const {
     title,
     handleFilter,
@@ -94,7 +94,7 @@ const CustomFinanceToolbar = props => {
 
       <Box
         sx={{
-          py: 10,
+          py: 4,
           px: 6,
           rowGap: 2,
           columnGap: 4,
@@ -200,23 +200,7 @@ const CustomFinanceToolbar = props => {
         ) : (
           <></>
         )}
-        {/* <Box>
-          <>
-            <DatePickerWrapper>
-              <DatePicker
-                selectsRange
-                monthsShown={2}
-                endDate={endDateRange}
-                selected={startDateRange}
-                startDate={startDateRange}
-                shouldCloseOnSelect={false}
-                id='date-range-picker-months'
-                onChange={handleOnChangeRange}
-                customInput={<CustomInput label='Select period' end={endDateRange} start={startDateRange} />}
-              />
-            </DatePickerWrapper>
-          </>
-        </Box> */}
+
         {paymentTypes?.length > 0 ? (
           <>
             <Box>
@@ -244,7 +228,23 @@ const CustomFinanceToolbar = props => {
         ) : (
           <></>
         )}
-
+        <Box display={'flex'}>
+          <>
+            <DatePickerWrapper>
+              <DatePicker
+                selectsRange
+                monthsShown={2}
+                endDate={endDateRange}
+                selected={startDateRange}
+                startDate={startDateRange}
+                shouldCloseOnSelect={false}
+                id='date-range-picker-months'
+                onChange={handleOnChangeRange}
+                customInput={<CustomInput label='Select period' end={endDateRange} start={startDateRange} />}
+              />
+            </DatePickerWrapper>
+          </>
+        </Box>
         {/* <Box>
           <Typography variant='subtitle'>Filter By: </Typography>
         </Box> */}
@@ -278,4 +278,4 @@ const CustomFinanceToolbar = props => {
   )
 }
 
-export default CustomFinanceToolbar
+export default CustomStatementsToolbar

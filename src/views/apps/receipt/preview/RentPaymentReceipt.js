@@ -121,7 +121,6 @@ const RentPaymentReceipt = ({ receiptData }) => {
             <Typography sx={{ fontWeight: 500 }}>Property Information</Typography>
             <Typography sx={{ color: 'text.secondary' }}>Property: {receiptData.property.name}</Typography>
             <Typography sx={{ color: 'text.secondary' }}>Unit: {receiptData.unit.name || 'None'}</Typography>
-            <Typography sx={{ color: 'text.secondary' }}>Rent Period: {receiptData.rentPeriod}</Typography>
           </Box>
         </Box>
       </CardContent>

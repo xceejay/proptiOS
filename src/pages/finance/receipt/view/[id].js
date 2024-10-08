@@ -2,7 +2,9 @@
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { useFinance } from 'src/hooks/useFinance'
-import PreviewCardById from 'src/views/apps/receipt/preview/PreviewCardById'
+import MaintenanceReceipt from 'src/views/apps/receipt/preview/MaintenanceReceipt'
+import RentPaymentReceipt from 'src/views/apps/receipt/preview/RentPaymentReceipt'
+import Spinner from 'src/@core/components/spinner'
 
 // ** Demo Components Imports
 
@@ -34,7 +36,18 @@ const ReceiptPreview = () => {
     }
   }, [])
 
-  return <PreviewCardById id={id} setReceiptData={setReceiptData} receiptData={receiptData} />
+  if (!receiptData) return <Spinner></Spinner>
+  return (
+    <>
+      {receiptData.payment_type === 'rent' ? (
+        <RentPaymentReceipt id={id} setReceiptData={setReceiptData} receiptData={receiptData} />
+      ) : receiptData.payment_type === 'maintenance' ? (
+        <MaintenanceReceipt id={id} setReceiptData={setReceiptData} receiptData={receiptData} />
+      ) : (
+        <>No receipt</>
+      )}
+    </>
+  )
 }
 
 export default ReceiptPreview

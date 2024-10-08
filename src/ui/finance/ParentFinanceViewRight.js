@@ -106,12 +106,7 @@ const ParentFinanceViewRight = ({ tab, financeData, setFinanceData }) => {
         <Tab value='expenses' label='expenses' icon={<Icon fontSize='1.125rem' icon='tabler:shopping-cart-minus' />} />
 
         <Tab value='settlement' label='settlement' icon={<Icon fontSize='1.125rem' icon='tabler:pig-money' />} />
-        <Tab
-          disabled
-          value='statements'
-          label='statements'
-          icon={<Icon fontSize='1.125rem' icon='tabler:report-money' />}
-        />
+        <Tab value='statements' label='statements' icon={<Icon fontSize='1.125rem' icon='tabler:report-money' />} />
 
         {/* <Tab value='configuration' label='configuration' icon={<Icon fontSize='1.125rem' icon='tabler:tool' />} /> */}
 
@@ -143,9 +138,9 @@ const ParentFinanceViewRight = ({ tab, financeData, setFinanceData }) => {
               <ParentFinanceViewSettlement setFinanceData={setFinanceData} financeData={financeData} />
             </TabPanel>
 
-            {/* <TabPanel sx={{ p: 0 }} value='statements'>
+            <TabPanel sx={{ p: 0 }} value='statements'>
               <ParentFinanceViewStatements setFinanceData={setFinanceData} financeData={financeData} />
-            </TabPanel> */}
+            </TabPanel>
             {/* <TabPanel sx={{ p: 0 }} value='configuration'>
               <ParentFinanceViewConfiguration setFinanceData={setFinanceData} financeData={financeData} />
             </TabPanel> */}
