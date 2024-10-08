@@ -62,7 +62,6 @@ const ReceiptPrint = ({ receiptData }) => {
     // Listen for after print event to trigger "go back" or navigate
     window.onafterprint = () => {
       // Restore original contents
-      document.body.innerHTML = originalContents
 
       // Optionally close the window/tab
       window.close() // Only works if the window was opened via window.open()
