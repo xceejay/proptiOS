@@ -172,9 +172,9 @@ const EditTenantDrawer = props => {
   //       error => {
   //         console.log(id)
   //
-  toast.error(error.response.data.description, {
-    duration: 5000
-  })
+  // toast.error(error.response.data.description, {
+  //   duration: 5000
+  // })
   //       }
   //     )
   //   }

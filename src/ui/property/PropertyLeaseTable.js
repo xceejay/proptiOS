@@ -280,9 +280,9 @@ const PropertyLeaseTable = ({ setPropertyData, propertyData }) => {
     //     setLoading(false)
 
     //
-    toast.error(error.response.data.description, {
-      duration: 5000
-    })
+    // toast.error(error.response.data.description, {
+    //   duration: 5000
+    // })
     //   }
     // )
     if (propertyData) {
