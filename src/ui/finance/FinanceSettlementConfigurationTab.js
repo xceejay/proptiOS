@@ -57,6 +57,64 @@ import CardWrapper from 'src/@core/styles/libs/react-credit-cards'
 import 'react-credit-cards/es/styles-compiled.css'
 import { Accordion, AccordionDetails, AccordionSummary, Chip, duration, Modal } from '@mui/material'
 import toast from 'react-hot-toast'
+import { useEffect } from 'react'
+
+const countries = [
+  { name: 'Algeria', code: 'DZA' },
+  { name: 'Angola', code: 'AGO' },
+  { name: 'Benin', code: 'BEN' },
+  { name: 'Botswana', code: 'BWA' },
+  { name: 'Burkina Faso', code: 'BFA' },
+  { name: 'Burundi', code: 'BDI' },
+  { name: 'Cabo Verde', code: 'CPV' },
+  { name: 'Cameroon', code: 'CMR' },
+  { name: 'Central African Republic', code: 'CAF' },
+  { name: 'Chad', code: 'TCD' },
+  { name: 'Comoros', code: 'COM' },
+  { name: 'Democratic Republic of the Congo', code: 'COD' },
+  { name: 'Republic of the Congo', code: 'COG' },
+  { name: 'Djibouti', code: 'DJI' },
+  { name: 'Egypt', code: 'EGY' },
+  { name: 'Equatorial Guinea', code: 'GNQ' },
+  { name: 'Eritrea', code: 'ERI' },
+  { name: 'Eswatini', code: 'SWZ' },
+  { name: 'Ethiopia', code: 'ETH' },
+  { name: 'Gabon', code: 'GAB' },
+  { name: 'Gambia', code: 'GMB' },
+  { name: 'Ghana', code: 'GHA' },
+  { name: 'Guinea', code: 'GIN' },
+  { name: 'Guinea-Bissau', code: 'GNB' },
+  { name: 'Ivory Coast', code: 'CIV' },
+  { name: 'Kenya', code: 'KEN' },
+  { name: 'Lesotho', code: 'LSO' },
+  { name: 'Liberia', code: 'LBR' },
+  { name: 'Libya', code: 'LBY' },
+  { name: 'Madagascar', code: 'MDG' },
+  { name: 'Malawi', code: 'MWI' },
+  { name: 'Mali', code: 'MLI' },
+  { name: 'Mauritania', code: 'MRT' },
+  { name: 'Mauritius', code: 'MUS' },
+  { name: 'Morocco', code: 'MAR' },
+  { name: 'Mozambique', code: 'MOZ' },
+  { name: 'Namibia', code: 'NAM' },
+  { name: 'Niger', code: 'NER' },
+  { name: 'Nigeria', code: 'NGA' },
+  { name: 'Rwanda', code: 'RWA' },
+  { name: 'Sao Tome and Principe', code: 'STP' },
+  { name: 'Senegal', code: 'SEN' },
+  { name: 'Seychelles', code: 'SYC' },
+  { name: 'Sierra Leone', code: 'SLE' },
+  { name: 'Somalia', code: 'SOM' },
+  { name: 'South Africa', code: 'ZAF' },
+  { name: 'South Sudan', code: 'SSD' },
+  { name: 'Sudan', code: 'SDN' },
+  { name: 'Tanzania', code: 'TZA' },
+  { name: 'Togo', code: 'TGO' },
+  { name: 'Tunisia', code: 'TUN' },
+  { name: 'Uganda', code: 'UGA' },
+  { name: 'Zambia', code: 'ZMB' },
+  { name: 'Zimbabwe', code: 'ZWE' }
+]
 
 // ** Styled <sup> component
 const Sup = styled('sup')(({ theme }) => ({
@@ -73,7 +131,23 @@ const Sub = styled('sub')({
   alignSelf: 'flex-end'
 })
 
-const FinanceSettlementConfigurationTab = ({ setFinanceData, financeData }) => {
+const FinanceSettlementConfigurationTab = ({ settlementPreferencesData }) => {
+  const [mobileMoneyAccount, setMobileMoneyAccount] = useState(null)
+  const [bankAccount, setBankAccount] = useState(null)
+
+  useEffect(() => {
+    if (settlementPreferencesData) {
+      settlementPreferencesData.map((account, key) => {
+        console.log(account)
+        if (account.type === 'bank_account') {
+          setBankAccount(account)
+        } else if (account.type === 'mobile_money') {
+          setMobileMoneyAccount(account)
+        }
+      })
+    }
+  }, [])
+
   // Validation Schemas
   const mobileMoneySchema = yup.object().shape({
     msisdn: yup.string().required('Mobile Money Number is required').min(10, 'Enter a valid number'),
@@ -184,9 +258,11 @@ const FinanceSettlementConfigurationTab = ({ setFinanceData, financeData }) => {
             <Typography variant='h5'>Settlement Accounts</Typography>
           </Box>
           <Box>
-            <Button onClick={handleChangeDefault} variant='outlined' size='small'>
-              Switch Default
-            </Button>
+            {bankAccount && mobileMoneyAccount && (
+              <Button onClick={handleChangeDefault} variant='outlined' size='small'>
+                Switch Default
+              </Button>
+            )}
           </Box>
         </Box>
         <Card
@@ -225,58 +301,75 @@ const FinanceSettlementConfigurationTab = ({ setFinanceData, financeData }) => {
                   }
                 />
 
-                <CardContent sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'end' }}>
-                  <Box display={'flex'} flexDirection={'column'} gap={1}>
-                    <Box display={'flex'} flexDirection={'row'}>
-                      <Typography variant='button' color={'primary'}>
-                        23354105353
-                      </Typography>
-                    </Box>
-                    <Box display={'flex'} flexDirection={'row'}>
-                      <Typography textTransform={'uppercase'}>MTN MOMO MTN</Typography>
-                    </Box>
-                    <Box display={'flex'} flexDirection={'row'}>
-                      <Typography textTransform={'uppercase'} color={'secondary'}>
-                        GHANA
-                      </Typography>
-                    </Box>
-                    <Box display={'flex'} flexDirection={'row'}>
-                      <CustomChip
-                        label={statusLabel}
-                        color={statusColor}
-                        rounded
-                        size='small'
-                        skin='light'
-                        // deleteIcon={<Icon icon' />}
-                        sx={{ textTransform: 'uppercase' }}
-                      />
-                    </Box>
-                  </Box>
-                  <Box sx={{ mt: 2 }}>
-                    {primaryAccount == 'mobile_money' ? (
-                      <>
-                        <CustomChip
-                          label={primaryAccountLabel}
-                          color={primaryAccountColor}
-                          rounded
-                          size='small'
-                          skin='light'
-                          onDelete={handleDelete}
-                          // deleteIcon={<Icon icon='tabler:trash' />}
-                          sx={{ textTransform: 'uppercase', ml: 2 }}
-                        />
-                      </>
-                    ) : (
-                      <></>
-                    )}
-                  </Box>
-                </CardContent>
+                {mobileMoneyAccount ? (
+                  <>
+                    <CardContent sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'end' }}>
+                      <Box display={'flex'} flexDirection={'column'} gap={1}>
+                        <Box display={'flex'} flexDirection={'row'}>
+                          <Typography variant='button' color={'primary'}>
+                            {mobileMoneyAccount.msisdn}
+                          </Typography>
+                        </Box>
+                        <Box display={'flex'} flexDirection={'row'}>
+                          {/* {alert(JSON.stringify(mobileMoneyAccount))} */}
+                          <Typography textTransform={'uppercase'}>
+                            {mobileMoneyAccount.mobile_money_provider}
+                          </Typography>
+                        </Box>
+                        <Box display={'flex'} flexDirection={'row'}>
+                          <Typography textTransform={'uppercase'} color={'secondary'}>
+                            {countries.map((country, key) => {
+                              if (country.code === mobileMoneyAccount.country) {
+                                return country.name
+                              }
+                            })}
+                          </Typography>
+                        </Box>
+                        <Box display={'flex'} flexDirection={'row'}>
+                          <CustomChip
+                            label={mobileMoneyAccount.status}
+                            color={statusColor}
+                            rounded
+                            size='small'
+                            skin='light'
+                            // deleteIcon={<Icon icon' />}
+                            sx={{ textTransform: 'uppercase' }}
+                          />
+                        </Box>
+                      </Box>
+                      <Box sx={{ mt: 2 }}>
+                        {primaryAccount == 'mobile_money' ? (
+                          <>
+                            <CustomChip
+                              label={mobileMoneyAccount.status}
+                              color={primaryAccountColor}
+                              rounded
+                              size='small'
+                              skin='light'
+                              onDelete={handleDelete}
+                              // deleteIcon={<Icon icon='tabler:trash' />}
+                              sx={{ textTransform: 'uppercase', ml: 2 }}
+                            />
+                          </>
+                        ) : (
+                          <></>
+                        )}
+                      </Box>
+                    </CardContent>
+                  </>
+                ) : (
+                  <>
+                    <CardContent>
+                      <Typography>No Account has been configured</Typography>
+                    </CardContent>
+                  </>
+                )}
               </Card>
             </Box>
             <Box>
               <Card>
                 <CardHeader
-                  title='Bank Account'
+                  title={'Bank Account'}
                   action={
                     <Button
                       size='small'
@@ -289,58 +382,82 @@ const FinanceSettlementConfigurationTab = ({ setFinanceData, financeData }) => {
                     </Button>
                   }
                 />
-
-                <CardContent sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'end' }}>
-                  <Box display={'flex'} flexDirection={'column'} gap={1}>
-                    <Box display={'flex'} flexDirection={'row'}>
-                      <Typography variant='button' color={'primary'}>
-                        12738129379123
-                      </Typography>
-                    </Box>
-                    <Box display={'flex'} flexDirection={'row'}>
-                      <Typography textTransform={'uppercase'}>{'Fidelity Bank, Accra, Ghana'}</Typography>
-                    </Box>
-                    <Box display={'flex'} flexDirection={'row'}>
-                      <Typography textTransform={'uppercase'} color={'secondary'}>
-                        FBLIGHACXXX
-                      </Typography>
-                    </Box>
-                    <Box display={'flex'} flexDirection={'row'}>
-                      <Typography textTransform={'uppercase'} color={'secondary'}>
-                        GHANA
-                      </Typography>
-                    </Box>
-                    <Box display={'flex'} flexDirection={'row'}>
-                      <CustomChip
-                        label={statusLabel}
-                        color={statusColor}
-                        rounded
-                        size='small'
-                        skin='light'
-                        // deleteIcon={<Icon icon' />}
-                        sx={{ textTransform: 'uppercase' }}
-                      />
-                    </Box>
-                  </Box>
-                  <Box sx={{ mt: 2 }}>
-                    {primaryAccount == 'bank_account' ? (
-                      <>
-                        <CustomChip
-                          label={primaryAccountLabel}
-                          color={primaryAccountColor}
-                          rounded
-                          size='small'
-                          skin='light'
-                          onDelete={handleDelete}
-                          // deleteIcon={<Icon icon='tabler:trash' />}
-                          sx={{ textTransform: 'uppercase', ml: 2 }}
-                        />
-                      </>
-                    ) : (
-                      <></>
-                    )}
-                  </Box>
-                </CardContent>
+                {bankAccount ? (
+                  <>
+                    <CardContent sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'end' }}>
+                      <Box display={'flex'} flexDirection={'column'} gap={1}>
+                        <Box display={'flex'} flexDirection={'row'}>
+                          <Typography variant='button' color={'primary'}>
+                            {/* {alert(JSON.stringify(bankAccount))} */}
+                            {bankAccount.bank_account_number}
+                          </Typography>
+                        </Box>
+                        <Box display={'flex'} flexDirection={'row'}>
+                          <Typography textTransform={'uppercase'}>{bankAccount.bank_name}</Typography>
+                        </Box>
+                        <Box display={'flex'} flexDirection={'row'}>
+                          <Typography textTransform={'uppercase'} color={'secondary'}>
+                            {bankAccount.holder_name}
+                          </Typography>
+                        </Box>
+                        <Box display={'flex'} flexDirection={'row'}>
+                          <Typography textTransform={'uppercase'} color={'secondary'}>
+                            {bankAccount.bank_account_swift_code}
+                          </Typography>
+                        </Box>
+                        <Box display={'flex'} flexDirection={'row'}>
+                          <Typography textTransform={'uppercase'} color={'secondary'}>
+                            {countries.map((country, key) => {
+                              if (country.code === mobileMoneyAccount.country) {
+                                return country.name
+                              }
+                            })}
+                          </Typography>
+                        </Box>
+                        {/* <Box display={'flex'} flexDirection={'row'}>
+                          <Typography textTransform={'uppercase'} color={'secondary'}>
+                            {bankAccount.uuid}
+                          </Typography>
+                        </Box> */}
+                        <Box display={'flex'} flexDirection={'row'}>
+                          <CustomChip
+                            label={statusLabel}
+                            color={statusColor}
+                            rounded
+                            size='small'
+                            skin='light'
+                            // deleteIcon={<Icon icon' />}
+                            sx={{ textTransform: 'uppercase' }}
+                          />
+                        </Box>
+                      </Box>
+                      <Box sx={{ mt: 2 }}>
+                        {primaryAccount == 'bank_account' ? (
+                          <>
+                            <CustomChip
+                              label={primaryAccountLabel}
+                              color={primaryAccountColor}
+                              rounded
+                              size='small'
+                              skin='light'
+                              onDelete={handleDelete}
+                              // deleteIcon={<Icon icon='tabler:trash' />}
+                              sx={{ textTransform: 'uppercase', ml: 2 }}
+                            />
+                          </>
+                        ) : (
+                          <></>
+                        )}
+                      </Box>
+                    </CardContent>
+                  </>
+                ) : (
+                  <>
+                    <CardContent>
+                      <Typography>No Account has been configured</Typography>
+                    </CardContent>
+                  </>
+                )}
               </Card>
             </Box>
           </CardContent>

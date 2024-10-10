@@ -181,7 +181,6 @@ const FinanceProvider = ({ children }) => {
       .then(response => {
         if (successCallback) {
           successCallback(response.data)
-          setProperty(response.data)
         }
       })
       .catch(err => {
@@ -189,7 +188,7 @@ const FinanceProvider = ({ children }) => {
       })
   }
 
-  const getAllSettlementDetails = (id, successCallback, errorCallback) => {
+  const getAllSettlementDetails = (successCallback, errorCallback) => {
     const token = window.localStorage.getItem('accessToken') || accessToken
 
     if (!token) {
@@ -208,7 +207,6 @@ const FinanceProvider = ({ children }) => {
       .then(response => {
         if (successCallback) {
           successCallback(response.data)
-          setProperty(response.data)
         }
       })
       .catch(err => {

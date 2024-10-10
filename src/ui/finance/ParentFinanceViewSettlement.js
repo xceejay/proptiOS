@@ -30,6 +30,7 @@ import { useFinance } from 'src/hooks/useFinance'
 
 const ParentFinanceViewSettlement = ({ setFinanceData, financeData }) => {
   const [settlementData, setSettlementData] = useState(null)
+  const [loading, setLoading] = useState(false)
 
   const finance = useFinance()
 
@@ -72,8 +73,6 @@ const ParentFinanceViewSettlement = ({ setFinanceData, financeData }) => {
   useEffect(() => {
     finance.getAllSettlementDetails(
       responseData => {
-        console.log('Response Data:', responseData) // Check response structure
-
         const { data } = responseData
 
         if (data?.status === 'NO_RES') {
@@ -83,7 +82,7 @@ const ParentFinanceViewSettlement = ({ setFinanceData, financeData }) => {
           alert(response.message || 'Failed to fetch settlements')
         } else {
           console.log('saving settlement Data')
-
+          console.log(data)
           setSettlementData(data)
         }
 
@@ -199,10 +198,10 @@ const ParentFinanceViewSettlement = ({ setFinanceData, financeData }) => {
           </TabPanel>
 
           <TabPanel sx={{ mt: 5, padding: 0 }} value='2'>
-            <FinanceSettlementHistoryTable />
+            <FinanceSettlementHistoryTable settlementHistoryData={settlementData?.history || []} />
           </TabPanel>
           <TabPanel sx={{ mt: 5, padding: 0 }} value='3'>
-            <FinanceSettlementConfigurationTab />
+            <FinanceSettlementConfigurationTab settlementPreferencesData={settlementData?.accounts || []} />
           </TabPanel>
         </TabContext>
       </Grid>
