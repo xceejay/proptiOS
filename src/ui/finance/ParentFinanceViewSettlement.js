@@ -33,178 +33,126 @@ import { useFinance } from 'src/hooks/useFinance'
 const ParentFinanceViewSettlement = ({ setFinanceData, financeData }) => {
   const [settlementData, setSettlementData] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [frequency, setFrequency] = useState(financeData?.settlementFrequency || 'daily')
+  const [tabValue, setTabValue] = useState('1')
+  const [openConfirmDialog, setOpenConfirmDialog] = useState(false)
 
   const finance = useFinance()
 
-  // State for settlement frequency selection
-  const [frequency, setFrequency] = useState(financeData?.settlementFrequency || 'daily')
-  const [value, setValue] = useState('1')
+  useEffect(() => {
+    setLoading(true)
+    finance.getAllSettlementDetails(
+      responseData => {
+        const { data } = responseData
+        if (data?.status === 'NO_RES') {
+          console.log('No results found')
+        } else if (data?.status === 'FAILED') {
+          console.error('Failed:', data.description)
+          toast.error(data.description || 'Failed to fetch settlements', { duration: 5000 })
+        } else {
+          setSettlementData(data)
+        }
+        setLoading(false)
+      },
+      error => {
+        toast.error(error.response?.data?.description || 'An error occurred', { duration: 5000 })
+        setLoading(false)
+      }
+    )
+  }, [finance])
 
-  // State for confirmation dialog
-  const [openConfirmDialog, setOpenConfirmDialog] = useState(false)
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue)
+  const handleTabChange = (event, newValue) => {
+    setTabValue(newValue)
   }
 
-  // Function to handle frequency change
   const handleFrequencyChange = event => {
     setFrequency(event.target.value)
   }
 
-  // Function to open the confirmation dialog
   const handleOpenConfirmDialog = () => {
     setOpenConfirmDialog(true)
   }
 
-  // Function to close the confirmation dialog
   const handleCloseConfirmDialog = () => {
     setOpenConfirmDialog(false)
   }
 
-  // Function to save the scheduled settlement frequency
   const handleSaveFrequency = () => {
-    // Logic to save the scheduled settlement frequency (e.g., API call to backend)
+    // Save settlement frequency logic (e.g., API call)
     console.log('Saving settlement frequency:', frequency)
-    // Update the state with the new frequency
     setFinanceData(prevData => ({ ...prevData, settlementFrequency: frequency }))
-    // Close the dialog after saving
     setOpenConfirmDialog(false)
   }
 
-  useEffect(() => {
-    finance.getAllSettlementDetails(
-      responseData => {
-        const { data } = responseData
+  const renderPrimaryAccountDetails = (accounts, field) => {
+    const primaryAccount = accounts?.find(account => account.primary === 1)
+    if (!primaryAccount) return 'NO PRIMARY ACCOUNT'
 
-        if (data?.status === 'NO_RES') {
-          console.log('NO results')
-        } else if (data?.status === 'FAILED') {
-          console.log('failed', data.description)
-          alert(response.message || 'Failed to fetch settlements')
-        } else {
-          console.log('saving settlement Data')
-          console.log(data)
-          setSettlementData(data)
-          setLoading(false) // Stop loading when the request completes
-        }
-      },
-      error => {
-        toast.error(error.response.data.description, {
-          duration: 5000
-        })
-        setLoading(false) // Stop loading on error
-      }
-    )
-  }, [])
+    if (field === 'type') return primaryAccount.type
+    if (field === 'address')
+      return primaryAccount.type === 'mobile_money' ? primaryAccount.msisdn : primaryAccount.bank_account_number
+    if (field === 'details') {
+      return primaryAccount.type === 'mobile_money'
+        ? `${primaryAccount.type} (${primaryAccount.mobile_money_provider})`
+        : `${primaryAccount.type} : ${primaryAccount.bank_name}`
+    }
+  }
 
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
-        <TabContext value={value}>
-          <TabList variant='fullWidth' onChange={handleChange} aria-label='full width tabs example'>
-            <Tab value='1' label='Transfer' />
-            <Tab value='2' label='History' />
-            <Tab value='3' label='Accounts' />
+        <TabContext value={tabValue}>
+          <TabList onChange={handleTabChange} variant='fullWidth' aria-label='settlement tabs'>
+            <Tab label='Transfer' value='1' />
+            <Tab label='History' value='2' />
+            <Tab label='Accounts' value='3' />
           </TabList>
 
-          <TabPanel sx={{ padding: 0, mt: 5 }} value='1'>
+          <TabPanel value='1'>
             <Card>
               <CardActions>
-                {' '}
-                <Button
-                  size='small'
-                  endIcon={<Icon icon='tabler:upload' />}
-                  variant='text'
-                  color={'primary'}
-                  onClick={() => setValue('3')}
-                >
+                <Button size='small' variant='text' color='primary' onClick={() => setTabValue('3')}>
                   Set Primary Settlement Account
                 </Button>
               </CardActions>
 
               <CardContent>
-                <Typography fontSize={'13px'} variant='subtitle2'>
-                  Settle rent payments to your primary account, whether it's a bank account or a mobile money wallet,
+                <Typography variant='subtitle2' fontSize='13px'>
+                  Settle rent payments to your primary account, whether it's a bank account or mobile money wallet,
                   directly from our platform.
                 </Typography>
 
-                <Box sx={{ display: 'flex', flexDirection: 'column', mt: 5, gap: 5 }}>
-                  <Box display={'flex'} gap={2}>
-                    <Typography variant='body1'>Balance: </Typography>
-                    <Typography color={'primary'} variant='body1'>
-                      {settlementData?.currency + ' ' + settlementData?.balance}
-                    </Typography>
-                  </Box>
-                  <Box display={'flex'} gap={2}>
-                    <Typography variant='body1'>Primary Account: </Typography>
-                    <Typography textTransform={'uppercase'} color={'primary'} variant='body1'>
-                      {settlementData?.accounts
-                        ?.filter(account => account.primary === 1)
-                        ?.map((account, key) => {
-                          if (account.type === 'mobile_money') {
-                            return account.type + '(' + account.mobile_money_provider + ')'
-                          } else if (account.type === 'bank_account') {
-                            return account.type + ' : ' + account.bank_name
-                          } else {
-                            return 'NO PRIMARY ACCOUNT'
-                          }
-                        })}
+                <Box mt={5} display='flex' flexDirection='column' gap={5}>
+                  <Box display='flex' gap={2}>
+                    <Typography variant='body1'>Balance:</Typography>
+                    <Typography variant='body1' color='primary'>
+                      {`${settlementData?.currency || ''} ${settlementData?.balance || 0}`}
                     </Typography>
                   </Box>
 
-                  <Box display={'flex'} gap={2}>
-                    <Typography variant='body1'>Primary Account Address: </Typography>
-                    <Typography textTransform={'uppercase'} color={'primary'} variant='body1'>
-                      {settlementData?.accounts
-                        ?.filter(account => account.primary === 1)
-                        ?.map((account, key) => {
-                          if (account.type === 'mobile_money') {
-                            return account.msisdn
-                          } else if (account.type === 'bank_account') {
-                            return account.bank_account_number
-                          } else {
-                            return 'NO PRIMARY ACCOUNT'
-                          }
-                        })}
-                    </Typography>
-                  </Box>
-                  <Box display={'flex'} gap={2}>
-                    <Typography variant='body1'>Account Type: </Typography>
-                    <Typography color={'primary'} variant='body1'>
-                      {settlementData?.accounts
-                        ?.filter(account => account.primary === 1)
-                        ?.map((account, key) => {
-                          if (account.type === 'mobile_money') {
-                            return account.type
-                          } else if (account.type === 'bank_account') {
-                            return account.type
-                          } else {
-                            return 'NO PRIMARY ACCOUNT'
-                          }
-                        })}
+                  <Box display='flex' gap={2}>
+                    <Typography variant='body1'>Primary Account:</Typography>
+                    <Typography variant='body1' textTransform='uppercase' color='primary'>
+                      {renderPrimaryAccountDetails(settlementData?.accounts, 'details')}
                     </Typography>
                   </Box>
 
-                  <Box display={'flex'} gap={2}>
-                    <Typography variant='body1'>Next Settlement Date: </Typography>
-                    <Typography color={'primary'} variant='body1'>
+                  <Box display='flex' gap={2}>
+                    <Typography variant='body1'>Primary Account Address:</Typography>
+                    <Typography variant='body1' textTransform='uppercase' color='primary'>
+                      {renderPrimaryAccountDetails(settlementData?.accounts, 'address')}
+                    </Typography>
+                  </Box>
+
+                  <Box display='flex' gap={2}>
+                    <Typography variant='body1'>Next Settlement Date:</Typography>
+                    <Typography variant='body1' color='primary'>
                       {new Date().toLocaleDateString()}
                     </Typography>
                   </Box>
 
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      gap: 3,
-                      justifyContent: 'center',
-                      alignItems: 'center'
-                    }}
-                  >
-                    <Typography sx={{ alignItems: 'center' }} variant='h6'>
-                      Settlement Frequency
-                    </Typography>
+                  <Box display='flex' flexDirection='column' alignItems='center' gap={3}>
+                    <Typography variant='h6'>Settlement Frequency</Typography>
                     <TextField
                       select
                       fullWidth
@@ -216,12 +164,7 @@ const ParentFinanceViewSettlement = ({ setFinanceData, financeData }) => {
                       <MenuItem value='weekly'>Weekly</MenuItem>
                       <MenuItem value='monthly'>Monthly</MenuItem>
                     </TextField>
-                    <Button
-                      sx={{ width: '100%' }}
-                      variant='contained'
-                      color='primary'
-                      onClick={handleOpenConfirmDialog}
-                    >
+                    <Button variant='contained' fullWidth color='primary' onClick={handleOpenConfirmDialog}>
                       Change Frequency
                     </Button>
                   </Box>
@@ -230,25 +173,20 @@ const ParentFinanceViewSettlement = ({ setFinanceData, financeData }) => {
             </Card>
           </TabPanel>
 
-          <TabPanel sx={{ mt: 5, padding: 0 }} value='2'>
+          <TabPanel value='2'>
             <FinanceSettlementHistoryTable settlementHistoryData={settlementData?.history || []} />
           </TabPanel>
-          <TabPanel sx={{ mt: 5, padding: 0 }} value='3'>
+
+          <TabPanel value='3'>
             <FinanceSettlementConfigurationTab settlementPreferencesData={settlementData?.accounts || []} />
           </TabPanel>
         </TabContext>
       </Grid>
 
-      {/* Confirmation Dialog */}
-      <Dialog
-        open={openConfirmDialog}
-        onClose={handleCloseConfirmDialog}
-        aria-labelledby='confirm-dialog-title'
-        aria-describedby='confirm-dialog-description'
-      >
-        <DialogTitle id='confirm-dialog-title'>Confirm Save</DialogTitle>
+      <Dialog open={openConfirmDialog} onClose={handleCloseConfirmDialog}>
+        <DialogTitle>Confirm Save</DialogTitle>
         <DialogContent>
-          <DialogContentText id='confirm-dialog-description'>
+          <DialogContentText>
             Are you sure you want to set the settlement frequency to {frequency}? By clicking 'Save', you confirm that
             settlements will occur {frequency}.
           </DialogContentText>
