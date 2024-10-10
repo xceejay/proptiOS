@@ -27,6 +27,7 @@ import CustomChip from 'src/@core/components/mui/chip'
 
 import { useTenants } from 'src/hooks/useTenants'
 import { useRouter } from 'next/router'
+
 import { InputAdornment, OutlinedInput } from '@mui/material'
 
 const ManagePropertyUnitDrawer = props => {
@@ -201,9 +202,9 @@ const ManagePropertyUnitDrawer = props => {
         toast.error('Failed to edit unit', { duration: 3000 })
         setLoading(false)
 
-        toast.error(error.response.data.description, {
-          duration: 5000
-        })
+        // toast.error(error.response.data.description, {
+        //   duration: 5000
+        // })
       }
     )
   }
