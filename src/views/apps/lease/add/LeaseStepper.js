@@ -152,7 +152,7 @@ const steps = [
   'Review and Submit'
 ]
 
-const LeaseStepper = ({ onFormDataChange, onFormSubmit, tenants, units, properties }) => {
+const LeaseStepper = ({ onFormDataChange, onFormSubmit, tenants, units, properties, handleReplaceVars, rteRef }) => {
   const [activeStep, setActiveStep] = useState(0)
   const [open, setOpen] = useState(false)
 
@@ -222,8 +222,9 @@ const LeaseStepper = ({ onFormDataChange, onFormSubmit, tenants, units, properti
     if (onFormDataChange) {
       // onFormDataChange(data)
       onFormSubmit(data)
+
       setOpen(true)
-      toast.success('Lease has been created and saved successfully', { duration: 3000 })
+      // toast.success('Lease has been created and saved successfully', { duration: 3000 })
     }
   }
 
@@ -289,9 +290,24 @@ const LeaseStepper = ({ onFormDataChange, onFormSubmit, tenants, units, properti
             </Button>
           )}
           {isLastStep && (
-            <Button type='submit' variant='contained'>
-              Save
-            </Button>
+            <>
+              <Button
+                onClick={() => {
+                  const currentHtmlContent = rteRef.current?.editor?.getHTML() ?? ''
+                  handleReplaceVars(currentHtmlContent)
+                }}
+                sx={{ mr: 2 }}
+                size='small'
+                variant='outlined'
+              >
+                {' '}
+                Update PlaceHolders
+              </Button>
+
+              <Button size='small' type='submit' variant='contained'>
+                Save
+              </Button>
+            </>
           )}
         </Box>
       </form>

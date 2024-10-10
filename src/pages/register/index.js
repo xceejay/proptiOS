@@ -263,7 +263,10 @@ const Register = () => {
         onboarding.setLoading(false)
 
         // Handle error
-        console.error('Error creating account:', error)
+
+        toast.error(error.response.data.description, {
+          duration: 5000
+        })
         setError('api_error', {
           type: 'manual',
           message: 'Unable to create account'

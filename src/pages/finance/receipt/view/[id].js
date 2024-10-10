@@ -41,7 +41,10 @@ const ReceiptPreview = () => {
         },
         error => {
           console.log(id)
-          console.error('FROM receipt preview PAGE:', error)
+
+          toast.error(error.response.data.description, {
+            duration: 5000
+          })
         }
       )
     }

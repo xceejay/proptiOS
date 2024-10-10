@@ -158,7 +158,9 @@ const onSubmit = formData => {
       handleClose()
     },
     error => {
-      console.error('error FROM Tenant drawer PAGE:', error)
+      toast.error(error.response.data.description, {
+        duration: 5000
+      })
     }
   )
 }
@@ -231,7 +233,9 @@ const SidebarAddTenant = props => {
         handleClose()
       },
       error => {
-        console.error('error FROM Tenant drawer PAGE:', error)
+        toast.error(error.response.data.description, {
+          duration: 5000
+        })
       }
     )
   }

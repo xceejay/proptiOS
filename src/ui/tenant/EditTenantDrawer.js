@@ -171,7 +171,10 @@ const EditTenantDrawer = props => {
   //       },
   //       error => {
   //         console.log(id)
-  //         console.error('FROM refresh btn PAGE:', error)
+  //
+  toast.error(error.response.data.description, {
+    duration: 5000
+  })
   //       }
   //     )
   //   }
@@ -229,7 +232,9 @@ const EditTenantDrawer = props => {
 
         setLoading(false)
 
-        console.error('Error from Add Tenant Drawer:', error)
+        toast.error(error.response.data.description, {
+          duration: 5000
+        })
       }
     )
   }

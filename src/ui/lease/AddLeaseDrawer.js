@@ -108,7 +108,10 @@ const SidebarAddLease = props => {
       },
       error => {
         setLoading(false)
-        console.error('Error adding lease:', error)
+
+        toast.error(error.response.data.description, {
+          duration: 5000
+        })
       }
     )
   }

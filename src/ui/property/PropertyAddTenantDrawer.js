@@ -164,7 +164,10 @@ const PropertyAddTenantDrawer = props => {
         },
         error => {
           console.log(id)
-          console.error('FROM refresh btn PAGE:', error)
+
+          toast.error(error.response.data.description, {
+            duration: 5000
+          })
         }
       )
     }
@@ -233,7 +236,9 @@ const PropertyAddTenantDrawer = props => {
         handleClose()
       },
       error => {
-        console.error('error FROM Tenant drawer PAGE:', error)
+        toast.error(error.response.data.description, {
+          duration: 5000
+        })
       }
     )
   }

@@ -24,6 +24,7 @@ import CustomChip from 'src/@core/components/mui/chip'
 
 import { useUsers } from 'src/hooks/useUsers'
 import { useRouter } from 'next/router'
+import toast from 'react-hot-toast'
 
 const countries = [
   { name: 'Algeria', code: 'DZA' },
@@ -171,7 +172,10 @@ const EditUserDrawer = props => {
   //       },
   //       error => {
   //         console.log(id)
-  //         console.error('FROM refresh btn PAGE:', error)
+  //
+  toast.error(error.response.data.description, {
+    duration: 5000
+  })
   //       }
   //     )
   //   }
@@ -229,7 +233,9 @@ const EditUserDrawer = props => {
 
         setLoading(false)
 
-        console.error('Error from Add User Drawer:', error)
+        toast.error(error.response.data.description, {
+          duration: 5000
+        })
       }
     )
   }

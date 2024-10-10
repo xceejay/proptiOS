@@ -46,6 +46,7 @@ import { fontWeight } from '@mui/system'
 import SignatureCanvas from './SignatureCanvas'
 import LeaseStepper from './LeaseStepper'
 import { useLeases } from 'src/hooks/useLeases'
+import toast from 'react-hot-toast'
 
 const currencies = [
   { code: 'USD', name: 'United States Dollar', symbol: '$' },
@@ -552,7 +553,12 @@ const AddCard = props => {
           // setError('tenant_id', {
           //   type: 'manual',
           //   message: data.description || 'Unknown error occurred'
+
           // })
+
+          toast.success(data.description, {
+            duration: 5000
+          })
 
           return
         }
@@ -583,7 +589,14 @@ const AddCard = props => {
         handleClose()
       },
       error => {
-        console.error('Error from Lease drawer page:', error)
+        toast.error(error.response.data.description, {
+          duration: 5000
+        })
+        console.log(error)
+        //
+        toast.error(error.response.data.description, {
+          duration: 5000
+        })
       }
     )
   }
@@ -663,6 +676,8 @@ const AddCard = props => {
         <Grid container>
           <Grid item xl={12} xs={12}>
             <LeaseStepper
+              handleReplaceVars={handleReplaceVars}
+              rteRef={rteRef}
               properties={FormProperties}
               units={FormUnits}
               tenants={FormTenants}

@@ -172,7 +172,9 @@ const SidebarAddProperty = props => {
         handleClose()
       },
       error => {
-        console.error('Error from Add Property Drawer:', error)
+        toast.error(error.response.data.description, {
+          duration: 5000
+        })
       }
     )
   }

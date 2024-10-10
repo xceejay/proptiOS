@@ -36,6 +36,7 @@ import CardStatsHorizontalWithDetails from 'src/@core/components/card-statistics
 import { useUsers } from 'src/hooks/useUsers'
 import EditUserDrawer from './EditUserDrawer'
 import CustomStatusToolbar from 'src/views/table/data-grid/CustomStatusToolbar'
+import toast from 'react-hot-toast'
 
 const RowOptions = ({ id, row, setUsersData, usersData, setLoading }) => {
   const dispatch = useDispatch()
@@ -263,7 +264,9 @@ const UserManageTable = () => {
       error => {
         setLoading(false)
 
-        console.error('Users Cannot be retrieved:', error)
+        toast.error(error.response.data.description, {
+          duration: 5000
+        })
       }
     )
   }, [paginationModel])

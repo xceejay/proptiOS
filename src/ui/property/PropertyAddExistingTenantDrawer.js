@@ -160,7 +160,9 @@ const onSubmit = formData => {
       handleClose()
     },
     error => {
-      console.error('error FROM Tenant drawer PAGE:', error)
+      toast.error(error.response.data.description, {
+        duration: 5000
+      })
     }
   )
 }
@@ -194,7 +196,9 @@ const PropertyAddExistingTenantDrawer = props => {
       error => {
         // setLoading(false)
 
-        console.error('Tenants Cannot be retrieved:', error)
+        toast.error(error.response.data.description, {
+          duration: 5000
+        })
       }
     )
   }, [open, toggle])
@@ -262,7 +266,9 @@ const PropertyAddExistingTenantDrawer = props => {
         handleClose()
       },
       error => {
-        console.error('error FROM Tenant drawer PAGE:', error)
+        toast.error(error.response.data.description, {
+          duration: 5000
+        })
       }
     )
   }

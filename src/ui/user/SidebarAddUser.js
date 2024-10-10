@@ -15,6 +15,7 @@ import { useForm, Controller } from 'react-hook-form'
 import Icon from 'src/@core/components/icon'
 import { useUsers } from 'src/hooks/useUsers'
 import { schema, Header } from './AddUserDrawer'
+import toast from 'react-hot-toast'
 
 export const SidebarAddUser = props => {
   const { open, toggle } = props
@@ -63,7 +64,10 @@ export const SidebarAddUser = props => {
       },
       error => {
         console.log(id)
-        console.error('FROM User drawer PAGE:', error)
+
+        toast.error(error.response.data.description, {
+          duration: 5000
+        })
       }
     )
   }

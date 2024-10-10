@@ -138,7 +138,10 @@ const ManagePropertyUnitDrawer = props => {
         },
         error => {
           console.log(id)
-          console.error('FROM refresh btn PAGE:', error)
+
+          toast.error(error.response.data.description, {
+            duration: 5000
+          })
         }
       )
     }
@@ -198,7 +201,9 @@ const ManagePropertyUnitDrawer = props => {
         toast.error('Failed to edit unit', { duration: 3000 })
         setLoading(false)
 
-        console.error('Error from Add Unit Drawer:', error)
+        toast.error(error.response.data.description, {
+          duration: 5000
+        })
       }
     )
   }

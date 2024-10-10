@@ -158,7 +158,9 @@ const onSubmit = formData => {
       handleClose()
     },
     error => {
-      console.error('error FROM User drawer PAGE:', error)
+      toast.error(error.response.data.description, {
+        duration: 5000
+      })
     }
   )
 }
@@ -231,7 +233,9 @@ const SidebarAddUser = props => {
         handleClose()
       },
       error => {
-        console.error('error FROM User drawer PAGE:', error)
+        toast.error(error.response.data.description, {
+          duration: 5000
+        })
       }
     )
   }

@@ -185,7 +185,9 @@ const EditPropertyTenantDrawer = props => {
           console.log(id)
           setLoading(false)
 
-          console.error('FROM refresh btn PAGE:', error)
+          toast.error(error.response.data.description, {
+            duration: 5000
+          })
         }
       )
     }
@@ -246,7 +248,9 @@ const EditPropertyTenantDrawer = props => {
         toast.error('Failed to edit tenant', { duration: 3000 })
         setLoading(false)
 
-        console.error('Error from Add Tenant Drawer:', error)
+        toast.error(error.response.data.description, {
+          duration: 5000
+        })
       }
     )
   }

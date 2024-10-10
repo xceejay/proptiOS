@@ -287,7 +287,9 @@ const LeaseManageTable = () => {
       error => {
         setLoading(false)
 
-        console.error('Leases Cannot be retrieved:', error)
+        toast.error(error.response.data.description, {
+          duration: 5000
+        })
       }
     )
   }, [paginationModel])

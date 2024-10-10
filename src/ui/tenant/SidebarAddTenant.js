@@ -63,7 +63,10 @@ export const SidebarAddTenant = props => {
       },
       error => {
         console.log(id)
-        console.error('FROM Tenant drawer PAGE:', error)
+
+        toast.error(error.response.data.description, {
+          duration: 5000
+        })
       }
     )
   }

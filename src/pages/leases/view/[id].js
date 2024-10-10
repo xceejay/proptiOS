@@ -28,7 +28,10 @@ const LeasePreview = () => {
         },
         error => {
           console.log(id)
-          console.error('FROM lease preview PAGE:', error)
+
+          toast.error(error.response.data.description, {
+            duration: 5000
+          })
         }
       )
     }

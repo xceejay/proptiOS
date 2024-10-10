@@ -142,7 +142,10 @@ const UserViewLeft = ({ setPropertyData, propertyData }) => {
         },
         error => {
           console.log(id)
-          console.error('FROM refresh btn PAGE:', error)
+
+          toast.error(error.response.data.description, {
+            duration: 5000
+          })
           setLoading(false)
         }
       )

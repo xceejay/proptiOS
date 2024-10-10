@@ -28,7 +28,10 @@ const InvoicePreview = () => {
         },
         error => {
           console.log(id)
-          console.error('FROM invoice preview PAGE:', error)
+
+          toast.error(error.response.data.description, {
+            duration: 5000
+          })
         }
       )
     }

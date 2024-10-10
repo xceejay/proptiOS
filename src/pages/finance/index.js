@@ -31,7 +31,9 @@ const FinancePage = () => {
           setLoading(false) // Stop loading when the request completes
         },
         error => {
-          console.error('Finance data cannot be retrieved:', error)
+          toast.error(error.response.data.description, {
+            duration: 5000
+          })
           setLoading(false) // Stop loading on error
         }
       )

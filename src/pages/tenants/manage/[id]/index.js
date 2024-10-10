@@ -37,7 +37,10 @@ const TenantEdit = () => {
         },
         error => {
           console.log(id)
-          console.error('FROM INDEX PAEG:', error)
+
+          toast.error(error.response.data.description, {
+            duration: 5000
+          })
         }
       )
     }

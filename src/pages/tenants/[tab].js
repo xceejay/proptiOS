@@ -27,7 +27,10 @@ const TenantTab = ({ invoiceData }) => {
         },
         error => {
           console.log(id)
-          console.error('FROM INDEX PAGE:', error)
+
+          toast.error(error.response.data.description, {
+            duration: 5000
+          })
         }
       )
     }
