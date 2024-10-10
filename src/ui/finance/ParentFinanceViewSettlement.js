@@ -26,6 +26,8 @@ import FinanceSettlementHistoryTable from './FinanceSettlementHistoryTable'
 import FinanceSettlementConfigurationTab from './FinanceSettlementConfigurationTab'
 import { CardActionArea, CardActions, CardHeader, Icon } from '@mui/material'
 import { useEffect } from 'react'
+import toast from 'react-hot-toast'
+
 import { useFinance } from 'src/hooks/useFinance'
 
 const ParentFinanceViewSettlement = ({ setFinanceData, financeData }) => {
@@ -84,9 +86,8 @@ const ParentFinanceViewSettlement = ({ setFinanceData, financeData }) => {
           console.log('saving settlement Data')
           console.log(data)
           setSettlementData(data)
+          setLoading(false) // Stop loading when the request completes
         }
-
-        setLoading(false) // Stop loading when the request completes
       },
       error => {
         toast.error(error.response.data.description, {
@@ -132,26 +133,56 @@ const ParentFinanceViewSettlement = ({ setFinanceData, financeData }) => {
                   <Box display={'flex'} gap={2}>
                     <Typography variant='body1'>Balance: </Typography>
                     <Typography color={'primary'} variant='body1'>
-                      {'$' + '20'}
+                      {settlementData?.currency + ' ' + settlementData?.balance}
                     </Typography>
                   </Box>
                   <Box display={'flex'} gap={2}>
                     <Typography variant='body1'>Primary Account: </Typography>
                     <Typography textTransform={'uppercase'} color={'primary'} variant='body1'>
-                      {'Fidelity Bank'}
+                      {settlementData?.accounts
+                        ?.filter(account => account.primary === 1)
+                        ?.map((account, key) => {
+                          if (account.type === 'mobile_money') {
+                            return account.type + '(' + account.mobile_money_provider + ')'
+                          } else if (account.type === 'bank_account') {
+                            return account.type + ' : ' + account.bank_name
+                          } else {
+                            return 'NO PRIMARY ACCOUNT'
+                          }
+                        })}
                     </Typography>
                   </Box>
 
                   <Box display={'flex'} gap={2}>
                     <Typography variant='body1'>Primary Account Address: </Typography>
                     <Typography textTransform={'uppercase'} color={'primary'} variant='body1'>
-                      {'32208028430823048'}
+                      {settlementData?.accounts
+                        ?.filter(account => account.primary === 1)
+                        ?.map((account, key) => {
+                          if (account.type === 'mobile_money') {
+                            return account.msisdn
+                          } else if (account.type === 'bank_account') {
+                            return account.bank_account_number
+                          } else {
+                            return 'NO PRIMARY ACCOUNT'
+                          }
+                        })}
                     </Typography>
                   </Box>
                   <Box display={'flex'} gap={2}>
                     <Typography variant='body1'>Account Type: </Typography>
                     <Typography color={'primary'} variant='body1'>
-                      {'BANK'}
+                      {settlementData?.accounts
+                        ?.filter(account => account.primary === 1)
+                        ?.map((account, key) => {
+                          if (account.type === 'mobile_money') {
+                            return account.type
+                          } else if (account.type === 'bank_account') {
+                            return account.type
+                          } else {
+                            return 'NO PRIMARY ACCOUNT'
+                          }
+                        })}
                     </Typography>
                   </Box>
 
