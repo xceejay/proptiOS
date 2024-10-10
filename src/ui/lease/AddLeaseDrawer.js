@@ -76,7 +76,9 @@ const SidebarAddLease = props => {
         setLoading(false)
         const { data } = responseData
 
-        if (data?.status === 'FAILED') {
+        if (data?.status === 'NO_RES') {
+          console.log('NO results')
+        } else if (data?.status === 'FAILED') {
           alert(data.description || 'Failed to add lease')
           setError('tenant_id', {
             type: 'manual',

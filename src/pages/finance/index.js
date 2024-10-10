@@ -20,7 +20,9 @@ const FinancePage = () => {
         responseData => {
           const { data } = responseData
 
-          if (data?.status === 'FAILED') {
+          if (data?.status === 'NO_RES') {
+            console.log('NO results')
+          } else if (data?.status === 'FAILED') {
             alert(response.message || 'Failed to fetch properties')
           } else {
             setFinanceData(data)

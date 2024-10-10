@@ -258,7 +258,10 @@ const TenantManageTable = () => {
       responseData => {
         const { data } = responseData
         setLoading(false)
-        if (data?.status === 'FAILED') {
+
+        if (data?.status === 'NO_RES') {
+          console.log('NO results')
+        } else if (data?.status === 'FAILED') {
           alert(data.message || 'Failed to fetch tenants')
 
           return

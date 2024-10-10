@@ -25,7 +25,9 @@ const UserEdit = () => {
           setUserData(data)
           console.log('FROM INDEX PAGE:', data)
 
-          if (data?.status === 'FAILED') {
+          if (data?.status === 'NO_RES') {
+            console.log('NO results')
+          } else if (data?.status === 'FAILED') {
             alert(data.message || 'Failed to fetch users')
 
             return

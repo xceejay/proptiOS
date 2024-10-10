@@ -125,7 +125,9 @@ const onSubmit = formData => {
       console.log('Add Tenant Drawer')
       let { data } = responseData
 
-      if (data?.status === 'FAILED') {
+      if (data?.status === 'NO_RES') {
+        console.log('NO results')
+      } else if (data?.status === 'FAILED') {
         alert(data.description || 'Failed to add tenant')
         setError('email', {
           type: 'manual',
@@ -191,7 +193,9 @@ const SidebarAddTenant = props => {
         console.log('Add Tenant Drawer')
         let { data } = responseData
 
-        if (data?.status === 'FAILED') {
+        if (data?.status === 'NO_RES') {
+          console.log('NO results')
+        } else if (data?.status === 'FAILED') {
           alert(data.description || 'Failed to add tenant')
           setError('email', {
             type: 'manual',

@@ -46,7 +46,9 @@ export const SidebarAddUser = props => {
         setUserData(data)
         console.log('FROM User drawer PAGE:', data)
 
-        if (data?.status === 'FAILED') {
+        if (data?.status === 'NO_RES') {
+          console.log('NO results')
+        } else if (data?.status === 'FAILED') {
           alert(data.message || 'Failed to add user')
 
           setError('email', {

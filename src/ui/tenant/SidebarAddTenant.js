@@ -46,7 +46,9 @@ export const SidebarAddTenant = props => {
         setTenantData(data)
         console.log('FROM Tenant drawer PAGE:', data)
 
-        if (data?.status === 'FAILED') {
+        if (data?.status === 'NO_RES') {
+          console.log('NO results')
+        } else if (data?.status === 'FAILED') {
           alert(data.message || 'Failed to add tenant')
 
           setError('email', {

@@ -25,8 +25,14 @@ import TabContext from '@mui/lab/TabContext'
 import FinanceSettlementHistoryTable from './FinanceSettlementHistoryTable'
 import FinanceSettlementConfigurationTab from './FinanceSettlementConfigurationTab'
 import { CardActionArea, CardActions, CardHeader, Icon } from '@mui/material'
+import { useEffect } from 'react'
+import { useFinance } from 'src/hooks/useFinance'
 
 const ParentFinanceViewSettlement = ({ setFinanceData, financeData }) => {
+  const [settlementData, setSettlementData] = useState(null)
+
+  const finance = useFinance()
+
   // State for settlement frequency selection
   const [frequency, setFrequency] = useState(financeData?.settlementFrequency || 'daily')
   const [value, setValue] = useState('1')
@@ -62,6 +68,33 @@ const ParentFinanceViewSettlement = ({ setFinanceData, financeData }) => {
     // Close the dialog after saving
     setOpenConfirmDialog(false)
   }
+
+  useEffect(() => {
+    finance.getAllSettlementDetails(
+      responseData => {
+        console.log('Response Data:', responseData) // Check response structure
+
+        const { data } = responseData
+
+        if (data?.status === 'NO_RES') {
+          console.log('NO results')
+        } else if (data?.status === 'FAILED') {
+          console.log('failed', data.description)
+          alert(response.message || 'Failed to fetch settlements')
+        } else {
+          console.log('saving settlement Data')
+
+          setSettlementData(data)
+        }
+
+        setLoading(false) // Stop loading when the request completes
+      },
+      error => {
+        console.error('Settlement details cannot be retrieved:', error)
+        setLoading(false) // Stop loading on error
+      }
+    )
+  }, [])
 
   return (
     <Grid container spacing={6}>

@@ -127,7 +127,9 @@ const onSubmit = formData => {
       console.log('Add Tenant Drawer')
       let { data } = responseData
 
-      if (data?.status === 'FAILED') {
+      if (data?.status === 'NO_RES') {
+        console.log('NO results')
+      } else if (data?.status === 'FAILED') {
         alert(data.description || 'Failed to add tenant')
         setError('email', {
           type: 'manual',
@@ -179,7 +181,10 @@ const PropertyAddExistingTenantDrawer = props => {
         const { data } = responseData
 
         // setLoading(false)
-        if (data?.status === 'FAILED') {
+
+        if (data?.status === 'NO_RES') {
+          console.log('NO results')
+        } else if (data?.status === 'FAILED') {
           alert(data.message || 'Failed to fetch tenants')
 
           return
@@ -219,7 +224,9 @@ const PropertyAddExistingTenantDrawer = props => {
         console.log('Add Tenant Drawer')
         let { data } = responseData
 
-        if (data?.status === 'FAILED') {
+        if (data?.status === 'NO_RES') {
+          console.log('NO results')
+        } else if (data?.status === 'FAILED') {
           alert(data.description || 'Failed to add tenant')
           setError('email', {
             type: 'manual',

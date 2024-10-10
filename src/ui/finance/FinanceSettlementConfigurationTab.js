@@ -55,7 +55,8 @@ import CardWrapper from 'src/@core/styles/libs/react-credit-cards'
 
 // ** Styles Import
 import 'react-credit-cards/es/styles-compiled.css'
-import { Accordion, AccordionDetails, AccordionSummary, Chip, Modal } from '@mui/material'
+import { Accordion, AccordionDetails, AccordionSummary, Chip, duration, Modal } from '@mui/material'
+import toast from 'react-hot-toast'
 
 // ** Styled <sup> component
 const Sup = styled('sup')(({ theme }) => ({
@@ -171,7 +172,9 @@ const FinanceSettlementConfigurationTab = ({ setFinanceData, financeData }) => {
   const primaryAccountLabel = primary_account ? 'primary' : ''
   const primaryAccountColor = primary_account ? 'primary' : 'secondary'
   const handleChangeDefault = () => {
-    console.log('Default!!!!!!!!!!!')
+    setPrimaryAccount(primaryAccount === 'mobile_money' ? 'bank_account' : 'mobile_money')
+
+    toast.success('Primary Settlement Account has been changed!')
   }
   return (
     <Grid container spacing={6}>

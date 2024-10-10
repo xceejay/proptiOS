@@ -129,7 +129,9 @@ const PropertyAddMaintenanceRequestDrawer = props => {
         console.log('Add request Drawer Response:', responseData)
         let { data } = responseData
 
-        if (data?.status === 'FAILED') {
+        if (data?.status === 'NO_RES') {
+          console.log('NO results')
+        } else if (data?.status === 'FAILED') {
           alert(data.description || 'Failed to add unit')
           setError('title', {
             type: 'manual',
