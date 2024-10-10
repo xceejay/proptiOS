@@ -96,6 +96,10 @@ const UsersProvider = ({ children }) => {
       .then(response => {
         if (successCallback) {
           successCallback(response.data)
+
+          if (response.data == 'NO_RES') {
+            throw new error('NO USER FOUND')
+          }
           setUser(response.data)
         }
       })
