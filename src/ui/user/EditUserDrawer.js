@@ -24,7 +24,6 @@ import CustomChip from 'src/@core/components/mui/chip'
 
 import { useUsers } from 'src/hooks/useUsers'
 import { useRouter } from 'next/router'
-import toast from 'react-hot-toast'
 
 const countries = [
   { name: 'Algeria', code: 'DZA' },
