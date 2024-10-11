@@ -24,6 +24,7 @@ import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 import FinanceTransactionListTable from './FinanceTransactionListTable'
 import FinanceStatementsTable from './FinanceStatementsTable'
 import { useFinance } from 'src/hooks/useFinance'
+import toast from 'react-hot-toast'
 
 const ParentFinanceViewStatements = ({ setFinanceData, financeData }) => {
   const [transactions, setAllTransactions] = useState(null)
@@ -73,6 +74,7 @@ const ParentFinanceViewStatements = ({ setFinanceData, financeData }) => {
         setLoading(false) // Stop loading when the request completes
       },
       error => {
+        console.log(error)
         toast.error(error.response.data.description, {
           duration: 5000
         })

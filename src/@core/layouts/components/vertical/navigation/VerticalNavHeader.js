@@ -97,12 +97,21 @@ const VerticalNavHeader = props => {
       ) : (
         <LinkStyled href='/'>
           <></>
-          <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 30' width='32' height='30'>
-            <rect width='32' height='30' fill='#CCCCCC0D'></rect>
-            <text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-size='10px' fill='#333333FF'>
-              32x30
-            </text>
-          </svg>
+          {user?.site_image_url ? (
+            <>
+              <img width='32' height='30' src={user.site_image_url}></img>
+            </>
+          ) : (
+            <>
+              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 30' width='32' height='30'>
+                <rect width='32' height='30' fill='#CCCCCC0D'></rect>
+                <text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-size='10px' fill='#333333FF'>
+                  32x30
+                </text>
+              </svg>
+            </>
+          )}
+
           <HeaderTitle variant='h6' sx={{ ...menuCollapsedStyles, ...(navCollapsed && !navHover ? {} : { ml: 2 }) }}>
             {user?.site_id ? user.site_id : themeConfig.templateName}
           </HeaderTitle>

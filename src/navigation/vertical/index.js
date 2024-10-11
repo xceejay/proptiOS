@@ -50,7 +50,7 @@ const navigation = () => {
       title: 'User Management',
       path: '/users',
       icon: 'tabler:users',
-      disabled: true,
+      disabled: false,
       action: 'read',
       subject: 'users'
     },

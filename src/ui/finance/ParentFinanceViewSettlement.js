@@ -41,25 +41,27 @@ const ParentFinanceViewSettlement = ({ setFinanceData, financeData }) => {
 
   useEffect(() => {
     setLoading(true)
-    finance.getAllSettlementDetails(
-      responseData => {
-        const { data } = responseData
-        if (data?.status === 'NO_RES') {
-          console.log('No results found')
-        } else if (data?.status === 'FAILED') {
-          console.error('Failed:', data.description)
-          toast.error(data.description || 'Failed to fetch settlements', { duration: 5000 })
-        } else {
-          setSettlementData(data)
+    if (finance) {
+      finance.getAllSettlementDetails(
+        responseData => {
+          const { data } = responseData
+          if (data?.status === 'NO_RES') {
+            console.log('No results found')
+          } else if (data?.status === 'FAILED') {
+            console.error('Failed:', data.description)
+            toast.error(data.description || 'Failed to fetch settlements', { duration: 5000 })
+          } else {
+            setSettlementData(data)
+          }
+          setLoading(false)
+        },
+        error => {
+          toast.error(error.response?.data?.description || 'An error occurred', { duration: 5000 })
+          setLoading(false)
         }
-        setLoading(false)
-      },
-      error => {
-        toast.error(error.response?.data?.description || 'An error occurred', { duration: 5000 })
-        setLoading(false)
-      }
-    )
-  }, [finance])
+      )
+    }
+  }, [])
 
   const handleTabChange = (event, newValue) => {
     setTabValue(newValue)

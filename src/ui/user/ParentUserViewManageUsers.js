@@ -1,17 +1,12 @@
 // ** MUI Imports
-import Box from '@mui/material/Box'
-import Card from '@mui/material/Card'
+import { useState } from 'react'
 import Grid from '@mui/material/Grid'
 import Avatar from '@mui/material/Avatar'
 import { styled } from '@mui/material/styles'
-import TimelineDot from '@mui/lab/TimelineDot'
-import TimelineItem from '@mui/lab/TimelineItem'
-import CardHeader from '@mui/material/CardHeader'
-import Typography from '@mui/material/Typography'
-import CardContent from '@mui/material/CardContent'
-import TimelineContent from '@mui/lab/TimelineContent'
-import TimelineSeparator from '@mui/lab/TimelineSeparator'
-import TimelineConnector from '@mui/lab/TimelineConnector'
+import Tab from '@mui/material/Tab'
+import TabList from '@mui/lab/TabList'
+import TabPanel from '@mui/lab/TabPanel'
+import TabContext from '@mui/lab/TabContext'
 import MuiTimeline from '@mui/lab/Timeline'
 
 // ** Icon Imports
@@ -41,9 +36,28 @@ const Timeline = styled(MuiTimeline)(({ theme }) => ({
 }))
 
 const ParentUserViewManageUsers = ({ userData }) => {
+  const [tabValue, setTabValue] = useState('1')
+  const handleTabChange = (event, newValue) => {
+    setTabValue(newValue)
+  }
+
   return (
-    <Grid>
-      <UserManageTable></UserManageTable>
+    <Grid container spacing={6}>
+      {/* <Grid item xs={12}>
+        <TabContext value={tabValue}>
+          <TabList onChange={handleTabChange} variant='fullWidth' aria-label='settlement tabs'>
+            <Tab label='Active' value='1' />
+            <Tab label='Pending' value='2' />
+            <Tab label='Disabled' value='3' />
+          </TabList>
+          <TabPanel value='1'>
+            <UserManageTable></UserManageTable>
+          </TabPanel>
+        </TabContext>
+      </Grid> */}
+      <Grid item xs={12}>
+        <UserManageTable></UserManageTable>
+      </Grid>
     </Grid>
   )
 }

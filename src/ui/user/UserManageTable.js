@@ -37,6 +37,7 @@ import { useUsers } from 'src/hooks/useUsers'
 import EditUserDrawer from './EditUserDrawer'
 import CustomStatusToolbar from 'src/views/table/data-grid/CustomStatusToolbar'
 import toast from 'react-hot-toast'
+import CustomUsersToolbar from 'src/views/table/data-grid/CustomUsersToolbar'
 
 const RowOptions = ({ id, row, setUsersData, usersData, setLoading }) => {
   const dispatch = useDispatch()
@@ -240,6 +241,7 @@ const UserManageTable = () => {
     { text: 'All', value: '' },
 
     { text: 'Active', value: 'active' },
+    { text: 'Pending', value: 'pending' },
     { text: 'Inactive', value: 'inactive' }
   ])
 
@@ -289,7 +291,7 @@ const UserManageTable = () => {
     <Grid container spacing={6.5}>
       <Grid item xs={12}>
         <Card>
-          <CardHeader title='Users' />
+          <CardHeader title='Manage Users' />
           <CardContent>
             {/* <UserTableHeader
               rows={filteredUsers}
@@ -299,13 +301,13 @@ const UserManageTable = () => {
               toggle={toggleAddUserDrawer}
             /> */}
             <DataGrid
-              loading={loading}
+              loading={false}
               autoHeight
               rowHeight={62}
               rows={filteredUsers || []}
               columns={columns}
               slots={{
-                toolbar: CustomStatusToolbar,
+                toolbar: CustomUsersToolbar,
                 noRowsOverlay: CustomNoRowsOverlay
 
                 // loadingOverlay: {
