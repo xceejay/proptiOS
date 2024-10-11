@@ -11,5 +11,6 @@ const UsersPage = () => {
 
   return <ParentUserEditInfo tab={tab} usersData={usersData} />
 }
+UsersPage.acl = { action: 'read', subject: 'users' }
 
 export default UsersPage

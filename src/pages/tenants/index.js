@@ -12,4 +12,6 @@ const TenantsPage = () => {
   return <ParentTenantEditInfo tab={tab} tenantsData={tenantsData} />
 }
 
+TenantsPage.acl = { action: 'read', subject: 'tenants' }
+
 export default TenantsPage
