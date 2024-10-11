@@ -14,6 +14,7 @@ import Icon from 'src/@core/components/icon'
 import themeConfig from 'src/configs/themeConfig'
 import { useEffect, useState } from 'react'
 import { useAuth } from 'src/hooks/useAuth'
+import { borderRadius } from '@mui/system'
 
 // ** Styled Components
 const MenuHeaderWrapper = styled(Box)(({ theme }) => ({
@@ -99,7 +100,17 @@ const VerticalNavHeader = props => {
           <></>
           {user?.site_image_url ? (
             <>
-              <img width='32' height='30' src={user.site_image_url}></img>
+              <Box
+                component='img'
+                sx={{
+                  borderRadius: '25%',
+                  width: '32px',
+                  height: '30px',
+                  objectFit: 'cover' // Optional: Ensures the image covers the entire area
+                }}
+                src={user.site_image_url}
+                alt='User'
+              />{' '}
             </>
           ) : (
             <>
