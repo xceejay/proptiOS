@@ -82,7 +82,7 @@ const CustomUsersToolbar = props => {
             <Box>
               <FormControl fullWidth>
                 <InputLabel size='small' id='invoice-status-select'>
-                  Status
+                  Invitation Status
                 </InputLabel>
 
                 <Select
@@ -90,7 +90,7 @@ const CustomUsersToolbar = props => {
                   value={statusValue}
                   sx={{ mr: 4 }}
                   size='small'
-                  label='Invoice Status'
+                  label='Invitation Status'
                   onChange={handleStatusValue}
                   labelId='invoice-status-select'
                 >

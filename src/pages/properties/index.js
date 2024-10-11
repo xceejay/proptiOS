@@ -12,4 +12,6 @@ const PropertiesPage = () => {
   return <ParentPropertyEditInfo tab={tab} propertiesData={propertiesData} />
 }
 
+PropertiesPage.acl = { action: 'read', subject: 'properties' }
+
 export default PropertiesPage

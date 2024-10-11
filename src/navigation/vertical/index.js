@@ -81,8 +81,8 @@ const navigation = () => {
 
     {
       title: 'Support',
-      path: 'https://manages.homes/support',
-      disabled: true,
+      path: 'https://manages.homes',
+      disabled: false,
       icon: 'tabler:help',
       action: 'read',
       subject: 'support'

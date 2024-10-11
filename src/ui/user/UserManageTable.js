@@ -202,8 +202,8 @@ const UserManageTable = () => {
       field: 'status',
       headerName: 'Status',
       renderCell: ({ row }) => {
-        const statusLabel = row.status === 'active' ? 'Active' : 'Inactive'
-        const statusColor = row.status === 'active' ? 'success' : 'secondary'
+        const statusLabel = row.invitation_status === 'active' ? 'Active' : 'Inactive'
+        const statusColor = row.invitation_status === 'active' ? 'success' : 'secondary'
 
         return (
           <CustomChip
