@@ -477,7 +477,7 @@ const AddCard = props => {
   const leases = useLeases()
 
   useEffect(() => {
-    setSiteId(auth.user.site_id)
+    setSiteId(auth.user.site_name)
     setSiteUser(auth.user)
   }, [auth])
 
