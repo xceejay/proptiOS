@@ -103,7 +103,7 @@ const VerticalNavHeader = props => {
               <Box
                 component='img'
                 sx={{
-                  borderRadius: '25%',
+                  borderRadius: '20%',
                   width: '32px',
                   height: '30px',
                   objectFit: 'cover' // Optional: Ensures the image covers the entire area
