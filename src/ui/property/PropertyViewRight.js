@@ -94,33 +94,37 @@ const UserViewRight = ({ tab, propertyData, setPropertyData }) => {
         sx={{ borderBottom: theme => `1px solid ${theme.palette.divider}` }}
       >
         {/* Conditionally render Tabs based on CASL permissions */}
-        {ability.can('read', 'overview') && (
+        {ability.can('read', 'property-overview') && (
           <Tab value='overview' label='Overview' icon={<Icon fontSize='1.125rem' icon='tabler:home' />} />
         )}
 
-        {ability.can('read', 'tenants') && (
+        {ability.can('read', 'property-tenants') && (
           <Tab value='tenants' label='Tenants' icon={<Icon fontSize='1.125rem' icon='tabler:friends' />} />
         )}
 
-        {ability.can('read', 'units') && (
+        {ability.can('read', 'property-units') && (
           <Tab value='units' label='Units' icon={<Icon fontSize='1.125rem' icon='tabler:cash' />} />
         )}
 
-        {ability.can('read', 'leases') && (
+        {ability.can('read', 'property-leases') && (
           <Tab value='leases' label='Leases' icon={<Icon fontSize='1.125rem' icon='tabler:contract' />} />
         )}
 
-        {ability.can('read', 'maintenance') && (
+        {ability.can('read', 'property-maintenance') && (
           <Tab value='maintenance' label='Maintenance' icon={<Icon fontSize='1.125rem' icon='tabler:tool' />} />
         )}
 
-        <Tab
-          disabled
-          value='marketing'
-          label='Marketing'
-          icon={<Icon fontSize='1.125rem' icon='tabler:speakerphone' />}
-        />
-        <Tab disabled value='settings' label='Settings' icon={<Icon fontSize='1.125rem' icon='tabler:settings' />} />
+        {ability.can('read', 'property-marketing') && (
+          <Tab
+            disabled
+            value='marketing'
+            label='Marketing'
+            icon={<Icon fontSize='1.125rem' icon='tabler:speakerphone' />}
+          />
+        )}
+        {ability.can('read', 'marketing') && (
+          <Tab disabled value='settings' label='Settings' icon={<Icon fontSize='1.125rem' icon='tabler:settings' />} />
+        )}
       </TabList>
 
       <Box sx={{ mt: 6 }}>

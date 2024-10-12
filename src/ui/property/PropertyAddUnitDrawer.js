@@ -417,7 +417,7 @@ const AddUnitDrawer = props => {
                     // Pass the new value's id or an empty string to handle the form state
                     onChange(newValue ? newValue.id : '')
                   }}
-                  value={propertyData.leases.find(lease => lease.id === value) || null} // Set the selected value
+                  value={propertyData.leases?.find(lease => lease.id === value) || null} // Set the selected value
                   renderInput={params => <TextField {...params} label='Lease Attached' />}
                   isOptionEqualToValue={(option, value) => option.id === value} // Ensure proper comparison
                 />

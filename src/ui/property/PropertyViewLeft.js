@@ -223,18 +223,21 @@ const UserViewLeft = ({ setPropertyData, propertyData }) => {
 
             <CardContent sx={{ pt: theme => `${theme.spacing(2)} !important` }}>
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Box sx={{ mr: 8, display: 'flex', alignItems: 'center' }}>
-                  <CustomAvatar skin='light' variant='rounded' sx={{ mr: 2.5, width: 38, height: 38 }}>
-                    <Icon fontSize='1.75rem' icon='tabler:writing-sign' />
-                  </CustomAvatar>
-                  <div>
-                    <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>
-                      {' '}
-                      {propertyData.leases.length}
-                    </Typography>
-                    <Typography variant='body2'>Leases</Typography>
-                  </div>
-                </Box>
+                {propertyData.leases && (
+                  <Box sx={{ mr: 8, display: 'flex', alignItems: 'center' }}>
+                    <CustomAvatar skin='light' variant='rounded' sx={{ mr: 2.5, width: 38, height: 38 }}>
+                      <Icon fontSize='1.75rem' icon='tabler:writing-sign' />
+                    </CustomAvatar>
+                    <div>
+                      <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>
+                        {' '}
+                        {propertyData.leases.length}
+                      </Typography>
+                      <Typography variant='body2'>Leases</Typography>
+                    </div>
+                  </Box>
+                )}
+
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                   <CustomAvatar skin='light' variant='rounded' sx={{ mr: 2.5, width: 38, height: 38 }}>
                     <Icon fontSize='1.75rem' icon='tabler:woman' />

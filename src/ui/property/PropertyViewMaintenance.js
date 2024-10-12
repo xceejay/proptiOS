@@ -22,7 +22,7 @@ import { useDispatch } from 'react-redux'
 import PropertyAddMaintenanceRequestDrawer from './PropertyAddMaintenanceRequestDrawer'
 import CustomTenantToolbar from 'src/views/table/data-grid/CustomTenantToolbar'
 import PropertyManageMaintenanceRequestDrawer from './PropertyManageMaintenanceRequestDrawer'
-
+import CustomChip from 'src/@core/components/mui/chip'
 const RowOptions = ({
   id,
   row,
@@ -163,6 +163,65 @@ const PropertyViewMaintenance = ({ setPropertyData, propertyData }) => {
           : 'None',
       headerName: 'Tenant',
       flex: 1
+    },
+    {
+      field: 'assignee',
+      valueGetter: params =>
+        params.row.internal_assignee?.name
+          ? params.row.internal_assignee.name + ' (Internal)'
+          : params.row.external_assignee
+          ? params.row.external_assignee + ' (External)'
+          : '',
+      headerName: 'Assignee',
+      flex: 1
+    },
+    {
+      field: 'requester',
+      valueGetter: params => {
+        return params.row.requester?.name || ''
+      },
+      headerName: 'Requested By',
+      flex: 1
+    },
+    {
+      field: 'status',
+      renderCell: ({ row }) => {
+        let statusLabel
+        let statusColor
+
+        // alert(JSON.stringify(row))
+
+        switch (row?.status) {
+          case 'active':
+            statusLabel = 'Active'
+            statusColor = 'success'
+            break
+          case 'pending':
+            statusLabel = 'Pending'
+            statusColor = 'warning' // or another color that represents pending status
+            break
+          case 'disabled':
+            statusLabel = 'Disabled'
+            statusColor = 'secondary'
+            break
+          default:
+            statusLabel = 'Unknown'
+            statusColor = 'secondary' // fallback color
+        }
+
+        return (
+          <CustomChip
+            rounded
+            skin='light'
+            size='small'
+            label={statusLabel}
+            color={statusColor}
+            sx={{ textTransform: 'capitalize' }}
+          />
+        )
+      },
+      headerName: 'Status',
+      flex: 1.2
     },
     {
       flex: 0.1,
