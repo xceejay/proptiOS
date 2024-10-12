@@ -63,21 +63,36 @@ const UserViewRight = ({ tab, propertyData, setPropertyData }) => {
   const router = useRouter()
   const { id } = router.query
 
+  // Function to determine the default active tab based on ability
+  const getDefaultTab = () => {
+    if (ability.can('read', 'property-overview')) return 'overview'
+    if (ability.can('read', 'property-tenants')) return 'tenants'
+    if (ability.can('read', 'property-units')) return 'units'
+    if (ability.can('read', 'property-leases')) return 'leases'
+    if (ability.can('read', 'property-maintenance')) return 'maintenance'
+    if (ability.can('read', 'property-marketing')) return 'marketing'
+    if (ability.can('read', 'property-settings')) return 'settings'
+    return 'overview' // Default fallback if no permissions
+  }
+
+  // Handle active tab changes and redirects
   const handleChange = (event, value) => {
     setIsLoading(true)
     setActiveTab(value)
-    router
-      .push({
-        pathname: `/properties/manage/${id}/${value.toLowerCase()}`
-      })
-      .then(() => setIsLoading(false))
+    router.push(`/properties/manage/${id}/${value.toLowerCase()}`).then(() => setIsLoading(false))
   }
+
+  // Set default tab on mount
   useEffect(() => {
-    if (tab && tab !== activeTab) {
+    if (!tab) {
+      const defaultTab = getDefaultTab()
+      setActiveTab(defaultTab)
+      router.push(`/properties/manage/${id}/${defaultTab}`)
+    } else {
       setActiveTab(tab)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tab])
+  }, [ability, tab, router, id])
+
   useEffect(() => {
     if (propertyData) {
       setIsLoading(false)
@@ -115,15 +130,11 @@ const UserViewRight = ({ tab, propertyData, setPropertyData }) => {
         )}
 
         {ability.can('read', 'property-marketing') && (
-          <Tab
-            disabled
-            value='marketing'
-            label='Marketing'
-            icon={<Icon fontSize='1.125rem' icon='tabler:speakerphone' />}
-          />
+          <Tab value='marketing' label='Marketing' icon={<Icon fontSize='1.125rem' icon='tabler:speakerphone' />} />
         )}
-        {ability.can('read', 'marketing') && (
-          <Tab disabled value='settings' label='Settings' icon={<Icon fontSize='1.125rem' icon='tabler:settings' />} />
+
+        {ability.can('read', 'property-settings') && (
+          <Tab value='settings' label='Settings' icon={<Icon fontSize='1.125rem' icon='tabler:settings' />} />
         )}
       </TabList>
 
@@ -135,7 +146,6 @@ const UserViewRight = ({ tab, propertyData, setPropertyData }) => {
           </Box>
         ) : (
           <>
-            {/* Overview Tab */}
             <TabPanel sx={{ p: 0 }} value='overview'>
               {ability.can('read', 'property-overview') ? (
                 <PropertyViewOverview setPropertyData={setPropertyData} propertyData={propertyData} />
@@ -144,7 +154,6 @@ const UserViewRight = ({ tab, propertyData, setPropertyData }) => {
               )}
             </TabPanel>
 
-            {/* Tenants Tab */}
             <TabPanel sx={{ p: 0 }} value='tenants'>
               {ability.can('read', 'property-tenants') ? (
                 <PropertyViewTenants setPropertyData={setPropertyData} propertyData={propertyData} />
@@ -153,7 +162,6 @@ const UserViewRight = ({ tab, propertyData, setPropertyData }) => {
               )}
             </TabPanel>
 
-            {/* Units Tab */}
             <TabPanel sx={{ p: 0 }} value='units'>
               {ability.can('read', 'property-units') ? (
                 <PropertyViewUnits setPropertyData={setPropertyData} propertyData={propertyData} />
@@ -162,7 +170,6 @@ const UserViewRight = ({ tab, propertyData, setPropertyData }) => {
               )}
             </TabPanel>
 
-            {/* Leases Tab */}
             <TabPanel sx={{ p: 0 }} value='leases'>
               {ability.can('read', 'property-leases') ? (
                 <PropertyViewLeases setPropertyData={setPropertyData} propertyData={propertyData} />
@@ -171,7 +178,6 @@ const UserViewRight = ({ tab, propertyData, setPropertyData }) => {
               )}
             </TabPanel>
 
-            {/* Maintenance Tab */}
             <TabPanel sx={{ p: 0 }} value='maintenance'>
               {ability.can('read', 'property-maintenance') ? (
                 <PropertyViewMaintenance setPropertyData={setPropertyData} propertyData={propertyData} />
@@ -180,7 +186,6 @@ const UserViewRight = ({ tab, propertyData, setPropertyData }) => {
               )}
             </TabPanel>
 
-            {/* Marketing Tab */}
             <TabPanel sx={{ p: 0 }} value='marketing'>
               {ability.can('read', 'property-marketing') ? (
                 <PropertyViewMarketing setPropertyData={setPropertyData} propertyData={propertyData} />
@@ -189,9 +194,8 @@ const UserViewRight = ({ tab, propertyData, setPropertyData }) => {
               )}
             </TabPanel>
 
-            {/* Settings Tab */}
             <TabPanel sx={{ p: 0 }} value='settings'>
-              {ability.can('read', 'marketing') ? (
+              {ability.can('read', 'property-settings') ? (
                 <PropertyViewSettings setPropertyData={setPropertyData} propertyData={propertyData} />
               ) : (
                 <Typography>You do not have permission to view this content.</Typography>
