@@ -117,6 +117,14 @@ const RowOptions = ({ id, row, setUsersData, usersData, setLoading }) => {
 }
 
 const UserManageTable = () => {
+  const roleLabels = {
+    property_manager: 'Property Manager',
+    property_coordinator: 'Property Coordinator',
+    maintenance_worker: 'Maintenance Worker',
+    finance_staff: 'Finance Staff',
+    vendor: 'Vendor',
+    inspector: 'Inspector'
+  }
   const columns = [
     {
       flex: 0.25,
@@ -169,7 +177,7 @@ const UserManageTable = () => {
       headerName: 'Role',
       renderCell: ({ row }) => (
         <Typography noWrap sx={{ color: 'text.secondary' }}>
-          {row.user_type}
+          {roleLabels[row.user_type] || 'Unknown Role'}
         </Typography>
       )
     },
@@ -231,7 +239,7 @@ const UserManageTable = () => {
       flex: 0.1,
       minWidth: 110,
       field: 'status',
-      headerName: 'Status',
+      headerName: 'Account Status',
       renderCell: ({ row }) => {
         const statusLabel = row.status === 'active' ? 'Active' : 'Inactive'
         const statusColor = row.status === 'active' ? 'success' : 'secondary'
