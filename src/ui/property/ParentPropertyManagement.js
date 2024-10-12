@@ -52,7 +52,7 @@ const ParentPropertyViewManagement = ({}) => {
     )
   }, [paginationModel])
 
-  const [isGridView, setIsGridView] = useState(false)
+  const [isGridView, setIsGridView] = useState(true)
 
   const handleToggleView = () => {
     setIsGridView(!isGridView)
@@ -111,7 +111,7 @@ const ParentPropertyViewManagement = ({}) => {
                                 dominant-baseline='middle'
                                 text-anchor='middle'
                                 font-size='10px'
-                                fill='#000000'
+                                fill='#212121'
                               >
                                 Property Image
                               </text>
