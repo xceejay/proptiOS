@@ -41,6 +41,7 @@ import { ReportsProvider } from 'src/context/ReportsContext'
 import { MaintenanceProvider } from 'src/context/MaintenanceContext'
 import { LeasesProvider } from 'src/context/LeasesContext'
 import { SiteProvider } from 'src/context/SiteContext'
+import { UsersProvider } from 'src/context/UsersContext'
 
 import { SettingsConsumer, SettingsProvider } from 'src/@core/context/settingsContext'
 import { UserProvider } from '@auth0/nextjs-auth0/client'
@@ -63,7 +64,6 @@ import 'src/iconify-bundle/icons-bundle-react'
 
 // ** Global css styles
 import '../../styles/globals.css'
-import { UsersProvider } from 'src/context/UsersContext'
 
 const clientSideEmotionCache = createEmotionCache()
 

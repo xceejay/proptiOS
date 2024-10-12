@@ -20,6 +20,8 @@ import FormControl from '@mui/material/FormControl'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import OutlinedInput from '@mui/material/OutlinedInput'
 import { styled, useTheme } from '@mui/material/styles'
+import Spinner from 'src/@core/components/spinner'
+
 import InputAdornment from '@mui/material/InputAdornment'
 import MuiFormControlLabel from '@mui/material/FormControlLabel'
 import toast from 'react-hot-toast'
@@ -38,13 +40,14 @@ import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
 import { useOnboarding } from 'src/hooks/useOnboarding'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import { Card, CardContent, CardHeader, FormHelperText, Grid, Input, Tooltip } from '@mui/material'
+import { Card, CardContent, CardHeader, CircularProgress, FormHelperText, Grid, Input, Tooltip } from '@mui/material'
 import { MuiFileInput } from 'mui-file-input'
 
 import RegisterFileUploader from 'src/ui/auth/RegisterFileUploader'
 import { useAuth } from 'src/hooks/useAuth'
 import { HelpOutlineRounded } from '@mui/icons-material'
 import { useUsers } from 'src/hooks/useUsers'
+import { LoaderIcon } from 'react-hot-toast'
 
 const defaultValues = {
   role: 'property_manager'
@@ -78,6 +81,7 @@ const schema = yup.object().shape({
 })
 
 const ParentUserViewInviteUsers = ({ userData }) => {
+  const [loading, setLoading] = useState(false)
   const users = useUsers()
   const {
     control,
@@ -90,34 +94,34 @@ const ParentUserViewInviteUsers = ({ userData }) => {
     resolver: yupResolver(schema)
   })
 
-  const onSubmit = data => {
-    // axios.get('http://google.com')
-    users.invitePM(
-      { data },
+  const onSubmit = formData => {
+    // If formData should be an array, keep it as is
+    let requestData = [formData]
+    setLoading(true)
+    users.Invite(
+      requestData,
       responseData => {
-        let { response } = responseData
-        console.log(response?.data)
+        let { data } = responseData
 
-        // Handle success
-        if (response.data.status == 'FAILED') {
-          setError('api_error', {
+        if (data?.status === 'NO_RES') {
+          console.log('NO results')
+        } else if (data?.status === 'FAILED') {
+          alert(data.description || 'Failed to add tenant')
+          setError('email', {
             type: 'manual',
-            message: response.data.description
+            message: data.description || 'Unknown error occurred'
           })
+
+          setLoading(false)
 
           return
         }
-        console.log('Account created successfully:')
       },
       error => {
-        // Handle error
+        setLoading(false)
 
         toast.error(error.response.data.description, {
           duration: 5000
-        })
-        setError('api_error', {
-          type: 'manual',
-          message: error.response.data.description
         })
       }
     )
@@ -347,17 +351,28 @@ const ParentUserViewInviteUsers = ({ userData }) => {
                 </FormHelperText>
               )}
             </FormControl> */}
-            <Box sx={{ display: 'flex' }}>
-              <Button
-                size='medium'
-                type='submit'
-                onClick={() => console.log(errors)}
-                variant='contained'
-                sx={{ mt: 2 }}
-              >
-                Invite User
-              </Button>
-            </Box>
+            {!loading ? (
+              <>
+                <Box sx={{ display: 'flex' }}>
+                  <Button
+                    onClick={console.log('form errors', errors)}
+                    size='medium'
+                    type='submit'
+                    variant='contained'
+                    sx={{ mt: 2 }}
+                  >
+                    Invite User
+                  </Button>
+                </Box>
+              </>
+            ) : (
+              <>
+                {' '}
+                <Box sx={{ display: 'flex' }}>
+                  <CircularProgress size='20px'></CircularProgress>
+                </Box>
+              </>
+            )}
           </form>
         </CardContent>
       </Card>

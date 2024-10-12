@@ -20,7 +20,7 @@ const defaultProvider = {
   getUsers: () => Promise.resolve(),
   getUser: () => Promise.resolve(),
   addUsers: () => Promise.resolve(),
-  invitePM: () => Promise.resolve(),
+  Invite: () => Promise.resolve(),
   editUsers: () => Promise.resolve(),
   user: null,
   setUsers: () => {},
@@ -109,7 +109,7 @@ const UsersProvider = ({ children }) => {
       })
   }
 
-  const invitePM = (data, successCallback, errorCallback) => {
+  const Invite = (data, successCallback, errorCallback) => {
     const token = window.localStorage.getItem('accessToken') || accessToken
 
     if (!token) {
@@ -127,6 +127,7 @@ const UsersProvider = ({ children }) => {
       })
       .then(response => {
         if (successCallback) {
+          console.log('res from invite', response)
           successCallback(response.data)
         }
       })
@@ -229,7 +230,7 @@ const UsersProvider = ({ children }) => {
     setUser,
     setUsers,
     addUsers,
-    invitePM,
+    Invite,
 
     editUsers,
     loading,
