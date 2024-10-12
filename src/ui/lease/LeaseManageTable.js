@@ -301,7 +301,7 @@ const LeaseManageTable = () => {
   const toggleAddUserDrawer = () => setAddUserOpen(!addUserOpen)
 
   // Filter leases based on the search value
-  const filteredLeases = leasesData.items.filter(
+  const filteredLeases = leasesData.items?.filter(
     lease =>
       (lease.tenant?.name?.toLowerCase() || '').includes(value.toLowerCase()) ||
       (lease.property?.name?.toLowerCase() || '').includes(value.toLowerCase()) ||

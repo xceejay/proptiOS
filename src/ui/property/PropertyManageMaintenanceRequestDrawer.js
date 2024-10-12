@@ -47,6 +47,9 @@ const PropertyManageMaintenanceRequestDrawer = props => {
 
   const [mediaPreview, setMediaPreview] = useState('')
   const [loadingVideo, setLoadingVideo] = useState(false)
+  const [file, setFile] = useState(null)
+  const FILE_SIZE_LIMIT = 50 * 1024 * 1024 // 50MB
+  const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'image/png', 'video/mp4', 'video/mkv']
 
   const handleChange = fileBlob => {
     setLoadingVideo(true)
@@ -157,10 +160,6 @@ const PropertyManageMaintenanceRequestDrawer = props => {
     }
   }
 
-  useEffect(() => {
-    refreshPropertyData()
-  }, [open])
-
   const onSubmit = formData => {
     console.log('triggered')
     setLoading(true)
@@ -204,7 +203,7 @@ const PropertyManageMaintenanceRequestDrawer = props => {
         })
 
         toast.success('Change applied', { duration: 3000 })
-
+        refreshPropertyData()
         handleClose()
       },
       error => {

@@ -127,7 +127,6 @@ const PropertiesProvider = ({ children }) => {
       .then(response => {
         if (successCallback) {
           successCallback(response.data)
-          setProperty(response.data)
         }
       })
       .catch(err => {

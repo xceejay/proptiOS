@@ -150,17 +150,18 @@ const UserManageTable = () => {
         )
       }
     },
-    {
-      flex: 0.15,
-      minWidth: 190,
-      field: 'address',
-      headerName: 'Address',
-      renderCell: ({ row }) => (
-        <Typography noWrap sx={{ color: 'text.secondary' }}>
-          {row.address}
-        </Typography>
-      )
-    },
+
+    // {
+    //   flex: 0.15,
+    //   minWidth: 190,
+    //   field: 'address',
+    //   headerName: 'Address',
+    //   renderCell: ({ row }) => (
+    //     <Typography noWrap sx={{ color: 'text.secondary' }}>
+    //       {row.address}
+    //     </Typography>
+    //   )
+    // },
     {
       flex: 0.15,
       minWidth: 190,
@@ -176,10 +177,10 @@ const UserManageTable = () => {
       flex: 0.15,
       minWidth: 190,
       field: 'property',
-      headerName: 'Property',
+      headerName: 'Properties Created',
       renderCell: ({ row }) => (
         <Typography noWrap sx={{ color: 'text.secondary' }}>
-          {row.property?.name}
+          {row.properties.length}
         </Typography>
       )
     },
@@ -187,13 +188,43 @@ const UserManageTable = () => {
     {
       flex: 0.15,
       minWidth: 190,
-      field: 'tel_number',
-      headerName: 'Phone Number',
-      renderCell: ({ row }) => (
-        <Typography noWrap sx={{ color: 'text.secondary' }}>
-          {row.tel_number}
-        </Typography>
-      )
+      field: 'invitation_status',
+      headerName: 'Invitation',
+      renderCell: ({ row }) => {
+        let statusLabel
+        let statusColor
+
+        // alert(JSON.stringify(row))
+
+        switch (row?.invitation_status) {
+          case 'active':
+            statusLabel = 'Active'
+            statusColor = 'success'
+            break
+          case 'pending':
+            statusLabel = 'Pending'
+            statusColor = 'warning' // or another color that represents pending status
+            break
+          case 'disabled':
+            statusLabel = 'Disabled'
+            statusColor = 'secondary'
+            break
+          default:
+            statusLabel = 'Unknown'
+            statusColor = 'secondary' // fallback color
+        }
+
+        return (
+          <CustomChip
+            rounded
+            skin='light'
+            size='small'
+            label={statusLabel}
+            color={statusColor}
+            sx={{ textTransform: 'capitalize' }}
+          />
+        )
+      }
     },
 
     {
@@ -202,8 +233,8 @@ const UserManageTable = () => {
       field: 'status',
       headerName: 'Status',
       renderCell: ({ row }) => {
-        const statusLabel = row.invitation_status === 'active' ? 'Active' : 'Inactive'
-        const statusColor = row.invitation_status === 'active' ? 'success' : 'secondary'
+        const statusLabel = row.status === 'active' ? 'Active' : 'Inactive'
+        const statusColor = row.status === 'active' ? 'success' : 'secondary'
 
         return (
           <CustomChip
