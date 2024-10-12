@@ -26,6 +26,7 @@ import ParentFinanceViewSettlement from './ParentFinanceViewSettlement'
 import ParentFinanceViewRentPayments from './ParentFinanceViewRentPayments'
 import ParentFinanceViewExpenses from './ParentFinanceViewExpenses'
 import ParentFinanceViewStatements from './ParentFinanceViewStatements'
+import ParentFinanceViewReports from './ParentFinanceViewReports'
 
 // ** Styled Tab component
 const Tab = styled(MuiTab)(({ theme }) => ({
@@ -107,8 +108,7 @@ const ParentFinanceViewRight = ({ tab, financeData, setFinanceData }) => {
 
         <Tab value='settlement' label='settlement' icon={<Icon fontSize='1.125rem' icon='tabler:pig-money' />} />
         <Tab value='statements' label='statements' icon={<Icon fontSize='1.125rem' icon='tabler:report-money' />} />
-
-        {/* <Tab value='configuration' label='configuration' icon={<Icon fontSize='1.125rem' icon='tabler:tool' />} /> */}
+        <Tab value='reports' label='reports' icon={<Icon fontSize='1.125rem' icon='tabler:receipt' />} />
 
         {/* <Tab value='reminders' label='' icon={<Icon fontSize='1.125rem' icon='tabler:bell' />} /> */}
 
@@ -140,6 +140,10 @@ const ParentFinanceViewRight = ({ tab, financeData, setFinanceData }) => {
 
             <TabPanel sx={{ p: 0 }} value='statements'>
               <ParentFinanceViewStatements setFinanceData={setFinanceData} financeData={financeData} />
+            </TabPanel>
+
+            <TabPanel sx={{ p: 0 }} value='reports'>
+              <ParentFinanceViewReports setFinanceData={setFinanceData} financeData={financeData} />
             </TabPanel>
             {/* <TabPanel sx={{ p: 0 }} value='configuration'>
               <ParentFinanceViewConfiguration setFinanceData={setFinanceData} financeData={financeData} />

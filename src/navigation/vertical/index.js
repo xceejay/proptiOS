@@ -38,14 +38,14 @@ const navigation = () => {
       subject: 'finance'
     },
 
-    {
-      title: 'Reports',
-      path: '/reports',
-      icon: 'tabler:receipt',
-      action: 'read',
-      disabled: true,
-      subject: 'reports'
-    },
+    // {
+    //   title: 'Reports',
+    //   path: '/reports',
+    //   icon: 'tabler:receipt',
+    //   action: 'read',
+    //   disabled: true,
+    //   subject: 'reports'
+    // },
     {
       title: 'User Management',
       path: '/users',
