@@ -10,8 +10,20 @@ import Icon from 'src/@core/components/icon'
 import { Button, CardHeader, FormControl, InputLabel, MenuItem, Select, Typography } from '@mui/material'
 
 const CustomUsersToolbar = props => {
-  const { title, handleFilter, toggle, value, addText, setStatusValue, statusValue, statuses, searchPlaceholder } =
-    props
+  const {
+    title,
+    handleFilter,
+    toggle,
+    value,
+    addText,
+    setStatusValue,
+    statusValue,
+    setInvitationStatusValue,
+    invitationStatusValue,
+    statuses,
+    invitationStatuses,
+    searchPlaceholder
+  } = props
 
   const GridToolbarExportStyled = styled(GridToolbarExport)(({ theme }) => ({
     color: theme.palette.text.primary
@@ -20,6 +32,11 @@ const CustomUsersToolbar = props => {
   const handleStatusValue = event => {
     setStatusValue(event.target.value)
   }
+
+  const handleInvitationStatusValue = event => {
+    setInvitationStatusValue(event.target.value)
+  }
+
   return (
     <>
       <Box style={{ width: '100%', display: 'flex', justifyContent: 'left', alignItems: 'start' }}>
@@ -82,7 +99,7 @@ const CustomUsersToolbar = props => {
             <Box>
               <FormControl fullWidth>
                 <InputLabel size='small' id='invoice-status-select'>
-                  Invitation Status
+                  Account Status
                 </InputLabel>
 
                 <Select
@@ -90,11 +107,39 @@ const CustomUsersToolbar = props => {
                   value={statusValue}
                   sx={{ mr: 4 }}
                   size='small'
-                  label='Invitation Status'
+                  label='Account Status'
                   onChange={handleStatusValue}
                   labelId='invoice-status-select'
                 >
                   {statuses?.map((status, index) => {
+                    return <MenuItem value={status?.value}>{status?.text}</MenuItem>
+                  })}
+                </Select>
+              </FormControl>{' '}
+            </Box>
+          </>
+        ) : (
+          <></>
+        )}
+
+        {invitationStatuses?.length > 0 ? (
+          <>
+            <Box>
+              <FormControl fullWidth>
+                <InputLabel size='small' id='invoice-status-select'>
+                  Invitation Status
+                </InputLabel>
+
+                <Select
+                  fullWidth
+                  value={invitationStatusValue}
+                  sx={{ mr: 4 }}
+                  size='small'
+                  label='Invitation Status'
+                  onChange={handleInvitationStatusValue}
+                  labelId='invoice-status-select'
+                >
+                  {invitationStatuses?.map((status, index) => {
                     return <MenuItem value={status?.value}>{status?.text}</MenuItem>
                   })}
                 </Select>

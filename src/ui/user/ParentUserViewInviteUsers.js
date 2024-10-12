@@ -37,11 +37,12 @@ import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
 import { useOnboarding } from 'src/hooks/useOnboarding'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import { Card, CardContent, CardHeader, FormHelperText, Grid, Input } from '@mui/material'
+import { Card, CardContent, CardHeader, FormHelperText, Grid, Input, Tooltip } from '@mui/material'
 import { MuiFileInput } from 'mui-file-input'
 
 import RegisterFileUploader from 'src/ui/auth/RegisterFileUploader'
 import { useAuth } from 'src/hooks/useAuth'
+import { HelpOutlineRounded } from '@mui/icons-material'
 
 const defaultValues = {
   role: 'property_manager',
@@ -139,7 +140,16 @@ const ParentUserViewInviteUsers = ({ userData }) => {
   return (
     <Grid>
       <Card>
-        <CardHeader title='Invite new users'></CardHeader>
+        <CardHeader
+          action={
+            <Tooltip title='Learn more roles and access'>
+              <IconButton disabled>
+                <HelpOutlineRounded></HelpOutlineRounded>
+              </IconButton>
+            </Tooltip>
+          }
+          title='Invite new users'
+        ></CardHeader>
         <CardContent>
           <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
             {' '}
@@ -311,7 +321,7 @@ const ParentUserViewInviteUsers = ({ userData }) => {
                 )}
               />
             </FormControl>
-            <FormControl fullWidth sx={{ mb: 1.5 }}>
+            {/* <FormControl fullWidth sx={{ mb: 1.5 }}>
               <InputLabel htmlFor='auth-login-v2-password' error={Boolean(errors.password)}>
                 Password
               </InputLabel>
@@ -347,9 +357,9 @@ const ParentUserViewInviteUsers = ({ userData }) => {
                   {errors.password.message}
                 </FormHelperText>
               )}
-            </FormControl>
+            </FormControl> */}
             <Box sx={{ display: 'flex' }}>
-              <Button size='small' type='submit' variant='contained' sx={{ mt: 4 }}>
+              <Button size='medium' type='submit' variant='contained' sx={{ mt: 2 }}>
                 Invite User
               </Button>
             </Box>

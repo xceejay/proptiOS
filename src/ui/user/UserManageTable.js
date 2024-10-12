@@ -237,11 +237,19 @@ const UserManageTable = () => {
   const [addUserOpen, setAddUserOpen] = useState(false)
   const [paginationModel, setPaginationModel] = useState({ page: 1, pageSize: 25 })
   const [statusValue, setStatusValue] = useState('')
-  const [statuses, setStatuses] = useState([
+  const [invitationStatusValue, setInvitationStatusValue] = useState('')
+
+  const [invitationStatuses, setInvitationStatuses] = useState([
     { text: 'All', value: '' },
 
     { text: 'Active', value: 'active' },
     { text: 'Pending', value: 'pending' },
+    { text: 'Disabled', value: 'disabled' }
+  ])
+
+  const [statuses, setStatuses] = useState([
+    { text: 'All', value: '' },
+    { text: 'Active', value: 'active' },
     { text: 'Inactive', value: 'inactive' }
   ])
 
@@ -325,7 +333,11 @@ const UserManageTable = () => {
                   addText: 'Add User',
                   statusValue: statusValue,
                   setStatusValue: setStatusValue,
+                  invitationStatusValue: invitationStatusValue,
+                  setInvitationStatusValue: setInvitationStatusValue,
                   statuses: statuses,
+                  invitationStatuses: invitationStatuses,
+
                   toggle: toggleAddUserDrawer,
                   handleFilter: handleFilter
                 }
