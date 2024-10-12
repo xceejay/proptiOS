@@ -135,32 +135,67 @@ const UserViewRight = ({ tab, propertyData, setPropertyData }) => {
           </Box>
         ) : (
           <>
+            {/* Overview Tab */}
             <TabPanel sx={{ p: 0 }} value='overview'>
-              <PropertyViewOverview setPropertyData={setPropertyData} propertyData={propertyData} />
+              {ability.can('read', 'property-overview') ? (
+                <PropertyViewOverview setPropertyData={setPropertyData} propertyData={propertyData} />
+              ) : (
+                <Typography>You do not have permission to view this content.</Typography>
+              )}
             </TabPanel>
 
+            {/* Tenants Tab */}
             <TabPanel sx={{ p: 0 }} value='tenants'>
-              <PropertyViewTenants setPropertyData={setPropertyData} propertyData={propertyData} />
+              {ability.can('read', 'property-tenants') ? (
+                <PropertyViewTenants setPropertyData={setPropertyData} propertyData={propertyData} />
+              ) : (
+                <Typography>You do not have permission to view this content.</Typography>
+              )}
             </TabPanel>
 
+            {/* Units Tab */}
             <TabPanel sx={{ p: 0 }} value='units'>
-              <PropertyViewUnits setPropertyData={setPropertyData} propertyData={propertyData} />
+              {ability.can('read', 'property-units') ? (
+                <PropertyViewUnits setPropertyData={setPropertyData} propertyData={propertyData} />
+              ) : (
+                <Typography>You do not have permission to view this content.</Typography>
+              )}
             </TabPanel>
 
+            {/* Leases Tab */}
             <TabPanel sx={{ p: 0 }} value='leases'>
-              <PropertyViewLeases setPropertyData={setPropertyData} propertyData={propertyData} />
+              {ability.can('read', 'property-leases') ? (
+                <PropertyViewLeases setPropertyData={setPropertyData} propertyData={propertyData} />
+              ) : (
+                <Typography>You do not have permission to view this content.</Typography>
+              )}
             </TabPanel>
 
+            {/* Maintenance Tab */}
             <TabPanel sx={{ p: 0 }} value='maintenance'>
-              <PropertyViewMaintenance setPropertyData={setPropertyData} propertyData={propertyData} />
+              {ability.can('read', 'property-maintenance') ? (
+                <PropertyViewMaintenance setPropertyData={setPropertyData} propertyData={propertyData} />
+              ) : (
+                <Typography>You do not have permission to view this content.</Typography>
+              )}
             </TabPanel>
 
+            {/* Marketing Tab */}
             <TabPanel sx={{ p: 0 }} value='marketing'>
-              <PropertyViewMarketing setPropertyData={setPropertyData} propertyData={propertyData} />
+              {ability.can('read', 'property-marketing') ? (
+                <PropertyViewMarketing setPropertyData={setPropertyData} propertyData={propertyData} />
+              ) : (
+                <Typography>You do not have permission to view this content.</Typography>
+              )}
             </TabPanel>
 
+            {/* Settings Tab */}
             <TabPanel sx={{ p: 0 }} value='settings'>
-              <PropertyViewSettings setPropertyData={setPropertyData} propertyData={propertyData} />
+              {ability.can('read', 'marketing') ? (
+                <PropertyViewSettings setPropertyData={setPropertyData} propertyData={propertyData} />
+              ) : (
+                <Typography>You do not have permission to view this content.</Typography>
+              )}
             </TabPanel>
           </>
         )}
