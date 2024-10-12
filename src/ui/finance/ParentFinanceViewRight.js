@@ -108,7 +108,7 @@ const ParentFinanceViewRight = ({ tab, financeData, setFinanceData }) => {
 
         <Tab value='settlement' label='settlement' icon={<Icon fontSize='1.125rem' icon='tabler:pig-money' />} />
         <Tab value='statements' label='statements' icon={<Icon fontSize='1.125rem' icon='tabler:report-money' />} />
-        <Tab value='reports' label='reports' icon={<Icon fontSize='1.125rem' icon='tabler:receipt' />} />
+        <Tab value='reports' label='reports' icon={<Icon fontSize='1.125rem' icon='tabler:report' />} />
 
         {/* <Tab value='reminders' label='' icon={<Icon fontSize='1.125rem' icon='tabler:bell' />} /> */}
 

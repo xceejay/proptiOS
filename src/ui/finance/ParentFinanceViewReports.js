@@ -70,7 +70,7 @@ const ParentFinanceViewReports = ({ setFinanceData, financeData }) => {
               >
                 <Box display={'flex'} flexDirection={'row'} alignItems={'center'}>
                   <Box>
-                    <Icon icon='tabler:receipt' fontSize={40} />
+                    <Icon icon='tabler:report' fontSize={40} />
                   </Box>
                   <Box sx={{ p: 5 }} display={'flex'} flexDirection={'column'} alignItems={'flex-start'}>
                     <Box>
