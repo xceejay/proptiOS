@@ -41,7 +41,6 @@ import CustomTenantToolbar from 'src/views/table/data-grid/CustomTenantToolbar'
 import CustomNoRowsOverlay from '../CustomNoRowsOverlay'
 import PropertyAddExistingTenantDrawer from './PropertyAddExistingTenantDrawer'
 import { TextField } from '@mui/material'
-import toast from 'react-hot-toast'
 
 const RowOptions = ({ id }) => {
   const dispatch = useDispatch()
@@ -192,38 +191,16 @@ const columns = [
   }
 ]
 
-const PropertyManageTable = () => {
-  const properties = useProperties()
-  const [propertiesData, setPropertiesData] = useState([])
-  const [loading, setLoading] = useState(true) // New loading state
+const PropertyManageTable = ({
+  paginationModel,
+  setPaginationModel,
+  propertiesData,
+  loading,
+  setLoading,
+  setPropertiesData
+}) => {
   const [value, setValue] = useState('')
   const [addUserOpen, setAddUserOpen] = useState(false)
-  const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
-
-  useEffect(() => {
-    properties.getProperties(
-      { page: paginationModel.page, limit: paginationModel.pageSize },
-      responseData => {
-        const { data } = responseData
-
-        if (data?.status === 'NO_RES') {
-          console.log('NO results')
-        } else if (data?.status === 'FAILED') {
-          alert(response.message || 'Failed to fetch properties')
-        } else {
-          setPropertiesData(data)
-        }
-
-        setLoading(false) // Stop loading when the request completes
-      },
-      error => {
-        toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
-          duration: 5000
-        })
-        setLoading(false) // Stop loading on error
-      }
-    )
-  }, [paginationModel])
 
   const handleFilter = useCallback(val => {
     setValue(val)

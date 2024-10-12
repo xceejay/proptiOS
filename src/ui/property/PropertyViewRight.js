@@ -79,7 +79,7 @@ const UserViewRight = ({ tab, propertyData, setPropertyData }) => {
   const handleChange = (event, value) => {
     setIsLoading(true)
     setActiveTab(value)
-    router.push(`/properties/manage/${id}/${value.toLowerCase()}`).then(() => setIsLoading(false))
+    router.replace(`/properties/manage/${id}/${value.toLowerCase()}`).then(() => setIsLoading(false))
   }
 
   // Set default tab on mount
@@ -87,7 +87,7 @@ const UserViewRight = ({ tab, propertyData, setPropertyData }) => {
     if (!tab) {
       const defaultTab = getDefaultTab()
       setActiveTab(defaultTab)
-      router.push(`/properties/manage/${id}/${defaultTab}`)
+      router.replace(`/properties/manage/${id}/${defaultTab}`)
     } else {
       setActiveTab(tab)
     }
