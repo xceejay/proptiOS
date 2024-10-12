@@ -52,7 +52,7 @@ const ParentPropertyViewManagement = ({}) => {
     )
   }, [paginationModel])
 
-  const [isGridView, setIsGridView] = useState(true)
+  const [isGridView, setIsGridView] = useState(false)
 
   const handleToggleView = () => {
     setIsGridView(!isGridView)
