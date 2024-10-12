@@ -2,28 +2,25 @@
 import { useState } from 'react'
 
 // ** MUI Imports
-import Box from '@mui/material/Box'
-import Card from '@mui/material/Card'
-import Grid from '@mui/material/Grid'
-import Typography from '@mui/material/Typography'
-import Button from '@mui/material/Button'
-import TextField from '@mui/material/TextField'
-import MenuItem from '@mui/material/MenuItem'
-import CardContent from '@mui/material/CardContent'
-import Dialog from '@mui/material/Dialog'
-import DialogActions from '@mui/material/DialogActions'
-import DialogContent from '@mui/material/DialogContent'
-import DialogContentText from '@mui/material/DialogContentText'
-import DialogTitle from '@mui/material/DialogTitle'
-
-import Tab from '@mui/material/Tab'
-import TabList from '@mui/lab/TabList'
-import TabPanel from '@mui/lab/TabPanel'
-import TabContext from '@mui/lab/TabContext'
-
-// ** Custom Components
-import FinanceSettlementHistoryTable from './FinanceSettlementHistoryTable'
-import FinanceSettlementConfigurationTab from './FinanceSettlementConfigurationTab'
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
+  TableContainer,
+  Paper,
+  Card,
+  CardContent,
+  Box,
+  Typography,
+  DialogContentText,
+  Grid
+} from '@mui/material'
 import { CardActionArea, CardActions, CardHeader } from '@mui/material'
 import Icon from 'src/@core/components/icon'
 
@@ -53,7 +50,7 @@ const ParentFinanceViewReports = ({ setFinanceData, financeData }) => {
     <Card key={category}>
       <CardHeader title={category} />
       <CardContent>
-        <Grid gap={5} container justifyContent={'center'}>
+        <Grid gap={2} container justifyContent={'center'}>
           {reports.map((report, index) => (
             <Grid
               key={index}
@@ -75,11 +72,11 @@ const ParentFinanceViewReports = ({ setFinanceData, financeData }) => {
                   <Box>
                     <Icon icon='tabler:receipt' fontSize={40} />
                   </Box>
-                  <Box sx={{ p: 5 }} display={'flex'} flexDirection={'column'}>
+                  <Box sx={{ p: 5 }} display={'flex'} flexDirection={'column'} alignItems={'flex-start'}>
                     <Box>
-                      <Typography>{report.title}</Typography>
+                      <Typography fontWeight={'bold'}>{report.title}</Typography>
                     </Box>
-                    <Box>
+                    <Box textAlign={'left'}>
                       <Typography>{report.description}</Typography>
                     </Box>
                   </Box>
@@ -155,19 +152,40 @@ const ParentFinanceViewReports = ({ setFinanceData, financeData }) => {
           {renderReportCategory(category, reports)}
         </Grid>
       ))}
-
       {/* Dialog for displaying report details */}
-      <Dialog open={openDialog} onClose={handleCloseDialog}>
+      <Dialog fullWidth open={openDialog} onClose={handleCloseDialog}>
         <DialogTitle>{selectedReport?.title}</DialogTitle>
         <DialogContent>
-          <DialogContentText>{selectedReport?.description}</DialogContentText>
+          <TableContainer component={Paper}>
+            <Table aria-label='report details table'>
+              <TableBody>
+                {/* Title Row */}
+                <TableRow>
+                  <TableCell component='th' scope='row'>
+                    <strong>Title</strong>
+                  </TableCell>
+                  <TableCell>{selectedReport?.title}</TableCell>
+                </TableRow>
+
+                {/* Description Row */}
+                <TableRow>
+                  <TableCell component='th' scope='row'>
+                    <strong>Description</strong>
+                  </TableCell>
+                  <TableCell>{selectedReport?.description}</TableCell>
+                </TableRow>
+
+                {/* You can add more rows here if your report data contains additional details */}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog} color='secondary'>
             Close
           </Button>
         </DialogActions>
-      </Dialog>
+      </Dialog>{' '}
     </Grid>
   )
 }
