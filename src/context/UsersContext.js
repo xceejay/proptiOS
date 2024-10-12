@@ -20,6 +20,7 @@ const defaultProvider = {
   getUsers: () => Promise.resolve(),
   getUser: () => Promise.resolve(),
   addUsers: () => Promise.resolve(),
+  invitePM: () => Promise.resolve(),
   editUsers: () => Promise.resolve(),
   user: null,
   setUsers: () => {},
@@ -101,6 +102,32 @@ const UsersProvider = ({ children }) => {
             throw new error('NO USER FOUND')
           }
           setUser(response.data)
+        }
+      })
+      .catch(err => {
+        if (errorCallback) errorCallback(err)
+      })
+  }
+
+  const invitePM = (data, successCallback, errorCallback) => {
+    const token = window.localStorage.getItem('accessToken') || accessToken
+
+    if (!token) {
+      const error = new Error('No access token found')
+      if (errorCallback) errorCallback(error)
+
+      return
+    }
+
+    axios
+      .post('https://api.pm.manages.homes/users/invite-pm', data, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then(response => {
+        if (successCallback) {
+          successCallback(response.data)
         }
       })
       .catch(err => {
@@ -202,6 +229,8 @@ const UsersProvider = ({ children }) => {
     setUser,
     setUsers,
     addUsers,
+    invitePM,
+
     editUsers,
     loading,
     setLoading,

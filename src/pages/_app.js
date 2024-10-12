@@ -63,6 +63,7 @@ import 'src/iconify-bundle/icons-bundle-react'
 
 // ** Global css styles
 import '../../styles/globals.css'
+import { UsersProvider } from 'src/context/UsersContext'
 
 const clientSideEmotionCache = createEmotionCache()
 
@@ -126,27 +127,33 @@ const App = props => {
                   <TenantsProvider>
                     <LeasesProvider>
                       <FinanceProvider>
-                        <SettingsProvider {...(setConfig ? { pageSettings: setConfig() } : {})}>
-                          <SettingsConsumer>
-                            {({ settings }) => {
-                              return (
-                                <ThemeComponent settings={settings}>
-                                  <Guard authGuard={authGuard} guestGuard={guestGuard}>
-                                    <AclGuard aclAbilities={aclAbilities} guestGuard={guestGuard} authGuard={authGuard}>
-                                      {getLayout(<Component {...pageProps} />)}
-                                    </AclGuard>
-                                  </Guard>
-                                  <ReactHotToast>
-                                    <Toaster
-                                      position={settings.toastPosition}
-                                      toastOptions={{ className: 'react-hot-toast' }}
-                                    />
-                                  </ReactHotToast>
-                                </ThemeComponent>
-                              )
-                            }}
-                          </SettingsConsumer>
-                        </SettingsProvider>
+                        <UsersProvider>
+                          <SettingsProvider {...(setConfig ? { pageSettings: setConfig() } : {})}>
+                            <SettingsConsumer>
+                              {({ settings }) => {
+                                return (
+                                  <ThemeComponent settings={settings}>
+                                    <Guard authGuard={authGuard} guestGuard={guestGuard}>
+                                      <AclGuard
+                                        aclAbilities={aclAbilities}
+                                        guestGuard={guestGuard}
+                                        authGuard={authGuard}
+                                      >
+                                        {getLayout(<Component {...pageProps} />)}
+                                      </AclGuard>
+                                    </Guard>
+                                    <ReactHotToast>
+                                      <Toaster
+                                        position={settings.toastPosition}
+                                        toastOptions={{ className: 'react-hot-toast' }}
+                                      />
+                                    </ReactHotToast>
+                                  </ThemeComponent>
+                                )
+                              }}
+                            </SettingsConsumer>
+                          </SettingsProvider>
+                        </UsersProvider>
                       </FinanceProvider>
                     </LeasesProvider>
                   </TenantsProvider>

@@ -22,6 +22,7 @@ import OutlinedInput from '@mui/material/OutlinedInput'
 import { styled, useTheme } from '@mui/material/styles'
 import InputAdornment from '@mui/material/InputAdornment'
 import MuiFormControlLabel from '@mui/material/FormControlLabel'
+import toast from 'react-hot-toast'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
@@ -43,10 +44,11 @@ import { MuiFileInput } from 'mui-file-input'
 import RegisterFileUploader from 'src/ui/auth/RegisterFileUploader'
 import { useAuth } from 'src/hooks/useAuth'
 import { HelpOutlineRounded } from '@mui/icons-material'
+import { useUsers } from 'src/hooks/useUsers'
 
 const defaultValues = {
-  role: 'property_manager',
-  id_card: undefined
+  role: 'property_manager'
+  // id_card: undefined
 
   // country: countries.[]
 }
@@ -58,22 +60,25 @@ const LinkStyled = styled(Link)(({ theme }) => ({
 }))
 const schema = yup.object().shape({
   email: yup.string().email().required(),
-  password: yup.string().min(5).required(),
+  // password: yup.string().min(5).required(),
   full_name: yup.string().min(2).required(),
-  site_id: yup.string().min(2).required(),
-  site_name: yup.string(),
-  id_card: yup
-    .mixed()
-    .required('ID card is required')
-    .test('fileSize', 'File size is too large, File should be less or equal to 20MB', value => {
-      return value && value.size <= FILE_SIZE
-    })
-    .test('fileFormat', 'Unsupported file format', value => {
-      return value && SUPPORTED_FORMATS.includes(value.type)
-    })
+  role: yup.string().min(2).required()
+
+  // site_id: yup.string().min(2).required(),
+  // site_name: yup.string(),
+  // id_card: yup
+  //   .mixed()
+  //   .required('ID card is required')
+  //   .test('fileSize', 'File size is too large, File should be less or equal to 20MB', value => {
+  //     return value && value.size <= FILE_SIZE
+  //   })
+  //   .test('fileFormat', 'Unsupported file format', value => {
+  //     return value && SUPPORTED_FORMATS.includes(value.type)
+  //   })
 })
 
 const ParentUserViewInviteUsers = ({ userData }) => {
+  const users = useUsers()
   const {
     control,
     setError,
@@ -86,26 +91,12 @@ const ParentUserViewInviteUsers = ({ userData }) => {
   })
 
   const onSubmit = data => {
-    onboarding.setLoading(true)
-    if (!isChecked) {
-      setError('agreement', {
-        type: 'manual',
-        message: 'You must agree to the privacy policy & terms.'
-      })
-
-      return
-    }
-    console.log('register::PAGE::')
-
-    console.log('ONSUBMIT:::', data)
-
     // axios.get('http://google.com')
-    onboarding.registerAccount(
+    users.invitePM(
       { data },
       responseData => {
         let { response } = responseData
         console.log(response?.data)
-        onboarding.setLoading(false)
 
         // Handle success
         if (response.data.status == 'FAILED') {
@@ -119,8 +110,6 @@ const ParentUserViewInviteUsers = ({ userData }) => {
         console.log('Account created successfully:')
       },
       error => {
-        onboarding.setLoading(false)
-
         // Handle error
 
         toast.error(error.response.data.description, {
@@ -128,7 +117,7 @@ const ParentUserViewInviteUsers = ({ userData }) => {
         })
         setError('api_error', {
           type: 'manual',
-          message: 'Unable to create account'
+          message: error.response.data.description
         })
       }
     )
@@ -359,7 +348,13 @@ const ParentUserViewInviteUsers = ({ userData }) => {
               )}
             </FormControl> */}
             <Box sx={{ display: 'flex' }}>
-              <Button size='medium' type='submit' variant='contained' sx={{ mt: 2 }}>
+              <Button
+                size='medium'
+                type='submit'
+                onClick={() => console.log(errors)}
+                variant='contained'
+                sx={{ mt: 2 }}
+              >
                 Invite User
               </Button>
             </Box>
