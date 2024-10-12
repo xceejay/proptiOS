@@ -96,7 +96,9 @@ const ParentUserViewInviteUsers = ({ userData }) => {
 
   const onSubmit = formData => {
     // If formData should be an array, keep it as is
+    // let requestData = [formData]
     let requestData = [formData]
+
     setLoading(true)
     users.Invite(
       requestData,
