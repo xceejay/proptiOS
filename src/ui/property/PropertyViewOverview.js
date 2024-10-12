@@ -187,4 +187,6 @@ const PropertyViewOverview = ({ setPropertyData, propertyData }) => {
   )
 }
 
+PropertyViewOverview.acl = { action: 'read', subject: 'properties' }
+
 export default PropertyViewOverview

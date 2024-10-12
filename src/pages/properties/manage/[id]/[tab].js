@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { useProperties } from 'src/hooks/useProperties'
 import PropertyEditInfo from 'src/ui/property/PropertyEditInfo'
 
-const UserView = ({ invoiceData }) => {
+const PropertyManageId = ({ invoiceData }) => {
   const router = useRouter()
   const { id } = router.query
   const { tab } = router.query
@@ -39,4 +39,6 @@ const UserView = ({ invoiceData }) => {
   return <PropertyEditInfo tab={tab} setPropertyData={setPropertyData} propertyData={propertyData} />
 }
 
-export default UserView
+PropertyManageId.acl = { action: 'read', subject: 'properties' }
+
+export default PropertyManageId

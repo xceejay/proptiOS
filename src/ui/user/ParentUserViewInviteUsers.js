@@ -52,7 +52,6 @@ import { LoaderIcon } from 'react-hot-toast'
 const defaultValues = {
   role: 'property_manager'
   // id_card: undefined
-
   // country: countries.[]
 }
 
@@ -82,6 +81,11 @@ const schema = yup.object().shape({
 
 const ParentUserViewInviteUsers = ({ userData }) => {
   const [loading, setLoading] = useState(false)
+
+  const [role, setRole] = useState('property_manager') // Initialize state with default value
+  const handleChange = event => {
+    setRole(event.target.value) // Update state on change
+  }
   const users = useUsers()
   const {
     control,
@@ -267,40 +271,47 @@ const ParentUserViewInviteUsers = ({ userData }) => {
                 )}
               />
             </FormControl> */}
-            <TextField
-              select
-              id='custom-select-native'
-              defaultValue={'property_manager'}
-              name='role'
-              required
-              autoFocus
-              // disabled
-              fullWidth
-              sx={{ mb: 4 }}
-              label='Role'
-            >
-              <MenuItem value='property_owner'>
-                <em>Property Owner</em>
-              </MenuItem>
-              <MenuItem value='property_manager'>
-                <em>Property Manager</em>
-              </MenuItem>
-              <MenuItem value='property_coordinator'>
-                <em>Property Coordinator</em>
-              </MenuItem>
-              <MenuItem value='maintenance_worker'>
-                <em>Maintenance Worker</em>
-              </MenuItem>
-              <MenuItem value='accounting_staff'>
-                <em>Accounting Staff</em>
-              </MenuItem>
-              <MenuItem value='vendor'>
-                <em>Vendor</em>
-              </MenuItem>
-              <MenuItem value='inspector'>
-                <em>Inspector</em>
-              </MenuItem>
-            </TextField>
+            <FormControl fullWidth sx={{ mb: 4 }}>
+              <Controller
+                name='role'
+                control={control} // Ensure `control` is passed from your useForm hook
+                rules={{ required: true }} // Optional: add validation rules
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    select
+                    id='custom-select-native'
+                    label='Role'
+                    required
+                    autoFocus
+                    fullWidth
+                    sx={{ mb: 4 }}
+                  >
+                    <MenuItem value='property_owner'>
+                      <em>Property Owner</em>
+                    </MenuItem>
+                    <MenuItem value='property_manager'>
+                      <em>Property Manager</em>
+                    </MenuItem>
+                    <MenuItem value='property_coordinator'>
+                      <em>Property Coordinator</em>
+                    </MenuItem>
+                    <MenuItem value='maintenance_worker'>
+                      <em>Maintenance Worker</em>
+                    </MenuItem>
+                    <MenuItem value='accounting_staff'>
+                      <em>Accounting Staff</em>
+                    </MenuItem>
+                    <MenuItem value='vendor'>
+                      <em>Vendor</em>
+                    </MenuItem>
+                    <MenuItem value='inspector'>
+                      <em>Inspector</em>
+                    </MenuItem>
+                  </TextField>
+                )}
+              />
+            </FormControl>
             <FormControl fullWidth sx={{ mb: 4 }}>
               <Controller
                 name='email'

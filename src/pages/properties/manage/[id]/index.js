@@ -59,4 +59,5 @@ const PropertyEdit = ({}) => {
 //   }
 // }
 
+PropertyEdit.acl = { action: 'read', subject: 'properties' }
 export default PropertyEdit

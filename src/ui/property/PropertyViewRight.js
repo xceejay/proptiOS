@@ -26,6 +26,7 @@ import PropertyViewMarketing from './PropertyViewMarketing'
 import PropertyViewSettings from 'src/ui/property/PropertyViewSettings'
 import PropertyViewTenants from './PropertyViewTenants'
 import PropertyViewLeases from './PropertyViewLeaases'
+import CanViewSection from 'src/layouts/components/acl/CanViewSection'
 
 // ** Styled Tab component
 const Tab = styled(MuiTab)(({ theme }) => ({
@@ -90,18 +91,32 @@ const UserViewRight = ({ tab, propertyData, setPropertyData }) => {
         aria-label='forced scroll tabs example'
         sx={{ borderBottom: theme => `1px solid ${theme.palette.divider}` }}
       >
-        <Tab value='overview' label='Overview' icon={<Icon fontSize='1.125rem' icon='tabler:home' />} />
-        <Tab value='tenants' label='Tenants' icon={<Icon fontSize='1.125rem' icon='tabler:friends' />} />
+        {/* Overview Tab */}
+        <CanViewSection navTitle={{ action: 'read', subject: 'overview' }}>
+          <Tab value='overview' label='Overview' icon={<Icon fontSize='1.125rem' icon='tabler:home' />} />
+        </CanViewSection>
 
-        <Tab value='units' label='Units' icon={<Icon fontSize='1.125rem' icon='tabler:cash' />} />
-        <Tab value='leases' label='Leases' icon={<Icon fontSize='1.125rem' icon='tabler:contract' />} />
+        {/* Tenants Tab */}
+        <CanViewSection navTitle={{ action: 'read', subject: 'tenants' }}>
+          <Tab value='tenants' label='Tenants' icon={<Icon fontSize='1.125rem' icon='tabler:friends' />} />
+        </CanViewSection>
 
-        {/* <Tab
-          value='billing-plan'
-          label='Billing & Plan'
-          icon={<Icon fontSize='1.125rem' icon='tabler:currency-dollar' />}
-        /> */}
-        <Tab value='maintenance' label='Maintenance' icon={<Icon fontSize='1.125rem' icon='tabler:tool' />} />
+        {/* Units Tab */}
+        <CanViewSection navTitle={{ action: 'read', subject: 'units' }}>
+          <Tab value='units' label='Units' icon={<Icon fontSize='1.125rem' icon='tabler:cash' />} />
+        </CanViewSection>
+
+        {/* Leases Tab */}
+        <CanViewSection navTitle={{ action: 'read', subject: 'leases' }}>
+          <Tab value='leases' label='Leases' icon={<Icon fontSize='1.125rem' icon='tabler:contract' />} />
+        </CanViewSection>
+
+        {/* Maintenance Tab */}
+        <CanViewSection navTitle={{ action: 'read', subject: 'maintenance' }}>
+          <Tab value='maintenance' label='Maintenance' icon={<Icon fontSize='1.125rem' icon='tabler:tool' />} />
+        </CanViewSection>
+
+        {/* Marketing Tab (Disabled) */}
         <Tab
           disabled
           value='marketing'
@@ -109,8 +124,10 @@ const UserViewRight = ({ tab, propertyData, setPropertyData }) => {
           icon={<Icon fontSize='1.125rem' icon='tabler:speakerphone' />}
         />
 
+        {/* Settings Tab (Disabled) */}
         <Tab disabled value='settings' label='Settings' icon={<Icon fontSize='1.125rem' icon='tabler:settings' />} />
       </TabList>
+
       <Box sx={{ mt: 6 }}>
         {isLoading ? (
           <Box sx={{ mt: 6, display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
@@ -126,21 +143,23 @@ const UserViewRight = ({ tab, propertyData, setPropertyData }) => {
             <TabPanel sx={{ p: 0 }} value='tenants'>
               <PropertyViewTenants setPropertyData={setPropertyData} propertyData={propertyData} />
             </TabPanel>
+
             <TabPanel sx={{ p: 0 }} value='units'>
               <PropertyViewUnits setPropertyData={setPropertyData} propertyData={propertyData} />
             </TabPanel>
+
             <TabPanel sx={{ p: 0 }} value='leases'>
               <PropertyViewLeases setPropertyData={setPropertyData} propertyData={propertyData} />
             </TabPanel>
-            {/* <TabPanel sx={{ p: 0 }} value='billing'>
-              <PropertyViewBilling />
-            </TabPanel> */}
+
             <TabPanel sx={{ p: 0 }} value='maintenance'>
               <PropertyViewMaintenance setPropertyData={setPropertyData} propertyData={propertyData} />
             </TabPanel>
+
             <TabPanel sx={{ p: 0 }} value='marketing'>
               <PropertyViewMarketing setPropertyData={setPropertyData} propertyData={propertyData} />
             </TabPanel>
+
             <TabPanel sx={{ p: 0 }} value='settings'>
               <PropertyViewSettings setPropertyData={setPropertyData} propertyData={propertyData} />
             </TabPanel>

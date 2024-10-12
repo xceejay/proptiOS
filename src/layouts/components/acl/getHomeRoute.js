@@ -7,7 +7,7 @@ const getDashboardRoute = user_type => {
     case 'property_coordinator':
       return '/dashboard' // Full access
     case 'maintenance_worker':
-      return '/maintenance'
+      return '/properties'
     case 'finance_staff':
       return '/finance'
     case 'vendor':
