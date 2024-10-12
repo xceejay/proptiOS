@@ -140,7 +140,7 @@ const ManagePropertyUnitDrawer = props => {
         error => {
           console.log(id)
 
-          toast.error(error.response.data.description, {
+          toast.error(error.response.data?.description || 'An error occurred. Please try again or contact support.', {
             duration: 5000
           })
         }
@@ -202,7 +202,7 @@ const ManagePropertyUnitDrawer = props => {
         toast.error('Failed to edit unit', { duration: 3000 })
         setLoading(false)
 
-        // toast.error(error.response.data.description, {
+        // toast.error(error.response.data?.description || "An error occurred. Please try again or contact support.", {
         //   duration: 5000
         // })
       }

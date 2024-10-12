@@ -106,7 +106,7 @@ const EditLeaseDrawer = props => {
         toast.error('Failed to update lease', { duration: 3000 })
         setLoading(false)
 
-        toast.error(error.response.data.description, {
+        toast.error(error.response.data?.description || 'An error occurred. Please try again or contact support.', {
           duration: 5000
         })
       }

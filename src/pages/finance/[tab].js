@@ -30,7 +30,7 @@ const FinanceTab = () => {
           setLoading(false) // Stop loading when the request completes
         },
         error => {
-          toast.error(error.response.data.description, {
+          toast.error(error.response.data?.description || 'An error occurred. Please try again or contact support.', {
             duration: 5000
           })
           setLoading(false) // Stop loading on error

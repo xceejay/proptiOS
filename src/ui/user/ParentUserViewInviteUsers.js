@@ -97,7 +97,7 @@ const ParentUserViewInviteUsers = ({ userData }) => {
   const onSubmit = formData => {
     // If formData should be an array, keep it as is
     // let requestData = [formData]
-    let requestData = [formData]
+    let requestData = formData
 
     setLoading(true)
     users.Invite(
@@ -122,7 +122,7 @@ const ParentUserViewInviteUsers = ({ userData }) => {
       error => {
         setLoading(false)
 
-        toast.error(error.response.data.description, {
+        toast.error(error.response.data?.description || 'An error occurred. Please try again or contact support.', {
           duration: 5000
         })
       }
@@ -371,6 +371,9 @@ const ParentUserViewInviteUsers = ({ userData }) => {
               <>
                 {' '}
                 <Box sx={{ display: 'flex' }}>
+                  <Typography mr={1} variant='subtitle2'>
+                    Sending invite...
+                  </Typography>
                   <CircularProgress size='20px'></CircularProgress>
                 </Box>
               </>
