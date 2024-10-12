@@ -39,13 +39,13 @@ const SendReceiptDrawer = ({ open, toggle }) => {
       </Header>
       <Box sx={{ p: theme => theme.spacing(0, 6, 6) }}>
         <FormControl fullWidth sx={{ mb: 5 }}>
-          <TextField type='email' label='From' variant='outlined' defaultValue='shelbyComapny@email.com' />
+          <TextField type='email' label='From' variant='outlined' defaultValue='email@manages.homes' />
         </FormControl>
         <FormControl fullWidth sx={{ mb: 5 }}>
-          <TextField type='email' label='To' variant='outlined' defaultValue='qConsolidated@email.com' />
+          <TextField type='email' label='To' variant='outlined' defaultValue='email@manages.homes' />
         </FormControl>
         <FormControl fullWidth sx={{ mb: 5 }}>
-          <TextField label='Subject' variant='outlined' defaultValue='Receipt of purchased Admin Templates' />
+          <TextField label='Subject' variant='outlined' defaultValue='Receipt of rent' />
         </FormControl>
         <FormControl fullWidth sx={{ mb: 5 }}>
           <TextField
@@ -54,13 +54,11 @@ const SendReceiptDrawer = ({ open, toggle }) => {
             label='Message'
             type='textarea'
             variant='outlined'
-            defaultValue={`Dear Queen Consolidated,
-
-Thank you for your business, always a pleasure to work with you!
-
-We have generated a new receipt in the amount of $95.59
-
-We would appreciate payment of this receipt by 05/11/2019`}
+            defaultValue={`Dear Tenants,
+            This is your receipt
+            Best Regards,
+            PM
+              `}
           />
         </FormControl>
         <Box sx={{ mb: 6 }}>
