@@ -4,7 +4,7 @@ import { useContext } from 'react'
 // ** Component Imports
 import { AbilityContext } from 'src/layouts/components/acl/Can'
 
-const CanViewNavSectionTitle = props => {
+const CanViewSection = props => {
   // ** Props
   const { children, navTitle } = props
 
@@ -17,4 +17,4 @@ const CanViewNavSectionTitle = props => {
   }
 }
 
-export default CanViewNavSectionTitle
+export default CanViewSection

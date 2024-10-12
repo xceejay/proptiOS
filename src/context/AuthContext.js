@@ -52,9 +52,11 @@ const AuthProvider = ({ children }) => {
             // localStorage.removeItem('refreshToken')
 
             console.log('encountered this error', error)
+            setLoading(true)
 
-            localStorage.removeItem('accessToken')
-            setUser(null)
+            handleLogout()
+            // localStorage.removeItem('accessToken')
+            // setUser(null)
             setLoading(false)
 
             // if (authConfig.onTokenExpiration === 'logout' && !router.pathname.includes('login')) {

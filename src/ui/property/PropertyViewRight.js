@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 
 // ** Next Import
 import { useRouter } from 'next/router'
@@ -25,8 +25,8 @@ import PropertyViewMaintenance from 'src/ui/property/PropertyViewMaintenance'
 import PropertyViewMarketing from './PropertyViewMarketing'
 import PropertyViewSettings from 'src/ui/property/PropertyViewSettings'
 import PropertyViewTenants from './PropertyViewTenants'
-import PropertyViewLeases from './PropertyViewLeaases'
-import CanViewSection from 'src/layouts/components/acl/CanViewSection'
+import PropertyViewLeases from './PropertyViewLeases'
+import { AbilityContext } from 'src/layouts/components/acl/Can'
 
 // ** Styled Tab component
 const Tab = styled(MuiTab)(({ theme }) => ({
@@ -53,6 +53,8 @@ const TabList = styled(MuiTabList)(({ theme }) => ({
 }))
 
 const UserViewRight = ({ tab, propertyData, setPropertyData }) => {
+  const ability = useContext(AbilityContext)
+
   // ** State
   const [activeTab, setActiveTab] = useState(tab)
   const [isLoading, setIsLoading] = useState(true)
@@ -91,40 +93,33 @@ const UserViewRight = ({ tab, propertyData, setPropertyData }) => {
         aria-label='forced scroll tabs example'
         sx={{ borderBottom: theme => `1px solid ${theme.palette.divider}` }}
       >
-        {/* Overview Tab */}
-        <CanViewSection navTitle={{ action: 'read', subject: 'overview' }}>
+        {/* Conditionally render Tabs based on CASL permissions */}
+        {ability.can('read', 'overview') && (
           <Tab value='overview' label='Overview' icon={<Icon fontSize='1.125rem' icon='tabler:home' />} />
-        </CanViewSection>
+        )}
 
-        {/* Tenants Tab */}
-        <CanViewSection navTitle={{ action: 'read', subject: 'tenants' }}>
+        {ability.can('read', 'tenants') && (
           <Tab value='tenants' label='Tenants' icon={<Icon fontSize='1.125rem' icon='tabler:friends' />} />
-        </CanViewSection>
+        )}
 
-        {/* Units Tab */}
-        <CanViewSection navTitle={{ action: 'read', subject: 'units' }}>
+        {ability.can('read', 'units') && (
           <Tab value='units' label='Units' icon={<Icon fontSize='1.125rem' icon='tabler:cash' />} />
-        </CanViewSection>
+        )}
 
-        {/* Leases Tab */}
-        <CanViewSection navTitle={{ action: 'read', subject: 'leases' }}>
+        {ability.can('read', 'leases') && (
           <Tab value='leases' label='Leases' icon={<Icon fontSize='1.125rem' icon='tabler:contract' />} />
-        </CanViewSection>
+        )}
 
-        {/* Maintenance Tab */}
-        <CanViewSection navTitle={{ action: 'read', subject: 'maintenance' }}>
+        {ability.can('read', 'maintenance') && (
           <Tab value='maintenance' label='Maintenance' icon={<Icon fontSize='1.125rem' icon='tabler:tool' />} />
-        </CanViewSection>
+        )}
 
-        {/* Marketing Tab (Disabled) */}
         <Tab
           disabled
           value='marketing'
           label='Marketing'
           icon={<Icon fontSize='1.125rem' icon='tabler:speakerphone' />}
         />
-
-        {/* Settings Tab (Disabled) */}
         <Tab disabled value='settings' label='Settings' icon={<Icon fontSize='1.125rem' icon='tabler:settings' />} />
       </TabList>
 
