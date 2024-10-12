@@ -16,6 +16,7 @@ import Icon from '@mui/material/Icon'
 
 // ** Configs
 import themeConfig from 'src/configs/themeConfig'
+import { useAuth } from 'src/hooks/useAuth'
 
 const MUITableCell = styled(TableCell)(({ theme }) => ({
   borderBottom: 0,
@@ -41,6 +42,7 @@ const statusObj = {
 
 const RentPaymentReceipt = ({ receiptData }) => {
   const theme = useTheme()
+  const auth = useAuth()
 
   if (!receiptData) {
     return null
@@ -60,7 +62,37 @@ const RentPaymentReceipt = ({ receiptData }) => {
               }}
             >
               <Box sx={{ mb: 6, display: 'flex', alignItems: 'center' }}>
-                <Icon sx={{ fontSize: 34, color: theme.palette.primary.main }}>business</Icon>
+                {auth.user?.site_image_url ? (
+                  <>
+                    <Box
+                      component='img'
+                      sx={{
+                        borderRadius: '20%',
+                        width: '42px',
+                        height: '40px',
+                        objectFit: 'cover' // Optional: Ensures the image covers the entire area
+                      }}
+                      src={auth.user.site_image_url}
+                      alt='User'
+                    />{' '}
+                  </>
+                ) : (
+                  <>
+                    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 30' width='32' height='30'>
+                      <rect width='32' height='30' fill='#CCCCCC0D'></rect>
+                      <text
+                        x='50%'
+                        y='50%'
+                        dominant-baseline='middle'
+                        text-anchor='middle'
+                        font-size='10px'
+                        fill='#333333FF'
+                      >
+                        32x30
+                      </text>
+                    </svg>
+                  </>
+                )}{' '}
                 <Typography
                   variant='h6'
                   sx={{
@@ -70,7 +102,7 @@ const RentPaymentReceipt = ({ receiptData }) => {
                     fontSize: '1.375rem !important'
                   }}
                 >
-                  {themeConfig.templateName}
+                  {auth.user.site_name}
                 </Typography>
               </Box>
               <div>

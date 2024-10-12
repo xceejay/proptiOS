@@ -188,7 +188,7 @@ const UserViewRight = ({ tab, propertyData, setPropertyData }) => {
 
             <TabPanel sx={{ p: 0 }} value='marketing'>
               {ability.can('read', 'property-marketing') ? (
-                <PropertyViewMarketing setPropertyData={setPropertyData} propertyData={propertyData} />
+                <PropertyViewMarketing disabled setPropertyData={setPropertyData} propertyData={propertyData} />
               ) : (
                 <Typography>You do not have permission to view this content.</Typography>
               )}
@@ -196,7 +196,7 @@ const UserViewRight = ({ tab, propertyData, setPropertyData }) => {
 
             <TabPanel sx={{ p: 0 }} value='settings'>
               {ability.can('read', 'property-settings') ? (
-                <PropertyViewSettings setPropertyData={setPropertyData} propertyData={propertyData} />
+                <PropertyViewSettings disabled setPropertyData={setPropertyData} propertyData={propertyData} />
               ) : (
                 <Typography>You do not have permission to view this content.</Typography>
               )}
