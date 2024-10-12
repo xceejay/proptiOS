@@ -56,7 +56,7 @@ const ParentFinanceViewSettlement = ({ setFinanceData, financeData }) => {
           setLoading(false)
         },
         error => {
-          toast.error(error?.response?.data?.description || 'An error occurred', { duration: 5000 })
+          toast.error(error.response?.data?.description || 'An error occurred', { duration: 5000 })
           setLoading(false)
         }
       )
