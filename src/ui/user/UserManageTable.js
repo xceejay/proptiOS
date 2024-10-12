@@ -165,31 +165,31 @@ const UserManageTable = () => {
     {
       flex: 0.15,
       minWidth: 190,
-      field: 'country',
-      headerName: 'Country',
+      field: 'role',
+      headerName: 'Role',
       renderCell: ({ row }) => (
         <Typography noWrap sx={{ color: 'text.secondary' }}>
-          {row.country}
+          {row.user_type}
         </Typography>
       )
     },
-    {
-      flex: 0.15,
-      minWidth: 190,
-      field: 'property',
-      headerName: 'Properties Created',
-      renderCell: ({ row }) => (
-        <Typography noWrap sx={{ color: 'text.secondary' }}>
-          {row.properties.length}
-        </Typography>
-      )
-    },
+    // {
+    //   flex: 0.15,
+    //   minWidth: 190,
+    //   field: 'property',
+    //   headerName: 'Properties Created',
+    //   renderCell: ({ row }) => (
+    //     <Typography noWrap sx={{ color: 'text.secondary' }}>
+    //       {row.properties.length}
+    //     </Typography>
+    //   )
+    // },
 
     {
       flex: 0.15,
       minWidth: 190,
       field: 'invitation_status',
-      headerName: 'Invitation',
+      headerName: 'Invitation Status',
       renderCell: ({ row }) => {
         let statusLabel
         let statusColor
