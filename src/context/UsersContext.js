@@ -120,7 +120,7 @@ const UsersProvider = ({ children }) => {
     }
 
     axios
-      .post('https://api.pm.manages.homes/users/invite-pm', data, {
+      .post('https://api.pm.manages.homes/users/invite', data, {
         headers: {
           Authorization: `Bearer ${token}`
         }
