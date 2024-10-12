@@ -173,7 +173,7 @@ const PropertyAddMaintenanceRequestDrawer = props => {
       error => {
         toast.error('Could not add this request, refresh and try again', { duration: 5000 })
 
-        toast.error(error.response.data?.description || 'An error occurred. Please try again or contact support.', {
+        toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
           duration: 5000
         })
       }

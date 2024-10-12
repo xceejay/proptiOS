@@ -589,12 +589,12 @@ const AddCard = props => {
         handleClose()
       },
       error => {
-        toast.error(error.response.data?.description || 'An error occurred. Please try again or contact support.', {
+        toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
           duration: 5000
         })
         console.log(error)
         //
-        toast.error(error.response.data?.description || 'An error occurred. Please try again or contact support.', {
+        toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
           duration: 5000
         })
       }

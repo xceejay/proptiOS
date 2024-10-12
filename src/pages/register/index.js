@@ -264,7 +264,7 @@ const Register = () => {
 
         // Handle error
 
-        toast.error(error.response.data?.description || 'An error occurred. Please try again or contact support.', {
+        toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
           duration: 5000
         })
         setError('api_error', {

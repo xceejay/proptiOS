@@ -105,6 +105,8 @@ const ParentUserViewInviteUsers = ({ userData }) => {
       responseData => {
         let { data } = responseData
 
+        setLoading(false)
+
         if (data?.status === 'NO_RES') {
           console.log('NO results')
         } else if (data?.status === 'FAILED') {
@@ -113,8 +115,6 @@ const ParentUserViewInviteUsers = ({ userData }) => {
             type: 'manual',
             message: data.description || 'Unknown error occurred'
           })
-
-          setLoading(false)
 
           return
         }
