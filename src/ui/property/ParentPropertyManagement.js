@@ -77,7 +77,14 @@ const ParentPropertyViewManagement = ({}) => {
               <Grid container spacing={4}>
                 {propertiesData.map((property, index) => (
                   <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
-                    <Card>
+                    <Card
+                      sx={{
+                        border: theme => `1px solid ${theme.palette.divider}`,
+                        borderRadius: '4px',
+                        boxShadow: 'none',
+                        color: 'text.secondary'
+                      }}
+                    >
                       <CardHeader title={property.property_name} />
                       <CardContent>
                         {property.property_image_url ? (
@@ -104,7 +111,7 @@ const ParentPropertyViewManagement = ({}) => {
                                 dominant-baseline='middle'
                                 text-anchor='middle'
                                 font-size='10px'
-                                fill='#333333FF'
+                                fill='#000000'
                               >
                                 102x100
                               </text>
