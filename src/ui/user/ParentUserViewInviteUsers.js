@@ -118,6 +118,10 @@ const ParentUserViewInviteUsers = ({ userData }) => {
 
           return
         }
+
+        toast.success('Invite sent to ' + formData.email, {
+          duration: 5000
+        })
       },
       error => {
         setLoading(false)
