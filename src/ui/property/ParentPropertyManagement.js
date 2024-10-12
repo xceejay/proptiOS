@@ -104,7 +104,7 @@ const ParentPropertyViewManagement = ({}) => {
                         ) : (
                           <>
                             <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 102 100' width='102' height='100'>
-                              <rect width='102' height='100' fill='#CCCCCC0D'></rect>
+                              <rect width='102px' height='100px' fill='#CCCCCC0D'></rect>
                               <text
                                 x='50%'
                                 y='50%'
@@ -113,7 +113,7 @@ const ParentPropertyViewManagement = ({}) => {
                                 font-size='10px'
                                 fill='#000000'
                               >
-                                102x100
+                                Property Image
                               </text>
                             </svg>
                           </>

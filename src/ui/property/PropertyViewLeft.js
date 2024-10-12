@@ -215,7 +215,7 @@ const UserViewLeft = ({ setPropertyData, propertyData }) => {
                 rounded
                 skin='light'
                 size='small'
-                label={propertyData.type}
+                label={String(propertyData.type).replace(/_/g, ' ')}
                 color={'primary'}
                 sx={{ textTransform: 'capitalize' }}
               />
@@ -274,7 +274,7 @@ const UserViewLeft = ({ setPropertyData, propertyData }) => {
                     rounded
                     skin='light'
                     size='small'
-                    label={propertyData.type}
+                    label={String(propertyData.type).replace(/_/g, ' ')}
                     color={'primary'}
                     sx={{
                       textTransform: 'capitalize'
