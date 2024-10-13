@@ -202,20 +202,22 @@ const UserManageTable = () => {
         let statusLabel
         let statusColor
 
-        // alert(JSON.stringify(row))
-
         switch (row?.invitation_status) {
-          case 'active':
-            statusLabel = 'Active'
-            statusColor = 'success'
-            break
           case 'pending':
             statusLabel = 'Pending'
-            statusColor = 'warning' // or another color that represents pending status
+            statusColor = 'warning' // pending status color
             break
-          case 'disabled':
-            statusLabel = 'Disabled'
-            statusColor = 'secondary'
+          case 'expired':
+            statusLabel = 'Expired'
+            statusColor = 'error' // color representing expired
+            break
+          case 'accepted':
+            statusLabel = 'Accepted'
+            statusColor = 'success' // color representing accepted
+            break
+          case 'resent':
+            statusLabel = 'Resent'
+            statusColor = 'info' // color representing resent status
             break
           default:
             statusLabel = 'Unknown'
@@ -241,8 +243,26 @@ const UserManageTable = () => {
       field: 'status',
       headerName: 'Account Status',
       renderCell: ({ row }) => {
-        const statusLabel = row.status === 'active' ? 'Active' : 'Inactive'
-        const statusColor = row.status === 'active' ? 'success' : 'secondary'
+        let statusLabel
+        let statusColor
+
+        switch (row.status) {
+          case 'active':
+            statusLabel = 'Active'
+            statusColor = 'success'
+            break
+          case 'inactive':
+            statusLabel = 'Inactive'
+            statusColor = 'secondary'
+            break
+          case 'disabled':
+            statusLabel = 'Disabled'
+            statusColor = 'error'
+            break
+          default:
+            statusLabel = 'Unknown'
+            statusColor = 'secondary' // fallback color
+        }
 
         return (
           <CustomChip
@@ -280,16 +300,17 @@ const UserManageTable = () => {
 
   const [invitationStatuses, setInvitationStatuses] = useState([
     { text: 'All', value: '' },
-
-    { text: 'Active', value: 'active' },
     { text: 'Pending', value: 'pending' },
-    { text: 'Disabled', value: 'disabled' }
+    { text: 'Expired', value: 'expired' },
+    { text: 'Accepted', value: 'accepted' },
+    { text: 'Resent', value: 'resent' }
   ])
 
   const [statuses, setStatuses] = useState([
     { text: 'All', value: '' },
     { text: 'Active', value: 'active' },
-    { text: 'Inactive', value: 'inactive' }
+    { text: 'Inactive', value: 'inactive' },
+    { text: 'Disabled', value: 'disabled' }
   ])
 
   const [filterModel, setFilterModel] = useState({
@@ -401,7 +422,7 @@ const UserManageTable = () => {
                 toolbar: {
                   searchPlaceholder: 'Quick Search',
                   value: value,
-                  addText: 'Add User',
+                  // addText: 'Add User',
                   statusValue: statusValue,
                   setStatusValue: setStatusValue,
                   invitationStatusValue: invitationStatusValue,
