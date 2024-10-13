@@ -18,6 +18,7 @@ const defaultProvider = {
   setLoading: () => Boolean,
   getAllFinance: () => Promise.resolve(),
   getAllRentTransactions: () => Promise.resolve(),
+  getAllReports: () => Promise.resolve(),
   getTransaction: () => Promise.resolve(),
   getAllTransactions: () => Promise.resolve(),
   getAllSettlementAccounts: () => Promise.resolve(),
@@ -160,6 +161,32 @@ const FinanceProvider = ({ children }) => {
       })
   }
 
+  const getAllReports = (successCallback, errorCallback) => {
+    const token = window.localStorage.getItem('accessToken') || accessToken
+
+    if (!token) {
+      const error = new Error('No access token found')
+      if (errorCallback) errorCallback(error)
+
+      return
+    }
+
+    axios
+      .get(`https://api.pm.manages.homes/transactions/reports`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then(response => {
+        if (successCallback) {
+          successCallback(response.data)
+        }
+      })
+      .catch(err => {
+        if (errorCallback) errorCallback(err)
+      })
+  }
+
   const getAllSettlementAccounts = (id, successCallback, errorCallback) => {
     const token = window.localStorage.getItem('accessToken') || accessToken
 
@@ -219,6 +246,7 @@ const FinanceProvider = ({ children }) => {
     setLoading,
     getAllFinance: getAllFinance,
     getAllRentTransactions: getAllRentTransactions,
+    getAllReports: getAllReports,
     getTransaction: getTransaction,
     getAllTransactions: getAllTransactions,
     getAllSettlementAccounts: getAllSettlementAccounts,
