@@ -18,6 +18,9 @@ const defaultProvider = {
   setUser: () => {},
   setLoading: () => {},
   getUsers: () => Promise.resolve(),
+  DisableUser: () => Promise.resolve(),
+  EnableUser: () => Promise.resolve(),
+
   getUser: () => Promise.resolve(),
   addUsers: () => Promise.resolve(),
   Invite: () => Promise.resolve(),
@@ -136,6 +139,60 @@ const UsersProvider = ({ children }) => {
       })
   }
 
+  const DisableUser = (data, successCallback, errorCallback) => {
+    const token = window.localStorage.getItem('accessToken') || accessToken
+
+    if (!token) {
+      const error = new Error('No access token found')
+      if (errorCallback) errorCallback(error)
+
+      return
+    }
+
+    axios
+      .post('https://api.pm.manages.homes/users/disable', data, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then(response => {
+        if (successCallback) {
+          console.log('res from invite', response)
+          successCallback(response.data)
+        }
+      })
+      .catch(err => {
+        if (errorCallback) errorCallback(err)
+      })
+  }
+
+  const EnableUser = (data, successCallback, errorCallback) => {
+    const token = window.localStorage.getItem('accessToken') || accessToken
+
+    if (!token) {
+      const error = new Error('No access token found')
+      if (errorCallback) errorCallback(error)
+
+      return
+    }
+
+    axios
+      .post('https://api.pm.manages.homes/users/enable', data, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then(response => {
+        if (successCallback) {
+          console.log('res from invite', response)
+          successCallback(response.data)
+        }
+      })
+      .catch(err => {
+        if (errorCallback) errorCallback(err)
+      })
+  }
+
   // Function for adding users
   const addUsers = (data, successCallback, errorCallback) => {
     const token = window.localStorage.getItem('accessToken') || accessToken
@@ -231,6 +288,8 @@ const UsersProvider = ({ children }) => {
     setUsers,
     addUsers,
     Invite,
+    DisableUser,
+    EnableUser,
 
     editUsers,
     loading,

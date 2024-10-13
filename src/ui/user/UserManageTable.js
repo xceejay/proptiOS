@@ -43,8 +43,11 @@ const RowOptions = ({ id, row, setUsersData, usersData, setLoading }) => {
   const dispatch = useDispatch()
   const [anchorEl, setAnchorEl] = useState(null)
   const rowOptionsOpen = Boolean(anchorEl)
+
   const [editUserOpen, setEditUserOpen] = useState(false)
   const toggleEditUserDrawer = () => setEditUserOpen(!editUserOpen)
+
+  const users = useUsers()
 
   const handleRowOptionsClick = event => {
     setAnchorEl(event.currentTarget)
@@ -54,11 +57,87 @@ const RowOptions = ({ id, row, setUsersData, usersData, setLoading }) => {
     setAnchorEl(null)
   }
 
-  const handleDelete = () => {
-    dispatch(deleteUser(id))
+  const handleDisable = () => {
+    setLoading(true)
+    users.DisableUser(
+      { email: row.email },
+      responseData => {
+        let { data } = responseData
+        setLoading(false)
+
+        if (data?.status === 'NO_RES') {
+          console.log('NO results')
+        } else if (data?.status === 'FAILED') {
+          alert(data.description || 'Failed to disable user')
+          setError('email', {
+            type: 'manual',
+            message: data.description || 'Unknown error occurred'
+          })
+          return
+        }
+
+        toast.success('Disabled ' + row.email, {
+          duration: 5000
+        })
+
+        // Update usersData with the new status
+        setUsersData(prevData => {
+          const updatedItems = prevData.items.map(user =>
+            user.email === row.email ? { ...user, status: 'disabled' } : user
+          )
+
+          return { ...prevData, items: updatedItems }
+        })
+      },
+      error => {
+        toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
+          duration: 5000
+        })
+      }
+    )
     handleRowOptionsClose()
   }
 
+  const handleEnable = () => {
+    setLoading(true)
+    users.EnableUser(
+      { email: row.email },
+      responseData => {
+        let { data } = responseData
+        setLoading(false)
+
+        if (data?.status === 'NO_RES') {
+          console.log('NO results')
+        } else if (data?.status === 'FAILED') {
+          alert(data.description || 'Failed to disable user')
+          setError('email', {
+            type: 'manual',
+            message: data.description || 'Unknown error occurred'
+          })
+          return
+        }
+
+        toast.success('Activated ' + row.email, {
+          duration: 5000
+        })
+
+        // Update usersData with the new status
+        setUsersData(prevData => {
+          const updatedItems = prevData.items.map(user =>
+            user.email === row.email ? { ...user, status: 'active' } : user
+          )
+
+          return { ...prevData, items: updatedItems }
+        })
+      },
+      error => {
+        toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
+          duration: 5000
+        })
+      }
+    )
+    handleRowOptionsClose()
+  }
   const handleEdit = () => {
     setEditUserOpen(true)
     handleRowOptionsClose()
@@ -99,7 +178,11 @@ const RowOptions = ({ id, row, setUsersData, usersData, setLoading }) => {
           Edit
         </MenuItem>
 
-        <MenuItem onClick={handleDelete} sx={{ '& svg': { mr: 2 } }}>
+        <MenuItem onClick={handleEnable} sx={{ '& svg': { mr: 2 } }}>
+          <Icon icon='tabler:user-check' fontSize={20} />
+          Enable Account
+        </MenuItem>
+        <MenuItem onClick={handleDisable} sx={{ '& svg': { mr: 2 } }}>
           <Icon icon='tabler:user-x' fontSize={20} />
           Disable Account
         </MenuItem>
@@ -213,7 +296,7 @@ const UserManageTable = () => {
             break
           case 'accepted':
             statusLabel = 'Accepted'
-            statusColor = 'success' // color representing accepted
+            statusColor = 'primary' // color representing accepted
             break
           case 'resent':
             statusLabel = 'Resent'
@@ -361,13 +444,18 @@ const UserManageTable = () => {
   //     (user.email?.toLowerCase() || '').includes(value.toLowerCase()) ||
   //     (user.address?.toLowerCase() || '').includes(value.toLowerCase())
   // )
-  const filteredUsers =
-    usersData?.items?.filter(
-      row =>
-        (statusValue ? row.status === statusValue : true) &&
-        (invitationStatusValue ? row.invitation_status === invitationStatusValue : true) &&
-        (row.email?.toLowerCase() || '').includes(value.toLowerCase())
-    ) || []
+  const [filteredUsers, setFilteredUsers] = useState([])
+  useEffect(() => {
+    const filtered =
+      usersData?.items?.filter(
+        row =>
+          (statusValue ? row.status === statusValue : true) &&
+          (invitationStatusValue ? row.invitation_status === invitationStatusValue : true) &&
+          (row.email?.toLowerCase() || '').includes(value.toLowerCase())
+      ) || []
+
+    setFilteredUsers(filtered) // Update the filteredUsers state
+  }, [usersData])
 
   return (
     <Grid container spacing={6.5}>
