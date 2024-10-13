@@ -455,7 +455,7 @@ const UserManageTable = () => {
       ) || []
 
     setFilteredUsers(filtered) // Update the filteredUsers state
-  }, [usersData])
+  }, [usersData, statusValue, invitationStatusValue, value])
 
   return (
     <Grid container spacing={6.5}>
