@@ -292,6 +292,13 @@ const UserManageTable = () => {
     { text: 'Inactive', value: 'inactive' }
   ])
 
+  const [filterModel, setFilterModel] = useState({
+    items: [
+      { field: 'status', operator: 'equals', value: statusValue },
+      { field: 'invitation_status', operator: 'equals', value: invitationStatusValue }
+    ]
+  })
+
   useEffect(() => {
     users.getUsers(
       { page: paginationModel.page, limit: paginationModel.pageSize },
@@ -327,12 +334,19 @@ const UserManageTable = () => {
   const toggleAddUserDrawer = () => setAddUserOpen(!addUserOpen)
 
   // Filter users based on the search value
-  const filteredUsers = usersData.items.filter(
-    user =>
-      (user.name?.toLowerCase() || '').includes(value.toLowerCase()) ||
-      (user.email?.toLowerCase() || '').includes(value.toLowerCase()) ||
-      (user.address?.toLowerCase() || '').includes(value.toLowerCase())
-  )
+  // const filteredUsers = usersData.items.filter(
+  //   user =>
+  //     (user.name?.toLowerCase() || '').includes(value.toLowerCase()) ||
+  //     (user.email?.toLowerCase() || '').includes(value.toLowerCase()) ||
+  //     (user.address?.toLowerCase() || '').includes(value.toLowerCase())
+  // )
+  const filteredUsers =
+    usersData?.items?.filter(
+      row =>
+        (statusValue ? row.status === statusValue : true) &&
+        (invitationStatusValue ? row.invitation_status === invitationStatusValue : true) &&
+        (row.email?.toLowerCase() || '').includes(value.toLowerCase())
+    ) || []
 
   return (
     <Grid container spacing={6.5}>
@@ -362,8 +376,26 @@ const UserManageTable = () => {
                 //   noRowsVariant: 'skeleton'
                 // }
               }}
-              filterModel={{
-                items: [{ field: 'status', operator: 'equals', value: statusValue }]
+              filterModel={filterModel} // Track the filterModel state
+              onFilterModelChange={newFilterModel => {
+                // Update the filterModel state dynamically for any field or operator change
+                setFilterModel(newFilterModel)
+
+                // Loop through each filter item and dynamically update values
+                newFilterModel.items.forEach(item => {
+                  switch (item.field) {
+                    case 'status':
+                      setStatusValue(item.value)
+                      break
+                    case 'invitation_status':
+                      setInvitationStatusValue(item.value)
+                      break
+
+                    default:
+                      // Handle other fields dynamically if needed
+                      break
+                  }
+                })
               }}
               slotProps={{
                 toolbar: {
