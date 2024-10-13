@@ -100,8 +100,8 @@ const RowOptions = ({ id, row, setUsersData, usersData, setLoading }) => {
         </MenuItem>
 
         <MenuItem onClick={handleDelete} sx={{ '& svg': { mr: 2 } }}>
-          <Icon icon='tabler:trash' fontSize={20} />
-          Quick Suspend
+          <Icon icon='tabler:user-x' fontSize={20} />
+          Disable Account
         </MenuItem>
       </Menu>
       <EditUserDrawer
