@@ -90,6 +90,60 @@ const ParentFinanceViewReports = ({ setFinanceData, financeData }) => {
   )
 
   // Map of financial reports categories and their respective data
+  // const financialReports = {
+  //   Income: [
+  //     { title: 'Net Income (Profit & Loss)', description: 'Revenue minus expenses, highlighting profitability.' },
+  //     { title: 'Net Income By Property', description: 'Summary of your profitability for each property.' },
+  //     { title: 'Owner Statement', description: "Summarizes your rental property's income, expenses, and net profit." },
+  //     {
+  //       title: 'Rent Roll',
+  //       description:
+  //         'Lists all tenants, rental units, and lease details, providing a snapshot of rental income and occupancy status.'
+  //     }
+  //   ],
+  //   'Cash Flow': [
+  //     { title: 'Operating Cash Flow', description: 'Tracks cash generated or used in daily operations.' },
+  //     { title: 'Operating Cash Flow By Property', description: 'The cash generated or used for each property.' },
+  //     { title: 'Cash Flow Statement', description: 'Shows all incoming and outgoing cash.' },
+  //     { title: 'Cash Flows By Property', description: 'Shows all incoming and outgoing cash for each property.' }
+  //   ],
+  //   Performance: [
+  //     { title: 'Net Operating Income (NOI)', description: 'Helps show profitability before financing and taxes.' },
+  //     {
+  //       title: 'Cash on Cash',
+  //       description: 'Compares the cash earned from your rental property to the cash invested.'
+  //     },
+  //     {
+  //       title: 'Cap Rate',
+  //       description:
+  //         'Calculates the rate of return on your rental property by comparing its net operating income to its market value.'
+  //     },
+  //     {
+  //       title: 'Operating Expense Ratio',
+  //       description: 'Shows the percentage of your rental income spent on operating expenses.'
+  //     }
+  //   ],
+  //   Assets: [
+  //     { title: 'Portfolio Value By Property', description: 'Tracks the value of each property within a portfolio.' },
+  //     {
+  //       title: 'Balance Sheet',
+  //       description: 'Snapshot of assets, liabilities, and equity at a specific point in time.'
+  //     }
+  //   ],
+  //   Taxes: [
+  //     { title: 'Tax Packet Export', description: 'A comprehensive export of tax-related documents and data.' },
+  //     { title: 'Tax Review', description: 'Reviews tax-related information for accuracy and compliance.' },
+  //     {
+  //       title: 'Schedule E',
+  //       description: 'Details income and expenses for rental properties and real estate investments.'
+  //     },
+  //     {
+  //       title: 'Form 8825',
+  //       description: 'Reports income and expenses for rental real estate activities required by Form 8825.'
+  //     }
+  //   ]
+  // }
+
   const financialReports = {
     Income: [
       { title: 'Net Income (Profit & Loss)', description: 'Revenue minus expenses, highlighting profitability.' },
@@ -121,25 +175,6 @@ const ParentFinanceViewReports = ({ setFinanceData, financeData }) => {
       {
         title: 'Operating Expense Ratio',
         description: 'Shows the percentage of your rental income spent on operating expenses.'
-      }
-    ],
-    Assets: [
-      { title: 'Portfolio Value By Property', description: 'Tracks the value of each property within a portfolio.' },
-      {
-        title: 'Balance Sheet',
-        description: 'Snapshot of assets, liabilities, and equity at a specific point in time.'
-      }
-    ],
-    Taxes: [
-      { title: 'Tax Packet Export', description: 'A comprehensive export of tax-related documents and data.' },
-      { title: 'Tax Review', description: 'Reviews tax-related information for accuracy and compliance.' },
-      {
-        title: 'Schedule E',
-        description: 'Details income and expenses for rental properties and real estate investments.'
-      },
-      {
-        title: 'Form 8825',
-        description: 'Reports income and expenses for rental real estate activities required by Form 8825.'
       }
     ]
   }
