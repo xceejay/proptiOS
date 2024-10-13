@@ -231,7 +231,7 @@ const CustomStatementsToolbar = props => {
         ) : (
           <></>
         )}
-        <Box display={'flex'}>
+        {/* <Box display={'flex'}>
           <>
             <DatePickerWrapper>
               <DatePicker
@@ -248,7 +248,7 @@ const CustomStatementsToolbar = props => {
               />
             </DatePickerWrapper>
           </>
-        </Box>
+        </Box> */}
         {/* <Box>
           <Typography variant='subtitle'>Filter By: </Typography>
         </Box> */}

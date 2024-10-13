@@ -29,6 +29,7 @@ import { Grid } from '@mui/material'
 import CustomFinanceToolbar from 'src/views/table/data-grid/CustomFinanceToolbar'
 import CustomStatementsToolbar from 'src/views/table/data-grid/CustomStatementsToolbar'
 import CustomNoRowsOverlay from '../CustomNoRowsOverlay'
+import CustomRangeDatePicker from '../CustomRangeDatePicker'
 
 const LinkStyled = styled(Link)(({ theme, color }) => ({
   fontSize: '13px',
@@ -188,6 +189,14 @@ const FinanceStatementsTable = ({ financeData }) => {
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 7 })
   const [value, setValue] = useState('')
 
+  const [startDateRange, setStartDateRange] = useState(null)
+  const [endDateRange, setEndDateRange] = useState(null)
+  const handleOnChangeRange = dates => {
+    const [start, end] = dates
+    setStartDateRange(start)
+    setEndDateRange(end)
+  }
+
   const [statusValue, setStatusValue] = useState('')
   const [statuses, setStatuses] = useState([
     { text: 'All', value: '' },
@@ -253,6 +262,21 @@ const FinanceStatementsTable = ({ financeData }) => {
       <Grid item xs={12} lg={12}>
         <Card>
           {console.log('so the transaction data', financeData)}
+          <CardHeader
+            title='Transaction History'
+            sx={{ '& .MuiCardHeader-action': { m: 0 } }}
+            action={
+              <>
+                <Box>
+                  <CustomRangeDatePicker
+                    startDateRange={startDateRange}
+                    endDateRange={endDateRange}
+                    handleOnChangeRange={handleOnChangeRange}
+                  ></CustomRangeDatePicker>
+                </Box>
+              </>
+            }
+          />
           {/* <CardHeader
         title='Transaction History'
         sx={{ '& .MuiCardHeader-action': { m: 0 } }}
