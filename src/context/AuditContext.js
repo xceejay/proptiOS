@@ -54,7 +54,6 @@ const AuditProvider = ({ children }) => {
       )
       .then(response => {
         if (successCallback) {
-          alert(JSON.stringify(response))
           successCallback(response.data)
         }
       })
