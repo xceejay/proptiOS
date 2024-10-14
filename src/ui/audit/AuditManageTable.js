@@ -138,11 +138,43 @@ const AuditManageTable = () => {
       minWidth: 150,
       field: 'action',
       headerName: 'Action',
-      renderCell: ({ row }) => (
-        <Typography noWrap sx={{ color: 'text.secondary', textTransform: 'uppercase' }}>
-          {row.user_action}
-        </Typography>
-      )
+      renderCell: ({ row }) => {
+        let actionLabel
+        let actionColor
+
+        switch (row.user_action) {
+          case 'Created':
+            actionLabel = 'Created'
+            actionColor = 'success'
+            break
+          case 'Updated':
+            actionLabel = 'Updated'
+            actionColor = 'info'
+            break
+          case 'Deleted':
+            actionLabel = 'Deleted'
+            actionColor = 'error'
+            break
+          case 'Viewed':
+            actionLabel = 'Viewed'
+            actionColor = 'secondary'
+            break
+          default:
+            actionLabel = row.user_action || 'Unknown'
+            actionColor = 'warning' // Assign default colors for unknown actions
+        }
+
+        return (
+          <CustomChip
+            rounded
+            skin='light'
+            size='small'
+            label={actionLabel}
+            color={actionColor}
+            sx={{ textTransform: 'capitalize' }}
+          />
+        )
+      }
     },
     {
       flex: 0.25,
