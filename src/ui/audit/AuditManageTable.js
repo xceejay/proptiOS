@@ -253,6 +253,7 @@ const AuditManageTable = () => {
 
   useEffect(() => {
     audit.getAllAuditLogs(
+      { page: paginationModel?.page, limit: paginationModel?.pageSize },
       responseData => {
         const { data } = responseData
         setLoading(false)
@@ -269,7 +270,7 @@ const AuditManageTable = () => {
         console.log('aduit data', auditData)
       },
       error => {
-        console.log(error)
+        console.log('audit log error', error)
         setLoading(false)
 
         toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
@@ -277,7 +278,7 @@ const AuditManageTable = () => {
         })
       }
     )
-  }, [])
+  }, [paginationModel])
 
   const handleFilter = useCallback(val => {
     setValue(val)
