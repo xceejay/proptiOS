@@ -18,11 +18,11 @@ import CircularProgress from '@mui/material/CircularProgress'
 import Icon from 'src/@core/components/icon'
 
 // ** Demo Components Imports
-import AuditViewBilling from 'src/ui/audit/AuditViewBilling'
-import AuditViewTransactions from 'src/ui/audit/AuditViewTransactions'
-import AuditViewSecurity from 'src/ui/audit/AuditViewSecurity'
-import AuditViewConnection from 'src/ui/audit/AuditViewConnection'
-import AuditViewNotification from 'src/ui/audit/AuditViewNotification'
+// import AuditViewBilling from 'src/ui/audit/AuditViewBilling'
+// import AuditViewTransactions from 'src/ui/audit/AuditViewTransactions'
+// import AuditViewSecurity from 'src/ui/audit/AuditViewSecurity'
+// import AuditViewConnection from 'src/ui/audit/AuditViewConnection'
+// import AuditViewNotification from 'src/ui/audit/AuditViewNotification'
 import { fontSize } from '@mui/system'
 
 // ** Styled Tab component
@@ -121,7 +121,7 @@ const AuditViewRight = ({ tab, auditData }) => {
           </Box>
         ) : (
           <>
-            <TabPanel sx={{ p: 0 }} value='transactions'>
+            {/* <TabPanel sx={{ p: 0 }} value='transactions'>
               <AuditViewTransactions auditData={auditData} />
             </TabPanel>
             <TabPanel sx={{ p: 0 }} value='security'>
@@ -130,12 +130,12 @@ const AuditViewRight = ({ tab, auditData }) => {
             <TabPanel sx={{ p: 0 }} value='billing-plan'>
               <AuditViewBilling />
             </TabPanel>
-            {/* <TabPanel sx={{ p: 0 }} value='notification'>
+            <TabPanel sx={{ p: 0 }} value='notification'>
               <AuditViewNotification />
-            </TabPanel> */}
+            </TabPanel>
             <TabPanel sx={{ p: 0 }} value='connection'>
               <AuditViewConnection />
-            </TabPanel>
+            </TabPanel> */}
           </>
         )}
       </Box>
