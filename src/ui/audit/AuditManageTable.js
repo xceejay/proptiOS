@@ -139,7 +139,7 @@ const AuditManageTable = () => {
       field: 'action',
       headerName: 'Action',
       renderCell: ({ row }) => (
-        <Typography noWrap sx={{ color: 'text.secondary' }}>
+        <Typography noWrap sx={{ color: 'text.secondary', textTransform: 'uppercase' }}>
           {row.user_action}
         </Typography>
       )
