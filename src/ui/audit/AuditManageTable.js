@@ -140,7 +140,7 @@ const AuditManageTable = () => {
     {
       flex: 0.15,
       minWidth: 150,
-      field: 'action',
+      field: 'user_action',
       headerName: 'Action',
       renderCell: ({ row }) => {
         let actionLabel
@@ -231,9 +231,8 @@ const AuditManageTable = () => {
           />
         )
       },
-      valueGetter: (params) => {
-        const { status_code } = params.row;
-
+      valueGetter: params => {
+        const { status_code } = params.row
 
         switch (status_code) {
           case 200:
@@ -247,8 +246,6 @@ const AuditManageTable = () => {
           default:
             return 'Unknown'
         }
-
-
       }
     },
     {
