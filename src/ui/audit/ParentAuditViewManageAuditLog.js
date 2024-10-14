@@ -3,7 +3,7 @@ import { Grid } from '@mui/material'
 import { useState } from 'react'
 
 import toast from 'react-hot-toast'
-import UserManageTable from '../user/UserManageTable'
+import AuditManageTable from './AuditManageTable'
 
 const ParentAuditViewManageAuditLog = ({ auditData }) => {
   const onSubmit = formData => {
@@ -48,7 +48,7 @@ const ParentAuditViewManageAuditLog = ({ auditData }) => {
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
-        <UserManageTable></UserManageTable>
+        <AuditManageTable></AuditManageTable>
       </Grid>
     </Grid>
   )

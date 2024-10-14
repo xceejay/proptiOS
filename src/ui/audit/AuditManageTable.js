@@ -18,7 +18,6 @@ import InputLabel from '@mui/material/InputLabel'
 import FormControl from '@mui/material/FormControl'
 import CardContent from '@mui/material/CardContent'
 import { DataGrid } from '@mui/x-data-grid'
-import AddAuditDrawer from './AddAuditDrawer'
 import CustomNoRowsOverlay from '../CustomNoRowsOverlay'
 import Select from '@mui/material/Select'
 
@@ -34,10 +33,8 @@ import CardStatsHorizontalWithDetails from 'src/@core/components/card-statistics
 
 // ** Hooks Imports
 import { useAudit } from 'src/hooks/useAudit'
-import EditAuditDrawer from './EditAuditDrawer'
-import CustomStatusToolbar from 'src/views/table/data-grid/CustomStatusToolbar'
 import toast from 'react-hot-toast'
-import CustomAuditToolbar from 'src/views/table/data-grid/CustomAuditToolbar'
+import CustomAuditToolbar from 'src/views/table/data-grid/CustomerAuditToolbar'
 
 const RowOptions = ({ id, row, setAuditData, auditData, setLoading }) => {
   const dispatch = useDispatch()
@@ -187,14 +184,6 @@ const RowOptions = ({ id, row, setAuditData, auditData, setLoading }) => {
           Disable Account
         </MenuItem>
       </Menu>
-      <EditAuditDrawer
-        setLoading={setLoading}
-        auditData={row}
-        setAuditData={setAuditData}
-        auditData={auditData}
-        open={editAuditOpen}
-        toggle={toggleEditAuditDrawer}
-      />
     </>
   )
 }
@@ -210,141 +199,88 @@ const AuditManageTable = () => {
   }
   const columns = [
     {
-      flex: 0.25,
-      minWidth: 280,
-      field: 'name',
-      headerName: 'Name',
+      flex: 0.2,
+      minWidth: 200,
+      field: 'timestamp',
+      headerName: 'Date/Time',
+      renderCell: ({ row }) => (
+        <Typography noWrap sx={{ color: 'text.secondary' }}>
+          {new Date(row.timestamp).toLocaleString()}
+        </Typography>
+      )
+    },
+    {
+      flex: 0.2,
+      minWidth: 200,
+      field: 'pm_user',
+      headerName: 'User',
       renderCell: ({ row }) => {
-        const { id, name, email } = row
+        const { pm_user } = row
+        const { name, email } = pm_user || {}
 
         return (
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
-              <Typography
-                noWrap
-                component={Link}
-                href={'/audit/manage/' + id + '/transactions'}
-                sx={{
-                  fontWeight: 500,
-                  textDecoration: 'none',
-                  color: 'text.secondary',
-                  '&:hover': { color: 'primary.main' }
-                }}
-              >
-                {name}
+              <Typography noWrap sx={{ fontWeight: 500, color: 'text.secondary' }}>
+                {name || 'Unknown User'}
               </Typography>
               <Typography noWrap variant='body2' sx={{ color: 'text.disabled' }}>
-                {email}
+                {email || 'N/A'}
               </Typography>
             </Box>
           </Box>
         )
       }
     },
-
-    // {
-    //   flex: 0.15,
-    //   minWidth: 190,
-    //   field: 'address',
-    //   headerName: 'Address',
-    //   renderCell: ({ row }) => (
-    //     <Typography noWrap sx={{ color: 'text.secondary' }}>
-    //       {row.address}
-    //     </Typography>
-    //   )
-    // },
     {
       flex: 0.15,
-      minWidth: 190,
-      field: 'role',
-      headerName: 'Role',
+      minWidth: 150,
+      field: 'action',
+      headerName: 'Action',
       renderCell: ({ row }) => (
         <Typography noWrap sx={{ color: 'text.secondary' }}>
-          {roleLabels[row.audit_type] || 'Unknown Role'}
+          {row.action}
         </Typography>
       )
     },
-    // {
-    //   flex: 0.15,
-    //   minWidth: 190,
-    //   field: 'property',
-    //   headerName: 'Properties Created',
-    //   renderCell: ({ row }) => (
-    //     <Typography noWrap sx={{ color: 'text.secondary' }}>
-    //       {row.properties.length}
-    //     </Typography>
-    //   )
-    // },
-
     {
-      flex: 0.15,
-      minWidth: 190,
-      field: 'invitation_status',
-      headerName: 'Invitation Status',
-      renderCell: ({ row }) => {
-        let statusLabel
-        let statusColor
-
-        switch (row?.invitation_status) {
-          case 'pending':
-            statusLabel = 'Pending'
-            statusColor = 'warning' // pending status color
-            break
-          case 'expired':
-            statusLabel = 'Expired'
-            statusColor = 'error' // color representing expired
-            break
-          case 'accepted':
-            statusLabel = 'Accepted'
-            statusColor = 'primary' // color representing accepted
-            break
-          case 'resent':
-            statusLabel = 'Resent'
-            statusColor = 'info' // color representing resent status
-            break
-          default:
-            statusLabel = 'Unknown'
-            statusColor = 'secondary' // fallback color
-        }
-
-        return (
-          <CustomChip
-            rounded
-            skin='light'
-            size='small'
-            label={statusLabel}
-            color={statusColor}
-            sx={{ textTransform: 'capitalize' }}
-          />
-        )
-      }
+      flex: 0.25,
+      minWidth: 300,
+      field: 'description',
+      headerName: 'Description',
+      renderCell: ({ row }) => (
+        <Typography noWrap sx={{ color: 'text.secondary' }}>
+          {row.response_description || 'No description'}
+        </Typography>
+      )
     },
-
     {
       flex: 0.1,
-      minWidth: 110,
-      field: 'status',
-      headerName: 'Account Status',
+      minWidth: 120,
+      field: 'status_code',
+      headerName: 'Status',
       renderCell: ({ row }) => {
         let statusLabel
         let statusColor
 
-        switch (row.status) {
-          case 'active':
-            statusLabel = 'Active'
+        switch (row.status_code) {
+          case 200:
+          case 201:
+            statusLabel = 'Success'
             statusColor = 'success'
             break
-          case 'inactive':
-            statusLabel = 'Inactive'
-            statusColor = 'secondary'
+          case 400:
+          case 404:
+            statusLabel = 'Failed'
+            statusColor = 'error'
             break
-          case 'disabled':
-            statusLabel = 'Disabled'
+          case 500:
+            statusLabel = 'Error'
             statusColor = 'error'
             break
           default:
             statusLabel = 'Unknown'
-            statusColor = 'secondary' // fallback color
+            statusColor = 'secondary'
         }
 
         return (
@@ -358,6 +294,17 @@ const AuditManageTable = () => {
           />
         )
       }
+    },
+    {
+      flex: 0.15,
+      minWidth: 150,
+      field: 'ip_address',
+      headerName: 'IP Address',
+      renderCell: ({ row }) => (
+        <Typography noWrap sx={{ color: 'text.secondary' }}>
+          {row.ip_address || 'Unknown'}
+        </Typography>
+      )
     },
     {
       flex: 0.1,
@@ -404,8 +351,7 @@ const AuditManageTable = () => {
   })
 
   useEffect(() => {
-    audit.getAudit(
-      { page: paginationModel.page, limit: paginationModel.pageSize },
+    audit.getAllAuditLogs(
       responseData => {
         const { data } = responseData
         setLoading(false)
@@ -461,7 +407,7 @@ const AuditManageTable = () => {
     <Grid container spacing={6.5}>
       <Grid item xs={12}>
         <Card>
-          <CardHeader title='Manage Audit' />
+          <CardHeader title='Audit Logs' />
           <CardContent>
             {/* <AuditTableHeader
               rows={filteredAudit}
@@ -518,7 +464,6 @@ const AuditManageTable = () => {
                   statuses: statuses,
                   invitationStatuses: invitationStatuses,
 
-                  toggle: toggleAddAuditDrawer,
                   handleFilter: handleFilter
                 }
               }}
@@ -531,12 +476,6 @@ const AuditManageTable = () => {
           <Divider sx={{ m: '0 !important' }} />
         </Card>
       </Grid>
-      <AddAuditDrawer
-        auditData={auditData}
-        setAuditData={setAuditData}
-        open={addAuditOpen}
-        toggle={toggleAddAuditDrawer}
-      />
     </Grid>
   )
 }
