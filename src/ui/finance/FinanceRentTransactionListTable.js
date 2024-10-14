@@ -109,15 +109,33 @@ const columns = [
     headerName: 'Amount',
     renderCell: ({ row }) => <Typography sx={{ color: 'text.secondary' }}>${row.amount || 0}</Typography>
   },
-  // {
-  //   flex: 0.5,
-  //   minWidth: 150,
-  //   field: 'payment_type',
-  //   headerName: 'Payment Type',
-  //   renderCell: ({ row }) => (
-  //     <Typography sx={{ textTransform: 'capitalize', color: 'text.secondary' }}>{row.payment_type}</Typography>
-  //   )
-  // },
+  {
+    flex: 0.5,
+    minWidth: 150,
+    field: 'property_name',
+    headerName: 'Property',
+    renderCell: ({ row }) => (
+      <Typography sx={{ textTransform: 'capitalize', color: 'text.secondary' }}>{row.property_name}</Typography>
+    )
+  },
+  {
+    flex: 0.5,
+    minWidth: 150,
+    field: 'unit_name',
+    headerName: 'Unit',
+    renderCell: ({ row }) => (
+      <Typography sx={{ textTransform: 'capitalize', color: 'text.secondary' }}>{row.unit_name}</Typography>
+    )
+  },
+  {
+    flex: 0.5,
+    minWidth: 150,
+    field: 'tenant',
+    headerName: 'Tenant',
+    renderCell: ({ row }) => (
+      <Typography sx={{ textTransform: 'capitalize', color: 'text.secondary' }}>{row.tenant_name}</Typography>
+    )
+  },
   {
     flex: 0.5,
     minWidth: 100,
