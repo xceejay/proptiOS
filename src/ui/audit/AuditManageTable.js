@@ -29,7 +29,6 @@ import { useDispatch, useSelector } from 'react-redux'
 
 // ** Custom Components Imports
 import CustomChip from 'src/@core/components/mui/chip'
-import CardStatsHorizontalWithDetails from 'src/@core/components/card-statistics/card-stats-horizontal-with-details'
 
 // ** Hooks Imports
 import { useAudit } from 'src/hooks/useAudit'
@@ -54,87 +53,6 @@ const RowOptions = ({ id, row, setAuditData, auditData, setLoading }) => {
     setAnchorEl(null)
   }
 
-  const handleDisable = () => {
-    setLoading(true)
-    audit.DisableAudit(
-      { email: row.email },
-      responseData => {
-        let { data } = responseData
-        setLoading(false)
-
-        if (data?.status === 'NO_RES') {
-          console.log('NO results')
-        } else if (data?.status === 'FAILED') {
-          alert(data.description || 'Failed to disable audit')
-          setError('email', {
-            type: 'manual',
-            message: data.description || 'Unknown error occurred'
-          })
-          return
-        }
-
-        toast.success('Disabled ' + row.email, {
-          duration: 5000
-        })
-
-        // Update auditData with the new status
-        setAuditData(prevData => {
-          const updatedItems = prevData.items.map(audit =>
-            audit.email === row.email ? { ...audit, status: 'disabled' } : audit
-          )
-
-          return { ...prevData, items: updatedItems }
-        })
-      },
-      error => {
-        toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
-          duration: 5000
-        })
-      }
-    )
-    handleRowOptionsClose()
-  }
-
-  const handleEnable = () => {
-    setLoading(true)
-    audit.EnableAudit(
-      { email: row.email },
-      responseData => {
-        let { data } = responseData
-        setLoading(false)
-
-        if (data?.status === 'NO_RES') {
-          console.log('NO results')
-        } else if (data?.status === 'FAILED') {
-          alert(data.description || 'Failed to disable audit')
-          setError('email', {
-            type: 'manual',
-            message: data.description || 'Unknown error occurred'
-          })
-          return
-        }
-
-        toast.success('Activated ' + row.email, {
-          duration: 5000
-        })
-
-        // Update auditData with the new status
-        setAuditData(prevData => {
-          const updatedItems = prevData.items.map(audit =>
-            audit.email === row.email ? { ...audit, status: 'active' } : audit
-          )
-
-          return { ...prevData, items: updatedItems }
-        })
-      },
-      error => {
-        toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
-          duration: 5000
-        })
-      }
-    )
-    handleRowOptionsClose()
-  }
   const handleEdit = () => {
     setEditAuditOpen(true)
     handleRowOptionsClose()
@@ -174,29 +92,12 @@ const RowOptions = ({ id, row, setAuditData, auditData, setLoading }) => {
           <Icon icon='tabler:pencil' fontSize={20} />
           Edit
         </MenuItem>
-
-        <MenuItem onClick={handleEnable} sx={{ '& svg': { mr: 2 } }}>
-          <Icon icon='tabler:audit-check' fontSize={20} />
-          Enable Account
-        </MenuItem>
-        <MenuItem onClick={handleDisable} sx={{ '& svg': { mr: 2 } }}>
-          <Icon icon='tabler:audit-x' fontSize={20} />
-          Disable Account
-        </MenuItem>
       </Menu>
     </>
   )
 }
 
 const AuditManageTable = () => {
-  const roleLabels = {
-    property_manager: 'Property Manager',
-    property_coordinator: 'Property Coordinator',
-    maintenance_worker: 'Maintenance Worker',
-    finance_staff: 'Finance Staff',
-    vendor: 'Vendor',
-    inspector: 'Inspector'
-  }
   const columns = [
     {
       flex: 0.2,
@@ -305,17 +206,17 @@ const AuditManageTable = () => {
           {row.ip_address || 'Unknown'}
         </Typography>
       )
-    },
-    {
-      flex: 0.1,
-      minWidth: 100,
-      sortable: false,
-      field: 'actions',
-      headerName: 'Actions',
-      renderCell: ({ row }) => (
-        <RowOptions setLoading={setLoading} setAuditData={setAuditData} auditData={auditData} id={row.id} row={row} />
-      )
     }
+    // {
+    //   flex: 0.1,
+    //   minWidth: 100,
+    //   sortable: false,
+    //   field: 'actions',
+    //   headerName: 'Actions',
+    //   renderCell: ({ row }) => (
+    //     <RowOptions setLoading={setLoading} setAuditData={setAuditData} auditData={auditData} id={row.id} row={row} />
+    //   )
+    // }
   ]
 
   const audit = useAudit()
@@ -365,9 +266,10 @@ const AuditManageTable = () => {
         }
 
         setAuditData(data)
-        console.log(auditData)
+        console.log('aduit data', auditData)
       },
       error => {
+        console.log(error)
         setLoading(false)
 
         toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
@@ -375,13 +277,11 @@ const AuditManageTable = () => {
         })
       }
     )
-  }, [paginationModel])
+  }, [])
 
   const handleFilter = useCallback(val => {
     setValue(val)
   }, [])
-
-  const toggleAddAuditDrawer = () => setAddAuditOpen(!addAuditOpen)
 
   // Filter audit based on the search value
   // const filteredAudit = auditData.items.filter(
@@ -390,7 +290,7 @@ const AuditManageTable = () => {
   //     (audit.email?.toLowerCase() || '').includes(value.toLowerCase()) ||
   //     (audit.address?.toLowerCase() || '').includes(value.toLowerCase())
   // )
-  const [filteredAudit, setFilteredAudit] = useState([])
+  const [filteredAuditLogs, setFilteredAuditLogs] = useState([])
   useEffect(() => {
     const filtered =
       auditData?.items?.filter(
@@ -400,7 +300,7 @@ const AuditManageTable = () => {
           (row.email?.toLowerCase() || '').includes(value.toLowerCase())
       ) || []
 
-    setFilteredAudit(filtered) // Update the filteredAudit state
+    setFilteredAuditLogs(filtered) // Update the filteredAudit state
   }, [auditData, statusValue, invitationStatusValue, value])
 
   return (
@@ -420,7 +320,7 @@ const AuditManageTable = () => {
               loading={false}
               autoHeight
               rowHeight={62}
-              rows={filteredAudit || []}
+              rows={filteredAuditLogs || []}
               columns={columns}
               slots={{
                 toolbar: CustomAuditToolbar,
