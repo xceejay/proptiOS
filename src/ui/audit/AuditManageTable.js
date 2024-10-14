@@ -140,7 +140,7 @@ const AuditManageTable = () => {
       headerName: 'Action',
       renderCell: ({ row }) => (
         <Typography noWrap sx={{ color: 'text.secondary' }}>
-          {row.action}
+          {row.user_action}
         </Typography>
       )
     },
@@ -225,7 +225,7 @@ const AuditManageTable = () => {
   const [auditData, setAuditData] = useState({ items: [] })
   const [value, setValue] = useState('')
   const [addAuditOpen, setAddAuditOpen] = useState(false)
-  const [paginationModel, setPaginationModel] = useState({ page: 1, pageSize: 25 })
+  const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 25 })
   const [statusValue, setStatusValue] = useState('')
   const [invitationStatusValue, setInvitationStatusValue] = useState('')
 
