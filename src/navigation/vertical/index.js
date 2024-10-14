@@ -58,7 +58,7 @@ const navigation = () => {
       title: 'Audit Log',
       path: '/audit',
       icon: 'tabler:eye',
-      disabled: true,
+      disabled: false,
       action: 'read',
       subject: 'audit'
     },

@@ -21,6 +21,7 @@ import CardStatsVertical from 'src/@core/components/card-statistics/card-stats-v
 import { useEffect, useState } from 'react'
 import axios from 'src/pages/middleware/axios'
 import { useSite } from 'src/hooks/useSite'
+import toast from 'react-hot-toast'
 
 const Dashboard = () => {
   const [DashData, setDashData] = useState(null)

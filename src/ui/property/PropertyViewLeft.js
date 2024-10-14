@@ -342,7 +342,7 @@ const UserViewLeft = ({ setPropertyData, propertyData }) => {
                 }}
               >
                 <DialogContentText variant='body2' id='user-view-edit-description' sx={{ textAlign: 'center', mb: 7 }}>
-                  Updating user details will receive a privacy audit.
+                  Updating user details will receive a privacy user.
                 </DialogContentText>
                 <form>
                   <Grid container spacing={6}>

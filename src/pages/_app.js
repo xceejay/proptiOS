@@ -41,6 +41,7 @@ import { ReportsProvider } from 'src/context/ReportsContext'
 import { MaintenanceProvider } from 'src/context/MaintenanceContext'
 import { LeasesProvider } from 'src/context/LeasesContext'
 import { SiteProvider } from 'src/context/SiteContext'
+import { AuditProvider } from 'src/context/AuditContext'
 import { UsersProvider } from 'src/context/UsersContext'
 
 import { SettingsConsumer, SettingsProvider } from 'src/@core/context/settingsContext'
@@ -128,31 +129,33 @@ const App = props => {
                     <LeasesProvider>
                       <FinanceProvider>
                         <UsersProvider>
-                          <SettingsProvider {...(setConfig ? { pageSettings: setConfig() } : {})}>
-                            <SettingsConsumer>
-                              {({ settings }) => {
-                                return (
-                                  <ThemeComponent settings={settings}>
-                                    <Guard authGuard={authGuard} guestGuard={guestGuard}>
-                                      <AclGuard
-                                        aclAbilities={aclAbilities}
-                                        guestGuard={guestGuard}
-                                        authGuard={authGuard}
-                                      >
-                                        {getLayout(<Component {...pageProps} />)}
-                                      </AclGuard>
-                                    </Guard>
-                                    <ReactHotToast>
-                                      <Toaster
-                                        position={settings.toastPosition}
-                                        toastOptions={{ className: 'react-hot-toast' }}
-                                      />
-                                    </ReactHotToast>
-                                  </ThemeComponent>
-                                )
-                              }}
-                            </SettingsConsumer>
-                          </SettingsProvider>
+                          <AuditProvider>
+                            <SettingsProvider {...(setConfig ? { pageSettings: setConfig() } : {})}>
+                              <SettingsConsumer>
+                                {({ settings }) => {
+                                  return (
+                                    <ThemeComponent settings={settings}>
+                                      <Guard authGuard={authGuard} guestGuard={guestGuard}>
+                                        <AclGuard
+                                          aclAbilities={aclAbilities}
+                                          guestGuard={guestGuard}
+                                          authGuard={authGuard}
+                                        >
+                                          {getLayout(<Component {...pageProps} />)}
+                                        </AclGuard>
+                                      </Guard>
+                                      <ReactHotToast>
+                                        <Toaster
+                                          position={settings.toastPosition}
+                                          toastOptions={{ className: 'react-hot-toast' }}
+                                        />
+                                      </ReactHotToast>
+                                    </ThemeComponent>
+                                  )
+                                }}
+                              </SettingsConsumer>
+                            </SettingsProvider>
+                          </AuditProvider>
                         </UsersProvider>
                       </FinanceProvider>
                     </LeasesProvider>
