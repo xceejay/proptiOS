@@ -124,7 +124,7 @@ const columns = [
     field: 'unit_name',
     headerName: 'Unit',
     renderCell: ({ row }) => (
-      <Typography sx={{ textTransform: 'capitalize', color: 'text.secondary' }}>{row.unit_name}</Typography>
+      <Typography sx={{ textTransform: 'capitalize', color: 'text.secondary' }}>{row.unit_name || ''}</Typography>
     )
   },
   {

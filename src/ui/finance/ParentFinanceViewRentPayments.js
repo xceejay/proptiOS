@@ -10,6 +10,7 @@ import MuiTab from '@mui/material/Tab'
 import TabList from '@mui/lab/TabList'
 import TabPanel from '@mui/lab/TabPanel'
 import TabContext from '@mui/lab/TabContext'
+import toast from 'react-hot-toast'
 
 // ** Styles Import
 import 'react-credit-cards/es/styles-compiled.css'

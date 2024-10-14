@@ -131,6 +131,10 @@ const AuditManageTable = () => {
             </Box>
           </Box>
         )
+      },
+      valueGetter: params => {
+        const { pm_user } = params.row
+        return pm_user ? `${pm_user.name || 'Unknown User'} (${pm_user.email || 'N/A'})` : 'Unknown User'
       }
     },
     {
@@ -179,7 +183,7 @@ const AuditManageTable = () => {
     {
       flex: 0.25,
       minWidth: 300,
-      field: 'description',
+      field: 'response_description',
       headerName: 'Description',
       renderCell: ({ row }) => (
         <Typography noWrap sx={{ color: 'text.secondary' }}>
@@ -226,6 +230,25 @@ const AuditManageTable = () => {
             sx={{ textTransform: 'capitalize' }}
           />
         )
+      },
+      valueGetter: (params) => {
+        const { status_code } = params.row;
+
+
+        switch (status_code) {
+          case 200:
+          case 201:
+            return 'Success'
+          case 400:
+          case 404:
+            return 'Failed'
+          case 500:
+            return 'Error'
+          default:
+            return 'Unknown'
+        }
+
+
       }
     },
     {
