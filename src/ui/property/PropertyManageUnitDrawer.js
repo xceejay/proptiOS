@@ -254,6 +254,26 @@ const ManagePropertyUnitDrawer = props => {
             />
             {errors.name && <FormHelperText sx={{ color: 'error.main' }}>{errors.name.message}</FormHelperText>}
           </FormControl>
+          <FormControl fullWidth sx={{ mb: 4 }}>
+            <Controller
+              name='description'
+              control={control}
+              render={({ field: { value = '', onChange } }) => (
+                <TextField
+                  value={value}
+                  label='Description'
+                  onChange={onChange}
+                  placeholder='Description of the unit'
+                  multiline
+                  rows={4}
+                  error={Boolean(errors.description)}
+                />
+              )}
+            />
+            {errors.description && (
+              <FormHelperText sx={{ color: 'error.main' }}>{errors.description.message}</FormHelperText>
+            )}
+          </FormControl>
 
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
@@ -488,26 +508,6 @@ const ManagePropertyUnitDrawer = props => {
               <FormHelperText sx={{ color: 'error.main' }}>{errors.unit_image_url.message}</FormHelperText>
             )}
           </FormControl> */}
-          <FormControl fullWidth sx={{ mb: 4 }}>
-            <Controller
-              name='description'
-              control={control}
-              render={({ field: { value = '', onChange } }) => (
-                <TextField
-                  value={value}
-                  label='Description'
-                  onChange={onChange}
-                  placeholder='Description of the unit'
-                  multiline
-                  rows={4}
-                  error={Boolean(errors.description)}
-                />
-              )}
-            />
-            {errors.description && (
-              <FormHelperText sx={{ color: 'error.main' }}>{errors.description.message}</FormHelperText>
-            )}
-          </FormControl>
 
           {/* <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
