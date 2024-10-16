@@ -111,8 +111,9 @@ const schema = yup.object().shape({
     .oneOf(['tenant', 'property', 'shared'])
     .required('Maintenance responsibility is required'),
   payment_method: yup
-    .string()
-    .oneOf(['bank_transfer', 'cash', 'credit_card', 'mobile_money'])
+    .array()
+    .of(yup.string().oneOf(['bank_transfer', 'cash', 'credit_card', 'mobile_money']))
+    .min(1, 'At least one payment method is required')
     .required('Payment method is required'),
   is_furnished: yup.boolean(),
   move_in_condition: yup.string(),
@@ -671,8 +672,12 @@ const Step3Form = ({ watch, control, errors }) => {
           render={({ field }) => (
             <TextField
               select
-              label='Payment Method'
-              {...field}
+              label='Payment Methods'
+              SelectProps={{
+                multiple: true, // Allow multiple selections
+                value: field.value || [], // Ensure it handles an empty array initially
+                onChange: field.onChange
+              }}
               error={Boolean(errors.payment_method)}
               helperText={errors.payment_method?.message}
             >
@@ -1010,7 +1015,7 @@ const ReviewForm = ({ data, properties, units, tenants }) => {
               <strong>Maintenance Responsibility:</strong> {data.maintenance_responsibility}
             </Typography>
             <Typography variant='small'>
-              <strong>Payment Method:</strong> {data.payment_method}
+              <strong>Payment Method(s):</strong> {data.payment_method?.join(', ') || 'N/A'}
             </Typography>
             <Typography variant='small'>
               <strong>Is Furnished:</strong> {data.is_furnished ? 'Yes' : 'No'}
