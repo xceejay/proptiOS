@@ -110,7 +110,7 @@ const schema = yup.object().shape({
     .string()
     .oneOf(['tenant', 'property', 'shared'])
     .required('Maintenance responsibility is required'),
-  payment_method: yup
+  payment_methods: yup
     .array()
     .of(yup.string().oneOf(['bank_transfer', 'cash', 'credit_card', 'mobile_money']))
     .min(1, 'At least one payment method is required')
@@ -198,7 +198,7 @@ const LeaseStepper = ({ onFormDataChange, onFormSubmit, tenants, units, properti
         'currency',
         'rent_amount',
         'payment_frequency',
-        'payment_method',
+        'payment_methods',
         'security_deposit',
         'late_fee',
         'grace_period',
@@ -666,7 +666,7 @@ const Step3Form = ({ watch, control, errors }) => {
       {/* Payment Method */}
       <FormControl fullWidth sx={{ mb: 4 }}>
         <Controller
-          name='payment_method'
+          name='payment_methods'
           control={control}
           rules={{ required: true }}
           render={({ field }) => (
@@ -678,13 +678,13 @@ const Step3Form = ({ watch, control, errors }) => {
                 value: field.value || [], // Ensure it handles an empty array initially
                 onChange: field.onChange
               }}
-              error={Boolean(errors.payment_method)}
-              helperText={errors.payment_method?.message}
+              error={Boolean(errors.payment_methods)}
+              helperText={errors.payment_methods?.message}
             >
               {[
                 { label: 'Bank Transfer', value: 'bank_transfer' },
                 { label: 'Cash', value: 'cash' },
-                { label: 'Credit Card', value: 'credit_card' },
+                { label: 'Card', value: 'card' },
                 { label: 'Mobile Money', value: 'mobile_money' }
               ].map(option => (
                 <MenuItem key={option.value} value={option.value}>
@@ -1015,7 +1015,7 @@ const ReviewForm = ({ data, properties, units, tenants }) => {
               <strong>Maintenance Responsibility:</strong> {data.maintenance_responsibility}
             </Typography>
             <Typography variant='small'>
-              <strong>Payment Method(s):</strong> {data.payment_method?.join(', ') || 'N/A'}
+              <strong>Payment Method(s):</strong> {data.payment_methods?.join(', ') || 'N/A'}
             </Typography>
             <Typography variant='small'>
               <strong>Is Furnished:</strong> {data.is_furnished ? 'Yes' : 'No'}

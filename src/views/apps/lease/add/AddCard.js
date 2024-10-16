@@ -580,10 +580,10 @@ const AddCard = props => {
           duration: 5000
         })
 
-        setLeasesData(prevData => ({
-          ...prevData,
-          items: [...prevData.items, ...updatedRequestData]
-        }))
+        // setLeasesData(prevData => ({
+        //   ...prevData,
+        //   items: [...prevData.items, ...updatedRequestData]
+        // }))
 
         // Close the drawer
         handleClose()
@@ -594,9 +594,6 @@ const AddCard = props => {
         })
         console.log(error)
         //
-        toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
-          duration: 5000
-        })
       }
     )
   }
