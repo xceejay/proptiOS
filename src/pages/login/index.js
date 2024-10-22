@@ -49,7 +49,9 @@ import axios from 'src/pages/middleware/axios'
 const LoginIllustration = styled('img')(({ theme }) => ({
   zIndex: 2,
   maxHeight: 680,
+  borderRadius: 50,
   marginTop: theme.spacing(12),
+
   marginBottom: theme.spacing(12),
   [theme.breakpoints.down(1540)]: {
     maxHeight: 550
@@ -290,7 +292,7 @@ const LoginPage = () => {
                   </LinkStyled>
                 </Typography>
               </Box>
-              <Divider
+              {/* <Divider
                 sx={{
                   fontSize: '0.875rem',
                   color: 'text.disabled',
@@ -301,7 +303,7 @@ const LoginPage = () => {
                 or
               </Divider>
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                {/* <IconButton href='/' component={Link} sx={{ color: '#497ce2' }} onClick={e => e.preventDefault()}>
+                <IconButton href='/' component={Link} sx={{ color: '#497ce2' }} onClick={e => e.preventDefault()}>
                   <Icon icon='mdi:facebook' />
                 </IconButton>
                 <IconButton href='/' component={Link} sx={{ color: '#1da1f2' }} onClick={e => e.preventDefault()}>
@@ -314,11 +316,11 @@ const LoginPage = () => {
                   sx={{ color: theme => (theme.palette.mode === 'light' ? '#272727' : 'grey.300') }}
                 >
                   <Icon icon='mdi:github' />
-                </IconButton> */}
+                </IconButton>
                 <IconButton href='/' component={Link} sx={{ color: '#db4437' }} onClick={e => e.preventDefault()}>
                   <Icon icon='mdi:google' />
                 </IconButton>
-              </Box>
+              </Box> */}
             </form>
           </Box>
         </Box>
