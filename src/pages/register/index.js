@@ -39,6 +39,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { FormHelperText, Input } from '@mui/material'
 import { MuiFileInput } from 'mui-file-input'
+import toast from 'react-hot-toast'
 
 import RegisterFileUploader from 'src/ui/auth/RegisterFileUploader'
 import { useAuth } from 'src/hooks/useAuth'
