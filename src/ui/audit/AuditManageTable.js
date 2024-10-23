@@ -216,8 +216,8 @@ const AuditManageTable = () => {
             statusColor = 'error'
             break
           default:
-            statusLabel = 'Unknown'
-            statusColor = 'secondary'
+            statusLabel = 'Failed'
+            statusColor = 'error'
         }
 
         return (
