@@ -5,6 +5,7 @@ const getDashboardRoute = user_type => {
   switch (user_type) {
     case 'property_manager':
     case 'property_coordinator':
+    case 'property_owner':
       return '/dashboard' // Full access
     case 'maintenance_worker':
       return '/properties'
