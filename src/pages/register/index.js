@@ -40,6 +40,7 @@ import * as yup from 'yup'
 import { FormHelperText, Input } from '@mui/material'
 import { MuiFileInput } from 'mui-file-input'
 import toast from 'react-hot-toast'
+import CircularProgress from '@mui/material/CircularProgress'
 
 import RegisterFileUploader from 'src/ui/auth/RegisterFileUploader'
 import { useAuth } from 'src/hooks/useAuth'
@@ -209,6 +210,7 @@ const defaultValues = {
 }
 
 const Register = () => {
+  const [loading, setLoading] = useState(false)
   const {
     control,
     setError,
@@ -228,6 +230,7 @@ const Register = () => {
   }
 
   const onSubmit = data => {
+    setLoading(true)
     onboarding.setLoading(true)
     if (!isChecked) {
       setError('agreement', {
@@ -245,15 +248,13 @@ const Register = () => {
     onboarding.registerAccount(
       { data },
       responseData => {
-        let { response } = responseData
-        console.log(response?.data)
         onboarding.setLoading(false)
 
         // Handle success
-        if (response.data.status == 'FAILED') {
+        if (responseData.data.status == 'FAILED') {
           setError('api_error', {
             type: 'manual',
-            message: response.data.description
+            message: responseData.data.description
           })
 
           return
@@ -264,9 +265,9 @@ const Register = () => {
         onboarding.setLoading(false)
 
         // Handle error
-
+        console.log('error', error)
         toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
-          duration: 5000
+          duration: 2000
         })
         setError('api_error', {
           type: 'manual',
@@ -274,6 +275,8 @@ const Register = () => {
         })
       }
     )
+
+    setLoading(false)
   }
 
   // ** States
@@ -498,7 +501,7 @@ const Register = () => {
                 />
               </FormControl>
               <FormControl sx={{ mb: 4, width: '30ch' }} variant='outlined'>
-                <FormHelperText>Custom site domain</FormHelperText>
+                <FormHelperText>Custom site domain & Site ID</FormHelperText>
                 <Controller
                   name='site_id'
                   control={control}
@@ -622,9 +625,19 @@ const Register = () => {
                   <FormHelperText sx={{ color: 'error.main' }}>{errors.agreement.message}</FormHelperText>
                 )}
               </FormControl>
-              <Button size='small' fullWidth type='submit' variant='contained' sx={{ mb: 4 }}>
-                Create an account
-              </Button>
+              {!loading ? (
+                <>
+                  <Button size='small' fullWidth type='submit' variant='contained' sx={{ mb: 4 }}>
+                    Create an account
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Box sx={{ display: 'flex', mb: 4, flexDirection: 'column', alignItems: 'center' }}>
+                    <CircularProgress size={20}></CircularProgress>
+                  </Box>
+                </>
+              )}
               <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
                 <Typography sx={{ color: 'text.secondary', mr: 2 }}>Already have an account?</Typography>
                 <Typography variant='body2'>

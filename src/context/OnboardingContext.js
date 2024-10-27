@@ -50,42 +50,41 @@ const OnboardingProvider = ({ children }) => {
   // }, [])
 
   //function for registering an account.
-  const registerAccount = (params, errorCallback) => {
-    // Create a FormData object
-    const formData = new FormData()
-    formData.append('role', params.data.role)
-    formData.append('site_name', params.data.site_name)
-    formData.append('site_id', params.data.site_id.toLowerCase() + '.manages.homes')
-    formData.append('country', params.data.country)
-    formData.append('full_name', params.data.full_name)
-    formData.append('email', params.data.email)
-    formData.append('password', params.data.password)
-    formData.append('id_card', params.data.id_card)
+  const registerAccount = async (params, successCallback, errorCallback) => {
+    try {
+      const formData = new FormData()
+      formData.append('role', params.data.role)
+      formData.append('site_name', params.data.site_name)
+      formData.append('site_id', params.data.site_id.toLowerCase() + '.manages.homes')
+      formData.append('country', params.data.country)
+      formData.append('full_name', params.data.full_name)
+      formData.append('email', params.data.email)
+      formData.append('password', params.data.password)
+      formData.append('id_card', params.data.id_card)
 
-    axios
-      .post('https://api.pm.manages.homes/auth/register', formData, {
+      const response = await axios.post('https://api.pm.manages.homes/auth/register', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       })
-      .then(async response => {
-        // Optionally, handle response data if needed
+
+      if (response && response.data) {
         if (response.data.token) {
           window.localStorage.setItem('authToken', response.data.token)
         }
-
         if (response.data.user) {
           window.localStorage.setItem('userData', JSON.stringify(response.data.user))
         }
 
         setRegistrationDetails(params)
 
-        const redirectURL = '/onboarding/success'
-        router.replace(redirectURL)
-      })
-      .catch(err => {
-        if (errorCallback) errorCallback(err)
-      })
+        router.replace('/onboarding/success')
+        if (successCallback) successCallback(response.data)
+      }
+    } catch (error) {
+      console.error('API error:', error)
+      if (errorCallback) errorCallback(error)
+    }
   }
 
   const handleLogout = () => {
