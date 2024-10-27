@@ -10,7 +10,7 @@ export const AppAbility = Ability
 const defineRulesFor = (user_type, subject) => {
   const { can, rules } = new AbilityBuilder(AppAbility)
 
-  if (user_type === 'property_manager' || user_type === 'property_coordinator') {
+  if (user_type === 'property_manager' || user_type === 'property_coordinator' || user_type === 'property_owner') {
     can('manage', 'all') // Full access
   } else if (user_type === 'maintenance_worker') {
     can('read', ['maintenance', 'properties', 'support', 'property-maintenance']) // Maintenance can view specific pages
