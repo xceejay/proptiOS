@@ -31,7 +31,11 @@ const initialIssues = [
   {
     id: 1,
     title: 'Leaky Faucet',
-    description: 'The kitchen faucet is leaking constantly.',
+    description: `asdsdas The kitchen faucet is leaking constantly. is leaking constantly.is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitche
+    n faucet isconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantly
+     leaking constantly.The kitchen faucet is leaking constantly.The kitchenconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantly
+      faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantlyconstantly.`,
+
     status: 'Open',
     date: '2023-05-01',
     author: 'John Doe',
@@ -252,9 +256,20 @@ const ParentCommunicationViewIssues = ({ communicationData }) => {
                 <Typography variant='h5' gutterBottom>
                   {issues.find(i => i.id === selectedIssue)?.title}
                 </Typography>
-                <Typography variant='body1' paragraph>
-                  {issues.find(i => i.id === selectedIssue)?.description}
-                </Typography>
+                <Tooltip placement='left-end' title={issues.find(i => i.id === selectedIssue)?.description}>
+                  <Box sx={{ maxHeight: '100px', overflow: 'hidden' }}>
+                    <Typography
+                      sx={{
+                        display: '-webkit-box',
+                        WebkitBoxOrient: 'vertical',
+                        WebkitLineClamp: 4,
+                        overflow: 'hidden'
+                      }}
+                    >
+                      {issues.find(i => i.id === selectedIssue)?.description}
+                    </Typography>
+                  </Box>
+                </Tooltip>
                 <Typography variant='h6' gutterBottom>
                   Attachments
                 </Typography>
