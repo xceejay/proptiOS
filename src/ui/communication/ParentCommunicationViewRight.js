@@ -95,7 +95,8 @@ const ParentCommunicationViewRight = ({ tab, communicationData, setCommunication
         sx={{ borderBottom: theme => `1px solid ${theme.palette.divider}` }}
       >
         {/* <Tab value='invite' label='Invite Communication' icon={<Icon fontSize='1.125rem' icon='tabler:communication-plus' />} /> */}
-        <Tab value='issues' label='Issues' icon={<Icon fontSize='1.125rem' icon='tabler:communication' />} />
+        <Tab value='issues' label='Issues' icon={<Icon fontSize='1.125rem' icon='tabler:home-exclamation' />} />
+        <Tab value='broadcast' label='Broadcast' icon={<Icon fontSize='1.125rem' icon='tabler:speakerphone' />} />
       </TabList>
       <Box sx={{ mt: 6 }}>
         {isLoading ? (
@@ -106,6 +107,12 @@ const ParentCommunicationViewRight = ({ tab, communicationData, setCommunication
         ) : (
           <>
             <TabPanel sx={{ p: 0 }} value='issues'>
+              <ParentCommunicationViewIssues
+                setCommunicationData={setCommunicationData}
+                communicationData={communicationData}
+              />
+            </TabPanel>
+            <TabPanel sx={{ p: 0 }} value='broadcast'>
               <ParentCommunicationViewIssues
                 setCommunicationData={setCommunicationData}
                 communicationData={communicationData}
