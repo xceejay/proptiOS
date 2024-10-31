@@ -15,7 +15,9 @@ import {
   IconButton,
   CircularProgress,
   CardHeader,
-  Tooltip
+  Tooltip,
+  Dialog,
+  DialogContent
 } from '@mui/material'
 import AttachFileIcon from '@mui/icons-material/AttachFile'
 import SendIcon from '@mui/icons-material/Send'
@@ -35,10 +37,14 @@ const initialIssues = [
       {
         name: 'leak.jpg',
         type: 'image/jpeg',
-        url: 'https://example.com/leak.jpg'
+        url: 'https://plus.unsplash.com/premium_photo-1673967831980-1d377baaded2?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Y2F0c3xlbnwwfHwwfHx8MA%3D%3D'
       },
       { name: 'plumbing_report.pdf', type: 'application/pdf', url: '#' },
-      { name: 'broken_window.mp4', type: 'video/mp4', url: '#' }
+      {
+        name: 'broken_window.mp4',
+        type: 'video/mp4',
+        url: ' https://www.pexels.com/video/creepy-hand-showing-red-balloon-through-broken-window-5427566/'
+      }
     ]
   },
   {
@@ -48,7 +54,13 @@ const initialIssues = [
     status: 'In Progress',
     date: '2023-05-02',
     author: 'Jane Smith',
-    attachments: [{ name: 'broken_window.mp4', type: 'video/mp4', url: '#' }]
+    attachments: [
+      {
+        name: 'broken_window.mp4',
+        type: 'video/mp4',
+        url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
+      }
+    ]
   }
 ]
 
@@ -97,6 +109,8 @@ const ParentCommunicationViewIssues = ({ communicationData }) => {
   const [comments, setComments] = useState(initialComments)
   const [selectedIssue, setSelectedIssue] = useState(1)
   const [isLoading, setIsLoading] = useState(false)
+  const [videoDialogOpen, setVideoDialogOpen] = useState(false)
+  const [videoUrl, setVideoUrl] = useState('')
 
   const {
     register,
@@ -124,6 +138,16 @@ const ParentCommunicationViewIssues = ({ communicationData }) => {
     setSelectedIssue(null)
     reset({ comment: '', file: null })
   }, [reset])
+
+  const handleOpenVideoDialog = url => {
+    setVideoUrl(url)
+    setVideoDialogOpen(true)
+  }
+
+  const handleCloseVideoDialog = () => {
+    setVideoDialogOpen(false)
+    setVideoUrl('')
+  }
 
   const onSubmit = async data => {
     if (!selectedIssue) return // Ensure an issue is selected
@@ -203,11 +227,7 @@ const ParentCommunicationViewIssues = ({ communicationData }) => {
                       }}
                       onClick={() => {
                         if (attachment.type.startsWith('video/')) {
-                          const video = document.createElement('video')
-                          video.src = attachment.url
-                          video.controls = true
-                          document.body.appendChild(video)
-                          video.play()
+                          handleOpenVideoDialog(attachment.url)
                         } else {
                           const link = document.createElement('a')
                           link.href = attachment.url
@@ -352,6 +372,14 @@ const ParentCommunicationViewIssues = ({ communicationData }) => {
           </Box>
         )}
       </Box>
+      {/* <Dialog open={videoDialogOpen} onClose={handleCloseVideoDialog} maxWidth='md' fullWidth>
+        <DialogContent>
+          <video controls style={{ width: '100%' }}>
+            <source src={videoUrl} type='video/mp4' />
+            Your browser does not support the video tag.
+          </video>
+        </DialogContent>
+      </Dialog> */}
     </Box>
   )
 }
