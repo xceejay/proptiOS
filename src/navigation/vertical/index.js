@@ -68,13 +68,13 @@ const navigation = () => {
       icon: 'tabler:layout-grid-add',
       disabled: true,
       action: 'read',
-      subject: 'communication'
+      subject: 'integrations'
     },
     {
       title: 'Communication',
       path: '/communication',
       icon: 'tabler:brand-telegram',
-      disabled: true,
+      disabled: false,
       action: 'read',
       subject: 'communication'
     },
