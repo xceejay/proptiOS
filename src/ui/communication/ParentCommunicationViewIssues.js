@@ -43,7 +43,7 @@ const initialIssues = [
       {
         name: 'broken_window.mp4',
         type: 'video/mp4',
-        url: ' https://www.pexels.com/video/creepy-hand-showing-red-balloon-through-broken-window-5427566/'
+        url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4/'
       }
     ]
   },
