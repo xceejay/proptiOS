@@ -210,7 +210,7 @@ const ParentCommunicationViewIssues = ({ communicationData }) => {
       sx={{
         display: 'flex',
         flexDirection: isMobile ? 'column' : 'row',
-        height: '100vh'
+        height: '80vh'
       }}
     >
       <Card
