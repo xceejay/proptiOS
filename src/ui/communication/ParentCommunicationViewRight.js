@@ -96,7 +96,12 @@ const ParentCommunicationViewRight = ({ tab, communicationData, setCommunication
       >
         {/* <Tab value='invite' label='Invite Communication' icon={<Icon fontSize='1.125rem' icon='tabler:communication-plus' />} /> */}
         <Tab value='issues' label='Issues' icon={<Icon fontSize='1.125rem' icon='tabler:home-exclamation' />} />
-        <Tab value='broadcast' label='Broadcast' icon={<Icon fontSize='1.125rem' icon='tabler:speakerphone' />} />
+        <Tab
+          value='broadcast'
+          disabled
+          label='Broadcast'
+          icon={<Icon fontSize='1.125rem' icon='tabler:speakerphone' />}
+        />
       </TabList>
       <Box sx={{ mt: 6 }}>
         {isLoading ? (
