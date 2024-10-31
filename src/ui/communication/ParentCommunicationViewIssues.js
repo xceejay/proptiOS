@@ -228,7 +228,7 @@ const ParentCommunicationViewIssues = ({ communicationData }) => {
               key={issue.id}
               button
               onClick={() => handleIssueSelect(issue.id)}
-              selected={selectedIssue === issue.id}
+              selected={!isMobile && selectedIssue === issue.id}
             >
               <ListItemText primary={issue.title} secondary={`${issue.description.substring(0, 50)}...`} />
             </ListItem>
