@@ -53,6 +53,7 @@ const initialIssues = [
       }
     ]
   },
+
   {
     id: 2,
     title: 'Broken Window',
