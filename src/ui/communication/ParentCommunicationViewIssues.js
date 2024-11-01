@@ -20,11 +20,16 @@ import {
   DialogContent,
   FormHelperText,
   useMediaQuery,
-  Drawer
+  Drawer,
+  FormControl,
+  Select,
+  MenuItem
 } from '@mui/material'
 import AttachFileIcon from '@mui/icons-material/AttachFile'
 import SendIcon from '@mui/icons-material/Send'
 import CloseIcon from '@mui/icons-material/Close'
+import CustomChip from 'src/@core/components/mui/chip'
+
 import PictureAsPdf from '@mui/icons-material/PictureAsPdf'
 
 const initialIssues = [
@@ -124,8 +129,23 @@ const ParentCommunicationViewIssues = ({ communicationData }) => {
   const [videoDialogOpen, setVideoDialogOpen] = useState(false)
   const [videoUrl, setVideoUrl] = useState('')
 
+  const statusColors = {
+    Open: 'primary',
+    'In Progress': 'warning',
+    Closed: 'success'
+  }
+
   const commentsEndRef = useRef(null)
 
+  const handleStatusChange = (issueId, status) => {
+    const updatedIssues = issues.map(issue => {
+      if (issue.id === issueId) {
+        return { ...issue, status }
+      }
+      return issue
+    })
+    setIssues(updatedIssues)
+  }
   const scrollToBottom = () => {
     if (commentsEndRef.current) {
       commentsEndRef.current.scrollIntoView({ behavior: 'smooth' })
@@ -235,6 +255,7 @@ const ParentCommunicationViewIssues = ({ communicationData }) => {
               selected={!isMobile && selectedIssue === issue.id}
             >
               <ListItemText primary={issue.title} secondary={`${issue.description.substring(0, 50)}...`} />
+              <CustomChip label={issue.status} color={statusColors[issue.status]} sx={{ ml: 2 }} />
             </ListItem>
           ))}
         </List>
@@ -253,9 +274,24 @@ const ParentCommunicationViewIssues = ({ communicationData }) => {
                 <IconButton onClick={handleCloseIssueDetails} sx={{ float: 'right' }}>
                   <CloseIcon />
                 </IconButton>
-                <Typography variant='h5' gutterBottom>
-                  {issues.find(i => i.id === selectedIssue)?.title}
-                </Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <Typography variant='h5' gutterBottom>
+                    {issues.find(i => i.id === selectedIssue)?.title}
+                  </Typography>
+                  <FormControl variant='outlined' sx={{ minWidth: 120 }}>
+                    <Select
+                      size='small'
+                      sx={{ mb: 2 }}
+                      value={issues.find(i => i.id === selectedIssue)?.status || ''}
+                      onChange={e => handleStatusChange(selectedIssue, e.target.value)}
+                      displayEmpty
+                    >
+                      <MenuItem value='Open'>Open</MenuItem>
+                      <MenuItem value='In Progress'>In Progress</MenuItem>
+                      <MenuItem value='Closed'>Closed</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Box>
                 <Tooltip placement='left-end' title={issues.find(i => i.id === selectedIssue)?.description}>
                   <Box sx={{ maxHeight: '100px', overflow: 'hidden' }}>
                     <Typography
