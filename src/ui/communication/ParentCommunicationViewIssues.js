@@ -591,9 +591,8 @@ const ParentCommunicationViewIssues = ({ communicationData }) => {
         </Box>
       ) : (
         <Drawer anchor='right' open={isDrawerOpen} onClose={closeDrawer}>
-          <Box sx={{ width: '100vw', padding: 2 }}>
+          <Box sx={{ width: '100vw', height: '90vh', padding: 2 }}>
             {selectedIssue ? (
-              /*************  ✨ Codeium Command 🌟  *************/
               <Card>
                 <CardContent>
                   <IconButton onClick={closeDrawer} sx={{ float: 'right' }}>
@@ -794,7 +793,6 @@ const ParentCommunicationViewIssues = ({ communicationData }) => {
                 </CardContent>
               </Card>
             ) : (
-              /******  8df36aa6-96f3-42ea-a969-0a0e402bf0c9  *******/
               <Typography variant='h6'>Select an issue to view details</Typography>
             )}
           </Box>
