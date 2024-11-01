@@ -3,7 +3,7 @@ const navigation = () => {
     {
       title: 'Dashboard',
       path: '/dashboard',
-      icon: 'tabler:smart-home',
+      icon: 'tabler:home-stats',
       action: 'read', // Action for viewing
       subject: 'dashboard' // Subject linked to permissions
     },
