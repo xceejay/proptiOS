@@ -130,7 +130,7 @@ const UserViewRight = ({ tab, propertyData, setPropertyData }) => {
         )}
 
         {ability.can('read', 'property-marketing') && (
-          <Tab value='marketing' label='Marketing' icon={<Icon fontSize='1.125rem' icon='tabler:speakerphone' />} />
+          <Tab value='marketing' label='Marketing' icon={<Icon fontSize='1.125rem' icon='tabler:chart-histogram' />} />
         )}
 
         {ability.can('read', 'property-settings') && (
