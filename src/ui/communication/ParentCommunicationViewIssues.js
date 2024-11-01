@@ -591,10 +591,17 @@ const ParentCommunicationViewIssues = ({ communicationData }) => {
         </Box>
       ) : (
         <Drawer anchor='right' open={isDrawerOpen} onClose={closeDrawer}>
-          <Box sx={{ width: '100vw', height: '90vh', padding: 2 }}>
+          <Box sx={{ height: '100vh', padding: 2, overflowY: 'auto' }}>
             {selectedIssue ? (
-              <Card>
-                <CardContent>
+              <Card
+                sx={{
+                  height: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  overflowY: 'auto'
+                }}
+              >
+                <CardContent sx={{ flex: 1 }}>
                   <IconButton onClick={closeDrawer} sx={{ float: 'right' }}>
                     <CloseIcon />
                   </IconButton>
