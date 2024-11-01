@@ -23,7 +23,8 @@ import {
   Drawer,
   FormControl,
   Select,
-  MenuItem
+  MenuItem,
+  Stack
 } from '@mui/material'
 import AttachFileIcon from '@mui/icons-material/AttachFile'
 import SendIcon from '@mui/icons-material/Send'
@@ -36,10 +37,16 @@ const initialIssues = [
   {
     id: 1,
     title: 'Loud Music Late at Night',
-    description: `The tenant in the apartment next door has been playing loud music late at night. It’s becoming disruptive, especially during weekdays when I'm trying to sleep.`,
+    description:
+      "The tenant in the apartment next door has been playing loud music late at night. It’s becoming disruptive, especially during weekdays when I'm trying to sleep.",
     status: 'Open',
     date: '2023-05-01',
-    author: 'John Doe',
+    reporter: {
+      id: 101,
+      name: 'John Doe',
+      user_type: 'tenant',
+      property: { id: 201, name: 'Sunset Apartments', unit: { id: 301, name: 'Unit 3B' } }
+    },
     attachments: [
       {
         name: 'noise_recording.mp4',
@@ -53,7 +60,6 @@ const initialIssues = [
       }
     ]
   },
-
   {
     id: 2,
     title: 'Trash Left in Hallway',
@@ -61,7 +67,12 @@ const initialIssues = [
       'There are bags of trash left outside the door in the hallway, creating an unpleasant smell and an obstruction for others passing by.',
     status: 'In Progress',
     date: '2023-05-02',
-    author: 'Jane Smith',
+    reporter: {
+      id: 102,
+      name: 'Jane Smith',
+      user_type: 'tenant',
+      property: { id: 202, name: 'Maple Residences', unit: { id: 302, name: 'Unit 4A' } }
+    },
     attachments: [
       {
         name: 'trash_in_hallway.jpg',
@@ -69,15 +80,24 @@ const initialIssues = [
         url: 'https://plus.unsplash.com/premium_photo-1673967831980-1d377baaded2?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Y2F0c3xlbnwwfHwwfHx8MA%3D%3D'
       }
     ]
+  },
+  {
+    id: 3,
+    title: 'Broken Elevator',
+    description:
+      'The elevator in the building has been out of order for over a week, causing inconvenience to residents, especially those on higher floors.',
+    status: 'Open',
+    date: '2023-05-03',
+    reporter: { id: 103, name: 'Mike Anderson', user_type: 'pm_user' },
+    attachments: [{ name: 'elevator_issue.png', type: 'image/png', url: 'https://www.example.com/elevator_issue.png' }]
   }
 ]
-
 const initialComments = [
   {
     id: 1,
     issueId: 1,
     text: 'I’ll speak with the tenant about the noise levels tonight.',
-    author: 'Property Manager',
+    commenter: { id: 201, name: 'Property Manager', user_type: 'pm_user' },
     timestamp: '2023-05-01T10:00:00Z',
     attachment: { name: 'tenant_notice.pdf', type: 'application/pdf', url: '#' }
   },
@@ -85,68 +105,59 @@ const initialComments = [
     id: 2,
     issueId: 1,
     text: 'Thank you, I really appreciate it. It’s been affecting my sleep.',
-    author: 'John Doe',
+    commenter: { id: 101, name: 'John Doe', user_type: 'tenant' },
     timestamp: '2023-05-01T11:30:00Z',
     attachment: null
   },
   {
     id: 3,
     issueId: 1,
-    text: "Noted! I'll check in tomorrow to confirm it’s been resolved.",
-    author: 'Property Manager',
-    timestamp: '2023-05-01T12:00:00Z',
+    text: 'The noise was still quite loud last night. Could this be addressed again?',
+    commenter: { id: 101, name: 'John Doe', user_type: 'tenant' },
+    timestamp: '2023-05-02T08:45:00Z',
     attachment: null
   },
   {
     id: 4,
     issueId: 1,
-    text: 'Unfortunately, the noise was still quite loud last night. Could it be addressed again?',
-    author: 'John Doe',
-    timestamp: '2023-05-02T08:45:00Z',
+    text: 'I’ll have a follow-up discussion with the tenant and issue a formal warning if necessary.',
+    commenter: { id: 201, name: 'Property Manager', user_type: 'pm_user' },
+    timestamp: '2023-05-02T09:15:00Z',
     attachment: null
   },
   {
     id: 5,
-    issueId: 1,
-    text: 'I’ll have a follow-up discussion with the tenant today and issue a formal warning if needed.',
-    author: 'Property Manager',
-    timestamp: '2023-05-02T09:15:00Z',
+    issueId: 2,
+    text: 'I’ve informed our cleaning staff to remove the trash immediately.',
+    commenter: { id: 201, name: 'Property Manager', user_type: 'pm_user' },
+    timestamp: '2023-05-02T09:00:00Z',
     attachment: null
   },
   {
     id: 6,
     issueId: 2,
-    text: 'I’ll inform our cleaning staff to remove the trash immediately.',
-    author: 'Property Manager',
-    timestamp: '2023-05-02T09:00:00Z',
-    attachment: null
-  },
-  {
-    id: 7,
-    issueId: 2,
-    text: 'Thanks! It’s becoming a common issue in the hallway.',
-    author: 'Jane Smith',
+    text: "Thank you! It's becoming a common issue in the hallway.",
+    commenter: { id: 102, name: 'Jane Smith', user_type: 'tenant' },
     timestamp: '2023-05-02T09:30:00Z',
     attachment: null
   },
   {
-    id: 8,
-    issueId: 2,
-    text: 'Cleaning team has been notified, and we’re putting up a notice to remind residents to dispose of trash properly.',
-    author: 'Property Manager',
-    timestamp: '2023-05-02T10:00:00Z',
-    attachment: { name: 'hallway_notice.pdf', type: 'application/pdf', url: '#' }
+    id: 7,
+    issueId: 3,
+    text: 'We are awaiting parts to repair the elevator; we expect it to be operational within the next few days.',
+    commenter: { id: 201, name: 'Property Manager', user_type: 'pm_user' },
+    timestamp: '2023-05-03T10:00:00Z',
+    attachment: null
   },
   {
-    id: 9,
-    issueId: 2,
-    text: 'Appreciate it! Let’s hope this resolves the issue long-term.',
-    author: 'Jane Smith',
-    timestamp: '2023-05-02T10:15:00Z',
+    id: 8,
+    issueId: 3,
+    text: 'Thank you for the update. The residents on the upper floors are quite concerned.',
+    commenter: { id: 103, name: 'Mike Anderson', user_type: 'pm_user' },
+    timestamp: '2023-05-03T10:15:00Z',
     attachment: null
   }
 ]
-
 const schema = yup.object().shape({
   comment: yup.string().test('comment-or-file', 'Comment is required when no file is attached', function (value) {
     const { file } = this.parent // Access the sibling value (file)
@@ -294,19 +305,64 @@ const ParentCommunicationViewIssues = ({ communicationData }) => {
         }}
       >
         <CardHeader title='Issues' />
-        <List>
+        <Stack spacing={1}>
           {issues.map(issue => (
             <ListItem
               key={issue.id}
               button
               onClick={() => handleIssueSelect(issue.id)}
               selected={!isMobile && selectedIssue === issue.id}
+              sx={{
+                '&:hover': {
+                  bgcolor: 'action.hover'
+                },
+                transition: 'all 0.2s ease-in-out',
+                bgcolor: selectedIssue === issue.id ? 'action.selected' : 'background.paper',
+                borderRadius: 1,
+                boxShadow: selectedIssue === issue.id ? 2 : 0,
+                px: 2,
+                py: 1.5,
+                flexDirection: 'row-reverse',
+                justifyContent: 'space-between'
+              }}
             >
-              <ListItemText primary={issue.title} secondary={`${issue.description.substring(0, 50)}...`} />
-              <CustomChip label={issue.status} color={statusColors[issue.status]} sx={{ ml: 2 }} />
+              <CustomChip label={issue.status} color={statusColors[issue.status]} />
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center'
+                }}
+              >
+                <Typography
+                  variant='subtitle2'
+                  sx={{
+                    mb: 0.5,
+                    fontSize: 14,
+                    fontWeight: 500,
+                    color: selectedIssue === issue.id ? 'primary.main' : 'text.primary'
+                  }}
+                >
+                  {issue.title}
+                </Typography>
+                <Typography
+                  variant='body2'
+                  sx={{ mr: 2, color: selectedIssue === issue.id ? 'primary.main' : 'text.secondary' }}
+                >
+                  {`Reporter: ${issue.reporter.name} (${issue.reporter.user_type})`}
+                </Typography>
+                {issue.reporter.user_type === 'tenant' && (
+                  <Typography
+                    variant='body2'
+                    sx={{ color: selectedIssue === issue.id ? 'primary.main' : 'text.secondary' }}
+                  >
+                    {`${issue.reporter.property.name}, ${issue.reporter.property.unit.name}`}
+                  </Typography>
+                )}
+              </Box>
             </ListItem>
           ))}
-        </List>
+        </Stack>
       </Card>
       {!isMobile ? (
         <Box
