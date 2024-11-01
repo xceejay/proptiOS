@@ -35,46 +35,38 @@ import PictureAsPdf from '@mui/icons-material/PictureAsPdf'
 const initialIssues = [
   {
     id: 1,
-    title: 'Leaky Faucet',
-    description: `asdsdas The kitchen faucet is leaking constantly. is leaking constantly.is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitche
-    n faucet isconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantly
-     leaking constantly.The kitchen faucet is leaking constantly.The kitchenconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantlyconstantly
-      faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantly.The kitchen faucet is leaking constantlyconstantly.`,
-
+    title: 'Loud Music Late at Night',
+    description: `The tenant in the apartment next door has been playing loud music late at night. It’s becoming disruptive, especially during weekdays when I'm trying to sleep.`,
     status: 'Open',
     date: '2023-05-01',
     author: 'John Doe',
     attachments: [
       {
-        name: 'leak.jpg',
-        type: 'image/jpeg',
-        url: 'https://plus.unsplash.com/premium_photo-1673967831980-1d377baaded2?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Y2F0c3xlbnwwfHwwfHx8MA%3D%3D'
+        name: 'noise_recording.mp4',
+        type: 'video/mp4',
+        url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
       },
       {
-        name: 'plumbing_report.pdf',
+        name: 'noise_complaint_report.pdf',
         type: 'application/pdf',
         url: 'https://unec.edu.az/application/uploads/2014/12/pdf-sample.pdf'
-      },
-      {
-        name: 'broken_window.mp4',
-        type: 'video/mp4',
-        url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4/'
       }
     ]
   },
 
   {
     id: 2,
-    title: 'Broken Window',
-    description: 'The living room window is cracked and needs replacement.',
+    title: 'Trash Left in Hallway',
+    description:
+      'There are bags of trash left outside the door in the hallway, creating an unpleasant smell and an obstruction for others passing by.',
     status: 'In Progress',
     date: '2023-05-02',
     author: 'Jane Smith',
     attachments: [
       {
-        name: 'broken_window.mp4',
-        type: 'video/mp4',
-        url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
+        name: 'trash_in_hallway.jpg',
+        type: 'image/jpeg',
+        url: 'https://plus.unsplash.com/premium_photo-1673967831980-1d377baaded2?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Y2F0c3xlbnwwfHwwfHx8MA%3D%3D'
       }
     ]
   }
@@ -84,17 +76,73 @@ const initialComments = [
   {
     id: 1,
     issueId: 1,
-    text: "I'll send a plumber tomorrow.",
+    text: 'I’ll speak with the tenant about the noise levels tonight.',
     author: 'Property Manager',
     timestamp: '2023-05-01T10:00:00Z',
-    attachment: { name: 'schedule.pdf', type: 'application/pdf', url: '#' }
+    attachment: { name: 'tenant_notice.pdf', type: 'application/pdf', url: '#' }
   },
   {
     id: 2,
     issueId: 1,
-    text: "Thank you, I'll be home after 2 PM.",
+    text: 'Thank you, I really appreciate it. It’s been affecting my sleep.',
     author: 'John Doe',
     timestamp: '2023-05-01T11:30:00Z',
+    attachment: null
+  },
+  {
+    id: 3,
+    issueId: 1,
+    text: "Noted! I'll check in tomorrow to confirm it’s been resolved.",
+    author: 'Property Manager',
+    timestamp: '2023-05-01T12:00:00Z',
+    attachment: null
+  },
+  {
+    id: 4,
+    issueId: 1,
+    text: 'Unfortunately, the noise was still quite loud last night. Could it be addressed again?',
+    author: 'John Doe',
+    timestamp: '2023-05-02T08:45:00Z',
+    attachment: null
+  },
+  {
+    id: 5,
+    issueId: 1,
+    text: 'I’ll have a follow-up discussion with the tenant today and issue a formal warning if needed.',
+    author: 'Property Manager',
+    timestamp: '2023-05-02T09:15:00Z',
+    attachment: null
+  },
+  {
+    id: 6,
+    issueId: 2,
+    text: 'I’ll inform our cleaning staff to remove the trash immediately.',
+    author: 'Property Manager',
+    timestamp: '2023-05-02T09:00:00Z',
+    attachment: null
+  },
+  {
+    id: 7,
+    issueId: 2,
+    text: 'Thanks! It’s becoming a common issue in the hallway.',
+    author: 'Jane Smith',
+    timestamp: '2023-05-02T09:30:00Z',
+    attachment: null
+  },
+  {
+    id: 8,
+    issueId: 2,
+    text: 'Cleaning team has been notified, and we’re putting up a notice to remind residents to dispose of trash properly.',
+    author: 'Property Manager',
+    timestamp: '2023-05-02T10:00:00Z',
+    attachment: { name: 'hallway_notice.pdf', type: 'application/pdf', url: '#' }
+  },
+  {
+    id: 9,
+    issueId: 2,
+    text: 'Appreciate it! Let’s hope this resolves the issue long-term.',
+    author: 'Jane Smith',
+    timestamp: '2023-05-02T10:15:00Z',
     attachment: null
   }
 ]
