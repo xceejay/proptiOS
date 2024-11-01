@@ -129,7 +129,7 @@ const PropertyTenantManageTable = ({ setPropertyData, propertyData }) => {
 
   const [addUserOpen, setAddUserOpen] = useState(false)
 
-  const [paginationModel, setPaginationModel] = useState({ page: 1, pageSize: 25 })
+  const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 25 })
 
   const columns = [
     {

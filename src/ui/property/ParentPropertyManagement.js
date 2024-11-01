@@ -21,37 +21,16 @@ import { useProperties } from 'src/hooks/useProperties'
 import CustomChip from 'src/@core/components/mui/chip'
 import { useAuth } from 'src/hooks/useAuth'
 
-const ParentPropertyViewManagement = ({}) => {
-  const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
-  const properties = useProperties()
-  const [propertiesData, setPropertiesData] = useState([])
-  const [loading, setLoading] = useState(true) // New loading state
-
-  useEffect(() => {
-    properties.getProperties(
-      { page: paginationModel.page, limit: paginationModel.pageSize },
-      responseData => {
-        const { data } = responseData
-
-        if (data?.status === 'NO_RES') {
-          console.log('NO results')
-        } else if (data?.status === 'FAILED') {
-          alert(response.message || 'Failed to fetch properties')
-        } else {
-          setPropertiesData(data)
-        }
-
-        setLoading(false) // Stop loading when the request completes
-      },
-      error => {
-        toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
-          duration: 5000
-        })
-        setLoading(false) // Stop loading on error
-      }
-    )
-  }, [paginationModel])
-
+const ParentPropertyViewManagement = ({
+  setPropertyData,
+  propertyData,
+  setPaginationModel,
+  paginationModel,
+  loading,
+  setLoading,
+  setPropertiesData,
+  propertiesData
+}) => {
   const [isGridView, setIsGridView] = useState(false)
 
   const handleToggleView = () => {

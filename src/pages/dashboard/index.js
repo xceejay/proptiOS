@@ -61,22 +61,10 @@ const Dashboard = () => {
         {/* <Grid>wanted to do switch for properties</Grid> */}
         <Grid item xs={12} sm={12} lg={12}>
           <Grid container spacing={6}>
-            <Grid item xs={12} sm={6} lg={2.5}>
-              {/* prettier-ignore */}
+            <Grid item xs={12} sm={6} lg={3}>
               <CardStatsVertical
-                stats={"No Data"}
-                chipText='No Data'
-                avatarColor='success'
-                chipColor='default'
-                title='Units Occupied'
-                subtitle='All time'
-                avatarIcon='tabler:home'
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} lg={2.5}>
-              <CardStatsVertical
-                stats={'No Data'}
-                chipText={'No Data'}
+                // stats={'No Data'}
+                chipText={`${DashData?.total_tenants || 'No Data'} tenants`}
                 avatarColor='info'
                 chipColor='default'
                 title='Total tenants'
@@ -84,7 +72,43 @@ const Dashboard = () => {
                 avatarIcon='tabler:woman'
               />
             </Grid>
-            <Grid item xs={12} sm={12} lg={7}>
+            <Grid item xs={12} sm={6} lg={3}>
+              {/* prettier-ignore */}
+              <CardStatsVertical
+                // stats={DashData?.total_leases || "No Data"}
+                chipText={`${DashData?.total_leases || "No Data"} leases`}
+                avatarColor='success'
+                chipColor='default'
+                title='Units Occupied'
+                subtitle='All time'
+                avatarIcon='tabler:home'
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={6} lg={3}>
+              <CardStatsVertical
+                // stats={'No Data'}
+                chipText={`${DashData?.total_units || 'No Data'} units`}
+                avatarColor='info'
+                chipColor='default'
+                title='Total units'
+                subtitle='All time'
+                avatarIcon='tabler:home'
+              />
+            </Grid>
+            <Grid item xs={12} sm={6} lg={3}>
+              <CardStatsVertical
+                // stats={'No Data'}
+                chipText={`${DashData?.total_properties || 'No Data'} properties`}
+                avatarColor='info'
+                chipColor='default'
+                title='Total Properties'
+                subtitle='All time'
+                avatarIcon='tabler:building-community'
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={12} lg={12}>
               <CrmRevenueGrowth DashData={DashData} setDashData={setDashData} />
             </Grid>
           </Grid>
@@ -105,9 +129,9 @@ const Dashboard = () => {
         {/* <Grid item xs={12} md={6} lg={4}>
           <CrmActiveProjects DashData={DashData} setDashData={setDashData} />
         </Grid> */}
-        <Grid item xs={12} md={6} lg={12}>
+        {/* <Grid item xs={12} md={6} lg={12}>
           <CrmLastTransaction DashData={DashData} setDashData={setDashData} />
-        </Grid>
+        </Grid> */}
         {/* <Grid item xs={12} md={6}>
           <CrmActivityTimeline DashData={DashData} setDashData={setDashData} />
         </Grid> */}

@@ -243,7 +243,7 @@ const TenantManageTable = () => {
   const [tenantsData, setTenantsData] = useState({ items: [] })
   const [value, setValue] = useState('')
   const [addUserOpen, setAddUserOpen] = useState(false)
-  const [paginationModel, setPaginationModel] = useState({ page: 1, pageSize: 25 })
+  const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 25 })
   const [statusValue, setStatusValue] = useState('')
   const [statuses, setStatuses] = useState([
     { text: 'All', value: '' },

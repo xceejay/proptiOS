@@ -4,6 +4,7 @@ import Grid from '@mui/material/Grid'
 
 import { useRouter } from 'next/router'
 import ParentPropertyEditInfo from 'src/ui/property/ParentPropertyEditInfo'
+import { toast } from 'react-hot-toast'
 
 const PropertiesTab = () => {
   const router = useRouter()
@@ -28,9 +29,9 @@ const PropertiesTab = () => {
   //       error => {
   //         console.log(id)
   //
-  toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
-    duration: 5000
-  })
+  // toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
+  // duration: 5000
+  // })
   //       }
   //     )
   //   }

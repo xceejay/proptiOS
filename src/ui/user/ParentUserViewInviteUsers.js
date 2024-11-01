@@ -65,18 +65,6 @@ const schema = yup.object().shape({
   // password: yup.string().min(5).required(),
   full_name: yup.string().min(2).required(),
   role: yup.string().min(2).required()
-
-  // site_id: yup.string().min(2).required(),
-  // site_name: yup.string(),
-  // id_card: yup
-  //   .mixed()
-  //   .required('ID card is required')
-  //   .test('fileSize', 'File size is too large, File should be less or equal to 20MB', value => {
-  //     return value && value.size <= FILE_SIZE
-  //   })
-  //   .test('fileFormat', 'Unsupported file format', value => {
-  //     return value && SUPPORTED_FORMATS.includes(value.type)
-  //   })
 })
 
 const ParentUserViewInviteUsers = ({ userData }) => {
@@ -94,13 +82,14 @@ const ParentUserViewInviteUsers = ({ userData }) => {
     formState: { errors }
   } = useForm({
     defaultValues,
-    mode: 'onBlur',
+    mode: 'onSubmit',
     resolver: yupResolver(schema)
   })
 
   const onSubmit = formData => {
     // If formData should be an array, keep it as is
     // let requestData = [formData]
+
     let requestData = formData
 
     setLoading(true)
@@ -196,81 +185,6 @@ const ParentUserViewInviteUsers = ({ userData }) => {
                 </FormHelperText>
               )}
             </FormControl>
-            {/* <FormControl fullWidth sx={{ mb: 4 }}>
-              <Controller
-                name='Currency'
-                control={control}
-                rules={{ required: true }}
-                render={({ field: { value, onChange, onBlur } }) => (
-                  <>
-                    <TextField
-                      select
-                      id='custom-select-native'
-                      value={value}
-                      onChange={onChange}
-                      onBlur={onBlur}
-                      name='currency'
-                      required
-                      fullWidth
-                      label='Default Currency'
-                    >
-                      {currencies.map(currency => (
-                        <MenuItem sx={{ fontSize: '15px' }} key={currency.code} value={currency.code}>
-                          {currency.name}
-                        </MenuItem>
-                      ))}
-                    </TextField>
-                  </>
-                )}
-              />
-            </FormControl> */}
-            {/* <FormControl fullWidth sx={{ mb: 4 }}>
-              <Controller
-                name='site_name'
-                control={control}
-                rules={{ required: false }}
-                render={({ field: { value, onChange, onBlur } }) => (
-                  <TextField
-                    name='site_name'
-                    value={value}
-                    onChange={onChange}
-                    error={Boolean(errors.name)}
-                    onBlur={onBlur}
-                    fullWidth
-                    label='Affiliated Company'
-                    placeholder='manages.homes Property Management LTD'
-                  />
-                )}
-              />
-            </FormControl> */}
-            {/* <FormControl sx={{ mb: 4, width: '30ch' }} variant='outlined'>
-              <FormHelperText>Custom site domain</FormHelperText>
-              <Controller
-                name='site_id'
-                control={control}
-                rules={{ required: true }}
-                render={({ field: { value, onChange, onBlur } }) => (
-                  <>
-                    <OutlinedInput
-                      id='outlined-adornment-weight'
-                      value={value?.toLowerCase()}
-                      name='site_id'
-                      autoFocus
-                      onChange={onChange}
-                      onBlur={onBlur}
-                      error={Boolean(errors.site_id)}
-                      required
-                      endAdornment={<InputAdornment position='end'>.manages.homes</InputAdornment>}
-                      aria-describedby='outlined-weight-helper-text'
-                      placeholder='mypmcompany'
-                      inputProps={{
-                        'aria-label': 'cool'
-                      }}
-                    />
-                  </>
-                )}
-              />
-            </FormControl> */}
             <FormControl fullWidth sx={{ mb: 4 }}>
               <Controller
                 name='role'
@@ -331,43 +245,6 @@ const ParentUserViewInviteUsers = ({ userData }) => {
                 )}
               />
             </FormControl>
-            {/* <FormControl fullWidth sx={{ mb: 1.5 }}>
-              <InputLabel htmlFor='auth-login-v2-password' error={Boolean(errors.password)}>
-                Password
-              </InputLabel>
-              <Controller
-                name='password'
-                control={control}
-                rules={{ required: true }}
-                render={({ field: { value, onChange, onBlur } }) => (
-                  <OutlinedInput
-                    value={value}
-                    onBlur={onBlur}
-                    label='Password'
-                    onChange={onChange}
-                    id='auth-login-v2-password'
-                    error={Boolean(errors.password)}
-                    type={showPassword ? 'text' : 'password'}
-                    endAdornment={
-                      <InputAdornment position='end'>
-                        <IconButton
-                          edge='end'
-                          onMouseDown={e => e.preventDefault()}
-                          onClick={() => setShowPassword(!showPassword)}
-                        >
-                          <Icon icon={showPassword ? 'tabler:eye' : 'tabler:eye-off'} fontSize={20} />
-                        </IconButton>
-                      </InputAdornment>
-                    }
-                  />
-                )}
-              />
-              {errors.password && (
-                <FormHelperText sx={{ color: 'error.main' }} id=''>
-                  {errors.password.message}
-                </FormHelperText>
-              )}
-            </FormControl> */}
             {!loading ? (
               <>
                 <Box sx={{ display: 'flex' }}>

@@ -21,6 +21,8 @@ import Icon from 'src/@core/components/icon'
 
 import ParentPropertyViewOverview from './ParentPropertyOverview'
 import ParentPropertyViewManagement from './ParentPropertyManagement'
+import { useProperties } from 'src/hooks/useProperties'
+import toast from 'react-hot-toast'
 
 // ** Styled Tab component
 const Tab = styled(MuiTab)(({ theme }) => ({
@@ -87,6 +89,37 @@ const ParentPropertyViewRight = ({ tab, propertyData, setPropertyData }) => {
     setIsLoading(false)
   }, [propertyData])
 
+  const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
+  const properties = useProperties()
+  const [propertiesData, setPropertiesData] = useState([])
+  const [loading, setLoading] = useState(true) // New loading state
+
+  useEffect(() => {
+    properties.getProperties(
+      { page: paginationModel.page, limit: paginationModel.pageSize },
+      responseData => {
+        const { data } = responseData
+
+        if (data?.status === 'NO_RES') {
+          console.log('NO results')
+        } else if (data?.status === 'FAILED') {
+          alert(response.message || 'Failed to fetch properties')
+        } else {
+          setPropertiesData(data)
+          console.log(data)
+        }
+
+        setLoading(false) // Stop loading when the request completes
+      },
+      error => {
+        toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
+          duration: 5000
+        })
+        setLoading(false) // Stop loading on error
+      }
+    )
+  }, [paginationModel])
+
   return (
     <TabContext value={activeTab}>
       <TabList
@@ -108,11 +141,20 @@ const ParentPropertyViewRight = ({ tab, propertyData, setPropertyData }) => {
         ) : (
           <>
             <TabPanel sx={{ p: 0 }} value='overview'>
-              <ParentPropertyViewOverview setPropertyData={setPropertyData} propertyData={propertyData} />
+              <ParentPropertyViewOverview setPropertiesData={setPropertiesData} propertiesData={propertiesData} />
             </TabPanel>
 
             <TabPanel sx={{ p: 0 }} value='management'>
-              <ParentPropertyViewManagement setPropertyData={setPropertyData} propertyData={propertyData} />
+              <ParentPropertyViewManagement
+                setPropertyData={setPropertyData}
+                propertyData={propertyData}
+                setPaginationModel={setPaginationModel}
+                paginationModel={paginationModel}
+                setLoading={setLoading}
+                setPropertiesData={setPropertiesData}
+                propertiesData={propertiesData}
+                loading={loading}
+              />
             </TabPanel>
           </>
         )}
