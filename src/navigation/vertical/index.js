@@ -10,7 +10,7 @@ const navigation = () => {
     {
       title: 'Properties',
       path: '/properties',
-      icon: 'tabler:home-edit',
+      icon: 'tabler:building-community',
       action: 'read',
       subject: 'properties'
     },
