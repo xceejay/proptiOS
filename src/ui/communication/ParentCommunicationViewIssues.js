@@ -537,6 +537,7 @@ const ParentCommunicationViewIssues = ({ communicationData }) => {
         <Drawer anchor='right' open={isDrawerOpen} onClose={closeDrawer}>
           <Box sx={{ width: '100vw', padding: 2 }}>
             {selectedIssue ? (
+              /*************  ✨ Codeium Command 🌟  *************/
               <Card>
                 <CardContent>
                   <IconButton onClick={closeDrawer} sx={{ float: 'right' }}>
@@ -618,7 +619,7 @@ const ParentCommunicationViewIssues = ({ communicationData }) => {
                       ))}
                   </Box>
                   <Typography variant='h6' gutterBottom>
-                    Comments
+                    Status Comments
                   </Typography>
                   <Box sx={{ maxHeight: '300px', overflowY: 'auto', mb: 2 }}>
                     <List>
@@ -674,6 +675,21 @@ const ParentCommunicationViewIssues = ({ communicationData }) => {
                     </List>
                     <div ref={commentsEndRef} />
                   </Box>
+                  <Box display={'flex'} justifyContent={'left'}>
+                    <FormControl variant='outlined' sx={{ minWidth: 120 }}>
+                      <Select
+                        size='small'
+                        sx={{ mb: 2 }}
+                        value={issues.find(i => i.id === selectedIssue)?.status || ''}
+                        onChange={e => handleStatusChange(selectedIssue, e.target.value)}
+                        displayEmpty
+                      >
+                        <MenuItem value='Open'>Open</MenuItem>
+                        <MenuItem value='In Progress'>In Progress</MenuItem>
+                        <MenuItem value='Closed'>Closed</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Box>
                   <form onSubmit={handleSubmit(onSubmit)}>
                     <TextField
                       {...register('comment')}
@@ -722,6 +738,7 @@ const ParentCommunicationViewIssues = ({ communicationData }) => {
                 </CardContent>
               </Card>
             ) : (
+              /******  8df36aa6-96f3-42ea-a969-0a0e402bf0c9  *******/
               <Typography variant='h6'>Select an issue to view details</Typography>
             )}
           </Box>
