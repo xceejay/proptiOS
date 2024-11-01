@@ -122,51 +122,50 @@ const App = props => {
             <meta name='keywords' content='Simplify, property, management' />
             <meta name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1' />
           </Head>
-          <Analytics>
-            <SiteProvider>
-              <AuthProvider>
-                <OnboardingProvider>
-                  <PropertiesProvider>
-                    <TenantsProvider>
-                      <LeasesProvider>
-                        <FinanceProvider>
-                          <UsersProvider>
-                            <AuditProvider>
-                              <SettingsProvider {...(setConfig ? { pageSettings: setConfig() } : {})}>
-                                <SettingsConsumer>
-                                  {({ settings }) => {
-                                    return (
-                                      <ThemeComponent settings={settings}>
-                                        <Guard authGuard={authGuard} guestGuard={guestGuard}>
-                                          <AclGuard
-                                            aclAbilities={aclAbilities}
-                                            guestGuard={guestGuard}
-                                            authGuard={authGuard}
-                                          >
-                                            {getLayout(<Component {...pageProps} />)}
-                                          </AclGuard>
-                                        </Guard>
-                                        <ReactHotToast>
-                                          <Toaster
-                                            position={settings.toastPosition}
-                                            toastOptions={{ className: 'react-hot-toast' }}
-                                          />
-                                        </ReactHotToast>
-                                      </ThemeComponent>
-                                    )
-                                  }}
-                                </SettingsConsumer>
-                              </SettingsProvider>
-                            </AuditProvider>
-                          </UsersProvider>
-                        </FinanceProvider>
-                      </LeasesProvider>
-                    </TenantsProvider>
-                  </PropertiesProvider>
-                </OnboardingProvider>
-              </AuthProvider>
-            </SiteProvider>
-          </Analytics>
+          <Analytics />
+          <SiteProvider>
+            <AuthProvider>
+              <OnboardingProvider>
+                <PropertiesProvider>
+                  <TenantsProvider>
+                    <LeasesProvider>
+                      <FinanceProvider>
+                        <UsersProvider>
+                          <AuditProvider>
+                            <SettingsProvider {...(setConfig ? { pageSettings: setConfig() } : {})}>
+                              <SettingsConsumer>
+                                {({ settings }) => {
+                                  return (
+                                    <ThemeComponent settings={settings}>
+                                      <Guard authGuard={authGuard} guestGuard={guestGuard}>
+                                        <AclGuard
+                                          aclAbilities={aclAbilities}
+                                          guestGuard={guestGuard}
+                                          authGuard={authGuard}
+                                        >
+                                          {getLayout(<Component {...pageProps} />)}
+                                        </AclGuard>
+                                      </Guard>
+                                      <ReactHotToast>
+                                        <Toaster
+                                          position={settings.toastPosition}
+                                          toastOptions={{ className: 'react-hot-toast' }}
+                                        />
+                                      </ReactHotToast>
+                                    </ThemeComponent>
+                                  )
+                                }}
+                              </SettingsConsumer>
+                            </SettingsProvider>
+                          </AuditProvider>
+                        </UsersProvider>
+                      </FinanceProvider>
+                    </LeasesProvider>
+                  </TenantsProvider>
+                </PropertiesProvider>
+              </OnboardingProvider>
+            </AuthProvider>
+          </SiteProvider>
         </CacheProvider>
       </UserProvider>
     </Provider>
