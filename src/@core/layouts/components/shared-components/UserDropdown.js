@@ -1,10 +1,5 @@
-// ** React Imports
 import { useState, Fragment } from 'react'
-
-// ** Next Import
 import { useRouter } from 'next/router'
-
-// ** MUI Imports
 import Box from '@mui/material/Box'
 import Menu from '@mui/material/Menu'
 import Badge from '@mui/material/Badge'
@@ -15,16 +10,10 @@ import Typography from '@mui/material/Typography'
 import MenuItem from '@mui/material/MenuItem'
 import CustomAvatar from 'src/@core/components/mui/avatar'
 import { getInitials } from 'src/@core/utils/get-initials'
-
-// ** Icon Imports
-import Icon from 'src/@core/components/icon'
-
-// ** Context
 import { useAuth } from 'src/hooks/useAuth'
 import { SvgIcon } from '@mui/material'
-import { textTransform } from '@mui/system'
+import Icon from 'src/@core/components/icon'
 
-// ** Styled Components
 const BadgeContentSpan = styled('span')(({ theme }) => ({
   width: 8,
   height: 8,
@@ -40,17 +29,10 @@ const MenuItemStyled = styled(MenuItem)(({ theme }) => ({
 }))
 
 const UserDropdown = props => {
-  // ** Props
   const { settings } = props
-
-  // ** States
   const [anchorEl, setAnchorEl] = useState(null)
-
-  // ** Hooks
   const router = useRouter()
   const { logout, user } = useAuth()
-
-  // ** Vars
   const { direction } = settings
 
   const handleDropdownOpen = event => {
@@ -133,7 +115,7 @@ const UserDropdown = props => {
           </Box>
         </Box>
         <Divider sx={{ my: theme => `${theme.spacing(2)} !important` }} />
-        <MenuItemStyled sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
+        <MenuItemStyled sx={{ p: 0 }} onClick={() => handleDropdownClose('/settings')}>
           <Box sx={styles}>
             {!user.site_subscription_id ||
               (user.site_subscription_id == 'standard' && (
@@ -187,37 +169,14 @@ const UserDropdown = props => {
             )}
           </Box>
         </MenuItemStyled>
-        {/* <MenuItemStyled sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-          <Box sx={styles}>
-            <Icon icon='tabler:mail' />
-            Inbox
-          </Box>
-        </MenuItemStyled>
-        <MenuItemStyled sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-          <Box sx={styles}>
-            <Icon icon='tabler:message-2' />
-            Chat
-          </Box>
-        </MenuItemStyled> */}
-        {/* <Divider sx={{ my: theme => `${theme.spacing(2)} !important` }} /> */}
-        <MenuItemStyled sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
+
+        <MenuItemStyled sx={{ p: 0 }} onClick={() => handleDropdownClose('/settings')}>
           <Box sx={styles}>
             <Icon icon='tabler:settings' />
             Settings
           </Box>
         </MenuItemStyled>
-        {/* <MenuItemStyled sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-          <Box sx={styles}>
-            <Icon icon='tabler:currency-dollar' />
-            Pricing
-          </Box>
-        </MenuItemStyled>
-        <MenuItemStyled sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-          <Box sx={styles}>
-            <Icon icon='tabler:help' />
-            FAQ
-          </Box>
-        </MenuItemStyled> */}
+
         <Divider sx={{ my: theme => `${theme.spacing(2)} !important` }} />
         <MenuItemStyled onClick={handleLogout} sx={{ py: 2, '& svg': { mr: 2, fontSize: '1.375rem' } }}>
           <Icon icon='tabler:logout' />
