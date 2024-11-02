@@ -128,7 +128,7 @@ const EditPropertyDrawer = props => {
   const onSubmit = formData => {
     let requestData = [formData]
 
-    properties.addProperties(
+    properties.editProperties(
       requestData,
       responseData => {
         let { data } = responseData
@@ -136,7 +136,7 @@ const EditPropertyDrawer = props => {
         if (data?.status === 'NO_RES') {
           console.log('NO results')
         } else if (data?.status === 'FAILED') {
-          alert(data.description || 'Failed to add property')
+          alert(data.description || 'Failed to edit property')
           setError('property_email', {
             type: 'manual',
             message: data.description || 'Unknown error occurred'
@@ -158,11 +158,17 @@ const EditPropertyDrawer = props => {
           return property
         })
 
-        toast.success('Property added successfully', { duration: 5000 })
+        toast.success('Property updated successfully', { duration: 5000 })
         console.log('datada:', data)
         console.log('upreqdata:', updatedRequestData)
 
-        setPropertiesData(prevData => [...prevData, ...updatedRequestData])
+        setPropertiesData(prevData => {
+          const idx = prevData.findIndex(item => item.id === row.id)
+          if (idx !== -1) {
+            prevData[idx] = { ...prevData[idx], ...updatedRequestData[0] }
+          }
+          return [...prevData]
+        })
 
         console.log('newprop', properties.properties)
         handleClose()

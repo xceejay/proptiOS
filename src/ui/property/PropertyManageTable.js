@@ -177,6 +177,17 @@ const PropertyManageTable = ({
     {
       flex: 0.15,
       minWidth: 190,
+      field: 'property_type',
+      headerName: 'Type',
+      renderCell: ({ row }) => (
+        <Typography noWrap sx={{ color: 'text.secondary' }}>
+          {row.property_type.replace(/_/g, ' ').replace(/\b\w/g, char => char.toUpperCase())}
+        </Typography>
+      )
+    },
+    {
+      flex: 0.15,
+      minWidth: 190,
       field: 'units',
       headerName: 'Allocated Units',
       renderCell: ({ row }) => (
