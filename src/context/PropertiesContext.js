@@ -19,11 +19,13 @@ const defaultProvider = {
   getAllProperties: () => Promise.resolve(),
   getProperties: () => Promise.resolve(),
   getProperty: () => Promise.resolve(),
-  addProperties: () => Promise.resolve(), // Renamed for consistency
-  addMaintenanceRequests: () => Promise.resolve(), // Renamed for consistency
-  addUnits: () => Promise.resolve(), // Renamed for consistency
-  editUnits: () => Promise.resolve(), // Renamed for consistency
-  editProperties: () => Promise.resolve(), // Renamed for consistency
+  addProperties: () => Promise.resolve(),
+  addMaintenanceRequests: () => Promise.resolve(),
+  addUnits: () => Promise.resolve(),
+  editUnits: () => Promise.resolve(),
+  editProperties: () => Promise.resolve(),
+  deleteUnits: () => Promise.resolve(),
+  deleteProperties: () => Promise.resolve(),
   property: null,
   setProperty: () => {},
   properties: null,
@@ -137,7 +139,6 @@ const PropertiesProvider = ({ children }) => {
 
   // Function for adding a property
   const addProperties = (data, successCallback, errorCallback) => {
-    // Renamed function
     const token = window.localStorage.getItem('accessToken') || accessToken
 
     if (!token) {
@@ -165,9 +166,36 @@ const PropertiesProvider = ({ children }) => {
       })
   }
 
-  //function for adding units
+  // Function for deleting a property
+  const deleteProperties = (id, successCallback, errorCallback) => {
+    const token = window.localStorage.getItem('accessToken') || accessToken
+
+    if (!token) {
+      const error = new Error('No access token found')
+      if (errorCallback) errorCallback(error)
+
+      return
+    }
+
+    axios
+      .delete(`https://api.pm.manages.homes/properties/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then(response => {
+        if (successCallback) {
+          successCallback(response.data)
+          setProperties(prevProperties => prevProperties.filter(property => property.id !== id))
+        }
+      })
+      .catch(err => {
+        if (errorCallback) errorCallback(err)
+      })
+  }
+
+  // Function for adding units
   const addUnits = (data, successCallback, errorCallback) => {
-    // Renamed function
     const token = window.localStorage.getItem('accessToken') || accessToken
 
     if (!token) {
@@ -193,8 +221,34 @@ const PropertiesProvider = ({ children }) => {
       })
   }
 
+  // Function for deleting units
+  const deleteUnits = (id, successCallback, errorCallback) => {
+    const token = window.localStorage.getItem('accessToken') || accessToken
+
+    if (!token) {
+      const error = new Error('No access token found')
+      if (errorCallback) errorCallback(error)
+
+      return
+    }
+
+    axios
+      .delete(`https://api.pm.manages.homes/properties/units/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then(response => {
+        if (successCallback) {
+          successCallback(response.data)
+        }
+      })
+      .catch(err => {
+        if (errorCallback) errorCallback(err)
+      })
+  }
+
   const editUnits = (data, successCallback, errorCallback) => {
-    // Renamed function
     const token = window.localStorage.getItem('accessToken') || accessToken
 
     if (!token) {
@@ -221,7 +275,6 @@ const PropertiesProvider = ({ children }) => {
   }
 
   const editProperties = (data, successCallback, errorCallback) => {
-    // Renamed function
     const token = window.localStorage.getItem('accessToken') || accessToken
 
     if (!token) {
@@ -248,7 +301,6 @@ const PropertiesProvider = ({ children }) => {
   }
 
   const addMaintenanceRequests = (data, successCallback, errorCallback) => {
-    // Renamed function
     const token = window.localStorage.getItem('accessToken') || accessToken
 
     if (!token) {
@@ -279,9 +331,11 @@ const PropertiesProvider = ({ children }) => {
     property,
     setProperty,
     setProperties,
-    addProperties, // Updated function name
+    addProperties,
+    deleteProperties,
     addMaintenanceRequests,
     addUnits,
+    deleteUnits,
     editUnits,
     editProperties,
     loading,
@@ -297,4 +351,3 @@ const PropertiesProvider = ({ children }) => {
 }
 
 export { PropertiesContext, PropertiesProvider }
-

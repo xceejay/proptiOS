@@ -21,6 +21,7 @@ const defaultProvider = {
   getLease: () => Promise.resolve(),
   addLeases: () => Promise.resolve(),
   editLeases: () => Promise.resolve(),
+  deleteLeases: () => Promise.resolve(),
   lease: null,
   setLeases: () => {},
   setLease: () => {},
@@ -124,41 +125,6 @@ const LeasesProvider = ({ children }) => {
       .then(response => {
         if (successCallback) {
           successCallback(response.data)
-
-          // Map the request data to include empty arrays/default values for other fields
-          // const newLease = data.map(lease => ({
-          //   ...lease,
-          //   id: response.data.id || null, // Assuming the response contains a unique id
-          //   uuid: response.data.uuid || null, // Assuming the response contains a unique UUID
-          //   contract_documents: [],
-          //   id_documents: [],
-          //   maintenance_requests: [],
-          //   transactions: [],
-          //   property: {},
-          //   unit: {
-          //     id: null,
-          //     floor_no: null,
-          //     bedrooms: null,
-          //     furnished_status: null,
-          //     monthly_rent: null
-          //   },
-          //   status: 'active',
-          //   created_at: new Date().toISOString(),
-          //   updated_at: new Date().toISOString(),
-          //   logged_in: null,
-          //   logged_out: null
-          // }))
-
-          // // Update the leases state
-          // setLeases(prevLeases => ({
-          //   ...prevLeases,
-          //   data: {
-          //     ...prevLeases.data,
-          //     items: [...(prevLeases.data.items || []), ...newLease]
-          //   }
-          // }))
-
-          // console.log('Updated leases:', leases)
         }
       })
       .catch(err => {

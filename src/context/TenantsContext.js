@@ -21,6 +21,7 @@ const defaultProvider = {
   getTenant: () => Promise.resolve(),
   addTenants: () => Promise.resolve(),
   editTenants: () => Promise.resolve(),
+  deleteTenants: () => Promise.resolve(),
   tenant: null,
   setTenants: () => {},
   setTenant: () => {},
@@ -166,6 +167,7 @@ const TenantsProvider = ({ children }) => {
       })
   }
 
+  // Function for editing tenants
   const editTenants = (data, successCallback, errorCallback) => {
     const token = window.localStorage.getItem('accessToken') || accessToken
 
@@ -192,6 +194,36 @@ const TenantsProvider = ({ children }) => {
       })
   }
 
+  // Function for deleting tenants
+  const deleteTenants = (ids, successCallback, errorCallback) => {
+    const token = window.localStorage.getItem('accessToken') || accessToken
+
+    if (!token) {
+      const error = new Error('No access token found')
+      if (errorCallback) errorCallback(error)
+
+      return
+    }
+
+    axios
+      .delete('https://api.pm.manages.homes/tenants', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        data: {
+          ids
+        }
+      })
+      .then(response => {
+        if (successCallback) {
+          successCallback(response.data)
+        }
+      })
+      .catch(err => {
+        if (errorCallback) errorCallback(err)
+      })
+  }
+
   const values = {
     tenants,
     tenant,
@@ -199,6 +231,7 @@ const TenantsProvider = ({ children }) => {
     setTenants,
     addTenants,
     editTenants,
+    deleteTenants,
     loading,
     setLoading,
     setAccessToken,
