@@ -42,11 +42,12 @@ import CustomTenantToolbar from 'src/views/table/data-grid/CustomTenantToolbar'
 import CustomNoRowsOverlay from '../CustomNoRowsOverlay'
 import PropertyAddExistingTenantDrawer from './PropertyAddExistingTenantDrawer'
 import { TextField } from '@mui/material'
+import EditPropertyDrawer from './EditPropertyDrawer'
 
-const RowOptions = ({ id, stopPropagation }) => {
-  const dispatch = useDispatch()
+const RowOptions = ({ id, row, stopPropagation, setPropertiesData, propertiesData }) => {
   const [anchorEl, setAnchorEl] = useState(null)
   const rowOptionsOpen = Boolean(anchorEl)
+  const [editDrawerOpen, setEditDrawerOpen] = useState(false)
 
   const handleRowOptionsClick = event => {
     stopPropagation(event)
@@ -57,8 +58,19 @@ const RowOptions = ({ id, stopPropagation }) => {
     setAnchorEl(null)
   }
 
-  const handleDelete = () => {
-    dispatch(deleteUser(id))
+  const handleDelete = async () => {
+    try {
+      await useProperties.deleteProperty(id)
+      toast.success('Property deleted successfully')
+    } catch (error) {
+      console.error(error)
+      toast.error('Error deleting property')
+    }
+    handleRowOptionsClose()
+  }
+
+  const handleEdit = () => {
+    setEditDrawerOpen(true)
     handleRowOptionsClose()
   }
 
@@ -92,103 +104,26 @@ const RowOptions = ({ id, stopPropagation }) => {
           <Icon icon='tabler:eye' fontSize={20} />
           View
         </MenuItem>
-
-        <MenuItem onClick={handleDelete} sx={{ '& svg': { mr: 2 } }}>
+        <MenuItem onClick={handleEdit} sx={{ '& svg': { mr: 2 } }}>
           <Icon icon='tabler:pencil' fontSize={20} />
           Edit
         </MenuItem>
         <MenuItem onClick={handleDelete} sx={{ '& svg': { mr: 2 } }}>
           <Icon icon='tabler:trash' fontSize={20} />
-          Quick Suspend
+          Delete
         </MenuItem>
       </Menu>
+
+      <EditPropertyDrawer
+        setPropertiesData={setPropertiesData}
+        propertiesData={propertiesData}
+        open={editDrawerOpen}
+        row={row}
+        toggle={() => setEditDrawerOpen(!editDrawerOpen)}
+      />
     </>
   )
 }
-
-const columns = [
-  {
-    flex: 0.25,
-    minWidth: 280,
-    field: 'property_name',
-    headerName: 'Property Name',
-    renderCell: ({ row }) => {
-      const { id, property_name } = row
-
-      return (
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
-            <Typography
-              noWrap
-              sx={{
-                fontWeight: 500,
-                color: 'text.secondary',
-                '&:hover': { color: 'primary.main' }
-              }}
-            >
-              {property_name}
-            </Typography>
-            <Typography noWrap variant='body2' sx={{ color: 'text.disabled' }}>
-              {id}
-            </Typography>
-          </Box>
-        </Box>
-      )
-    }
-  },
-  {
-    flex: 0.15,
-    minWidth: 190,
-    field: 'property_address',
-    headerName: 'Address',
-    renderCell: ({ row }) => (
-      <Typography noWrap sx={{ color: 'text.secondary' }}>
-        {row.property_address}
-      </Typography>
-    )
-  },
-  {
-    flex: 0.15,
-    minWidth: 190,
-    field: 'units',
-    headerName: 'Allocated Units',
-    renderCell: ({ row }) => (
-      <Typography noWrap sx={{ color: 'text.secondary' }}>
-        {row.units}
-      </Typography>
-    )
-  },
-  {
-    flex: 0.1,
-    minWidth: 110,
-    field: 'status',
-    headerName: 'Status',
-    type: 'boolean',
-    renderCell: ({ row }) => {
-      const statusLabel = row.status === 'active' ? 'Active' : 'Inactive'
-      const statusColor = row.status === 'active' ? 'success' : 'secondary'
-
-      return (
-        <CustomChip
-          rounded
-          skin='light'
-          size='small'
-          label={statusLabel}
-          color={statusColor}
-          sx={{ textTransform: 'capitalize' }}
-        />
-      )
-    }
-  },
-  {
-    flex: 0.1,
-    minWidth: 100,
-    sortable: false,
-    field: 'actions',
-    headerName: 'Actions',
-    renderCell: ({ row }) => <RowOptions id={row.id} stopPropagation={e => e.stopPropagation()} />
-  }
-]
 
 const PropertyManageTable = ({
   paginationModel,
@@ -198,6 +133,98 @@ const PropertyManageTable = ({
   setLoading,
   setPropertiesData
 }) => {
+  const columns = [
+    {
+      flex: 0.25,
+      minWidth: 280,
+      field: 'property_name',
+      headerName: 'Property Name',
+      renderCell: ({ row }) => {
+        const { id, property_name } = row
+
+        return (
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
+              <Typography
+                noWrap
+                sx={{
+                  fontWeight: 500,
+                  color: 'text.secondary',
+                  '&:hover': { color: 'primary.main' }
+                }}
+              >
+                {property_name}
+              </Typography>
+              <Typography noWrap variant='body2' sx={{ color: 'text.disabled' }}>
+                {id}
+              </Typography>
+            </Box>
+          </Box>
+        )
+      }
+    },
+    {
+      flex: 0.15,
+      minWidth: 190,
+      field: 'property_address',
+      headerName: 'Address',
+      renderCell: ({ row }) => (
+        <Typography noWrap sx={{ color: 'text.secondary' }}>
+          {row.property_address}
+        </Typography>
+      )
+    },
+    {
+      flex: 0.15,
+      minWidth: 190,
+      field: 'units',
+      headerName: 'Allocated Units',
+      renderCell: ({ row }) => (
+        <Typography noWrap sx={{ color: 'text.secondary' }}>
+          {row.units}
+        </Typography>
+      )
+    },
+    {
+      flex: 0.1,
+      minWidth: 110,
+      field: 'status',
+      headerName: 'Status',
+      type: 'boolean',
+      renderCell: ({ row }) => {
+        const statusLabel = row.status === 'active' ? 'Active' : 'Inactive'
+        const statusColor = row.status === 'active' ? 'success' : 'secondary'
+
+        return (
+          <CustomChip
+            rounded
+            skin='light'
+            size='small'
+            label={statusLabel}
+            color={statusColor}
+            sx={{ textTransform: 'capitalize' }}
+          />
+        )
+      }
+    },
+    {
+      flex: 0.1,
+      minWidth: 100,
+      sortable: false,
+      field: 'actions',
+      headerName: 'Actions',
+      renderCell: ({ row }) => (
+        <RowOptions
+          id={row.id}
+          stopPropagation={e => e.stopPropagation()}
+          row={row}
+          setPropertiesData={setPropertiesData}
+          propertiesData={propertiesData}
+        />
+      )
+    }
+  ]
+
   const router = useRouter()
   const [value, setValue] = useState('')
   const [addUserOpen, setAddUserOpen] = useState(false)

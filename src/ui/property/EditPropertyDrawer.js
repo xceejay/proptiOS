@@ -13,11 +13,8 @@ import FormControl from '@mui/material/FormControl'
 import FormHelperText from '@mui/material/FormHelperText'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { v4 } from 'uuid'
 import { useForm, Controller } from 'react-hook-form'
 import Icon from 'src/@core/components/icon'
-import { useDispatch, useSelector } from 'react-redux'
-import { addUser } from 'src/store/apps/user'
 import { useProperties } from 'src/hooks/useProperties'
 import toast from 'react-hot-toast'
 
@@ -99,22 +96,21 @@ const propertyTypes = [
   { name: 'Townhouse', value: 'townhouse' },
   { name: 'Retail Space', value: 'retail_space' }
 ]
-const property_uuid = v4()
-
-const defaultValues = {
-  uuid: property_uuid,
-  property_name: '',
-  property_email: '',
-  property_address: '',
-  country: 'GHA',
-  property_tel_number: '',
-  property_type: '',
-  units: ''
-}
 
 const EditPropertyDrawer = props => {
-  const { setPropertiesData, open, toggle } = props
+  const { setPropertiesData, propertiesData, row, open, toggle } = props
   const properties = useProperties()
+
+  const defaultValues = {
+    uuid: row.uuid || '',
+    property_name: row.property_name || '',
+    property_email: row.property_email || '',
+    property_address: row.property_address || '',
+    country: row.country || 'GHA',
+    property_tel_number: row.property_tel_number || '',
+    property_type: row.property_type || '',
+    units: row.units || ''
+  }
 
   const {
     reset,
@@ -194,7 +190,7 @@ const EditPropertyDrawer = props => {
       sx={{ '& .MuiDrawer-paper': { width: { xs: 300, sm: 400 } } }}
     >
       <Header>
-        <Typography variant='h6'>Add Property</Typography>
+        <Typography variant='h6'>Edit Property</Typography>
         <IconButton
           size='small'
           onClick={handleClose}
@@ -209,20 +205,11 @@ const EditPropertyDrawer = props => {
             <Controller
               name='uuid'
               control={control}
-              render={({ field: { value = { property_uuid }, onChange } }) => (
-                <TextField
-                  disabled
-                  value={property_uuid}
-                  label='Unique Id'
-                  onChange={onChange}
-                  placeholder='Greenwood Apartments'
-                  error={Boolean(errors.property_name)}
-                />
+              render={({ field: { value, onChange } }) => (
+                <TextField disabled value={value} label='Unique Id' onChange={onChange} error={Boolean(errors.uuid)} />
               )}
             />
-            {errors.property_name && (
-              <FormHelperText sx={{ color: 'error.main' }}>{errors.property_name.message}</FormHelperText>
-            )}
+            {errors.uuid && <FormHelperText sx={{ color: 'error.main' }}>{errors.uuid.message}</FormHelperText>}
           </FormControl>
 
           <FormControl fullWidth sx={{ mb: 4 }}>
@@ -374,7 +361,7 @@ const EditPropertyDrawer = props => {
           </FormControl>
 
           <Button type='submit' variant='contained' color='primary'>
-            Add Property
+            Edit Property
           </Button>
         </form>
       </Box>
