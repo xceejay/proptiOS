@@ -150,11 +150,11 @@ const columns = [
   {
     flex: 0.15,
     minWidth: 190,
-    field: 'country',
-    headerName: 'Country',
+    field: 'units',
+    headerName: 'Allocated Units',
     renderCell: ({ row }) => (
       <Typography noWrap sx={{ color: 'text.secondary' }}>
-        {row.country}
+        {row.units}
       </Typography>
     )
   },

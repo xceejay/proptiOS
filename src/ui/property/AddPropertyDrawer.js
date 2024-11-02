@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Drawer from '@mui/material/Drawer'
 import Select from '@mui/material/Select'
 import Button from '@mui/material/Button'
@@ -20,17 +20,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { addUser } from 'src/store/apps/user'
 import { useProperties } from 'src/hooks/useProperties'
 import toast from 'react-hot-toast'
-
-// Updated validation schema to include property-specific fields
-const schema = yup.object().shape({
-  property_name: yup.string().min(3).required('Property Name field is required'),
-  property_email: yup.string().email().required('Owner Email field is required'),
-  property_address: yup.string().required('Property Address field is required'),
-  country: yup.string().required('Country field is required'),
-  property_tel_number: yup.string().required('Phone number is required'),
-  property_type: yup.string().required('Property type is required'),
-  units: yup.number().required('Unit count is required').positive().integer()
-})
+import { useAuth } from 'src/hooks/useAuth'
 
 const countries = [
   { name: 'Algeria', code: 'DZA' },
@@ -99,22 +89,64 @@ const propertyTypes = [
   { name: 'Townhouse', value: 'townhouse' },
   { name: 'Retail Space', value: 'retail_space' }
 ]
-const property_uuid = v4()
-
-const defaultValues = {
-  uuid: property_uuid,
-  property_name: '',
-  property_email: '',
-  property_address: '',
-  country: 'GHA',
-  property_tel_number: '',
-  property_type: '',
-  units: ''
-}
 
 const SidebarAddProperty = props => {
-  const { setPropertiesData, open, toggle } = props
+  const [property_uuid, setPropertyUUID] = useState(v4())
+
+  const defaultValues = {
+    uuid: property_uuid,
+    property_name: '',
+    property_email: '',
+    property_address: '',
+    country: 'GHA',
+    property_tel_number: '',
+    property_type: '',
+    units: 1
+  }
+
+  const { setPropertiesData, propertiesData, open, toggle } = props
+  useEffect(() => {
+    setPropertyUUID(v4())
+  }, [toggle, open])
+
   const properties = useProperties()
+  const auth = useAuth()
+
+  const totalUnits = propertiesData.reduce((total, property) => total + property.units, 0)
+
+  // Updated validation schema to include property-specific fields
+  const schema = yup.object().shape({
+    property_name: yup.string().min(3).required('Property Name field is required'),
+    property_email: yup.string().email().required('Owner Email field is required'),
+    property_address: yup.string().required('Property Address field is required'),
+    country: yup.string().required('Country field is required'),
+    property_tel_number: yup.string().required('Phone number is required'),
+    property_type: yup.string().required('Property type is required'),
+    units: yup
+      .number()
+      .required('Unit count is required')
+      .positive()
+      .integer()
+      .test('units', 'You have exceeded the maximum number of units allowed for your subscription type', value => {
+        const subscriptionType = auth.user.site_subscription_id
+        const maxUnits = getMaxUnitsAllowed(subscriptionType)
+        const remainingUnits = maxUnits - totalUnits
+        return value <= remainingUnits
+      })
+  })
+
+  const getMaxUnitsAllowed = subscriptionType => {
+    switch (subscriptionType) {
+      case 'standard':
+        return 5
+      case 'premium':
+        return 50
+      case 'enterprise':
+        return Infinity // unlimited units
+      default:
+        return 0 // default to 0 units if subscription type is unknown
+    }
+  }
 
   const {
     reset,
