@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback } from 'react'
 
 // ** Next Imports
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -42,12 +43,13 @@ import CustomNoRowsOverlay from '../CustomNoRowsOverlay'
 import PropertyAddExistingTenantDrawer from './PropertyAddExistingTenantDrawer'
 import { TextField } from '@mui/material'
 
-const RowOptions = ({ id }) => {
+const RowOptions = ({ id, stopPropagation }) => {
   const dispatch = useDispatch()
   const [anchorEl, setAnchorEl] = useState(null)
   const rowOptionsOpen = Boolean(anchorEl)
 
   const handleRowOptionsClick = event => {
+    stopPropagation(event)
     setAnchorEl(event.currentTarget)
   }
 
@@ -79,6 +81,7 @@ const RowOptions = ({ id }) => {
           horizontal: 'right'
         }}
         PaperProps={{ style: { minWidth: '8rem' } }}
+        onClick={e => stopPropagation(e)}
       >
         <MenuItem
           component={Link}
@@ -117,11 +120,8 @@ const columns = [
           <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
             <Typography
               noWrap
-              component={Link}
-              href={'/properties/manage/' + id}
               sx={{
                 fontWeight: 500,
-                textDecoration: 'none',
                 color: 'text.secondary',
                 '&:hover': { color: 'primary.main' }
               }}
@@ -164,7 +164,6 @@ const columns = [
     field: 'status',
     headerName: 'Status',
     type: 'boolean',
-
     renderCell: ({ row }) => {
       const statusLabel = row.status === 'active' ? 'Active' : 'Inactive'
       const statusColor = row.status === 'active' ? 'success' : 'secondary'
@@ -187,7 +186,7 @@ const columns = [
     sortable: false,
     field: 'actions',
     headerName: 'Actions',
-    renderCell: ({ row }) => <RowOptions id={row.id} />
+    renderCell: ({ row }) => <RowOptions id={row.id} stopPropagation={e => e.stopPropagation()} />
   }
 ]
 
@@ -199,6 +198,7 @@ const PropertyManageTable = ({
   setLoading,
   setPropertiesData
 }) => {
+  const router = useRouter()
   const [value, setValue] = useState('')
   const [addUserOpen, setAddUserOpen] = useState(false)
 
@@ -207,8 +207,6 @@ const PropertyManageTable = ({
   }, [])
 
   const toggleAddUserDrawer = () => setAddUserOpen(!addUserOpen)
-
-  console.log('jigasi', propertiesData)
 
   // Filter properties based on the search value
   const filteredProperties = propertiesData.filter(
@@ -222,7 +220,7 @@ const PropertyManageTable = ({
       <DataGrid
         autoHeight
         rowHeight={62}
-        loading={loading} // Use the new loading state
+        loading={loading}
         rows={filteredProperties || []}
         columns={columns}
         slots={{ toolbar: CustomTenantToolbar, noRowsOverlay: CustomNoRowsOverlay }}
@@ -239,6 +237,15 @@ const PropertyManageTable = ({
         pageSizeOptions={[10, 25, 50]}
         paginationModel={paginationModel}
         onPaginationModelChange={setPaginationModel}
+        onRowClick={params => router.push(`/properties/manage/${params.id}/`)}
+        sx={{
+          '& .MuiDataGrid-row': {
+            cursor: 'pointer',
+            '&:hover': {
+              backgroundColor: 'action.hover'
+            }
+          }
+        }}
       />
 
       <AddUserDrawer
