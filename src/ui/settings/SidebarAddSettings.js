@@ -1,0 +1,214 @@
+import { useState } from 'react'
+import Drawer from '@mui/material/Drawer'
+import Select from '@mui/material/Select'
+import Button from '@mui/material/Button'
+import MenuItem from '@mui/material/MenuItem'
+import TextField from '@mui/material/TextField'
+import IconButton from '@mui/material/IconButton'
+import InputLabel from '@mui/material/InputLabel'
+import Typography from '@mui/material/Typography'
+import Box from '@mui/material/Box'
+import FormControl from '@mui/material/FormControl'
+import FormHelperText from '@mui/material/FormHelperText'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { useForm, Controller } from 'react-hook-form'
+import Icon from 'src/@core/components/icon'
+import { useSettings } from 'src/hooks/useSettings'
+import { schema, Header } from './AddSettingsDrawer'
+import toast from 'react-hot-toast'
+
+export const SidebarAddSettings = props => {
+  const { open, toggle } = props
+
+  const [role, setRole] = useState('settings')
+
+  const settings = useSettings()
+
+  const {
+    reset,
+    control,
+    setValue,
+    setError,
+    handleSubmit,
+    formState: { errors }
+  } = useForm({
+    defaultValues,
+    mode: 'onChange',
+    resolver: yupResolver(schema)
+  })
+
+  const onSubmit = data => {
+    // Ensure id is defined before making the API call
+    settings.addSettings(
+      data,
+      responseData => {
+        console.log('Add Settings Drawer')
+        let { data } = responseData
+        setSettingsData(data)
+        console.log('FROM Settings drawer PAGE:', data)
+
+        if (data?.status === 'NO_RES') {
+          console.log('NO results')
+        } else if (data?.status === 'FAILED') {
+          alert(data.message || 'Failed to add settings')
+
+          setError('email', {
+            type: 'manual',
+            message: data.description
+          })
+
+          return
+        }
+
+        // setSettingsData(response)
+      },
+      error => {
+        console.log(id)
+
+        toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
+          duration: 5000
+        })
+      }
+    )
+  }
+
+  const handleClose = () => {
+    setRole('settings')
+    setValue('tel_number', '')
+    toggle()
+    reset()
+  }
+
+  return (
+    <Drawer
+      open={open}
+      anchor='right'
+      variant='temporary'
+      onClose={handleClose}
+      ModalProps={{ keepMounted: true }}
+      sx={{ '& .MuiDrawer-paper': { width: { xs: 300, sm: 400 } } }}
+    >
+      <Header>
+        <Typography variant='h6'>Add Settings</Typography>
+        <IconButton
+          size='small'
+          onClick={handleClose}
+          sx={{ borderRadius: 1, color: 'text.primary', backgroundColor: 'action.selected' }}
+        >
+          <Icon icon='tabler:x' fontSize='1.125rem' />
+        </IconButton>
+      </Header>
+      <Box sx={{ p: theme => theme.spacing(0, 6, 6) }}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <FormControl fullWidth sx={{ mb: 4 }}>
+            <Controller
+              name='name'
+              control={control}
+              render={({ field: { value = '', onChange } }) => (
+                <TextField
+                  value={value}
+                  label='Full Name'
+                  onChange={onChange}
+                  placeholder='Mary Johnson'
+                  error={Boolean(errors.name)}
+                />
+              )}
+            />
+            {errors.name && <FormHelperText sx={{ color: 'error.main' }}>{errors.name.message}</FormHelperText>}
+          </FormControl>
+          <FormControl fullWidth sx={{ mb: 4 }}>
+            <Controller
+              name='email'
+              control={control}
+              render={({ field: { value = '', onChange } }) => (
+                <TextField
+                  type='email'
+                  value={value}
+                  label='Email'
+                  onChange={onChange}
+                  placeholder='mary.johnson@example.com'
+                  error={Boolean(errors.email)}
+                />
+              )}
+            />
+            {errors.email && <FormHelperText sx={{ color: 'error.main' }}>{errors.email.message}</FormHelperText>}
+          </FormControl>
+          {/* <FormControl fullWidth sx={{ mb: 4 }}>
+              <Controller
+                name='address'
+                control={control}
+                render={({ field: { value = '', onChange } }) => (
+                  <TextField
+                    value={value}
+                    label='Address'
+                    onChange={onChange}
+                    placeholder='456 Oak St'
+                    error={Boolean(errors.address)}
+                  />
+                )}
+              />
+              {errors.address && <FormHelperText sx={{ color: 'error.main' }}>{errors.address.message}</FormHelperText>}
+            </FormControl> */}
+          {/* <FormControl fullWidth sx={{ mb: 4 }}>
+              <Controller
+                name='country'
+                control={control}
+                render={({ field: { value = '', onChange } }) => (
+                  <TextField
+                    value={value}
+                    label='Country'
+                    onChange={onChange}
+                    placeholder='GA'
+                    error={Boolean(errors.country)}
+                  />
+                )}
+              />
+              {errors.country && <FormHelperText sx={{ color: 'error.main' }}>{errors.country.message}</FormHelperText>}
+            </FormControl> */}
+          {/* <FormControl fullWidth sx={{ mb: 4 }}>
+              <Controller
+                name='tel_number'
+                control={control}
+                render={({ field: { value = '', onChange } }) => (
+                  <TextField
+                    type='tel'
+                    value={value}
+                    label='Phone Number'
+                    onChange={onChange}
+                    placeholder='9876543210'
+                    error={Boolean(errors.tel_number)}
+                  />
+                )}
+              />
+              {errors.tel_number && (
+                <FormHelperText sx={{ color: 'error.main' }}>{errors.tel_number.message}</FormHelperText>
+              )}
+            </FormControl> */}
+          <FormControl fullWidth sx={{ mb: 4 }}>
+            <InputLabel id='role-select'>Settings Type</InputLabel>
+            <Select
+              fullWidth
+              value={role}
+              id='select-role'
+              label='Settings Type'
+              labelId='role-select'
+              disabled
+              onChange={e => setRole(e.target.value)}
+              inputProps={{ placeholder: 'Select Role' }}
+            >
+              <MenuItem value='settings'>Settings</MenuItem>
+            </Select>
+          </FormControl>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Button size='small' type='submit' variant='contained' sx={{ mr: 3 }}>
+              Submit
+            </Button>
+            <Button size='small' variant='outlined' color='secondary' onClick={handleClose}>
+              Cancel
+            </Button>
+          </Box>
+        </form>
+      </Box>
+    </Drawer>
+  )
+}
