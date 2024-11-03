@@ -6,7 +6,7 @@ import ParentSettingsEditInfo from 'src/ui/settings/ParentSettingsEditInfo'
 
 const SettingsPage = () => {
   const router = useRouter
-  const tab = router.query?.tab || 'site'
+  const tab = router.query?.tab || 'account'
   const [settingsData, setSettingsData] = useState(null)
 
   return <ParentSettingsEditInfo tab={tab} settingsData={settingsData} />
