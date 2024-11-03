@@ -44,24 +44,14 @@ const AuthProvider = ({ children }) => {
           })
           .then(async response => {
             setLoading(false)
-
-            // setUser({ ...response.data.userData })
           })
           .catch(error => {
-            // localStorage.removeItem('userData')
-            // localStorage.removeItem('refreshToken')
-
             console.log('encountered this error', error)
             setLoading(true)
 
             handleLogout()
-            // localStorage.removeItem('accessToken')
-            // setUser(null)
-            setLoading(false)
 
-            // if (authConfig.onTokenExpiration === 'logout' && !router.pathname.includes('login')) {
-            //   router.replace('/login')
-            // }
+            setLoading(false)
           })
 
         if (storedToken) {

@@ -44,6 +44,7 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 // ** Demo Imports
 import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
 import axios from 'src/pages/middleware/axios'
+import { useEffect } from 'react/cjs/react.production.min'
 
 // ** Styled Components
 const LoginIllustration = styled('img')(({ theme }) => ({
@@ -126,7 +127,6 @@ const LoginPage = () => {
     // auth.setLoading(true)
     const { email, password } = data
 
-    // axios.get('http://google.com')
     auth.login({ email, password, rememberMe }, () => {
       // auth.setLoading(false)
       setError('email', {
@@ -292,35 +292,6 @@ const LoginPage = () => {
                   </LinkStyled>
                 </Typography>
               </Box>
-              {/* <Divider
-                sx={{
-                  fontSize: '0.875rem',
-                  color: 'text.disabled',
-                  '& .MuiDivider-wrapper': { px: 6 },
-                  my: theme => `${theme.spacing(6)} !important`
-                }}
-              >
-                or
-              </Divider>
-              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <IconButton href='/' component={Link} sx={{ color: '#497ce2' }} onClick={e => e.preventDefault()}>
-                  <Icon icon='mdi:facebook' />
-                </IconButton>
-                <IconButton href='/' component={Link} sx={{ color: '#1da1f2' }} onClick={e => e.preventDefault()}>
-                  <Icon icon='mdi:twitter' />
-                </IconButton>
-                <IconButton
-                  href='/'
-                  component={Link}
-                  onClick={e => e.preventDefault()}
-                  sx={{ color: theme => (theme.palette.mode === 'light' ? '#272727' : 'grey.300') }}
-                >
-                  <Icon icon='mdi:github' />
-                </IconButton>
-                <IconButton href='/' component={Link} sx={{ color: '#db4437' }} onClick={e => e.preventDefault()}>
-                  <Icon icon='mdi:google' />
-                </IconButton>
-              </Box> */}
             </form>
           </Box>
         </Box>

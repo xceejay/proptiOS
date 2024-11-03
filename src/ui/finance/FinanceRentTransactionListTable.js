@@ -276,7 +276,7 @@ const FinanceRentTransactionListTable = ({ rentTransactions }) => {
   }
 
   const filteredRows = rentTransactions
-    ? [...(rentTransactions || []), ...(rentTransactions || [])].filter(
+    ? rentTransactions.filter(
         row =>
           (statusValue ? row.status === statusValue : true) &&
           (paymentMethodValue ? row.payment_method === paymentMethodValue : true) &&
