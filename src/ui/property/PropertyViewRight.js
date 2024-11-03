@@ -23,10 +23,10 @@ import PropertyViewOverview from 'src/ui/property/PropertyViewOverview'
 import PropertyViewUnits from 'src/ui/property/PropertyViewUnits'
 import PropertyViewMaintenance from 'src/ui/property/PropertyViewMaintenance'
 import PropertyViewMarketing from './PropertyViewMarketing'
-import PropertyViewSettings from 'src/ui/property/PropertyViewSettings'
 import PropertyViewTenants from './PropertyViewTenants'
 import PropertyViewLeases from './PropertyViewLeases'
 import { AbilityContext } from 'src/layouts/components/acl/Can'
+import PropertyViewSettings from './PropertyVIewSettings'
 
 // ** Styled Tab component
 const Tab = styled(MuiTab)(({ theme }) => ({

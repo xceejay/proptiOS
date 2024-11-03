@@ -245,7 +245,7 @@ const UserViewLeft = ({ setPropertyData, propertyData }) => {
                   <div>
                     <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>
                       {' '}
-                      {propertyData.tenants.length}
+                      {propertyData.tenants?.length}
                     </Typography>
                     <Typography variant='body2'>Tenants</Typography>
                   </div>
