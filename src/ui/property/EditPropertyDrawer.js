@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect } from 'react'
 import Drawer from '@mui/material/Drawer'
 import Select from '@mui/material/Select'
 import Button from '@mui/material/Button'
@@ -124,6 +124,21 @@ const EditPropertyDrawer = props => {
     mode: 'onChange',
     resolver: yupResolver(schema)
   })
+
+  useEffect(() => {
+    if (open) {
+      reset({
+        uuid: row.uuid || '',
+        property_name: row.property_name || '',
+        property_email: row.property_email || '',
+        property_address: row.property_address || '',
+        country: row.country || 'GHA',
+        property_tel_number: row.property_tel_number || '',
+        property_type: row.property_type || '',
+        units: row.units || ''
+      })
+    }
+  }, [open, reset, row])
 
   const onSubmit = formData => {
     let requestData = [formData]
