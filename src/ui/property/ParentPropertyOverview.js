@@ -1,7 +1,15 @@
 import CardStatsVertical from 'src/@core/components/card-statistics/card-stats-vertical'
-import { Grid, Link, Typography } from '@mui/material'
+import { Grid, Typography } from '@mui/material'
+import NextLink from 'next/link'
+import { styled } from '@mui/material/styles'
 
 const ParentPropertyViewOverview = ({ setPropertiesData, propertiesData }) => {
+  const Link = styled(NextLink)(({ theme }) => ({
+    fontSize: '0.875rem',
+    textDecoration: 'none',
+    color: theme.palette.primary.main
+  }))
+
   return (
     <Grid>
       <Grid item xs={12} sm={12} lg={12}>
@@ -9,7 +17,7 @@ const ParentPropertyViewOverview = ({ setPropertiesData, propertiesData }) => {
           {propertiesData.length > 0 ? (
             <>
               <Grid item xs={6} sm={6} lg={3}>
-                <Link href='/tenants' underline='none' color='inherit'>
+                <Link prefetch={true} href='/tenants' underline='none' color='inherit'>
                   <CardStatsVertical
                     chipText={propertiesData.reduce((total, item) => total + item.total_tenants, 0)}
                     avatarColor='success'
@@ -21,7 +29,7 @@ const ParentPropertyViewOverview = ({ setPropertiesData, propertiesData }) => {
                 </Link>
               </Grid>
               <Grid item xs={6} sm={6} lg={3}>
-                <Link href='/tenants' underline='none' color='inherit'>
+                <Link prefetch={true} href='/tenants' underline='none' color='inherit'>
                   <CardStatsVertical
                     chipText={propertiesData.reduce((total, item) => total + item.active_tenants, 0)}
                     avatarColor='success'
@@ -33,7 +41,7 @@ const ParentPropertyViewOverview = ({ setPropertiesData, propertiesData }) => {
                 </Link>
               </Grid>
               <Grid item xs={6} sm={6} lg={3}>
-                <Link href='/leases' underline='none' color='inherit'>
+                <Link prefetch={true} href='/leases' underline='none' color='inherit'>
                   <CardStatsVertical
                     chipText={propertiesData.reduce((total, item) => total + item.total_leases, 0)}
                     avatarColor='warning'
@@ -45,7 +53,7 @@ const ParentPropertyViewOverview = ({ setPropertiesData, propertiesData }) => {
                 </Link>
               </Grid>
               <Grid item xs={6} sm={6} lg={3}>
-                <Link href='/properties/management' underline='none' color='inherit'>
+                <Link prefetch={true} href='/properties/management' underline='none' color='inherit'>
                   <CardStatsVertical
                     chipText={propertiesData.reduce((total, item) => total + item.total_maintenance_requests, 0)}
                     avatarColor='secondary'
@@ -57,7 +65,7 @@ const ParentPropertyViewOverview = ({ setPropertiesData, propertiesData }) => {
                 </Link>
               </Grid>
               <Grid item xs={6} sm={6} lg={3}>
-                <Link href='/properties/management' underline='none' color='inherit'>
+                <Link prefetch={true} href='/properties/management' underline='none' color='inherit'>
                   <CardStatsVertical
                     chipText={propertiesData.reduce((total, item) => total + item.pending_maintenance_requests, 0)}
                     avatarColor='error'
@@ -69,7 +77,7 @@ const ParentPropertyViewOverview = ({ setPropertiesData, propertiesData }) => {
                 </Link>
               </Grid>
               <Grid item xs={6} sm={6} lg={3}>
-                <Link href='/properties/management' underline='none' color='inherit'>
+                <Link prefetch={true} href='/properties/management' underline='none' color='inherit'>
                   <CardStatsVertical
                     chipText={propertiesData.reduce((total, item) => total + item.total_applicants, 0)}
                     avatarColor='info'
@@ -81,7 +89,7 @@ const ParentPropertyViewOverview = ({ setPropertiesData, propertiesData }) => {
                 </Link>
               </Grid>
               <Grid item xs={6} sm={6} lg={3}>
-                <Link href='/properties/management' underline='none' color='inherit'>
+                <Link prefetch={true} href='/properties/management' underline='none' color='inherit'>
                   <CardStatsVertical
                     chipText={propertiesData.reduce((total, item) => total + item.units_vacant, 0)}
                     avatarColor='error'
@@ -93,7 +101,7 @@ const ParentPropertyViewOverview = ({ setPropertiesData, propertiesData }) => {
                 </Link>
               </Grid>
               <Grid item xs={6} sm={6} lg={3}>
-                <Link href='/leases' underline='none' color='inherit'>
+                <Link prefetch={true} href='/leases' underline='none' color='inherit'>
                   <CardStatsVertical
                     chipText={propertiesData.reduce((total, item) => total + item.leases_expiring_soon, 0)}
                     avatarColor='error'

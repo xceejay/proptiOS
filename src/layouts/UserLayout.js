@@ -1,4 +1,4 @@
-'use client'
+// 'use client' // new addition, dont know if this is ideal
 
 import useMediaQuery from '@mui/material/useMediaQuery'
 
