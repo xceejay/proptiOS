@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback } from 'react'
 
 // ** Next Imports
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -41,7 +42,7 @@ import EditPropertyTenantDrawer from '../property/EditPropertyTenantDrawer'
 import EditTenantDrawer from './EditTenantDrawer'
 import CustomStatusToolbar from 'src/views/table/data-grid/CustomStatusToolbar'
 
-const RowOptions = ({ id, row, setTenantsData, tenantsData, setLoading }) => {
+const RowOptions = ({ id, row, stopPropagation, setTenantsData, tenantsData, setLoading }) => {
   const dispatch = useDispatch()
   const [anchorEl, setAnchorEl] = useState(null)
   const rowOptionsOpen = Boolean(anchorEl)
@@ -49,11 +50,95 @@ const RowOptions = ({ id, row, setTenantsData, tenantsData, setLoading }) => {
   const toggleEditTenantDrawer = () => setEditTenantOpen(!editTenantOpen)
 
   const handleRowOptionsClick = event => {
+    stopPropagation(event)
+
     setAnchorEl(event.currentTarget)
   }
 
   const handleRowOptionsClose = () => {
     setAnchorEl(null)
+  }
+
+  const handleDisable = () => {
+    setLoading(true)
+    users.DisableUser(
+      { email: row.email },
+      responseData => {
+        let { data } = responseData
+        setLoading(false)
+
+        if (data?.status === 'NO_RES') {
+          console.log('NO results')
+        } else if (data?.status === 'FAILED') {
+          alert(data.description || 'Failed to disable user')
+          setError('email', {
+            type: 'manual',
+            message: data.description || 'Unknown error occurred'
+          })
+          return
+        }
+
+        toast.success('Disabled ' + row.email, {
+          duration: 5000
+        })
+
+        // Update usersData with the new status
+        setUsersData(prevData => {
+          const updatedItems = prevData.items.map(user =>
+            user.email === row.email ? { ...user, status: 'disabled' } : user
+          )
+
+          return { ...prevData, items: updatedItems }
+        })
+      },
+      error => {
+        toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
+          duration: 5000
+        })
+      }
+    )
+    handleRowOptionsClose()
+  }
+
+  const handleEnable = () => {
+    setLoading(true)
+    users.EnableUser(
+      { email: row.email },
+      responseData => {
+        let { data } = responseData
+        setLoading(false)
+
+        if (data?.status === 'NO_RES') {
+          console.log('NO results')
+        } else if (data?.status === 'FAILED') {
+          alert(data.description || 'Failed to disable user')
+          setError('email', {
+            type: 'manual',
+            message: data.description || 'Unknown error occurred'
+          })
+          return
+        }
+
+        toast.success('Activated ' + row.email, {
+          duration: 5000
+        })
+
+        // Update usersData with the new status
+        setUsersData(prevData => {
+          const updatedItems = prevData.items.map(user =>
+            user.email === row.email ? { ...user, status: 'active' } : user
+          )
+
+          return { ...prevData, items: updatedItems }
+        })
+      },
+      error => {
+        toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
+          duration: 5000
+        })
+      }
+    )
+    handleRowOptionsClose()
   }
 
   const handleDelete = () => {
@@ -85,6 +170,7 @@ const RowOptions = ({ id, row, setTenantsData, tenantsData, setLoading }) => {
           horizontal: 'right'
         }}
         PaperProps={{ style: { minWidth: '8rem' } }}
+        onClick={e => stopPropagation(e)}
       >
         <MenuItem
           href={'/tenants/manage/' + id + '/transactions'}
@@ -101,9 +187,18 @@ const RowOptions = ({ id, row, setTenantsData, tenantsData, setLoading }) => {
           Edit
         </MenuItem>
 
+        <MenuItem onClick={handleEnable} sx={{ '& svg': { mr: 2 } }}>
+          <Icon icon='tabler:user-check' fontSize={20} />
+          Enable Account
+        </MenuItem>
+        <MenuItem onClick={handleDisable} sx={{ '& svg': { mr: 2 } }}>
+          <Icon icon='tabler:user-x' fontSize={20} />
+          Disable Account
+        </MenuItem>
+
         <MenuItem onClick={handleDelete} sx={{ '& svg': { mr: 2 } }}>
           <Icon icon='tabler:trash' fontSize={20} />
-          Quick Suspend
+          Delete Account
         </MenuItem>
       </Menu>
       <EditTenantDrawer
@@ -119,6 +214,7 @@ const RowOptions = ({ id, row, setTenantsData, tenantsData, setLoading }) => {
 }
 
 const TenantManageTable = () => {
+  const router = useRouter()
   const columns = [
     {
       flex: 0.25,
@@ -227,6 +323,7 @@ const TenantManageTable = () => {
       headerName: 'Actions',
       renderCell: ({ row }) => (
         <RowOptions
+          stopPropagation={e => e.stopPropagation()}
           setLoading={setLoading}
           setTenantsData={setTenantsData}
           tenantsData={tenantsData}
@@ -341,6 +438,15 @@ const TenantManageTable = () => {
               pageSizeOptions={[10, 25, 50]}
               paginationModel={paginationModel}
               onPaginationModelChange={setPaginationModel}
+              onRowClick={params => router.push(`/tenants/manage/${params.id}/`)}
+              sx={{
+                '& .MuiDataGrid-row': {
+                  cursor: 'pointer',
+                  '&:hover': {
+                    backgroundColor: 'action.hover'
+                  }
+                }
+              }}
             />
           </CardContent>
           <Divider sx={{ m: '0 !important' }} />
