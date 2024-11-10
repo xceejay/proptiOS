@@ -81,7 +81,6 @@
     "@tiptap/react": "^2.7.2",
     "@tiptap/starter-kit": "^2.7.2",
     "@vercel/analytics": "^1.3.2",
-    "RtlProvider": "link:@mui/system/RtlProvider",
     "apexcharts-clevision": "3.28.5",
     "axios": "^1.7.7",
     "axios-mock-adapter": "^1.22.0",
