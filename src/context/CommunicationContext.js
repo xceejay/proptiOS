@@ -18,9 +18,9 @@ const defaultProvider = {
   setLoading: () => Boolean,
   registerAccount: () => Promise.resolve()
 }
-const OnboardingContext = createContext(defaultProvider)
+const CommunicationContext = createContext(defaultProvider)
 
-const OnboardingProvider = ({ children }) => {
+const CommunicationProvider = ({ children }) => {
   // ** States
   const [user, setUser] = useState(defaultProvider.user)
   const [loading, setLoading] = useState(defaultProvider.loading)
@@ -102,7 +102,7 @@ const OnboardingProvider = ({ children }) => {
     registerAccount: registerAccount
   }
 
-  return <OnboardingContext.Provider value={values}>{children}</OnboardingContext.Provider>
+  return <CommunicationContext.Provider value={values}>{children}</CommunicationContext.Provider>
 }
 
-export { OnboardingContext, OnboardingProvider }
+export { CommunicationContext, CommunicationProvider }
