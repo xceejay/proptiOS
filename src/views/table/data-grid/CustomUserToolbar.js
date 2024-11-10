@@ -58,7 +58,7 @@ const CustomUserToolbar = props => {
 
           {addText ? (
             <>
-              <Link href={'/leases/create'}>
+              <Link prefetch={true} href={'/leases/create'}>
                 <Button size='small' onClick={toggle} variant='contained' sx={{ '& svg': { mr: 2 } }}>
                   <Icon fontSize='14px' icon='tabler:plus' />
                   {addText}
