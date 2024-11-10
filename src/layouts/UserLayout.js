@@ -1,3 +1,5 @@
+'use client'
+
 import useMediaQuery from '@mui/material/useMediaQuery'
 
 // ** Layout Imports
@@ -78,7 +80,6 @@ const UserLayout = ({ children, contentHeightFixed }) => {
       })}
     >
       {children}
-      
     </Layout>
   )
 }
