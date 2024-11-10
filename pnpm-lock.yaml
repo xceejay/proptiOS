@@ -212,9 +212,6 @@ dependencies:
   '@vercel/analytics':
     specifier: ^1.3.2
     version: 1.3.2(next@13.5.5)(react@18.2.0)
-  RtlProvider:
-    specifier: link:@mui/system/RtlProvider
-    version: link:@mui/system/RtlProvider
   apexcharts-clevision:
     specifier: 3.28.5
     version: 3.28.5
