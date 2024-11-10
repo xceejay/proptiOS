@@ -44,7 +44,6 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 // ** Demo Imports
 import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
 import axios from 'src/pages/middleware/axios'
-import { useEffect } from 'react/cjs/react.production.min'
 
 // ** Styled Components
 const LoginIllustration = styled('img')(({ theme }) => ({
