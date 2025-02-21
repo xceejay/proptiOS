@@ -60,7 +60,7 @@ const LeasesProvider = ({ children }) => {
     }
 
     axios
-      .get('https://api.pm.manages.homes/leases', {
+      .get(process.env.API_BASE_URL + '/leases', {
         headers: {
           Authorization: `Bearer ${token}`
         },
@@ -117,7 +117,7 @@ const LeasesProvider = ({ children }) => {
     }
 
     axios
-      .post('https://api.pm.manages.homes/leases', data, {
+      .post(process.env.API_BASE_URL + '/leases', data, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -143,7 +143,7 @@ const LeasesProvider = ({ children }) => {
     }
 
     axios
-      .put('https://api.pm.manages.homes/leases', data, {
+      .put(process.env.API_BASE_URL + '/leases', data, {
         headers: {
           Authorization: `Bearer ${token}`
         }

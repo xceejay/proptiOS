@@ -141,7 +141,7 @@ const Dashboard = () => {
 }
 
 // export async function getServerSideProps(params) {
-//   const res = await axios.get('https://api.pm.manages.homes/')
+//   const res = await axios.get(process.env.API_BASE_URL + '/')
 //   console.log('res-data', res.data)
 //   const DashboardData = res.data
 

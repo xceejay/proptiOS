@@ -58,7 +58,7 @@ const SiteProvider = ({ children }) => {
     }
 
     axios
-      .get('https://api.pm.manages.homes/dashboard', {
+      .get(process.env.API_BASE_URL + '/dashboard', {
         headers: {
           Authorization: `Bearer ${token}`
         },

@@ -4,7 +4,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 
 export const fetchProperties = createAsyncThunk('fetchProperties', async params => {
-  const response = await axios.get('https://api.pm.manages.homes/properties', {
+  const response = await axios.get(process.env.API_BASE_URL + '/properties', {
     params
   })
 
@@ -23,7 +23,7 @@ export const addProperty = createAsyncThunk('appUsers/addProperty', async (data,
 
 // ** Fetch Users
 export const fetchData = createAsyncThunk('appUsers/fetchData', async params => {
-  const response = await axios.get('https://api.pm.manages.homes/apps/users/list', {
+  const response = await axios.get(process.env.API_BASE_URL + '/apps/users/list', {
     params
   })
 

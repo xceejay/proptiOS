@@ -55,7 +55,7 @@ const TenantEdit = () => {
 }
 
 // export const getServerSideProps = async ({ params }) => {
-//   // const res = await axios.get('https://api.pm.manages.homes/apps/invoice/invoices')
+//   // const res = await axios.get(process.env.API_BASE_URL + '/apps/invoice/invoices')
 //   // const invoiceData = res.data.allData
 //   // return {
 //   //   props: {

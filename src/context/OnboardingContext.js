@@ -62,7 +62,7 @@ const OnboardingProvider = ({ children }) => {
       formData.append('password', params.data.password)
       formData.append('id_card', params.data.id_card)
 
-      const response = await axios.post('https://api.pm.manages.homes/auth/register', formData, {
+      const response = await axios.post(process.env.API_BASE_URL + '/auth/register', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

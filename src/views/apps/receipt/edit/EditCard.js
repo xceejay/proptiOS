@@ -110,7 +110,7 @@ const EditCard = ({ data }) => {
   // ** Hook
   const theme = useTheme()
   useEffect(() => {
-    axios.get('https://api.pm.manages.homes/apps/receipt/clients').then(response => {
+    axios.get(process.env.API_BASE_URL + '/apps/receipt/clients').then(response => {
       if (response.data && clients === undefined) {
         setClients(response.data)
         setSelected(response.data[0].name)

@@ -37,7 +37,7 @@ const AuthProvider = ({ children }) => {
 
         //this is used to validate the token (the backend does everything, if it returns 403 or 401 the axios interceptor intercepts it)
         await axios
-          .get('https://api.pm.manages.homes/auth/me', {
+          .get(process.env.API_BASE_URL + '/auth/me', {
             headers: {
               Authorization: `Bearer ${storedToken}`
             }
@@ -104,7 +104,7 @@ const AuthProvider = ({ children }) => {
     console.log('logging in')
 
     axios
-      .post('https://api.pm.manages.homes/auth/login', params)
+      .post(process.env.API_BASE_URL + '/auth/login', params)
 
       .then(async response => {
         params.rememberMe ? window.localStorage.setItem(authConfig.storageTokenKeyName, response.data.data.token) : null

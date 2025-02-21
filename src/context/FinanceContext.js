@@ -64,7 +64,7 @@ const FinanceProvider = ({ children }) => {
     }
 
     axios
-      .get('https://api.pm.manages.homes/dashboard', {
+      .get(process.env.API_BASE_URL + '/dashboard', {
         headers: {
           Authorization: `Bearer ${token}`
         },
@@ -92,7 +92,7 @@ const FinanceProvider = ({ children }) => {
     }
 
     axios
-      .get('https://api.pm.manages.homes/transactions/type/rent', {
+      .get(process.env.API_BASE_URL + '/transactions/type/rent', {
         headers: {
           Authorization: `Bearer ${token}`
         },

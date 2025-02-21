@@ -44,7 +44,7 @@ const AuditProvider = ({ children }) => {
 
     axios
       .get(
-        'https://api.pm.manages.homes/auditlogs',
+        process.env.API_BASE_URL + '/auditlogs',
         {
           headers: {
             Authorization: `Bearer ${token}`

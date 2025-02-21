@@ -52,7 +52,7 @@ const MaintenanceProvider = ({ children }) => {
 
     console.log('param', params)
     axios
-      .post('https://api.pm.manages.homes/auth/register', {
+      .post(process.env.API_BASE_URL + '/auth/register', {
         role: params.data.role,
         site_name: params.data.site_name,
         site_domain: params.data.site_domain.toLowerCase() + '.manages.homes',

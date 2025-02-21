@@ -63,7 +63,7 @@ const UsersProvider = ({ children }) => {
     }
 
     axios
-      .get('https://api.pm.manages.homes/users', {
+      .get(process.env.API_BASE_URL + '/users', {
         headers: {
           Authorization: `Bearer ${token}`
         },
@@ -123,7 +123,7 @@ const UsersProvider = ({ children }) => {
     }
 
     axios
-      .post('https://api.pm.manages.homes/users/invite', data, {
+      .post(process.env.API_BASE_URL + '/users/invite', data, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -150,7 +150,7 @@ const UsersProvider = ({ children }) => {
     }
 
     axios
-      .post('https://api.pm.manages.homes/users/disable', data, {
+      .post(process.env.API_BASE_URL + '/users/disable', data, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -177,7 +177,7 @@ const UsersProvider = ({ children }) => {
     }
 
     axios
-      .post('https://api.pm.manages.homes/users/enable', data, {
+      .post(process.env.API_BASE_URL + '/users/enable', data, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -205,7 +205,7 @@ const UsersProvider = ({ children }) => {
     }
 
     axios
-      .post('https://api.pm.manages.homes/users', data, {
+      .post(process.env.API_BASE_URL + '/users', data, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -266,7 +266,7 @@ const UsersProvider = ({ children }) => {
     }
 
     axios
-      .put('https://api.pm.manages.homes/users', data, {
+      .put(process.env.API_BASE_URL + '/users', data, {
         headers: {
           Authorization: `Bearer ${token}`
         }

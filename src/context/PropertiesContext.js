@@ -64,7 +64,7 @@ const PropertiesProvider = ({ children }) => {
     }
 
     axios
-      .get('https://api.pm.manages.homes/properties', {
+      .get(process.env.API_BASE_URL + '/properties', {
         headers: {
           Authorization: `Bearer ${token}`
         },
@@ -93,7 +93,7 @@ const PropertiesProvider = ({ children }) => {
     }
 
     axios
-      .get('https://api.pm.manages.homes/properties/all', {
+      .get(process.env.API_BASE_URL + '/properties/all', {
         headers: {
           Authorization: `Bearer ${token}`
         },
@@ -149,7 +149,7 @@ const PropertiesProvider = ({ children }) => {
     }
 
     axios
-      .post('https://api.pm.manages.homes/properties', data, {
+      .post(process.env.API_BASE_URL + '/properties', data, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -206,7 +206,7 @@ const PropertiesProvider = ({ children }) => {
     }
 
     axios
-      .post('https://api.pm.manages.homes/properties/units', data, {
+      .post(process.env.API_BASE_URL + '/properties/units', data, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -259,7 +259,7 @@ const PropertiesProvider = ({ children }) => {
     }
 
     axios
-      .put('https://api.pm.manages.homes/properties/units', data, {
+      .put(process.env.API_BASE_URL + '/properties/units', data, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -285,7 +285,7 @@ const PropertiesProvider = ({ children }) => {
     }
 
     axios
-      .put('https://api.pm.manages.homes/properties', data, {
+      .put(process.env.API_BASE_URL + '/properties', data, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -311,7 +311,7 @@ const PropertiesProvider = ({ children }) => {
     }
 
     axios
-      .post('https://api.pm.manages.homes/properties/maintenance-requests', data, {
+      .post(process.env.API_BASE_URL + '/properties/maintenance-requests', data, {
         headers: {
           Authorization: `Bearer ${token}`
         }
