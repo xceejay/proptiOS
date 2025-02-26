@@ -55,14 +55,14 @@ const OnboardingProvider = ({ children }) => {
       const formData = new FormData()
       formData.append('role', params.data.role)
       formData.append('site_name', params.data.site_name)
-      formData.append('site_id', params.data.site_id.toLowerCase() + '.manages.homes')
+      formData.append('site_id', params.data.site_id.toLowerCase() + '.proptios.com')
       formData.append('country', params.data.country)
       formData.append('full_name', params.data.full_name)
       formData.append('email', params.data.email)
       formData.append('password', params.data.password)
       formData.append('id_card', params.data.id_card)
 
-      const response = await axios.post(process.env.API_BASE_URL + '/auth/register', formData, {
+      const response = await axios.post(process.env.NEXT_PUBLIC_API_BASE_URL + '/auth/register', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

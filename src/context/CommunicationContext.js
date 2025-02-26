@@ -52,10 +52,10 @@ const CommunicationProvider = ({ children }) => {
 
     console.log('param', params)
     axios
-      .post(process.env.API_BASE_URL + '/auth/register', {
+      .post(process.env.NEXT_PUBLIC_API_BASE_URL + '/auth/register', {
         role: params.data.role,
         site_name: params.data.site_name,
-        site_domain: params.data.site_domain.toLowerCase() + '.manages.homes',
+        site_domain: params.data.site_domain.toLowerCase() + '.proptios.com',
         country: params.data.country,
         full_name: params.data.full_name,
         email: params.data.email,

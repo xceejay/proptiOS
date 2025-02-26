@@ -64,7 +64,7 @@ const FinanceProvider = ({ children }) => {
     }
 
     axios
-      .get(process.env.API_BASE_URL + '/dashboard', {
+      .get(process.env.NEXT_PUBLIC_API_BASE_URL + '/dashboard', {
         headers: {
           Authorization: `Bearer ${token}`
         },
@@ -92,7 +92,7 @@ const FinanceProvider = ({ children }) => {
     }
 
     axios
-      .get(process.env.API_BASE_URL + '/transactions/type/rent', {
+      .get(process.env.NEXT_PUBLIC_API_BASE_URL + '/transactions/type/rent', {
         headers: {
           Authorization: `Bearer ${token}`
         },
@@ -120,7 +120,7 @@ const FinanceProvider = ({ children }) => {
     }
 
     axios
-      .get(`https://api.pm.manages.homes/transactions/${id}`, {
+      .get(process.env.NEXT_PUBLIC_API_BASE_URL + `/transactions/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -146,7 +146,7 @@ const FinanceProvider = ({ children }) => {
     }
 
     axios
-      .get(`https://api.pm.manages.homes/transactions`, {
+      .get(process.env.NEXT_PUBLIC_API_BASE_URL + `/transactions`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -172,7 +172,7 @@ const FinanceProvider = ({ children }) => {
     }
 
     axios
-      .get(`https://api.pm.manages.homes/transactions/reports`, {
+      .get(process.env.NEXT_PUBLIC_API_BASE_URL + `/transactions/reports`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -198,7 +198,7 @@ const FinanceProvider = ({ children }) => {
     }
 
     axios
-      .get(`https://api.pm.manages.homes/settlements/accounts`, {
+      .get(process.env.NEXT_PUBLIC_API_BASE_URL + `/settlements/accounts`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -224,7 +224,7 @@ const FinanceProvider = ({ children }) => {
     }
 
     axios
-      .get(`https://api.pm.manages.homes/settlements/all`, {
+      .get(process.env.NEXT_PUBLIC_API_BASE_URL + `/settlements/all`, {
         headers: {
           Authorization: `Bearer ${token}`
         }

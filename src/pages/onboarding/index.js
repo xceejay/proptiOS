@@ -200,7 +200,7 @@ const Register = () => {
                 fullWidth
                 label='Affiliated Company'
                 sx={{ mb: 4 }}
-                placeholder='manages.homes Property Management LTD'
+                placeholder='proptios.com Property Management LTD'
               />
 
               <TextField
@@ -235,7 +235,7 @@ const Register = () => {
                       onBlur={onBlur}
                       onChange={onChange}
                       error={Boolean(errors.email)}
-                      placeholder='admin@manages.homes'
+                      placeholder='admin@proptios.com'
                     />
                   )}
                 />

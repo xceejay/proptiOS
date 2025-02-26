@@ -263,11 +263,11 @@ const PropertyTenantManageTable = ({ setPropertyData, propertyData }) => {
   useEffect(() => {
     setLoading(true)
 
-    if (propertyData.tenants) {
+    if (propertyData?.tenants) {
       console.log('property Data changed i am setting tenants data')
 
       const attachUnitsToTenants = () => {
-        const updatedTenantsData = propertyData.tenants.map(tenant => {
+        const updatedTenantsData = propertyData?.tenants.map(tenant => {
           // Find units that belong to the current tenant
           const tenantUnits = propertyData.units.filter(unit => unit.tenant_id === tenant.id)
 
@@ -283,7 +283,7 @@ const PropertyTenantManageTable = ({ setPropertyData, propertyData }) => {
       setLoading(false)
     }
     setLoading(false)
-  }, [propertyData.tenants, propertyData.units])
+  }, [propertyData?.tenants, propertyData?.units])
 
   const handleFilter = useCallback(val => {
     setValue(val)

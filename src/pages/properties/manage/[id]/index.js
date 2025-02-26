@@ -7,6 +7,7 @@ import ParentPropertyEditInfo from 'src/ui/property/ParentPropertyEditInfo'
 import { useRouter } from 'next/router'
 import { useProperties } from 'src/hooks/useProperties'
 import PropertyEditInfo from 'src/ui/property/PropertyEditInfo'
+import toast from 'react-hot-toast'
 
 const PropertyEdit = ({}) => {
   const router = useRouter()
@@ -49,7 +50,7 @@ const PropertyEdit = ({}) => {
 }
 
 // export async function getServerSideProps(params) {
-//   const res = await axios.get(process.env.API_BASE_URL + '/apps/invoice/invoices')
+//   const res = await axios.get(process.env.NEXT_PUBLIC_API_BASE_URL + '/apps/invoice/invoices')
 //   const invoiceData = res.data.allData
 
 //   return {

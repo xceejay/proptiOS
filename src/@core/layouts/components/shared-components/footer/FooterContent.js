@@ -38,7 +38,7 @@ const FooterContent = () => {
           </LinkStyled>
           <LinkStyled
             target='_blank'
-            href='https://demos.pixinvent.com/manages.homes-nextjs-admin-template/documentation'
+            href='https://demos.pixinvent.com/proptios.com-nextjs-admin-template/documentation'
           >
             Documentation
           </LinkStyled>

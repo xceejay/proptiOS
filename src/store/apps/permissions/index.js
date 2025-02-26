@@ -6,7 +6,7 @@ import axios from 'axios'
 
 // ** Fetch Invoices
 export const fetchData = createAsyncThunk('appPermissions/fetchData', async params => {
-  const response = await axios.get(process.env.API_BASE_URL + '/apps/permissions/data', {
+  const response = await axios.get(process.env.NEXT_PUBLIC_API_BASE_URL + '/apps/permissions/data', {
     params
   })
 

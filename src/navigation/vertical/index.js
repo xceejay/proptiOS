@@ -81,7 +81,7 @@ const navigation = () => {
 
     {
       title: 'Support',
-      path: 'https://manages.homes',
+      path: 'https://proptios.com',
       disabled: false,
       icon: 'tabler:help',
       action: 'read',

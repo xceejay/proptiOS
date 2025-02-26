@@ -495,7 +495,7 @@ const Register = () => {
                       onBlur={onBlur}
                       fullWidth
                       label='Affiliated Company'
-                      placeholder='manages.homes Property Management LTD'
+                      placeholder='proptios.com Property Management LTD'
                     />
                   )}
                 />
@@ -517,7 +517,7 @@ const Register = () => {
                         onBlur={onBlur}
                         error={Boolean(errors.site_id)}
                         required
-                        endAdornment={<InputAdornment position='end'>.manages.homes</InputAdornment>}
+                        endAdornment={<InputAdornment position='end'>.proptios.com</InputAdornment>}
                         aria-describedby='outlined-weight-helper-text'
                         placeholder='mypmcompany'
                         inputProps={{
@@ -558,7 +558,7 @@ const Register = () => {
                       onBlur={onBlur}
                       onChange={onChange}
                       error={Boolean(errors.email)}
-                      placeholder='admin@manages.homes'
+                      placeholder='admin@proptios.com'
                     />
                   )}
                 />

@@ -44,7 +44,7 @@ const AuditProvider = ({ children }) => {
 
     axios
       .get(
-        process.env.API_BASE_URL + '/auditlogs',
+        process.env.NEXT_PUBLIC_API_BASE_URL + '/auditlogs',
         {
           headers: {
             Authorization: `Bearer ${token}`

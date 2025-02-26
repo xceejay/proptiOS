@@ -60,7 +60,7 @@ const TenantsProvider = ({ children }) => {
     }
 
     axios
-      .get(process.env.API_BASE_URL + '/tenants', {
+      .get(process.env.NEXT_PUBLIC_API_BASE_URL + '/tenants', {
         headers: {
           Authorization: `Bearer ${token}`
         },
@@ -89,7 +89,7 @@ const TenantsProvider = ({ children }) => {
     }
 
     axios
-      .get(`https://api.pm.manages.homes/tenants/${id}`, {
+      .get(process.env.NEXT_PUBLIC_API_BASE_URL + `/tenants/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -117,7 +117,7 @@ const TenantsProvider = ({ children }) => {
     }
 
     axios
-      .post(process.env.API_BASE_URL + '/tenants', data, {
+      .post(process.env.NEXT_PUBLIC_API_BASE_URL + '/tenants', data, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -179,7 +179,7 @@ const TenantsProvider = ({ children }) => {
     }
 
     axios
-      .put(process.env.API_BASE_URL + '/tenants', data, {
+      .put(process.env.NEXT_PUBLIC_API_BASE_URL + '/tenants', data, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -206,7 +206,7 @@ const TenantsProvider = ({ children }) => {
     }
 
     axios
-      .delete(process.env.API_BASE_URL + '/tenants', {
+      .delete(process.env.NEXT_PUBLIC_API_BASE_URL + '/tenants', {
         headers: {
           Authorization: `Bearer ${token}`
         },

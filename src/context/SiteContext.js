@@ -58,7 +58,7 @@ const SiteProvider = ({ children }) => {
     }
 
     axios
-      .get(process.env.API_BASE_URL + '/dashboard', {
+      .get(process.env.NEXT_PUBLIC_API_BASE_URL + '/dashboard', {
         headers: {
           Authorization: `Bearer ${token}`
         },

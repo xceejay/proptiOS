@@ -55,7 +55,7 @@ const AuditEdit = () => {
 }
 
 // export const getServerSideProps = async ({ params }) => {
-//   // const res = await axios.get(process.env.API_BASE_URL + '/apps/invoice/invoices')
+//   // const res = await axios.get(process.env.NEXT_PUBLIC_API_BASE_URL + '/apps/invoice/invoices')
 //   // const invoiceData = res.data.allData
 //   // return {
 //   //   props: {

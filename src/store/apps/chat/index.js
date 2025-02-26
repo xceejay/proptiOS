@@ -6,21 +6,21 @@ import axios from 'axios'
 
 // ** Fetch User Profile
 export const fetchUserProfile = createAsyncThunk('appChat/fetchUserProfile', async () => {
-  const response = await axios.get(process.env.API_BASE_URL + '/apps/chat/users/profile-user')
+  const response = await axios.get(process.env.NEXT_PUBLIC_API_BASE_URL + '/apps/chat/users/profile-user')
 
   return response.data
 })
 
 // ** Fetch Chats & Contacts
 export const fetchChatsContacts = createAsyncThunk('appChat/fetchChatsContacts', async () => {
-  const response = await axios.get(process.env.API_BASE_URL + '/apps/chat/chats-and-contacts')
+  const response = await axios.get(process.env.NEXT_PUBLIC_API_BASE_URL + '/apps/chat/chats-and-contacts')
 
   return response.data
 })
 
 // ** Select Chat
 export const selectChat = createAsyncThunk('appChat/selectChat', async (id, { dispatch }) => {
-  const response = await axios.get(process.env.API_BASE_URL + '/apps/chat/get-chat', {
+  const response = await axios.get(process.env.NEXT_PUBLIC_API_BASE_URL + '/apps/chat/get-chat', {
     params: {
       id
     }

@@ -63,7 +63,7 @@ const UsersProvider = ({ children }) => {
     }
 
     axios
-      .get(process.env.API_BASE_URL + '/users', {
+      .get(process.env.NEXT_PUBLIC_API_BASE_URL + '/users', {
         headers: {
           Authorization: `Bearer ${token}`
         },
@@ -92,7 +92,7 @@ const UsersProvider = ({ children }) => {
     }
 
     axios
-      .get(`https://api.pm.manages.homes/users/${id}`, {
+      .get(process.env.NEXT_PUBLIC_API_BASE_URL + `/users/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -123,7 +123,7 @@ const UsersProvider = ({ children }) => {
     }
 
     axios
-      .post(process.env.API_BASE_URL + '/users/invite', data, {
+      .post(process.env.NEXT_PUBLIC_API_BASE_URL + '/users/invite', data, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -150,7 +150,7 @@ const UsersProvider = ({ children }) => {
     }
 
     axios
-      .post(process.env.API_BASE_URL + '/users/disable', data, {
+      .post(process.env.NEXT_PUBLIC_API_BASE_URL + '/users/disable', data, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -177,7 +177,7 @@ const UsersProvider = ({ children }) => {
     }
 
     axios
-      .post(process.env.API_BASE_URL + '/users/enable', data, {
+      .post(process.env.NEXT_PUBLIC_API_BASE_URL + '/users/enable', data, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -205,7 +205,7 @@ const UsersProvider = ({ children }) => {
     }
 
     axios
-      .post(process.env.API_BASE_URL + '/users', data, {
+      .post(process.env.NEXT_PUBLIC_API_BASE_URL + '/users', data, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -266,7 +266,7 @@ const UsersProvider = ({ children }) => {
     }
 
     axios
-      .put(process.env.API_BASE_URL + '/users', data, {
+      .put(process.env.NEXT_PUBLIC_API_BASE_URL + '/users', data, {
         headers: {
           Authorization: `Bearer ${token}`
         }

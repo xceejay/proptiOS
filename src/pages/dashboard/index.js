@@ -141,7 +141,7 @@ const Dashboard = () => {
 }
 
 // export async function getServerSideProps(params) {
-//   const res = await axios.get(process.env.API_BASE_URL + '/')
+//   const res = await axios.get(process.env.NEXT_PUBLIC_API_BASE_URL + '/')
 //   console.log('res-data', res.data)
 //   const DashboardData = res.data
 

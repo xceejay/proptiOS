@@ -39,10 +39,10 @@ const SendReceiptDrawer = ({ open, toggle }) => {
       </Header>
       <Box sx={{ p: theme => theme.spacing(0, 6, 6) }}>
         <FormControl fullWidth sx={{ mb: 5 }}>
-          <TextField type='email' label='From' variant='outlined' defaultValue='email@manages.homes' />
+          <TextField type='email' label='From' variant='outlined' defaultValue='email@proptios.com' />
         </FormControl>
         <FormControl fullWidth sx={{ mb: 5 }}>
-          <TextField type='email' label='To' variant='outlined' defaultValue='email@manages.homes' />
+          <TextField type='email' label='To' variant='outlined' defaultValue='email@proptios.com' />
         </FormControl>
         <FormControl fullWidth sx={{ mb: 5 }}>
           <TextField label='Subject' variant='outlined' defaultValue='Receipt of rent' />

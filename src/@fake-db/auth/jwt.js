@@ -14,7 +14,7 @@ const users = [
     password: 'admin',
     fullName: 'John Doe',
     username: 'johndoe',
-    email: 'admin@manages.homes'
+    email: 'admin@proptios'
   },
   {
     id: 2,
@@ -22,7 +22,7 @@ const users = [
     password: 'client',
     fullName: 'Jane Doe',
     username: 'janedoe',
-    email: 'client@manages.homes'
+    email: 'client@proptios'
   }
 ]
 

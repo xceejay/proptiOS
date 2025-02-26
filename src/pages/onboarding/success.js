@@ -167,7 +167,7 @@ const OnboardingSuccess = () => {
               </LinkStyled>
 
               <Typography sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', '& svg': { mr: 1 } }}>
-                <LinkStyled href='http://manages.homes'>
+                <LinkStyled href='http://proptios.com'>
                   <Icon fontSize='1.25rem' icon='tabler:chevron-left' />
                   <span>Back to home</span>
                 </LinkStyled>

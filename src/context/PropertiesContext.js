@@ -64,7 +64,7 @@ const PropertiesProvider = ({ children }) => {
     }
 
     axios
-      .get(process.env.API_BASE_URL + '/properties', {
+      .get(process.env.NEXT_PUBLIC_API_BASE_URL + '/properties', {
         headers: {
           Authorization: `Bearer ${token}`
         },
@@ -93,7 +93,7 @@ const PropertiesProvider = ({ children }) => {
     }
 
     axios
-      .get(process.env.API_BASE_URL + '/properties/all', {
+      .get(process.env.NEXT_PUBLIC_API_BASE_URL + '/properties/all', {
         headers: {
           Authorization: `Bearer ${token}`
         },
@@ -122,7 +122,7 @@ const PropertiesProvider = ({ children }) => {
     }
 
     axios
-      .get(`https://api.pm.manages.homes/properties/${id}/all`, {
+      .get(process.env.NEXT_PUBLIC_API_BASE_URL + `/properties/${id}/all`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -149,7 +149,7 @@ const PropertiesProvider = ({ children }) => {
     }
 
     axios
-      .post(process.env.API_BASE_URL + '/properties', data, {
+      .post(process.env.NEXT_PUBLIC_API_BASE_URL + '/properties', data, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -178,7 +178,7 @@ const PropertiesProvider = ({ children }) => {
     }
 
     axios
-      .delete(`https://api.pm.manages.homes/properties/${id}`, {
+      .delete(process.env.NEXT_PUBLIC_API_BASE_URL + `/properties/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -206,7 +206,7 @@ const PropertiesProvider = ({ children }) => {
     }
 
     axios
-      .post(process.env.API_BASE_URL + '/properties/units', data, {
+      .post(process.env.NEXT_PUBLIC_API_BASE_URL + '/properties/units', data, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -233,7 +233,7 @@ const PropertiesProvider = ({ children }) => {
     }
 
     axios
-      .delete(`https://api.pm.manages.homes/properties/units/${id}`, {
+      .delete(process.env.NEXT_PUBLIC_API_BASE_URL + `/properties/units/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -259,7 +259,7 @@ const PropertiesProvider = ({ children }) => {
     }
 
     axios
-      .put(process.env.API_BASE_URL + '/properties/units', data, {
+      .put(process.env.NEXT_PUBLIC_API_BASE_URL + '/properties/units', data, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -285,7 +285,7 @@ const PropertiesProvider = ({ children }) => {
     }
 
     axios
-      .put(process.env.API_BASE_URL + '/properties', data, {
+      .put(process.env.NEXT_PUBLIC_API_BASE_URL + '/properties', data, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -311,7 +311,7 @@ const PropertiesProvider = ({ children }) => {
     }
 
     axios
-      .post(process.env.API_BASE_URL + '/properties/maintenance-requests', data, {
+      .post(process.env.NEXT_PUBLIC_API_BASE_URL + '/properties/maintenance-requests', data, {
         headers: {
           Authorization: `Bearer ${token}`
         }

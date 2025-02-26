@@ -8,7 +8,7 @@ const ServerSideNavItems = () => {
   // ** State
   const [menuItems, setMenuItems] = useState([])
   useEffect(() => {
-    axios.get(process.env.API_BASE_URL + '/api/horizontal-nav/data').then(response => {
+    axios.get(process.env.NEXT_PUBLIC_API_BASE_URL + '/api/horizontal-nav/data').then(response => {
       const menuArray = response.data
       setMenuItems(menuArray)
     })

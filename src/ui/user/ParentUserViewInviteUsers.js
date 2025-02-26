@@ -240,7 +240,7 @@ const ParentUserViewInviteUsers = ({ userData }) => {
                     onBlur={onBlur}
                     onChange={onChange}
                     error={Boolean(errors.email)}
-                    placeholder='pm@manages.homes'
+                    placeholder='pm@proptios.com'
                   />
                 )}
               />

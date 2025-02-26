@@ -222,7 +222,7 @@ const LoginPage = () => {
                       onBlur={onBlur}
                       onChange={onChange}
                       error={Boolean(errors.email)}
-                      placeholder='admin@manages.homes'
+                      placeholder='admin@proptios.com'
                     />
                   )}
                 />
