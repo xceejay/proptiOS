@@ -26,10 +26,10 @@
             class="[&>*:not(:last-child)]:border-dashed [&>*:not(:last-child)]:border-gray-100  dark:[&>*:not(:last-child)]:border-borderColour-dark  [&>*:not(:last-child)]:border-b"
           >
           {{ $taxonomyCategoriesObject := .Site.Taxonomies.categories }}
-          {{ $pageActive:= replace  .Page.RelPermalink "services/" ""}}
+          {{ $pageActive:= replace  .Page.RelPermalink "features/" ""}}
           {{ $pageActive:= trim $pageActive "/&"}}
           
-           {{range $term, $pages :=(where .Site.RegularPages "Type" "services").Reverse}}
+           {{range $term, $pages :=(where .Site.RegularPages "Type" "features").Reverse}}
             <li class="group  {{ if eq $pageActive (.Title | urlize)}} tabActive {{end}}">
               <a
                 class="  flex items-center justify-between py-5 font-medium relative before:absolute before:bottom-0 before:left-0 before:h-[1px] before:w-full before:origin-right before:scale-x-0 before:bg-paragraph dark:before:bg-white  before:transition-transform before:duration-500 before:content-[''] before:hover:origin-left before:hover:scale-x-100"

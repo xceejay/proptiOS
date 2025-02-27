@@ -8,7 +8,7 @@
     <button
       id="theme-toggle"
       type="button"
-      class="text-paragraph dark:text-white focus:outline-none focus:ring-0 focus:ring-gray-200 w-10 h-10 border rounded-md border-paragraph/25 dark:border-borderColour-dark flex justify-center items-center"
+      class=" hidden text-paragraph dark:text-white focus:outline-none focus:ring-0 focus:ring-gray-200 w-10 h-10 border rounded-md border-paragraph/25 dark:border-borderColour-dark flex justify-center items-center"
     >
       <svg
         id="theme-toggle-dark-icon"
@@ -39,8 +39,10 @@
 {{ if .IsHome  }}
 {{ partial "header.html" . }}
 {{else}}
-{{ partial "top-header.html" . }}
-{{ partial "header-inner.html" . }}
+<!-- {{ partial "top-header.html" . }} -->
+<!-- {{ partial "header-inner.html" . }} -->
+{{ partial "header.html" . }}
+
 {{end}}
   <main>
     {{ block "main" . }}{{ end }}

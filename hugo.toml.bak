@@ -16,16 +16,53 @@ theme= 'aplio'
     identifier = "home"
     pageRef = ""
     weight = 1
- 
+      [[menus.main]]
+        name = "Home 1"
+        pageRef  = "/"
+        parent = "home"
+        weight = 11
+      [[menus.main]]
+        name = "Home 2"
+        pageRef  = "/home-2"
+        parent = "home"
+        weight = 12
+      [[menus.main]]
+        name = "Home 3"
+        pageRef  = "/home-3"
+        parent = "home"
+        weight = 13
+      [[menus.main]]
+        name = "Home 4"
+        pageRef  = "/home-4"
+        parent = "home"
+        weight = 14
+      [[menus.main]]
+        name = "Home 5"
+        pageRef  = "/home-5"
+        parent = "home"
+        weight = 15 
     [[menus.main]]
-    name = "Features"
-    identifier = "features"
-    pageRef = "/features"
-    weight = 2
-   
- 
+    name = "About"
+    identifier = "about"
+    pageRef = "/about"
+    weight = 2  
     [[menus.main]]
-    name = "Resources"
+    name = "Services"
+    identifier = "services"
+    pageRef = ""
+    weight = 3
+      [[menus.main]]
+          name = "Services"
+          pageRef  = "/services"
+          parent = "services"
+          weight = 31
+      [[menus.main]]
+          name = "Service Single"
+          pageRef  = "/services/fundraising-advice"
+          parent = "services"
+          weight = 32
+    [[menus.main]]
+    name = "Pages"
     identifier = "pages"
     pageRef = ""
     weight = 4
@@ -49,14 +86,16 @@ theme= 'aplio'
           pageRef  = "/career/webflow-developer"
           parent = "pages"
           weight = 44
-      
+      [[menus.main]]
+          name = "Price"
+          pageRef  = "/price"
+          parent = "pages"
+          weight = 45
       [[menus.main]]
           name = "Integration"
           pageRef  = "/integration"
           parent = "pages"
           weight = 46
-
-          
       [[menus.main]]
           name = "Testimonial"
           pageRef  = "/testimonial"
@@ -73,28 +112,41 @@ theme= 'aplio'
           parent = "pages"
           weight = 49
       [[menus.main]]
-
-           name = "Blog Grid"
-          pageRef  = "/blog"
-          parent = "pages"
-          weight = 50
-      [[menus.main]]
           name = "Sign Up"
           pageRef  = "/signup"
           parent = "pages"
           weight = 440
 
-[[menus.main]]
-          name = "Pricing"
-          pageRef  = "/price"
-          parent = "pages"
-          weight = 6
-
-[[menus.main]]
-name = "Contact Us"
-identifier = "contact"
-pageRef  = "/contact"
-weight = 7
+    [[menus.main]]
+    name = "Blogs"
+    identifier = "blog"
+    pageRef = ""
+    weight = 5
+      [[menus.main]]
+          name = "Blog Grid"
+          pageRef  = "/blog"
+          parent = "blog"
+          weight = 51
+      [[menus.main]]
+          name = "Blog List"
+          pageRef  = "/blog-list"
+          parent = "blog"
+          weight = 52
+      [[menus.main]]
+          name = "Categories"
+          pageRef  = "/categories/acounting"
+          parent = "blog"
+          weight = 52
+      [[menus.main]]
+          name = "Tags"
+          pageRef  = "/tags/acounting"
+          parent = "blog"
+          weight = 52
+    [[menus.main]]
+        name = "Contact Us"
+        identifier = "contact"
+        pageRef  = "/contact"
+        weight = 6
         
         
         
@@ -137,9 +189,9 @@ weight = 7
     
     
     [[menus.resources]]
-    name = "Features"
-    identifier = "features"
-    pageRef = "/features"
+    name = "Services"
+    identifier = "services"
+    pageRef = "/services"
     weight = 1 
     [[menus.resources]]
     name = "Team"

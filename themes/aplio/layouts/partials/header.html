@@ -1,7 +1,7 @@
 
 
 <header
-  class="fixed left-0 pt-8 z-[1000000000] duration-500  transition-all w-full bg-transparent"
+  class="fixed left-0 pt-8 z-[1000000000] duration-500  transition-all w-full bg-white shadow-nav"
   id="mainnavigationBar"
 >
   <nav class="container flex  items-center ">
@@ -10,7 +10,7 @@
     </div>
   
     <ul
-      class="nav-list hidden lg:flex mx-auto bg-white dark:bg-dark-200 p-2.5 shadow-nav rounded-large [&>*:not(:last-child)]:me-1"
+      class="nav-list hidden lg:flex mx-auto bg-white dark:bg-dark-200 p-2.5  rounded-large [&>*:not(:last-child)]:me-1"
     >
       {{ $current := . }}
       {{ range .Site.Menus.main.ByWeight  }}
@@ -53,8 +53,9 @@
 
     <ul class="flex items-center max-lg:ml-auto  [&>*:not(:last-child)]:me-2.5">
       <li class="">
+        <!-- disabled search -->
         <button
-          class="bg-white dark:bg-dark-200 p-2.5 rounded-full "
+          class="bg-white dark:bg-dark-200 p-2.5 rounded-full hidden "
           id="open-btn"
         >
           <svg

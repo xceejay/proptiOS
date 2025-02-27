@@ -1,4 +1,10 @@
-// Dark mode
+// Force Light Mode
+// Ensure the default is always light and cannot be changed
+document.documentElement.classList.remove("dark");
+localStorage.setItem("color-theme", "light");
+
+// Commented out old dark mode toggle logic
+/*
 var themeToggleDarkIcon = document.getElementById("theme-toggle-dark-icon");
 var themeToggleLightIcon = document.getElementById("theme-toggle-light-icon");
 
@@ -37,6 +43,7 @@ themeToggleBtn.addEventListener("click", function () {
     }
   }
 });
+*/
 
 // Mobile Menu
 const btn = document.querySelector("button.mobile-menu-button");
