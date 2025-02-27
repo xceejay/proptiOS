@@ -1,7 +1,7 @@
 baseURL = 'https://proptios.com/'
 languageCode = 'en-us'
 pagination.pageSize = 6
-title = 'Aplio Hugo'
+title = 'proptiOS'
 theme= 'aplio'
 
 [taxonomies]
