@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "hugo build"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
@@ -17,4 +16,5 @@
     "postcss-import": "^16.1.0",
     "tailwindcss": "^3.4.7"
   }
+  
 }
