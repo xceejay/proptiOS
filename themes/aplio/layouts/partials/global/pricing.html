@@ -1,0 +1,121 @@
+<section class="bg-white dark:bg-dark-300 relative overflow-hidden {{.spacing}} ">
+  <div class="container ">
+    <div class="mb-12 text-center mx-auto relative z-10 {{ if eq .largeTitle "true" }} max-w-[900px] {{else}}  max-w-[475px] {{end}}">
+      <div class="">
+        <p class="section-tagline"> Our Pricing </p>
+
+        {{ if eq .largeTitle "true" }}
+        {{ with .context.Site.GetPage "/price"}}
+            <h1>{{.Title}}</h1>
+        {{end}}
+        {{else}}
+        {{ with .context.Site.GetPage "/price"}}
+          <h2> {{.Title}} </h2>
+        {{end}}
+        {{end}}
+        {{if eq .pricingDescription "true"}} 
+          {{ with .context.Site.GetPage "/price"}}
+            <p className="mb-12 mt-10">
+              {{ .Params.description }}
+            </p>
+          {{end}} 
+        {{end}}
+      </div>
+
+      <div class="pricing mt-4">
+        <label class="relative inline-flex items-center cursor-pointer z-[110]">
+          <span class="mr-2.5 text-base font-semibold text-paragraph dark:text-white py-5">Monthly</span>
+          <input
+            type="checkbox"
+            id="priceCheck"
+            class="sr-only peer"
+          />
+          <div
+            class=" relative w-15 h-[34px] bg-paragraph rounded-[20px] peer-checked:after:translate-x-full  after:content-[''] after:absolute after:top-1/2 after:-translate-y-1/2 after:start-[5px] peer-checked:after:start-[7px] after:bg-primary  after:rounded-full after:h-6 after:w-6 after:transition-all before:absolute before:content-[''] before:border before:border-dashed before:w-[calc(100%-10px)] before:h-[calc(100%-10px)] before:rounded-[20px] before:top-1/2 before:-translate-y-1/2 before:left-1/2 before:-translate-x-1/2 before:border-white/40 "
+          ></div>
+          <span class="ms-2.5 text-base font-semibold text-paragraph dark:text-white py-5">Yearly</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="relative md:z-10">
+      <div class="absolute left-1/2 top-150 -translate-x-1/2 -translate-y-1/2 flex max-md:flex-col -z-10 max-md:hidden">
+        <div
+          class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px]  rounded-full bg-primary-200/20 blur-[145px]"
+        ></div>
+        <div
+          class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px]  rounded-full bg-primary-200/25 -ml-[170px] max-md:ml-0 blur-[145px]"
+        ></div>
+        <div
+          class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px]  rounded-full bg-primary-200/20 -ml-[170px] max-md:ml-0 blur-[145px]"
+        ></div>
+      </div>
+      <div
+        class="absolute left-1/2 p-[350px] top-25 -translate-x-1/2 -translate-y-1/2 bg-[url('../images/price-gradient.png')] bg-no-repeat bg-center bg-contain opacity-70 md:hidden"
+      ></div>
+      {{ with .context.Site.GetPage "/price"}}
+      <div class="flex max-lg:flex-col items-center gap-8 relative max-md:z-10 pb-12">
+        {{ range .Params.priceCard }}
+        <div class="bg-white dark:bg-dark-200 shadow-box rounded-medium p-2.5 ">
+          <div class="border border-dashed rounded border-gray-100 dark:border-borderColour-dark p-8 max-md:p-5">
+            {{ if .featured}}
+            <div class="flex justify-end mb-2.5">
+              <span class=" -mr-4 bg-primary text-paragraph py-1.5 px-3 rounded-full font-medium"> Save {{ .discountValue}}% </span>
+            </div>
+            {{end}}
+            <h3 class="mb-2">{{ .type }}</h3>
+            <p class="mb-6">{{.details}}</p>
+            <div class="price-month mb-16">
+              <h2>$<span>{{.monthlyPrice}}</span></h2>
+              <p>Per Month</p>
+            </div>
+            <div class="price-year mb-16">
+              <h2>$<span>{{.yearlyPrice}}</span></h2>
+              <p>Per Year</p>
+            </div>
+
+            <ul
+              class=" relative after:absolute after:-top-12 after:h-0.5 after:w-full after:bg-[url('../images/banking/border.svg')] dark:after:bg-[url('../images/banking/border-dark.svg')] after:bg-center after:bg-no-repeat after:bg-full"
+            >
+              {{ range .feature}}
+              <li class="mb-6 flex items-center gap-3.5">
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <rect
+                    width="20"
+                    height="20"
+                    rx="10"
+                    fill=""
+                    class="fill-primary"
+                  />
+                  <path
+                    d="M9.31661 13.7561L14.7491 8.42144C15.0836 8.0959 15.0836 7.5697 14.7491 7.24416C14.4145 6.91861 13.8736 6.91861 13.539 7.24416L8.7116 11.9901L6.46096 9.78807C6.12636 9.46253 5.58554 9.46253 5.25095 9.78807C4.91635 10.1136 4.91635 10.6398 5.25095 10.9654L8.1066 13.7561C8.27347 13.9184 8.49253 14 8.7116 14C8.93067 14 9.14974 13.9184 9.31661 13.7561Z"
+                    fill=""
+                    class="fill-paragraph"
+                  />
+                </svg>
+
+                <span>{{ . }}</span>
+              </li>
+              {{end}}
+            </ul>
+
+            <a
+              href="/contact"
+              class="{{ if .featured }} btn  text-center py-3 w-full {{else}} btn-outline dark:bg-transparent text-center py-3 w-full{{end}}"
+            >
+              Start Free Trial
+            </a>
+          </div>
+        </div>
+        {{end}}
+      </div>
+      {{end}}
+    </div>
+  </div>
+</section>

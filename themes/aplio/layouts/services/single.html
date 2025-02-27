@@ -1,0 +1,57 @@
+{{ define "main" }} 
+<section class=" pt-[200px] pb-150 max-md:pt-25 relative max-md:overflow-hidden max-md:pb-20">
+  <div
+    class="absolute left-0 right-0 -top-8 bg-[url('../images/service-bg.png')] bg-no-repeat bg-cover bg-center opacity-70 w-full h-full sm:hidden"
+  ></div>
+  <div class="container relative z-10">
+    <div class="absolute left-1/2 top-52 -translate-x-1/2 flex max-md:flex-col -z-10 max-md:hidden">
+      <div
+        class="lg:w-[330px] lg:h-[330px] xl:w-[442px] xl:h-[442px] blur-[145px] rounded-full bg-primary-200/20 "
+      ></div>
+      <div
+        class="lg:w-[330px] lg:h-[330px] xl:w-[442px] xl:h-[442px] blur-[145px] rounded-full bg-primary-200/25 lg:-ml-[170px]"
+      ></div>
+      <div
+        class="lg:w-[330px] lg:h-[330px] xl:w-[442px] xl:h-[442px] blur-[145px] rounded-full bg-primary-200/20 lg-ml-[170px]"
+      ></div>
+    </div>
+
+    <div class="grid grid-cols-12 gap-y-15 md:gap-8 lg:gap-16 auto-rows-max">
+      <div
+        class="bg-white dark:bg-dark-200 rounded-medium p-2.5 shadow-nav max-md:hidden md:col-span-6 lg:col-span-4 self-start md:sticky md:top-20 max-md:static"
+      >
+        <div class="border border-dashed rounded border-gray-100 dark:border-borderColour-dark pt-9 px-10 pb-7 ">
+          <h3 class="mb-3">Categories</h3>
+          <ul
+            class="[&>*:not(:last-child)]:border-dashed [&>*:not(:last-child)]:border-gray-100  dark:[&>*:not(:last-child)]:border-borderColour-dark  [&>*:not(:last-child)]:border-b"
+          >
+          {{ $taxonomyCategoriesObject := .Site.Taxonomies.categories }}
+          {{ $pageActive:= replace  .Page.RelPermalink "services/" ""}}
+          {{ $pageActive:= trim $pageActive "/&"}}
+          
+           {{range $term, $pages :=(where .Site.RegularPages "Type" "services").Reverse}}
+            <li class="group  {{ if eq $pageActive (.Title | urlize)}} tabActive {{end}}">
+              <a
+                class="  flex items-center justify-between py-5 font-medium relative before:absolute before:bottom-0 before:left-0 before:h-[1px] before:w-full before:origin-right before:scale-x-0 before:bg-paragraph dark:before:bg-white  before:transition-transform before:duration-500 before:content-[''] before:hover:origin-left before:hover:scale-x-100"
+                href="{{ .Permalink }}"
+              >
+                {{ .Title }}
+                <i class="fa-solid fa-angle-right hidden group-[.tabActive]:block"></i>
+              </a>
+            </li>
+            {{end}}
+          </ul>
+        </div>
+      </div>
+      
+      <div class="relative max-md:col-span-full md:col-span-6 lg:col-span-8">
+        <div class="relative singlePage max-md:mt-20">
+          <h2>{{ .Title }}</h2>
+          {{ .Content }}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{{end}}

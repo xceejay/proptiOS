@@ -1,0 +1,89 @@
+{{ with .Site.GetPage "/home-2"}}
+{{range .Params.coreFeatures}}
+<section class="pt-150 relative">
+  <div
+    class="absolute left-0 right-0 top-150 bg-[url('../images/core-gradient.png')] bg-no-repeat bg-center opacity-70 w-full h-full bg-[length:600px_1800px] md:hidden"
+  ></div>
+  <div class="container">
+    <div class="mb-12 text-center max-w-[575px] mx-auto">
+      <p class="section-tagline">{{ .tagline }}</p>
+
+      <h2>{{ .title | safeHTML }} </h2>
+    </div>
+
+    <div class="relative z-10">
+      <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex max-md:flex-col -z-10 max-md:hidden">
+        <div
+          class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px]  rounded-full bg-primary-200/20 blur-[145px]"
+        ></div>
+        <div
+          class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px]  rounded-full bg-primary-200/25 -ml-[170px] max-md:ml-0 blur-[145px]"
+        ></div>
+        <div
+          class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px]  rounded-full bg-primary-200/20 -ml-[170px] max-md:ml-0 blur-[145px]"
+        ></div>
+      </div>
+
+      <div
+        class="flex flex-col  relative [&>*:not(:last-child)]:after:absolute [&>*:not(:last-child)]:after:h-0.5 [&>*:not(:last-child)]:after:w-full [&>*:not(:last-child)]:after:content-[url('../images/payment/seperator.png')] dark:[&>*:not(:last-child)]:after:content-[url('../images/payment/seperator-dark.png')] [&>*:not(:last-child)]:after:bottom-0 [&>*:not(:last-child)]:after:overflow-hidden max-md:[&>*:not(:last-child)]:after:hidden"
+      > 
+        
+        <div
+          class="relative grid grid-cols-3 max-lg:grid-cols-1 [&>*:nth-child(3n+1)]:before:absolute [&>*:nth-child(3n+1)]:before:left-0 [&>*:nth-child(3n+1)]:before:top-1/2 [&>*:nth-child(3n+1)]:before:-translate-y-1/2 [&>*:nth-child(3n+1)]:before:w-[1px] [&>*:nth-child(3n+1)]:before:h-full [&>*:nth-child(3n+1)]:before:content-[url('../images/payment/coreborder-right.svg')] dark:[&>*:nth-child(3n+1)]:before:content-[url('../images/payment/coreborder-right-dark.svg')] max-lg:[&>*:nth-child(3n+1)]:before:hidden"
+        >
+          {{range first 3 .featureItems}}
+          <div
+            class=" relative  px-0 lg:px-12 py-12 after:absolute lg:after:right-0 lg:after:top-1/2 after:overflow-hidden lg:after:-translate-y-1/2 lg:after:w-[1px] lg:after:h-full lg:after:content-[url('../images/payment/coreborder-right.svg')] lg:dark:after:content-[url('../images/payment/coreborder-right-dark.svg')] group max-lg:after:content-[url('../images/payment/coreborder-bottom-mobile.svg')]  dark:max-lg:after:content-[url('../images/payment/coreborder-bottom-mobile-dark.svg')] max-lg:after:w-full max-lg:after:h-[1px] max-lg:after:bottom-0 max-lg:top-auto  "
+          >
+            <img
+              src="{{ .iconLight | absURL }}"
+              alt="payment logo"
+              class="inline-block dark:hidden mb-6"
+            />
+            <img
+              src="{{ .iconDark | absURL }}"
+              alt="payment logo"
+              class="hidden dark:inline-block mb-6"
+            />
+            <h3
+              class="mb-2.5 relative after:absolute after:-left-[49px] after:w-0.5 after:h-full after:bg-primary after:opacity-0 group-hover:after:opacity-100 after:duration-500 after:transition-opacity"
+            >
+              {{.name}}
+            </h3>
+            <p>{{.details}}</p>
+          </div>
+          {{end}}
+        </div>
+        
+        <div
+          class="relative grid grid-cols-3 max-lg:grid-cols-1 [&>*:nth-child(3n+1)]:before:absolute [&>*:nth-child(3n+1)]:before:left-0 [&>*:nth-child(3n+1)]:before:top-1/2 [&>*:nth-child(3n+1)]:before:-translate-y-1/2 [&>*:nth-child(3n+1)]:before:w-[1px] [&>*:nth-child(3n+1)]:before:h-full [&>*:nth-child(3n+1)]:before:content-[url('../images/payment/coreborder-right.svg')] dark:[&>*:nth-child(3n+1)]:before:content-[url('../images/payment/coreborder-right-dark.svg')] [&>*:nth-row(n+2)]:mb-32 max-lg:[&>*:nth-child(3n+1)]:before:hidden "
+        > 
+          {{range last 3 .featureItems}}
+          <div
+            class=" relative  px-0 lg:px-12 py-12 after:absolute lg:after:right-0 lg:after:top-1/2 after:overflow-hidden lg:after:-translate-y-1/2 lg:after:w-[1px] lg:after:h-full lg:after:content-[url('../images/payment/coreborder-right.svg')] lg:dark:after:content-[url('../images/payment/coreborder-right-dark.svg')] group max-lg:after:content-[url('../images/payment/coreborder-bottom-mobile.svg')]  dark:max-lg:after:content-[url('../images/payment/coreborder-bottom-mobile-dark.svg')] max-lg:after:w-full max-lg:after:h-[1px] max-lg:after:bottom-0 max-lg:top-auto  "
+          >
+            <img
+              src="{{ .iconLight | absURL }}"
+              alt="payment logo"
+              class="inline-block dark:hidden mb-6"
+            />
+            <img
+              src="{{ .iconDark | absURL }}"
+              alt="payment logo"
+              class="hidden dark:inline-block mb-6"
+            />
+            <h3
+              class="mb-2.5 relative after:absolute after:-left-[49px] after:w-0.5 after:h-full after:bg-primary  after:opacity-0 group-hover:after:opacity-100 after:duration-500 after:transition-opacity"
+            >
+            {{.name}}
+            </h3>
+            <p>{{.details}}</p>
+          </div>
+          {{end}}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{{end}}
+{{end}}

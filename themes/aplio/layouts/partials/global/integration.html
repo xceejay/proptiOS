@@ -1,0 +1,65 @@
+
+<section class="pb-150 relative">
+  {{ if eq .sectionHeader "false"}}
+  <div
+    class="absolute left-1/2 -top-[300px] w-full h-[550px] -translate-x-1/2 bg-cover  bg-[url('../images/hero-gradient.png')] bg-no-repeat bg-center opacity-70 md:hidden -z-10"
+  ></div>
+  {{end}}
+  <div class="container">
+    {{ if eq .sectionHeader "true"}}
+    {{ with .context.Site.GetPage "/integration"}}
+    {{range .Params.hero}}
+    <div class="text-center max-w-[620px] mx-auto mb-25">
+      <p class="section-tagline">{{ .tagline}}</p>
+
+      <h2 class="mb-8">{{ .title | safeHTML }}</h2>
+      <p>
+        {{ .details  | safeHTML }}
+      </p>
+    </div>
+    {{end}}
+    {{end}}
+    {{end}}
+    <div class="relative z-10 {{ if eq .sectionHeader "false"}} max-w-[850px] mx-auto {{end}}">
+      <div class="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 flex max-md:flex-col -z-10 {{ if eq .sectionHeader "true"}} top-1/2 {{else}} top-150 max-md:hidden {{end}}">
+        <div
+          class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px]  rounded-full bg-primary-200/20 blur-[145px]"
+        ></div>
+        <div
+          class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px]  rounded-full bg-primary-200/25 -ml-[170px] max-md:ml-0 blur-[145px]"
+        ></div>
+        <div
+          class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px]  rounded-full bg-primary-200/20 -ml-[170px] max-md:ml-0 blur-[145px]"
+        ></div>
+      </div>
+   
+      <div
+        class=" grid gap-8 {{ if eq .sectionHeader "true"}} grid-cols-3 max-sm:grid-cols-1 max-lg:grid-cols-2 relative z-10 {{else}} grid-cols-2 max-md:grid-cols-1 {{end}} "
+        data-aos="fade-up"
+        data-aos-offset="200"
+        data-aos-duration="1000"
+        data-aos-delay="200"
+        data-aos-once="true"
+      >
+        
+        {{ with .context.Site.GetPage "/integration"}}
+        {{range .Params.items}}
+        <div class="bg-white dark:bg-dark-200 shadow-box rounded-medium p-2.5 ">
+          <div
+            class="border border-dashed rounded border-gray-100 dark:border-borderColour-dark p-10 h-full max-lg:p-5 text-center "
+          >
+            <img
+              src="{{ .icon | absURL }}"
+              alt="value image"
+              class="inline-block mb-8"
+            />
+            <h3 class="mb-2.5">{{ .name }}</h3>
+            <p>{{.details}}</p>
+          </div>
+        </div>
+        {{end}}
+        {{end}}
+      </div>
+  </div>
+  </div>
+</section>

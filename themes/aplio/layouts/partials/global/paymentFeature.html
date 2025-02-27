@@ -1,0 +1,52 @@
+
+<section class="{{.className}}">
+  <div
+    class="absolute left-0 right-0 top-25 bg-[url('../images/core-gradient.png')] bg-no-repeat bg-center opacity-70 w-full h-full bg-[length:600px_1000px] md:hidden"
+  ></div>
+  <div class="container">
+    <div class="mb-12 text-center max-w-[575px] mx-auto">
+      <p class="section-tagline">{{.tagline | safeHTML}}</p>
+
+      <h2>{{.sectionTitle | safeHTML }}</h2>
+    </div>
+
+    <div class="relative z-10">
+      <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex max-md:flex-col -z-10 max-md:hidden">
+        <div
+          class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px]  rounded-full bg-primary-200/20 blur-[145px]"
+        ></div>
+        <div
+          class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px]  rounded-full bg-primary-200/25 -ml-[170px] max-md:ml-0 blur-[145px]"
+        ></div>
+        <div
+          class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px]  rounded-full bg-primary-200/20 -ml-[170px] max-md:ml-0 blur-[145px]"
+        ></div>
+      </div>
+      <div class=" grid grid-cols-3 max-md:grid-cols-1 gap-8">
+        {{ $page:= .page}}
+        {{ with .context.Site.GetPage $page}}
+        {{ range .Params.FeaturesData }}
+        <div class="bg-white dark:bg-dark-200 shadow-box rounded-medium p-2.5">
+          <div
+            class="border border-dashed rounded border-gray-100 dark:border-borderColour-dark p-10 h-full max-lg:p-5  text-center "
+          >
+            <img
+              src="{{ .iconLight | absURL }}"
+              alt="payment logo"
+              class="inline-block dark:hidden mb-6"
+            />
+            <img
+              src="{{ .iconDark | absURL }}"
+              alt="payment logo"
+              class="hidden dark:inline-block mb-6"
+            />
+            <h3 class="mb-2.5">{{.title}}</h3>
+            <p> {{.desc}}</p>
+          </div>
+        </div>
+        {{end}}
+        {{end}}
+      </div>
+    </div>
+  </div>
+</section>

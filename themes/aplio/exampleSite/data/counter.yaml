@@ -1,0 +1,9 @@
+---
+counter:
+  - name: Project Completed
+    value: 60
+  - name: Team Members
+    value: 30
+  - name: Satisfied Clients
+    value: 40
+---

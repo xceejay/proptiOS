@@ -1,0 +1,244 @@
+baseURL = 'https://example.org/'
+languageCode = 'en-us'
+paginate = 6
+title = 'Aplio Hugo'
+theme= 'aplio'
+
+[taxonomies]
+  category = 'categories'
+  tag = 'tags'
+  
+  
+[menus]
+  # Main Menu
+  [[menus.main]]
+    name = "Home"
+    identifier = "home"
+    pageRef = ""
+    weight = 1
+      [[menus.main]]
+        name = "Home 1"
+        pageRef  = "/"
+        parent = "home"
+        weight = 11
+      [[menus.main]]
+        name = "Home 2"
+        pageRef  = "/home-2"
+        parent = "home"
+        weight = 12
+      [[menus.main]]
+        name = "Home 3"
+        pageRef  = "/home-3"
+        parent = "home"
+        weight = 13
+      [[menus.main]]
+        name = "Home 4"
+        pageRef  = "/home-4"
+        parent = "home"
+        weight = 14
+      [[menus.main]]
+        name = "Home 5"
+        pageRef  = "/home-5"
+        parent = "home"
+        weight = 15 
+    [[menus.main]]
+    name = "About"
+    identifier = "about"
+    pageRef = "/about"
+    weight = 2  
+    [[menus.main]]
+    name = "Services"
+    identifier = "services"
+    pageRef = ""
+    weight = 3
+      [[menus.main]]
+          name = "Services"
+          pageRef  = "/services"
+          parent = "services"
+          weight = 31
+      [[menus.main]]
+          name = "Service Single"
+          pageRef  = "/services/fundraising-advice"
+          parent = "services"
+          weight = 32
+    [[menus.main]]
+    name = "Pages"
+    identifier = "pages"
+    pageRef = ""
+    weight = 4
+      [[menus.main]]
+          name = "Team"
+          pageRef  = "/team"
+          parent = "pages"
+          weight = 41
+      [[menus.main]]
+          name = "Team Members"
+          pageRef  = "/team/jacob-jones/"
+          parent = "pages"
+          weight = 42
+      [[menus.main]]
+          name = "Career"
+          pageRef  = "/career"
+          parent = "pages"
+          weight = 43
+      [[menus.main]]
+          name = "Career Details"
+          pageRef  = "/career/webflow-developer"
+          parent = "pages"
+          weight = 44
+      [[menus.main]]
+          name = "Price"
+          pageRef  = "/price"
+          parent = "pages"
+          weight = 45
+      [[menus.main]]
+          name = "Integration"
+          pageRef  = "/integration"
+          parent = "pages"
+          weight = 46
+      [[menus.main]]
+          name = "Testimonial"
+          pageRef  = "/testimonial"
+          parent = "pages"
+          weight = 47
+      [[menus.main]]
+          name = "FAQ"
+          pageRef  = "/faq"
+          parent = "pages"
+          weight = 48
+      [[menus.main]]
+          name = "Log In"
+          pageRef  = "/login"
+          parent = "pages"
+          weight = 49
+      [[menus.main]]
+          name = "Sign Up"
+          pageRef  = "/signup"
+          parent = "pages"
+          weight = 440
+
+    [[menus.main]]
+    name = "Blogs"
+    identifier = "blog"
+    pageRef = ""
+    weight = 5
+      [[menus.main]]
+          name = "Blog Grid"
+          pageRef  = "/blog"
+          parent = "blog"
+          weight = 51
+      [[menus.main]]
+          name = "Blog List"
+          pageRef  = "/blog-list"
+          parent = "blog"
+          weight = 52
+      [[menus.main]]
+          name = "Categories"
+          pageRef  = "/categories/acounting"
+          parent = "blog"
+          weight = 52
+      [[menus.main]]
+          name = "Tags"
+          pageRef  = "/tags/acounting"
+          parent = "blog"
+          weight = 52
+    [[menus.main]]
+        name = "Contact Us"
+        identifier = "contact"
+        pageRef  = "/contact"
+        weight = 6
+        
+        
+        
+    [[menus.explore]]
+    name = "About"
+    identifier = "about"
+    pageRef = "/about"
+    weight = 1 
+    [[menus.explore]]
+    name = "Payment"
+    identifier = "payment"
+    pageRef = "/home-3"
+    weight = 2
+    [[menus.explore]]
+    name = "Analytics"
+    identifier = "analytics"
+    pageRef = "/home-4"
+    weight = 3
+    [[menus.explore]]
+    name = "Hosting"
+    identifier = "hosting"
+    pageRef = "/home-5"
+    weight = 4
+    [[menus.explore]]
+    name = "Pricing"
+    identifier = "pricing"
+    pageRef = "/price"
+    weight = 5
+    [[menus.explore]]
+    name = "Testimonials"
+    identifier = "testimonial"
+    pageRef = "/testimonial"
+    weight = 6
+    [[menus.explore]]
+    name = "FAQ's"
+    identifier = "faq"
+    pageRef = "/faq"
+    weight = 7
+    
+    
+    
+    [[menus.resources]]
+    name = "Services"
+    identifier = "services"
+    pageRef = "/services"
+    weight = 1 
+    [[menus.resources]]
+    name = "Team"
+    identifier = "team"
+    pageRef = "/team"
+    weight = 2
+    [[menus.resources]]
+    name = "Integration"
+    identifier = "integration"
+    pageRef = "/integration"
+    weight = 3
+    [[menus.resources]]
+    name = "Blog"
+    identifier = "blog"
+    pageRef = "/blog"
+    weight = 4
+    [[menus.resources]]
+    name = "Career"
+    identifier = "career"
+    pageRef = "/career"
+    weight = 5
+    [[menus.resources]]
+    name = "Log In"
+    identifier = "login"
+    pageRef = "/login"
+    weight = 6
+    [[menus.resources]]
+    name = "Sign Up"
+    identifier = "signup"
+    pageRef = "/signup"
+    weight = 7
+  
+[params]
+  logo = "images/logo.svg"
+  logoDark = "images/logo-light.svg"
+  footerDescription = "Turpis tortor nunc sed amet et faucibus vitae morbi congue sed id mauris."
+  copyright = "@ { year } Aplio. All Rights Reserved"
+  contactMail = "info@example.com"
+  contactNumber = "+391 35 2568 4593"
+  contactAddress = "2464 Royal Ln. Mesa, New Jersey 45463"
+  facebookLink= "#"
+  linkedinLink= "#"
+  githubLink= "#"
+  behanceLink= "#"
+  
+  
+[module]
+  [module.hugoVersion]
+    extended = false
+    min = "0.116.0"

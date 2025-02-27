@@ -1,0 +1,162 @@
+{{define "main"}}
+<section class="pt-[200px] mb-150 relative">
+  <div
+    class="absolute left-1/2 top-25 w-full h-[550px] -translate-x-1/2 bg-cover  bg-[url('../images/hero-gradient.png')] bg-no-repeat bg-center opacity-70 md:hidden -z-10"
+  ></div>
+  <div
+    class="container relative"
+    data-aos="fade-up"
+    data-aos-offset="200"
+    data-aos-duration="1000"
+    data-aos-once="true"
+  >
+    <div class="mb-12 text-center max-w-[475px] mx-auto">
+      <p class="section-tagline">Sign up</p>
+
+      <h2>
+        Connect with our <br />
+        community
+      </h2>
+    </div>
+    <div class="relative z-10 max-w-[510px] mx-auto">
+      <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex max-md:flex-col -z-10 max-md:hidden">
+        <div
+          class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px]  rounded-full bg-primary-200/30 blur-[145px]"
+        ></div>
+        <div
+          class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px]  rounded-full bg-primary-200/50 -ml-[170px] max-md:ml-0 blur-[145px]"
+        ></div>
+        <div
+          class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px]  rounded-full bg-primary-200/30 -ml-[170px] max-md:ml-0 blur-[145px]"
+        ></div>
+      </div>
+      <div class="bg-white dark:bg-dark-200 rounded-medium p-2.5 shadow-nav">
+        <div
+          class="bg-white dark:bg-dark-200 border border-dashed rounded border-gray-100 dark:border-borderColour-dark p-12 max-md:px-5 max-md:py-7"
+        >
+          <form>
+            <div class="grid grid-cols-12 gap-y-6 ">
+              <div class="col-span-12">
+                <label
+                  for="name"
+                  class="block text-sm font-medium font-jakarta_sans text-paragraph dark:text-white mb-2"
+                >
+                  Your Name
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  placeholder="Enter Your Name"
+                  class="block w-full text-sm rounded-[48px] border border-borderColour dark:border-borderColour-dark py-2.5 px-5 text-paragraph-light placeholder:text-paragraph-light dark:placeholder:text-paragraph-light outline-none bg-white dark:bg-dark-200 focus:border-primary dark:focus:border-primary duration-300 transition-all"
+                />
+              </div>
+              <div class="col-span-12">
+                <label
+                  for="email"
+                  class="block text-sm font-medium font-jakarta_sans text-paragraph dark:text-white mb-2"
+                >
+                  Email
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  id="email"
+                  placeholder="Email address"
+                  class="block w-full text-sm rounded-[48px] border border-borderColour dark:border-borderColour-dark py-2.5 px-5 text-paragraph-light placeholder:text-paragraph-light dark:placeholder:text-paragraph-light outline-none bg-white dark:bg-dark-200 focus:border-primary dark:focus:border-primary duration-300 transition-all"
+                />
+              </div>
+              <div class="col-span-full">
+                <label
+                  for="password"
+                  class="block text-sm font-medium font-jakarta_sans text-paragraph dark:text-white mb-2"
+                >
+                  Password
+                </label>
+                <input
+                  type="password"
+                  name="password"
+                  id="password"
+                  placeholder="At least 8 character"
+                  class="block w-full text-sm rounded-[48px] border border-borderColour dark:border-borderColour-dark py-2.5 px-5 text-paragraph-light   placeholder:text-paragraph-light outline-none bg-white dark:bg-dark-200 focus:border-primary dark:focus:border-primary duration-300 transition-all"
+                />
+              </div>
+
+              <div class="col-span-full ">
+                <button class="btn w-full block">Sign Up</button>
+              </div>
+            </div>
+          </form>
+          <div
+            class="relative after:absolute after:w-full after:h-[1px] after:top-1/2 after:-translate-y-1/2 after:border after:border-borderColour dark:after:border-borderColour-dark after:border-dashed py-8"
+          >
+            <span
+              class=" inline-block absolute w-10 z-10 bg-white dark:bg-dark-200 top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 text-center"
+              >Or</span
+            >
+          </div>
+          <div class="mb-8">
+            <button
+              class=" py-3.5 max-md:px-5 px-[30px] -tracking-[0.3px] rounded-[30px] font-jakarta_sans font-medium  text-sm bg-white text-paragraph border-borderColour  dark:bg-transparent border dark:border-borderColour-dark dark:text-white w-full flex items-center justify-center gap-2 group mb-6"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path
+                  d="M21.7502 12.216C21.7502 11.4143 21.6839 10.8293 21.5402 10.2227H12.1992V13.8409H17.6822C17.5717 14.7401 16.9747 16.0943 15.6482 17.0043L15.6296 17.1254L18.583 19.3676L18.7876 19.3877C20.6669 17.6868 21.7502 15.1843 21.7502 12.216Z"
+                  fill="#4285F4"
+                />
+                <path
+                  d="M12.2002 21.7495C14.8864 21.7495 17.1415 20.8828 18.7886 19.3878L15.6492 17.0044C14.8091 17.5786 13.6815 17.9794 12.2002 17.9794C9.56932 17.9794 7.33635 16.2786 6.54036 13.9277L6.42369 13.9374L3.35266 16.2666L3.3125 16.3761C4.94853 19.5611 8.30907 21.7495 12.2002 21.7495Z"
+                  fill="#34A853"
+                />
+                <path
+                  d="M6.53907 13.9286C6.32904 13.322 6.20749 12.6719 6.20749 12.0003C6.20749 11.3286 6.32904 10.6786 6.52802 10.072L6.52246 9.94276L3.41294 7.57617L3.3112 7.6236C2.63691 8.94528 2.25 10.4295 2.25 12.0003C2.25 13.5711 2.63691 15.0553 3.3112 16.3769L6.53907 13.9286Z"
+                  fill="#FBBC05"
+                />
+                <path
+                  d="M12.2003 6.01997C14.0685 6.01997 15.3286 6.8108 16.0472 7.47168L18.855 4.785C17.1306 3.21417 14.8865 2.25 12.2003 2.25C8.3091 2.25 4.94854 4.43832 3.3125 7.62329L6.52933 10.0717C7.33638 7.72083 9.56936 6.01997 12.2003 6.01997Z"
+                  fill="#EB4335"
+                />
+              </svg>
+              <span class="font-jakarta_sans font-medium  "> Continue with Google </span>
+            </button>
+            <button
+              class="py-3.5 max-md:px-5 px-[30px] -tracking-[0.3px] rounded-[30px] font-jakarta_sans font-medium  text-sm bg-white text-paragraph border-borderColour  dark:bg-transparent border dark:border-borderColour-dark dark:text-white w-full flex items-center justify-center gap-2 group"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path
+                  d="M22.5 12.0642C22.5 6.22974 17.799 1.5 12 1.5C6.20101 1.5 1.5 6.22974 1.5 12.0642C1.5 17.337 5.33968 21.7075 10.3594 22.5V15.1179H7.69336V12.0642H10.3594V9.73675C10.3594 7.08911 11.927 5.62663 14.3254 5.62663C15.4738 5.62663 16.6758 5.83296 16.6758 5.83296V8.43274H15.3518C14.0475 8.43274 13.6406 9.24713 13.6406 10.0834V12.0642H16.5527L16.0872 15.1179H13.6406V22.5C18.6603 21.7075 22.5 17.337 22.5 12.0642Z"
+                  fill="#0C63D4"
+                />
+              </svg>
+              <span class="font-jakarta_sans font-medium text-sm "> Continue with Facebook </span>
+            </button>
+          </div>
+          <p class="text-center ont-jakarta_sans text-sm font-medium leading-[24px] ">
+            Already Have an account?
+            <a
+              href="/login"
+              class="relative font-jakarta_sans inline-block overflow-hidden text-sm font-medium text-paragraph dark:text-white before:absolute before:bottom-0 before:left-0 before:h-[1px] before:w-full before:origin-right before:scale-x-0 before:bg-paragraph dark:before:bg-white  before:transition-transform before:duration-500 before:content-[''] before:hover:origin-left before:hover:scale-x-100 leading-[24px] align-bottom"
+            >
+              login
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{{ partial "global/newsletter.html" (dict "context" . "spacing" "")}}
+{{end}}

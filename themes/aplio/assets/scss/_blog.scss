@@ -1,0 +1,33 @@
+.blog-details {
+  @apply max-w-[850px] mx-auto;
+  h2 {
+    @apply mb-3 font-semibold leading-[1.33] max-w-[650px];
+  }
+  &-body {
+    @apply max-w-[850px] mx-auto;
+    h3 {
+      @apply mt-12 mb-5;
+    }
+    p {
+      @apply mb-12;
+    }
+    ul {
+      @apply mb-12;
+      li {
+        @apply dark:text-white font-semibold font-jakarta_sans relative pl-10;
+        &:not(:last-child) {
+          @apply mb-6;
+        }
+        &:before {
+          @apply w-7 h-7 text-paragraph dark:text-primary absolute  max-md:top-0 md:top-1/2 left-0 md:-translate-y-1/2 content-[url('../images/checkmark.svg')] dark:content-[url('../images/checkmark-dark.svg')];
+        }
+      }
+    }
+    div {
+      @apply my-16;
+    }
+    img{
+      @apply mb-16;
+    }
+  }
+}

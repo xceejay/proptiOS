@@ -1,0 +1,109 @@
+
+{{ with .Site.GetPage "/home-4"}}
+{{range .Params.faq}}
+<section class=" overflow-hidden relative pb-[250px] max-md:pb-20">
+  <div class="container relative z-10">
+    <div class="grid grid-cols-2 max-lg:grid-cols-1 gap-8 items-center">
+      <div class="relative flex max-lg:justify-center justify-end items-center max-lg:mb-25">
+        <img
+          src="{{"images/analytics/analytics-faq.png" | absURL }}"
+          alt="banking image"
+          class="dark:hidden max-w-[350px] sm:max-w-[420px] lg:max-w-[320px] xl:max-w-[420px]"
+          data-aos="fade-up"
+          data-aos-offset="200"
+          data-aos-duration="1000"
+          data-aos-once="true"
+        />
+        <img
+          src="{{"images/analytics/analytics-faq-dark.png" | absURL }}"
+          alt="banking image"
+          class="hidden dark:inline-block  max-w-[350px]  sm:max-w-[420px] lg:max-w-[320px] xl:max-w-[420px]"
+          data-aos="fade-up"
+          data-aos-offset="200"
+          data-aos-duration="1000"
+          data-aos-once="true"
+        />
+        <div
+          class="absolute  -right-5 -bottom-20 md:right-15 lg:-right-15 xl:-right-25 left-auto lg:-bottom-25 xl:-bottom-150 top-auto max-w-[250px] xl:max-w-[344px] "
+          data-aos="fade-right"
+          data-aos-offset="200"
+          data-aos-duration="1000"
+          data-aos-once="true"
+        >
+          <img
+            src="{{"images/analytics/analytics-faq-shape.png" | absURL }}"
+            alt="banking image"
+            class="dark:hidden"
+          />
+          <img
+            src="{{"images/analytics/analytics-faq-shape-dark.png" | absURL }}"
+            alt="banking image"
+            class="hidden dark:inline-block"
+          />
+        </div>
+      </div>
+
+      <div class="lg:pl-15 xl:pl-25">
+        <div>
+          <p class="section-tagline">{{ .tagline }}</p>
+
+          <h2 class="mb-8">
+            {{ .title | safeHTML }}
+          </h2>
+        </div>
+        <div class="[&>*:not(:last-child)]:mb-5">
+          {{ range .faqItems}}
+          <div class="faq-item bg-white dark:bg-dark-200 p-2.5 rounded-medium">
+            <div
+              class="faq-header flex items-center max-md:gap-x-2.5 py-3 px-5 bg-white dark:bg-dark-200 border border-dashed rounded border-gray-100 dark:border-borderColour-dark  cursor-pointer"
+            >
+              <h3 class="text-xl font-semibold">Q. {{.question}}</h3>
+              <span class="shrink-0 ml-auto">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  class="plus"
+                >
+                  <path
+                    d="M6.25 10H13.75M10 6.25V13.75M19 10C19 14.9706 14.9706 19 10 19C5.02944 19 1 14.9706 1 10C1 5.02944 5.02944 1 10 1C14.9706 1 19 5.02944 19 10Z"
+                    stroke=""
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    class="stroke-paragraph dark:stroke-primary"
+                  />
+                </svg>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  class=" minus"
+                >
+                  <path
+                    d="M6.25 10H13.75M19 10C19 14.9706 14.9706 19 10 19C5.02944 19 1 14.9706 1 10C1 5.02944 5.02944 1 10 1C14.9706 1 19 5.02944 19 10Z"
+                    stroke=""
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    class="stroke-paragraph dark:stroke-primary"
+                  />
+                </svg>
+              </span>
+            </div>
+            <div class="faq-body close">
+              <div class="text-paragraph-light pt-6 px-6 pb-3.5 dark:text-[#A1A49D]">
+                {{ .answer }}
+              </div>
+            </div>
+          </div>
+          {{end}}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{{end}}
+{{end}}

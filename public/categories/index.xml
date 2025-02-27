@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on Aplio Hugo</title>
+    <link>http://localhost:1313/categories/</link>
+    <description>Recent content in Categories on Aplio Hugo</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 30 Jul 2024 22:35:55 +0600</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Investment</title>
+      <link>http://localhost:1313/categories/investment/</link>
+      <pubDate>Tue, 30 Jul 2024 22:35:55 +0600</pubDate>
+      <guid>http://localhost:1313/categories/investment/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Research</title>
+      <link>http://localhost:1313/categories/research/</link>
+      <pubDate>Tue, 30 Jul 2024 22:29:17 +0600</pubDate>
+      <guid>http://localhost:1313/categories/research/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Acounting</title>
+      <link>http://localhost:1313/categories/acounting/</link>
+      <pubDate>Tue, 30 Jul 2024 22:28:55 +0600</pubDate>
+      <guid>http://localhost:1313/categories/acounting/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Digital</title>
+      <link>http://localhost:1313/categories/digital/</link>
+      <pubDate>Tue, 30 Jul 2024 22:28:38 +0600</pubDate>
+      <guid>http://localhost:1313/categories/digital/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Financial</title>
+      <link>http://localhost:1313/categories/financial/</link>
+      <pubDate>Tue, 30 Jul 2024 22:26:52 +0600</pubDate>
+      <guid>http://localhost:1313/categories/financial/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Investment Banks</title>
+      <link>http://localhost:1313/categories/investment-banks/</link>
+      <pubDate>Tue, 30 Jul 2024 22:26:31 +0600</pubDate>
+      <guid>http://localhost:1313/categories/investment-banks/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Marketing</title>
+      <link>http://localhost:1313/categories/marketing/</link>
+      <pubDate>Tue, 30 Jul 2024 22:20:52 +0600</pubDate>
+      <guid>http://localhost:1313/categories/marketing/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>

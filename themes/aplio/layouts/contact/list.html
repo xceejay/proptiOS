@@ -1,0 +1,10 @@
+{{define "main"}}
+{{ partial "global/pageHero.html" (dict "context" . "page" "contact") }}
+
+{{ partial "global/contactInfo.html" . }}
+
+{{ partial "global/contactForm.html" . }}
+
+{{ partial "global/newsletter.html" ( dict "context" . "spacing" "")}}
+
+{{end}}

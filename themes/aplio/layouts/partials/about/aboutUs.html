@@ -1,0 +1,80 @@
+{{ with .Site.GetPage "/about"}}
+{{ range .Params.aboutUs}}
+<section class="relative">
+  <div
+    class="absolute left-1/2 -top-[300px] w-full h-[550px] -translate-x-1/2 bg-cover  bg-[url('../images/hero-gradient.png')] bg-no-repeat bg-center opacity-70 md:hidden -z-10"
+  ></div>
+  <div class="container relative ">
+    <div class="absolute left-1/2 top-20 -translate-x-1/2 -translate-y-1/2 flex max-md:flex-col -z-10 max-md:hidden ">
+      <div
+        class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px]  rounded-full bg-primary-200/20 blur-[145px]"
+      ></div>
+      <div
+        class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px]  rounded-full bg-primary-200/25 -ml-[170px] max-md:ml-0 blur-[145px]"
+      ></div>
+      <div
+        class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px]  rounded-full bg-primary-200/20 -ml-[170px] max-md:ml-0 blur-[145px]"
+      ></div>
+    </div>
+
+    <div class="grid grid-cols-3 max-md:grid-cols-1 gap-10 items-center  max-md:mb-25 mb-[160px]">
+      <div
+        class="p-2.5 bg-white dark:bg-dark-200 rounded-medium overflow-hidden shadow-box"
+        data-aos="fade-up"
+        data-aos-offset="200"
+        data-aos-duration="1000"
+        data-aos-once="true"
+      >
+        <img
+          src="{{"images/about/about1.png" | absURL }}"
+          alt="about images"
+          class="rounded w-full"
+        />
+      </div>
+      <div
+        class="p-2.5 bg-white dark:bg-dark-200 rounded-medium overflow-hidden shadow-box"
+        data-aos="fade-up"
+        data-aos-offset="200"
+        data-aos-duration="1000"
+        data-aos-delay="150"
+        data-aos-once="true"
+      >
+        <img
+          src="{{"images/about/about2.png" | absURL }}"
+          alt="about images"
+          class="rounded w-full"
+        />
+      </div>
+      <div
+        class="p-2.5 bg-white dark:bg-dark-200 rounded-medium overflow-hidden shadow-box"
+        data-aos="fade-up"
+        data-aos-offset="200"
+        data-aos-duration="1000"
+        data-aos-delay="300"
+        data-aos-once="true"
+      >
+        <img
+          src="{{"images/about/about3.png" | absURL }}"
+          alt="about images"
+          class="rounded w-full"
+        />
+      </div>
+    </div>
+
+    <div class="grid grid-cols-12">
+      <div class="max-md:col-span-full md:col-span-6">
+        <div class="max-w-[550px]">
+          <p class="section-tagline">{{ .tagline }}</p>
+          <h2>{{ .title | safeHTML }}</h2>
+        </div>
+      </div>
+      <div class="max-md:col-span-full md:col-span-6 max-w-[590px] py-10">
+        <p>
+          {{ .details | safeHTML}}
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+{{end}}
+{{end}}

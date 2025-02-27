@@ -1,0 +1,11 @@
+{{ define "main"}}
+  {{ partial "home-5/hero.html" . }}
+  {{ partial "global/client.html" (dict "context" . "title" "false" "subtitle" "false" "btn" "true" "rating" "5" "spacing" "max-lg:py-20 ") }}
+  {{ partial "home-5/hostingFeature.html" .}}
+  {{ partial "global/pricing.html" (dict "context" . "largeTitle" "false" "pricingDescription" "false" "spacing" "pt-150")}}
+  {{ partial "global/services.html" .}}
+  {{ partial "global/testimonial.html" .}}
+  {{ partial "home-5/easyStepsFeature.html" .}}
+  {{ partial "global/blog.html" (dict "context" . "blogPadding" "" )}}
+  {{ partial "global/newsletter.html" ( dict "context" . "spacing" "pt-150")}}
+{{end}}

@@ -1,0 +1,68 @@
+{{ with .Site.GetPage "/home-5"}}
+{{range .Params.easyStepsFeature}}
+<section class=" overflow-hidden relative pb-150">
+  <div class="container relative z-10">
+    <div class="text-center max-w-[550px] mx-auto mb-16">
+      <p class="section-tagline">{{ .tagline}} </p>
+      <h2>
+        {{ .title | safeHTML }}
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-2 max-md:grid-cols-1 gap-10 1xl:gap-x-24 items-center">
+      <div class="[&>*:not(:last-child)]:mb-8 max-md:order-1">
+        {{range .steps}}
+        <div
+          class="bg-white dark:bg-dark-200 rounded-medium p-2.5 shadow-box"
+          data-aos="fade-up"
+          data-aos-offset="200"
+          data-aos-duration="1000"
+          data-aos-once="true"
+        >
+          <div class="border border-dashed rounded border-gray-100 dark:border-borderColour-dark p-8 max-md:p-4">
+            <div class="flex gap-10 max-lg:gap-5">
+              <div
+                class="size-10 rounded-full relative flex items-center justify-center shrink-0 bg-primary after:absolute after:size-[30px] after:rounded-full after:border after:border-dashed after:border-borderColour-dark after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2"
+              >
+                <p class="font-jakarta_sans font-bold text-paragraph dark:text-paragraph">{{.slNo}}</p>
+              </div>
+              <div>
+                <h3 class="mb-2.5">{{ .name }}</h3>
+                <p>
+                  {{ .details }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        {{end}}
+      </div>
+      <div class="relative flex max-md:justify-center justify-end items-center aspect-square">
+        <img
+          src="{{ .imageLight | absURL}}"
+          alt="company image"
+          class="dark:hidden"
+          data-aos="fade-up"
+          data-aos-offset="200"
+          data-aos-duration="1000"
+          data-aos-once="true"
+        />
+        <img
+          src="{{ .imageDark | absURL}}"
+          alt="company image"
+          class="hidden dark:inline-block"
+          data-aos="fade-up"
+          data-aos-offset="200"
+          data-aos-duration="1000"
+          data-aos-once="true"
+        />
+        <div
+          class="absolute  top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-10 after:absolute after:bg-primary-200/30 after:blur-[60px] after:w-[465px] after:h-[465px]  after:rounded-full after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2"
+        ></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{{end}}
+{{end}}

@@ -1,0 +1,28 @@
+{{ with .Site.GetPage "/career"}}
+<section class="relative">
+  <div
+    class="absolute left-1/2 -top-[300px] w-full h-[550px] -translate-x-1/2 bg-cover  bg-[url('../images/hero-gradient.png')] bg-no-repeat bg-center opacity-70 md:hidden -z-10"
+  ></div>
+  <div class="container">
+    <div
+      class=" bg-white dark:bg-dark-200 shadow-nav rounded-medium p-2.5 mb-12 max-md:h-[400px]"
+      data-aos="fade-up"
+      data-aos-offset="200"
+      data-aos-duration="1000"
+      data-aos-once="true"
+    >
+      <img
+        src="{{ .Params.careerBanner | absURL }}"
+        alt="career banner"
+        class="w-full  rounded max-md:w-auto max-md:object-cover max-md:object-center  max-md:h-full"
+      />
+    </div>
+    <div class=" max-w-[850px] mx-auto">
+      <h2 class=" max-w-[700px] mb-9">{{ .Params.careerHeading | safeHTML}}</h2>
+      <p>
+        {{ .Params.careerDetails | safeHTML}}
+      </p>
+    </div>
+  </div>
+</section>
+{{end}}

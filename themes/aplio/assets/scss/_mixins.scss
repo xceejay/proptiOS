@@ -1,0 +1,88 @@
+// Marquee CSS
+:root {
+  --marquee-width: 100%;
+  --marquee-height: 350px;
+  /* --marquee-elements: 12; */ /* defined with JavaScript */
+  --marquee-elements-displayed: 6;
+  --marquee-element-width: calc(var(--marquee-width) / var(--marquee-elements-displayed));
+  --marquee-animation-duration: calc(var(--marquee-elements) * 3s);
+  @media (max-width: theme("screens.lg")) {
+    --marquee-elements-displayed: 4;
+  }
+  @media (max-width: theme("screens.md")) {
+    --marquee-elements-displayed: 3;
+  }
+  @media (max-width: theme("screens.sm")) {
+    --marquee-elements-displayed: 2;
+  }
+}
+.marquee-items {
+  width: var(--marquee-width);
+  overflow: hidden;
+  position: relative;
+  margin: 0 auto;
+
+  .marquee-content {
+    list-style: none;
+    height: 100%;
+    display: flex;
+    animation: scrolling var(--marquee-animation-duration) linear infinite;
+    animation-duration: 30s;
+    &:hover {
+      animation-play-state: paused;
+    }
+    .marquee-content-list {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      flex-shrink: 0;
+      width: var(--marquee-element-width);
+
+      @apply after:absolute after:right-0 after:top-1/2 after:-translate-y-1/2 after:w-[1px] after:h-[60px] after:content-[url('../images/clients/client-item-border.svg')] dark:after:content-[url('../images/clients/client-item-border-dark.svg')];
+    }
+  }
+}
+@keyframes scrolling {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(calc(-1 * var(--marquee-element-width) * var(--marquee-elements)));
+  }
+}
+
+.tab-content {
+  > .tab-pane {
+    display: none;
+
+    &.tabActive {
+      display: block;
+    }
+  }
+
+  > .tabActive {
+    display: block;
+  }
+}
+.animate-keep-bounce {
+  animation: bounce-open 0.3s;
+}
+@keyframes bounce-open {
+  0% {
+    transform: scale(0.7);
+  }
+
+  45% {
+    transform: scale(1.05);
+  }
+
+  80% {
+    transform: scale(0.95);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}

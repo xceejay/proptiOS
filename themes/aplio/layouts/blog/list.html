@@ -1,0 +1,6 @@
+{{define "main"}}
+{{ partial "global/pageHero.html" (dict "context" . "page" "blog") }}
+{{ partial "blog/featureBlog.html" . }}
+{{ partial "blog/blogGrid.html" . }}
+{{ partial "global/newsletter.html" (dict "context" . "spacing" "")}}
+{{end}}

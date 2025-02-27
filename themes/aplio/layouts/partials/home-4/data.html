@@ -1,0 +1,33 @@
+{{ with .Site.GetPage "/home-4"}}
+
+
+<section class="relative pb-150">
+  <div class="container">
+    <div class="grid grid-cols-3 max-md:grid-cols-1 gap-8">
+      {{range .Params.data}}
+      <div
+        class="bg-white dark:bg-dark-200 rounded-medium shadow-nav relative max-lg:p-5 p-8  border border-solid border-transparent "
+      >
+        <img
+          src="{{ .imageLight | absURL }}"
+          alt="service logo"
+          class="inline-block dark:hidden mb-10 rounded w-full"
+        />
+        <img
+          src="{{ .imageDark | absURL }}"
+          alt="service logo"
+          class="hidden dark:inline-block mb-10 rounded w-full"
+        />
+        <h3 class="mb-2.5 leading-8">
+          {{ .name | safeHTML }}
+        </h3>
+        <p>
+          {{ .details | safeHTML }}
+        </p>
+      </div>
+      {{end}}
+    </div>
+  </div>
+</section>
+
+{{end}}

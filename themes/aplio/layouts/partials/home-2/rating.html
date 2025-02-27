@@ -1,0 +1,38 @@
+{{ with .Site.GetPage "/home-2"}}
+{{range .Params.rating}}
+<section>
+  <div class="container">
+    <div class="grid grid-cols-12 gap-5 bg-white dark:bg-dark-200 shadow-nav p-2.5 items-center rounded-medium">
+      <div
+        class="max-lg:col-span-full lg:col-span-5 lg:max-w-[425px] pl-12 max-lg:text-center max-lg:pl-0 max-lg:py-12"
+      >
+        <h2 class=" mb-8">
+          {{ .title | safeHTML }}
+        </h2>
+        <p>{{ .details | safeHTML }}</p>
+      </div>
+      <div class="max-lg:col-span-full lg:col-span-7">
+        <div class=" grid grid-cols-3 max-lg:grid-cols-1 gap-3">
+          {{ range .ratingItem}}
+          <div
+            class=" border border-dashed border-gray-100 rounded dark:border-borderColour-dark py-12 px-7 text-center"
+          >
+            <h3 class="text-[48px] mb-5">{{ .totalrating}}</h3>
+            <div class="mb-4">
+              <i class="fa-solid fa-star text-[#FFC107]"></i>
+              <i class="fa-solid fa-star text-[#FFC107]"></i>
+              <i class="fa-solid fa-star text-[#FFC107]"></i>
+              <i class="fa-solid fa-star text-[#FFC107]"></i>
+              <i class="fa-solid fa-star text-[#FFC107]"></i>
+            </div>
+            <h4 class="text-xl mb-3.5 font-semibold">{{.name}}</h4>
+            <p>{{.details}}</p>
+          </div>
+          {{end}}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{{end}}
+{{end}}

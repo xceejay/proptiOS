@@ -1,0 +1,37 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ printf "%s | %s" .Title site.Title }}{{ end }}</title>
+<meta name="description" content="Aplio theme">
+{{hugo.Generator}}
+{{"<!-- Favicon -->" | safeHTML}}
+<link rel="apple-touch-icon" sizes="57x57" href="{{"images/favicons/apple-icon-57x57.png" | absURL}}">
+<link rel="apple-touch-icon" sizes="60x60" href="{{"images/favicons/apple-icon-60x60.png" | absURL}}">
+<link rel="apple-touch-icon" sizes="72x72" href="{{"images/favicons/apple-icon-72x72.png" | absURL}}">
+<link rel="apple-touch-icon" sizes="76x76" href="{{"images/favicons/apple-icon-76x76.png" | absURL}}">
+<link rel="apple-touch-icon" sizes="114x114" href="{{"images/favicons/apple-icon-114x114.png" | absURL}}">
+<link rel="apple-touch-icon" sizes="120x120" href="{{"images/favicons/apple-icon-120x120.png" | absURL}}">
+<link rel="apple-touch-icon" sizes="144x144" href="{{"images/favicons/apple-icon-144x144.png" | absURL}}">
+<link rel="apple-touch-icon" sizes="152x152" href="{{"images/favicons/apple-icon-152x152.png" | absURL}}">
+<link rel="apple-touch-icon" sizes="180x180" href="{{"images/favicons/apple-icon-180x180.png" | absURL}}">
+<link rel="icon" type="image/png" sizes="192x192"  href="{{"images/favicons/android-icon-192x192.png" | absURL}}">
+<link rel="icon" type="image/png" sizes="32x32" href="{{"images/favicons/favicon-32x32.png" | absURL}}">
+<link rel="icon" type="image/png" sizes="96x96" href="{{"images/favicons/favicon-96x96.png" | absURL}}">
+<link rel="icon" type="image/png" sizes="16x16" href="{{"images/favicons/favicon-16x16.png" | absURL}}">
+<link rel="shortcut icon" href="{{"images/favicons/favicon.ico" | absURL}}" type="image/x-icon" />
+<link rel="icon" href="{{"images/favicons/favicon.png" | absURL}}" type="image/x-icon" />
+
+{{"<!-- Fontawesome -->" | safeHTML}}
+<link rel="stylesheet" href="{{"plugins/fontawesome/all.css" | absURL}}"/>
+
+{{"<!-- AOS -->" | safeHTML}}
+<link rel="stylesheet" href="{{"plugins/fancybox/fancybox.css" | absURL}}"/>
+
+
+{{"<!-- Swiper -->" | safeHTML}}
+<link rel="stylesheet" href="{{"plugins/swiper/swiper.css" | absURL}}"/>
+
+{{"<!-- AOS -->" | safeHTML}}
+<link rel="stylesheet" href="{{"plugins/aos/aos.css" | absURL}}"/>
+
+
+{{ partialCached "head/css.html" . }}

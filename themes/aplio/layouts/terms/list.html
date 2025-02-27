@@ -1,0 +1,31 @@
+{{define "main"}}
+<section class="relative pb-150 pt-[250px] max-md:pt-150 overflow-hidden">
+  <div
+    class="absolute left-0 right-0 -top-[800px] bg-[url('../images/core-gradient.png')] bg-no-repeat bg-center opacity-70 w-full h-full bg-[length:600px_1000px] md:hidden"
+  ></div>
+  <div
+    class="container relative !max-w-[800px]"
+    data-aos="fade-up"
+    data-aos-offset="200"
+    data-aos-duration="1000"
+    data-aos-once="true"
+  >
+    <div class="absolute left-1/2 top-20 -translate-x-1/2 -translate-y-1/2 flex -z-10 max-md:hidden">
+      <div class="w-[442px] h-[442px] rounded-full bg-primary-200/20 blur-[145px]"></div>
+      <div class="w-[442px] h-[442px] rounded-full bg-primary-200/25 -ml-[170px] blur-[145px]"></div>
+      <div class="w-[442px] h-[442px] rounded-full bg-primary-200/20 -ml-[170px] blur-[145px]"></div>
+    </div>
+
+    <div class="singlePage">
+      <h2 class="mb-3 font-semibold leading-[1.33] max-w-[650px]">{{ .Title }}</h2>
+    </div>
+
+    <div class="singlePage">
+      {{ .Content}}
+    </div>
+  </div>
+</section>
+
+
+{{ partial "global/newsletter.html" (dict "context" . "spacing" "")}}
+{{end}}

@@ -1,0 +1,101 @@
+{{ define "main"}}
+<section class="hero  overflow-hidden relative max-lg:pt-150 pt-[240px] pb-[60px] z-40">
+  <div class="container">
+    <div
+      class="max-w-[948px] mx-auto text-center"
+      data-aos="fade-up"
+      data-aos-offset="200"
+      data-aos-duration="1000"
+      data-aos-once="true"
+    >
+      <p class="mb-4 font-medium uppercase">Career Details Page</p>
+      <h1 class="max-lg:mb-10 mb-10">{{ .Title | safeHTML }}</h1>
+    </div>
+  </div>
+</section>
+
+<section class="mb-150 relative">
+  <div
+    class="absolute left-0 right-0 -top-[1000px] bg-[url('../images/core-gradient.png')] bg-no-repeat bg-center opacity-70 w-full h-full bg-[length:600px_1600px] md:hidden"
+  ></div>
+  <div class="container relative">
+    <div class="absolute left-1/2 top-20 -translate-x-1/2 -translate-y-1/2 flex max-md:flex-col -z-10 max-md:hidden">
+      <div
+        class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px]  rounded-full bg-primary-200/20 blur-[145px]"
+      ></div>
+      <div
+        class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px]  rounded-full bg-primary-200/25 -ml-[170px] max-md:ml-0 blur-[145px]"
+      ></div>
+      <div
+        class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px]  rounded-full bg-primary-200/20 -ml-[170px] max-md:ml-0 blur-[145px]"
+      ></div>
+    </div>
+    <div class="grid grid-cols-12 max-lg:gap-y-25 lg:gap-16">
+      <div class="col-span-full max-lg:order-2 lg:col-span-8 singlePage relative">
+        {{ .Content }}
+      </div>
+      <div class="col-span-full max-lg:order-1 lg:col-span-4 self-start relative">
+        <div class=" bg-white dark:bg-dark-200 rounded-medium p-2.5  shadow-nav relative z-10">
+          <div
+            class=" bg-white dark:bg-dark-200 border border-dashed rounded border-gray-100 dark:border-borderColour-dark max-md:p-5 py-10 px-8"
+          >
+            <h3 class="mb-1">Job Overview</h3>
+            <div
+              class=" [&>*:not(:last-child)]:border-b [&>*:not(:last-child)]:border-dashed [&>*:not(:last-child)]:border-borderColour dark:[&>*:not(:last-child)]:border-borderColour-dark "
+            >
+              <div class="py-5">
+                <h4 class="text-lg font-medium mb-2">Date Posted</h4>
+                <p>{{ .PublishDate.Format "January 2, 2006" }}</p>
+              </div>
+              <div class="py-5">
+                <h4 class="text-lg font-medium mb-2">Expiration date</h4>
+                <p>{{ .Params.expirationDate }}</p>
+              </div>
+              <div class="py-5">
+                <h4 class="text-lg font-medium mb-2">Location</h4>
+                <p>{{ .Params.address }}</p>
+              </div>
+              <div class="py-5">
+                <h4 class="text-lg font-medium mb-2">Offered Salary</h4>
+                <p>{{ .Params.salary}} / week</p>
+              </div>
+              <div class="py-5">
+                <h4 class="text-lg font-medium mb-2">Experience</h4>
+                <p>{{.Params.experience}} {{if eq .Params.experience 1 }} Year {{else}} Years {{end}} Experience</p>
+              </div>
+              <div class="py-5">
+                <h4 class="text-lg font-medium mb-2">Qualification</h4>
+                <p>{{.Params.qualification}}</p>
+              </div>
+            </div>
+            <div class="mb-12 mt-4">
+              <h3 class="mb-8">Job Skills</h3>
+
+              <div class="flex flex-wrap w-full gap-3 ">
+                {{ range .Params.skills}}
+                <div>
+                  <span
+                    class="inline-block w-full items-center justify-between rounded-[60px] border  border-borderColour px-5  py-2 font-medium text-paragraph-light dark:border-borderColour-dark"
+                  >
+                    {{.}}
+                  </span>
+                </div>
+                {{end}}
+              </div>
+            </div>
+            <div>
+              <a
+                href="/contact"
+                class="btn w-full text-center"
+              >
+                Apply Now
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{{ partial "global/newsletter.html" (dict "context" . "spacing" "")}}
+{{end}}

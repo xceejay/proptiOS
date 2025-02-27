@@ -1,0 +1,13 @@
+{{ define "main"}}
+  {{ partial "home-2/hero.html" .}}
+  {{ partial "home-2/rating.html" .}}
+  {{ partial "home-2/coreFeature.html" .}}
+  {{ partial "home-2/whyUs.html" .}}
+  {{ partial "global/paymentFeature.html" (dict "context" . "page" "home-2" "className" "relative bg-white pb-150 pt-150 dark:bg-dark-300 max-md:overflow-hidden max-md:py-25" "tagline" "MORE FEATURES"  "sectionTitle" "Managing your money has never been easier")}}
+  
+  {{ partial "global/membersCounter.html" (dict "context" . "border" "true" "value1" "85" "value2" "45")}}
+  {{ partial "global/pricing.html" (dict "context" . "largeTitle" "false" "pricingDescription" "false" "spacing" "pt-150 mb-150 max-md:mb-25")}}
+  {{ partial "global/client.html" (dict "context" . "title" "false" "subtitle" "false" "btn" "false") }}
+  {{ partial "home-2/blog.html" .}}
+  {{ partial "global/cta.html" .}}
+{{end}}

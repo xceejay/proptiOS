@@ -1,0 +1,12 @@
+
+{{ $opts := dict "transpiler" "libsass" "targetPath" "css/main.css" }}
+{{- with resources.Get "scss/theme.scss" | toCSS $opts | postCSS (dict "config" "./assets/tailwind/postcss.config.js") }}
+  {{- if eq hugo.Environment "development" }}
+    <link rel="stylesheet" href="{{ .Permalink }}">
+  {{- else }}
+  {{- with . | minify | fingerprint | css.PostCSS}}
+      <link rel="stylesheet" href="{{ .Permalink }}" >
+  {{- end }}
+  {{- end }}
+{{- end }}
+

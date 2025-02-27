@@ -1,0 +1,11 @@
+{{ define "main"}}
+{{ partial "global/pageHero.html" (dict "context" . "page" "career") }}
+{{ partial "career/careerDetails.html" . }}
+
+
+{{ partial "global/paymentFeature.html" (dict "context" . "page" "career" "className" "bg-white dark:bg-dark-300 py-150 max-md:py-25 relative max-md:overflow-hidden" "tagline" "our value"  "sectionTitle" "Our business is steered by <br> our core values")}}
+
+{{ partial "career/careerLists.html" . }}
+
+{{ partial "global/newsletter.html" (dict "context" . "spacing" "")}}
+{{end}}
