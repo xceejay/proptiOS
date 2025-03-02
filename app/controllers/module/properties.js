@@ -1,19 +1,5 @@
-const mysql_db = require("../../config/db.mysql"); // neo4j-db
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+const mysql_db = require("../../config/db.mysql");
 const moment = require("moment");
-const { UAParser } = require("ua-parser-js");
-var uuid = require("uuid-random");
-var dateFormat = require("dateformat");
-var ECN = require("../../config/constants");
-var includes = require("array-includes");
-const shortid = require("shortid");
-const axios = require("axios");
-const numbro = require("numbro");
-const geoip = require("geoip-lite");
-const lookup = require("country-code-lookup");
-const { client, xml, jid } = require("@xmpp/client");
-const debug = require("@xmpp/debug");
 const { customAlphabet } = require("nanoid");
 var multer = require("multer");
 var upload = multer();
@@ -22,37 +8,11 @@ const nanoid = customAlphabet(
   "123456789AbcDeFkLPzZQqRrMmNWwBEGgHhJSTtUuXx",
   32
 );
-const nanoid_short = customAlphabet(
-  "123456789AbcDeFkLPzZQqRrMmNWwBEGgHhJSTtUuXx",
-  8
-);
-const nanoid_shortest = customAlphabet(
-  "123456789AbcDeFkLPzZQqRrMmNWwBEGgHhJSTtUuXx",
-  5
-);
 
-const {
-  earlyAccessMail,
-  welcomeEmail,
-  emailActivation,
-  forgotPassword,
-} = require("../emailers/core");
-
-const {
-  validateQuantity,
-  trim,
-  validateTimestamp,
-  validateEmail,
-  sendTelegramAlert,
-} = require("../../services/utilities");
 const jwtMiddleware = require("../../middleware/jwt");
 const acl = require("../../middleware/acl");
 
-// Emails to be sent to users via Postmark
-
 const PREFIX = "/properties";
-const saltRounds = 10;
-const secret = "mysecretsshhh";
 
 const routes = (app) => {
   //add property to db
