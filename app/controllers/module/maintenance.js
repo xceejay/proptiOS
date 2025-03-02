@@ -4,6 +4,7 @@ const jwtMiddleware = require("../../middleware/jwt");
 const acl = require("../../middleware/acl");
 const propertyAccessChecks = require("../../middleware/property_access");
 
+// Maintenance Module
 const PREFIX = "/maintenance";
 
 const routes = (app) => {
