@@ -1,59 +1,10 @@
-const neo4j_db = require("../../config/db"); // neo4j-db + OGM
-const mysql_db = require("../../config/db.mysql"); // neo4j-db
-const JOD = require("../../config/security");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+const mysql_db = require("../../config/db.mysql");
 const moment = require("moment");
-const { UAParser } = require("ua-parser-js");
-var uuid = require("uuid-random");
-var dateFormat = require("dateformat");
-var ECN = require("../../config/constants");
-var includes = require("array-includes");
-const shortid = require("shortid");
-const axios = require("axios");
-const numbro = require("numbro");
-const geoip = require("geoip-lite");
-const lookup = require("country-code-lookup");
-const { client, xml, jid } = require("@xmpp/client");
-const debug = require("@xmpp/debug");
-const { customAlphabet } = require("nanoid");
-const nanoid = customAlphabet(
-  "123456789AbcDeFkLPzZQqRrMmNWwBEGgHhJSTtUuXx",
-  32
-);
-const nanoid_short = customAlphabet(
-  "123456789AbcDeFkLPzZQqRrMmNWwBEGgHhJSTtUuXx",
-  8
-);
-const nanoid_shortest = customAlphabet(
-  "123456789AbcDeFkLPzZQqRrMmNWwBEGgHhJSTtUuXx",
-  5
-);
-
-const {
-  earlyAccessMail,
-  welcomeEmail,
-  emailActivation,
-  forgotPassword,
-} = require("../emailers/core");
-
-const {
-  validateQuantity,
-  trim,
-  validateTimestamp,
-  validateEmail,
-  sendTelegramAlert,
-} = require("../../services/utilities");
+const { trim } = require("../../services/utilities");
 const jwtMiddleware = require("../../middleware/jwt");
 const acl = require("../../middleware/acl");
 
-const propertyAccessChecks = require("../../middleware/acl");
-
-// Emails to be sent to users via Postmark
-
 const PREFIX = "/tenants";
-const saltRounds = 10;
-const secret = "mysecretsshhh";
 
 const routes = (app) => {
   app.put(
@@ -518,7 +469,7 @@ const routes = (app) => {
           if (row.lease_id) {
             leases.set(row.leases, {
               id: row.lease_id,
-              lease_type: row.lease_id,
+              lease_type: row.lease_type,
               lease_document_url: row.document_url,
             });
           }
@@ -830,103 +781,90 @@ const routes = (app) => {
     }
   );
 
+  // Delete Tenants Endpoint
+  app.delete(
+    '/tenants',
+    jwtMiddleware,
+    acl(["property_owner", "property_manager", "property_coordinator"]),
+    async (req, res) => {
+      const tenantUuids = req.body.uuids;
+      const site_id = req.user.site_id;
 
-
-
-
-// Delete Tenants Endpoint
-app.delete(
-  '/tenants',
-  jwtMiddleware,
-  acl(["property_owner", "property_manager", "property_coordinator"]),
-  async (req, res) => {
-    const tenantUuids = req.body.uuids;
-    const site_id = req.user.site_id;
-
-    if (!Array.isArray(tenantUuids) || tenantUuids.length === 0) {
-      return res.status(400).json({
-        status: "FAILED",
-        description: "Invalid input: expected an array of tenant UUIDs"
-      });
-    }
-
-    const connection = await mysql_db.getConnection();
-
-    try {
-      await connection.beginTransaction();
-
-      // Verify tenants exist and belong to the site
-      const [existingTenants] = await connection.query(
-        `SELECT id, uuid FROM tenants 
-         WHERE uuid IN (?) AND site_id = ? AND deleted_at IS NULL`,
-        [tenantUuids, site_id]
-      );
-
-      if (existingTenants.length !== tenantUuids.length) {
+      if (!Array.isArray(tenantUuids) || tenantUuids.length === 0) {
         return res.status(400).json({
           status: "FAILED",
-          description: "One or more tenants not found or already deleted"
+          description: "Invalid input: expected an array of tenant UUIDs"
         });
       }
 
-      // Check for active leases
-      const [activeLeases] = await connection.query(
-        `SELECT t.uuid 
-         FROM tenants t
-         JOIN leases l ON t.id = l.tenant_id
-         WHERE t.uuid IN (?) 
-         AND t.site_id = ?
-         AND l.deleted_at IS NULL`,
-        [tenantUuids, site_id]
-      );
+      const connection = await mysql_db.getConnection();
 
-      if (activeLeases.length > 0) {
-        return res.status(400).json({
-          status: "FAILED",
-          description: "Cannot delete tenants with active leases"
+      try {
+        await connection.beginTransaction();
+
+        // Verify tenants exist and belong to the site
+        const [existingTenants] = await connection.query(
+          `SELECT id, uuid FROM tenants 
+           WHERE uuid IN (?) AND site_id = ? AND deleted_at IS NULL`,
+          [tenantUuids, site_id]
+        );
+
+        if (existingTenants.length !== tenantUuids.length) {
+          return res.status(400).json({
+            status: "FAILED",
+            description: "One or more tenants not found or already deleted"
+          });
+        }
+
+        // Check for active leases
+        const [activeLeases] = await connection.query(
+          `SELECT t.uuid 
+           FROM tenants t
+           JOIN leases l ON t.id = l.tenant_id
+           WHERE t.uuid IN (?) 
+           AND t.site_id = ?
+           AND l.deleted_at IS NULL`,
+          [tenantUuids, site_id]
+        );
+
+        if (activeLeases.length > 0) {
+          return res.status(400).json({
+            status: "FAILED",
+            description: "Cannot delete tenants with active leases"
+          });
+        }
+
+        const stamp = moment().format("YYYY-MM-DD HH:mm:ss");
+
+        // Soft delete tenants
+        await connection.query(
+          `UPDATE tenants 
+           SET deleted_at = ? 
+           WHERE uuid IN (?) AND site_id = ?`,
+          [stamp, tenantUuids, site_id]
+        );
+
+        await connection.commit();
+
+        return res.status(200).json({
+          status: "SUCCESS",
+          description: `Successfully deleted ${tenantUuids.length} tenant(s)`
         });
+
+      } catch (error) {
+        await connection.rollback();
+        console.error("Error deleting tenants:", error);
+        
+        return res.status(500).json({
+          status: "FAILED",
+          description: "Server Error: Failed to delete tenants"
+        });
+      } finally {
+        connection.release();
       }
-
-      const stamp = moment().format("YYYY-MM-DD HH:mm:ss");
-
-      // Soft delete tenants
-      await connection.query(
-        `UPDATE tenants 
-         SET deleted_at = ? 
-         WHERE uuid IN (?) AND site_id = ?`,
-        [stamp, tenantUuids, site_id]
-      );
-
-      await connection.commit();
-
-      return res.status(200).json({
-        status: "SUCCESS",
-        description: `Successfully deleted ${tenantUuids.length} tenant(s)`
-      });
-
-    } catch (error) {
-      await connection.rollback();
-      console.error("Error deleting tenants:", error);
-      
-      return res.status(500).json({
-        status: "FAILED",
-        description: "Server Error: Failed to delete tenants"
-      });
-    } finally {
-      connection.release();
     }
-  }
-);
-
-
-
-
-
-  
+  );
 };
-
-
-
 
 module.exports = {
   routes,

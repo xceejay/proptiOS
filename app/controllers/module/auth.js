@@ -1,19 +1,19 @@
 const neo4j_db = require("../../config/db"); // neo4j-db + OGM
 const mysql_db = require("../../config/db.mysql"); // neo4j-db
 const MH = require("../../config/security");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const moment = require("moment");
 const { UAParser } = require("ua-parser-js");
-var uuid = require("uuid-random");
-var dateFormat = require("dateformat");
-var ECN = require("../../config/constants");
-var includes = require("array-includes");
+const uuid = require("uuid-random");
+const dateFormat = require("dateformat");
+const ECN = require("../../config/constants");
+const includes = require("array-includes");
 const shortid = require("shortid");
 const axios = require("axios");
 const numbro = require("numbro");
-var multer = require("multer");
-var upload = multer();
+const multer = require("multer");
+const upload = multer();
 const geoip = require("geoip-lite");
 const lookup = require("country-code-lookup");
 const { client, xml, jid } = require("@xmpp/client");
@@ -252,8 +252,8 @@ const routes = (app) => {
 
     if (results.length > 0) {
       var userPassword = results[0].password;
-      bcrypt.hash(password, saltRounds, async (err, hash) => {
-        if (hash === userPassword) {
+      bcrypt.compare(password, userPassword, async (err, result) => {
+        if (result) {
           return res.status(403).json({
             status: "FAILED",
             description: "You can't use an old password",
@@ -262,7 +262,7 @@ const routes = (app) => {
         let updateQuery =
           "UPDATE `pm_users` SET `password` = ? WHERE reset_password_code = ?;";
         try {
-          await mysql_db.execute(updateQuery, [hash, resetToken]);
+          await mysql_db.execute(updateQuery, [bcrypt.hash(password, saltRounds), resetToken]);
           return res.status(200).json({
             status: "SUCCESS",
             description: "Password reset successful",

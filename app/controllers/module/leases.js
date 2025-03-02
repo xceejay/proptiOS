@@ -1,34 +1,8 @@
-const neo4j_db = require("../../config/db"); // neo4j-db + OGM
-const mysql_db = require("../../config/db.mysql"); // neo4j-db
-const JOD = require("../../config/security");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const moment = require("moment");
-const { UAParser } = require("ua-parser-js");
-var uuid = require("uuid-random");
-var dateFormat = require("dateformat");
-var ECN = require("../../config/constants");
-var includes = require("array-includes");
-const shortid = require("shortid");
-const axios = require("axios");
-const numbro = require("numbro");
-const geoip = require("geoip-lite");
-const lookup = require("country-code-lookup");
-const { client, xml, jid } = require("@xmpp/client");
-const debug = require("@xmpp/debug");
-const { customAlphabet } = require("nanoid");
-const nanoid = customAlphabet(
-  "123456789AbcDeFkLPzZQqRrMmNWwBEGgHhJSTtUuXx",
-  32
-);
-const nanoid_short = customAlphabet(
-  "123456789AbcDeFkLPzZQqRrMmNWwBEGgHhJSTtUuXx",
-  8
-);
-const nanoid_shortest = customAlphabet(
-  "123456789AbcDeFkLPzZQqRrMmNWwBEGgHhJSTtUuXx",
-  5
-);
+const mysql_db = require("../../config/db.mysql");
+const jwtMiddleware = require("../../middleware/jwt");
+const acl = require("../../middleware/acl");
+
+const PREFIX = "/leases";
 
 const {
   earlyAccessMail,
@@ -44,14 +18,11 @@ const {
   validateEmail,
   sendTelegramAlert,
 } = require("../../services/utilities");
-const jwtMiddleware = require("../../middleware/jwt");
-const acl = require("../../middleware/acl");
 
 const propertyAccessChecks = require("../../middleware/acl");
 
 // Emails to be sent to users via Postmark
 
-const PREFIX = "/leases";
 const saltRounds = 10;
 const secret = "mysecretsshhh";
 const routes = (app) => {

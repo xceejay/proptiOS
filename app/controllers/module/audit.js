@@ -1,7 +1,7 @@
 const neo4j_db = require("../../config/db"); // neo4j-db + OGM
 const mysql_db = require("../../config/db.mysql"); // neo4j-db
 const JOD = require("../../config/security");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const moment = require("moment");
 const { UAParser } = require("ua-parser-js");

@@ -1,7 +1,7 @@
 const neo4j_db = require("../../../config/db"); // neo4j-db + OGM
 const mysql_db = require("../../../config/db.mysql"); // mysql-db
 const EG = require("../../../config/security");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const JOD = require("../../../config/security");
 const jwt = require("jsonwebtoken");
 const moment = require("moment");
@@ -41,7 +41,6 @@ const {
   sendTelegramAlert,
   validateDomain,
 } = require("../../../services/utilities");
-const { curly } = require("node-libcurl");
 const x = require("uniqid");
 const { stat } = require("fs");
 const secret = "mysecretsshhh";
@@ -101,16 +100,18 @@ function execShellCommand(cmd) {
 
 const validateJitsiDomain = async (domain) => {
   let url = `https://${domain}/interface_config.js`;
-  var deploy = `curl ${url} -f | grep TOOLBAR_BUTTONS`;
-  const outData = await execShellCommand(deploy);
-  if (outData.stdout.trim() == "") {
-    console.log("See the error:");
-    console.dir(outData.err);
-    // return false;
+  try {
+    const response = await axios.get(url);
+    if (response.data.includes('TOOLBAR_BUTTONS')) {
+      console.log("See the output");
+      console.log(response.data);
+      return true;
+    }
     return true;
-  } else {
-    console.log("See the output");
-    console.log(outData.stdout);
+  } catch (error) {
+    console.log("See the error:");
+    console.dir(error);
+    // return false;
     return true;
   }
 };
