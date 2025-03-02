@@ -1,3 +1,4 @@
+# This workflow is used to deploy the API to the production server
 name: Deploy
 
 on: [push]
@@ -16,8 +17,8 @@ jobs:
           USERNAME: ${{ secrets.USERNAME }}
           PORT: ${{ secrets.PORT }}
           KEY: ${{ secrets.SSHKEY }}
-          source: "."
-          target: "/var/www/api.pm.proptios.com"
+          source: '.'
+          target: '/var/www/api.pm.proptios.com'
           rm: true
 
       - name: Executing remote command
