@@ -53,7 +53,7 @@ const routes = (app) => {
     }
   );
 
-  // PUT: Update an existing maintenance request
+  // PUT: Update an existing maintenance request by id
   app.put(
     PREFIX + "/:property_id/maintenance_requests/:id",
     jwtMiddleware,
