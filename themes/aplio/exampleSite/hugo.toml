@@ -7,8 +7,8 @@ theme= 'aplio'
 [taxonomies]
   category = 'categories'
   tag = 'tags'
-  
-  
+
+
 [menus]
   # Main Menu
   [[menus.main]]
@@ -40,12 +40,12 @@ theme= 'aplio'
         name = "Home 5"
         pageRef  = "/home-5"
         parent = "home"
-        weight = 15 
+        weight = 15
     [[menus.main]]
     name = "About"
     identifier = "about"
     pageRef = "/about"
-    weight = 2  
+    weight = 2
     [[menus.main]]
     name = "Services"
     identifier = "services"
@@ -147,14 +147,14 @@ theme= 'aplio'
         identifier = "contact"
         pageRef  = "/contact"
         weight = 6
-        
-        
-        
+
+
+
     [[menus.explore]]
     name = "About"
     identifier = "about"
     pageRef = "/about"
-    weight = 1 
+    weight = 1
     [[menus.explore]]
     name = "Payment"
     identifier = "payment"
@@ -185,14 +185,14 @@ theme= 'aplio'
     identifier = "faq"
     pageRef = "/faq"
     weight = 7
-    
-    
-    
+
+
+
     [[menus.resources]]
     name = "Services"
     identifier = "services"
     pageRef = "/services"
-    weight = 1 
+    weight = 1
     [[menus.resources]]
     name = "Team"
     identifier = "team"
@@ -223,7 +223,7 @@ theme= 'aplio'
     identifier = "signup"
     pageRef = "/signup"
     weight = 7
-  
+
 [params]
   logo = "images/logo.svg"
   logoDark = "images/logo-light.svg"
@@ -236,8 +236,8 @@ theme= 'aplio'
   linkedinLink= "#"
   githubLink= "#"
   behanceLink= "#"
-  
-  
+
+
 [module]
   [module.hugoVersion]
     extended = false

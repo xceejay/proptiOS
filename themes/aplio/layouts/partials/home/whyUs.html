@@ -1,5 +1,5 @@
 
-{{ with .Site.GetPage "/home-2"}}
+{{ with .Site.GetPage "home"}}
 
 <section class="relative pt-[200px] overflow-x-hidden">
   <div
@@ -7,7 +7,7 @@
   >
     {{range .Params.whyChooseUs}}
     <div class="grid grid-cols-2 max-md:grid-cols-1 max-md:gap-10 gap-25 1xl:gap-x-24 items-end relative">
-      
+
       <div
         class="relative max-md:order-1"
         data-aos="fade-up"

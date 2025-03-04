@@ -23,7 +23,7 @@ theme= 'aplio'
         weight = 11
       [[menus.main]]
         name = "Home 2"
-        pageRef  = "/home-2"
+        pageRef  = "/home"
         parent = "home"
         weight = 12
       [[menus.main]]
