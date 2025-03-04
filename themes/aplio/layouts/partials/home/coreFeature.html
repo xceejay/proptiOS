@@ -1,4 +1,4 @@
-{{ with .Site.GetPage "/home-2"}}
+{{ with .Site.GetPage "/home"}}
 {{range .Params.coreFeatures}}
 <section class="pt-150 relative">
   <div
@@ -26,8 +26,8 @@
 
       <div
         class="flex flex-col  relative [&>*:not(:last-child)]:after:absolute [&>*:not(:last-child)]:after:h-0.5 [&>*:not(:last-child)]:after:w-full [&>*:not(:last-child)]:after:content-[url('../images/payment/seperator.png')] dark:[&>*:not(:last-child)]:after:content-[url('../images/payment/seperator-dark.png')] [&>*:not(:last-child)]:after:bottom-0 [&>*:not(:last-child)]:after:overflow-hidden max-md:[&>*:not(:last-child)]:after:hidden"
-      > 
-        
+      >
+
         <div
           class="relative grid grid-cols-3 max-lg:grid-cols-1 [&>*:nth-child(3n+1)]:before:absolute [&>*:nth-child(3n+1)]:before:left-0 [&>*:nth-child(3n+1)]:before:top-1/2 [&>*:nth-child(3n+1)]:before:-translate-y-1/2 [&>*:nth-child(3n+1)]:before:w-[1px] [&>*:nth-child(3n+1)]:before:h-full [&>*:nth-child(3n+1)]:before:content-[url('../images/payment/coreborder-right.svg')] dark:[&>*:nth-child(3n+1)]:before:content-[url('../images/payment/coreborder-right-dark.svg')] max-lg:[&>*:nth-child(3n+1)]:before:hidden"
         >
@@ -54,10 +54,10 @@
           </div>
           {{end}}
         </div>
-        
+
         <div
           class="relative grid grid-cols-3 max-lg:grid-cols-1 [&>*:nth-child(3n+1)]:before:absolute [&>*:nth-child(3n+1)]:before:left-0 [&>*:nth-child(3n+1)]:before:top-1/2 [&>*:nth-child(3n+1)]:before:-translate-y-1/2 [&>*:nth-child(3n+1)]:before:w-[1px] [&>*:nth-child(3n+1)]:before:h-full [&>*:nth-child(3n+1)]:before:content-[url('../images/payment/coreborder-right.svg')] dark:[&>*:nth-child(3n+1)]:before:content-[url('../images/payment/coreborder-right-dark.svg')] [&>*:nth-row(n+2)]:mb-32 max-lg:[&>*:nth-child(3n+1)]:before:hidden "
-        > 
+        >
           {{range last 3 .featureItems}}
           <div
             class=" relative  px-0 lg:px-12 py-12 after:absolute lg:after:right-0 lg:after:top-1/2 after:overflow-hidden lg:after:-translate-y-1/2 lg:after:w-[1px] lg:after:h-full lg:after:content-[url('../images/payment/coreborder-right.svg')] lg:dark:after:content-[url('../images/payment/coreborder-right-dark.svg')] group max-lg:after:content-[url('../images/payment/coreborder-bottom-mobile.svg')]  dark:max-lg:after:content-[url('../images/payment/coreborder-bottom-mobile-dark.svg')] max-lg:after:w-full max-lg:after:h-[1px] max-lg:after:bottom-0 max-lg:top-auto  "
