@@ -3,7 +3,7 @@ title: 'Home'
 date: 2025-03-04T15:59:46+06:00
 hero:
   - title: >
-      Elevate Property Management with <span class="font-playfair italic inline-block px-5 pt-0.5 pb-2.5 leading-none">proptiOS</span>
+      Elevate Property Management with <span class="font-playfair italic inline-block pt-0.5 pb-2.5 leading-none">proptiOS</span>
     tagline: The Future of Property Management is Here
     details: Drive efficiency, enhance tenant experiences, and maximize profitability with the most advanced property management operating system built for modern real estate professionals.
 rating:
