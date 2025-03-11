@@ -240,8 +240,16 @@ const EditPropertyTenantDrawer = props => {
           return tenant
         })
 
-        toast.success('Change applied', { duration: 3000 })
+        // Create updated tenant object with full unit objects
+        const updatedTenant = {
+          ...formData,
+          units: propertyData.units.filter(unit => formData.units.includes(unit.id))
+        }
 
+        // Call the onTenantUpdate function from props to update UI immediately
+        props.onTenantUpdate && props.onTenantUpdate(updatedTenant)
+
+        toast.success('Change applied', { duration: 3000 })
         handleClose()
       },
       error => {
@@ -445,16 +453,16 @@ const EditPropertyTenantDrawer = props => {
               render={({ field: { onChange, onBlur, value, ref } }) => (
                 <Autocomplete
                   multiple
-                  options={propertyData.units}
-                  getOptionLabel={unit => unit.name}
+                  options={propertyData.units || []}
+                  getOptionLabel={unit => unit.name || ''}
                   onChange={(event, newValue) => {
                     // Pass the array of selected unit ids to handle the form state
                     onChange(newValue ? newValue.map(unit => unit.id) : [])
                   }}
-                  getOptionDisabled={unit => !!unit.tenant_id}
+                  getOptionDisabled={unit => unit.tenant_id && unit.tenant_id !== tenantData.id}
                   value={propertyData.units.filter(unit => value.includes(unit.id))} // Set the selected values
                   renderInput={params => <TextField {...params} label='Units Occupied' />}
-                  isOptionEqualToValue={(option, value) => option.id === value} // Ensure proper comparison
+                  isOptionEqualToValue={(option, value) => option.id === value.id} // Ensure proper comparison
                 />
               )}
             />
