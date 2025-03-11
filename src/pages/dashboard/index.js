@@ -88,7 +88,7 @@ const Dashboard = () => {
             </Grid>
 
             <Grid item xs={12} sm={6} lg={3}>
-              <Link href='/properties/units' style={{ textDecoration: 'none' }}>
+              <Link href='/properties' style={{ textDecoration: 'none' }}>
                 <CardStatsVertical
                   chipText={`${DashData?.total_units || 'No Data'} units`}
                   avatarColor='info'
