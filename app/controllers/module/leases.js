@@ -2,7 +2,7 @@ const mysql_db = require("../../config/db.mysql");
 const jwtMiddleware = require("../../middleware/jwt");
 const acl = require("../../middleware/acl");
 const moment = require("moment");
-const uuid = require("uuid");
+const uuid = require("uuid-random");
 
 const PREFIX = "/leases";
 
