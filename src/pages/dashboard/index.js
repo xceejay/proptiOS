@@ -2,6 +2,7 @@
 
 // ** MUI Import
 import Grid from '@mui/material/Grid'
+import Link from 'next/link'
 
 // ** Demo Component Imports
 import CrmSessions from 'src/ui/dashboard/CrmSessions'
@@ -62,50 +63,53 @@ const Dashboard = () => {
         <Grid item xs={12} sm={12} lg={12}>
           <Grid container spacing={6}>
             <Grid item xs={12} sm={6} lg={3}>
-              <CardStatsVertical
-                // stats={'No Data'}
-                chipText={`${DashData?.total_tenants || 'No Data'} tenants`}
-                avatarColor='info'
-                chipColor='default'
-                title='Total tenants'
-                subtitle='All time'
-                avatarIcon='tabler:woman'
-              />
+              <Link href='/tenants' style={{ textDecoration: 'none' }}>
+                <CardStatsVertical
+                  chipText={`${DashData?.total_tenants || 'No Data'} tenants`}
+                  avatarColor='info'
+                  chipColor='default'
+                  title='Total tenants'
+                  subtitle='All time'
+                  avatarIcon='tabler:woman'
+                />
+              </Link>
             </Grid>
             <Grid item xs={12} sm={6} lg={3}>
-              {/* prettier-ignore */}
-              <CardStatsVertical
-                // stats={DashData?.total_leases || "No Data"}
-                chipText={`${DashData?.total_leases || "No Data"} leases`}
-                avatarColor='success'
-                chipColor='default'
-                title='Units Occupied'
-                subtitle='All time'
-                avatarIcon='tabler:home'
-              />
+              <Link href='/leases' style={{ textDecoration: 'none' }}>
+                <CardStatsVertical
+                  chipText={`${DashData?.total_leases || 'No Data'} leases`}
+                  avatarColor='success'
+                  chipColor='default'
+                  title='Units Occupied'
+                  subtitle='All time'
+                  avatarIcon='tabler:home'
+                />
+              </Link>
             </Grid>
 
             <Grid item xs={12} sm={6} lg={3}>
-              <CardStatsVertical
-                // stats={'No Data'}
-                chipText={`${DashData?.total_units || 'No Data'} units`}
-                avatarColor='info'
-                chipColor='default'
-                title='Total units'
-                subtitle='All time'
-                avatarIcon='tabler:home'
-              />
+              <Link href='/properties/units' style={{ textDecoration: 'none' }}>
+                <CardStatsVertical
+                  chipText={`${DashData?.total_units || 'No Data'} units`}
+                  avatarColor='info'
+                  chipColor='default'
+                  title='Total units'
+                  subtitle='All time'
+                  avatarIcon='tabler:home'
+                />
+              </Link>
             </Grid>
             <Grid item xs={12} sm={6} lg={3}>
-              <CardStatsVertical
-                // stats={'No Data'}
-                chipText={`${DashData?.total_properties || 'No Data'} properties`}
-                avatarColor='info'
-                chipColor='default'
-                title='Total Properties'
-                subtitle='All time'
-                avatarIcon='tabler:building-community'
-              />
+              <Link href='/properties' style={{ textDecoration: 'none' }}>
+                <CardStatsVertical
+                  chipText={`${DashData?.total_properties || 'No Data'} properties`}
+                  avatarColor='info'
+                  chipColor='default'
+                  title='Total Properties'
+                  subtitle='All time'
+                  avatarIcon='tabler:building-community'
+                />
+              </Link>
             </Grid>
 
             <Grid item xs={12} sm={12} lg={12}>
