@@ -86,7 +86,7 @@ const Dashboard = () => {
                 />
               </Link>
             </Grid>
-
+            {/* Grid for properties */}
             <Grid item xs={12} sm={6} lg={3}>
               <Link href='/properties' style={{ textDecoration: 'none' }}>
                 <CardStatsVertical
