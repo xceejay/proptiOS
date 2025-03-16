@@ -51,7 +51,6 @@ const RegisterIllustration = styled('img')(({ theme }) => ({
     maxHeight: 500
   }
 }))
-// testing coommit
 const RightWrapper = styled(Box)(({ theme }) => ({
   width: '100%',
   [theme.breakpoints.up('md')]: {
