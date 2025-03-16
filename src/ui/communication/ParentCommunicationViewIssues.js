@@ -51,7 +51,7 @@ const initialIssues = [
       {
         name: 'noise_recording.mp4',
         type: 'video/mp4',
-        url: 'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
+        url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
       },
       {
         name: 'noise_complaint_report.pdf',
