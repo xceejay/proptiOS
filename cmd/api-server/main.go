@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/gorilla/mux"
-	kafka "github.com/segmentio/kafka-go"
 	"github.com/xceejay/api.events.proptios.com/internal/auth"
 	"github.com/xceejay/api.events.proptios.com/internal/config"
 	"github.com/xceejay/api.events.proptios.com/internal/example"
@@ -19,63 +19,68 @@ const Version = "1.0.0"
 
 var flagConfig = flag.String("config", "./config/local.yml", "path to the config file")
 
-func getKafkaWriter(kafkaURL, topic string) *kafka.Writer {
-
-	fmt.Printf("What is being used %v , %v\n", kafkaURL, topic)
-
-	return &kafka.Writer{
-		Addr:     kafka.TCP(kafkaURL),
-		Topic:    topic,
-		Balancer: &kafka.LeastBytes{},
-	}
-}
-
 func main() {
-	logger := log.New() // Initialize logger
+	logger := log.New()
+	logger.Info("Starting application...")
 
-	logger.Info("Starting application...") // Check if logger prints this
+	kafkaURL := os.Getenv("KAFKA_BROKERS")
+	topic := os.Getenv("KAFKA_TOPIC")
 
-	kafkaURL := os.Getenv("kafkaURL")
-	topic := os.Getenv("topic")
-
-	logger.Debugf("kafka details, url : %v , topic : %v", kafkaURL, topic)
+	logger.Debugf("Kafka details, brokers: %v, topic: %v", kafkaURL, topic)
 
 	if kafkaURL == "" || topic == "" {
-		logger.Error("Missing required environment variables: kafkaURL or topic")
-		os.Exit(1) // Exit after logging the error
+		logger.Error("Missing required environment variables: KAFKA_BROKERS or KAFKA_TOPIC")
+		os.Exit(1)
 	}
 
-	kafkaWriter := getKafkaWriter(kafkaURL, topic)
-	defer kafkaWriter.Close()
+	brokers := strings.Split(kafkaURL, ",")
 
-	r, err := initiateRoutes(kafkaWriter)
+	// Initialize Kafka Producer
+	kafkaProducer, err := payments.NewKafkaProducer(brokers, topic)
+	if err != nil {
+		logger.Error("Error initializing Kafka producer:", err)
+		os.Exit(1)
+	}
+	defer kafkaProducer.Close() // Ensure producer is closed on shutdown
+
+	// Initialize Router
+	r, err := initiateRoutes(kafkaProducer, logger)
 	if err != nil {
 		logger.Error("Failed to initialize routes")
-		os.Exit(1) // Exit after logging the error
+		os.Exit(1)
 	}
 
 	example.PrintExample()
-	fmt.Println("start producer-api ... !!")
+	fmt.Println("Start producer-api ... !!")
 
 	if err := http.ListenAndServe(":8080", r); err != nil {
 		logger.Errorf("Server failed to start: %v", err)
-		os.Exit(1) // Log the error and exit
+		os.Exit(1)
 	}
 }
 
-func initiateRoutes(kafkaWriter *kafka.Writer) (*mux.Router, error) {
+func initiateRoutes(kp *payments.KafkaProducer, logger log.Logger) (*mux.Router, error) {
 	r := mux.NewRouter()
-	logger := log.New().With(nil, "version", Version)
 
-	// load application configurations
+	// Load application configurations
 	cfg, err := config.Load(*flagConfig, logger)
 	if err != nil {
-		logger.Errorf("failed to load application configuration: %s", err)
+		logger.Errorf("Failed to load application configuration: %s", err)
 		return nil, err
 	}
 
-	r.HandleFunc("/produce", payments.ProducerHandler(kafkaWriter)).Methods(http.MethodPost)
+	// Initialize Payments Repository
+	paymentRepo := payments.NewMockRepository()
+
+	// Initialize Payments Service
+	paymentService := payments.NewService(paymentRepo, kp)
+
+	// Initialize Payments Handler
+	paymentHandler := payments.NewHandler(paymentService)
+
+	// Register routes
 	r.HandleFunc("/auth", auth.LoginHandler(auth.NewService(cfg.JWTSigningKey, cfg.JWTExpiration, logger), logger)).Methods(http.MethodPost)
+	r.HandleFunc("/payments", paymentHandler.ProcessPaymentHandler).Methods(http.MethodPost)
 
 	return r, nil
 }

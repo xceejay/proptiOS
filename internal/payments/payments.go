@@ -1,45 +1,30 @@
 package payments
 
 import (
-	"encoding/json"
-	"fmt"
-	"io"
-	"log"
-	"net/http"
-
-	kafka "github.com/segmentio/kafka-go"
-	"github.com/xceejay/api.events.proptios.com/internal/responses"
+	"github.com/segmentio/kafka-go"
 )
 
-func ProducerHandler(kafkaWriter *kafka.Writer) http.HandlerFunc {
-	return func(wrt http.ResponseWriter, req *http.Request) {
-		defer req.Body.Close() // Ensure request body is closed
+type PSP interface {
+	ProcessPayment(amount float64, currency, userID string) (string, error)
+}
 
-		body, err := io.ReadAll(req.Body) // Use io.ReadAll instead of ioutil.ReadAll
-		if err != nil {
-			http.Error(wrt, "Failed to read request body", http.StatusBadRequest)
-			log.Println("Error reading request body:", err)
-			return
-		}
+// PaymentService is the main struct that wires all components together.
+type PaymentService struct {
+	Repo   Repository
+	PSPs   map[string]PSP
+	Events *kafka.Writer
+}
 
-		msg := kafka.Message{
-			Key:   []byte(fmt.Sprintf("address-%s", req.RemoteAddr)),
-			Value: body,
-		}
-
-		err = kafkaWriter.WriteMessages(req.Context(), msg)
-		if err != nil {
-			http.Error(wrt, "Failed to write message", http.StatusInternalServerError)
-			log.Println("Error writing Kafka message:", err)
-			return
-		}
-
-		//responses.OK("Message Published successfuly", map[string]string{"greeting": "Hello, Go!"})
-		response := responses.OK("Message Published successfuly", nil)
-
-		wrt.Header().Set("Content-Type", "application/json")
-		wrt.WriteHeader(response.Status)
-		json.NewEncoder(wrt).Encode(response)
-
+// NewPaymentService initializes the payment module.
+func NewPaymentService(repo Repository, events *kafka.Writer) *PaymentService {
+	return &PaymentService{
+		Repo:   repo,
+		PSPs:   make(map[string]PSP),
+		Events: events,
 	}
+}
+
+// RegisterPSP allows adding new payment providers dynamically.
+func (s *PaymentService) RegisterPSP(name string, provider PSP) {
+	s.PSPs[name] = provider
 }
