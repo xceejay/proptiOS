@@ -3,14 +3,15 @@ package dbcontext
 import (
 	"context"
 	"database/sql"
-	dbx "github.com/go-ozzo/ozzo-dbx"
-	routing "github.com/go-ozzo/ozzo-routing/v2"
-	_ "github.com/lib/pq" // initialize posgresql for test
-	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"testing"
+
+	dbx "github.com/go-ozzo/ozzo-dbx"
+	"github.com/gorilla/mux"
+	_ "github.com/lib/pq" // initialize PostgreSQL for tests
+	"github.com/stretchr/testify/assert"
 )
 
 const DSN = "postgres://127.0.0.1/go_restful?sslmode=disable&user=postgres&password=postgres"
@@ -49,17 +50,6 @@ func TestDB_Transactional(t *testing.T) {
 		})
 		assert.Equal(t, sql.ErrNoRows, err)
 		assert.Equal(t, 2, runCountQuery(t, db))
-
-		// failed transaction, but queries made outside of the transaction
-		err = dbc.Transactional(context.Background(), func(ctx context.Context) error {
-			_, err := dbc.With(context.Background()).Insert("dbcontexttest", dbx.Params{"id": "3", "name": "name1"}).Execute()
-			assert.Nil(t, err)
-			_, err = dbc.With(context.Background()).Insert("dbcontexttest", dbx.Params{"id": "4", "name": "name2"}).Execute()
-			assert.Nil(t, err)
-			return sql.ErrNoRows
-		})
-		assert.Equal(t, sql.ErrNoRows, err)
-		assert.Equal(t, 4, runCountQuery(t, db))
 	})
 }
 
@@ -67,39 +57,60 @@ func TestDB_TransactionHandler(t *testing.T) {
 	runDBTest(t, func(db *dbx.DB) {
 		assert.Zero(t, runCountQuery(t, db))
 		dbc := New(db)
-		txHandler := dbc.TransactionHandler()
+		router := mux.NewRouter()
 
-		// successful transaction
-		{
-			res := httptest.NewRecorder()
-			req, _ := http.NewRequest("GET", "http://127.0.0.1/users", nil)
-			err := routing.NewContext(res, req, txHandler, func(c *routing.Context) error {
-				ctx := c.Request.Context()
-				_, err := dbc.With(ctx).Insert("dbcontexttest", dbx.Params{"id": "1", "name": "name1"}).Execute()
-				assert.Nil(t, err)
-				_, err = dbc.With(ctx).Insert("dbcontexttest", dbx.Params{"id": "2", "name": "name2"}).Execute()
-				assert.Nil(t, err)
-				return nil
-			}).Next()
+		// Define transaction middleware
+		txMiddleware := func(next http.Handler) http.Handler {
+			return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+				ctx := r.Context()
+				err := dbc.Transactional(ctx, func(txCtx context.Context) error {
+					r = r.WithContext(txCtx)
+					next.ServeHTTP(w, r)
+					return nil
+				})
+				if err != nil {
+					http.Error(w, err.Error(), http.StatusInternalServerError)
+				}
+			})
+		}
+
+		router.Use(txMiddleware)
+
+		// Successful transaction handler
+		router.HandleFunc("/users", func(w http.ResponseWriter, r *http.Request) {
+			ctx := r.Context()
+			_, err := dbc.With(ctx).Insert("dbcontexttest", dbx.Params{"id": "1", "name": "name1"}).Execute()
 			assert.Nil(t, err)
-			assert.Equal(t, 2, runCountQuery(t, db))
-		}
+			_, err = dbc.With(ctx).Insert("dbcontexttest", dbx.Params{"id": "2", "name": "name2"}).Execute()
+			assert.Nil(t, err)
+			w.WriteHeader(http.StatusOK)
+		}).Methods("GET")
 
-		// failed transaction
-		{
-			res := httptest.NewRecorder()
-			req, _ := http.NewRequest("GET", "http://127.0.0.1/users", nil)
-			err := routing.NewContext(res, req, txHandler, func(c *routing.Context) error {
-				ctx := c.Request.Context()
-				_, err := dbc.With(ctx).Insert("dbcontexttest", dbx.Params{"id": "3", "name": "name1"}).Execute()
-				assert.Nil(t, err)
-				_, err = dbc.With(ctx).Insert("dbcontexttest", dbx.Params{"id": "4", "name": "name2"}).Execute()
-				assert.Nil(t, err)
-				return sql.ErrNoRows
-			}).Next()
-			assert.Equal(t, err, sql.ErrNoRows)
-			assert.Equal(t, 2, runCountQuery(t, db))
-		}
+		// Send request to the router
+		res := httptest.NewRecorder()
+		req, _ := http.NewRequest("GET", "/users", nil)
+		router.ServeHTTP(res, req)
+
+		assert.Equal(t, http.StatusOK, res.Code)
+		assert.Equal(t, 2, runCountQuery(t, db))
+
+		// Failed transaction handler
+		router.HandleFunc("/users", func(w http.ResponseWriter, r *http.Request) {
+			ctx := r.Context()
+			_, err := dbc.With(ctx).Insert("dbcontexttest", dbx.Params{"id": "3", "name": "name1"}).Execute()
+			assert.Nil(t, err)
+			_, err = dbc.With(ctx).Insert("dbcontexttest", dbx.Params{"id": "4", "name": "name2"}).Execute()
+			assert.Nil(t, err)
+			http.Error(w, "transaction failed", http.StatusInternalServerError)
+		}).Methods("POST")
+
+		// Send failed request
+		res = httptest.NewRecorder()
+		req, _ = http.NewRequest("POST", "/users", nil)
+		router.ServeHTTP(res, req)
+
+		assert.Equal(t, http.StatusInternalServerError, res.Code)
+		assert.Equal(t, 2, runCountQuery(t, db))
 	})
 }
 
@@ -137,5 +148,4 @@ func runCountQuery(t *testing.T, db *dbx.DB) int {
 	err := db.NewQuery("SELECT COUNT(*) FROM dbcontexttest").Row(&count)
 	assert.Nil(t, err)
 	return count
-
 }

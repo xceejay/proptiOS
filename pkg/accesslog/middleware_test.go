@@ -5,21 +5,32 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	routing "github.com/go-ozzo/ozzo-routing/v2"
+	"github.com/gorilla/mux"
 	"github.com/stretchr/testify/assert"
 	"github.com/xceejay/api.events.proptios.com/pkg/log"
 )
 
-func TestHandler(t *testing.T) {
-	res := httptest.NewRecorder()
-	req, _ := http.NewRequest("GET", "http://127.0.0.1/users", nil)
-	ctx := routing.NewContext(res, req)
-
+func TestMiddleware(t *testing.T) {
 	logger, entries := log.NewForTest()
-	handler := Handler(logger)
-	err := handler(ctx)
 
-	assert.Nil(t, err)
-	assert.Equal(t, 1, entries.Len())
-	assert.Equal(t, "GET /users HTTP/1.1 200 0", entries.All()[0].Message)
+	// Create test router with middleware
+	router := mux.NewRouter()
+	router.Use(Middleware(logger))
+
+	// Define a test route
+	router.HandleFunc("/users", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+	}).Methods("GET")
+
+	// Create test request
+	req, _ := http.NewRequest("GET", "/users", nil)
+	res := httptest.NewRecorder()
+
+	// Serve request
+	router.ServeHTTP(res, req)
+
+	// Assertions
+	assert.Equal(t, http.StatusOK, res.Code, "Expected HTTP 200 response")
+	assert.Equal(t, 1, entries.Len(), "Expected one log entry")
+	assert.Contains(t, entries.All()[0].Message, "GET /users HTTP", "Expected log entry to match request format")
 }

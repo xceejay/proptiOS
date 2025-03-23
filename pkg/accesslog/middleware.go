@@ -1,35 +1,49 @@
-// Package accesslog provides a middleware that records every RESTful API call in a log message.
 package accesslog
 
 import (
 	"net/http"
 	"time"
 
-	routing "github.com/go-ozzo/ozzo-routing/v2"
-	"github.com/go-ozzo/ozzo-routing/v2/access"
 	"github.com/xceejay/api.events.proptios.com/pkg/log"
 )
 
-// Handler returns a middleware that records an access log message for every HTTP request being processed.
-func Handler(logger log.Logger) routing.Handler {
-	return func(c *routing.Context) error {
-		start := time.Now()
+// LogResponseWriter wraps http.ResponseWriter to capture status code and bytes written.
+type LogResponseWriter struct {
+	http.ResponseWriter
+	Status       int
+	BytesWritten int
+}
 
-		rw := &access.LogResponseWriter{ResponseWriter: c.Response, Status: http.StatusOK}
-		c.Response = rw
+func (w *LogResponseWriter) WriteHeader(statusCode int) {
+	w.Status = statusCode
+	w.ResponseWriter.WriteHeader(statusCode)
+}
 
-		// associate request ID and session ID with the request context
-		// so that they can be added to the log messages
-		ctx := c.Request.Context()
-		ctx = log.WithRequest(ctx, c.Request)
-		c.Request = c.Request.WithContext(ctx)
+func (w *LogResponseWriter) Write(b []byte) (int, error) {
+	n, err := w.ResponseWriter.Write(b)
+	w.BytesWritten += n
+	return n, err
+}
 
-		err := c.Next()
+// Middleware returns a mux-compatible middleware that logs every HTTP request.
+func Middleware(logger log.Logger) func(http.Handler) http.Handler {
+	return func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			start := time.Now()
 
-		// generate an access log message
-		logger.With(ctx, "duration", time.Now().Sub(start).Milliseconds(), "status", rw.Status).
-			Infof("%s %s %s %d %d", c.Request.Method, c.Request.URL.Path, c.Request.Proto, rw.Status, rw.BytesWritten)
+			// Wrap response writer to capture status and bytes written
+			lrw := &LogResponseWriter{ResponseWriter: w, Status: http.StatusOK}
 
-		return err
+			// Associate request ID and session ID with the context
+			ctx := log.WithRequest(r.Context(), r)
+			r = r.WithContext(ctx)
+
+			// Call the next handler
+			next.ServeHTTP(lrw, r)
+
+			// Log the request details
+			logger.With(ctx, "duration", time.Since(start).Milliseconds(), "status", lrw.Status).
+				Infof("%s %s %s %d %d", r.Method, r.URL.Path, r.Proto, lrw.Status, lrw.BytesWritten)
+		})
 	}
 }

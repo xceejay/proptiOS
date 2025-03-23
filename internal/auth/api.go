@@ -18,13 +18,20 @@ func LoginHandler(service Service, logger log.Logger) http.HandlerFunc {
 
 		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
 			logger.With(r.Context()).Errorf("invalid request: %v", err)
-			http.Error(w, errors.BadRequest("Invalid request").Error(), http.StatusBadRequest)
+			errResp := errors.BadRequest("Invalid request payload")
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(errResp.Status)
+			json.NewEncoder(w).Encode(errResp)
 			return
 		}
 
 		token, err := service.Login(r.Context(), req.Username, req.Password)
 		if err != nil {
-			http.Error(w, err.Error(), http.StatusUnauthorized)
+			logger.With(r.Context()).Errorf("login failed: %v", err)
+			errResp := errors.Unauthorized("Invalid username or password")
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(errResp.Status)
+			json.NewEncoder(w).Encode(errResp)
 			return
 		}
 

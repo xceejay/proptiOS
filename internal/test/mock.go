@@ -1,36 +1,35 @@
 package test
 
 import (
+	"io"
 	"net/http"
 	"net/http/httptest"
 
-	routing "github.com/go-ozzo/ozzo-routing/v2"
-	"github.com/go-ozzo/ozzo-routing/v2/content"
-	"github.com/go-ozzo/ozzo-routing/v2/cors"
+	"github.com/gorilla/mux"
+	"github.com/rs/cors"
 	"github.com/xceejay/api.events.proptios.com/internal/errors"
 	"github.com/xceejay/api.events.proptios.com/pkg/accesslog"
 	"github.com/xceejay/api.events.proptios.com/pkg/log"
 )
 
-// MockRoutingContext creates a routing.Conext for testing handlers.
-func MockRoutingContext(req *http.Request) (*routing.Context, *httptest.ResponseRecorder) {
+// MockRequest creates an *http.Request and *httptest.ResponseRecorder for testing handlers.
+func MockRequest(method, url string, body io.Reader) (*http.Request, *httptest.ResponseRecorder) {
+	req := httptest.NewRequest(method, url, body)
+	req.Header.Set("Content-Type", "application/json")
 	res := httptest.NewRecorder()
-	if req.Header.Get("Content-Type") == "" {
-		req.Header.Set("Content-Type", "application/json")
-	}
-	ctx := routing.NewContext(res, req)
-	ctx.SetDataWriter(&content.JSONDataWriter{})
-	return ctx, res
+	return req, res
 }
 
-// MockRouter creates a routing.Router for testing APIs.
-func MockRouter(logger log.Logger) *routing.Router {
-	router := routing.New()
+// MockRouter creates a *mux.Router for testing APIs with required middleware.
+func MockRouter(logger log.Logger) *mux.Router {
+	router := mux.NewRouter()
+
+	// Apply middleware
 	router.Use(
-		accesslog.Handler(logger),
-		errors.Handler(logger),
-		content.TypeNegotiator(content.JSON),
-		cors.Handler(cors.AllowAll),
+		accesslog.Middleware(logger),
+		errors.Middleware,
+		cors.AllowAll().Handler,
 	)
+
 	return router
 }
