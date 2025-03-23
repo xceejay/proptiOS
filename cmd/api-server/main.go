@@ -20,6 +20,9 @@ const Version = "1.0.0"
 var flagConfig = flag.String("config", "./config/local.yml", "path to the config file")
 
 func getKafkaWriter(kafkaURL, topic string) *kafka.Writer {
+
+	fmt.Printf("What is being used %v , %v\n", kafkaURL, topic)
+
 	return &kafka.Writer{
 		Addr:     kafka.TCP(kafkaURL),
 		Topic:    topic,
@@ -30,8 +33,12 @@ func getKafkaWriter(kafkaURL, topic string) *kafka.Writer {
 func main() {
 	logger := log.New() // Initialize logger
 
+	logger.Info("Starting application...") // Check if logger prints this
+
 	kafkaURL := os.Getenv("kafkaURL")
 	topic := os.Getenv("topic")
+
+	logger.Debugf("kafka details, url : %v , topic : %v", kafkaURL, topic)
 
 	if kafkaURL == "" || topic == "" {
 		logger.Error("Missing required environment variables: kafkaURL or topic")
@@ -67,8 +74,8 @@ func initiateRoutes(kafkaWriter *kafka.Writer) (*mux.Router, error) {
 		return nil, err
 	}
 
-	r.HandleFunc("/produce", payments.ProducerHandler(kafkaWriter))
-	r.HandleFunc("/auth", auth.LoginHandler(auth.NewService(cfg.JWTSigningKey, cfg.JWTExpiration, logger), logger))
+	r.HandleFunc("/produce", payments.ProducerHandler(kafkaWriter)).Methods(http.MethodPost)
+	r.HandleFunc("/auth", auth.LoginHandler(auth.NewService(cfg.JWTSigningKey, cfg.JWTExpiration, logger), logger)).Methods(http.MethodPost)
 
 	return r, nil
 }

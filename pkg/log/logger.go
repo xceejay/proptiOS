@@ -4,6 +4,7 @@ package log
 import (
 	"context"
 	"net/http"
+	"os"
 
 	"github.com/google/uuid"
 	"go.uber.org/zap"
@@ -44,7 +45,15 @@ const (
 
 // New creates a new logger using the default configuration.
 func New() Logger {
-	l, _ := zap.NewProduction()
+	cfg := zap.NewProductionConfig()
+
+	// Read log level from environment variable
+	if level := os.Getenv("LOG_LEVEL"); level != "" {
+		if parsedLevel, err := zap.ParseAtomicLevel(level); err == nil {
+			cfg.Level = parsedLevel
+		}
+	}
+	l, _ := cfg.Build()
 	return NewWithZap(l)
 }
 

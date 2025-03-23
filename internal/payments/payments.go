@@ -1,12 +1,14 @@
 package payments
 
 import (
+	"encoding/json"
 	"fmt"
 	"io"
 	"log"
 	"net/http"
 
 	kafka "github.com/segmentio/kafka-go"
+	"github.com/xceejay/api.events.proptios.com/internal/responses"
 )
 
 func ProducerHandler(kafkaWriter *kafka.Writer) http.HandlerFunc {
@@ -32,7 +34,12 @@ func ProducerHandler(kafkaWriter *kafka.Writer) http.HandlerFunc {
 			return
 		}
 
-		wrt.WriteHeader(http.StatusOK)
-		wrt.Write([]byte("Message published successfully"))
+		//responses.OK("Message Published successfuly", map[string]string{"greeting": "Hello, Go!"})
+		response := responses.OK("Message Published successfuly", nil)
+
+		wrt.Header().Set("Content-Type", "application/json")
+		wrt.WriteHeader(response.Status)
+		json.NewEncoder(wrt).Encode(response)
+
 	}
 }
