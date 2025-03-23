@@ -9,7 +9,7 @@ import (
 	"github.com/gorilla/mux"
 	kafka "github.com/segmentio/kafka-go"
 	"github.com/xceejay/api.events.proptios.com/internal/example"
-	"github.com/xceejay/api.events.proptios.com/internal/handler"
+	"github.com/xceejay/api.events.proptios.com/internal/payments"
 )
 
 func getKafkaWriter(kafkaURL, topic string) *kafka.Writer {
@@ -40,6 +40,6 @@ func main() {
 
 func initiateRoutes(kafkaWriter *kafka.Writer) *mux.Router {
 	r := mux.NewRouter()
-	r.HandleFunc("/", handler.ProducerHandler(kafkaWriter))
+	r.HandleFunc("/", payments.ProducerHandler(kafkaWriter))
 	return r
 }
