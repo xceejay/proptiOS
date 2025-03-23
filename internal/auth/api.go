@@ -1,35 +1,35 @@
 package auth
 
 import (
-	routing "github.com/go-ozzo/ozzo-routing/v2"
+	"encoding/json"
+	"net/http"
+
 	"github.com/xceejay/api.events.proptios.com/internal/errors"
 	"github.com/xceejay/api.events.proptios.com/pkg/log"
 )
 
-// RegisterHandlers registers handlers for different HTTP requests.
-func RegisterHandlers(rg *routing.RouteGroup, service Service, logger log.Logger) {
-	rg.Post("/login", login(service, logger))
-}
-
-// login returns a handler that handles user login request.
-func login(service Service, logger log.Logger) routing.Handler {
-	return func(c *routing.Context) error {
+// LoginHandler handles user login requests.
+func LoginHandler(service Service, logger log.Logger) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
 		var req struct {
 			Username string `json:"username"`
 			Password string `json:"password"`
 		}
 
-		if err := c.Read(&req); err != nil {
-			logger.With(c.Request.Context()).Errorf("invalid request: %v", err)
-			return errors.BadRequest("")
+		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+			logger.With(r.Context()).Errorf("invalid request: %v", err)
+			http.Error(w, errors.BadRequest("Invalid request").Error(), http.StatusBadRequest)
+			return
 		}
 
-		token, err := service.Login(c.Request.Context(), req.Username, req.Password)
+		token, err := service.Login(r.Context(), req.Username, req.Password)
 		if err != nil {
-			return err
+			http.Error(w, err.Error(), http.StatusUnauthorized)
+			return
 		}
-		return c.Write(struct {
-			Token string `json:"token"`
-		}{token})
+
+		w.Header().Set("Content-Type", "application/json")
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode(map[string]string{"token": token})
 	}
 }

@@ -7,7 +7,6 @@ import (
 	"net/http"
 	"runtime/debug"
 
-	"github.com/gorilla/mux"
 	"github.com/sirupsen/logrus"
 )
 
@@ -38,10 +37,10 @@ func Handler(next http.Handler) http.Handler {
 
 // buildErrorResponse builds an error response from an error.
 func buildErrorResponse(err error) (int, string) {
-	switch err.(type) {
-	case *mux.Error:
-		return http.StatusInternalServerError, "Internal Server Error"
-	}
+	//switch err.(type) {
+	//case *mux.Error:
+	//return http.StatusInternalServerError, "Internal Server Error"
+	//}
 
 	if errors.Is(err, sql.ErrNoRows) {
 		return http.StatusNotFound, "Resource not found"

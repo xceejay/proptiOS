@@ -3,64 +3,90 @@ package auth
 import (
 	"context"
 	"net/http"
+	"strings"
 
-	"github.com/dgrijalva/jwt-go"
-	routing "github.com/go-ozzo/ozzo-routing/v2"
-	"github.com/go-ozzo/ozzo-routing/v2/auth"
-	"github.com/xceejay/api.events.proptios.com/internal/errors"
+	"github.com/golang-jwt/jwt/v5"
+	"github.com/gorilla/mux"
 	"github.com/xceejay/api.events.proptios.com/internal/model"
 )
 
-// Handler returns a JWT-based authentication middleware.
-func Handler(verificationKey string) routing.Handler {
-	return auth.JWT(verificationKey, auth.JWTOptions{TokenHandler: handleToken})
-}
-
-// handleToken stores the user identity in the request context so that it can be accessed elsewhere.
-func handleToken(c *routing.Context, token *jwt.Token) error {
-	ctx := WithUser(
-		c.Request.Context(),
-		token.Claims.(jwt.MapClaims)["id"].(string),
-		token.Claims.(jwt.MapClaims)["name"].(string),
-	)
-	c.Request = c.Request.WithContext(ctx)
-	return nil
-}
-
 type contextKey int
 
-const (
-	userKey contextKey = iota
-)
+const userKey contextKey = iota
 
-// WithUser returns a context that contains the user identity from the given JWT.
+// JWTMiddleware returns a JWT-based authentication middleware for Gorilla Mux.
+func JWTMiddleware(verificationKey string) mux.MiddlewareFunc {
+	return func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			authHeader := r.Header.Get("Authorization")
+			if authHeader == "" {
+				http.Error(w, "Missing Authorization header", http.StatusUnauthorized)
+				return
+			}
+
+			// Expecting "Bearer <token>"
+			tokenString := strings.TrimPrefix(authHeader, "Bearer ")
+			if tokenString == authHeader {
+				http.Error(w, "Invalid Authorization format", http.StatusUnauthorized)
+				return
+			}
+
+			// Parse the JWT token
+			token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+				if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+					return nil, jwt.ErrSignatureInvalid
+				}
+				return []byte(verificationKey), nil
+			})
+
+			if err != nil || !token.Valid {
+				http.Error(w, "Invalid token", http.StatusUnauthorized)
+				return
+			}
+
+			// Extract claims and store in context
+			claims, ok := token.Claims.(jwt.MapClaims)
+			if !ok {
+				http.Error(w, "Invalid token claims", http.StatusUnauthorized)
+				return
+			}
+
+			userID, _ := claims["id"].(string)
+			userName, _ := claims["name"].(string)
+
+			ctx := WithUser(r.Context(), userID, userName)
+			next.ServeHTTP(w, r.WithContext(ctx))
+		})
+	}
+}
+
+// WithUser stores user identity in the request context.
 func WithUser(ctx context.Context, id, name string) context.Context {
 	return context.WithValue(ctx, userKey, model.User{ID: id, Name: name})
 }
 
-// CurrentUser returns the user identity from the given context.
-// Nil is returned if no user identity is found in the context.
-func CurrentUser(ctx context.Context) Identity {
+// CurrentUser retrieves user identity from the request context.
+func CurrentUser(ctx context.Context) *model.User {
 	if user, ok := ctx.Value(userKey).(model.User); ok {
-		return user
+		return &user
 	}
 	return nil
 }
 
-// MockAuthHandler creates a mock authentication middleware for testing purpose.
-// If the request contains an Authorization header whose value is "TEST", then
-// it considers the user is authenticated as "Tester" whose ID is "100".
-// It fails the authentication otherwise.
-func MockAuthHandler(c *routing.Context) error {
-	if c.Request.Header.Get("Authorization") != "TEST" {
-		return errors.Unauthorized("")
-	}
-	ctx := WithUser(c.Request.Context(), "100", "Tester")
-	c.Request = c.Request.WithContext(ctx)
-	return nil
+// MockAuthMiddleware creates a mock authentication middleware for testing purposes.
+func MockAuthMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Header.Get("Authorization") != "TEST" {
+			http.Error(w, "Unauthorized", http.StatusUnauthorized)
+			return
+		}
+
+		ctx := WithUser(r.Context(), "100", "Tester")
+		next.ServeHTTP(w, r.WithContext(ctx))
+	})
 }
 
-// MockAuthHeader returns an HTTP header that can pass the authentication check by MockAuthHandler.
+// MockAuthHeader returns an HTTP header for testing authentication.
 func MockAuthHeader() http.Header {
 	header := http.Header{}
 	header.Add("Authorization", "TEST")

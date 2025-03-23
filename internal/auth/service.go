@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/dgrijalva/jwt-go"
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/xceejay/api.events.proptios.com/internal/errors"
 	"github.com/xceejay/api.events.proptios.com/internal/model"
 	"github.com/xceejay/api.events.proptios.com/pkg/log"
@@ -12,7 +12,7 @@ import (
 
 // Service encapsulates the authentication logic.
 type Service interface {
-	// authenticate authenticates a user using username and password.
+	// Login authenticates a user using username and password.
 	// It returns a JWT token if authentication succeeds. Otherwise, an error is returned.
 	Login(ctx context.Context, username, password string) (string, error)
 }
@@ -45,26 +45,29 @@ func (s service) Login(ctx context.Context, username, password string) (string, 
 	return "", errors.Unauthorized("")
 }
 
-// authenticate authenticates a user using username and password.
-// If username and password are correct, an identity is returned. Otherwise, nil is returned.
+// authenticate verifies the username and password.
+// If they are correct, it returns an identity. Otherwise, it returns nil.
 func (s service) authenticate(ctx context.Context, username, password string) Identity {
 	logger := s.logger.With(ctx, "user", username)
 
-	// TODO: the following authentication logic is only for demo purpose
+	// TODO: This authentication logic is only for demo purposes
 	if username == "demo" && password == "pass" {
-		logger.Infof("authentication successful")
+		logger.Infof("Authentication successful")
 		return model.User{ID: "100", Name: "demo"}
 	}
 
-	logger.Infof("authentication failed")
+	logger.Infof("Authentication failed")
 	return nil
 }
 
-// generateJWT generates a JWT that encodes an identity.
+// generateJWT creates a signed JWT token for an authenticated user.
 func (s service) generateJWT(identity Identity) (string, error) {
-	return jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+	claims := jwt.MapClaims{
 		"id":   identity.GetID(),
 		"name": identity.GetName(),
 		"exp":  time.Now().Add(time.Duration(s.tokenExpiration) * time.Hour).Unix(),
-	}).SignedString([]byte(s.signingKey))
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	return token.SignedString([]byte(s.signingKey))
 }
