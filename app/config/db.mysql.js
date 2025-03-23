@@ -2,10 +2,10 @@ function connection() {
   try {
     const mariadb = require('mariadb');
     const pool = mariadb.createPool({
-      host: process.env.MYSQL_HOST,
-      user: process.env.MYSQL_USER,
-      password: process.env.MYSQL_PASS,
-      database: process.env.MYSQL_DB,
+      host: process.env.PMAPI_MYSQL_HOST,
+      user: process.env.PMAPI_MYSQL_USER,
+      password: process.env.PMAPI_MYSQL_PASS,
+      database: process.env.PMAPI_MYSQL_DB,
       connectionLimit: 5, // Adjust based on your needs
       metaAsArray: true,
       bigIntAsNumber: true,
