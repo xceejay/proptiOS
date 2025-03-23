@@ -2,32 +2,15 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
 
+	"github.com/gorilla/mux"
 	kafka "github.com/segmentio/kafka-go"
+	"github.com/xceejay/api.events.proptios.com/internal/example"
+	"github.com/xceejay/api.events.proptios.com/internal/handler"
 )
-
-func producerHandler(kafkaWriter *kafka.Writer) func(http.ResponseWriter, *http.Request) {
-	return http.HandlerFunc(func(wrt http.ResponseWriter, req *http.Request) {
-		body, err := ioutil.ReadAll(req.Body)
-		if err != nil {
-			log.Fatalln(err)
-		}
-		msg := kafka.Message{
-			Key:   []byte(fmt.Sprintf("address-%s", req.RemoteAddr)),
-			Value: body,
-		}
-		err = kafkaWriter.WriteMessages(req.Context(), msg)
-
-		if err != nil {
-			wrt.Write([]byte(err.Error()))
-			log.Fatalln(err)
-		}
-	})
-}
 
 func getKafkaWriter(kafkaURL, topic string) *kafka.Writer {
 	return &kafka.Writer{
@@ -38,17 +21,25 @@ func getKafkaWriter(kafkaURL, topic string) *kafka.Writer {
 }
 
 func main() {
-	// get kafka writer using environment variables.
 	kafkaURL := os.Getenv("kafkaURL")
 	topic := os.Getenv("topic")
-	kafkaWriter := getKafkaWriter(kafkaURL, topic)
 
+	if kafkaURL == "" || topic == "" {
+		log.Fatal("Missing required environment variables: kafkaURL or topic")
+	}
+
+	kafkaWriter := getKafkaWriter(kafkaURL, topic)
 	defer kafkaWriter.Close()
 
-	// Add handle func for producer.
-	http.HandleFunc("/", producerHandler(kafkaWriter))
+	r := initiateRoutes(kafkaWriter)
 
-	// Run the web server.
+	example.PrintExample()
 	fmt.Println("start producer-api ... !!")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Fatal(http.ListenAndServe(":8080", r))
+}
+
+func initiateRoutes(kafkaWriter *kafka.Writer) *mux.Router {
+	r := mux.NewRouter()
+	r.HandleFunc("/", handler.ProducerHandler(kafkaWriter))
+	return r
 }
