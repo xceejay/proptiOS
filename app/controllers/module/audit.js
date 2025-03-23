@@ -9,8 +9,6 @@ const acl = require("../../middleware/acl");
 // Emails to be sent to users via Postmark
 
 const PREFIX = "/audit";
-const saltRounds = 10;
-const secret = "mysecretsshhh";
 
 const routes = (app) => {
   app.get(
