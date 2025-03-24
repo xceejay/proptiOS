@@ -15,7 +15,7 @@ type KafkaProducer struct {
 // NewKafkaProducer initializes and returns a KafkaProducer instance
 func NewKafkaProducer(brokers []string, topic string) (*KafkaProducer, error) {
 	if len(brokers) == 0 || topic == "" {
-		return nil, errors.New("Kafka producer initialization failed: brokers or topic not provided")
+		return nil, errors.New("kafka producer initialization failed: brokers or topic not provided")
 	}
 
 	producer := &KafkaProducer{
