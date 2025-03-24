@@ -7,7 +7,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/gorilla/mux"
+	"github.com/go-chi/chi/v5"
 	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
 )
@@ -18,9 +18,9 @@ func TestHandler(t *testing.T) {
 
 	t.Run("normal request processing", func(t *testing.T) {
 		req, res := buildRequest("GET", "/test")
-		router := mux.NewRouter()
+		router := chi.NewRouter()
 		router.Use(Handler(logger))
-		router.HandleFunc("/test", func(w http.ResponseWriter, r *http.Request) {
+		router.Get("/test", func(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusOK)
 			_, _ = w.Write([]byte("OK"))
 		})
@@ -32,9 +32,9 @@ func TestHandler(t *testing.T) {
 
 	t.Run("error response handling", func(t *testing.T) {
 		req, res := buildRequest("GET", "/error")
-		router := mux.NewRouter()
+		router := chi.NewRouter()
 		router.Use(Handler(logger))
-		router.HandleFunc("/error", func(w http.ResponseWriter, r *http.Request) {
+		router.Get("/error", func(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "custom error", http.StatusBadRequest)
 		})
 
@@ -45,9 +45,9 @@ func TestHandler(t *testing.T) {
 
 	t.Run("panic handling", func(t *testing.T) {
 		req, res := buildRequest("GET", "/panic")
-		router := mux.NewRouter()
+		router := chi.NewRouter()
 		router.Use(Handler(logger))
-		router.HandleFunc("/panic", func(w http.ResponseWriter, r *http.Request) {
+		router.Get("/panic", func(w http.ResponseWriter, r *http.Request) {
 			panic("unexpected error")
 		})
 
@@ -58,9 +58,9 @@ func TestHandler(t *testing.T) {
 
 	t.Run("sql.ErrNoRows handling", func(t *testing.T) {
 		req, res := buildRequest("GET", "/notfound")
-		router := mux.NewRouter()
+		router := chi.NewRouter()
 		router.Use(Handler(logger))
-		router.HandleFunc("/notfound", func(w http.ResponseWriter, r *http.Request) {
+		router.Get("/notfound", func(w http.ResponseWriter, r *http.Request) {
 			err := sql.ErrNoRows
 			http.Error(w, buildErrorResponse(err).Message, buildErrorResponse(err).StatusCode())
 		})
@@ -72,9 +72,9 @@ func TestHandler(t *testing.T) {
 
 	t.Run("generic internal server error", func(t *testing.T) {
 		req, res := buildRequest("GET", "/internalerror")
-		router := mux.NewRouter()
+		router := chi.NewRouter()
 		router.Use(Handler(logger))
-		router.HandleFunc("/internalerror", func(w http.ResponseWriter, r *http.Request) {
+		router.Get("/internalerror", func(w http.ResponseWriter, r *http.Request) {
 			err := errors.New("some internal issue")
 			http.Error(w, buildErrorResponse(err).Message, buildErrorResponse(err).StatusCode())
 		})

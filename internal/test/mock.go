@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 
-	"github.com/gorilla/mux"
+	"github.com/go-chi/chi/v5"
 	"github.com/rs/cors"
 	"github.com/xceejay/api.events.proptios.com/internal/errors"
 	"github.com/xceejay/api.events.proptios.com/pkg/accesslog"
@@ -20,16 +20,16 @@ func MockRequest(method, url string, body io.Reader) (*http.Request, *httptest.R
 	return req, res
 }
 
-// MockRouter creates a *mux.Router for testing APIs with required middleware.
-func MockRouter(logger log.Logger) *mux.Router {
-	router := mux.NewRouter()
+// MockRouter creates a chi.Router for testing APIs with required middleware.
+func MockRouter(logger log.Logger) http.Handler {
+	router := chi.NewRouter()
 
 	// Apply middleware
 	router.Use(
 		accesslog.Middleware(logger),
 		errors.Middleware,
-		cors.AllowAll().Handler,
 	)
 
-	return router
+	// Wrap with CORS handler
+	return cors.AllowAll().Handler(router)
 }

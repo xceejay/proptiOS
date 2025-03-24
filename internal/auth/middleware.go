@@ -6,7 +6,6 @@ import (
 	"strings"
 
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/gorilla/mux"
 	"github.com/xceejay/api.events.proptios.com/internal/model"
 )
 
@@ -14,8 +13,8 @@ type contextKey int
 
 const userKey contextKey = iota
 
-// JWTMiddleware returns a JWT-based authentication middleware for Gorilla Mux.
-func JWTMiddleware(verificationKey string) mux.MiddlewareFunc {
+// JWTMiddleware returns a JWT-based authentication middleware for Chi.
+func JWTMiddleware(verificationKey string) func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			authHeader := r.Header.Get("Authorization")

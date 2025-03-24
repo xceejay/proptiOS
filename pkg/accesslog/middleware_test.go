@@ -5,7 +5,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/gorilla/mux"
+	"github.com/go-chi/chi/v5"
 	"github.com/stretchr/testify/assert"
 	"github.com/xceejay/api.events.proptios.com/pkg/log"
 )
@@ -14,13 +14,13 @@ func TestMiddleware(t *testing.T) {
 	logger, entries := log.NewForTest()
 
 	// Create test router with middleware
-	router := mux.NewRouter()
+	router := chi.NewRouter()
 	router.Use(Middleware(logger))
 
 	// Define a test route
-	router.HandleFunc("/users", func(w http.ResponseWriter, r *http.Request) {
+	router.Get("/users", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
-	}).Methods("GET")
+	})
 
 	// Create test request
 	req, _ := http.NewRequest("GET", "/users", nil)

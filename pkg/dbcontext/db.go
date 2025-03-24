@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	dbx "github.com/go-ozzo/ozzo-dbx"
-	"github.com/gorilla/mux"
+	"github.com/go-chi/chi/v5"
 )
 
 // DB represents a DB connection that can be used to run SQL queries.
@@ -33,8 +33,6 @@ func (db *DB) DB() *dbx.DB {
 }
 
 // With returns a Builder that can be used to build and execute SQL queries.
-// With will return the transaction if it is found in the given context.
-// Otherwise, it will return a DB connection associated with the context.
 func (db *DB) With(ctx context.Context) dbx.Builder {
 	if tx, ok := ctx.Value(txKey).(*dbx.Tx); ok {
 		return tx
@@ -43,7 +41,6 @@ func (db *DB) With(ctx context.Context) dbx.Builder {
 }
 
 // Transactional starts a transaction and calls the given function with a context storing the transaction.
-// The transaction associated with the context can be accessed via With().
 func (db *DB) Transactional(ctx context.Context, f func(ctx context.Context) error) error {
 	return db.db.TransactionalContext(ctx, nil, func(tx *dbx.Tx) error {
 		return f(context.WithValue(ctx, txKey, tx))
@@ -51,7 +48,6 @@ func (db *DB) Transactional(ctx context.Context, f func(ctx context.Context) err
 }
 
 // TransactionMiddleware returns a middleware that starts a transaction.
-// The transaction started is kept in the request context and can be accessed via With().
 func (db *DB) TransactionMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		err := db.db.TransactionalContext(r.Context(), nil, func(tx *dbx.Tx) error {
@@ -68,7 +64,7 @@ func (db *DB) TransactionMiddleware(next http.Handler) http.Handler {
 	})
 }
 
-// ApplyMiddleware applies the transaction middleware to a mux router.
-func (db *DB) ApplyMiddleware(router *mux.Router) {
+// ApplyMiddleware applies the transaction middleware to a chi router.
+func (db *DB) ApplyMiddleware(router chi.Router) {
 	router.Use(db.TransactionMiddleware)
 }

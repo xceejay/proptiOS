@@ -7,7 +7,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/gorilla/mux"
+	"github.com/go-chi/chi/v5"
 	"github.com/xceejay/api.events.proptios.com/internal/auth"
 	"github.com/xceejay/api.events.proptios.com/internal/config"
 	"github.com/xceejay/api.events.proptios.com/internal/example"
@@ -59,8 +59,8 @@ func main() {
 	}
 }
 
-func initiateRoutes(kp *payments.KafkaProducer, logger log.Logger) (*mux.Router, error) {
-	r := mux.NewRouter()
+func initiateRoutes(kp *payments.KafkaProducer, logger log.Logger) (http.Handler, error) {
+	r := chi.NewRouter()
 
 	// Load application configurations
 	cfg, err := config.Load(*flagConfig, logger)
@@ -79,8 +79,8 @@ func initiateRoutes(kp *payments.KafkaProducer, logger log.Logger) (*mux.Router,
 	paymentHandler := payments.NewHandler(paymentService)
 
 	// Register routes
-	r.HandleFunc("/auth", auth.LoginHandler(auth.NewService(cfg.JWTSigningKey, cfg.JWTExpiration, logger), logger)).Methods(http.MethodPost)
-	r.HandleFunc("/payments", paymentHandler.ProcessPaymentHandler).Methods(http.MethodPost)
+	r.Post("/auth", auth.LoginHandler(auth.NewService(cfg.JWTSigningKey, cfg.JWTExpiration, logger), logger))
+	r.Post("/payments", paymentHandler.ProcessPaymentHandler)
 
 	return r, nil
 }

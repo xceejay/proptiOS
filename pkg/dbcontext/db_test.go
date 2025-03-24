@@ -9,7 +9,7 @@ import (
 	"testing"
 
 	dbx "github.com/go-ozzo/ozzo-dbx"
-	"github.com/gorilla/mux"
+	"github.com/go-chi/chi/v5"
 	_ "github.com/lib/pq" // initialize PostgreSQL for tests
 	"github.com/stretchr/testify/assert"
 )
@@ -57,7 +57,7 @@ func TestDB_TransactionHandler(t *testing.T) {
 	runDBTest(t, func(db *dbx.DB) {
 		assert.Zero(t, runCountQuery(t, db))
 		dbc := New(db)
-		router := mux.NewRouter()
+		router := chi.NewRouter()
 
 		// Define transaction middleware
 		txMiddleware := func(next http.Handler) http.Handler {
@@ -77,14 +77,14 @@ func TestDB_TransactionHandler(t *testing.T) {
 		router.Use(txMiddleware)
 
 		// Successful transaction handler
-		router.HandleFunc("/users", func(w http.ResponseWriter, r *http.Request) {
+		router.Get("/users", func(w http.ResponseWriter, r *http.Request) {
 			ctx := r.Context()
 			_, err := dbc.With(ctx).Insert("dbcontexttest", dbx.Params{"id": "1", "name": "name1"}).Execute()
 			assert.Nil(t, err)
 			_, err = dbc.With(ctx).Insert("dbcontexttest", dbx.Params{"id": "2", "name": "name2"}).Execute()
 			assert.Nil(t, err)
 			w.WriteHeader(http.StatusOK)
-		}).Methods("GET")
+		})
 
 		// Send request to the router
 		res := httptest.NewRecorder()
@@ -95,14 +95,14 @@ func TestDB_TransactionHandler(t *testing.T) {
 		assert.Equal(t, 2, runCountQuery(t, db))
 
 		// Failed transaction handler
-		router.HandleFunc("/users", func(w http.ResponseWriter, r *http.Request) {
+		router.Post("/users", func(w http.ResponseWriter, r *http.Request) {
 			ctx := r.Context()
 			_, err := dbc.With(ctx).Insert("dbcontexttest", dbx.Params{"id": "3", "name": "name1"}).Execute()
 			assert.Nil(t, err)
 			_, err = dbc.With(ctx).Insert("dbcontexttest", dbx.Params{"id": "4", "name": "name2"}).Execute()
 			assert.Nil(t, err)
 			http.Error(w, "transaction failed", http.StatusInternalServerError)
-		}).Methods("POST")
+		})
 
 		// Send failed request
 		res = httptest.NewRecorder()

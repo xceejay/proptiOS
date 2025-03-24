@@ -7,7 +7,6 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/gorilla/mux"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -22,7 +21,7 @@ type APITestCase struct {
 }
 
 // Endpoint tests an HTTP endpoint using the given APITestCase spec.
-func Endpoint(t *testing.T, router *mux.Router, tc APITestCase) {
+func Endpoint(t *testing.T, router http.Handler, tc APITestCase) {
 	t.Run(tc.Name, func(t *testing.T) {
 		req, _ := http.NewRequest(tc.Method, tc.URL, bytes.NewBufferString(tc.Body))
 		if tc.Header != nil {
@@ -35,7 +34,7 @@ func Endpoint(t *testing.T, router *mux.Router, tc APITestCase) {
 		// Create response recorder
 		res := httptest.NewRecorder()
 
-		// Use mux to serve the request
+		// Serve the request
 		router.ServeHTTP(res, req)
 
 		// Assert status code
