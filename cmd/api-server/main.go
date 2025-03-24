@@ -79,8 +79,13 @@ func initiateRoutes(kp *payments.KafkaProducer, logger log.Logger) (http.Handler
 	paymentHandler := payments.NewHandler(paymentService)
 
 	// Register routes
-	r.Post("/auth", auth.LoginHandler(auth.NewService(cfg.JWTSigningKey, cfg.JWTExpiration, logger), logger))
-	r.Post("/payments", paymentHandler.ProcessPaymentHandler)
+	authService := auth.NewService(cfg.JWTSigningKey, cfg.JWTExpiration, logger)
+	auth.RegisterHandlers(r, authService, logger)
+
+	// Payments routes (with /payments prefix)
+	r.Route("/payment", func(r chi.Router) {
+		payments.RegisterHandlers(r, paymentHandler)
+	})
 
 	return r, nil
 }

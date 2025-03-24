@@ -8,18 +8,14 @@ import (
 	"testing"
 
 	"github.com/go-chi/chi/v5"
-	"github.com/sirupsen/logrus"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestHandler(t *testing.T) {
-	logger := logrus.New()
-	logger.SetOutput(nil) // Suppress log output during tests
-
 	t.Run("normal request processing", func(t *testing.T) {
 		req, res := buildRequest("GET", "/test")
 		router := chi.NewRouter()
-		router.Use(Handler(logger))
+		router.Use(Middleware)
 		router.Get("/test", func(w http.ResponseWriter, r *http.Request) {
 			w.WriteHeader(http.StatusOK)
 			_, _ = w.Write([]byte("OK"))
@@ -33,7 +29,7 @@ func TestHandler(t *testing.T) {
 	t.Run("error response handling", func(t *testing.T) {
 		req, res := buildRequest("GET", "/error")
 		router := chi.NewRouter()
-		router.Use(Handler(logger))
+		router.Use(Middleware)
 		router.Get("/error", func(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "custom error", http.StatusBadRequest)
 		})
@@ -46,23 +42,24 @@ func TestHandler(t *testing.T) {
 	t.Run("panic handling", func(t *testing.T) {
 		req, res := buildRequest("GET", "/panic")
 		router := chi.NewRouter()
-		router.Use(Handler(logger))
+		router.Use(Middleware)
 		router.Get("/panic", func(w http.ResponseWriter, r *http.Request) {
 			panic("unexpected error")
 		})
 
 		router.ServeHTTP(res, req)
 		assert.Equal(t, http.StatusInternalServerError, res.Code)
-		assert.Contains(t, res.Body.String(), "Internal server error")
+		assert.Contains(t, res.Body.String(), "Internal Server Error")
 	})
 
 	t.Run("sql.ErrNoRows handling", func(t *testing.T) {
 		req, res := buildRequest("GET", "/notfound")
 		router := chi.NewRouter()
-		router.Use(Handler(logger))
+		router.Use(Middleware)
 		router.Get("/notfound", func(w http.ResponseWriter, r *http.Request) {
 			err := sql.ErrNoRows
-			http.Error(w, buildErrorResponse(err).Message, buildErrorResponse(err).StatusCode())
+			status, msg := buildErrorResponse(err)
+			http.Error(w, msg, status)
 		})
 
 		router.ServeHTTP(res, req)
@@ -73,15 +70,16 @@ func TestHandler(t *testing.T) {
 	t.Run("generic internal server error", func(t *testing.T) {
 		req, res := buildRequest("GET", "/internalerror")
 		router := chi.NewRouter()
-		router.Use(Handler(logger))
+		router.Use(Middleware)
 		router.Get("/internalerror", func(w http.ResponseWriter, r *http.Request) {
 			err := errors.New("some internal issue")
-			http.Error(w, buildErrorResponse(err).Message, buildErrorResponse(err).StatusCode())
+			status, msg := buildErrorResponse(err)
+			http.Error(w, msg, status)
 		})
 
 		router.ServeHTTP(res, req)
 		assert.Equal(t, http.StatusInternalServerError, res.Code)
-		assert.Contains(t, res.Body.String(), "Internal server error")
+		assert.Contains(t, res.Body.String(), "Internal Server Error")
 	})
 }
 

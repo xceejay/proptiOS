@@ -13,32 +13,8 @@ import (
 // Logger instance
 var logger = logrus.New()
 
-// Middleware handles panics and errors gracefully.
+// Middleware creates a middleware that handles panics and errors.
 func Middleware(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		defer func() {
-			if e := recover(); e != nil {
-				var err error
-				if errConv, ok := e.(error); ok {
-					err = errConv
-				} else {
-					err = fmt.Errorf("%v", e)
-				}
-
-				logger.Errorf("Recovered from panic (%v): %s", err, debug.Stack())
-
-				// Respond with structured JSON error
-				http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-				return
-			}
-		}()
-
-		next.ServeHTTP(w, r)
-	})
-}
-
-// Handler creates a middleware that handles panics and errors.
-func Handler(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		defer func() {
 			if e := recover(); e != nil {
