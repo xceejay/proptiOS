@@ -32,7 +32,7 @@ import CloseIcon from '@mui/icons-material/Close'
 import CustomChip from 'src/@core/components/mui/chip'
 
 import PictureAsPdf from '@mui/icons-material/PictureAsPdf'
-
+import AddIcon from '@mui/icons-material/Add'
 const initialIssues = [
   {
     id: 1,
@@ -304,7 +304,16 @@ const ParentCommunicationViewIssues = ({ communicationData }) => {
           mb: isMobile ? 2 : 0
         }}
       >
-        <CardHeader title='Issues' />
+        <CardHeader
+          title='Issues'
+          action={
+            <Tooltip title='Create new Issue'>
+              <IconButton>
+                <AddIcon></AddIcon>
+              </IconButton>
+            </Tooltip>
+          }
+        />
         <Stack spacing={1}>
           {issues.map(issue => (
             <ListItem

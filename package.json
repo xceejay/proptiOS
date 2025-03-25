@@ -103,7 +103,7 @@
     "lodash": "^4.17.21",
     "mui-file-input": "^4.0.6",
     "mui-tiptap": "^1.12.0",
-    "next": "^13.5.5",
+    "next": "^15.2.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "nprogress": "0.2.0",
