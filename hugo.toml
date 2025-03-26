@@ -175,6 +175,7 @@ weight = 7
 [params]
   logo = "images/logo.svg"
   logoDark = "images/logo-light.svg"
+  siteLogoText = "proptiOS"
   footerDescription = "Turpis tortor nunc sed amet et faucibus vitae morbi congue sed id mauris."
   copyright = "@ { year } Aplio. All Rights Reserved"
   contactMail = "info@example.com"

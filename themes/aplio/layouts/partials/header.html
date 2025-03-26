@@ -6,7 +6,17 @@
 >
   <nav class="container flex  items-center ">
     <div class="nav-logo">
-      <a href="{{ .Site.BaseURL }}" class="site-logo">{{ .Site.Params.siteLogoText }}</a>
+      <img
+          src="{{ .Site.Params.logo | absURL }}"
+          alt="logo"
+          class="inline-block dark:hidden site-logo "
+        />
+        <img
+          src="{{ .Site.Params.logoDark | absURL }}"
+          alt="logo dark version"
+          class="hidden dark:inline-block site-logo "
+        />
+      <!-- <a href="{{ .Site.BaseURL }}" class="site-logo">{{ .Site.Params.siteLogoText }}</a> -->
     </div>
   
     <ul
