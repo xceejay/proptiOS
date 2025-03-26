@@ -3,7 +3,8 @@ title: 'Home'
 date: 2025-03-04T15:59:46+06:00
 hero:
   - title: >
-      The Unified Platform for <span class="inline-block italic"> Property Management </span> Operations 
+     <span class="italic inline-block"> Smarter Property Management</span> Without the Chaos
+
     tagline: Reduce Costs, Increase Control, Grow Smarter.
     details: proptiOS is built to support property management companies of any size—from local teams managing a few hundred units to large operators with multi-market portfolios. Whether you manage single-family homes, multifamily communities, or mixed-use assets, proptiOS helps you centralize operations, automate repetitive work, and scale without adding overhead. From leasing to maintenance to renewals, everything runs through one connected platform—built for control, visibility, and efficiency.
 
@@ -11,8 +12,9 @@ rating:
   - title: >
       Used by Property Managers Who Value Efficiency Over Headcount
     details: >
-      proptiOS is built to support property management companies of any size—from local teams managing a few hundred units to large operators with multi-market portfolios. Whether you manage single-family homes, multifamily communities, or mixed-use assets, proptiOS helps you centralize operations, automate repetitive work, and scale without adding overhead. From leasing to maintenance to renewals, everything runs through one connected platform—built for control, visibility, and efficiency.
+      <span class="font-bold>proptiOS</span> is a powerful, all-in-one platform for managing real estate assets of any kind—from residential units and mixed-use portfolios to commercial properties and even internal office spaces.
 
+      Built to help teams centralize operations, automate workflows, and scale without extra overhead, proptiOS adapts to your portfolio—not the other way around. From leasing and maintenance to renewals and reporting, everything runs through one connected platform—designed for visibility, control, and growth.
     ratingItem:
       - name: Capterra
         details: 4.7 Rating for Usability and Automation
