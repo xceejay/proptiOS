@@ -3,7 +3,7 @@ title: 'Home 2'
 date: 2024-07-31T15:59:46+06:00
 hero:
   - title: >
-      The <span class="font-playfair italic inline-block px-5 pt-0.5 pb-2.5 leading-none">Smartest</span> Payment Solution for Your Business
+      The <span class="font-playfair  italic inline-block px-5 pt-0.5 pb-2.5 leading-none">Smartest</span> Payment Solution for Your Business
     tagline: Seamless Digital Payments
     details: Unlock frictionless transactions with a cutting-edge payment platform designed to streamline operations and accelerate growth.
 
