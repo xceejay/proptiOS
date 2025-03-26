@@ -3,79 +3,87 @@ title: 'Home'
 date: 2025-03-04T15:59:46+06:00
 hero:
   - title: >
-      Elevate Property Management with <span class="font-playfair italic inline-block pt-0.5 pb-2.5 leading-none">proptiOS</span>
-    tagline: The Future of Property Management is Here
-    details: Drive efficiency, enhance tenant experiences, and maximize profitability with the most advanced property management operating system built for modern real estate professionals.
+     Reduce Costs. Increase Control. Grow Smarter.
+    tagline: Every Process. One Platform.
+    details: Streamline leasing, automate renewals, simplify collections, and manage maintenance without the chaos. proptiOS helps you cut costs, save time, and run your business with precision.
+
 rating:
   - title: >
-      Trusted by Industry Leaders
+      Used by Property Managers Who Value Efficiency Over Headcount
     details: >
-      Thousands of property managers rely on proptiOS to streamline operations, improve decision-making, and scale their business.
+      proptiOS is built to support property management companies of any size—from local teams managing a few hundred units to large operators with multi-market portfolios. Whether you manage single-family homes, multifamily communities, or mixed-use assets, proptiOS helps you centralize operations, automate repetitive work, and scale without adding overhead. From leasing to maintenance to renewals, everything runs through one connected platform—built for control, visibility, and efficiency.
+
     ratingItem:
       - name: Capterra
-        details: Highest-Rated Customer Experience
+        details: 4.7 Rating for Usability and Automation
         totalrating: 4.7
       - name: G2 Rating
-        details: Best-in-Class Property Management Software
+        details: Designed for Fast-Moving Property Teams
         totalrating: 4.3
       - name: Trustpilot
-        details: The Most Trusted Property Management Platform
+        details: Reviewed by Operators Who’ve Reclaimed 1,000s of Hours
         totalrating: 4.9
+
 coreFeatures:
-  - title: Powering Smarter Property Management
-    tagline: Essential Features for Success
+  - title: Operational Efficiency Built In
+    tagline: Automate the Work. Own the Outcome.
     featureItems:
       - name: Centralized Operations
-        details: Manage properties, leases, maintenance, and finances from a single, intelligent platform.
+        details: Manage leases, rent, maintenance, renewals, and accounting from a single system—no more scattered tools or duplicate entry.
         iconLight: "images/property/comprehensive.svg"
         iconDark: "images/property/comprehensive-dark.svg"
       - name: Real-Time Data & Insights
-        details: Leverage AI-powered analytics to optimize occupancy rates, rental income, and asset performance.
+        details: Track delinquencies, renewal rates, maintenance KPIs, and more—without spreadsheets or manual reports.
         iconLight: "images/property/analytics.svg"
         iconDark: "images/property/analytics-dark.svg"
       - name: Intelligent Automation
-        details: Streamline workflows, eliminate repetitive tasks, and increase operational efficiency.
+        details: Automate collections, renewals, move-outs, task assignments, and owner approvals based on your custom workflows.
         iconLight: "images/property/automation.svg"
         iconDark: "images/property/automation-dark.svg"
       - name: Secure Financial Management
-        details: Ensure compliance, accuracy, and transparency with robust accounting and payment processing tools.
+        details: Automate rent collection, reconcile payments, and maintain audit-ready accounting records without the overhead.
         iconLight: "images/property/finance.svg"
         iconDark: "images/property/finance-dark.svg"
       - name: Seamless Tenant Engagement
-        details: Boost retention and satisfaction with self-service portals and automated communications.
+        details: Keep residents informed with automated emails, alerts, and self-service tools that reduce support tickets and manual follow-ups.
         iconLight: "images/property/tenant.svg"
         iconDark: "images/property/tenant-dark.svg"
       - name: Mobile-First Management
-        details: Stay connected and in control from anywhere with our intuitive mobile platform.
+        details: Let field teams handle inspections, tasks, and unit turnovers from any device—without waiting for the office.
         iconLight: "images/property/mobile.svg"
         iconDark: "images/property/mobile-dark.svg"
+
 whyChooseUs:
-  - title: Built for the Modern Property Manager
+  - title: Built for Execution, Not Just Oversight
     tagline: WHY CHOOSE US
-    details: proptiOS is more than software—it’s a competitive advantage. Designed for efficiency, scalability, and intelligent decision-making.
-    listItem1: Enterprise-Grade Security & Compliance
-    listItem2: AI-Powered Predictive Insights
-    listItem3: Offline Mode for Uninterrupted Access
+    details: proptiOS is designed for property managers who need better outcomes—not more dashboards. Automate the repeatable. Track what matters. Get everyone aligned.
+    listItem1: Built-In Workflows for Leasing, Maintenance, Renewals & Collections
+    listItem2: Automation That Reduces Labor Costs
+    listItem3: Reliable Offline Mode for Field Crews and Remote Teams
+
 possibilities:
-  - title: Maximize ROI with proptiOS
+  - title: Save Time, Reduce Risk, and Scale Without the Noise
     tagline: EXPLORE POSSIBILITIES
-    details: Unlock new revenue streams, optimize asset performance, and future-proof your operations with cutting-edge technology.
+    details: From automating rent collection to streamlining renewals, proptiOS eliminates back-and-forth tasks and empowers your team to operate like a well-oiled machine.
     listItem:
-      - Scalable, Enterprise-Ready Solutions
-      - AI-Driven Cash Flow Optimization
+      - Cut Days Off Turnovers & Make-Readies
+      - Automate Delinquency Follow-Ups & Notices
+      - Eliminate Manual Renewal Coordination
+      - Sync Accounting, Field, and Office Teams in Real-Time
+
 FeaturesData:
   - iconLight: '/images/property/feature-comprehensive.svg'
     iconDark: '/images/property/feature-comprehensive-dark.svg'
     title: 'Centralized Operations'
-    desc: Manage every aspect of your portfolio with an all-in-one, intelligent property management platform.
+    desc: Run every part of your operation—leasing, maintenance, renewals, and accounting—in one platform with built-in visibility.
 
   - iconLight: '/images/property/feature-secure.svg'
     iconDark: '/images/property/feature-secure-dark.svg'
-    title: 'Enterprise-Grade Security'
-    desc: Keep your financial data, tenant records, and business operations protected with industry-leading security measures.
+    title: 'Security & Compliance'
+    desc: SOC2, GDPR, and ISO 27001-compliant. Granular permissions, encryption, and full audit trails—standard.
 
   - iconLight: '/images/property/feature-automation.svg'
     iconDark: '/images/property/feature-automation-dark.svg'
-    title: 'Workflow Automation'
-    desc: Automate leasing, maintenance, and reporting to enhance efficiency and reduce operational costs.
+    title: 'Real Automation That Does the Work'
+    desc: Automate every step of your workflows—from lease approvals to owner notices—without chasing people or tasks.
 ---
