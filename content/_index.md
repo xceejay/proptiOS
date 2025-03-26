@@ -4,7 +4,7 @@ date: 2025-03-04T15:59:46+06:00
 hero:
   - title: >
       The Operating 
-      for <span class="font-inter border-2 rounded-[88px]  italic inline-block">Property Management</span> teams.
+      for <span class="font-inter   italic inline-block">Property Management</span> teams.
     tagline: Reduce Costs, Increase Control, Grow Smarter.
     details: proptiOS is built to support property management companies of any size—from local teams managing a few hundred units to large operators with multi-market portfolios. Whether you manage single-family homes, multifamily communities, or mixed-use assets, proptiOS helps you centralize operations, automate repetitive work, and scale without adding overhead. From leasing to maintenance to renewals, everything runs through one connected platform—built for control, visibility, and efficiency.
 
