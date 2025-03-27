@@ -17,7 +17,7 @@ rating:
     details: >
       From lean local teams to large multi-market operators, proptiOS is trusted by those who prioritize outcomes—not overhead. Users consistently rate it high for ease of use, workflow automation, and time saved across operations.
 
-      The result? Fewer tools, fewer hours lost, more control.
+        The result? Fewer tools, fewer hours lost, more control.
     ratingItem:
       - name: Capterra
         details: 4.7 Rating for Usability and Automation
