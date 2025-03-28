@@ -1,7 +1,8 @@
 import { Box, CircularProgress } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 // import SpinnerSvg from '../../../../public/spinner.svg' // ✅ using the correct local path
-import SpinnerSvg from 'src/@core/components/spinner/spinner_new.svg'
+import SpinnerSvgLight from 'src/@core/components/spinner/spinner_light.svg'
+import SpinnerSvgDark from 'src/@core/components/spinner/spinner_dark.svg'
 
 const FallbackSpinner = ({ sx }) => {
   const theme = useTheme()
@@ -17,9 +18,17 @@ const FallbackSpinner = ({ sx }) => {
         ...sx
       }}
     >
-      <Box sx={{ transform: 'scale(0.7)', transformOrigin: 'center' }}>
-        <SpinnerSvg className='flicker' />
-      </Box>
+      {theme.palette.mode === 'light' ? (
+        <Box sx={{ transform: 'scale(0.7)', transformOrigin: 'center' }}>
+          <SpinnerSvgLight className='flicker' />
+        </Box>
+      ) : (
+        <>
+          <Box sx={{ transform: 'scale(0.7)', transformOrigin: 'center' }}>
+            <SpinnerSvgDark class name='flicker-dark' />
+          </Box>
+        </>
+      )}
 
       {/* <CircularProgress disableShrink sx={{ mt: 6, color: 'black' }} /> */}
     </Box>
