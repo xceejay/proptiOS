@@ -16,10 +16,36 @@
   }
 }
 
+@keyframes flicker-6 {
+  0% {
+    stroke-dashoffset: 200;
+    opacity: 0.6;
+    filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.959));
+  }
+  50% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.884));
+  }
+  100% {
+    stroke-dashoffset: 200;
+    opacity: 0.6;
+    filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.842));
+  }
+}
+
 .flicker {
   stroke: white;
   stroke-width: 2;
   stroke-dasharray: 200;
   stroke-dashoffset: 200;
   animation: flicker-5 2s ease-in-out infinite;
+}
+
+.flicker-dark {
+  stroke: black;
+  stroke-width: 2;
+  stroke-dasharray: 200;
+  stroke-dashoffset: 200;
+  animation: flicker-6 2s ease-in-out infinite;
 }
