@@ -169,7 +169,7 @@ const LoginPage = () => {
           }}
         >
           <Box sx={{ width: '100%', maxWidth: 400 }}>
-            <Box sx={{ transform: 'scale(0.5)', transformOrigin: 'left' }}>
+            <Box sx={{ transform: 'scale(0.6)', transformOrigin: 'left' }}>
               {theme.palette.mode === 'light' ? <LogoSvg /> : <LogoSvgDark />}
             </Box>
 
