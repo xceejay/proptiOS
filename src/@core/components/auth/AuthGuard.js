@@ -30,7 +30,9 @@ const AuthGuard = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [router.route]
   )
-  if (auth.loading && auth.user === null) {
+
+  // auth.loading && auth.user === null
+  if (true) {
     console.log('user is empty here::', auth.user)
 
     return fallback

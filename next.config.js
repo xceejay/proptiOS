@@ -2,7 +2,6 @@
 const path = require('path')
 
 /** @type {import('next').NextConfig} */
-
 module.exports = {
   transpilePackages: ['mui-file-input'],
   trailingSlash: true,
@@ -14,10 +13,18 @@ module.exports = {
       apexcharts: path.resolve(__dirname, './node_modules/apexcharts-clevision')
     }
 
-    // Add rule to handle SVGs with @svgr/webpack
+    // Add rule to handle SVGs with @svgr/webpack and preserve styles
     config.module.rules.push({
       test: /\.svg$/,
-      use: ['@svgr/webpack']
+      issuer: /\.[jt]sx?$/,
+      use: [
+        {
+          loader: '@svgr/webpack',
+          options: {
+            svgo: false // ✅ disables optimization that strips style/classes
+          }
+        }
+      ]
     })
 
     return config
