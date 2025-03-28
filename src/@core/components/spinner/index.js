@@ -20,7 +20,7 @@ const FallbackSpinner = ({ sx }) => {
         <SpinnerSvg className='spinner-svg' />
       </div>
 
-      <CircularProgress disableShrink sx={{ mt: 6 }} />
+      <CircularProgress disableShrink sx={{ mt: 6, color: 'black' }} />
     </Box>
   )
 }
