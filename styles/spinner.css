@@ -21,5 +21,5 @@
   stroke-width: 2;
   stroke-dasharray: 200;
   stroke-dashoffset: 200;
-  animation: flicker-5 4.5s ease-in-out infinite;
+  animation: flicker-5 3s ease-in-out infinite;
 }

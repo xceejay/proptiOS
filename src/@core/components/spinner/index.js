@@ -17,11 +17,11 @@ const FallbackSpinner = ({ sx }) => {
         ...sx
       }}
     >
-      <div>
+      <Box sx={{ transform: 'scale(0.7)', transformOrigin: 'center' }}>
         <SpinnerSvg className='flicker' />
-      </div>
+      </Box>
 
-      <CircularProgress disableShrink sx={{ mt: 6, color: 'black' }} />
+      {/* <CircularProgress disableShrink sx={{ mt: 6, color: 'black' }} /> */}
     </Box>
   )
 }
