@@ -20,17 +20,17 @@
   0% {
     stroke-dashoffset: 200;
     opacity: 0.6;
-    filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.959));
+    filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.6));
   }
   50% {
     stroke-dashoffset: 0;
     opacity: 1;
-    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.884));
+    filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.8));
   }
   100% {
     stroke-dashoffset: 200;
     opacity: 0.6;
-    filter: drop-shadow(0 0 2px rgba(255, 255, 255, 0.842));
+    filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.6));
   }
 }
 

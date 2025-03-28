@@ -45,6 +45,7 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
 import axios from 'src/pages/middleware/axios'
 import LogoSvg from 'src/@core/components/logo/logo.svg'
+import LogoSvgDark from 'src/@core/components/logo/logo_dark.svg'
 import { width } from '@mui/system'
 
 // ** Styled Components
@@ -169,8 +170,7 @@ const LoginPage = () => {
         >
           <Box sx={{ width: '100%', maxWidth: 400 }}>
             <Box sx={{ transform: 'scale(0.5)', transformOrigin: 'left' }}>
-              {' '}
-              <LogoSvg />
+              {theme.palette.mode === 'light' ? <LogoSvg /> : <LogoSvgDark />}
             </Box>
 
             <Box sx={{ my: 6 }}>
