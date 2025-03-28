@@ -22,9 +22,12 @@ class CustomDocument extends Document {
             href='https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap'
           />
           <link href='https://fonts.cdnfonts.com/css/switzer' rel='stylesheet' />
-
+          <link rel='icon' type='image/png' href='/images/favicon-96x96.png' sizes='96x96' />
+          <link rel='icon' type='image/svg+xml' href='/images/favicon.svg' />
+          <link rel='shortcut icon' href='/images/favicon.ico' />
           <link rel='apple-touch-icon' sizes='180x180' href='/images/apple-touch-icon.png' />
-          <link rel='shortcut icon' href='/images/favicon.png' />
+          <meta name='apple-mobile-web-app-title' content='proptiOS' />
+          <link rel='manifest' href='/images/site.webmanifest' />
         </Head>
         <body>
           <Main />
