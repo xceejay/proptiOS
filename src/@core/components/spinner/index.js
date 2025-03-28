@@ -19,12 +19,12 @@ const FallbackSpinner = ({ sx }) => {
       }}
     >
       {theme.palette.mode === 'light' ? (
-        <Box sx={{ transform: 'scale(0.7)', transformOrigin: 'center' }}>
+        <Box sx={{ transform: 'scale(0.5)', transformOrigin: 'center' }}>
           <SpinnerSvgLight className='flicker' />
         </Box>
       ) : (
         <>
-          <Box sx={{ transform: 'scale(0.7)', transformOrigin: 'center' }}>
+          <Box sx={{ transform: 'scale(0.5)', transformOrigin: 'center' }}>
             <SpinnerSvgDark class name='flicker-dark' />
           </Box>
         </>
