@@ -1,4 +1,4 @@
 # ProptiOS  (API)
 
-Official proptios.com API for property managers admin panel
+Official proptios.com API for property manager dashboard
 
