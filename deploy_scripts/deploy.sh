@@ -48,6 +48,6 @@ DOMAIN="api.pm.proptios.com"
 # fi
 
 #
-cp -r /var/www/mh-api-modules/node_modules  /var/www/$DOMAIN/ &&  cd   /var/www/$DOMAIN/ && npm install &&  cd ~/pm2-proptios/ && pm2 restart "PM API"
+cp -r /var/www/mh-api-modules/node_modules  /var/www/$DOMAIN/ &&  cp  /var/www/mh-api-modules/.env /var/www/$DOMAIN/ &&  cd   /var/www/$DOMAIN/ && npm install &&  cd ~/pm2-proptios/ && pm2 restart "PM API"
 # cd   /var/www/$DOMAIN/ && npm install &&  cd ~/pm2-ecosystem/ && pm2 restart "PM API"
 
