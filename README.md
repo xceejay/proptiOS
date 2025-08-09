@@ -3,4 +3,22 @@
 Property Manager Dashboard
 
 Pages:
-[text](src/pages/audit) [text](src/pages/client) [text](src/pages/communication) [text](src/pages/dashboard) [text](src/pages/finance) [text](src/pages/forgot-password) [text](src/pages/leases) [text](src/pages/login) [text](src/pages/middleware) [text](src/pages/onboarding) [text](src/pages/properties) [text](src/pages/register) [text](src/pages/reports) [text](src/pages/second-page) [text](src/pages/settings) [text](src/pages/tenants) [text](src/pages/users)
+The following pages are available in the application:
+
+- [Audit](src/pages/audit)
+- [Client](src/pages/client)
+- [Communication](src/pages/communication)
+- [Dashboard](src/pages/dashboard)
+- [Finance](src/pages/finance)
+- [Forgot Password](src/pages/forgot-password)
+- [Leases](src/pages/leases)
+- [Login](src/pages/login)
+- [Middleware](src/pages/middleware)
+- [Onboarding](src/pages/onboarding)
+- [Properties](src/pages/properties)
+- [Register](src/pages/register)
+- [Reports](src/pages/reports)
+- [Second Page](src/pages/second-page)
+- [Settings](src/pages/settings)
+- [Tenants](src/pages/tenants)
+- [Users](src/pages/users)
