@@ -1,4 +1,4 @@
-# TODO per route for MVP
+# TODO per route for MVP of proptiOS
 
 ## Core Application Routes
 
