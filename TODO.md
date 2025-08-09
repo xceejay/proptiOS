@@ -8,7 +8,7 @@
 
 - **Description:** Main dashboard overview
 - **TODO Notes:**
-  - [ ]
+  - [checking something]
   - [ ]
   - [ ]
 
