@@ -40,5 +40,6 @@
     "tabler"
   ],
   "search-node-modules.path": "node_modules",
-  "markdown.extension.toc.updateOnSave": false
+  "markdown.extension.toc.updateOnSave": false,
+  "window.zoomLevel": 0.5
 }
