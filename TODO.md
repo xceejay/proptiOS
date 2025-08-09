@@ -8,7 +8,7 @@
 
 - **Description:** Main dashboard overview
 - **TODO Notes:**
-  - [ ] Fix dashboard loading etc
+  - [x] Fix dashboard loading etc
   - [ ]
   - [ ]
 
