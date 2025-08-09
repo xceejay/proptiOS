@@ -1,4 +1,4 @@
-# TODO per route
+# TODO per route for MVP
 
 ## Core Application Routes
 
