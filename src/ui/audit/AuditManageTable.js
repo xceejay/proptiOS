@@ -130,8 +130,10 @@ const AuditManageTable = () => {
         )
       },
       valueGetter: params => {
-        const { pm_user } = params.row
-        return pm_user ? `${pm_user.name || 'Unknown User'} (${pm_user.email || 'N/A'})` : 'Unknown User'
+        if (!params?.row) return 'Unknown User';
+        const pm_user = params.row.pm_user;
+        if (!pm_user) return 'Unknown User';
+        return `${pm_user.name || 'Unknown User'} (${pm_user.email || 'N/A'})`;
       }
     },
     {
@@ -229,7 +231,8 @@ const AuditManageTable = () => {
         )
       },
       valueGetter: params => {
-        const { status_code } = params.row
+        if (!params?.row) return 'Unknown';
+        const status_code = params.row.status_code || 0;
 
         switch (status_code) {
           case 200:
