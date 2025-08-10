@@ -54,7 +54,7 @@ const Dashboard = () => {
         {/* <Grid>wanted to do switch for properties</Grid> */}
         <Grid size={12} sm={12} lg={12}>
           <Grid container spacing={6}>
-            <Grid size={12} sm={6} lg={3}>
+            <Grid size={6} sm={6} lg={6}>
               <Link href='/tenants' style={{ textDecoration: 'none' }}>
                 <CardStatsVertical
                   chipText={`${DashData?.total_tenants || 'No Data'} tenants`}
@@ -66,7 +66,7 @@ const Dashboard = () => {
                 />
               </Link>
             </Grid>
-            <Grid size={12} sm={6} lg={3}>
+            <Grid size={6} sm={6} lg={6}>
               <Link href='/leases' style={{ textDecoration: 'none' }}>
                 <CardStatsVertical
                   chipText={`${DashData?.total_leases || 'No Data'} leases`}
@@ -78,7 +78,7 @@ const Dashboard = () => {
                 />
               </Link>
             </Grid>
-            <Grid size={12} sm={6} lg={3}>
+            <Grid size={6} sm={6} lg={6}>
               <Link href='/properties' style={{ textDecoration: 'none' }}>
                 <CardStatsVertical
                   chipText={`${DashData?.total_units || 'No Data'} units`}
@@ -90,7 +90,7 @@ const Dashboard = () => {
                 />
               </Link>
             </Grid>
-            <Grid size={12} sm={6} lg={3}>
+            <Grid size={6} sm={6} lg={6}>
               <Link href='/properties' style={{ textDecoration: 'none' }}>
                 <CardStatsVertical
                   chipText={`${DashData?.total_properties || 'No Data'} properties`}
