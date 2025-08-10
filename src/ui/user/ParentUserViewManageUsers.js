@@ -1,6 +1,6 @@
 // ** MUI Imports
 import { useState } from 'react'
-import Grid from '@mui/material/Grid'
+import { GridLegacy as Grid } from '@mui/material'
 import Avatar from '@mui/material/Avatar'
 import { styled } from '@mui/material/styles'
 import Tab from '@mui/material/Tab'

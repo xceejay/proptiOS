@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 
 // ** MUI Imports
-import Grid from '@mui/material/Grid'
+import { GridLegacy as Grid } from '@mui/material'
 import Alert from '@mui/material/Alert'
 
 // ** Third Party Components

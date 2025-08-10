@@ -2,7 +2,7 @@
 import { useState } from 'react'
 
 // ** MUI Imports
-import Grid from '@mui/material/Grid'
+import { GridLegacy as Grid } from '@mui/material'
 
 // ** Demo Components Imports
 import CustomCheckboxBasic from 'src/@core/components/custom-checkbox/basic'

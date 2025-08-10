@@ -1,7 +1,7 @@
 // import '../../@fake-db'
 
 // ** MUI Import
-import Grid from '@mui/material/Grid'
+import { GridLegacy as Grid } from '@mui/material'
 import Link from 'next/link'
 
 // ** Demo Component Imports

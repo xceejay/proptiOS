@@ -303,7 +303,7 @@ export default TextFieldInputs
 `}</code></pre>) 
 
 export const TextFieldIconsJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** MUI Imports
-import Grid from '@mui/material/Grid'
+import { GridLegacy as Grid } from '@mui/material'
 import Input from '@mui/material/Input'
 import TextField from '@mui/material/TextField'
 import InputLabel from '@mui/material/InputLabel'

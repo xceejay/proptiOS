@@ -7,7 +7,7 @@ import Link from 'next/link'
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
-import Grid from '@mui/material/Grid'
+import { GridLegacy as Grid } from '@mui/material'
 import Alert from '@mui/material/Alert'
 import Table from '@mui/material/Table'
 import Button from '@mui/material/Button'

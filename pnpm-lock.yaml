@@ -10,7 +10,7 @@ importers:
     dependencies:
       '@auth0/nextjs-auth0':
         specifier: ^3.5.0
-        version: 3.8.0(next@15.4.6(@babel/core@7.21.3)(react-dom@19.1.1(react@19.1.1))(react@19.1.1))
+        version: 3.5.0(next@15.4.6(@babel/core@7.21.3)(react-dom@19.1.1(react@19.1.1))(react@19.1.1))
       '@babel/core':
         specifier: 7.21.3
         version: 7.21.3
@@ -433,11 +433,11 @@ packages:
   '@antfu/utils@0.7.10':
     resolution: {integrity: sha512-+562v9k4aI80m1+VuMHehNJWLOFjBnXn3tdOitzD0il5b7smkSBal4+a3oKiQTbrwMmN/TBUMDvbdoWDehgOww==}
 
-  '@auth0/nextjs-auth0@3.8.0':
-    resolution: {integrity: sha512-xMzpkCuJAZ7tquJOZr7W4Jm9155EDotAACtdd9R9t4ATZgNGUzDQfPMogYJ2O14WB86sZSrp3rpJo4cspQYcSA==}
+  '@auth0/nextjs-auth0@3.5.0':
+    resolution: {integrity: sha512-uFZEE2QQf1zU+jRK2fwqxRQt+WSqDPYF2tnr7d6BEa7b6L6tpPJ3evzoImbWSY1a7gFdvD7RD/Rvrsx7B5CKVg==}
     engines: {node: '>=16'}
     peerDependencies:
-      next: ^10.0.0 || ^11.0.0 || ^12.3.5 || ^13.5.9 || ^14.2.25 || ^15.2.3
+      next: '>=10'
 
   '@babel/code-frame@7.27.1':
     resolution: {integrity: sha512-cjQ7ZlQ0Mv3b47hABuTevyTuYN4i+loJKGeV9flcCgIK37cCXRh+L1bd3iBHlynerhQ7BhCkn2BPbQUL+rGqFg==}
@@ -2692,8 +2692,8 @@ packages:
   convert-source-map@1.9.0:
     resolution: {integrity: sha512-ASFBup0Mz1uyiIjANan1jzLQami9z1PoYSZCiiYW2FczPbenXc45FZdBZLzOT+r6+iciuEModtmCti+hjaAk0A==}
 
-  cookie@0.7.2:
-    resolution: {integrity: sha512-yki5XnKuf750l50uGTllt6kKILY4nQ1eNIQatoXEByZ5dWgnKqbnqmTrBE5B4N7lrMJKQ2ytWMiTO2o0v6Ew/w==}
+  cookie@0.6.0:
+    resolution: {integrity: sha512-U71cyTamuh1CRNCfpGY6to28lxvNwPG4Guz/EVjgf3Jmzv0vlDp1atT9eS5dDjMYHucpHbWns6Lwf3BKz6svdw==}
     engines: {node: '>= 0.6'}
 
   core-js-compat@3.45.0:
@@ -4896,10 +4896,10 @@ snapshots:
 
   '@antfu/utils@0.7.10': {}
 
-  '@auth0/nextjs-auth0@3.8.0(next@15.4.6(@babel/core@7.21.3)(react-dom@19.1.1(react@19.1.1))(react@19.1.1))':
+  '@auth0/nextjs-auth0@3.5.0(next@15.4.6(@babel/core@7.21.3)(react-dom@19.1.1(react@19.1.1))(react@19.1.1))':
     dependencies:
       '@panva/hkdf': 1.2.1
-      cookie: 0.7.2
+      cookie: 0.6.0
       debug: 4.4.1
       joi: 17.13.3
       jose: 4.15.9
@@ -7374,7 +7374,7 @@ snapshots:
 
   convert-source-map@1.9.0: {}
 
-  cookie@0.7.2: {}
+  cookie@0.6.0: {}
 
   core-js-compat@3.45.0:
     dependencies:

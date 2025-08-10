@@ -19,7 +19,7 @@ import DatePicker from 'react-datepicker'
 
 // ** MUI Imports
 import Card from '@mui/material/Card'
-import Grid from '@mui/material/Grid'
+import { GridLegacy as Grid } from '@mui/material'
 
 import CardContent from '@mui/material/CardContent'
 

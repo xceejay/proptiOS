@@ -2,7 +2,7 @@ export const RadioControlledUncontrolledJSXCode = (<pre className='language-jsx'
 import { useState } from 'react'
 
 // ** MUI Imports
-import Grid from '@mui/material/Grid'
+import { GridLegacy as Grid } from '@mui/material'
 import Radio from '@mui/material/Radio'
 import Typography from '@mui/material/Typography'
 import RadioGroup from '@mui/material/RadioGroup'

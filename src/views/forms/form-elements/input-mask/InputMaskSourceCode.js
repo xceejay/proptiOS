@@ -1,5 +1,5 @@
 export const InputMaskExamplesJSXCode = (<pre className='language-jsx'><code className='language-jsx'>{`// ** MUI Imports
-import Grid from '@mui/material/Grid'
+import { GridLegacy as Grid } from '@mui/material'
 import InputLabel from '@mui/material/InputLabel'
 
 // ** CleaveJS Imports

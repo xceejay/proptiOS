@@ -3,7 +3,7 @@ import { useState } from 'react'
 
 // ** MUI Imports
 import Card from '@mui/material/Card'
-import Grid from '@mui/material/Grid'
+import { GridLegacy as Grid } from '@mui/material'
 import Button from '@mui/material/Button'
 import Checkbox from '@mui/material/Checkbox'
 import { styled } from '@mui/material/styles'

@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
+import { GridLegacy as Grid } from '@mui/material'
 import Card from '@mui/material/Card'
 import Switch from '@mui/material/Switch'
 import Button from '@mui/material/Button'

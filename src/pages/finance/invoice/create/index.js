@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react'
 
 // ** MUI Imports
-import Grid from '@mui/material/Grid'
+import { GridLegacy as Grid } from '@mui/material'
 
 // ** Third Party Components
 import axios from 'axios'

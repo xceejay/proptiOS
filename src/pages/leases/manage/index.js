@@ -1,6 +1,6 @@
 // import { useEffect, useState } from 'react'
 
-// import Grid from '@mui/material/Grid'
+// import { GridLegacy as Grid } from '@mui/material'
 // import LeasesEditInfo from '../../ui/leases/LeasesEditInfo'
 // import { useRouter } from 'next/router'
 
@@ -15,7 +15,7 @@
 // export default LeasesPage
 
 // ** MUI Imports
-import Grid from '@mui/material/Grid'
+import { GridLegacy as Grid } from '@mui/material'
 import CardStatsVertical from 'src/@core/components/card-statistics/card-stats-vertical'
 
 import LeaseManageTable from 'src/ui/lease/LeaseManageTable'

@@ -53,6 +53,8 @@ const DataGrid = () => {
         },
         cell: ({ theme }) => ({
           borderColor: theme.palette.divider,
+          display: 'flex',
+          alignItems: 'center',
           '&:not(.MuiDataGrid-cellCheckbox)': {
             paddingLeft: theme.spacing(4),
             paddingRight: theme.spacing(4),

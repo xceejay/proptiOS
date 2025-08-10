@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 
 // ** MUI Imports
 
-import Grid from '@mui/material/Grid'
+import { GridLegacy as Grid } from '@mui/material'
 
 import { styled } from '@mui/material/styles'
 import MuiTab from '@mui/material/Tab'

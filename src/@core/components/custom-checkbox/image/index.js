@@ -1,6 +1,6 @@
 // ** MUI Imports
 import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
+import { GridLegacy as Grid } from '@mui/material'
 import Checkbox from '@mui/material/Checkbox'
 
 const CustomCheckboxImg = props => {

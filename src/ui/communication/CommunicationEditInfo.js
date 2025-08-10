@@ -1,5 +1,5 @@
 // ** MUI Imports
-import Grid from '@mui/material/Grid'
+import { GridLegacy as Grid } from '@mui/material'
 
 // ** Demo Components Imports
 import CommunicationViewLeft from 'src/ui/communication/CommunicationViewLeft'

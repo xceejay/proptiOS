@@ -6,7 +6,7 @@ import { useState, useEffect, useCallback } from 'react'
 // ** MUI Imports
 
 import Card from '@mui/material/Card'
-import Grid from '@mui/material/Grid'
+import { GridLegacy as Grid } from '@mui/material'
 
 import IconButton from '@mui/material/IconButton'
 

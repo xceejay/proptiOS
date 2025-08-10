@@ -1,5 +1,5 @@
 // ** MUI Imports
-import Grid from '@mui/material/Grid'
+import { GridLegacy as Grid } from '@mui/material'
 import CardStatsVertical from 'src/@core/components/card-statistics/card-stats-vertical'
 
 import TenantsManageTable from 'src/ui/tenant/TenantManageTable'

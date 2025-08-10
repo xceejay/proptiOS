@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-import Grid from '@mui/material/Grid'
+import { GridLegacy as Grid } from '@mui/material'
 import { useRouter } from 'next/router'
 import ParentLeaseEditInfo from 'src/ui/lease/ParentLeaseEditInfo'
 

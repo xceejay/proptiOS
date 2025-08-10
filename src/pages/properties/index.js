@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 
-import Grid from '@mui/material/Grid'
+import { GridLegacy as Grid } from '@mui/material'
 import { useRouter } from 'next/router'
 import ParentPropertyEditInfo from 'src/ui/property/ParentPropertyEditInfo'
 
 const PropertiesPage = () => {
-  const router = useRouter
+  const router = useRouter()
   const tab = router.query?.tab || 'management'
   const [propertiesData, setPropertiesData] = useState(null)
 

@@ -12,7 +12,7 @@ import DatePicker from 'react-datepicker'
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
-import Grid from '@mui/material/Grid'
+import { GridLegacy as Grid } from '@mui/material'
 
 import CardHeader from '@mui/material/CardHeader'
 

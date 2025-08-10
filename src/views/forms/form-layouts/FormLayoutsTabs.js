@@ -4,7 +4,7 @@ import { forwardRef, useState } from 'react'
 // ** MUI Imports
 import Tab from '@mui/material/Tab'
 import Card from '@mui/material/Card'
-import Grid from '@mui/material/Grid'
+import { GridLegacy as Grid } from '@mui/material'
 import TabList from '@mui/lab/TabList'
 import TabPanel from '@mui/lab/TabPanel'
 import Button from '@mui/material/Button'
