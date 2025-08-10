@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
-import Grid from '@mui/material/Grid'
 import { useRouter } from 'next/router'
 import ParentTenantEditInfo from 'src/ui/tenant/ParentTenantEditInfo'
 

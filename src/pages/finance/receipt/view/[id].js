@@ -6,7 +6,6 @@ import MaintenanceReceipt from 'src/views/apps/receipt/preview/MaintenanceReceip
 import RentPaymentReceipt from 'src/views/apps/receipt/preview/RentPaymentReceipt'
 import Spinner from 'src/@core/components/spinner'
 import { Grid } from '@mui/material'
-import EditActions from 'src/views/apps/receipt/edit/EditActions'
 import SendReceiptDrawer from 'src/views/apps/receipt/shared-drawer/SendReceiptDrawer'
 import AddPaymentDrawer from 'src/views/apps/receipt/shared-drawer/AddPaymentDrawer'
 

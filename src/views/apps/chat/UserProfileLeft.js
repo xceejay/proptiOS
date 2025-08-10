@@ -3,20 +3,14 @@ import { Fragment } from 'react'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
-import List from '@mui/material/List'
 import Badge from '@mui/material/Badge'
 import Radio from '@mui/material/Radio'
 import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
-import Switch from '@mui/material/Switch'
-import ListItem from '@mui/material/ListItem'
 import TextField from '@mui/material/TextField'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import RadioGroup from '@mui/material/RadioGroup'
-import ListItemIcon from '@mui/material/ListItemIcon'
-import ListItemText from '@mui/material/ListItemText'
-import ListItemButton from '@mui/material/ListItemButton'
 import FormControlLabel from '@mui/material/FormControlLabel'
 
 // ** Icon Imports

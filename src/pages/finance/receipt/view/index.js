@@ -1,6 +1,6 @@
 // ** Demo Components Imports
 // import Preview from 'src/views/apps/receipt/preview/Preview'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useFinance } from 'src/hooks/useFinance'
 import PreviewCard from 'src/views/apps/receipt/preview/PreviewCard'
 

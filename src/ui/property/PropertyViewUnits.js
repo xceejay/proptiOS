@@ -2,7 +2,6 @@
 import { useState, useEffect, useCallback } from 'react'
 
 // ** Next Import
-import Link from 'next/link'
 
 // ** MUI Imports
 
@@ -15,7 +14,7 @@ import CardContent from '@mui/material/CardContent'
 import Icon from 'src/@core/components/icon'
 import { DataGrid } from '@mui/x-data-grid'
 import AddUnitDrawer from './PropertyAddUnitDrawer'
-import { CardActions, Menu, MenuItem } from '@mui/material'
+import { Menu, MenuItem } from '@mui/material'
 import CustomTenantToolbar from 'src/views/table/data-grid/CustomTenantToolbar'
 import CustomNoRowsOverlay from '../CustomNoRowsOverlay'
 import { useDispatch } from 'react-redux'

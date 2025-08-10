@@ -1,13 +1,8 @@
 // ** MUI Imports
 import Box from '@mui/material/Box'
-import TextField from '@mui/material/TextField'
-import IconButton from '@mui/material/IconButton'
 import { GridToolbarExport } from '@mui/x-data-grid'
 
-// ** Icon Imports
-import Icon from 'src/@core/components/icon'
-
-const ServerSideToolbarTenantManage = props => {
+const ServerSideToolbarTenantManage = () => {
   return (
     <Box
       sx={{

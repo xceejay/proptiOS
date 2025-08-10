@@ -1,9 +1,8 @@
 import { Lock, LockOpen, TextFields } from '@mui/icons-material'
-import { Box, Button, Stack, Typography } from '@mui/material'
-import { useCallback, useRef, useState } from 'react'
-import { LinkBubbleMenu, MenuButton, RichTextEditor, RichTextReadOnly, TableBubbleMenu, insertImages } from 'mui-tiptap'
+import { Box, Button, Stack } from '@mui/material'
+import { useCallback, useState } from 'react'
+import { LinkBubbleMenu, MenuButton, RichTextEditor, TableBubbleMenu, insertImages } from 'mui-tiptap'
 import EditorMenuControls from './EditorMenuControls'
-import toast from 'react-hot-toast'
 import useExtensions from './useExtensions'
 
 const CustomLeaseEditor = props => {

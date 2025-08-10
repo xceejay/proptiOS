@@ -15,8 +15,6 @@ import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, Controller } from 'react-hook-form'
 import Icon from 'src/@core/components/icon'
-import { useDispatch, useSelector } from 'react-redux'
-import { addSettings } from 'src/store/apps/settings'
 import { useSettings } from 'src/hooks/useSettings'
 import toast from 'react-hot-toast'
 

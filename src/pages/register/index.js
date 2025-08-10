@@ -37,13 +37,11 @@ import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
 import { useOnboarding } from 'src/hooks/useOnboarding'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import { FormHelperText, Input } from '@mui/material'
+import { FormHelperText } from '@mui/material'
 import { MuiFileInput } from 'mui-file-input'
 import toast from 'react-hot-toast'
 import CircularProgress from '@mui/material/CircularProgress'
 
-import RegisterFileUploader from 'src/ui/auth/RegisterFileUploader'
-import { useAuth } from 'src/hooks/useAuth'
 
 // ** Styled Components
 const RegisterIllustration = styled('img')(({ theme }) => ({

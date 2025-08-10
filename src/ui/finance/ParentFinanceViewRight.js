@@ -20,8 +20,6 @@ import Icon from 'src/@core/components/icon'
 // ** Demo Components Imports
 
 import ParentFinanceViewOverview from './ParentFinanceViewOverview'
-import ParentFinanceViewPayments from './ParentFinanceViewPayments'
-import ParentFinanceViewConfiguration from './ParentFinanceViewConfiguration'
 import ParentFinanceViewSettlement from './ParentFinanceViewSettlement'
 import ParentFinanceViewRentPayments from './ParentFinanceViewRentPayments'
 import ParentFinanceViewExpenses from './ParentFinanceViewExpenses'

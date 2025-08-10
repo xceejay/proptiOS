@@ -24,7 +24,7 @@ import TabContext from '@mui/lab/TabContext'
 // ** Custom Components
 import FinanceSettlementHistoryTable from './FinanceSettlementHistoryTable'
 import FinanceSettlementConfigurationTab from './FinanceSettlementConfigurationTab'
-import { CardActionArea, CardActions, CardHeader, Icon } from '@mui/material'
+import { CardActions } from '@mui/material'
 import { useEffect } from 'react'
 import toast from 'react-hot-toast'
 

@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState, useEffect, useCallback, useMemo } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 
 // ** Next Imports
 import Link from 'next/link'
@@ -14,26 +14,20 @@ import MenuItem from '@mui/material/MenuItem'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import CardHeader from '@mui/material/CardHeader'
-import InputLabel from '@mui/material/InputLabel'
-import FormControl from '@mui/material/FormControl'
 import CardContent from '@mui/material/CardContent'
-import { DataGrid, useGridApiRef } from '@mui/x-data-grid'
-import AddUserDrawer from '../tenant/AddTenantDrawer'
+import { DataGrid } from '@mui/x-data-grid'
 import CustomNoRowsOverlay from '../CustomNoRowsOverlay'
-import Select from '@mui/material/Select'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
 // ** Store Imports
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 // ** Custom Components Imports
 import CustomChip from 'src/@core/components/mui/chip'
-import CardStatsHorizontalWithDetails from 'src/@core/components/card-statistics/card-stats-horizontal-with-details'
 
 // ** Hooks Imports
-import { useTenants } from 'src/hooks/useTenants'
 import TenantTableHeader from '../tenant/TenantTableHeader'
 import ServerSideToolbarTenantManage from 'src/views/table/data-grid/ServerSideToolbarTenantManage'
 import PropertyAddTenantDrawer from './PropertyAddTenantDrawer'

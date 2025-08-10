@@ -21,8 +21,6 @@ import DialogTitle from '@mui/material/DialogTitle'
 import FormControl from '@mui/material/FormControl'
 import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
-import InputAdornment from '@mui/material/InputAdornment'
-import LinearProgress from '@mui/material/LinearProgress'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import DialogContentText from '@mui/material/DialogContentText'
 import { useRouter } from 'next/router'
@@ -37,7 +35,6 @@ import LeasesSuspendDialog from 'src/ui/leases/LeasesSuspendDialog'
 import LeasesSubscriptionDialog from 'src/ui/leases/LeasesSubscriptionDialog'
 
 // ** Utils Import
-import { getInitials } from 'src/@core/utils/get-initials'
 import { useLeases } from 'src/hooks/useLeases'
 
 const roleColors = {

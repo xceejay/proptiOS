@@ -1,11 +1,7 @@
 import { useState, useEffect } from 'react'
-import { Button, Card, CardActions, CardContent, CardHeader, Divider, Box } from '@mui/material'
 import Grid from '@mui/material/Grid'
-import { DataGrid } from '@mui/x-data-grid'
 import CardStatsVertical from 'src/@core/components/card-statistics/card-stats-vertical'
-import PropertyManagePropertyTable from './PropertyManageTenantsTable'
 import AddUnitDrawer from './PropertyAddUnitDrawer'
-import PropertyTenantManageTable from './PropertyManageTenantsTable'
 
 const columns = [
   { flex: 1, field: 'id', headerName: 'Unit Id', width: 90 },

@@ -6,17 +6,12 @@ import Link from 'next/link'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
-import Card from '@mui/material/Card'
 import Menu from '@mui/material/Menu'
 import Grid from '@mui/material/Grid'
-import Divider from '@mui/material/Divider'
 import MenuItem from '@mui/material/MenuItem'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
-import CardHeader from '@mui/material/CardHeader'
-import CardContent from '@mui/material/CardContent'
 import { DataGrid } from '@mui/x-data-grid'
-import Select from '@mui/material/Select'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
@@ -27,18 +22,11 @@ import { useDispatch } from 'react-redux'
 // ** Custom Components Imports
 import CustomChip from 'src/@core/components/mui/chip'
 import CustomNoRowsOverlay from '../CustomNoRowsOverlay'
-import AddLeaseDrawer from './AddLeaseDrawer'
-import EditLeaseDrawer from './EditLeaseDrawer'
 
 // ** Hooks Imports
 import { useLeases } from 'src/hooks/useLeases'
 
 // ** Components
-import LeaseTableHeader from './LeaseTableHeader'
-import CustomTenantToolbar from 'src/views/table/data-grid/CustomTenantToolbar'
-import { FormControl, InputLabel } from '@mui/material'
-import { DatePicker, CustomInput } from '@mui/material'
-import CustomStatusToolbar from 'src/views/table/data-grid/CustomStatusToolbar'
 import CustomLeaseToolbar from 'src/views/table/data-grid/CustomLeaseToolbar'
 
 const RowOptions = ({ id, row, setLeasesData, leasesData, setLoading }) => {

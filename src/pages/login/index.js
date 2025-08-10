@@ -5,9 +5,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 
 // ** MUI Components
-import Alert from '@mui/material/Alert'
 import Button from '@mui/material/Button'
-import Divider from '@mui/material/Divider'
 import Checkbox from '@mui/material/Checkbox'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
@@ -36,17 +34,14 @@ import useBgColor from 'src/@core/hooks/useBgColor'
 import { useSettings } from 'src/@core/hooks/useSettings'
 
 // ** Configs
-import themeConfig from 'src/configs/themeConfig'
 
 // ** Layout Import
 import BlankLayout from 'src/@core/layouts/BlankLayout'
 
 // ** Demo Imports
 import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
-import axios from 'src/pages/middleware/axios'
 import LogoSvg from 'src/@core/components/logo/logo.svg'
 import LogoSvgDark from 'src/@core/components/logo/logo_dark.svg'
-import { width } from '@mui/system'
 
 // ** Styled Components
 const LoginIllustration = styled('img')(({ theme }) => ({

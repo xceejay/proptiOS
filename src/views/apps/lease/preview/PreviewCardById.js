@@ -1,22 +1,12 @@
 // ** MUI Imports
-import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
-import Table from '@mui/material/Table'
 import Divider from '@mui/material/Divider'
-import TableRow from '@mui/material/TableRow'
-import TableHead from '@mui/material/TableHead'
-import TableBody from '@mui/material/TableBody'
 import CardContent from '@mui/material/CardContent'
-import { Box, Stack, Typography } from '@mui/material'
-import { useRef, useState, useEffect } from 'react'
+import { Box, Typography } from '@mui/material'
 import { RichTextReadOnly } from 'mui-tiptap'
-import { styled, useTheme } from '@mui/material/styles'
-import TableContainer from '@mui/material/TableContainer'
-import TableCell from '@mui/material/TableCell'
+import { useTheme } from '@mui/material/styles'
 
 // ** Configs
-import themeConfig from 'src/configs/themeConfig'
-import { useRouter } from 'next/router'
 import useExtensions from 'src/views/editor/useExtensions'
 
 const PreviewCardById = ({ setLeaseData, leaseData }) => {

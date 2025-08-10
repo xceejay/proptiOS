@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
-import Grid from '@mui/material/Grid'
 import LeaseEditInfo from '../../../ui/lease/LeaseEditInfo'
 import { useRouter } from 'next/router'
 

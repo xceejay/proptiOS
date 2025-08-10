@@ -6,49 +6,31 @@ import Link from 'next/link'
 
 // ** MUI Components
 import Button from '@mui/material/Button'
-import Divider from '@mui/material/Divider'
 import MenuItem from '@mui/material/MenuItem'
 import { useForm, Controller } from 'react-hook-form'
-import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined'
-import Checkbox from '@mui/material/Checkbox'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-import InputLabel from '@mui/material/InputLabel'
 import IconButton from '@mui/material/IconButton'
 import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
-import useMediaQuery from '@mui/material/useMediaQuery'
-import OutlinedInput from '@mui/material/OutlinedInput'
-import { styled, useTheme } from '@mui/material/styles'
-import Spinner from 'src/@core/components/spinner'
+import { styled } from '@mui/material/styles'
 
-import InputAdornment from '@mui/material/InputAdornment'
-import MuiFormControlLabel from '@mui/material/FormControlLabel'
 import toast from 'react-hot-toast'
 
 // ** Icon Imports
-import Icon from 'src/@core/components/icon'
 
 // ** Layout Import
-import BlankLayout from 'src/@core/layouts/BlankLayout'
 
 // ** Hooks
-import { useSettings } from 'src/@core/hooks/useSettings'
 
 // ** Demo Imports
-import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
-import { useOnboarding } from 'src/hooks/useOnboarding'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
-import { Card, CardContent, CardHeader, CircularProgress, FormHelperText, Input, Tooltip } from '@mui/material'
+import { Card, CardContent, CardHeader, CircularProgress, FormHelperText, Tooltip } from '@mui/material'
 import Grid from '@mui/material/Grid'
-import { MuiFileInput } from 'mui-file-input'
 
-import RegisterFileUploader from 'src/ui/auth/RegisterFileUploader'
-import { useAuth } from 'src/hooks/useAuth'
 import { HelpOutlineRounded } from '@mui/icons-material'
 import { useUsers } from 'src/hooks/useUsers'
-import { LoaderIcon } from 'react-hot-toast'
 
 const defaultValues = {
   role: 'property_manager'

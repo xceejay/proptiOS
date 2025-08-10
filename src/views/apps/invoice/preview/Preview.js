@@ -9,7 +9,6 @@ import Grid from '@mui/material/Grid'
 import Alert from '@mui/material/Alert'
 
 // ** Third Party Components
-import axios from 'axios'
 
 // ** Demo Components Imports
 import PreviewCard from 'src/views/apps/invoice/preview/PreviewCard'

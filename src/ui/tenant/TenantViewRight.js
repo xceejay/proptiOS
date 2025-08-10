@@ -22,8 +22,6 @@ import TenantViewBilling from 'src/ui/tenant/TenantViewBilling'
 import TenantViewTransactions from 'src/ui/tenant/TenantViewTransactions'
 import TenantViewSecurity from 'src/ui/tenant/TenantViewSecurity'
 import TenantViewConnection from 'src/ui/tenant/TenantViewConnection'
-import TenantViewNotification from 'src/ui/tenant/TenantViewNotification'
-import { fontSize } from '@mui/system'
 
 // ** Styled Tab component
 const Tab = styled(MuiTab)(({ theme }) => ({

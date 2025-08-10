@@ -5,14 +5,11 @@ import { useState, useEffect } from 'react'
 import Grid from '@mui/material/Grid'
 
 // ** Third Party Components
-import axios from 'axios'
 
 // ** Demo Components Imports
 
 // ** Styled Component
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
-import { Button } from '@mui/material'
-import Icon from 'src/@core/components/icon'
 
 import AddCard from 'src/views/apps/lease/add/AddCard'
 import AddActions from 'src/views/apps/lease/add/AddActions'

@@ -8,7 +8,6 @@ import { useRouter } from 'next/router'
 import axios from 'src/pages/middleware/axios'
 
 // ** Config
-import authConfig from 'src/configs/auth'
 
 // ** Defaults
 const defaultProvider = {

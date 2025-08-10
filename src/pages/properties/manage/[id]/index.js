@@ -1,9 +1,6 @@
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
-import axios from 'src/pages/middleware/axios'
 import { useEffect, useState } from 'react'
-import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
-import ParentPropertyEditInfo from 'src/ui/property/ParentPropertyEditInfo'
 import { useRouter } from 'next/router'
 import { useProperties } from 'src/hooks/useProperties'
 import PropertyEditInfo from 'src/ui/property/PropertyEditInfo'

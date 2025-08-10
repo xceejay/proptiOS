@@ -1,5 +1,4 @@
 // ** React Imports
-import { useState, useEffect, useCallback } from 'react'
 
 // ** Next Import
 
@@ -7,14 +6,9 @@ import { useState, useEffect, useCallback } from 'react'
 
 import Card from '@mui/material/Card'
 import Grid from '@mui/material/Grid'
-import CardContent from '@mui/material/CardContent'
 
 // ** Icon Imports
-import Icon from 'src/@core/components/icon'
 
-import { useDispatch } from 'react-redux'
-import PropertyManageUnitDrawer from './PropertyManageUnitDrawer'
-import PropertyTenantManageTable from './PropertyManageTenantsTable'
 import PropertyLeaseTable from './PropertyLeaseTable'
 
 const PropertyViewLeases = ({ setPropertyData, propertyData }) => {

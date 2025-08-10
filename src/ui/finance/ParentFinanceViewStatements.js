@@ -7,21 +7,13 @@ import { useState, forwardRef, useEffect } from 'react'
 // ** Third Party Imports
 import format from 'date-fns/format'
 import addDays from 'date-fns/addDays'
-import DatePicker from 'react-datepicker'
 
 // ** MUI Imports
-import Box from '@mui/material/Box'
-import Card from '@mui/material/Card'
 import Grid from '@mui/material/Grid'
 
-import CardHeader from '@mui/material/CardHeader'
 
-import InputLabel from '@mui/material/InputLabel'
-import CardContent from '@mui/material/CardContent'
 
 import { TextField } from '@mui/material'
-import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
-import FinanceTransactionListTable from './FinanceTransactionListTable'
 import FinanceStatementsTable from './FinanceStatementsTable'
 import { useFinance } from 'src/hooks/useFinance'
 import toast from 'react-hot-toast'

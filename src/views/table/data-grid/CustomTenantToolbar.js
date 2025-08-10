@@ -1,13 +1,12 @@
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
-import IconButton from '@mui/material/IconButton'
 import { GridToolbarExport } from '@mui/x-data-grid'
-import { useTheme, styled } from '@mui/material/styles'
+import { styled } from '@mui/material/styles'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
-import { Button, CardHeader, Typography } from '@mui/material'
+import { Button, CardHeader } from '@mui/material'
 
 const CustomTenantToolbar = props => {
   const { title, handleFilter, toggle, value, addText, searchPlaceholder } = props

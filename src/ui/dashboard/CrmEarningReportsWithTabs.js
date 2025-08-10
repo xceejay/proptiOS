@@ -24,7 +24,6 @@ import ReactApexcharts from 'src/@core/components/react-apexcharts'
 import { useMediaQuery } from '@mui/material'
 
 import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
-import { useFinance } from 'src/hooks/useFinance'
 
 const renderTabs = (value, theme, transactionCategories) => {
   return transactionCategories.map((item, index) => {

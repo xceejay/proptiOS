@@ -1,5 +1,4 @@
 // ** Third Party Imports
-import axios from 'axios'
 
 // ** Demo Components Imports
 import Edit from 'src/views/apps/lease/edit/Edit'

@@ -5,14 +5,7 @@ import Grid from '@mui/material/Grid'
 import Link from 'next/link'
 
 // ** Demo Component Imports
-import CrmSessions from 'src/ui/dashboard/CrmSessions'
 import CrmRevenueGrowth from 'src/ui/dashboard//CrmRevenueGrowth'
-import CrmBrowserStates from 'src/ui/dashboard//CrmBrowserStates'
-import CrmProjectStatus from 'src/ui/dashboard//CrmProjectStatus'
-import CrmActiveProjects from 'src/ui/dashboard//CrmActiveProjects'
-import CrmLastTransaction from 'src/ui/dashboard//CrmLastTransaction'
-import CrmActivityTimeline from 'src/ui/dashboard//CrmActivityTimeline'
-import CrmSalesWithAreaChart from 'src/ui/dashboard//CrmSalesWithAreaChart'
 import CrmSalesWithRadarChart from 'src/ui/dashboard//CrmSalesWithRadarChart'
 import CrmEarningReportsWithTabs from 'src/ui/dashboard//CrmEarningReportsWithTabs'
 
@@ -20,7 +13,6 @@ import CrmEarningReportsWithTabs from 'src/ui/dashboard//CrmEarningReportsWithTa
 import ApexChartWrapper from 'src/@core/styles/libs/react-apexcharts'
 import CardStatsVertical from 'src/@core/components/card-statistics/card-stats-vertical'
 import { useEffect, useState } from 'react'
-import axios from 'src/pages/middleware/axios'
 import { useSite } from 'src/hooks/useSite'
 import toast from 'react-hot-toast'
 

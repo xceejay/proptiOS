@@ -3,47 +3,28 @@ import { useState, forwardRef, useEffect, useRef } from 'react'
 
 // ** MUI Imports
 import Card from '@mui/material/Card'
-import Table from '@mui/material/Table'
-import Button from '@mui/material/Button'
 import Divider from '@mui/material/Divider'
-import Tooltip from '@mui/material/Tooltip'
-import TableRow from '@mui/material/TableRow'
-import Collapse from '@mui/material/Collapse'
-import TableBody from '@mui/material/TableBody'
 import TextField from '@mui/material/TextField'
-import IconButton from '@mui/material/IconButton'
-import Typography from '@mui/material/Typography'
 import InputLabel from '@mui/material/InputLabel'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
-import InputAdornment from '@mui/material/InputAdornment'
-import TableContainer from '@mui/material/TableContainer'
 import { styled, alpha, useTheme } from '@mui/material/styles'
-import Select from '@mui/material/Select'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import MenuItem from '@mui/material/MenuItem'
 import TableCell from '@mui/material/TableCell'
 import CardContent from '@mui/material/CardContent'
-import { useForm, Controller } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import Autocomplete from '@mui/material/Autocomplete'
 // ** Icon Imports
-import Icon from 'src/@core/components/icon'
 
 // ** Third Party Imports
-import DatePicker from 'react-datepicker'
 
 // ** Configs
-import themeConfig from 'src/configs/themeConfig'
 
 // ** Custom Component Imports
-import Repeater from 'src/@core/components/repeater'
-import Editor from 'src/views/editor/Editor'
 import CustomLeaseEditor from 'src/views/editor/CustomLeaseEditor'
-import { FormControl } from '@mui/material'
 import { useAuth } from 'src/hooks/useAuth'
-import { fontWeight } from '@mui/system'
-import SignatureCanvas from './SignatureCanvas'
 import LeaseStepper from './LeaseStepper'
 import { useLeases } from 'src/hooks/useLeases'
 import toast from 'react-hot-toast'

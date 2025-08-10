@@ -1,9 +1,6 @@
 import axios from 'axios'
 
-import { useRouter } from 'next/router'
 import toast from 'react-hot-toast'
-import BlankLayout from 'src/@core/layouts/BlankLayout'
-import Error401 from '../401'
 
 // Add a request interceptor
 // axios.interceptors.request.use(

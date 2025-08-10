@@ -1,23 +1,14 @@
 // ** MUI Imports
 import { useState } from 'react'
 import Grid from '@mui/material/Grid'
-import Avatar from '@mui/material/Avatar'
 import { styled } from '@mui/material/styles'
-import Tab from '@mui/material/Tab'
-import TabList from '@mui/lab/TabList'
-import TabPanel from '@mui/lab/TabPanel'
-import TabContext from '@mui/lab/TabContext'
 import MuiTimeline from '@mui/lab/Timeline'
 
 // ** Icon Imports
-import Icon from 'src/@core/components/icon'
 
 // ** Demo Component Imports
-import UserTransactionListTable from 'src/ui/user/UserTransactionListTable'
-import UserProjectListTable from 'src/ui/user/UserProjectListTable'
 
 // ** Custom Components Imports
-import OptionsMenu from 'src/@core/components/option-menu'
 import UserManageTable from './UserManageTable'
 
 // Styled Timeline component

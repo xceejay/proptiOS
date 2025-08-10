@@ -1,4 +1,4 @@
-import { Box, CircularProgress } from '@mui/material'
+import { Box } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 // import SpinnerSvg from '../../../../public/spinner.svg' // ✅ using the correct local path
 import SpinnerSvgLight from 'src/@core/components/spinner/spinner_light.svg'

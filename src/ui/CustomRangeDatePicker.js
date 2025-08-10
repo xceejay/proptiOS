@@ -1,11 +1,8 @@
 import { TextField } from '@mui/material'
-import Grid from '@mui/material/Grid'
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 import DatePicker from 'react-datepicker'
 import format from 'date-fns/format'
-import addDays from 'date-fns/addDays'
-import subDays from 'date-fns/subDays'
-import { useState, useCallback, forwardRef } from 'react'
+import { forwardRef } from 'react'
 
 const CustomRangeDatePicker = ({ handleOnChangeRange, startDateRange, endDateRange }) => {
   const CustomInput = forwardRef((props, ref) => {

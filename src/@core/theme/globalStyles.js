@@ -1,5 +1,37 @@
 const GlobalStyles = theme => {
   return {
+    // Custom Scrollbar Styles
+    '::-webkit-scrollbar': {
+      width: '8px',
+      height: '8px',
+      backgroundColor: 'transparent'
+    },
+    '::-webkit-scrollbar-track': {
+      backgroundColor: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.05)',
+      borderRadius: '4px',
+      margin: '4px'
+    },
+    '::-webkit-scrollbar-thumb': {
+      backgroundColor: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.2)' : 'rgba(255, 255, 255, 0.2)',
+      borderRadius: '4px',
+      transition: 'all 0.3s ease',
+      '&:hover': {
+        backgroundColor: theme.palette.primary.main,
+        opacity: 0.8
+      }
+    },
+    '::-webkit-scrollbar-thumb:window-inactive': {
+      backgroundColor: theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.1)' : 'rgba(255, 255, 255, 0.1)'
+    },
+    // For Firefox
+    '*': {
+      scrollbarWidth: 'thin',
+      scrollbarColor: `${theme.palette.mode === 'light' ? 'rgba(0, 0, 0, 0.2)' : 'rgba(255, 255, 255, 0.2)'} transparent`,
+      '&:hover': {
+        scrollbarColor: `${theme.palette.primary.main} transparent`
+      }
+    },
+
     '.demo-space-x > *': {
       marginTop: '1rem !important',
       marginRight: '1rem !important',

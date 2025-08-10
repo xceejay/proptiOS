@@ -6,8 +6,6 @@ import { useRouter } from 'next/router'
 
 // ** Hooks Import
 import { useAuth } from 'src/hooks/useAuth'
-import toast from 'react-hot-toast'
-import { duration } from '@mui/material'
 
 const GuestGuard = props => {
   const { children, fallback } = props

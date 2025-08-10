@@ -1,4 +1,3 @@
-import { useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/router'
 // import { useSettings } from 'src/hooks/useSettings'
 import ParentSettingsEditInfo from 'src/ui/settings/ParentSettingsEditInfo'

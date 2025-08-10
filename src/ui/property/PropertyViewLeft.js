@@ -21,8 +21,6 @@ import DialogTitle from '@mui/material/DialogTitle'
 import FormControl from '@mui/material/FormControl'
 import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
-import InputAdornment from '@mui/material/InputAdornment'
-import LinearProgress from '@mui/material/LinearProgress'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import DialogContentText from '@mui/material/DialogContentText'
 import { useRouter } from 'next/router'
@@ -40,8 +38,7 @@ import PropertySubscriptionDialog from 'src/ui/property/PropertySubscriptionDial
 import { getInitials } from 'src/@core/utils/get-initials'
 import { useProperties } from 'src/hooks/useProperties'
 import toast from 'react-hot-toast'
-import { CircularProgress, IconButton, SvgIcon, Tooltip } from '@mui/material'
-import { Refresh } from '@mui/icons-material'
+import { CircularProgress, IconButton, Tooltip } from '@mui/material'
 import { RefreshRounded } from '@mui/icons-material'
 
 const roleColors = {

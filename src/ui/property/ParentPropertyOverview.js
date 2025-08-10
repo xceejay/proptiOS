@@ -1,5 +1,4 @@
 import CardStatsVertical from 'src/@core/components/card-statistics/card-stats-vertical'
-import { Typography } from '@mui/material'
 import Grid from '@mui/material/Grid'
 import NextLink from 'next/link'
 import { styled } from '@mui/material/styles'

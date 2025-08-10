@@ -6,7 +6,6 @@ import { useRouter } from 'next/router'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
-import TabPanel from '@mui/lab/TabPanel'
 import TabContext from '@mui/lab/TabContext'
 import { styled } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
@@ -23,7 +22,6 @@ import Icon from 'src/@core/components/icon'
 // import SettingsViewSecurity from 'src/ui/settings/SettingsViewSecurity'
 // import SettingsViewConnection from 'src/ui/settings/SettingsViewConnection'
 // import SettingsViewNotification from 'src/ui/settings/SettingsViewNotification'
-import { fontSize } from '@mui/system'
 
 // ** Styled Tab component
 const Tab = styled(MuiTab)(({ theme }) => ({

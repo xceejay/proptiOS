@@ -14,7 +14,6 @@ import Icon from 'src/@core/components/icon'
 import themeConfig from 'src/configs/themeConfig'
 import { useEffect, useState } from 'react'
 import { useAuth } from 'src/hooks/useAuth'
-import { borderRadius } from '@mui/system'
 
 // ** Styled Components
 const MenuHeaderWrapper = styled(Box)(({ theme }) => ({

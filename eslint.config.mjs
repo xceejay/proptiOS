@@ -2,19 +2,58 @@ import globals from 'globals'
 import pluginJs from '@eslint/js'
 import pluginReact from 'eslint-plugin-react'
 import pluginNext from '@next/eslint-plugin-next'
+import pluginUnusedImports from 'eslint-plugin-unused-imports'
 
 export default [
   {
     files: ['**/*.{js,mjs,cjs,jsx,ts,tsx}'],
     languageOptions: {
-      globals: globals.browser
-    },
+      globals: globals.browser,
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true
+        }
+      }
+    }
+  },
+  pluginJs.configs.recommended,
+  {
+    files: ['**/*.{js,mjs,cjs,jsx,ts,tsx}'],
     plugins: {
-      react: pluginReact,
+      react: pluginReact
+    },
+    rules: {
+      ...pluginReact.configs.flat.recommended.rules,
+      'react/react-in-jsx-scope': 'off',
+      'react/jsx-uses-react': 'off'
+    },
+    settings: {
+      react: {
+        version: 'detect',
+        runtime: 'automatic'
+      }
+    }
+  },
+  {
+    files: ['**/*.{js,mjs,cjs,jsx,ts,tsx}'],
+    plugins: {
       '@next/next': pluginNext
     },
     rules: {
-      'no-unused-vars': [
+      ...pluginNext.configs.recommended.rules
+    }
+  },
+  {
+    files: ['**/*.{js,mjs,cjs,jsx,ts,tsx}'],
+    plugins: {
+      'unused-imports': pluginUnusedImports
+    },
+    rules: {
+      'no-unused-vars': 'off', // Disable base rule as it conflicts with unused-imports
+      'unused-imports/no-unused-imports': 'warn',
+      'unused-imports/no-unused-vars': [
         'warn',
         {
           vars: 'all',
@@ -23,25 +62,8 @@ export default [
           ignoreRestSiblings: true
         }
       ],
-      'react/react-in-jsx-scope': 'off',
       'react/prop-types': 'warn',
       'react/jsx-key': 'warn'
-    },
-    settings: {
-      react: {
-        version: 'detect'
-      }
-    }
-  },
-  pluginJs.configs.recommended,
-  pluginReact.configs.flat.recommended,
-  {
-    files: ['**/*.{js,mjs,cjs,jsx,ts,tsx}'],
-    plugins: {
-      '@next/next': pluginNext
-    },
-    rules: {
-      ...pluginNext.configs.recommended.rules
     }
   }
 ]

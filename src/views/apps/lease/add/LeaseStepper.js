@@ -26,7 +26,6 @@ import { useTheme } from '@mui/material/styles'
 import InputAdornment from '@mui/material/InputAdornment'
 import Alert from '@mui/material/Alert'
 
-import toast from 'react-hot-toast'
 
 // Sample data for properties, units, tenants (Replace with actual data)
 

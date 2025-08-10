@@ -22,8 +22,6 @@ import UserViewBilling from 'src/ui/user/UserViewBilling'
 import UserViewTransactions from 'src/ui/user/UserViewTransactions'
 import UserViewSecurity from 'src/ui/user/UserViewSecurity'
 import UserViewConnection from 'src/ui/user/UserViewConnection'
-import UserViewNotification from 'src/ui/user/UserViewNotification'
-import { fontSize } from '@mui/system'
 
 // ** Styled Tab component
 const Tab = styled(MuiTab)(({ theme }) => ({

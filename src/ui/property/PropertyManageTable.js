@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useCallback } from 'react'
 
 // ** Next Imports
 import Link from 'next/link'
@@ -7,41 +7,27 @@ import { useRouter } from 'next/router'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
-import Card from '@mui/material/Card'
 import Menu from '@mui/material/Menu'
-import Grid from '@mui/material/Grid'
-import Divider from '@mui/material/Divider'
 import MenuItem from '@mui/material/MenuItem'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
-import CardHeader from '@mui/material/CardHeader'
-import InputLabel from '@mui/material/InputLabel'
-import FormControl from '@mui/material/FormControl'
-import CardContent from '@mui/material/CardContent'
-import { DataGrid, getGridBooleanOperators } from '@mui/x-data-grid'
+import { DataGrid } from '@mui/x-data-grid'
 
 import AddUserDrawer from './AddPropertyDrawer'
 
-import Select from '@mui/material/Select'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
 // ** Store Imports
-import { useDispatch, useSelector } from 'react-redux'
 
 // ** Custom Components Imports
 import CustomChip from 'src/@core/components/mui/chip'
-import CardStatsHorizontalWithDetails from 'src/@core/components/card-statistics/card-stats-horizontal-with-details'
 
 // ** Hooks Imports
 import { useProperties } from 'src/hooks/useProperties'
-import PropertyTableHeader from './PropertyTableHeader'
-import ServerSideToolbarPropertyManage from 'src/views/table/data-grid/ServerSideToolbarPropertyManage'
 import CustomTenantToolbar from 'src/views/table/data-grid/CustomTenantToolbar'
 import CustomNoRowsOverlay from '../CustomNoRowsOverlay'
-import PropertyAddExistingTenantDrawer from './PropertyAddExistingTenantDrawer'
-import { TextField } from '@mui/material'
 import EditPropertyDrawer from './EditPropertyDrawer'
 
 const RowOptions = ({ id, row, stopPropagation, setPropertiesData, propertiesData }) => {

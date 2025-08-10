@@ -2,8 +2,6 @@
 import Grid from '@mui/material/Grid'
 
 // ** Demo Components Imports
-import TenantViewLeft from 'src/ui/tenant/TenantViewLeft'
-import TenantViewRight from 'src/ui/tenant/TenantViewRight'
 import ParentTenantViewRight from './ParentTenantViewRight'
 
 const TenantEditInfo = ({ tenantData, tab }) => {

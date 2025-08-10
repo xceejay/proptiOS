@@ -18,7 +18,6 @@ import CircularProgress from '@mui/material/CircularProgress'
 import Icon from 'src/@core/components/icon'
 
 // ** Demo Components Imports
-import PropertyViewBilling from 'src/ui/property/PropertyViewBilling'
 import PropertyViewOverview from 'src/ui/property/PropertyViewOverview'
 import PropertyViewUnits from 'src/ui/property/PropertyViewUnits'
 import PropertyViewMaintenance from 'src/ui/property/PropertyViewMaintenance'

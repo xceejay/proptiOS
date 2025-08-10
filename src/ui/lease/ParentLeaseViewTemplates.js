@@ -2,12 +2,11 @@
 
 import { styled } from '@mui/material/styles'
 
-import { useState } from 'react'
 import MuiTimeline from '@mui/lab/Timeline'
 
 // ** Custom Components Imports
 import LeaseManageTable from './LeaseManageTable'
-import { Grid, FormControl, InputLabel, MenuItem, Select, Card, CardHeader, CardContent } from '@mui/material'
+import { Grid, Card } from '@mui/material'
 
 // Styled Timeline component
 const Timeline = styled(MuiTimeline)(({ theme }) => ({

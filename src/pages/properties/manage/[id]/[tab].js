@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { useProperties } from 'src/hooks/useProperties'
 import PropertyEditInfo from 'src/ui/property/PropertyEditInfo'

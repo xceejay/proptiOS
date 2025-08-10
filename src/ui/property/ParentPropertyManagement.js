@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import {
   Button,
   Card,
@@ -7,7 +7,6 @@ import {
   CardHeader,
   Divider,
   Grid,
-  Icon,
   IconButton,
   Tooltip,
   Typography,
@@ -16,10 +15,7 @@ import {
 import PropertyManageTable from './PropertyManageTable'
 import GridViewOutlinedIcon from '@mui/icons-material/GridViewOutlined'
 import ListOutlinedIcon from '@mui/icons-material/ListOutlined'
-import toast from 'react-hot-toast'
-import { useProperties } from 'src/hooks/useProperties'
 import CustomChip from 'src/@core/components/mui/chip'
-import { useAuth } from 'src/hooks/useAuth'
 
 const ParentPropertyViewManagement = ({
   setPropertyData,

@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from '@mui/material'
+import { Box } from '@mui/material'
 import { useRef, useState } from 'react'
 import { RichTextReadOnly } from 'mui-tiptap'
 
