@@ -3,8 +3,11 @@ const DefaultPalette = (mode, skin) => {
   const whiteColor = '#FFF'
   const lightColor = '51, 48, 60'
   const darkColor = '228, 230, 244'
+  const lightColorRgb = 'rgb(51, 48, 60)'
+  const darkColorRgb = 'rgb(228, 230, 244)'
   const darkPaperBgColor = '#2F3349'
   const mainColor = mode === 'light' ? lightColor : darkColor
+  const mainColorRgb = mode === 'light' ? lightColorRgb : darkColorRgb
 
   const defaultBgColor = () => {
     if (skin === 'bordered' && mode === 'light') {
@@ -18,9 +21,9 @@ const DefaultPalette = (mode, skin) => {
 
   return {
     customColors: {
-      dark: darkColor,
-      main: mainColor,
-      light: lightColor,
+      dark: darkColorRgb,
+      main: mainColorRgb,
+      light: lightColorRgb,
       lightPaperBg: whiteColor,
       darkPaperBg: darkPaperBgColor,
       bodyBg: mode === 'light' ? '#F8F7FA' : '#25293C',
