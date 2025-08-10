@@ -3,7 +3,7 @@ import { useState } from 'react'
 
 // ** MUI Imports
 import Card from '@mui/material/Card'
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import CardHeader from '@mui/material/CardHeader'
@@ -86,7 +86,7 @@ const FormValidationSchema = () => {
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={5}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormControl fullWidth>
                 <Controller
                   name='firstName'
@@ -111,7 +111,7 @@ const FormValidationSchema = () => {
               </FormControl>
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormControl fullWidth>
                 <Controller
                   name='lastName'
@@ -136,7 +136,7 @@ const FormValidationSchema = () => {
               </FormControl>
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormControl fullWidth>
                 <Controller
                   name='email'
@@ -162,7 +162,7 @@ const FormValidationSchema = () => {
               </FormControl>
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormControl fullWidth>
                 <InputLabel htmlFor='validation-schema-password' error={Boolean(errors.password)}>
                   Password
@@ -202,7 +202,7 @@ const FormValidationSchema = () => {
               </FormControl>
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Button size='large' type='submit' variant='contained'>
                 Submit
               </Button>

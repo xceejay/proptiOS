@@ -12,7 +12,7 @@ import DatePicker from 'react-datepicker'
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 
 import CardHeader from '@mui/material/CardHeader'
 
@@ -85,7 +85,7 @@ const ParentFinanceViewStatements = ({ setFinanceData, financeData }) => {
 
   return (
     <Grid container spacing={6}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         {/* <Card> */}
         {/* <CardContent sx={{ mt: 2 }}>
             <TabContext value={value}>

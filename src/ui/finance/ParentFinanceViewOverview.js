@@ -1,12 +1,22 @@
-import { Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import CardStatsVertical from 'src/@core/components/card-statistics/card-stats-vertical'
 
 const ParentFinanceViewOverview = ({ setFinanceData, financeData }) => {
   return (
     <Grid>
-      <Grid item xs={12} sm={12} lg={12}>
+      <Grid
+        size={{
+          xs: 12,
+          sm: 12,
+          lg: 12
+        }}>
         <Grid container spacing={6} sx={{ mb: 4 }}>
-          <Grid item xs={6} sm={6} lg={3}>
+          <Grid
+            size={{
+              xs: 6,
+              sm: 6,
+              lg: 3
+            }}>
             {/* prettier-ignore */}
             <CardStatsVertical
 
@@ -22,7 +32,7 @@ const ParentFinanceViewOverview = ({ setFinanceData, financeData }) => {
 
           {/*
           THIS ONE has stats
-          <Grid item xs={6} sm={6} lg={3}>
+          <Grid size={6} sm={6} lg={3}>
             <CardStatsVertical
               stats={"0"}
               chipText={'0'}
@@ -34,7 +44,12 @@ const ParentFinanceViewOverview = ({ setFinanceData, financeData }) => {
             />
           </Grid> */}
 
-          <Grid item xs={6} sm={6} lg={3}>
+          <Grid
+            size={{
+              xs: 6,
+              sm: 6,
+              lg: 3
+            }}>
             <CardStatsVertical
               chipText={'0'}
               avatarColor='primary'
@@ -44,7 +59,12 @@ const ParentFinanceViewOverview = ({ setFinanceData, financeData }) => {
               avatarIcon='tabler:woman'
             />
           </Grid>
-          <Grid item xs={6} sm={6} lg={3}>
+          <Grid
+            size={{
+              xs: 6,
+              sm: 6,
+              lg: 3
+            }}>
             <CardStatsVertical
               chipText={'0'}
               avatarColor='warning'
@@ -54,7 +74,12 @@ const ParentFinanceViewOverview = ({ setFinanceData, financeData }) => {
               avatarIcon='tabler:woman'
             />
           </Grid>
-          <Grid item xs={6} sm={6} lg={3}>
+          <Grid
+            size={{
+              xs: 6,
+              sm: 6,
+              lg: 3
+            }}>
             <CardStatsVertical
               chipText={'0'}
               avatarColor='secondary'
@@ -67,7 +92,7 @@ const ParentFinanceViewOverview = ({ setFinanceData, financeData }) => {
         </Grid>
       </Grid>
     </Grid>
-  )
+  );
 }
 
 export default ParentFinanceViewOverview

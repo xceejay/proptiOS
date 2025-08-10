@@ -211,7 +211,7 @@ const UserProfileRight = props => {
         </Fragment>
       ) : null}
     </Sidebar>
-  )
+  );
 }
 
 export default UserProfileRight

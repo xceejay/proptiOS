@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
 import Switch from '@mui/material/Switch'
 import Button from '@mui/material/Button'
@@ -81,7 +81,7 @@ const UserViewConnection = () => {
   return (
     <Grid container spacing={6}>
       {/* Connected Accounts Cards */}
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Card>
           <CardHeader title='Connected Accounts' sx={{ pb: 1.5 }} />
           <CardContent>
@@ -120,7 +120,7 @@ const UserViewConnection = () => {
         </Card>
       </Grid>
       {/* Social Accounts Cards */}
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Card>
           <CardHeader title='Social Accounts' sx={{ pb: 1.5 }} />
           <CardContent>

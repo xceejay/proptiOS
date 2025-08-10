@@ -39,7 +39,7 @@ const ParentPropertyViewManagement = ({
 
   return (
     <Grid container spacing={6.5}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Card>
           <CardHeader
             title='Properties'
@@ -55,7 +55,14 @@ const ParentPropertyViewManagement = ({
             {isGridView ? (
               <Grid container spacing={4}>
                 {propertiesData.map((property, index) => (
-                  <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
+                  <Grid
+                    key={index}
+                    size={{
+                      xs: 12,
+                      sm: 6,
+                      md: 4,
+                      lg: 3
+                    }}>
                     <Card
                       sx={{
                         border: theme => `1px solid ${theme.palette.divider}`,
@@ -87,9 +94,9 @@ const ParentPropertyViewManagement = ({
                               <text
                                 x='50%'
                                 y='50%'
-                                dominant-baseline='middle'
-                                text-anchor='middle'
-                                font-size='10px'
+                                dominantBaseline='middle'
+                                textAnchor='middle'
+                                fontSize='10px'
                                 fill='#212121'
                               >
                                 Property Image
@@ -147,7 +154,7 @@ const ParentPropertyViewManagement = ({
         </Card>
       </Grid>
     </Grid>
-  )
+  );
 }
 
 export default ParentPropertyViewManagement

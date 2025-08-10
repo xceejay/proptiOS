@@ -1,6 +1,6 @@
 // ** MUI Imports
 import Box from '@mui/material/Box'
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import Checkbox from '@mui/material/Checkbox'
 
 const CustomCheckboxImg = props => {
@@ -10,7 +10,7 @@ const CustomCheckboxImg = props => {
 
   const renderComponent = () => {
     return (
-      <Grid item {...gridProps}>
+      <Grid {...gridProps}>
         <Box
           onClick={() => handleChange(value)}
           sx={{

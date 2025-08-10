@@ -15,7 +15,7 @@ import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import InputLabel from '@mui/material/InputLabel'
 import Box from '@mui/material/Box'
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import InputAdornment from '@mui/material/InputAdornment'
 import TableContainer from '@mui/material/TableContainer'
 import { styled, alpha, useTheme } from '@mui/material/styles'
@@ -671,7 +671,7 @@ const AddCard = props => {
     <Card>
       <CardContent sx={{ p: [`${theme.spacing(6)} !important`, `${theme.spacing(10)} !important`] }}>
         <Grid container>
-          <Grid item xl={12} xs={12}>
+          <Grid xl={12} size={12}>
             <LeaseStepper
               handleReplaceVars={handleReplaceVars}
               rteRef={rteRef}
@@ -682,7 +682,7 @@ const AddCard = props => {
               onFormSubmit={handleFormSubmit}
             />
           </Grid>
-          {/* <Grid item xl={6} xs={12}>
+          {/* <Grid xl={6} size={12}>
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: { xl: 'flex-end', xs: 'flex-start' } }}>
               <Box sx={{ mt: 3, mb: 3, display: 'flex', alignItems: 'center' }}>
                 <Typography variant='h6' sx={{ mr: 2, width: '105px' }}>
@@ -788,7 +788,7 @@ const AddCard = props => {
           <Grid
             item
             xl={3}
-            xs={6}
+            size={6}
             sx={{
               mt: 10,
               mb: { xl: 0, xs: 4 }
@@ -821,7 +821,7 @@ const AddCard = props => {
 
         {/* <Grid sx={{ mt: 10 }} container>
           <Grid container>
-            <Grid item xl={6} xs={12} sx={{ mb: { xl: 0, xs: 4 } }}>
+            <Grid xl={6} size={12} sx={{ mb: { xl: 0, xs: 4 } }}>
               <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                 <Box sx={{ mb: 6, display: 'flex', alignItems: 'center' }}>
                   <svg width={34} height={23.375} viewBox='0 0 32 22' fill='none' xmlns='http://www.w3.org/2000/svg'>
@@ -871,9 +871,9 @@ const AddCard = props => {
                 </div>
               </Box>
             </Grid>
-            <Grid item xl={6} xs={12}></Grid>
+            <Grid xl={6} size={12}></Grid>
           </Grid>
-          <Grid item xl={6} xs={12} sx={{ mt: 10, mb: { xl: 0, xs: 4 } }}>
+          <Grid xl={6} size={12} sx={{ mt: 10, mb: { xl: 0, xs: 4 } }}>
             <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'left', justifyContent: 'flex-start' }}>
               <CalcWrapper flex={0.5}>
                 <Typography>Dear </Typography>
@@ -902,7 +902,7 @@ const AddCard = props => {
               </CalcWrapper>
             </Box>
           </Grid>
-          <Grid item xl={6} xs={12}></Grid>
+          <Grid xl={6} size={12}></Grid>
         </Grid> */}
       </CardContent>
 
@@ -931,7 +931,7 @@ const AddCard = props => {
               }}
               r
             >
-              <Grid item xs={12} sm={6} lg={6} sx={{ order: { sm: 1, xs: 2 } }}>
+              <Grid size={12} sm={6} lg={6} sx={{ order: { sm: 1, xs: 2 } }}>
                 <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
                   <Typography variant='body2' sx={{ mr: 2, fontWeight: 600 }}>
                     Landlord:
@@ -1010,7 +1010,7 @@ const AddCard = props => {
 
                 </Box>
               </Grid>
-              <Grid item xs={12} sm={5} lg={4} sx={{ mb: { sm: 0, xs: 4 }, order: { sm: 2, xs: 1 } }}>
+              <Grid size={12} sm={5} lg={4} sx={{ mb: { sm: 0, xs: 4 }, order: { sm: 2, xs: 1 } }}>
                 <CalcWrapperNew>
                   <Typography sx={{ color: 'text.secondary' }}>Currency:</Typography>
 

@@ -116,7 +116,7 @@ const VerticalNavHeader = props => {
             <>
               <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 30' width='32' height='30'>
                 <rect width='32' height='30' fill='#CCCCCC0D'></rect>
-                <text x='50%' y='50%' dominant-baseline='middle' text-anchor='middle' font-size='10px' fill='#333333FF'>
+                <text x='50%' y='50%' dominantBaseline='middle' textAnchor='middle' fontSize='10px' fill='#333333FF'>
                   32x30
                 </text>
               </svg>
@@ -128,7 +128,6 @@ const VerticalNavHeader = props => {
           </HeaderTitle>
         </LinkStyled>
       )}
-
       {hidden ? (
         <IconButton
           disableRipple
@@ -144,7 +143,7 @@ const VerticalNavHeader = props => {
           {/* <Icon icon='tabler:x' fontSize='1rem' /> */}
         </IconButton>
       ) : userMenuLockedIcon === null && userMenuUnlockedIcon === null ? null : (
-        <></>
+        (<></>)
 
         // <IconButton
         //   disableRipple
@@ -164,7 +163,7 @@ const VerticalNavHeader = props => {
         // </IconButton>
       )}
     </MenuHeaderWrapper>
-  )
+  );
 }
 
 export default VerticalNavHeader

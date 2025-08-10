@@ -3,7 +3,7 @@ import { useState } from 'react'
 
 // ** MUI Imports
 import Card from '@mui/material/Card'
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 import Checkbox from '@mui/material/Checkbox'
 import { styled } from '@mui/material/styles'
@@ -51,13 +51,13 @@ const FormLayoutsAlignment = () => {
       <CardContent sx={{ minHeight: 500, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <Form onSubmit={e => e.preventDefault()}>
           <Grid container spacing={5}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Typography variant='h5'>Sign In</Typography>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <TextField fullWidth label='Username' placeholder='carterLeonard' />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormControl fullWidth>
                 <InputLabel htmlFor='form-layouts-alignment-password'>Password</InputLabel>
                 <OutlinedInput
@@ -81,14 +81,14 @@ const FormLayoutsAlignment = () => {
                 />
               </FormControl>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormControlLabel
                 label='Remember me'
                 control={<Checkbox name='form-layouts-alignment-checkbox' />}
                 sx={{ '& .MuiButtonBase-root': { pt: 0, pb: 0 } }}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Button size='large' type='submit' variant='contained' sx={{ width: '100%' }}>
                 Login
               </Button>

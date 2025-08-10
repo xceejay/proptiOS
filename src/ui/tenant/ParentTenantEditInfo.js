@@ -1,5 +1,5 @@
 // ** MUI Imports
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 
 // ** Demo Components Imports
 import TenantViewLeft from 'src/ui/tenant/TenantViewLeft'
@@ -9,10 +9,10 @@ import ParentTenantViewRight from './ParentTenantViewRight'
 const TenantEditInfo = ({ tenantData, tab }) => {
   return (
     <Grid container spacing={6}>
-      {/* <Grid item xs={12} md={5} lg={4}>
+      {/* <Grid size={12} md={5} lg={4}>
         <TenantViewLeft tenantData={tenantData} />
       </Grid> */}
-      <Grid item xs={12} md={12} lg={12}>
+      <Grid size={12} md={12} lg={12}>
         <ParentTenantViewRight tenantData={tenantData} tab={tab} />
       </Grid>
     </Grid>

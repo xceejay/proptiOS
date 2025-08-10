@@ -7,7 +7,7 @@ import Link from 'next/link'
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import CardHeader from '@mui/material/CardHeader'
@@ -57,10 +57,10 @@ const FormLayoutsBasic = () => {
       <CardContent>
         <form onSubmit={e => e.preventDefault()}>
           <Grid container spacing={5}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <TextField fullWidth label='Name' placeholder='Leonard Carter' />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <TextField
                 fullWidth
                 type='email'
@@ -69,7 +69,7 @@ const FormLayoutsBasic = () => {
                 helperText='You can use letters, numbers & periods'
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormControl fullWidth>
                 <InputLabel htmlFor='form-layouts-basic-password'>Password</InputLabel>
                 <OutlinedInput
@@ -97,7 +97,7 @@ const FormLayoutsBasic = () => {
                 </FormHelperText>
               </FormControl>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormControl fullWidth>
                 <InputLabel htmlFor='form-layouts-confirm-password'>Confirm Password</InputLabel>
                 <OutlinedInput
@@ -125,7 +125,7 @@ const FormLayoutsBasic = () => {
                 </FormHelperText>
               </FormControl>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Box
                 sx={{
                   gap: 5,

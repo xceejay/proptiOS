@@ -1,5 +1,5 @@
 // ** MUI Imports
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
 import Table from '@mui/material/Table'
 import Divider from '@mui/material/Divider'
@@ -52,7 +52,7 @@ const MaintenanceReceipt = ({ receiptData }) => {
       <CardContent sx={{ p: [`${theme.spacing(6)} !important`, `${theme.spacing(10)} !important`] }}>
         <Grid container spacing={6}>
           {/* Company Info */}
-          <Grid item sm={6} xs={12}>
+          <Grid sm={6} size={12}>
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
               <Box sx={{ mb: 6, display: 'flex', alignItems: 'center' }}>
                 <Icon sx={{ fontSize: 34, color: theme.palette.primary.main }}>business</Icon>
@@ -76,7 +76,7 @@ const MaintenanceReceipt = ({ receiptData }) => {
             </Box>
           </Grid>
           {/* Receipt Details */}
-          <Grid item sm={6} xs={12}>
+          <Grid sm={6} size={12}>
             <Box sx={{ display: 'flex', justifyContent: { xs: 'flex-start', sm: 'flex-end' } }}>
               <Table sx={{ maxWidth: '210px' }}>
                 <TableBody>
@@ -130,7 +130,7 @@ const MaintenanceReceipt = ({ receiptData }) => {
       {/* Transaction Summary Section */}
       <CardContent sx={{ p: [`${theme.spacing(6)} !important`, `${theme.spacing(10)} !important`] }}>
         <Grid container>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Typography sx={{ fontWeight: 500 }}>Payment Summary</Typography>
             <Box sx={{ mt: 2 }}>
               <Box sx={{ display: 'flex' }}>
@@ -180,10 +180,10 @@ const MaintenanceReceipt = ({ receiptData }) => {
       {/* Summary Section */}
       <CardContent sx={{ p: [`${theme.spacing(6)} !important`, `${theme.spacing(10)} !important`] }}>
         <Grid container>
-          <Grid item xs={12} sm={7}>
+          <Grid size={12} sm={7}>
             <Typography sx={{ color: 'text.secondary' }}>Thank you for your payment!</Typography>
           </Grid>
-          <Grid item xs={12} sm={5}>
+          <Grid size={12} sm={5}>
             <CalcWrapper>
               <Typography sx={{ color: 'text.secondary' }}>Total Paid:</Typography>
               <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>{`$${receiptData.total}`}</Typography>

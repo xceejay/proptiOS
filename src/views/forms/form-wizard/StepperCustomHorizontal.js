@@ -4,7 +4,7 @@ import { Fragment, useState } from 'react'
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
 import Divider from '@mui/material/Divider'
@@ -159,7 +159,7 @@ const StepperCustomHorizontal = () => {
       case 0:
         return (
           <Fragment>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <TextField
                 fullWidth
                 label='Username'
@@ -168,7 +168,7 @@ const StepperCustomHorizontal = () => {
                 onChange={e => setUsername(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <TextField
                 fullWidth
                 type='email'
@@ -178,7 +178,7 @@ const StepperCustomHorizontal = () => {
                 onChange={e => setEmail(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <FormControl fullWidth>
                 <InputLabel htmlFor='stepper-custom-horizontal-account-password'>Password</InputLabel>
                 <OutlinedInput
@@ -202,7 +202,7 @@ const StepperCustomHorizontal = () => {
                 />
               </FormControl>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <FormControl fullWidth>
                 <InputLabel htmlFor='stepper-custom-horizontal-account-password-2'>Confirm Password</InputLabel>
                 <OutlinedInput
@@ -231,7 +231,7 @@ const StepperCustomHorizontal = () => {
       case 1:
         return (
           <Fragment key={step}>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <TextField
                 fullWidth
                 label='First Name'
@@ -240,7 +240,7 @@ const StepperCustomHorizontal = () => {
                 onChange={e => setFirstName(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <TextField
                 fullWidth
                 label='Last Name'
@@ -249,7 +249,7 @@ const StepperCustomHorizontal = () => {
                 onChange={e => setLastName(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <FormControl fullWidth>
                 <InputLabel id='stepper-custom-horizontal-personal-select-label'>Country</InputLabel>
                 <Select
@@ -266,7 +266,7 @@ const StepperCustomHorizontal = () => {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <FormControl fullWidth>
                 <InputLabel id='stepper-custom-horizontal-personal-multiple-select-label'>Language</InputLabel>
                 <Select
@@ -292,7 +292,7 @@ const StepperCustomHorizontal = () => {
       case 2:
         return (
           <Fragment key={step}>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <TextField
                 fullWidth
                 label='Twitter'
@@ -301,7 +301,7 @@ const StepperCustomHorizontal = () => {
                 placeholder='https://twitter.com/carterLeonard'
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <TextField
                 fullWidth
                 label='Facebook'
@@ -310,7 +310,7 @@ const StepperCustomHorizontal = () => {
                 placeholder='https://facebook.com/carterLeonard'
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <TextField
                 fullWidth
                 label='Google+'
@@ -319,7 +319,7 @@ const StepperCustomHorizontal = () => {
                 placeholder='https://plus.google.com/carterLeonard'
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <TextField
                 fullWidth
                 label='LinkedIn'
@@ -351,7 +351,7 @@ const StepperCustomHorizontal = () => {
       return (
         <form onSubmit={e => e.preventDefault()}>
           <Grid container spacing={5}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Typography variant='body2' sx={{ fontWeight: 600, color: 'text.primary' }}>
                 {steps[activeStep].title}
               </Typography>
@@ -360,7 +360,7 @@ const StepperCustomHorizontal = () => {
               </Typography>
             </Grid>
             {getStepContent(activeStep)}
-            <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Grid size={12} sx={{ display: 'flex', justifyContent: 'space-between' }}>
               <Button
                 size='large'
                 variant='outlined'

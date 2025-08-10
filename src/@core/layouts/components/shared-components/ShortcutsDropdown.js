@@ -6,7 +6,7 @@ import Link from 'next/link'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import Avatar from '@mui/material/Avatar'
 import Divider from '@mui/material/Divider'
 import Tooltip from '@mui/material/Tooltip'
@@ -136,7 +136,7 @@ const ShortcutsDropdown = props => {
             {shortcuts.map(shortcut => (
               <Grid
                 item
-                xs={6}
+                size={6}
                 key={shortcut.title}
                 onClick={handleDropdownClose}
                 sx={{ cursor: 'pointer', '&:hover': { backgroundColor: 'action.hover' } }}

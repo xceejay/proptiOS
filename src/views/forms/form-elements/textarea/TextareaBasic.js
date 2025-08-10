@@ -1,5 +1,5 @@
 // ** MUI Imports
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import TextareaAutosize from '@mui/material/TextareaAutosize'
 

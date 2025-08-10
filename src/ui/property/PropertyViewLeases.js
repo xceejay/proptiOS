@@ -6,7 +6,7 @@ import { useState, useEffect, useCallback } from 'react'
 // ** MUI Imports
 
 import Card from '@mui/material/Card'
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import CardContent from '@mui/material/CardContent'
 
 // ** Icon Imports
@@ -20,7 +20,7 @@ import PropertyLeaseTable from './PropertyLeaseTable'
 const PropertyViewLeases = ({ setPropertyData, propertyData }) => {
   return (
     <Grid container spacing={6}>
-      <Grid item xs={12} lg={12}>
+      <Grid size={12} lg={12}>
         <Card sx={{ mb: 4 }}>
           <PropertyLeaseTable setPropertyData={setPropertyData} propertyData={propertyData} />
         </Card>

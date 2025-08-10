@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import { Button, Card, CardActions, CardContent, CardHeader, Divider, Grid, Box } from '@mui/material'
+import { Button, Card, CardActions, CardContent, CardHeader, Divider, Box } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import { DataGrid } from '@mui/x-data-grid'
 import CardStatsVertical from 'src/@core/components/card-statistics/card-stats-vertical'
 import PropertyManagePropertyTable from './PropertyManageTenantsTable'
@@ -39,15 +40,15 @@ const PropertyViewOverview = ({ setPropertyData, propertyData }) => {
 
   return (
     <Grid container spacing={6}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Grid container spacing={5}>
-          {/* <Grid item xs={12} lg={6}>
+          {/* <Grid size={12} lg={6}>
             <Card>
               <Grid container>
-                <Grid item xs={6} lg={6}>
+                <Grid size={6} lg={6}>
                   <CardHeader title='Units' />
                 </Grid>
-                <Grid item xs={6} lg={6}>
+                <Grid size={6} lg={6}>
                   <CardActions sx={{ display: 'flex', justifyContent: 'right', mt: 2 }}>
                     <Button variant='contained' size='small' onClick={toggleAddUnitDrawer}>
                       Add Unit
@@ -75,9 +76,18 @@ const PropertyViewOverview = ({ setPropertyData, propertyData }) => {
               </CardContent>
             </Card>
           </Grid> */}
-          <Grid item xs={12} lg={6}>
+          <Grid
+            size={{
+              xs: 12,
+              lg: 6
+            }}>
             <Grid container spacing={6.5}>
-              <Grid item xs={12} sm={6} lg={6}>
+              <Grid
+                size={{
+                  xs: 12,
+                  sm: 6,
+                  lg: 6
+                }}>
                 <CardStatsVertical
                   stats={'0 units'}
                   chipText='+0 units'
@@ -88,7 +98,12 @@ const PropertyViewOverview = ({ setPropertyData, propertyData }) => {
                   avatarIcon='tabler:bed'
                 />
               </Grid>
-              <Grid item xs={12} sm={6} lg={6}>
+              <Grid
+                size={{
+                  xs: 12,
+                  sm: 6,
+                  lg: 6
+                }}>
                 <CardStatsVertical
                   stats={'0 tenants'}
                   chipText='+0 tenants'
@@ -99,7 +114,12 @@ const PropertyViewOverview = ({ setPropertyData, propertyData }) => {
                   avatarIcon='tabler:forms'
                 />
               </Grid>
-              <Grid item xs={12} sm={6} lg={6}>
+              <Grid
+                size={{
+                  xs: 12,
+                  sm: 6,
+                  lg: 6
+                }}>
                 <CardStatsVertical
                   stats={propertyData.maintenance_requests.length + ' requests'}
                   chipText='+0 requests'
@@ -109,7 +129,12 @@ const PropertyViewOverview = ({ setPropertyData, propertyData }) => {
                   avatarIcon='tabler:tool'
                 />
               </Grid>
-              <Grid item xs={12} sm={6} lg={6}>
+              <Grid
+                size={{
+                  xs: 12,
+                  sm: 6,
+                  lg: 6
+                }}>
                 <CardStatsVertical
                   stats={propertyData.tenants.length + ' tenants'}
                   chipText='+0 tenants'
@@ -122,9 +147,18 @@ const PropertyViewOverview = ({ setPropertyData, propertyData }) => {
             </Grid>
           </Grid>
 
-          <Grid item xs={12} lg={6}>
+          <Grid
+            size={{
+              xs: 12,
+              lg: 6
+            }}>
             <Grid container spacing={6.5}>
-              <Grid item xs={12} sm={6} lg={6}>
+              <Grid
+                size={{
+                  xs: 12,
+                  sm: 6,
+                  lg: 6
+                }}>
                 <CardStatsVertical
                   stats={'0 units'}
                   chipText='+0 units'
@@ -135,7 +169,12 @@ const PropertyViewOverview = ({ setPropertyData, propertyData }) => {
                   avatarIcon='tabler:bed'
                 />
               </Grid>
-              <Grid item xs={12} sm={6} lg={6}>
+              <Grid
+                size={{
+                  xs: 12,
+                  sm: 6,
+                  lg: 6
+                }}>
                 <CardStatsVertical
                   stats={'0 tenants'}
                   chipText='+0 tenants'
@@ -146,7 +185,12 @@ const PropertyViewOverview = ({ setPropertyData, propertyData }) => {
                   avatarIcon='tabler:forms'
                 />
               </Grid>
-              <Grid item xs={12} sm={6} lg={6}>
+              <Grid
+                size={{
+                  xs: 12,
+                  sm: 6,
+                  lg: 6
+                }}>
                 <CardStatsVertical
                   stats={propertyData.maintenance_requests.length + ' requests'}
                   chipText='+0 requests'
@@ -156,7 +200,12 @@ const PropertyViewOverview = ({ setPropertyData, propertyData }) => {
                   avatarIcon='tabler:tool'
                 />
               </Grid>
-              <Grid item xs={12} sm={6} lg={6}>
+              <Grid
+                size={{
+                  xs: 12,
+                  sm: 6,
+                  lg: 6
+                }}>
                 <CardStatsVertical
                   stats={propertyData.tenants.length + ' tenants'}
                   chipText='+0 tenants'
@@ -169,12 +218,11 @@ const PropertyViewOverview = ({ setPropertyData, propertyData }) => {
             </Grid>
           </Grid>
 
-          {/* <Grid item xs={12}>
+          {/* <Grid size={12}>
             <PropertyTenantManageTable setPropertyData={setPropertyData} propertyData={propertyData} />
           </Grid> */}
         </Grid>
       </Grid>
-
       <AddUnitDrawer
         unitsData={unitsData}
         propertyData={propertyData}
@@ -184,7 +232,7 @@ const PropertyViewOverview = ({ setPropertyData, propertyData }) => {
         toggle={toggleAddUnitDrawer}
       />
     </Grid>
-  )
+  );
 }
 
 PropertyViewOverview.acl = { action: 'read', subject: 'properties' }

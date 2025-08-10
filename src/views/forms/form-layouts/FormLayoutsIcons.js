@@ -1,6 +1,6 @@
 // ** MUI Imports
 import Card from '@mui/material/Card'
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import CardHeader from '@mui/material/CardHeader'
@@ -17,7 +17,7 @@ const FormLayoutsIcons = () => {
       <CardContent>
         <form onSubmit={e => e.preventDefault()}>
           <Grid container spacing={5}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <TextField
                 fullWidth
                 label='Full Name'
@@ -31,7 +31,7 @@ const FormLayoutsIcons = () => {
                 }}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <TextField
                 fullWidth
                 type='email'
@@ -47,7 +47,7 @@ const FormLayoutsIcons = () => {
                 }}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <TextField
                 fullWidth
                 type='number'
@@ -62,7 +62,7 @@ const FormLayoutsIcons = () => {
                 }}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <TextField
                 fullWidth
                 multiline
@@ -79,7 +79,7 @@ const FormLayoutsIcons = () => {
                 }}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Button type='submit' variant='contained' size='large'>
                 Submit
               </Button>

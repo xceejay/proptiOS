@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
@@ -155,7 +155,7 @@ const UserViewLeft = ({ setPropertyData, propertyData }) => {
   if (propertyData) {
     return (
       <Grid container spacing={6}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Grid pb={5}>
             {/* <Button size='small' variant='outlined' onClick={() => router.push('/properties')}>
               <Icon icon='tabler:arrow-left' fontSize={20} />
@@ -346,10 +346,10 @@ const UserViewLeft = ({ setPropertyData, propertyData }) => {
                 </DialogContentText>
                 <form>
                   <Grid container spacing={6}>
-                    <Grid item xs={12} sm={6}>
+                    <Grid size={12} sm={6}>
                       <TextField fullWidth label='Full Name' defaultValue={propertyData.name} />
                     </Grid>
-                    <Grid item xs={12} sm={6}>
+                    <Grid size={12} sm={6}>
                       <TextField
                         fullWidth
                         label='Property ID'
@@ -359,10 +359,10 @@ const UserViewLeft = ({ setPropertyData, propertyData }) => {
                         // InputProps={{ startAdornment: <InputAdornment position='start'></InputAdornment> }}
                       />
                     </Grid>
-                    <Grid item xs={12} sm={6}>
+                    <Grid size={12} sm={6}>
                       <TextField fullWidth type='email' label='Billing Email' defaultValue={propertyData.email} />
                     </Grid>
-                    <Grid item xs={12} sm={6}>
+                    <Grid size={12} sm={6}>
                       <FormControl fullWidth>
                         <InputLabel id='user-view-status-label'>Status</InputLabel>
                         <Select
@@ -378,13 +378,13 @@ const UserViewLeft = ({ setPropertyData, propertyData }) => {
                         </Select>
                       </FormControl>
                     </Grid>
-                    <Grid item xs={12} sm={6}>
+                    <Grid size={12} sm={6}>
                       <TextField fullWidth label='TAX ID' defaultValue='Tax-8894' />
                     </Grid>
-                    <Grid item xs={12} sm={6}>
+                    <Grid size={12} sm={6}>
                       <TextField fullWidth label='Contact' defaultValue={`${propertyData.tel_number}`} />
                     </Grid>
-                    <Grid item xs={12} sm={6}>
+                    <Grid size={12} sm={6}>
                       <FormControl fullWidth>
                         <InputLabel id='user-view-language-label'>Language</InputLabel>
                         <Select
@@ -398,7 +398,7 @@ const UserViewLeft = ({ setPropertyData, propertyData }) => {
                         </Select>
                       </FormControl>
                     </Grid>
-                    <Grid item xs={12} sm={6}>
+                    <Grid size={12} sm={6}>
                       <FormControl fullWidth>
                         <InputLabel id='user-view-country-label'>Country</InputLabel>
                         <Select
@@ -417,7 +417,7 @@ const UserViewLeft = ({ setPropertyData, propertyData }) => {
                         </Select>
                       </FormControl>
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <FormControlLabel
                         label='Use as a billing address?'
                         control={<Switch defaultChecked />}
@@ -447,8 +447,7 @@ const UserViewLeft = ({ setPropertyData, propertyData }) => {
             <PropertySubscriptionDialog open={subscriptionDialogOpen} setOpen={setSubscriptionDialogOpen} />
           </Card>
         </Grid>
-
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Card>
             {/* <CardContent sx={{ pb: 1, display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}>
               <CustomChip rounded skin='light' size='small' color='primary' label='Popular' />
@@ -595,7 +594,7 @@ const UserViewLeft = ({ setPropertyData, propertyData }) => {
           </Card>
         </Grid>
       </Grid>
-    )
+    );
   } else {
     return null
   }

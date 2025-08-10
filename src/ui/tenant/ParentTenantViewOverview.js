@@ -1,6 +1,6 @@
 // ** MUI Imports
 
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 
 import { styled } from '@mui/material/styles'
 
@@ -26,9 +26,9 @@ const Timeline = styled(MuiTimeline)(({ theme }) => ({
 const ParentTenantViewOverview = ({ tenantData }) => {
   return (
     <Grid container spacing={6}>
-      <Grid item xs={12} sm={12} lg={12}>
+      <Grid size={12} sm={12} lg={12}>
         <Grid container spacing={6} sx={{ mb: 4 }}>
-          <Grid item xs={6} sm={6} lg={3}>
+          <Grid size={6} sm={6} lg={3}>
             {/* prettier-ignore */}
             <CardStatsVertical
 
@@ -44,7 +44,7 @@ const ParentTenantViewOverview = ({ tenantData }) => {
 
           {/*
         THIS ONE has stats
-        <Grid item xs={6} sm={6} lg={3}>
+        <Grid size={6} sm={6} lg={3}>
           <CardStatsVertical
             stats={"0"}
             chipText={'0'}
@@ -56,7 +56,7 @@ const ParentTenantViewOverview = ({ tenantData }) => {
           />
         </Grid> */}
 
-          <Grid item xs={6} sm={6} lg={3}>
+          <Grid size={6} sm={6} lg={3}>
             <CardStatsVertical
               chipText={'0'}
               avatarColor='primary'
@@ -66,7 +66,7 @@ const ParentTenantViewOverview = ({ tenantData }) => {
               avatarIcon='tabler:woman'
             />
           </Grid>
-          <Grid item xs={6} sm={6} lg={3}>
+          <Grid size={6} sm={6} lg={3}>
             <CardStatsVertical
               chipText={'0'}
               avatarColor='warning'
@@ -76,7 +76,7 @@ const ParentTenantViewOverview = ({ tenantData }) => {
               avatarIcon='tabler:woman'
             />
           </Grid>
-          <Grid item xs={6} sm={6} lg={3}>
+          <Grid size={6} sm={6} lg={3}>
             <CardStatsVertical
               chipText={'0'}
               avatarColor='secondary'

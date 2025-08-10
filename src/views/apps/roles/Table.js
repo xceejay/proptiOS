@@ -7,7 +7,7 @@ import Link from 'next/link'
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import { DataGrid } from '@mui/x-data-grid'
@@ -207,7 +207,7 @@ const UserList = () => {
 
   return (
     <Grid container spacing={6}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Card>
           <TableHeader plan={plan} value={value} handleFilter={handleFilter} handlePlanChange={handlePlanChange} />
           <DataGrid

@@ -2,7 +2,7 @@
 import { useState } from 'react'
 
 // ** MUI Imports
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import Radio from '@mui/material/Radio'
 import Select from '@mui/material/Select'
 import Button from '@mui/material/Button'
@@ -99,25 +99,25 @@ const FormLayoutsCollapsible = () => {
         <Divider sx={{ m: '0 !important' }} />
         <AccordionDetails>
           <Grid container spacing={5}>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <TextField fullWidth label='Full Name' placeholder='Leonard Carter' />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <TextField fullWidth label='Phone No.' placeholder='+1-123-456-8790' />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <TextField multiline rows={3} fullWidth label='Address' placeholder='1456, Liberty Street' />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <TextField fullWidth type='number' label='ZIP Code' placeholder='10005' />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <TextField fullWidth label='Landmark' placeholder='Nr. Wall Street' />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <TextField fullWidth label='City' placeholder='New York' />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <FormControl fullWidth>
                 <InputLabel id='form-layouts-collapsible-select-label'>Country</InputLabel>
                 <Select
@@ -133,7 +133,7 @@ const FormLayoutsCollapsible = () => {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormControl>
                 <FormLabel>Address Type</FormLabel>
                 <RadioGroup
@@ -236,9 +236,9 @@ const FormLayoutsCollapsible = () => {
         <Divider sx={{ m: '0 !important' }} />
         <AccordionDetails>
           <Grid container spacing={5}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Grid container spacing={6}>
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <RadioGroup
                     row
                     value={paymentMethod}
@@ -251,16 +251,16 @@ const FormLayoutsCollapsible = () => {
                   </RadioGroup>
                 </Grid>
                 {paymentMethod === 'card' ? (
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Grid container spacing={6}>
-                      <Grid item xs={12}>
+                      <Grid size={12}>
                         <CardWrapper>
                           <Cards cvc={cvc} focused={focus} expiry={expiry} name={name} number={cardNumber} />
                         </CardWrapper>
                       </Grid>
-                      <Grid item xs={12} md={8} xl={6} sx={{ mt: 2 }}>
+                      <Grid size={12} md={8} xl={6} sx={{ mt: 2 }}>
                         <Grid container spacing={6}>
-                          <Grid item xs={12}>
+                          <Grid size={12}>
                             <TextField
                               fullWidth
                               name='number'
@@ -273,7 +273,7 @@ const FormLayoutsCollapsible = () => {
                               onFocus={e => setFocus(e.target.name)}
                             />
                           </Grid>
-                          <Grid item xs={12}>
+                          <Grid size={12}>
                             <TextField
                               fullWidth
                               name='name'
@@ -286,7 +286,7 @@ const FormLayoutsCollapsible = () => {
                               onChange={e => setName(e.target.value)}
                             />
                           </Grid>
-                          <Grid item xs={6}>
+                          <Grid size={6}>
                             <TextField
                               fullWidth
                               name='expiry'
@@ -300,7 +300,7 @@ const FormLayoutsCollapsible = () => {
                               onFocus={e => setFocus(e.target.name)}
                             />
                           </Grid>
-                          <Grid item xs={6}>
+                          <Grid size={6}>
                             <TextField
                               fullWidth
                               name='cvc'

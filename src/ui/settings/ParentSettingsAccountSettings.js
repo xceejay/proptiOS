@@ -105,7 +105,7 @@ const ParentSettingsAccountSettings = props => {
   return (
     <Grid container spacing={6}>
       {/* Connected Accounts Cards */}
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Card>
           <CardHeader title='Settings' sx={{ pb: 1.5 }} />
           <CardContent>
@@ -181,6 +181,6 @@ const ParentSettingsAccountSettings = props => {
         </Card>
       </Grid>
     </Grid>
-  )
+  );
 }
 export default ParentSettingsAccountSettings

@@ -3,7 +3,7 @@ import { forwardRef, useState } from 'react'
 
 // ** MUI Imports
 import Card from '@mui/material/Card'
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 import Divider from '@mui/material/Divider'
 import MenuItem from '@mui/material/MenuItem'
@@ -71,18 +71,18 @@ const FormLayoutsSeparator = () => {
       <form onSubmit={e => e.preventDefault()}>
         <CardContent>
           <Grid container spacing={5}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Typography variant='body2' sx={{ fontWeight: 600 }}>
                 1. Account Details
               </Typography>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <TextField fullWidth label='Username' placeholder='carterLeonard' />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <TextField fullWidth type='email' label='Email' placeholder='carterleonard@gmail.com' />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <FormControl fullWidth>
                 <InputLabel htmlFor='form-layouts-separator-password'>Password</InputLabel>
                 <OutlinedInput
@@ -106,7 +106,7 @@ const FormLayoutsSeparator = () => {
                 />
               </FormControl>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <FormControl fullWidth>
                 <InputLabel htmlFor='form-layouts-separator-password-2'>Confirm Password</InputLabel>
                 <OutlinedInput
@@ -130,21 +130,21 @@ const FormLayoutsSeparator = () => {
                 />
               </FormControl>
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Divider sx={{ mb: '0 !important' }} />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Typography variant='body2' sx={{ fontWeight: 600 }}>
                 2. Personal Info
               </Typography>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <TextField fullWidth label='First Name' placeholder='Leonard' />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <TextField fullWidth label='Last Name' placeholder='Carter' />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <FormControl fullWidth>
                 <InputLabel id='form-layouts-separator-select-label'>Country</InputLabel>
                 <Select
@@ -160,7 +160,7 @@ const FormLayoutsSeparator = () => {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <FormControl fullWidth>
                 <InputLabel id='form-layouts-separator-multiple-select-label'>Language</InputLabel>
                 <Select
@@ -181,7 +181,7 @@ const FormLayoutsSeparator = () => {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <DatePicker
                 selected={date}
                 showYearDropdown
@@ -192,7 +192,7 @@ const FormLayoutsSeparator = () => {
                 onChange={date => setDate(date)}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <TextField fullWidth label='Phone No.' placeholder='+1-123-456-8790' />
             </Grid>
           </Grid>

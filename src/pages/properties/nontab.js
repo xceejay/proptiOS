@@ -1,6 +1,6 @@
 // ** MUI Imports
 
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import PropertyManageTable from 'src/ui/property/PropertyManageTable'
 
 const PropertiesPage = () => {

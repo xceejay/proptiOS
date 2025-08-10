@@ -11,11 +11,11 @@ export default [
     },
     plugins: {
       react: pluginReact,
-      next: pluginNext
+      '@next/next': pluginNext
     },
     rules: {
       'no-unused-vars': [
-        'error',
+        'warn',
         {
           vars: 'all',
           varsIgnorePattern: '^_',
@@ -23,7 +23,9 @@ export default [
           ignoreRestSiblings: true
         }
       ],
-      'react-in-jsx-scope': 'off'
+      'react/react-in-jsx-scope': 'off',
+      'react/prop-types': 'warn',
+      'react/jsx-key': 'warn'
     },
     settings: {
       react: {
@@ -31,10 +33,15 @@ export default [
       }
     }
   },
+  pluginJs.configs.recommended,
+  pluginReact.configs.flat.recommended,
   {
     files: ['**/*.{js,mjs,cjs,jsx,ts,tsx}'],
-    ...pluginJs.configs.recommended,
-    ...pluginReact.configs.flat.recommended,
-    ...pluginNext.configs.recommended
+    plugins: {
+      '@next/next': pluginNext
+    },
+    rules: {
+      ...pluginNext.configs.recommended.rules
+    }
   }
 ]

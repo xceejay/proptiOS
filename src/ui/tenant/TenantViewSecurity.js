@@ -7,7 +7,7 @@ import Link from 'next/link'
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import Alert from '@mui/material/Alert'
 import Table from '@mui/material/Table'
 import Button from '@mui/material/Button'
@@ -95,7 +95,7 @@ const TenantViewSecurity = () => {
 
   return (
     <Grid container spacing={6}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Card>
           <CardHeader title='Reset Tenant Password' />
           <CardContent>
@@ -117,7 +117,7 @@ const TenantViewSecurity = () => {
             </Alert>
             <form onSubmit={e => e.preventDefault()}>
               <Grid container mt={2} spacing={4}>
-                {/* <Grid item xs={12} sm={6}>
+                {/* <Grid size={12} sm={6}>
                   <FormControl fullWidth>
                     <InputLabel htmlFor='user-view-security-new-password'>New Password</InputLabel>
                     <OutlinedInput
@@ -142,7 +142,7 @@ const TenantViewSecurity = () => {
                   </FormControl>
                 </Grid>
 
-                <Grid item xs={12} sm={6}>
+                <Grid size={12} sm={6}>
                   <FormControl fullWidth>
                     <InputLabel htmlFor='user-view-security-confirm-new-password'>Confirm New Password</InputLabel>
                     <OutlinedInput
@@ -166,7 +166,7 @@ const TenantViewSecurity = () => {
                     />
                   </FormControl>
                 </Grid> */}
-                <Grid direction={'row-reverse'} sm={6} item xs={12}>
+                <Grid direction={'row-reverse'} sm={6} item size={12}>
                   <Button size='small' color='error' type='submit' variant='contained'>
                     Reset Password
                   </Button>
@@ -177,7 +177,7 @@ const TenantViewSecurity = () => {
         </Card>
       </Grid>
 
-      {/* <Grid item xs={12}>
+      {/* <Grid size={12}>
         <Card>
           <CardHeader
             title='Two-step verification'
@@ -270,7 +270,7 @@ const TenantViewSecurity = () => {
         </Card>
       </Grid> */}
 
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Card sx={{ paddingBottom: 20 }}>
           <CardHeader title='Recent devices' />
 

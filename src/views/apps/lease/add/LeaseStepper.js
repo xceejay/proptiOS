@@ -952,10 +952,14 @@ const ReviewForm = ({ data, properties, units, tenants }) => {
           Review Lease Agreement Details
         </Typography>
       </Box>
-
       <Box sx={{ mt: 2, width: '100%' }}>
         <Grid container spacing={3}>
-          <Grid sx={{ display: 'flex', flexDirection: 'column' }} item xs={12} sm={6}>
+          <Grid
+            sx={{ display: 'flex', flexDirection: 'column' }}
+            size={{
+              xs: 12,
+              sm: 6
+            }}>
             <Typography variant='small'>
               <strong>Title:</strong> {data.title}
             </Typography>
@@ -1001,7 +1005,12 @@ const ReviewForm = ({ data, properties, units, tenants }) => {
             </Typography>
           </Grid>
 
-          <Grid sx={{ display: 'flex', flexDirection: 'column' }} item xs={12} sm={6}>
+          <Grid
+            sx={{ display: 'flex', flexDirection: 'column' }}
+            size={{
+              xs: 12,
+              sm: 6
+            }}>
             <Typography variant='small'>
               <strong>Notice Period:</strong> {data.notice_period} days
             </Typography>
@@ -1048,7 +1057,7 @@ const ReviewForm = ({ data, properties, units, tenants }) => {
         </Grid>
       </Box>
     </Box>
-  )
+  );
 }
 
 export default LeaseStepper

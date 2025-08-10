@@ -1,6 +1,6 @@
 // ** MUI Imports
 import { useState } from 'react'
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import Avatar from '@mui/material/Avatar'
 import { styled } from '@mui/material/styles'
 import Tab from '@mui/material/Tab'
@@ -43,7 +43,7 @@ const ParentUserViewManageUsers = ({ userData }) => {
 
   return (
     <Grid container spacing={6}>
-      {/* <Grid item xs={12}>
+      {/* <Grid size={12}>
         <TabContext value={tabValue}>
           <TabList onChange={handleTabChange} variant='fullWidth' aria-label='settlement tabs'>
             <Tab label='Active' value='1' />
@@ -55,7 +55,7 @@ const ParentUserViewManageUsers = ({ userData }) => {
           </TabPanel>
         </TabContext>
       </Grid> */}
-      <Grid item xs={12}>
+      <Grid size={12}>
         <UserManageTable></UserManageTable>
       </Grid>
     </Grid>

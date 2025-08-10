@@ -5,7 +5,7 @@ import { Fragment, useState } from 'react'
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import Step from '@mui/material/Step'
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 import Select from '@mui/material/Select'
 import Divider from '@mui/material/Divider'
@@ -174,7 +174,7 @@ const StepperLinearWithValidation = () => {
         return (
           <form key={0} onSubmit={handleAccountSubmit(onSubmit)}>
             <Grid container spacing={5}>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Typography variant='body2' sx={{ fontWeight: 600, color: 'text.primary' }}>
                   {steps[0].title}
                 </Typography>
@@ -182,7 +182,7 @@ const StepperLinearWithValidation = () => {
                   {steps[0].subtitle}
                 </Typography>
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid size={12} sm={6}>
                 <FormControl fullWidth>
                   <Controller
                     name='username'
@@ -206,7 +206,7 @@ const StepperLinearWithValidation = () => {
                   )}
                 </FormControl>
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid size={12} sm={6}>
                 <FormControl fullWidth>
                   <Controller
                     name='email'
@@ -231,7 +231,7 @@ const StepperLinearWithValidation = () => {
                   )}
                 </FormControl>
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid size={12} sm={6}>
                 <FormControl fullWidth>
                   <InputLabel htmlFor='stepper-linear-account-password' error={Boolean(accountErrors.password)}>
                     Password
@@ -270,7 +270,7 @@ const StepperLinearWithValidation = () => {
                   )}
                 </FormControl>
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid size={12} sm={6}>
                 <FormControl fullWidth>
                   <InputLabel
                     htmlFor='stepper-linear-account-confirm-password'
@@ -312,7 +312,7 @@ const StepperLinearWithValidation = () => {
                   )}
                 </FormControl>
               </Grid>
-              <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Grid size={12} sx={{ display: 'flex', justifyContent: 'space-between' }}>
                 <Button size='large' variant='outlined' color='secondary' disabled>
                   Back
                 </Button>
@@ -327,7 +327,7 @@ const StepperLinearWithValidation = () => {
         return (
           <form key={1} onSubmit={handlePersonalSubmit(onSubmit)}>
             <Grid container spacing={5}>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Typography variant='body2' sx={{ fontWeight: 600, color: 'text.primary' }}>
                   {steps[1].title}
                 </Typography>
@@ -335,7 +335,7 @@ const StepperLinearWithValidation = () => {
                   {steps[1].subtitle}
                 </Typography>
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid size={12} sm={6}>
                 <FormControl fullWidth>
                   <Controller
                     name='first-name'
@@ -359,7 +359,7 @@ const StepperLinearWithValidation = () => {
                   )}
                 </FormControl>
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid size={12} sm={6}>
                 <FormControl fullWidth>
                   <Controller
                     name='last-name'
@@ -383,7 +383,7 @@ const StepperLinearWithValidation = () => {
                   )}
                 </FormControl>
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid size={12} sm={6}>
                 <FormControl fullWidth>
                   <InputLabel
                     id='stepper-linear-personal-country'
@@ -419,7 +419,7 @@ const StepperLinearWithValidation = () => {
                   )}
                 </FormControl>
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid size={12} sm={6}>
                 <FormControl fullWidth>
                   <InputLabel
                     error={Boolean(personalErrors.language)}
@@ -459,7 +459,7 @@ const StepperLinearWithValidation = () => {
                   )}
                 </FormControl>
               </Grid>
-              <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Grid size={12} sx={{ display: 'flex', justifyContent: 'space-between' }}>
                 <Button size='large' variant='outlined' color='secondary' onClick={handleBack}>
                   Back
                 </Button>
@@ -474,7 +474,7 @@ const StepperLinearWithValidation = () => {
         return (
           <form key={2} onSubmit={handleSocialSubmit(onSubmit)}>
             <Grid container spacing={5}>
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <Typography variant='body2' sx={{ fontWeight: 600, color: 'text.primary' }}>
                   {steps[2].title}
                 </Typography>
@@ -482,7 +482,7 @@ const StepperLinearWithValidation = () => {
                   {steps[2].subtitle}
                 </Typography>
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid size={12} sm={6}>
                 <FormControl fullWidth>
                   <Controller
                     name='twitter'
@@ -506,7 +506,7 @@ const StepperLinearWithValidation = () => {
                   )}
                 </FormControl>
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid size={12} sm={6}>
                 <FormControl fullWidth>
                   <Controller
                     name='facebook'
@@ -530,7 +530,7 @@ const StepperLinearWithValidation = () => {
                   )}
                 </FormControl>
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid size={12} sm={6}>
                 <FormControl fullWidth>
                   <Controller
                     name='google'
@@ -554,7 +554,7 @@ const StepperLinearWithValidation = () => {
                   )}
                 </FormControl>
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid size={12} sm={6}>
                 <FormControl fullWidth>
                   <Controller
                     name='linkedIn'
@@ -578,7 +578,7 @@ const StepperLinearWithValidation = () => {
                   )}
                 </FormControl>
               </Grid>
-              <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Grid size={12} sx={{ display: 'flex', justifyContent: 'space-between' }}>
                 <Button size='large' variant='outlined' color='secondary' onClick={handleBack}>
                   Back
                 </Button>

@@ -137,15 +137,15 @@ const ParentFinanceViewReports = ({ setFinanceData, financeData }) => {
           {reports.map((report, index) => (
             <Grid
               key={index}
-              xs={12}
-              lg={5}
-              item
               sx={{
                 border: theme => `1px solid ${theme.palette.divider}`,
                 borderRadius: '4px',
                 color: 'text.secondary'
               }}
-            >
+              size={{
+                xs: 12,
+                lg: 5
+              }}>
               <Button
                 color='secondary'
                 onClick={() => handleOpenDialog(report)}
@@ -229,7 +229,7 @@ const ParentFinanceViewReports = ({ setFinanceData, financeData }) => {
 
   return (
     <Grid container spacing={5}>
-      <Grid item>
+      <Grid>
         {!loading ? (
           <>
             {' '}
@@ -248,7 +248,7 @@ const ParentFinanceViewReports = ({ setFinanceData, financeData }) => {
       </Grid>
       {/* Dynamically render all report categories */}
       {Object.entries(allFinancialReports).map(([category, reports]) => (
-        <Grid item xs={12} key={category}>
+        <Grid key={category} size={12}>
           {renderReportCategory(category, reports)}
         </Grid>
       ))}
@@ -383,7 +383,7 @@ const ParentFinanceViewReports = ({ setFinanceData, financeData }) => {
         </DialogActions>
       </Dialog>
     </Grid>
-  )
+  );
 }
 
 export default ParentFinanceViewReports

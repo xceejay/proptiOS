@@ -2,7 +2,7 @@ export const CustomCheckboxIconsJSXCode = (<pre className='language-jsx'><code c
 import { useState } from 'react'
 
 // ** MUI Imports
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 
 // ** Demo Components Imports
 import CustomCheckboxIcons from 'src/@core/components/custom-checkbox/icons'
@@ -72,7 +72,7 @@ export const CustomCheckboxBasicJSXCode = (<pre className='language-jsx'><code c
 import { useState } from 'react'
 
 // ** MUI Imports
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 
 // ** Demo Components Imports
 import CustomCheckboxBasic from 'src/@core/components/custom-checkbox/basic'
@@ -131,7 +131,7 @@ export const CustomCheckboxImgJSXCode = (<pre className='language-jsx'><code cla
 import { useState } from 'react'
 
 // ** MUI Imports
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 
 // ** Demo Components Imports
 import CustomCheckboxImg from 'src/@core/components/custom-checkbox/image'
@@ -190,7 +190,7 @@ export const CustomRadioBasicJSXCode = (<pre className='language-jsx'><code clas
 import { useState } from 'react'
 
 // ** MUI Imports
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 
 // ** Demo Components Imports
 import CustomRadioBasic from 'src/@core/components/custom-radio/basic'
@@ -248,7 +248,7 @@ export const CustomRadioIconsJSXCode = (<pre className='language-jsx'><code clas
 import { useState } from 'react'
 
 // ** MUI Imports
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 
 // ** Demo Components Imports
 import CustomRadioIcons from 'src/@core/components/custom-radio/icons'
@@ -317,7 +317,7 @@ export const CustomRadioImgJSXCode = (<pre className='language-jsx'><code classN
 import { useState } from 'react'
 
 // ** MUI Imports
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 
 // ** Demo Components Imports
 import CustomRadioImg from 'src/@core/components/custom-radio/image'

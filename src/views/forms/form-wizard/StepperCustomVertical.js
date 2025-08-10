@@ -4,7 +4,7 @@ import { Fragment, useState } from 'react'
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
 import Divider from '@mui/material/Divider'
@@ -165,7 +165,7 @@ const StepperCustomVertical = () => {
       case 0:
         return (
           <Fragment>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <TextField
                 fullWidth
                 label='Username'
@@ -174,7 +174,7 @@ const StepperCustomVertical = () => {
                 onChange={e => setUsername(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <TextField
                 fullWidth
                 type='email'
@@ -184,7 +184,7 @@ const StepperCustomVertical = () => {
                 onChange={e => setEmail(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <FormControl fullWidth>
                 <InputLabel htmlFor='stepper-custom-vertical-account-password'>Password</InputLabel>
                 <OutlinedInput
@@ -208,7 +208,7 @@ const StepperCustomVertical = () => {
                 />
               </FormControl>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <FormControl fullWidth>
                 <InputLabel htmlFor='stepper-custom-vertical-account-password-2'>Confirm Password</InputLabel>
                 <OutlinedInput
@@ -237,7 +237,7 @@ const StepperCustomVertical = () => {
       case 1:
         return (
           <Fragment key={step}>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <TextField
                 fullWidth
                 label='First Name'
@@ -246,7 +246,7 @@ const StepperCustomVertical = () => {
                 onChange={e => setFirstName(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <TextField
                 fullWidth
                 label='Last Name'
@@ -255,7 +255,7 @@ const StepperCustomVertical = () => {
                 onChange={e => setLastName(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <FormControl fullWidth>
                 <InputLabel id='stepper-custom-vertical-personal-select-label'>Country</InputLabel>
                 <Select
@@ -272,7 +272,7 @@ const StepperCustomVertical = () => {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <FormControl fullWidth>
                 <InputLabel id='stepper-custom-vertical-personal-multiple-select-label'>Language</InputLabel>
                 <Select
@@ -298,7 +298,7 @@ const StepperCustomVertical = () => {
       case 2:
         return (
           <Fragment key={step}>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <TextField
                 fullWidth
                 label='Twitter'
@@ -307,7 +307,7 @@ const StepperCustomVertical = () => {
                 placeholder='https://twitter.com/carterLeonard'
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <TextField
                 fullWidth
                 label='Facebook'
@@ -316,7 +316,7 @@ const StepperCustomVertical = () => {
                 placeholder='https://facebook.com/carterLeonard'
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <TextField
                 fullWidth
                 label='Google+'
@@ -325,7 +325,7 @@ const StepperCustomVertical = () => {
                 placeholder='https://plus.google.com/carterLeonard'
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <TextField
                 fullWidth
                 label='LinkedIn'
@@ -357,7 +357,7 @@ const StepperCustomVertical = () => {
       return (
         <form onSubmit={e => e.preventDefault()}>
           <Grid container spacing={5}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Typography variant='body2' sx={{ fontWeight: 600, color: 'text.primary' }}>
                 {steps[activeStep].title}
               </Typography>
@@ -366,7 +366,7 @@ const StepperCustomVertical = () => {
               </Typography>
             </Grid>
             {getStepContent(activeStep)}
-            <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Grid size={12} sx={{ display: 'flex', justifyContent: 'space-between' }}>
               <Button
                 size='large'
                 variant='outlined'

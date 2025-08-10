@@ -1,5 +1,5 @@
 // ** MUI Imports
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import axios from 'src/pages/middleware/axios'
 import { useEffect, useState } from 'react'
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'

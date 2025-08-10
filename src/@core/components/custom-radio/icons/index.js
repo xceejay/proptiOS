@@ -1,6 +1,6 @@
 // ** MUI Imports
 import Box from '@mui/material/Box'
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import Radio from '@mui/material/Radio'
 import Typography from '@mui/material/Typography'
 
@@ -14,7 +14,7 @@ const CustomRadioIcons = props => {
 
   const renderComponent = () => {
     return (
-      <Grid item {...gridProps}>
+      <Grid {...gridProps}>
         <Box
           onClick={() => handleChange(value)}
           sx={{

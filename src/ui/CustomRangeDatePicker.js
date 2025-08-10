@@ -1,4 +1,5 @@
-import { Grid, TextField } from '@mui/material'
+import { TextField } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import DatePickerWrapper from 'src/@core/styles/libs/react-datepicker'
 import DatePicker from 'react-datepicker'
 import format from 'date-fns/format'

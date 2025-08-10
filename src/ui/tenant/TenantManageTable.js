@@ -9,7 +9,7 @@ import { useRouter } from 'next/router'
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import Menu from '@mui/material/Menu'
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import Divider from '@mui/material/Divider'
 import MenuItem from '@mui/material/MenuItem'
 import IconButton from '@mui/material/IconButton'
@@ -393,7 +393,7 @@ const TenantManageTable = () => {
 
   return (
     <Grid container spacing={6.5}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Card>
           <CardHeader title='Tenants' />
           <CardContent>

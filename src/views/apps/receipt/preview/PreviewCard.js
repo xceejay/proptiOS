@@ -1,5 +1,5 @@
 // ** MUI Imports
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
 import Table from '@mui/material/Table'
 import Divider from '@mui/material/Divider'
@@ -42,7 +42,7 @@ const PreviewCard = ({ data }) => {
       <Card>
         <CardContent sx={{ p: [`${theme.spacing(6)} !important`, `${theme.spacing(10)} !important`] }}>
           <Grid container>
-            <Grid item sm={6} xs={12} sx={{ mb: { sm: 0, xs: 4 } }}>
+            <Grid sm={6} size={12} sx={{ mb: { sm: 0, xs: 4 } }}>
               <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                 <Box sx={{ mb: 6, display: 'flex', alignItems: 'center' }}>
                   <svg width={34} height={23.375} viewBox='0 0 32 22' fill='none' xmlns='http://www.w3.org/2000/svg'>
@@ -92,7 +92,7 @@ const PreviewCard = ({ data }) => {
                 </div>
               </Box>
             </Grid>
-            <Grid item sm={6} xs={12}>
+            <Grid sm={6} size={12}>
               <Box sx={{ display: 'flex', justifyContent: { xs: 'flex-start', sm: 'flex-end' } }}>
                 <Table sx={{ maxWidth: '210px' }}>
                   <TableBody sx={{ '& .MuiTableCell-root': { py: `${theme.spacing(1.5)} !important` } }}>
@@ -135,7 +135,7 @@ const PreviewCard = ({ data }) => {
 
         <CardContent sx={{ p: [`${theme.spacing(6)} !important`, `${theme.spacing(10)} !important`] }}>
           <Grid container>
-            <Grid item xs={12} sm={6} sx={{ mb: { lg: 0, xs: 4 } }}>
+            <Grid size={12} sm={6} sx={{ mb: { lg: 0, xs: 4 } }}>
               <Typography sx={{ mb: 6, fontWeight: 500 }}>Receipt To:</Typography>
               <Typography sx={{ mb: 1.5, color: 'text.secondary' }}>{data.receipt.name}</Typography>
               <Typography sx={{ mb: 1.5, color: 'text.secondary' }}>{data.receipt.company}</Typography>
@@ -143,7 +143,7 @@ const PreviewCard = ({ data }) => {
               <Typography sx={{ mb: 1.5, color: 'text.secondary' }}>{data.receipt.contact}</Typography>
               <Typography sx={{ mb: 1.5, color: 'text.secondary' }}>{data.receipt.companyEmail}</Typography>
             </Grid>
-            <Grid item xs={12} sm={6} sx={{ display: 'flex', justifyContent: ['flex-start', 'flex-end'] }}>
+            <Grid size={12} sm={6} sx={{ display: 'flex', justifyContent: ['flex-start', 'flex-end'] }}>
               <div>
                 <Typography sx={{ mb: 6, fontWeight: 500 }}>Bill To:</Typography>
                 <TableContainer>
@@ -247,7 +247,7 @@ const PreviewCard = ({ data }) => {
 
         <CardContent sx={{ p: [`${theme.spacing(6)} !important`, `${theme.spacing(10)} !important`] }}>
           <Grid container>
-            <Grid item xs={12} sm={7} lg={9} sx={{ order: { sm: 1, xs: 2 } }}>
+            <Grid size={12} sm={7} lg={9} sx={{ order: { sm: 1, xs: 2 } }}>
               <Box sx={{ mb: 2, display: 'flex', alignItems: 'center' }}>
                 <Typography sx={{ mr: 2, fontWeight: 500, color: 'text.secondary' }}>Salesperson:</Typography>
                 <Typography sx={{ color: 'text.secondary' }}>Tommy Shelby</Typography>
@@ -255,7 +255,7 @@ const PreviewCard = ({ data }) => {
 
               <Typography sx={{ color: 'text.secondary' }}>Thanks for your business</Typography>
             </Grid>
-            <Grid item xs={12} sm={5} lg={3} sx={{ mb: { sm: 0, xs: 4 }, order: { sm: 2, xs: 1 } }}>
+            <Grid size={12} sm={5} lg={3} sx={{ mb: { sm: 0, xs: 4 }, order: { sm: 2, xs: 1 } }}>
               <CalcWrapper>
                 <Typography sx={{ color: 'text.secondary' }}>Subtotal:</Typography>
                 <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>$1800</Typography>

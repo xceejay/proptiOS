@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
@@ -116,7 +116,7 @@ const SettingsViewLeft = ({ settingsData }) => {
   if (settingsData) {
     return (
       <Grid container spacing={6}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           {/* <Grid pb={5}>
             <Button size='small' variant='outlined' onClick={() => router.push('/settings')}>
               <Icon icon='tabler:arrow-left' fontSize={20} />
@@ -274,10 +274,10 @@ const SettingsViewLeft = ({ settingsData }) => {
                 </DialogContentText>
                 <form>
                   <Grid container spacing={6}>
-                    <Grid item xs={12} sm={6}>
+                    <Grid size={12} sm={6}>
                       <TextField fullWidth label='Full Name' defaultValue={settingsData.name} />
                     </Grid>
-                    <Grid item xs={12} sm={6}>
+                    <Grid size={12} sm={6}>
                       <TextField
                         fullWidth
                         label='Settings ID'
@@ -287,10 +287,10 @@ const SettingsViewLeft = ({ settingsData }) => {
                         // InputProps={{ startAdornment: <InputAdornment position='start'></InputAdornment> }}
                       />
                     </Grid>
-                    <Grid item xs={12} sm={6}>
+                    <Grid size={12} sm={6}>
                       <TextField fullWidth type='email' label='Billing Email' defaultValue={settingsData.email} />
                     </Grid>
-                    <Grid item xs={12} sm={6}>
+                    <Grid size={12} sm={6}>
                       <FormControl fullWidth>
                         <InputLabel id='settings-view-status-label'>Status</InputLabel>
                         <Select
@@ -306,13 +306,13 @@ const SettingsViewLeft = ({ settingsData }) => {
                         </Select>
                       </FormControl>
                     </Grid>
-                    <Grid item xs={12} sm={6}>
+                    <Grid size={12} sm={6}>
                       <TextField fullWidth label='Total Units' defaultValue={settingsData.units?.length} />
                     </Grid>
-                    <Grid item xs={12} sm={6}>
+                    <Grid size={12} sm={6}>
                       <TextField fullWidth label='Contact' defaultValue={`${settingsData.tel_number}`} />
                     </Grid>
-                    <Grid item xs={12} sm={6}>
+                    <Grid size={12} sm={6}>
                       <FormControl fullWidth>
                         <InputLabel id='settings-view-language-label'>Language</InputLabel>
                         <Select
@@ -326,7 +326,7 @@ const SettingsViewLeft = ({ settingsData }) => {
                         </Select>
                       </FormControl>
                     </Grid>
-                    <Grid item xs={12} sm={6}>
+                    <Grid size={12} sm={6}>
                       <FormControl fullWidth>
                         <InputLabel id='settings-view-country-label'>Country</InputLabel>
                         <Select
@@ -345,7 +345,7 @@ const SettingsViewLeft = ({ settingsData }) => {
                         </Select>
                       </FormControl>
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid size={12}>
                       <FormControlLabel
                         label='Use as a billing address?'
                         control={<Switch defaultChecked />}
@@ -376,7 +376,7 @@ const SettingsViewLeft = ({ settingsData }) => {
           </Card>
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Card>
             {/* <CardContent sx={{ pb: 1, display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}>
               <CustomChip rounded skin='light' size='small' color='primary' label='Popular' />

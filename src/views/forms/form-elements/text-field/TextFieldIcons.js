@@ -1,5 +1,5 @@
 // ** MUI Imports
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import Input from '@mui/material/Input'
 import TextField from '@mui/material/TextField'
 import InputLabel from '@mui/material/InputLabel'
@@ -37,7 +37,7 @@ const TextFieldIcons = () => {
       />
       <div>
         <Grid container spacing={2} alignItems='flex-end'>
-          <Grid item sx={{ '& svg': { color: 'action.active' } }}>
+          <Grid sx={{ '& svg': { color: 'action.active' } }}>
             <Icon icon='tabler:user-circle' />
           </Grid>
           <Grid item>

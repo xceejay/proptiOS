@@ -4,7 +4,7 @@ import { forwardRef, useState } from 'react'
 // ** MUI Imports
 import Tab from '@mui/material/Tab'
 import Card from '@mui/material/Card'
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import TabList from '@mui/lab/TabList'
 import TabPanel from '@mui/lab/TabPanel'
 import Button from '@mui/material/Button'
@@ -88,13 +88,13 @@ const FormLayoutsTabs = () => {
           <CardContent>
             <TabPanel sx={{ p: 0 }} value='personal-info'>
               <Grid container spacing={5}>
-                <Grid item xs={12} sm={6}>
+                <Grid size={12} sm={6}>
                   <TextField fullWidth label='First Name' placeholder='Leonard' />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid size={12} sm={6}>
                   <TextField fullWidth label='Last Name' placeholder='Carter' />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid size={12} sm={6}>
                   <FormControl fullWidth>
                     <InputLabel id='form-layouts-tabs-select-label'>Country</InputLabel>
                     <Select
@@ -110,7 +110,7 @@ const FormLayoutsTabs = () => {
                     </Select>
                   </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid size={12} sm={6}>
                   <FormControl fullWidth>
                     <InputLabel id='form-layouts-tabs-multiple-select-label'>Language</InputLabel>
                     <Select
@@ -131,7 +131,7 @@ const FormLayoutsTabs = () => {
                     </Select>
                   </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid size={12} sm={6}>
                   <DatePicker
                     selected={date}
                     showYearDropdown
@@ -142,7 +142,7 @@ const FormLayoutsTabs = () => {
                     onChange={date => setDate(date)}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid size={12} sm={6}>
                   <TextField fullWidth label='Phone No.' placeholder='+1-123-456-8790' />
                 </Grid>
               </Grid>
@@ -150,13 +150,13 @@ const FormLayoutsTabs = () => {
 
             <TabPanel sx={{ p: 0 }} value='account-details'>
               <Grid container spacing={5}>
-                <Grid item xs={12} sm={6}>
+                <Grid size={12} sm={6}>
                   <TextField fullWidth label='Username' placeholder='carterLeonard' />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid size={12} sm={6}>
                   <TextField fullWidth type='email' label='Email' placeholder='carterleonard@gmail.com' />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid size={12} sm={6}>
                   <FormControl fullWidth>
                     <InputLabel htmlFor='form-layouts-tabs-password'>Password</InputLabel>
                     <OutlinedInput
@@ -180,7 +180,7 @@ const FormLayoutsTabs = () => {
                     />
                   </FormControl>
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid size={12} sm={6}>
                   <FormControl fullWidth>
                     <InputLabel htmlFor='form-layouts-tabs-password-2'>Confirm Password</InputLabel>
                     <OutlinedInput
@@ -209,22 +209,22 @@ const FormLayoutsTabs = () => {
 
             <TabPanel sx={{ p: 0 }} value='social-links'>
               <Grid container spacing={5}>
-                <Grid item xs={12} sm={6}>
+                <Grid size={12} sm={6}>
                   <TextField fullWidth label='Twitter' placeholder='https://twitter.com/carterLeonard' />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid size={12} sm={6}>
                   <TextField fullWidth label='Facebook' placeholder='https://facebook.com/carterLeonard' />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid size={12} sm={6}>
                   <TextField fullWidth label='Google+' placeholder='https://plus.google.com/carterLeonard' />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid size={12} sm={6}>
                   <TextField fullWidth label='LinkedIn' placeholder='https://linkedin.com/carterLeonard' />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid size={12} sm={6}>
                   <TextField fullWidth label='Instagram' placeholder='https://instagram.com/carterLeonard' />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid size={12} sm={6}>
                   <TextField fullWidth label='Quora' placeholder='https://quora.com/carterLeonard' />
                 </Grid>
               </Grid>

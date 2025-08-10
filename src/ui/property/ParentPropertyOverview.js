@@ -1,5 +1,6 @@
 import CardStatsVertical from 'src/@core/components/card-statistics/card-stats-vertical'
-import { Grid, Typography } from '@mui/material'
+import { Typography } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import NextLink from 'next/link'
 import { styled } from '@mui/material/styles'
 
@@ -12,11 +13,21 @@ const ParentPropertyViewOverview = ({ setPropertiesData, propertiesData }) => {
 
   return (
     <Grid>
-      <Grid item xs={12} sm={12} lg={12}>
+      <Grid
+        size={{
+          xs: 12,
+          sm: 12,
+          lg: 12
+        }}>
         <Grid container spacing={6} sx={{ mb: 4 }}>
           {propertiesData.length > 0 ? (
             <>
-              <Grid item xs={6} sm={6} lg={3}>
+              <Grid
+                size={{
+                  xs: 6,
+                  sm: 6,
+                  lg: 3
+                }}>
                 <Link prefetch={true} href='/tenants' underline='none' color='inherit'>
                   <CardStatsVertical
                     chipText={propertiesData.reduce((total, item) => total + item.total_tenants, 0)}
@@ -28,7 +39,12 @@ const ParentPropertyViewOverview = ({ setPropertiesData, propertiesData }) => {
                   />
                 </Link>
               </Grid>
-              <Grid item xs={6} sm={6} lg={3}>
+              <Grid
+                size={{
+                  xs: 6,
+                  sm: 6,
+                  lg: 3
+                }}>
                 <Link prefetch={true} href='/tenants' underline='none' color='inherit'>
                   <CardStatsVertical
                     chipText={propertiesData.reduce((total, item) => total + item.active_tenants, 0)}
@@ -40,7 +56,12 @@ const ParentPropertyViewOverview = ({ setPropertiesData, propertiesData }) => {
                   />
                 </Link>
               </Grid>
-              <Grid item xs={6} sm={6} lg={3}>
+              <Grid
+                size={{
+                  xs: 6,
+                  sm: 6,
+                  lg: 3
+                }}>
                 <Link prefetch={true} href='/leases' underline='none' color='inherit'>
                   <CardStatsVertical
                     chipText={propertiesData.reduce((total, item) => total + item.total_leases, 0)}
@@ -52,7 +73,12 @@ const ParentPropertyViewOverview = ({ setPropertiesData, propertiesData }) => {
                   />
                 </Link>
               </Grid>
-              <Grid item xs={6} sm={6} lg={3}>
+              <Grid
+                size={{
+                  xs: 6,
+                  sm: 6,
+                  lg: 3
+                }}>
                 <Link prefetch={true} href='/properties/management' underline='none' color='inherit'>
                   <CardStatsVertical
                     chipText={propertiesData.reduce((total, item) => total + item.total_maintenance_requests, 0)}
@@ -64,7 +90,12 @@ const ParentPropertyViewOverview = ({ setPropertiesData, propertiesData }) => {
                   />
                 </Link>
               </Grid>
-              <Grid item xs={6} sm={6} lg={3}>
+              <Grid
+                size={{
+                  xs: 6,
+                  sm: 6,
+                  lg: 3
+                }}>
                 <Link prefetch={true} href='/properties/management' underline='none' color='inherit'>
                   <CardStatsVertical
                     chipText={propertiesData.reduce((total, item) => total + item.pending_maintenance_requests, 0)}
@@ -76,7 +107,12 @@ const ParentPropertyViewOverview = ({ setPropertiesData, propertiesData }) => {
                   />
                 </Link>
               </Grid>
-              <Grid item xs={6} sm={6} lg={3}>
+              <Grid
+                size={{
+                  xs: 6,
+                  sm: 6,
+                  lg: 3
+                }}>
                 <Link prefetch={true} href='/properties/management' underline='none' color='inherit'>
                   <CardStatsVertical
                     chipText={propertiesData.reduce((total, item) => total + item.total_applicants, 0)}
@@ -88,7 +124,12 @@ const ParentPropertyViewOverview = ({ setPropertiesData, propertiesData }) => {
                   />
                 </Link>
               </Grid>
-              <Grid item xs={6} sm={6} lg={3}>
+              <Grid
+                size={{
+                  xs: 6,
+                  sm: 6,
+                  lg: 3
+                }}>
                 <Link prefetch={true} href='/properties/management' underline='none' color='inherit'>
                   <CardStatsVertical
                     chipText={propertiesData.reduce((total, item) => total + item.units_vacant, 0)}
@@ -100,7 +141,12 @@ const ParentPropertyViewOverview = ({ setPropertiesData, propertiesData }) => {
                   />
                 </Link>
               </Grid>
-              <Grid item xs={6} sm={6} lg={3}>
+              <Grid
+                size={{
+                  xs: 6,
+                  sm: 6,
+                  lg: 3
+                }}>
                 <Link prefetch={true} href='/leases' underline='none' color='inherit'>
                   <CardStatsVertical
                     chipText={propertiesData.reduce((total, item) => total + item.leases_expiring_soon, 0)}
@@ -113,14 +159,14 @@ const ParentPropertyViewOverview = ({ setPropertiesData, propertiesData }) => {
                 </Link>
               </Grid>
             </>
-          ) : // <Grid item xs={12} sx={{ textAlign: 'center', p: 4 }}>
+          ) : // <Grid size={12} sx={{ textAlign: 'center', p: 4 }}>
           //   <Typography variant='h5'>No data available to show</Typography>
           // </Grid>
           null}
         </Grid>
       </Grid>
     </Grid>
-  )
+  );
 }
 
 export default ParentPropertyViewOverview

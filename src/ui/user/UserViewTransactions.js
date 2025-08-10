@@ -1,7 +1,7 @@
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import Avatar from '@mui/material/Avatar'
 import { styled } from '@mui/material/styles'
 import TimelineDot from '@mui/lab/TimelineDot'
@@ -41,10 +41,10 @@ const Timeline = styled(MuiTimeline)(({ theme }) => ({
 const UserViewTransactions = ({ userData }) => {
   return (
     <Grid container spacing={6}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         {/* <UserProjectListTable></UserProjectListTable> */}
       </Grid>
-      {/* <Grid item xs={12}>
+      {/* <Grid size={12}>
         <Card>
           <CardHeader
             title='User Activity Timeline'
@@ -166,7 +166,7 @@ const UserViewTransactions = ({ userData }) => {
         </Card>
       </Grid> */}
 
-      <Grid item xs={12}>
+      <Grid size={12}>
         <UserTransactionListTable userTransactionData={userData.transactions} />
       </Grid>
     </Grid>

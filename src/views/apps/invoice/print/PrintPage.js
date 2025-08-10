@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 
 // ** MUI Imports
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import Alert from '@mui/material/Alert'
 import Table from '@mui/material/Table'
 import Divider from '@mui/material/Divider'
@@ -70,7 +70,7 @@ const InvoicePrint = ({ id }) => {
     return (
       <Box sx={{ p: 12, pb: 6 }}>
         <Grid container>
-          <Grid item xs={8} sx={{ mb: { sm: 0, xs: 4 } }}>
+          <Grid size={8} sx={{ mb: { sm: 0, xs: 4 } }}>
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
               <Box sx={{ mb: 6, display: 'flex', alignItems: 'center' }}>
                 <svg width={34} height={23.375} viewBox='0 0 32 22' fill='none' xmlns='http://www.w3.org/2000/svg'>
@@ -124,7 +124,7 @@ const InvoicePrint = ({ id }) => {
               </div>
             </Box>
           </Grid>
-          <Grid item xs={4}>
+          <Grid size={4}>
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: { sm: 'flex-end', xs: 'flex-start' } }}>
               <Typography variant='h6' sx={{ mb: 2 }}>
                 {`Invoice #${invoice.id}`}
@@ -152,7 +152,7 @@ const InvoicePrint = ({ id }) => {
         <Divider sx={{ my: theme => `${theme.spacing(6)} !important` }} />
 
         <Grid container>
-          <Grid item xs={7} md={8} sx={{ mb: { lg: 0, xs: 4 } }}>
+          <Grid size={7} md={8} sx={{ mb: { lg: 0, xs: 4 } }}>
             <Typography variant='body2' sx={{ mb: 3.5, fontWeight: 600 }}>
               Invoice To:
             </Typography>
@@ -172,7 +172,7 @@ const InvoicePrint = ({ id }) => {
               {invoice.companyEmail}
             </Typography>
           </Grid>
-          <Grid item xs={5} md={4}>
+          <Grid size={5} md={4}>
             <Typography variant='body2' sx={{ mb: 3.5, fontWeight: 600 }}>
               Bill To:
             </Typography>
@@ -248,7 +248,7 @@ const InvoicePrint = ({ id }) => {
         </Table>
 
         <Grid container>
-          <Grid item xs={8} sm={7} lg={9}>
+          <Grid size={8} sm={7} lg={9}>
             <Box sx={{ mb: 2, display: 'flex', alignItems: 'center' }}>
               <Typography variant='body2' sx={{ mr: 2, fontWeight: 600 }}>
                 Salesperson:
@@ -258,7 +258,7 @@ const InvoicePrint = ({ id }) => {
 
             <Typography variant='body2'>Thanks for your business</Typography>
           </Grid>
-          <Grid item xs={4} sm={5} lg={3}>
+          <Grid size={4} sm={5} lg={3}>
             <CalcWrapper>
               <Typography variant='body2'>Subtotal:</Typography>
               <Typography variant='body2' sx={{ fontWeight: 600 }}>
@@ -298,7 +298,7 @@ const InvoicePrint = ({ id }) => {
     return (
       <Box sx={{ p: 5 }}>
         <Grid container spacing={6}>
-          <Grid item xs={12}>
+          <Grid size={12}>
             <Alert severity='error'>
               Invoice with the id: {id} does not exist. Please check the list of invoices:{' '}
               <Link href='/apps/invoice/list'>Invoice List</Link>

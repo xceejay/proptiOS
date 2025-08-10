@@ -40,7 +40,7 @@ const UserDropdown = props => {
   }
 
   function toTitleCase(str) {
-    return str.replace(/\w\S*/g, text => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase())
+    return str.replace(/\w\S*/g, text => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase());
   }
 
   const handleDropdownClose = url => {
@@ -151,10 +151,10 @@ const UserDropdown = props => {
                     viewBox='0 0 24 24'
                     fill='none'
                     stroke='currentColor'
-                    stroke-width='1.5'
-                    stroke-linecap='round'
-                    stroke-linejoin='round'
-                    class='icon icon-tabler icons-tabler-outline icon-tabler-coffee'
+                    strokeWidth='1.5'
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    className='icon icon-tabler icons-tabler-outline icon-tabler-coffee'
                   >
                     <path stroke='none' d='M0 0h24v24H0z' fill='none' />
                     <path d='M3 14c.83 .642 2.077 1.017 3.5 1c1.423 .017 2.67 -.358 3.5 -1c.83 -.642 2.077 -1.017 3.5 -1c1.423 -.017 2.67 .358 3.5 1' />

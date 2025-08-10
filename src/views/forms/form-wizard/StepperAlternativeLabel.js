@@ -5,7 +5,7 @@ import { Fragment, useState } from 'react'
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import Step from '@mui/material/Step'
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import Button from '@mui/material/Button'
 import Stepper from '@mui/material/Stepper'
 import MenuItem from '@mui/material/MenuItem'
@@ -123,7 +123,7 @@ const StepperAlternativeLabel = () => {
       case 0:
         return (
           <Fragment>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <TextField
                 fullWidth
                 label='Username'
@@ -132,7 +132,7 @@ const StepperAlternativeLabel = () => {
                 onChange={e => setUsername(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <TextField
                 fullWidth
                 type='email'
@@ -142,7 +142,7 @@ const StepperAlternativeLabel = () => {
                 onChange={e => setEmail(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <FormControl fullWidth>
                 <InputLabel htmlFor='stepper-alternative-account-password'>Password</InputLabel>
                 <OutlinedInput
@@ -166,7 +166,7 @@ const StepperAlternativeLabel = () => {
                 />
               </FormControl>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <FormControl fullWidth>
                 <InputLabel htmlFor='stepper-alternative-account-password-2'>Confirm Password</InputLabel>
                 <OutlinedInput
@@ -195,7 +195,7 @@ const StepperAlternativeLabel = () => {
       case 1:
         return (
           <Fragment key={step}>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <TextField
                 fullWidth
                 label='First Name'
@@ -204,7 +204,7 @@ const StepperAlternativeLabel = () => {
                 onChange={e => setFirstName(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <TextField
                 fullWidth
                 label='Last Name'
@@ -213,7 +213,7 @@ const StepperAlternativeLabel = () => {
                 onChange={e => setLastName(e.target.value)}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <FormControl fullWidth>
                 <InputLabel id='stepper-alternative-personal-select-label'>Country</InputLabel>
                 <Select
@@ -230,7 +230,7 @@ const StepperAlternativeLabel = () => {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <FormControl fullWidth>
                 <InputLabel id='stepper-alternative-personal-multiple-select-label'>Language</InputLabel>
                 <Select
@@ -256,7 +256,7 @@ const StepperAlternativeLabel = () => {
       case 2:
         return (
           <Fragment key={step}>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <TextField
                 fullWidth
                 label='Twitter'
@@ -265,7 +265,7 @@ const StepperAlternativeLabel = () => {
                 placeholder='https://twitter.com/carterLeonard'
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <TextField
                 fullWidth
                 label='Facebook'
@@ -274,7 +274,7 @@ const StepperAlternativeLabel = () => {
                 placeholder='https://facebook.com/carterLeonard'
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <TextField
                 fullWidth
                 label='Google+'
@@ -283,7 +283,7 @@ const StepperAlternativeLabel = () => {
                 placeholder='https://plus.google.com/carterLeonard'
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <TextField
                 fullWidth
                 label='LinkedIn'
@@ -315,7 +315,7 @@ const StepperAlternativeLabel = () => {
       return (
         <form onSubmit={e => e.preventDefault()}>
           <Grid container spacing={5}>
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Typography variant='body2' sx={{ fontWeight: 600, color: 'text.primary' }}>
                 {steps[activeStep].title}
               </Typography>
@@ -324,7 +324,7 @@ const StepperAlternativeLabel = () => {
               </Typography>
             </Grid>
             {getStepContent(activeStep)}
-            <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Grid size={12} sx={{ display: 'flex', justifyContent: 'space-between' }}>
               <Button
                 size='large'
                 variant='outlined'

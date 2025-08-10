@@ -301,7 +301,11 @@ const FinanceExpensesTable = ({ financeData }) => {
 
   return (
     <Grid container spacing={6.5}>
-      <Grid item xs={12} lg={12}>
+      <Grid
+        size={{
+          xs: 12,
+          lg: 12
+        }}>
         <Card>
           {console.log('so the transaction data', financeData)}
           <CardHeader
@@ -400,7 +404,7 @@ const FinanceExpensesTable = ({ financeData }) => {
         </Card>
       </Grid>
     </Grid>
-  )
+  );
 }
 
 export default FinanceExpensesTable

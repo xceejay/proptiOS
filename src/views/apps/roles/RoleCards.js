@@ -6,7 +6,7 @@ import Link from 'next/link'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
 import Table from '@mui/material/Table'
 import Button from '@mui/material/Button'
@@ -100,7 +100,7 @@ const RolesCards = () => {
 
   const renderCards = () =>
     cardData.map((item, index) => (
-      <Grid item xs={12} sm={6} lg={4} key={index}>
+      <Grid size={12} sm={6} lg={4} key={index}>
         <Card>
           <CardContent>
             <Box sx={{ mb: 1.5, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -145,7 +145,7 @@ const RolesCards = () => {
   return (
     <Grid container spacing={6} className='match-height'>
       {renderCards()}
-      <Grid item xs={12} sm={6} lg={4}>
+      <Grid size={12} sm={6} lg={4}>
         <Card
           sx={{ cursor: 'pointer' }}
           onClick={() => {
@@ -154,7 +154,7 @@ const RolesCards = () => {
           }}
         >
           <Grid container sx={{ height: '100%' }}>
-            <Grid item xs={5}>
+            <Grid size={5}>
               <Box
                 sx={{
                   height: '100%',
@@ -167,7 +167,7 @@ const RolesCards = () => {
                 <img height={122} alt='add-role' src='/images/pages/add-new-role-illustration.png' />
               </Box>
             </Grid>
-            <Grid item xs={7}>
+            <Grid size={7}>
               <CardContent sx={{ pl: 0, height: '100%' }}>
                 <Box sx={{ textAlign: 'right' }}>
                   <Button

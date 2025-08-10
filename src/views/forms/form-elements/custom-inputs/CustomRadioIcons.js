@@ -2,7 +2,7 @@
 import { useState } from 'react'
 
 // ** MUI Imports
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 
 // ** Demo Components Imports
 import CustomRadioIcons from 'src/@core/components/custom-radio/icons'

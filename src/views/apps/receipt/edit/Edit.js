@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 
 // ** MUI Imports
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import Alert from '@mui/material/Alert'
 
 // ** Third Party Components
@@ -41,10 +41,10 @@ const ReceiptEdit = ({ id }) => {
     return (
       <>
         <Grid container spacing={6}>
-          <Grid item xl={9} md={8} xs={12}>
+          <Grid xl={9} md={8} size={12}>
             <EditCard data={data} />
           </Grid>
-          <Grid item xl={3} md={4} xs={12}>
+          <Grid xl={3} md={4} size={12}>
             <EditActions
               id={id}
               toggleSendReceiptDrawer={toggleSendReceiptDrawer}
@@ -59,7 +59,7 @@ const ReceiptEdit = ({ id }) => {
   } else if (error) {
     return (
       <Grid container spacing={6}>
-        <Grid item xs={12}>
+        <Grid size={12}>
           <Alert severity='error'>
             Receipt with the id: {id} does not exist. Please check the list of receipts:{' '}
             <Link href='/apps/receipt/list'>Receipt List</Link>

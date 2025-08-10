@@ -8,7 +8,7 @@ import Link from 'next/link'
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import Menu from '@mui/material/Menu'
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import Divider from '@mui/material/Divider'
 import MenuItem from '@mui/material/MenuItem'
 import IconButton from '@mui/material/IconButton'
@@ -310,12 +310,12 @@ const LeaseManageTable = () => {
 
   return (
     <Grid container spacing={6}>
-      {/* <Grid item xs={12}>
+      {/* <Grid size={12}>
         <Card sx={{ p: 0 }}>
           <CardHeader title='Filters' />
           <CardContent>
             <Grid container spacing={6}>
-              <Grid item xs={12} sm={6}>
+              <Grid size={12} sm={6}>
                 <FormControl fullWidth>
                   <InputLabel id='invoice-status-select'>Invoice Status</InputLabel>
 
@@ -337,7 +337,7 @@ const LeaseManageTable = () => {
                   </Select>
                 </FormControl>
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid size={12} sm={6}>
                 <DatePicker
                   isClearable
                   selectsRange
@@ -363,7 +363,7 @@ const LeaseManageTable = () => {
           </CardContent>
         </Card>
       </Grid> */}
-      <Grid item xs={12}>
+      <Grid size={12}>
         <DataGrid
           loading={loading}
           autoHeight

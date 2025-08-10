@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from 'react'
 
 import { DataGrid } from '@mui/x-data-grid'
 import _ from 'lodash'
-import { CircularProgress, Grid } from '@mui/material'
+import { CircularProgress } from '@mui/material'
+import Grid from '@mui/material/Grid'
 
 const StretchyDataGrid = props => {
   const { columns, ...restProps } = props
@@ -63,7 +64,7 @@ const StretchyDataGrid = props => {
             zIndex: 1
           }}
         >
-          <Grid item xs={12}>
+          <Grid size={12}>
             <CircularProgress />
           </Grid>
         </Grid>
@@ -77,7 +78,7 @@ const StretchyDataGrid = props => {
         }
       />
     </>
-  )
+  );
 }
 
 export default StretchyDataGrid

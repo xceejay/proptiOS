@@ -15,7 +15,7 @@ import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import InputLabel from '@mui/material/InputLabel'
 import Box from '@mui/material/Box'
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import InputAdornment from '@mui/material/InputAdornment'
 import TableContainer from '@mui/material/TableContainer'
 import { styled, alpha, useTheme } from '@mui/material/styles'
@@ -155,7 +155,7 @@ const AddCard = props => {
     <Card>
       <CardContent sx={{ p: [`${theme.spacing(6)} !important`, `${theme.spacing(10)} !important`] }}>
         <Grid container>
-          <Grid item xl={6} xs={12} sx={{ mb: { xl: 0, xs: 4 } }}>
+          <Grid xl={6} size={12} sx={{ mb: { xl: 0, xs: 4 } }}>
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
               <Box sx={{ mb: 6, display: 'flex', alignItems: 'center' }}>
                 <svg width={34} height={23.375} viewBox='0 0 32 22' fill='none' xmlns='http://www.w3.org/2000/svg'>
@@ -205,7 +205,7 @@ const AddCard = props => {
               </div>
             </Box>
           </Grid>
-          <Grid item xl={6} xs={12}>
+          <Grid xl={6} size={12}>
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: { xl: 'flex-end', xs: 'flex-start' } }}>
               <Box sx={{ mb: 3, display: 'flex', alignItems: 'center' }}>
                 <Typography variant='h6' sx={{ mr: 2, width: '105px' }}>
@@ -248,7 +248,7 @@ const AddCard = props => {
 
       <CardContent sx={{ p: [`${theme.spacing(6)} !important`, `${theme.spacing(10)} !important`] }}>
         <Grid container>
-          <Grid item xs={12} sm={6} sx={{ mb: { lg: 0, xs: 4 } }}>
+          <Grid size={12} sm={6} sx={{ mb: { lg: 0, xs: 4 } }}>
             <Typography sx={{ mb: 6, fontWeight: 500 }}>Invoice To:</Typography>
             <Select size='small' value={selected} onChange={handleInvoiceChange} sx={{ mb: 4, width: '200px' }}>
               <CustomSelectItem value='' onClick={handleAddNewCustomer}>
@@ -273,7 +273,7 @@ const AddCard = props => {
               </>
             ) : null}
           </Grid>
-          <Grid item xs={12} sm={6} sx={{ display: 'flex', justifyContent: ['flex-start', 'flex-end'] }}>
+          <Grid size={12} sm={6} sx={{ display: 'flex', justifyContent: ['flex-start', 'flex-end'] }}>
             <div>
               <Typography sx={{ mb: 6, fontWeight: 500 }}>Bill To:</Typography>
               <TableContainer>
@@ -337,9 +337,9 @@ const AddCard = props => {
             return (
               <Tag key={i} className='repeater-wrapper' {...(i !== 0 ? { in: true } : {})}>
                 <Grid container>
-                  <RepeatingContent item xs={12}>
+                  <RepeatingContent item size={12}>
                     <Grid container sx={{ py: 4, width: '100%', pr: { lg: 0, xs: 4 } }}>
-                      <Grid item lg={6} md={5} xs={12} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
+                      <Grid lg={6} md={5} size={12} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
                         <Typography className='col-title' sx={{ mb: { md: 2, xs: 0 }, color: 'text.secondary' }}>
                           Item
                         </Typography>
@@ -358,7 +358,7 @@ const AddCard = props => {
                           defaultValue='Customization & Bug Fixes'
                         />
                       </Grid>
-                      <Grid item lg={2} md={3} xs={12} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
+                      <Grid lg={2} md={3} size={12} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
                         <Typography className='col-title' sx={{ mb: { md: 2, xs: 0 }, color: 'text.secondary' }}>
                           Cost
                         </Typography>
@@ -388,7 +388,7 @@ const AddCard = props => {
                           </Tooltip>
                         </Box>
                       </Grid>
-                      <Grid item lg={2} md={2} xs={12} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
+                      <Grid lg={2} md={2} size={12} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
                         <Typography className='col-title' sx={{ mb: { md: 2, xs: 0 }, color: 'text.secondary' }}>
                           Hours
                         </Typography>
@@ -400,7 +400,7 @@ const AddCard = props => {
                           InputProps={{ inputProps: { min: 0 } }}
                         />
                       </Grid>
-                      <Grid item lg={2} md={1} xs={12} sx={{ px: 4, my: { lg: 0 }, mt: 2 }}>
+                      <Grid lg={2} md={1} size={12} sx={{ px: 4, my: { lg: 0 }, mt: 2 }}>
                         <Typography className='col-title' sx={{ mb: { md: 2, xs: 0 }, color: 'text.secondary' }}>
                           Price
                         </Typography>
@@ -420,7 +420,7 @@ const AddCard = props => {
         </Repeater>
 
         <Grid container sx={{ mt: 4 }}>
-          <Grid item xs={12} sx={{ px: 0 }}>
+          <Grid size={12} sx={{ px: 0 }}>
             <Button size='small' variant='contained' onClick={() => setCount(count + 1)}>
               Add Item
             </Button>
@@ -431,7 +431,7 @@ const AddCard = props => {
       <Divider />
       <CardContent sx={{ p: [`${theme.spacing(6)} !important`, `${theme.spacing(10)} !important`] }}>
         <Grid container>
-          <Grid item xs={12} sm={7} lg={9} sx={{ order: { sm: 1, xs: 2 } }}>
+          <Grid size={12} sm={7} lg={9} sx={{ order: { sm: 1, xs: 2 } }}>
             <Box sx={{ mb: 4, display: 'flex', alignItems: 'center' }}>
               <Typography variant='body2' sx={{ mr: 2, fontWeight: 600 }}>
                 Salesperson:
@@ -440,7 +440,7 @@ const AddCard = props => {
             </Box>
             <TextField size='small' sx={{ maxWidth: '300px' }} placeholder='Thanks for your business' />
           </Grid>
-          <Grid item xs={12} sm={5} lg={3} sx={{ mb: { sm: 0, xs: 4 }, order: { sm: 2, xs: 1 } }}>
+          <Grid size={12} sm={5} lg={3} sx={{ mb: { sm: 0, xs: 4 }, order: { sm: 2, xs: 1 } }}>
             <CalcWrapper>
               <Typography sx={{ color: 'text.secondary' }}>Subtotal:</Typography>
               <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>$1800</Typography>

@@ -12,7 +12,7 @@ const AutocompleteGrouped = () => {
     return {
       firstLetter: /[0-9]/.test(firstLetter) ? '0-9' : firstLetter,
       ...option
-    }
+    };
   })
 
   return (

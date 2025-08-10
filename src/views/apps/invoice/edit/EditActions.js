@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 // ** MUI Imports
 import Card from '@mui/material/Card'
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import Select from '@mui/material/Select'
 import Button from '@mui/material/Button'
 import Switch from '@mui/material/Switch'
@@ -26,7 +26,7 @@ const OptionsWrapper = styled(Box)(() => ({
 const EditActions = ({ id, toggleSendInvoiceDrawer, toggleAddPaymentDrawer }) => {
   return (
     <Grid container spacing={6}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Card>
           <CardContent>
             <Button
@@ -67,7 +67,7 @@ const EditActions = ({ id, toggleSendInvoiceDrawer, toggleAddPaymentDrawer }) =>
         </Card>
       </Grid>
 
-      <Grid item xs={12}>
+      <Grid size={12}>
         <FormControl fullWidth sx={{ mb: 4 }}>
           <InputLabel id='payment-select'>Accept payments via</InputLabel>
           <Select fullWidth labelId='payment-select' label='Accept payments via' defaultValue='Internet Banking'>

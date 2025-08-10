@@ -4,7 +4,7 @@ import { useState } from 'react'
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import Alert from '@mui/material/Alert'
 import Table from '@mui/material/Table'
 import Button from '@mui/material/Button'
@@ -159,12 +159,12 @@ const UserViewBilling = () => {
 
   return (
     <Grid container spacing={6}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Card>
           <CardHeader title='Current plan' />
           <CardContent>
             <Grid container spacing={4}>
-              <Grid item xs={12} md={6}>
+              <Grid size={12} md={6}>
                 <Box sx={{ mb: 3 }}>
                   <Typography sx={{ fontWeight: 500 }}>Your Current Plan is Basic</Typography>
                   <Typography variant='body2'>A simple start for everyone</Typography>
@@ -182,7 +182,7 @@ const UserViewBilling = () => {
                 </div>
               </Grid>
 
-              <Grid item xs={12} md={6} sx={{ mt: [4, 4, 0] }}>
+              <Grid size={12} md={6} sx={{ mt: [4, 4, 0] }}>
                 <Alert icon={false} severity='warning' sx={{ mb: 4 }}>
                   <AlertTitle
                     sx={{ fontWeight: 500, fontSize: '1.25rem', mb: theme => `${theme.spacing(2.5)} !important` }}
@@ -199,7 +199,7 @@ const UserViewBilling = () => {
                 <Typography sx={{ color: 'text.secondary' }}>6 days remaining</Typography>
               </Grid>
 
-              <Grid item xs={12} sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-start' }}>
+              <Grid size={12} sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-start' }}>
                 <Button
                   size='small'
                   variant='contained'
@@ -321,7 +321,7 @@ const UserViewBilling = () => {
         </Card>
       </Grid>
 
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Card>
           <CardHeader
             title='Payment Methods'
@@ -413,14 +413,14 @@ const UserViewBilling = () => {
               </DialogContentText>
               <form>
                 <Grid container spacing={6}>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <CardWrapper sx={{ '& .rccs': { m: '0 auto' } }}>
                       <Cards cvc={cvc} focused={focus} expiry={expiry} name={name} number={cardNumber} />
                     </CardWrapper>
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <Grid container spacing={6}>
-                      <Grid item xs={12}>
+                      <Grid size={12}>
                         <TextField
                           fullWidth
                           name='number'
@@ -433,7 +433,7 @@ const UserViewBilling = () => {
                           onFocus={e => setFocus(e.target.name)}
                         />
                       </Grid>
-                      <Grid item xs={12} sm={8}>
+                      <Grid size={12} sm={8}>
                         <TextField
                           fullWidth
                           name='name'
@@ -446,7 +446,7 @@ const UserViewBilling = () => {
                           onFocus={e => setFocus(e.target.name)}
                         />
                       </Grid>
-                      <Grid item xs={12} sm={4}>
+                      <Grid size={12} sm={4}>
                         <TextField
                           fullWidth
                           name='expiry'
@@ -459,7 +459,7 @@ const UserViewBilling = () => {
                           onFocus={e => setFocus(e.target.name)}
                         />
                       </Grid>
-                      <Grid item xs={12} sm={8}>
+                      <Grid size={12} sm={8}>
                         <FormControl fullWidth>
                           <InputLabel id='user-view-billing-edit-card-status-label'>Card Status</InputLabel>
                           <Select
@@ -474,7 +474,7 @@ const UserViewBilling = () => {
                           </Select>
                         </FormControl>
                       </Grid>
-                      <Grid item xs={12} sm={4}>
+                      <Grid size={12} sm={4}>
                         <TextField
                           fullWidth
                           name='cvc'
@@ -487,7 +487,7 @@ const UserViewBilling = () => {
                           placeholder={Payment.fns.cardType(cardNumber) === 'amex' ? '1234' : '123'}
                         />
                       </Grid>
-                      <Grid item xs={12}>
+                      <Grid size={12}>
                         <FormControlLabel
                           control={<Switch defaultChecked />}
                           label='Save Card for future billing?'
@@ -517,7 +517,7 @@ const UserViewBilling = () => {
         </Card>
       </Grid>
 
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Card>
           <CardHeader
             title='Billing Address'
@@ -529,7 +529,7 @@ const UserViewBilling = () => {
           />
           <CardContent>
             <Grid container spacing={6}>
-              <Grid item xs={12} lg={6}>
+              <Grid size={12} lg={6}>
                 <TableContainer>
                   <Table size='small' sx={{ width: '95%' }}>
                     <TableBody
@@ -594,7 +594,7 @@ const UserViewBilling = () => {
                 </TableContainer>
               </Grid>
 
-              <Grid item xs={12} lg={6}>
+              <Grid size={12} lg={6}>
                 <TableContainer>
                   <Table size='small'>
                     <TableBody
@@ -680,19 +680,19 @@ const UserViewBilling = () => {
               </DialogContentText>
               <form>
                 <Grid container spacing={6}>
-                  <Grid item xs={12} sm={6}>
+                  <Grid size={12} sm={6}>
                     <TextField fullWidth defaultValue='Pixinvent' label='Company Name' />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid size={12} sm={6}>
                     <TextField fullWidth type='email' defaultValue='gertrude@gmail.com' label='Email' />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid size={12} sm={6}>
                     <TextField fullWidth defaultValue='TAX-875623' label='Tax ID' />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid size={12} sm={6}>
                     <TextField fullWidth defaultValue='SDF754K77' label='VAT Number' />
                   </Grid>
-                  <Grid item xs={12}>
+                  <Grid size={12}>
                     <TextField
                       fullWidth
                       multiline
@@ -701,10 +701,10 @@ const UserViewBilling = () => {
                       defaultValue='100 Water Plant Avenue, Building 1303 Wake Island'
                     />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid size={12} sm={6}>
                     <TextField fullWidth defaultValue='+1(609) 933-44-22' label='Contact' />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid size={12} sm={6}>
                     <FormControl fullWidth>
                       <InputLabel id='country-select'>Country</InputLabel>
                       <Select labelId='country-select' defaultValue='usa' label='Country'>
@@ -716,10 +716,10 @@ const UserViewBilling = () => {
                       </Select>
                     </FormControl>
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid size={12} sm={6}>
                     <TextField fullWidth defaultValue='Capholim' label='State' />
                   </Grid>
-                  <Grid item xs={12} sm={6}>
+                  <Grid size={12} sm={6}>
                     <TextField fullWidth type='number' defaultValue='403114' label='Zip Code' />
                   </Grid>
                 </Grid>

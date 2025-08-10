@@ -1,6 +1,6 @@
 // import { useEffect, useState } from 'react'
 
-// import { GridLegacy as Grid } from '@mui/material'
+// import Grid from '@mui/material/Grid'
 // import LeasesEditInfo from '../../ui/leases/LeasesEditInfo'
 // import { useRouter } from 'next/router'
 
@@ -15,7 +15,7 @@
 // export default LeasesPage
 
 // ** MUI Imports
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import CardStatsVertical from 'src/@core/components/card-statistics/card-stats-vertical'
 
 import LeaseManageTable from 'src/ui/lease/LeaseManageTable'
@@ -23,9 +23,9 @@ import LeaseManageTable from 'src/ui/lease/LeaseManageTable'
 const LeasePage = () => {
   return (
     <Grid>
-      <Grid item xs={12} sm={12} lg={12}>
+      <Grid size={12} sm={12} lg={12}>
         <Grid container spacing={6} sx={{ mb: 4 }}>
-          <Grid item xs={6} sm={6} lg={3}>
+          <Grid size={6} sm={6} lg={3}>
             {/* prettier-ignore */}
             <CardStatsVertical
 
@@ -41,7 +41,7 @@ const LeasePage = () => {
 
           {/*
           THIS ONE has stats
-          <Grid item xs={6} sm={6} lg={3}>
+          <Grid size={6} sm={6} lg={3}>
             <CardStatsVertical
               stats={"0"}
               chipText={'0'}
@@ -53,7 +53,7 @@ const LeasePage = () => {
             />
           </Grid> */}
 
-          <Grid item xs={6} sm={6} lg={3}>
+          <Grid size={6} sm={6} lg={3}>
             <CardStatsVertical
               chipText={'0'}
               avatarColor='primary'
@@ -63,7 +63,7 @@ const LeasePage = () => {
               avatarIcon='tabler:woman'
             />
           </Grid>
-          <Grid item xs={6} sm={6} lg={3}>
+          <Grid size={6} sm={6} lg={3}>
             <CardStatsVertical
               chipText={'0'}
               avatarColor='warning'
@@ -73,7 +73,7 @@ const LeasePage = () => {
               avatarIcon='tabler:woman'
             />
           </Grid>
-          <Grid item xs={6} sm={6} lg={3}>
+          <Grid size={6} sm={6} lg={3}>
             <CardStatsVertical
               chipText={'0'}
               avatarColor='secondary'

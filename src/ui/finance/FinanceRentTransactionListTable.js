@@ -286,7 +286,11 @@ const FinanceRentTransactionListTable = ({ rentTransactions }) => {
 
   return (
     <Grid container spacing={6.5}>
-      <Grid item xs={12} lg={12}>
+      <Grid
+        size={{
+          xs: 12,
+          lg: 12
+        }}>
         <Card>
           {console.log('so the transaction data', rentTransactions)}
           <CardHeader
@@ -365,7 +369,7 @@ const FinanceRentTransactionListTable = ({ rentTransactions }) => {
         </Card>
       </Grid>
     </Grid>
-  )
+  );
 }
 
 export default FinanceRentTransactionListTable

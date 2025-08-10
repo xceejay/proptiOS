@@ -4,7 +4,7 @@ import { useState } from 'react'
 // ** MUI Imports
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import Alert from '@mui/material/Alert'
 import Table from '@mui/material/Table'
 import Button from '@mui/material/Button'
@@ -67,7 +67,7 @@ const ParentFinanceViewExpenses = ({ setFinanceData, financeData }) => {
 
   return (
     <Grid container spacing={6}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <FinanceExpensesTable></FinanceExpensesTable>
 
         {/* <Card>

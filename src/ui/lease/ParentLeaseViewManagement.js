@@ -27,13 +27,13 @@ const Timeline = styled(MuiTimeline)(({ theme }) => ({
 const ParentLeaseViewManagement = ({ leaseData }) => {
   return (
     <Grid container spacing={6}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Card>
           <LeaseManageTable></LeaseManageTable>
         </Card>
       </Grid>
     </Grid>
-  )
+  );
 }
 
 export default ParentLeaseViewManagement

@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react'
 
 // ** MUI Imports
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 
 // ** Third Party Components
 import axios from 'axios'
@@ -64,7 +64,7 @@ const ReceiptAdd = ({}) => {
 
   return (
     <Grid container spacing={6}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         {/* <Grid pb={5}>
           <Button size='small' variant='outlined' onClick={() => router.push('/receipts')}>
             <Icon icon='tabler:arrow-left' fontSize={20} />
@@ -74,7 +74,7 @@ const ReceiptAdd = ({}) => {
 
         <DatePickerWrapper sx={{ '& .react-datepicker-wrapper': { width: 'auto' } }}>
           <Grid container spacing={6}>
-            <Grid item xl={9} lg={9.5} md={8} xs={12}>
+            <Grid xl={9} lg={9.5} md={8} size={12}>
               <AddCard
                 propertiesData={propertiesData}
                 setPropertiesData={setPropertiesData}
@@ -87,7 +87,7 @@ const ReceiptAdd = ({}) => {
                 submittedContent={submittedContent}
               />
             </Grid>
-            <Grid item xl={3} lg={2.5} md={4} xs={12}>
+            <Grid xl={3} lg={2.5} md={4} size={12}>
               <AddActions setSubmittedContent={setSubmittedContent} submittedContent={submittedContent} />
             </Grid>
           </Grid>

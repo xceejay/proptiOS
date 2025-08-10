@@ -27,6 +27,7 @@ import AclGuard from 'src/@core/components/auth/AclGuard'
 import ThemeComponent from 'src/@core/theme/ThemeComponent'
 import AuthGuard from 'src/@core/components/auth/AuthGuard'
 import GuestGuard from 'src/@core/components/auth/GuestGuard'
+import WindowWrapper from 'src/@core/components/window-wrapper'
 
 // ** Spinner Import
 import Spinner from 'src/@core/components/spinner'
@@ -45,7 +46,7 @@ import { AuditProvider } from 'src/context/AuditContext'
 import { UsersProvider } from 'src/context/UsersContext'
 
 import { SettingsConsumer, SettingsProvider } from 'src/@core/context/settingsContext'
-import { UserProvider } from '@auth0/nextjs-auth0/client'
+import { Auth0Provider } from '@auth0/nextjs-auth0'
 
 // ** Styled Components
 import ReactHotToast from 'src/@core/styles/libs/react-hot-toast'
@@ -115,7 +116,7 @@ const App = props => {
 
   return (
     <Provider store={store}>
-      <UserProvider loginUrl='' profileUrl=''>
+      <Auth0Provider>
         <CacheProvider value={emotionCache}>
           <Head>
             <title>{`${themeConfig.templateName} - Simplifying property management`}</title>
@@ -168,7 +169,7 @@ const App = props => {
             </AuthProvider>
           </SiteProvider>
         </CacheProvider>
-      </UserProvider>
+      </Auth0Provider>
     </Provider>
   )
 }

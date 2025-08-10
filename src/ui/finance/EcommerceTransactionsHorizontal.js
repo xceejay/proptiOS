@@ -1,6 +1,6 @@
 // ** MUI Imports
 import Box from '@mui/material/Box'
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
 import CardHeader from '@mui/material/CardHeader'
 import Typography from '@mui/material/Typography'
@@ -53,7 +53,7 @@ const data = [
 
 const renderStats = () => {
   return data.map((sale, index) => (
-    <Grid item xs={6} md={2} key={index}>
+    <Grid size={6} md={2} key={index}>
       <Box key={index} sx={{ display: 'flex', alignItems: 'center' }}>
         <CustomAvatar skin='light' color={sale.color} sx={{ mr: 4, width: 42, height: 42 }}>
           <Icon icon={sale.icon} />

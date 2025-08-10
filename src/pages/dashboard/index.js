@@ -1,7 +1,7 @@
 // import '../../@fake-db'
 
 // ** MUI Import
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import Link from 'next/link'
 
 // ** Demo Component Imports
@@ -60,9 +60,9 @@ const Dashboard = () => {
     <ApexChartWrapper>
       <Grid container spacing={6}>
         {/* <Grid>wanted to do switch for properties</Grid> */}
-        <Grid item xs={12} sm={12} lg={12}>
+        <Grid size={12} sm={12} lg={12}>
           <Grid container spacing={6}>
-            <Grid item xs={12} sm={6} lg={3}>
+            <Grid size={12} sm={6} lg={3}>
               <Link href='/tenants' style={{ textDecoration: 'none' }}>
                 <CardStatsVertical
                   chipText={`${DashData?.total_tenants || 'No Data'} tenants`}
@@ -74,7 +74,7 @@ const Dashboard = () => {
                 />
               </Link>
             </Grid>
-            <Grid item xs={12} sm={6} lg={3}>
+            <Grid size={12} sm={6} lg={3}>
               <Link href='/leases' style={{ textDecoration: 'none' }}>
                 <CardStatsVertical
                   chipText={`${DashData?.total_leases || 'No Data'} leases`}
@@ -86,7 +86,7 @@ const Dashboard = () => {
                 />
               </Link>
             </Grid>
-            <Grid item xs={12} sm={6} lg={3}>
+            <Grid size={12} sm={6} lg={3}>
               <Link href='/properties' style={{ textDecoration: 'none' }}>
                 <CardStatsVertical
                   chipText={`${DashData?.total_units || 'No Data'} units`}
@@ -98,7 +98,7 @@ const Dashboard = () => {
                 />
               </Link>
             </Grid>
-            <Grid item xs={12} sm={6} lg={3}>
+            <Grid size={12} sm={6} lg={3}>
               <Link href='/properties' style={{ textDecoration: 'none' }}>
                 <CardStatsVertical
                   chipText={`${DashData?.total_properties || 'No Data'} properties`}
@@ -111,31 +111,31 @@ const Dashboard = () => {
               </Link>
             </Grid>
 
-            <Grid item xs={12} sm={12} lg={12}>
+            <Grid size={12} sm={12} lg={12}>
               <CrmRevenueGrowth DashData={DashData} setDashData={setDashData} />
             </Grid>
           </Grid>
         </Grid>
 
-        <Grid item xs={12} lg={8}>
+        <Grid size={12} lg={8}>
           <CrmEarningReportsWithTabs DashData={DashData} setDashData={setDashData} />
         </Grid>
-        <Grid item xs={12} md={6} lg={4}>
+        <Grid size={12} md={6} lg={4}>
           <CrmSalesWithRadarChart DashData={DashData} setDashData={setDashData} />
         </Grid>
-        {/* <Grid item xs={12} md={6} lg={4}>
+        {/* <Grid size={12} md={6} lg={4}>
           <CrmBrowserStates DashData={DashData} setDashData={setDashData} />
         </Grid> */}
-        {/* <Grid item xs={12} md={6} lg={4}>
+        {/* <Grid size={12} md={6} lg={4}>
           <CrmProjectStatus DashData={DashData} setDashData={setDashData} />
         </Grid> */}
-        {/* <Grid item xs={12} md={6} lg={4}>
+        {/* <Grid size={12} md={6} lg={4}>
           <CrmActiveProjects DashData={DashData} setDashData={setDashData} />
         </Grid> */}
-        {/* <Grid item xs={12} md={6} lg={12}>
+        {/* <Grid size={12} md={6} lg={12}>
           <CrmLastTransaction DashData={DashData} setDashData={setDashData} />
         </Grid> */}
-        {/* <Grid item xs={12} md={6}>
+        {/* <Grid size={12} md={6}>
           <CrmActivityTimeline DashData={DashData} setDashData={setDashData} />
         </Grid> */}
       </Grid>

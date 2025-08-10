@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 // ** MUI Imports
 import Card from '@mui/material/Card'
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import Select from '@mui/material/Select'
 import Button from '@mui/material/Button'
 import Switch from '@mui/material/Switch'
@@ -32,7 +32,7 @@ const AddActions = props => {
   const { submittedContent } = props
   return (
     <Grid container spacing={6}>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <Card>
           <CardContent>
             <Button size='small' fullWidth variant='contained' sx={{ mb: 2, '& svg': { mr: 2 } }}>
@@ -69,7 +69,7 @@ const AddActions = props => {
           </CardContent>
         </Card>
       </Grid>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <FormControl fullWidth sx={{ mb: 4 }}>
           <InputLabel id='payment-select'>Accept payments via</InputLabel>
           <Select fullWidth labelId='payment-select' label='Accept payments via' defaultValue='Internet Banking'>
@@ -101,7 +101,7 @@ const AddActions = props => {
         </OptionsWrapper>
       </Grid>
 
-      <Grid item xs={12}>
+      <Grid size={12}>
         {/* Documentation Paragraph */}
         <Box sx={{ mt: 4 }}>
           <Typography variant='h6' gutterBottom>

@@ -203,7 +203,11 @@ const UserTransactionListTable = ({ userTransactionData }) => {
 
   return (
     <Grid container spacing={6.5}>
-      <Grid item xs={12} lg={12}>
+      <Grid
+        size={{
+          xs: 12,
+          lg: 12
+        }}>
         <Card>
           {/* <CardHeader
         title='Transaction History'
@@ -261,7 +265,7 @@ const UserTransactionListTable = ({ userTransactionData }) => {
         </Card>
       </Grid>
     </Grid>
-  )
+  );
 }
 
 export default UserTransactionListTable

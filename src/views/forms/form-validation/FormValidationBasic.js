@@ -3,7 +3,7 @@ import { forwardRef, useState } from 'react'
 
 // ** MUI Imports
 import Card from '@mui/material/Card'
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import Radio from '@mui/material/Radio'
 import Select from '@mui/material/Select'
 import Button from '@mui/material/Button'
@@ -71,7 +71,7 @@ const FormValidationBasic = () => {
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Grid container spacing={5}>
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <FormControl fullWidth>
                 <Controller
                   name='firstName'
@@ -96,7 +96,7 @@ const FormValidationBasic = () => {
               </FormControl>
             </Grid>
 
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <FormControl fullWidth>
                 <Controller
                   name='lastName'
@@ -121,7 +121,7 @@ const FormValidationBasic = () => {
               </FormControl>
             </Grid>
 
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <FormControl fullWidth>
                 <Controller
                   name='email'
@@ -147,7 +147,7 @@ const FormValidationBasic = () => {
               </FormControl>
             </Grid>
 
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <FormControl fullWidth>
                 <InputLabel htmlFor='validation-basic-password' error={Boolean(errors.password)}>
                   Password
@@ -187,7 +187,7 @@ const FormValidationBasic = () => {
               </FormControl>
             </Grid>
 
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <Controller
                 name='dob'
                 control={control}
@@ -218,7 +218,7 @@ const FormValidationBasic = () => {
               )}
             </Grid>
 
-            <Grid item xs={12} sm={6}>
+            <Grid size={12} sm={6}>
               <FormControl fullWidth>
                 <InputLabel
                   id='validation-basic-select'
@@ -255,7 +255,7 @@ const FormValidationBasic = () => {
               </FormControl>
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormControl fullWidth>
                 <Controller
                   name='textarea'
@@ -280,7 +280,7 @@ const FormValidationBasic = () => {
               </FormControl>
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormControl error={Boolean(errors.radio)}>
                 <FormLabel>Gender</FormLabel>
                 <Controller
@@ -318,7 +318,7 @@ const FormValidationBasic = () => {
               </FormControl>
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={12}>
               <FormControl>
                 <Controller
                   name='checkbox'
@@ -346,7 +346,7 @@ const FormValidationBasic = () => {
               </FormControl>
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={12}>
               <Button size='large' type='submit' variant='contained'>
                 Submit
               </Button>

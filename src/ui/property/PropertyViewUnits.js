@@ -7,7 +7,7 @@ import Link from 'next/link'
 // ** MUI Imports
 
 import Card from '@mui/material/Card'
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 import IconButton from '@mui/material/IconButton'
 import CardContent from '@mui/material/CardContent'
 
@@ -183,7 +183,7 @@ const PropertyViewUnits = ({ setPropertyData, propertyData }) => {
 
   return (
     <Grid container spacing={6}>
-      <Grid item xs={12} lg={12}>
+      <Grid size={12} lg={12}>
         <Card sx={{ mb: 4 }}>
           <CardContent>
             <DataGrid

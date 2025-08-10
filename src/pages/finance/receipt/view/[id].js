@@ -56,10 +56,20 @@ const ReceiptPreview = () => {
       {receiptData.payment_type === 'rent' ? (
         <>
           <Grid container spacing={6}>
-            <Grid item xl={9} md={8} xs={12}>
+            <Grid
+              size={{
+                xl: 9,
+                md: 8,
+                xs: 12
+              }}>
               <RentPaymentReceipt id={id} setReceiptData={setReceiptData} receiptData={receiptData} />
             </Grid>
-            <Grid item xl={3} md={4} xs={12}>
+            <Grid
+              size={{
+                xl: 3,
+                md: 4,
+                xs: 12
+              }}>
               <PreviewActions
                 id={id}
                 toggleAddPaymentDrawer={toggleAddPaymentDrawer}
@@ -76,7 +86,7 @@ const ReceiptPreview = () => {
         <>No receipt</>
       )}
     </>
-  )
+  );
 }
 
 export default ReceiptPreview

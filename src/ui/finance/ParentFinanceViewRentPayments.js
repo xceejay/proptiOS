@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 
 // ** MUI Imports
 
-import { GridLegacy as Grid } from '@mui/material'
+import Grid from '@mui/material/Grid'
 
 import { styled } from '@mui/material/styles'
 import MuiTab from '@mui/material/Tab'
@@ -67,7 +67,7 @@ const ParentFinanceViewRentPayments = ({ setFinanceData, financeData }) => {
 
   return (
     <Grid container>
-      <Grid item xs={12}>
+      <Grid size={12}>
         <TabContext value={value}>
           <TabList variant='fullWidth' onChange={handleChange} aria-label='full width tabs example'>
             <Tab value='1' label='History' />
