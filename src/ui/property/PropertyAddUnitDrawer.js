@@ -268,7 +268,14 @@ const AddUnitDrawer = props => {
         console.log('old Units Data', unitsData)
         console.log('request Data', updatedRequestData)
 
-        setUnitsData(prevData => [...prevData, ...updatedRequestData])
+        if (setPropertyData && propertyData) {
+          setPropertyData(prev => ({
+            ...prev,
+            units: [...(prev.units || []), ...updatedRequestData]
+          }))
+        }
+
+        // setUnitsData(prevData => [...prevData, ...updatedRequestData])
 
         handleClose()
       },

@@ -37,7 +37,7 @@ const PropertyEdit = ({}) => {
         }
       )
     }
-  }, [propertyData])
+  }, [id])
 
   return (
     <Grid>

@@ -35,7 +35,7 @@ const PropertyManageId = ({ invoiceData }) => {
         }
       )
     }
-  }, [id, tab])
+  }, [id])
 
   return <PropertyEditInfo tab={tab} setPropertyData={setPropertyData} propertyData={propertyData} />
 }

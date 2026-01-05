@@ -14,21 +14,14 @@ import PropertyTenantManageTable from './PropertyManageTenantsTable'
 
 const PropertyViewTenants = ({ setPropertyData, propertyData }) => {
   // State to track local tenant data for instant updates
-  const [localTenantData, setLocalTenantData] = useState(propertyData?.tenants || [])
 
-  // Update local tenant data when propertyData changes from parent
-  useEffect(() => {
-    if (propertyData?.tenants) {
-      setLocalTenantData(propertyData.tenants)
-    }
-  }, [propertyData])
 
   // Function to update tenant data locally without triggering API calls
   const handleTenantUpdate = useCallback(
     updatedTenant => {
-      setLocalTenantData(prevTenants => {
-        return prevTenants.map(tenant => (tenant.id === updatedTenant.id ? updatedTenant : tenant))
-      })
+      //   setLocalTenantData(prevTenants => {
+      //     return prevTenants.map(tenant => (tenant.id === updatedTenant.id ? updatedTenant : tenant))
+      //   })
 
       // Update units in propertyData to reflect tenant changes
       const updatedPropertyData = {
@@ -59,8 +52,8 @@ const PropertyViewTenants = ({ setPropertyData, propertyData }) => {
           <PropertyTenantManageTable
             setPropertyData={setPropertyData}
             propertyData={propertyData}
-            localTenantData={localTenantData}
-            setLocalTenantData={setLocalTenantData}
+            // localTenantData={localTenantData}
+            // setLocalTenantData={setLocalTenantData}
             onTenantUpdate={handleTenantUpdate}
           />
         </Card>

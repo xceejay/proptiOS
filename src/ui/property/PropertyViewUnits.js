@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 
 // ** Next Import
 
@@ -20,7 +20,7 @@ import CustomNoRowsOverlay from '../CustomNoRowsOverlay'
 import { useDispatch } from 'react-redux'
 import PropertyManageUnitDrawer from './PropertyManageUnitDrawer'
 
-const RowOptions = ({ id, row, setUnitsData, setPropertyData, propertyData, setLoading }) => {
+const RowOptions = ({ id, row, setPropertyData, propertyData, setLoading }) => {
   const dispatch = useDispatch()
   const [anchorEl, setAnchorEl] = useState(null)
   const rowOptionsOpen = Boolean(anchorEl)
@@ -90,7 +90,7 @@ const RowOptions = ({ id, row, setUnitsData, setPropertyData, propertyData, setL
         setPropertyData={setPropertyData}
         setLoading={setLoading}
         unitData={row}
-        setUnitsData={setUnitsData}
+        // setUnitsData={setUnitsData}
         open={manageUnitOpen}
         toggle={toggleManageUnitDrawer}
       />
@@ -102,7 +102,21 @@ const PropertyViewUnits = ({ setPropertyData, propertyData }) => {
   const [loading, setLoading] = useState(true) // New loading state
 
   const [addUnitOpen, setAddUnitOpen] = useState(false)
-  const [unitsData, setUnitsData] = useState([])
+  // const [unitsData, setUnitsData] = useState([])
+  const unitsData = useMemo(() => {
+    if (propertyData && propertyData.units && propertyData.tenants) {
+      return propertyData.units.map(unit => {
+        const foundTenant = propertyData.tenants.find(tenant => tenant.id === unit.tenant_id)
+
+        return {
+          ...unit,
+          tenant: foundTenant || null
+        }
+      })
+    }
+
+    return []
+  }, [propertyData])
 
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
 
@@ -116,14 +130,14 @@ const PropertyViewUnits = ({ setPropertyData, propertyData }) => {
     { flex: 1, field: 'id', headerName: 'Unit Id', width: 90 },
     {
       field: 'unit_name',
-      valueGetter: params => params.row?.name || '',
+      valueGetter: (value, row) => row?.name || '',
       headerName: 'Unit name',
       flex: 1,
       width: 300
     },
     {
       field: 'tenant_name',
-      valueGetter: params => params.row.tenant?.name || '',
+      valueGetter: (value, row) => row.tenant?.name || '',
       headerName: 'Occupied Tenant',
       flex: 1,
       width: 300
@@ -137,7 +151,7 @@ const PropertyViewUnits = ({ setPropertyData, propertyData }) => {
       renderCell: ({ row }) => (
         <RowOptions
           row={row}
-          setUnitsData={setUnitsData}
+          // setUnitsData={setUnitsData}
           setPropertyData={setPropertyData}
           propertyData={propertyData}
           setLoading={setLoading}
@@ -165,20 +179,7 @@ const PropertyViewUnits = ({ setPropertyData, propertyData }) => {
 
   const toggleAddUnitDrawer = () => setAddUnitOpen(!addUnitOpen)
 
-  useEffect(() => {
-    if (propertyData && propertyData.units && propertyData.tenants) {
-      const units = propertyData.units.map(unit => {
-        const foundTenant = propertyData.tenants.find(tenant => tenant.id === unit.tenant_id)
 
-        return {
-          ...unit,
-          tenant: foundTenant || null
-        }
-      })
-
-      setUnitsData(units)
-    }
-  }, [propertyData])
 
   return (
     <Grid container spacing={6}>
@@ -220,7 +221,7 @@ const PropertyViewUnits = ({ setPropertyData, propertyData }) => {
         unitsData={unitsData}
         propertyData={propertyData}
         setPropertyData={setPropertyData}
-        setUnitsData={setUnitsData}
+        // setUnitsData={setUnitsData}
         open={addUnitOpen}
         toggle={toggleAddUnitDrawer}
       />

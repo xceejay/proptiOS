@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import Grid from '@mui/material/Grid'
 import CardStatsVertical from 'src/@core/components/card-statistics/card-stats-vertical'
 import AddUnitDrawer from './PropertyAddUnitDrawer'
@@ -16,11 +16,11 @@ const columns = [
 
 const PropertyViewOverview = ({ setPropertyData, propertyData }) => {
   const [addUnitOpen, setAddUnitOpen] = useState(false)
-  const [unitsData, setUnitsData] = useState([])
+  // const [unitsData, setUnitsData] = useState([])
 
-  useEffect(() => {
+  const unitsData = useMemo(() => {
     if (propertyData && propertyData.units && propertyData.tenants) {
-      const units = propertyData.units.map(unit => {
+      return propertyData.units.map(unit => {
         const foundTenant = propertyData.tenants.find(tenant => tenant.id === unit.tenant_id)
 
         return {
@@ -28,8 +28,9 @@ const PropertyViewOverview = ({ setPropertyData, propertyData }) => {
           tenant: foundTenant || null
         }
       })
-      setUnitsData(units)
     }
+
+    return []
   }, [propertyData])
 
   const toggleAddUnitDrawer = () => setAddUnitOpen(!addUnitOpen)
@@ -223,7 +224,7 @@ const PropertyViewOverview = ({ setPropertyData, propertyData }) => {
         unitsData={unitsData}
         propertyData={propertyData}
         setPropertyData={setPropertyData}
-        setUnitsData={setUnitsData}
+        // setUnitsData={setUnitsData}
         open={addUnitOpen}
         toggle={toggleAddUnitDrawer}
       />

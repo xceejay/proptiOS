@@ -127,7 +127,7 @@ const ManagePropertyUnitDrawer = props => {
             alert(responseData.message || 'Failed to fetch properties')
           }
 
-          setUnitsData([...propertyData?.units])
+          // setUnitsData([...propertyData?.units])
           setLoading(false)
         },
         error => {

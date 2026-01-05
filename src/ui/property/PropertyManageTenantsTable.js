@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 
 // ** Next Imports
 import Link from 'next/link'
@@ -34,7 +34,7 @@ import PropertyAddTenantDrawer from './PropertyAddTenantDrawer'
 import PropertyAddExistingTenantDrawer from './PropertyAddExistingTenantDrawer'
 import EditPropertyTenantDrawer from './EditPropertyTenantDrawer'
 
-const RowOptions = ({ id, row, setTenantsData, setPropertyData, propertyData, setLoading }) => {
+const RowOptions = ({ id, row, setPropertyData, propertyData, setLoading }) => {
   const dispatch = useDispatch()
   const [anchorEl, setAnchorEl] = useState(null)
   const rowOptionsOpen = Boolean(anchorEl)
@@ -103,7 +103,7 @@ const RowOptions = ({ id, row, setTenantsData, setPropertyData, propertyData, se
         setPropertyData={setPropertyData}
         setLoading={setLoading}
         tenantData={row}
-        setTenantsData={setTenantsData}
+        // setTenantsData={setTenantsData}
         open={editTenantOpen}
         toggle={toggleEditTenantDrawer}
       />
@@ -116,7 +116,20 @@ const PropertyTenantManageTable = ({ setPropertyData, propertyData }) => {
     apiRef.current.updateRows([{ id: rowId, username: randomUserName() }])
   }
 
-  const [tenantsData, setTenantsData] = useState([])
+  // const [tenantsData, setTenantsData] = useState([])
+  const tenantsData = useMemo(() => {
+    if (propertyData?.tenants) {
+      return propertyData?.tenants.map(tenant => {
+        // Find units that belong to the current tenant
+        const tenantUnits = propertyData.units.filter(unit => unit.tenant_id === tenant.id)
+
+        // Attach the units array to the tenant data
+        return { ...tenant, units: tenantUnits }
+      })
+    }
+
+    return []
+  }, [propertyData?.tenants, propertyData?.units])
   const [value, setValue] = useState('')
   const [loading, setLoading] = useState(true) // New loading state
   const [existingTenantOpen, setExistingTenantOpen] = useState(false)
@@ -244,7 +257,7 @@ const PropertyTenantManageTable = ({ setPropertyData, propertyData }) => {
       renderCell: ({ row }) => (
         <RowOptions
           row={row}
-          setTenantsData={setTenantsData}
+          // setTenantsData={setTenantsData}
           setPropertyData={setPropertyData}
           propertyData={propertyData}
           setLoading={setLoading}
@@ -255,29 +268,11 @@ const PropertyTenantManageTable = ({ setPropertyData, propertyData }) => {
   ]
 
   useEffect(() => {
-    setLoading(true)
-
-    if (propertyData?.tenants) {
-      console.log('property Data changed i am setting tenants data')
-
-      const attachUnitsToTenants = () => {
-        const updatedTenantsData = propertyData?.tenants.map(tenant => {
-          // Find units that belong to the current tenant
-          const tenantUnits = propertyData.units.filter(unit => unit.tenant_id === tenant.id)
-
-          // Attach the units array to the tenant data
-          return { ...tenant, units: tenantUnits }
-        })
-
-        // Set the tenants data with the attached units
-        setTenantsData(updatedTenantsData)
-      }
-
-      attachUnitsToTenants()
+    // setLoading(true)
+    if(propertyData){
       setLoading(false)
     }
-    setLoading(false)
-  }, [propertyData?.tenants, propertyData?.units])
+  }, [propertyData])
 
   const handleFilter = useCallback(val => {
     setValue(val)

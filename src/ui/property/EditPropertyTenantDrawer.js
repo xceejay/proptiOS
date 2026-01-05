@@ -174,7 +174,7 @@ const EditPropertyTenantDrawer = props => {
             alert(responseData.message || 'Failed to fetch properties')
           }
 
-          setTenantsData([...propertyData?.tenants])
+          // setTenantsData([...propertyData?.tenants])
           setLoading(false)
         },
         error => {
