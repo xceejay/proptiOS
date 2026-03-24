@@ -27,6 +27,13 @@ The legacy repositories still exist and can be updated from here:
 
 Avoid making direct changes in those repositories unless you intentionally want to manage sync drift.
 
+## Contribution Policy
+
+- Every contributor should clone and work from this monorepo.
+- Feature branches, pull requests, reviews, and merges should happen here.
+- The child repositories are downstream mirrors for deployment and compatibility, not the primary place for day-to-day development.
+- Changes made directly in child repositories do not sync back into this monorepo automatically.
+
 ## Root Commands
 
 - `pnpm projects`: print the known projects and their paths

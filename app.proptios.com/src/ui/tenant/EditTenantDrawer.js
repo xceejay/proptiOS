@@ -13,12 +13,10 @@ import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, Controller } from 'react-hook-form'
 import Icon from 'src/@core/components/icon'
-import { useProperties } from 'src/hooks/useProperties'
 import toast from 'react-hot-toast'
 import CustomChip from 'src/@core/components/mui/chip'
 
 import { useTenants } from 'src/hooks/useTenants'
-import { useRouter } from 'next/router'
 
 const countries = [
   { name: 'Algeria', code: 'DZA' },
@@ -91,9 +89,6 @@ const tenantTypes = [
 const EditTenantDrawer = props => {
   const { tenantData, setTenantsData, tenantsData, open, toggle, setLoading } = props
   const tenant = useTenants()
-  const properties = useProperties()
-  const router = useRouter()
-  const { id } = router.query
 
   // Updated validation schema to include tenant-specific fields
   const schema = yup.object().shape({
@@ -181,8 +176,8 @@ const EditTenantDrawer = props => {
 
   const onSubmit = formData => {
     setLoading(true)
-    formData.unit_id = tenantData.unit.id
-    formData.property_id = tenantData.property.id
+    formData.unit_id = tenantData?.unit_id ?? tenantData?.unit?.id ?? null
+    formData.property_id = tenantData?.property_id ?? tenantData?.property?.id ?? null
     formData.id = tenantData.id
 
     let requestData = [formData]

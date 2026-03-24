@@ -2,7 +2,14 @@
 
 Official proptios.com API for property manager dashboard
 
-This service is maintained from the `proptiOS` monorepo. Preferred local workflow: clone the root repo and run commands from there.
+This service is maintained from the `proptiOS` monorepo.
+
+Contribution policy:
+- clone and work from the root monorepo
+- do not open feature branches or PRs from this child repository
+- changes made here directly do not sync back to the monorepo automatically
+
+Sync test marker: propagated from monorepo on 2026-03-24.
 
 ## Local Dev Setup
 

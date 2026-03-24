@@ -2,7 +2,14 @@
 
 Property Manager Dashboard
 
-This project is maintained from the `proptiOS` monorepo. Preferred local workflow: clone the root repo and run commands from there.
+This project is maintained from the `proptiOS` monorepo.
+
+Contribution policy:
+- clone and work from the root monorepo
+- do not open feature branches or PRs from this child repository
+- changes made here directly do not sync back to the monorepo automatically
+
+Sync test marker: propagated from monorepo on 2026-03-24.
 
 ## Engineering notes
 - Code structure and coding patterns: `docs/ARCHITECTURE-AND-CODING-PATTERNS.md`

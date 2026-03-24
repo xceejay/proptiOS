@@ -10,6 +10,8 @@ Do not treat the old child repositories as the primary place to branch, review, 
 2. Open and merge through the monorepo.
 3. Let subtree sync push affected folders back to the legacy repositories.
 
+Direct edits in child repositories are out-of-policy for normal development. They do not sync back into the monorepo automatically.
+
 ## Project Boundaries
 
 - `app.proptios.com` depends on `api.pm.proptios.com` as the dashboard backend.
