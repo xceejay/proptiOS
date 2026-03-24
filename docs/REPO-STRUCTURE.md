@@ -79,6 +79,7 @@ The Go service is intentionally not part of the pnpm workspace.
 - `scripts/changed-projects.sh`: reports changed top-level projects
 - `scripts/check.sh`: runs project-specific validation
 - `scripts/sync-changed.sh`: pushes only changed projects downstream
+- `scripts/sync-target.sh`: pushes or dry-runs one selected downstream target
 - `scripts/split-push.sh`: subtree split and push helper
 - `scripts/import-subtree.sh`: guarded subtree import helper
 
@@ -86,6 +87,7 @@ The Go service is intentionally not part of the pnpm workspace.
 
 - `.github/workflows/ci.yml`: validation flow for changed projects
 - `.github/workflows/sync-downstream.yml`: subtree publish workflow for changed projects on `main`
+- Both workflows also support manual `workflow_dispatch` runs.
 
 The downstream sync workflow uses the repository secret `DOWNSTREAM_SYNC_TOKEN` and pushes over HTTPS.
 

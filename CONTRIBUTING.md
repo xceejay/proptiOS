@@ -26,6 +26,7 @@ Do not move code across these boundaries casually. If shared code becomes necess
 - `pnpm dev`
 - `pnpm dev:api-pm`
 - `pnpm sync:changed`
+- `pnpm sync:target <project>`
 
 ## CI Expectations
 
@@ -44,8 +45,11 @@ Use one of:
 - `pnpm sync:www`
 - `pnpm sync:api-events`
 - `pnpm sync:changed`
+- `pnpm sync:target <project>`
 
 These commands require push access to the child repositories.
+
+For a safe preview, use one of the dry-run commands from the root package scripts before pushing downstream.
 
 ## For The Next Agent
 

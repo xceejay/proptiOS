@@ -4,21 +4,40 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "Specific downstream target to process"
+        required: false
+        default: "all"
+        type: choice
+        options:
+          - all
+          - app
+          - api-pm
+          - www
+          - api-events
+      dry_run:
+        description: "Prepare subtree split without pushing"
+        required: false
+        default: true
+        type: boolean
 
 jobs:
   detect-changes:
     runs-on: ubuntu-latest
     outputs:
-      app: ${{ steps.filter.outputs.app }}
-      api_pm: ${{ steps.filter.outputs.api_pm }}
-      www: ${{ steps.filter.outputs.www }}
-      api_events: ${{ steps.filter.outputs.api_events }}
+      app: ${{ steps.detect.outputs.app }}
+      api_pm: ${{ steps.detect.outputs.api_pm }}
+      www: ${{ steps.detect.outputs.www }}
+      api_events: ${{ steps.detect.outputs.api_events }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - id: filter
+      - id: paths
+        if: github.event_name != 'workflow_dispatch'
         uses: dorny/paths-filter@v3
         with:
           filters: |
@@ -31,6 +50,31 @@ jobs:
             api_events:
               - 'api.events.proptios.com/**'
 
+      - id: detect
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            target="${{ github.event.inputs.target }}"
+            app=false
+            api_pm=false
+            www=false
+            api_events=false
+
+            if [ "$target" = "all" ] || [ "$target" = "app" ]; then app=true; fi
+            if [ "$target" = "all" ] || [ "$target" = "api-pm" ]; then api_pm=true; fi
+            if [ "$target" = "all" ] || [ "$target" = "www" ]; then www=true; fi
+            if [ "$target" = "all" ] || [ "$target" = "api-events" ]; then api_events=true; fi
+          else
+            app="${{ steps.paths.outputs.app }}"
+            api_pm="${{ steps.paths.outputs.api_pm }}"
+            www="${{ steps.paths.outputs.www }}"
+            api_events="${{ steps.paths.outputs.api_events }}"
+          fi
+
+          echo "app=$app" >> "$GITHUB_OUTPUT"
+          echo "api_pm=$api_pm" >> "$GITHUB_OUTPUT"
+          echo "www=$www" >> "$GITHUB_OUTPUT"
+          echo "api_events=$api_events" >> "$GITHUB_OUTPUT"
+
   sync:
     needs: detect-changes
     if: |
@@ -39,6 +83,8 @@ jobs:
       needs.detect-changes.outputs.www == 'true' ||
       needs.detect-changes.outputs.api_events == 'true'
     runs-on: ubuntu-latest
+    env:
+      DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.dry_run || 'false' }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -48,19 +94,40 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config url."https://x-access-token:${{ secrets.DOWNSTREAM_SYNC_TOKEN }}@github.com/".insteadOf "git@github.com:"
 
       - name: Push app.proptios.com
         if: needs.detect-changes.outputs.app == 'true'
-        run: ./scripts/split-push.sh app.proptios.com https://x-access-token:${{ secrets.DOWNSTREAM_SYNC_TOKEN }}@github.com/xceejay/app.proptios.com.git
+        run: |
+          if [ "$DRY_RUN" = "true" ]; then
+            ./scripts/sync-target.sh --dry-run app
+          else
+            ./scripts/sync-target.sh app
+          fi
 
       - name: Push api.pm.proptios.com
         if: needs.detect-changes.outputs.api_pm == 'true'
-        run: ./scripts/split-push.sh api.pm.proptios.com https://x-access-token:${{ secrets.DOWNSTREAM_SYNC_TOKEN }}@github.com/xceejay/api.pm.proptios.com.git
+        run: |
+          if [ "$DRY_RUN" = "true" ]; then
+            ./scripts/sync-target.sh --dry-run api-pm
+          else
+            ./scripts/sync-target.sh api-pm
+          fi
 
       - name: Push www.proptios.com
         if: needs.detect-changes.outputs.www == 'true'
-        run: ./scripts/split-push.sh www.proptios.com https://x-access-token:${{ secrets.DOWNSTREAM_SYNC_TOKEN }}@github.com/xceejay/www.proptios.com.git
+        run: |
+          if [ "$DRY_RUN" = "true" ]; then
+            ./scripts/sync-target.sh --dry-run www
+          else
+            ./scripts/sync-target.sh www
+          fi
 
       - name: Push api.events.proptios.com
         if: needs.detect-changes.outputs.api_events == 'true'
-        run: ./scripts/split-push.sh api.events.proptios.com https://x-access-token:${{ secrets.DOWNSTREAM_SYNC_TOKEN }}@github.com/xceejay/api.events.proptios.com.git
+        run: |
+          if [ "$DRY_RUN" = "true" ]; then
+            ./scripts/sync-target.sh --dry-run api-events
+          else
+            ./scripts/sync-target.sh api-events
+          fi

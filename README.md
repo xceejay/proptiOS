@@ -35,6 +35,11 @@ Avoid making direct changes in those repositories unless you intentionally want 
 - `pnpm check`: run the default validation flow across relevant projects
 - `pnpm check:changed`: validate only projects changed relative to `origin/main`
 - `pnpm sync:changed`: push changed projects back to their legacy repositories
+- `pnpm sync:target <project>`: push one project back to its legacy repository
+- `pnpm sync:dry-run:app`
+- `pnpm sync:dry-run:api-pm`
+- `pnpm sync:dry-run:www`
+- `pnpm sync:dry-run:api-events`
 - `pnpm sync:app`
 - `pnpm sync:api-pm`
 - `pnpm sync:www`
@@ -45,6 +50,7 @@ Avoid making direct changes in those repositories unless you intentionally want 
 - CI runs from the monorepo root and can target only changed top-level projects.
 - CD to the legacy repositories happens by subtree split and push.
 - The workflow expects a GitHub token in the GitHub secret `DOWNSTREAM_SYNC_TOKEN`.
+- Both CI and downstream sync can also be run manually through `workflow_dispatch`.
 
 ## Quick Start
 
