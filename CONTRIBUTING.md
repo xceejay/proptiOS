@@ -18,6 +18,14 @@ Do not treat the old child repositories as the primary place to branch, review, 
 
 Do not move code across these boundaries casually. If shared code becomes necessary, introduce it deliberately as a new root-level package instead of coupling projects ad hoc.
 
+## Branch Model
+
+- Use `staging` for pre-production validation.
+- Use `main` for production.
+- Merge feature work into monorepo `staging` first.
+- Promote to production by merging `staging` into `main`.
+- Do not work directly in child repositories.
+
 ## Common Commands
 
 - `pnpm doctor`
@@ -27,7 +35,7 @@ Do not move code across these boundaries casually. If shared code becomes necess
 - `pnpm dev`
 - `pnpm dev:api-pm`
 - `pnpm dev:api-events`
-- `pnpm deploy <target>`
+- `pnpm deploy <target> <branch>`
 - `pnpm sync:changed`
 - `pnpm sync:target <project>`
 
@@ -44,6 +52,13 @@ Normal release flow:
 1. Merge to `main`.
 2. The monorepo push triggers downstream sync automatically.
 3. Use `pnpm deploy:dry-run <target>` or `pnpm deploy <target>` only when you need a manual rerun or one-off publish.
+
+Staging flow:
+
+1. Merge to `staging`.
+2. The monorepo push triggers downstream sync to child `staging` branches.
+3. Test staging infrastructure against child repo `staging`.
+4. Promote by merging monorepo `staging` into monorepo `main`.
 
 ## Downstream Sync
 

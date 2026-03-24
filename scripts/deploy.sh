@@ -17,6 +17,7 @@ while [ "$#" -gt 0 ]; do
 done
 
 target="${1:-all}"
+branch="${2:-staging}"
 
 if ! command -v gh >/dev/null 2>&1; then
   echo "GitHub CLI is required for deploy.sh"
@@ -38,9 +39,20 @@ case "$target" in
     ;;
 esac
 
+case "$branch" in
+  main|staging)
+    ;;
+  *)
+    echo "Unknown deploy branch: $branch"
+    echo "Use one of: main, staging"
+    exit 1
+    ;;
+esac
+
 gh workflow run sync-downstream.yml \
   --repo xceejay/proptiOS \
   -f target="$target" \
+  -f branch="$branch" \
   -f dry_run="$dry_run"
 
-echo "Triggered sync-downstream.yml for target=$target dry_run=$dry_run"
+echo "Triggered sync-downstream.yml for target=$target branch=$branch dry_run=$dry_run"

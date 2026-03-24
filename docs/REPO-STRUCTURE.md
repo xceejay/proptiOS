@@ -53,6 +53,8 @@ The current root remote is:
 - The monorepo is the source of truth.
 - The legacy repositories are publish targets, not the preferred place to make changes.
 - Downstream sync works by `git subtree split` on top-level folders.
+- Monorepo `staging` maps to child repo `staging`.
+- Monorepo `main` maps to child repo `main`.
 - The root scripts are intentionally simple shell wrappers so the workflow is visible and easy to debug.
 
 ## Important Historical Note
@@ -81,7 +83,7 @@ The Go service is intentionally not part of the pnpm workspace.
 - `scripts/check.sh`: runs project-specific validation
 - `scripts/deploy.sh`: triggers the downstream sync workflow with optional dry-run mode
 - `scripts/sync-changed.sh`: pushes only changed projects downstream
-- `scripts/sync-target.sh`: pushes or dry-runs one selected downstream target
+- `scripts/sync-target.sh`: pushes or dry-runs one selected downstream target and branch
 - `scripts/split-push.sh`: subtree split and push helper
 - `scripts/import-subtree.sh`: guarded subtree import helper
 

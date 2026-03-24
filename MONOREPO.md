@@ -17,6 +17,7 @@ That repo should become the canonical source of truth. The existing repositories
 - Existing repos: downstream mirrors fed from subtree pushes
 - Local development: one checkout at the root
 - Deployment: unchanged per app until intentionally consolidated
+- Branch mapping: monorepo `staging` -> child `staging`, monorepo `main` -> child `main`
 
 ## Why This Model
 

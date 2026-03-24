@@ -36,8 +36,8 @@ Avoid making direct changes in those repositories unless you intentionally want 
 - `pnpm dev:api-events`: start the Go service
 - `pnpm check`: run the default validation flow across relevant projects
 - `pnpm check:changed`: validate only projects changed relative to `origin/main`
-- `pnpm deploy [target]`: trigger downstream deployment workflow from the CLI
-- `pnpm deploy:dry-run [target]`: safe preview of downstream deployment workflow
+- `pnpm deploy [target] [branch]`: trigger downstream deployment workflow from the CLI
+- `pnpm deploy:dry-run [target] [branch]`: safe preview of downstream deployment workflow
 - `pnpm sync:changed`: push changed projects back to their legacy repositories
 - `pnpm sync:target <project>`: push one project back to its legacy repository
 - `pnpm sync:dry-run:app`
@@ -53,6 +53,8 @@ Avoid making direct changes in those repositories unless you intentionally want 
 
 - CI runs from the monorepo root and can target only changed top-level projects.
 - CD to the legacy repositories happens by subtree split and push.
+- Monorepo `staging` syncs to child repo `staging`.
+- Monorepo `main` syncs to child repo `main`.
 - The workflow expects a GitHub token in the GitHub secret `DOWNSTREAM_SYNC_TOKEN`.
 - Both CI and downstream sync can also be run manually through `workflow_dispatch`.
 
@@ -77,14 +79,23 @@ pnpm dev
 Deployment flow:
 
 ```bash
+git push origin staging
+```
+
+That push triggers downstream sync to child `staging` branches for affected top-level projects.
+
+Production flow:
+
+```bash
 git push origin main
 ```
 
-That push triggers downstream sync automatically for affected top-level projects. If you want a manual run or a safe preview:
+That push triggers downstream sync to child `main` branches for affected top-level projects. If you want a manual run or a safe preview:
 
 ```bash
-pnpm deploy:dry-run app
-pnpm deploy app
+pnpm deploy:dry-run app staging
+pnpm deploy app staging
+pnpm deploy app main
 ```
 
 For day-to-day work, start with [CONTRIBUTING.md](/home/joel/personal/projects/proptiOS/CONTRIBUTING.md) and [docs/REPO-STRUCTURE.md](/home/joel/personal/projects/proptiOS/docs/REPO-STRUCTURE.md).

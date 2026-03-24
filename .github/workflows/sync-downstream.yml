@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - staging
   workflow_dispatch:
     inputs:
       target:
@@ -17,6 +18,14 @@ on:
           - api-pm
           - www
           - api-events
+      branch:
+        description: "Downstream branch to update"
+        required: false
+        default: "staging"
+        type: choice
+        options:
+          - staging
+          - main
       dry_run:
         description: "Prepare subtree split without pushing"
         required: false
@@ -31,6 +40,7 @@ jobs:
       api_pm: ${{ steps.detect.outputs.api_pm }}
       www: ${{ steps.detect.outputs.www }}
       api_events: ${{ steps.detect.outputs.api_events }}
+      downstream_branch: ${{ steps.detect.outputs.downstream_branch }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -55,6 +65,7 @@ jobs:
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             target="${{ github.event.inputs.target }}"
+            downstream_branch="${{ github.event.inputs.branch }}"
             app=false
             api_pm=false
             www=false
@@ -69,12 +80,14 @@ jobs:
             api_pm="${{ steps.paths.outputs.api_pm }}"
             www="${{ steps.paths.outputs.www }}"
             api_events="${{ steps.paths.outputs.api_events }}"
+            downstream_branch="${GITHUB_REF_NAME}"
           fi
 
           echo "app=$app" >> "$GITHUB_OUTPUT"
           echo "api_pm=$api_pm" >> "$GITHUB_OUTPUT"
           echo "www=$www" >> "$GITHUB_OUTPUT"
           echo "api_events=$api_events" >> "$GITHUB_OUTPUT"
+          echo "downstream_branch=$downstream_branch" >> "$GITHUB_OUTPUT"
 
   sync:
     needs: detect-changes
@@ -86,6 +99,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.dry_run || 'false' }}
+      DOWNSTREAM_BRANCH: ${{ needs.detect-changes.outputs.downstream_branch }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -102,34 +116,34 @@ jobs:
         if: needs.detect-changes.outputs.app == 'true'
         run: |
           if [ "$DRY_RUN" = "true" ]; then
-            ./scripts/sync-target.sh --dry-run app
+            ./scripts/sync-target.sh --dry-run app "$DOWNSTREAM_BRANCH"
           else
-            ./scripts/sync-target.sh app
+            ./scripts/sync-target.sh app "$DOWNSTREAM_BRANCH"
           fi
 
       - name: Push api.pm.proptios.com
         if: needs.detect-changes.outputs.api_pm == 'true'
         run: |
           if [ "$DRY_RUN" = "true" ]; then
-            ./scripts/sync-target.sh --dry-run api-pm
+            ./scripts/sync-target.sh --dry-run api-pm "$DOWNSTREAM_BRANCH"
           else
-            ./scripts/sync-target.sh api-pm
+            ./scripts/sync-target.sh api-pm "$DOWNSTREAM_BRANCH"
           fi
 
       - name: Push www.proptios.com
         if: needs.detect-changes.outputs.www == 'true'
         run: |
           if [ "$DRY_RUN" = "true" ]; then
-            ./scripts/sync-target.sh --dry-run www
+            ./scripts/sync-target.sh --dry-run www "$DOWNSTREAM_BRANCH"
           else
-            ./scripts/sync-target.sh www
+            ./scripts/sync-target.sh www "$DOWNSTREAM_BRANCH"
           fi
 
       - name: Push api.events.proptios.com
         if: needs.detect-changes.outputs.api_events == 'true'
         run: |
           if [ "$DRY_RUN" = "true" ]; then
-            ./scripts/sync-target.sh --dry-run api-events
+            ./scripts/sync-target.sh --dry-run api-events "$DOWNSTREAM_BRANCH"
           else
-            ./scripts/sync-target.sh api-events
+            ./scripts/sync-target.sh api-events "$DOWNSTREAM_BRANCH"
           fi

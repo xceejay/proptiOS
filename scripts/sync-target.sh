@@ -17,12 +17,13 @@ while [ "$#" -gt 0 ]; do
 done
 
 if [ "$#" -lt 1 ]; then
-  echo "Usage: $0 [--dry-run] <app|api-pm|www|api-events>"
+  echo "Usage: $0 [--dry-run] <app|api-pm|www|api-events> [branch]"
   exit 1
 fi
 
 target="$1"
 shift || true
+branch="${1:-main}"
 
 split_cmd=(./scripts/split-push.sh)
 if [ "$dry_run" = "true" ]; then
@@ -31,16 +32,16 @@ fi
 
 case "$target" in
   app)
-    exec "${split_cmd[@]}" app.proptios.com git@github.com:xceejay/app.proptios.com.git "$@"
+    exec "${split_cmd[@]}" app.proptios.com git@github.com:xceejay/app.proptios.com.git "$branch"
     ;;
   api-pm)
-    exec "${split_cmd[@]}" api.pm.proptios.com git@github.com:xceejay/api.pm.proptios.com.git "$@"
+    exec "${split_cmd[@]}" api.pm.proptios.com git@github.com:xceejay/api.pm.proptios.com.git "$branch"
     ;;
   www)
-    exec "${split_cmd[@]}" www.proptios.com git@github.com:xceejay/www.proptios.com.git "$@"
+    exec "${split_cmd[@]}" www.proptios.com git@github.com:xceejay/www.proptios.com.git "$branch"
     ;;
   api-events)
-    exec "${split_cmd[@]}" api.events.proptios.com git@github.com:xceejay/api.events.proptios.com.git "$@"
+    exec "${split_cmd[@]}" api.events.proptios.com git@github.com:xceejay/api.events.proptios.com.git "$branch"
     ;;
   *)
     echo "Unknown target: $target"
