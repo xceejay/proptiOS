@@ -2,6 +2,8 @@
 
 Property Manager Dashboard
 
+This project is maintained from the `proptiOS` monorepo. Preferred local workflow: clone the root repo and run commands from there.
+
 ## Engineering notes
 - Code structure and coding patterns: `docs/ARCHITECTURE-AND-CODING-PATTERNS.md`
 - Testing and linting plan: `docs/TESTING-AND-LINTING-PLAN.md`
@@ -13,6 +15,7 @@ Property Manager Dashboard
 - `pnpm test`
 - `pnpm test:watch`
 - `pnpm test:coverage`
+- Root shortcut: `pnpm check`
 
 Pages:
 The following pages are available in the application:
