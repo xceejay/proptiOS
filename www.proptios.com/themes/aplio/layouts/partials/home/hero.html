@@ -1,0 +1,39 @@
+{{ with .Site.GetPage "home"}}
+{{range .Params.hero}}
+<section class="hero relative lg:pt-[260px] max-lg:pt-[160px] pb-[140px] overflow-hidden lg:overflow-visible">
+  <div class="container">
+    <div class="grid grid-cols-12 items-center relative z-[100] max-lg:gap-y-10 mb-[165px] aos-init aos-animate" data-aos="fade-up" data-aos-offset="200" data-aos-duration="1000" data-aos-once="true">
+      <div class="col-span-12 md:col-span-7">
+        <!-- Tagline -->
+        <p class="max-lg:mb-4 mb-8 font-medium uppercase">{{ .tagline }}</p>
+    
+        <!-- Title -->
+        <h1 class="mb-12 max-md:mb-8">
+          {{ .title | safeHTML }}
+        </h1>
+    
+        <!-- Details -->
+        <p class="mb-12 max-md:mb-8 max-w-[590px]">
+          {{ .details | safeHTML }}
+        </p>
+    
+        <!-- CTA Button -->
+        <div class="flex items-center gap-4">
+          <a href="https://app.proptios.com/register" class="btn">Get started for free</a>
+        </div>
+      </div>
+    
+      <!-- Hero Image -->
+      <div class="col-span-full md:col-span-5 ">
+        <div class="relative h-full w-full ">
+          <img src="{{"images/payment/apartment-building-home.webp" | absURL}}" alt="hero Image" class=" inline-block dark:hidden rounded-lg    ">
+          <img src="images/hosting/hosting-hero-dark.png" alt="hero Image" class="hidden dark:inline-block ">
+        </div>
+      </div>
+    </div>
+    
+    
+  </div>
+</section>
+{{end}}
+{{end}}

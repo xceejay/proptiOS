@@ -1,0 +1,14 @@
+@layer components {
+  .btn {
+    @apply text-base font-Inter font-medium leading-6 py-[13px] px-[30px] -tracking-[0.3px] text-white hover:text-white dark:text-paragraph  dark:hover:text-paragraph rounded-[30px] relative z-0 before:-z-10 before:rounded-[30px]  before:absolute before:bottom-0 before:left-0 before:h-full before:w-full before:origin-right before:scale-x-0 before:bg-borderColour-dark dark:before:bg-primary-200  before:transition-transform before:duration-500 before:content-[''] before:hover:origin-left before:hover:scale-x-100 overflow-hidden after:absolute after:w-full after:h-full after:rounded-[30px] after:bg-paragraph after:dark:bg-primary after:left-0 after:top-0 after:-z-20;
+    &-navbar {
+      @apply after:dark:bg-dark-200 dark:text-white;
+    }
+  }
+}
+.btn-outline {
+  @apply text-base  font-Inter leading-6 py-[13px] px-[30px] -tracking-[0.3px] duration-500 transition-all hover:duration-500 hover:transition-all rounded-[30px] font-medium overflow-hidden bg-white text-paragraph border-borderColour dark:hover:text-paragraph dark:bg-transparent border dark:border-[#313330] dark:text-white hover:text-white  relative z-10 before:-z-10 before:rounded-[30px]  before:absolute before:bottom-0 before:left-0 before:h-full before:w-full before:origin-right before:scale-x-0 before:bg-paragraph dark:before:bg-primary  before:transition-transform before:duration-500 before:content-[''] before:hover:origin-left before:hover:scale-x-100;
+}
+.btn-sm {
+  @apply px-6 py-2;
+}

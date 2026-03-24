@@ -1,0 +1,27 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ printf "%s | %s" .Title site.Title }}{{ end }}</title>
+<meta name="description" content="proptiOS property management operating system software">
+{{hugo.Generator}}
+{{"<!-- Favicon -->" | safeHTML}}
+<link rel="icon" type="image/png" href="/images/favicons/favicon-96x96.png" sizes="96x96" />
+<link rel="icon" type="image/svg+xml" href="/images/favicons/favicon.svg" />
+<link rel="shortcut icon" href="/images/favicons/favicon.ico" />
+<link rel="apple-touch-icon" sizes="180x180" href="/images/favicons/apple-touch-icon.png" />
+<meta name="apple-mobile-web-app-title" content="proptiOS" />
+<link rel="manifest" href="/images/favicons/site.webmanifest" />
+{{"<!-- Fontawesome -->" | safeHTML}}
+<link rel="stylesheet" href="{{"plugins/fontawesome/all.css" | absURL}}"/>
+
+{{"<!-- AOS -->" | safeHTML}}
+<link rel="stylesheet" href="{{"plugins/fancybox/fancybox.css" | absURL}}"/>
+
+
+{{"<!-- Swiper -->" | safeHTML}}
+<link rel="stylesheet" href="{{"plugins/swiper/swiper.css" | absURL}}"/>
+
+{{"<!-- AOS -->" | safeHTML}}
+<link rel="stylesheet" href="{{"plugins/aos/aos.css" | absURL}}"/>
+
+
+{{ partialCached "head/css.html" . }}

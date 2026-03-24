@@ -1,0 +1,84 @@
+
+<section class=" pb-150 relative {{.spacing}} max-md:overflow-hidden">
+  {{ with .context.Site.GetPage "/testimonial"}}
+  <div class="container relative">
+    <div class="text-center max-w-[550px] mx-auto mb-16">
+      <p class="section-tagline">{{ .Params.tagline }}</p>
+      <h2>{{ .Title | safeHTML }}</h2>
+    </div>
+    <div class="relative z-10">
+      <div
+        class="absolute left-1/2 top-[37%] -translate-x-1/2 -translate-y-1/2 flex max-md:flex-col -z-10 max-md:hidden"
+      >
+        <div
+          class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px]  rounded-full bg-primary-200/20 blur-[145px]"
+        ></div>
+        <div
+          class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px]  rounded-full bg-primary-200/25 -ml-[170px] max-md:ml-0 blur-[145px]"
+        ></div>
+        <div
+          class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px]  rounded-full bg-primary-200/20 -ml-[170px] max-md:ml-0 blur-[145px]"
+        ></div>
+      </div>
+      <div
+        class="absolute left-1/2 -top-150 p-[350px] -translate-x-1/2 bg-contain w-full h-full  bg-[url('../images/hero-gradient.png')] bg-no-repeat bg-center opacity-70 md:hidden -z-10"
+      ></div>
+      <div
+        class=" !py-16 !px-6 swiper "
+        id="testionial"
+      >
+        <div class="swiper-wrapper">
+          
+          {{range first 5 .Params.testimonials}}
+          <div class="bg-white dark:bg-dark-200 rounded-medium p-2.5 swiper-slide shadow-nav">
+            <div class="border border-dashed rounded border-gray-100 dark:border-borderColour-dark p-7 ">
+              <img
+                src="{{ .brandLogo | absURL  }}"
+                alt="service logo"
+                class="inline-block dark:hidden mb-6"
+              />
+              <img
+                src="{{ .brandLogoDark | absURL  }}"
+                alt="service logo"
+                class="hidden dark:inline-block mb-6"
+              />
+              <blockquote class="text-paragraph dark:text-white italic mb-5 leading-[1.75]">
+                “{{ .quote | safeHTML }}”
+              </blockquote>
+              {{ if .rating }}
+              <div class="mb-7">
+                {{ $rating := .rating | int }}
+                {{ $rating := sub $rating 1 }}
+                {{ range $i, $sequence := (seq 5) }}
+                  {{ if le $i $rating }}
+                  <i class="fa-solid fa-star text-paragraph dark:text-white"></i>
+                  {{ else }}
+                  <i class="fa-solid fa-star text-[#A7A7B4] dark:text-[#646463]"></i>
+                  {{ end }}
+                {{ end }}
+              </div>
+              {{end}}
+              <div class="pt-7 flex items-center border-t border-dashed border-gray-100 dark:border-borderColour-dark">
+                <img
+                  src="{{ .authorImage | absURL }}"
+                  alt="avatar"
+                  class="mr-4 rounded-full"
+                />
+                <div class="block">
+                  <h3 class="text-base font-semibold">{{.authorName}}</h3>
+                  <p class="text-paragraph-light dark:text-[#A1A49D] font-jakarta_sans text-sm font-medium">
+                    {{.authorDesignation}}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        {{end}}
+
+        </div>
+        <div class="swiper-pagination"></div>
+      </div>
+    </div>
+  </div>
+  {{end}}
+</section>

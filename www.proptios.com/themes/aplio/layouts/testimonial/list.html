@@ -1,0 +1,76 @@
+{{ define "main"}}
+  {{ partial "global/pageHero.html" (dict "context" . "page" "testimonial") }}
+  <section class=" pb-25 relative">
+    <div
+      class="absolute left-1/2 -top-[300px] w-full h-[550px] -translate-x-1/2 bg-cover  bg-[url('../images/hero-gradient.png')] bg-no-repeat bg-center opacity-70 md:hidden -z-10"
+    ></div>
+    <div class="container relative">
+      <div class="relative z-10">
+        <div class="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 flex max-md:flex-col -z-10 max-md:hidden">
+          <div
+            class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px]  rounded-full bg-primary-200/20 blur-[145px]"
+          ></div>
+          <div
+            class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px]  rounded-full bg-primary-200/25 -ml-[170px] max-md:ml-0 blur-[145px]"
+          ></div>
+          <div
+            class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px]  rounded-full bg-primary-200/20 -ml-[170px] max-md:ml-0 blur-[145px]"
+          ></div>
+        </div>
+        <div class=" grid grid-cols-3 max-md:grid-cols-1 max-lg:grid-cols-2 gap-11 ">
+          {{ range $key, $testimonial:= .Params.testimonials}}
+          <div class="bg-white dark:bg-dark-200 rounded-medium p-2.5 shadow-nav">
+            <div class="border border-dashed rounded border-gray-100 dark:border-borderColour-dark p-7 ">
+              <img
+                src="{{ .brandLogo | absURL  }}"
+                alt="service logo"
+                class="inline-block dark:hidden mb-6"
+              />
+              <img
+                src="{{ .brandLogoDark | absURL  }}"
+                alt="service logo"
+                class="hidden dark:inline-block mb-6"
+              />
+              <blockquote class="text-paragraph dark:text-white italic mb-5 leading-[1.75]">
+                “{{ .quote | safeHTML }}”
+              </blockquote>
+              {{ if .rating }}
+              <div class="mb-7">
+                {{ $rating := .rating | int }}
+                {{ $rating := sub $rating 1 }}
+                {{ range $i, $sequence := (seq 5) }}
+                  {{ if le $i $rating }}
+                  <i class="fa-solid fa-star text-paragraph dark:text-white"></i>
+                  {{ else }}
+                  <i class="fa-solid fa-star text-[#A7A7B4] dark:text-[#646463]"></i>
+                  {{ end }}
+                {{ end }}
+              </div>
+              {{end}}
+  
+              <div class="pt-7 flex items-center border-t border-dashed border-gray-100 dark:border-borderColour-dark">
+                <img
+                  src="{{.authorImage | absURL }}"
+                  alt="avatar"
+                  class="mr-4 rounded-full"
+                />
+                <div class="block">
+                  <h3 class="text-base font-semibold">{{.authorName}}</h3>
+                  <p class="text-paragraph-light dark:text-[#A1A49D]  font-jakarta_sans text-sm font-medium">
+                    {{.authorDesignation}}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          {{end}}
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  {{ partial "global/client.html" (dict "context" . "title" "false" "subtitle" "false" "btn" "false") }}
+  {{ partial "global/pricing.html" (dict "context" . "largeTitle" "false" "pricingDescription" "false" "spacing" "pt-150 max-md:pt-20 mb-150 max-md:mb-25")}}
+  
+  {{ partial "global/newsletter.html" (dict "context" . "spacing" "")}}
+{{end}}

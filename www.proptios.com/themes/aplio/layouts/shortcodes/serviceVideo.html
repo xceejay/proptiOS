@@ -1,0 +1,18 @@
+<div class="bg-white dark:bg-dark-200 rounded-medium p-2.5 shadow-nav relative">
+  <img
+    src="{{ .Get "imgURL" | absURL }}"
+    alt="service images"
+    class="rounded w-full"
+  />
+  <a
+    href="{{ .Get "videoURL" }}"
+    data-fancybox
+    class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 "
+  >
+    <img
+      src="{{"images/services/play.svg" | absURL }}"
+      alt="play"
+      class="max-md:w-15 aspect-square"
+    />
+  </a>
+</div>

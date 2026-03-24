@@ -1,0 +1,13 @@
+{{ define "main" }} 
+  {{ partial "home/hero.html" .}}
+  {{ partial "global/client.html" (dict "context" . "title" "true" "subtitle" "true" "btn" "true" "spacing" "pt-[140px] pb-[145px] max-lg:py-20") }}
+  {{ partial "home/services.html" .}}
+  {{ partial "global/counter.html" .}}
+  {{ partial "home/vision.html" .}}
+  {{ partial "home/solution.html" .}}
+  {{ partial "home/integration.html" .}}
+  {{ partial "home/faq.html" .}}
+  {{ partial "global/testimonial.html" .}}
+  {{ partial "global/blog.html" (dict "context" . "blogPadding" "pb-150" )}}
+  {{ partial "home/cta.html" .}}
+{{ end }}

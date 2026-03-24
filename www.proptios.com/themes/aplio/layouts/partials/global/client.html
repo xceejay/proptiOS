@@ -1,0 +1,147 @@
+
+
+    <section class="client bg-white dark:bg-dark-300 {{.spacing}} ">
+      <div class="container  overflow-hidden max-lg:!px-0">
+        {{ if .rating}}
+        <div class=" text-center px-[10px] mx-auto max-lg:px-2.5 mb-15">
+          <h2 class="mb-12">
+            Hosting solutions trusted by the owners <br />
+            of 2,800,000 domains.
+          </h2>
+          <div class="flex mx-auto w-fit ">
+            <div class="flex items-center gap-4 max-md:flex-col">
+              <div class="flex items-center gap-4">
+                <p class="text-[12px] font-bold">Excellent</p>
+                <ul class="flex gap-1.5 ">
+                  {{ $rating := .rating | int }}
+              {{ $rating := sub $rating 1 }}
+              {{ range $i, $sequence := (seq 5) }}
+                {{ if le $i $rating }}
+                <li>
+                  <div class="w-5 h-5 bg-[#219653] flex items-center justify-center">
+                    <svg
+                      width="15"
+                      height="14"
+                      viewBox="0 0 15 14"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M7.83313 10.479L10.8748 9.70821L12.1456 13.6249L7.83313 10.479ZM14.8331 5.41655H9.47896L7.83313 0.374878L6.1873 5.41655H0.83313L5.16647 8.54155L3.52063 13.5832L7.85396 10.4582L10.5206 8.54155L14.8331 5.41655Z"
+                        fill="white"
+                      />
+                    </svg>
+                  </div>
+                </li>
+                {{ else }}
+                <li>
+                  <div class="w-5 h-5 bg-[#219653] flex items-center justify-center hidden">
+                    <svg
+                      width="15"
+                      height="14"
+                      viewBox="0 0 15 14"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M7.83313 10.479L10.8748 9.70821L12.1456 13.6249L7.83313 10.479ZM14.8331 5.41655H9.47896L7.83313 0.374878L6.1873 5.41655H0.83313L5.16647 8.54155L3.52063 13.5832L7.85396 10.4582L10.5206 8.54155L14.8331 5.41655Z"
+                        fill="white"
+                      />
+                    </svg>
+                  </div>
+                </li>
+                {{ end }}
+              {{ end }}
+                  
+
+                </ul>
+              </div>
+              <div class="flex items-center gap-4">
+                <p class="flex items-center text-[12px] font-bold  gap-1.5">
+                  <strong class="text-[12px] font-bold">436</strong>
+                  <span class="font-normal">reviews on</span>
+                </p>
+                <div class="flex items-center  gap-1.5">
+                  <svg
+                    width="15"
+                    height="14"
+                    viewBox="0 0 15 14"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M7.83337 10.4792L10.875 9.70833L12.1459 13.625L7.83337 10.4792ZM14.8334 5.41667H9.47921L7.83337 0.375L6.18754 5.41667H0.833374L5.16671 8.54167L3.52087 13.5833L7.85421 10.4583L10.5209 8.54167L14.8334 5.41667Z"
+                      fill=""
+                      class="fill-[#219653]"
+                    />
+                  </svg>
+                  <p class="text-[12px] font-bold">Trustpilot</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {{end}}
+        {{ if or (eq .title "true") (eq .subtitle "true")}}
+        <div class=" text-center max-w-[550px] px-[10px] mx-auto max-lg:px-2.5">
+          {{if eq .title "true"}}
+          <h2 class="mb-10">{{ .context.Site.Data.clients.title | safeHTML }}</h2>
+          {{end}}
+          {{if eq .subtitle "true"}}
+          <p class="text-light mb-15">{{ .context.Site.Data.clients.subTitle | safeHTML }}</p>
+          {{end}}
+        </div>
+        {{end}}
+        {{with .context.Site.Data.clients }}
+        <div
+          class="relative after:absolute before:absolute after:w-[120px] after:h-[40px] after:bg-gradient-to-r after:from-white after:from-[37.5%]  after:top-1/2 after:-translate-y-1/2 after:-left-0.5 after:z-10 before:w-[120px] before:h-[40px] before:bg-gradient-to-l before:from-white before:from-[37.5%] before:-right-0.5  before:top-1/2 before:-translate-y-1/2  before:z-10 dark:after:from-dark-gradient dark:before:from-dark-gradient"
+        >
+          <div class="absolute left-0 top-[-1px] w-full  max-lg:hidden">
+            <img
+              src="{{"images/clients/client-border.svg" | absURL }}"
+              alt="border"
+              class="inline-block dark:hidden"
+            />
+            <img
+              src="{{"images/clients/client-border-dark.svg" | absURL }}"
+              alt="border"
+              class="hidden dark:inline-block"
+            />
+          </div>
+          <div class="marquee marquee-items">
+            <div
+              class="marquee-content flex items-center justify-between py-8 "
+              id="clients"
+            >
+            {{ range .clients }}
+              <div class="marquee-content-list">
+                <img
+                  src="{{ .iconLight | absURL }}"
+                  alt="group"
+                  class="inline-block dark:hidden"
+                />
+                <img
+                  src="{{ .iconDark | absURL }}"
+                  alt="group"
+                  class="hidden dark:inline-block"
+                />
+              </div>
+            {{end}}
+            </div>
+          </div>
+        </div>
+        {{end}}
+        
+        {{ if eq .btn "true"}}
+        <div class="mt-15 flex items-center justify-center ">
+          <a
+            href="/contact"
+            class="btn-outline"
+          >
+            Start your Journey
+          </a>
+        </div>
+        {{end}}
+      </div>
+    </section>
+

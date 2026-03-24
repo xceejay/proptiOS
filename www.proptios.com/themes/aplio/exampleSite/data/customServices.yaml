@@ -1,0 +1,28 @@
+---
+title : >
+      The world&apos;s best companies <br /> trust aplio.
+tagline: "Our Services"
+details: >
+        Until recently, the prevailing view assumed lorem ipsum was born as a nonsense text. It's not Latin, though it looks like it
+serviceList:
+  - title: Real-Time Analytics
+    slug: investment-banks
+    details: Until recently, the prevailing view asumed lorem ipsum was born as nonsense text.
+    iconLight: "images/services/investment.svg"
+    iconDark: "images/services/investment-dark.svg"
+  - title: Risk Management
+    slug: increased-efficiency
+    details: Until recently, the prevailing view asumed lorem ipsum was born as nonsense text.
+    iconLight: "images/services/finance.svg"
+    iconDark: "images/services/finance-dark.svg"
+  - title: Sales Management
+    slug: sales-trading
+    details: Until recently, the prevailing view asumed lorem ipsum was born as nonsense text.
+    iconLight: "images/services/sales.svg"
+    iconDark: "images/services/sales-dark.svg"
+  - title: Track Conversions
+    slug: investment-banks
+    details: Until recently, the prevailing view asumed lorem ipsum was born as nonsense text.
+    iconLight: "images/services/track.svg"
+    iconDark: "images/services/track-dark.svg"
+---
