@@ -1,0 +1,23 @@
+.DS_Store
+.idea/
+.vscode/
+.claude/
+CLAUDE.md
+node_modules/
+.pnpm-store/
+archive/
+
+# Root build and logs
+dist/
+coverage/
+*.log
+
+# Existing app outputs
+app.proptios.com/.next/
+app.proptios.com/coverage/
+app.proptios.com/node_modules/
+api.pm.proptios.com/node_modules/
+www.proptios.com/node_modules/
+
+# Keep nested repos during migration until history import is complete.
+**/.git

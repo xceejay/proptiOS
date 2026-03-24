@@ -1,0 +1,19 @@
+{
+  "name": "proptios-monorepo",
+  "private": true,
+  "packageManager": "pnpm@10.8.1",
+  "scripts": {
+    "dev:app": "pnpm --dir app.proptios.com dev",
+    "dev:api-pm": "pnpm --dir api.pm.proptios.com dev",
+    "build:app": "pnpm --dir app.proptios.com build",
+    "test:app": "pnpm --dir app.proptios.com test",
+    "import:app": "./scripts/import-subtree.sh app.proptios.com git@github.com:xceejay/app.proptios.com.git",
+    "import:api-pm": "./scripts/import-subtree.sh api.pm.proptios.com git@github.com:xceejay/api.pm.proptios.com.git",
+    "import:www": "./scripts/import-subtree.sh www.proptios.com git@github.com:xceejay/www.proptios.com.git",
+    "import:api-events": "./scripts/import-subtree.sh api.events.proptios.com git@github.com:xceejay/api.events.proptios.com.git",
+    "sync:app": "./scripts/split-push.sh app.proptios.com git@github.com:xceejay/app.proptios.com.git",
+    "sync:api-pm": "./scripts/split-push.sh api.pm.proptios.com git@github.com:xceejay/api.pm.proptios.com.git",
+    "sync:www": "./scripts/split-push.sh www.proptios.com git@github.com:xceejay/www.proptios.com.git",
+    "sync:api-events": "./scripts/split-push.sh api.events.proptios.com git@github.com:xceejay/api.events.proptios.com.git"
+  }
+}
