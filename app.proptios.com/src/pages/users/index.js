@@ -1,0 +1,15 @@
+import { useState } from 'react'
+
+import { useRouter } from 'next/router'
+import ParentUserEditInfo from 'src/ui/user/ParentUserEditInfo'
+
+const UsersPage = () => {
+  const router = useRouter()
+  const tab = router.query?.tab || 'invite'
+  const [usersData, setUsersData] = useState(null)
+
+  return <ParentUserEditInfo tab={tab} usersData={usersData} />
+}
+UsersPage.acl = { action: 'read', subject: 'users' }
+
+export default UsersPage

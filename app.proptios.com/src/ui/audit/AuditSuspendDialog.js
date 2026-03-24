@@ -1,0 +1,107 @@
+// ** React Imports
+import { useState } from 'react'
+
+// ** MUI Imports
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Dialog from '@mui/material/Dialog'
+import Typography from '@mui/material/Typography'
+import DialogContent from '@mui/material/DialogContent'
+import DialogActions from '@mui/material/DialogActions'
+
+// ** Icon Imports
+import Icon from 'src/@core/components/icon'
+
+const AuditSuspendDialog = props => {
+  // ** Props
+  const { open, setOpen } = props
+
+  // ** States
+  const [auditInput, setAuditInput] = useState('yes')
+  const [secondDialogOpen, setSecondDialogOpen] = useState(false)
+  const handleClose = () => setOpen(false)
+  const handleSecondDialogClose = () => setSecondDialogOpen(false)
+
+  const handleConfirmation = value => {
+    handleClose()
+    setAuditInput(value)
+    setSecondDialogOpen(true)
+  }
+
+  return (
+    <>
+      <Dialog fullWidth open={open} onClose={handleClose} sx={{ '& .MuiPaper-root': { width: '100%', maxWidth: 512 } }}>
+        <DialogContent
+          sx={{
+            px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
+            pt: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
+          }}
+        >
+          <Box
+            sx={{
+              display: 'flex',
+              textAlign: 'center',
+              alignItems: 'center',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              '& svg': { mb: 8, color: 'warning.main' }
+            }}
+          >
+            <Icon icon='tabler:alert-circle' fontSize='5.5rem' />
+            <Typography variant='h4' sx={{ mb: 5, color: 'text.secondary' }}>
+              Are you sure?
+            </Typography>
+            <Typography>You won't be able to revert audit!</Typography>
+          </Box>
+        </DialogContent>
+        <DialogActions
+          sx={{
+            justifyContent: 'center',
+            px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
+            pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
+          }}
+        >
+          <Button size='small' variant='contained' sx={{ mr: 2 }} onClick={() => handleConfirmation('yes')}>
+            Yes, Suspend audit!
+          </Button>
+          <Button size='small' variant='outlined' color='secondary' onClick={() => handleConfirmation('cancel')}>
+            Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog
+        fullWidth
+        open={secondDialogOpen}
+        onClose={handleSecondDialogClose}
+        sx={{ '& .MuiPaper-root': { width: '100%', maxWidth: 512 } }}
+      >
+        <DialogContent>
+          <Box
+            sx={{
+              display: 'flex',
+              alignItems: 'center',
+              flexDirection: 'column',
+              '& svg': {
+                mb: 14,
+                color: auditInput === 'yes' ? 'success.main' : 'error.main'
+              }
+            }}
+          >
+            <Icon fontSize='5.5rem' icon={auditInput === 'yes' ? 'tabler:circle-check' : 'tabler:circle-x'} />
+            <Typography variant='h4' sx={{ mb: 8 }}>
+              {auditInput === 'yes' ? 'Suspended!' : 'Cancelled'}
+            </Typography>
+            <Typography>{auditInput === 'yes' ? 'Audit has been suspended.' : 'Cancelled Suspension :)'}</Typography>
+          </Box>
+        </DialogContent>
+        <DialogActions sx={{ justifyContent: 'center' }}>
+          <Button size='small' variant='contained' color='success' onClick={handleSecondDialogClose}>
+            OK
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
+  )
+}
+
+export default AuditSuspendDialog

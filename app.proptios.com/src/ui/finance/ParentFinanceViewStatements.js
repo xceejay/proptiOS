@@ -1,0 +1,171 @@
+// ** React Imports
+// ** React Imports
+import { useState, forwardRef, useEffect } from 'react'
+
+// ** MUI Imports
+
+// ** Third Party Imports
+import format from 'date-fns/format'
+import addDays from 'date-fns/addDays'
+
+// ** MUI Imports
+import Grid from '@mui/material/Grid'
+
+
+
+import { TextField } from '@mui/material'
+import FinanceStatementsTable from './FinanceStatementsTable'
+import { useFinance } from 'src/hooks/useFinance'
+import toast from 'react-hot-toast'
+
+const ParentFinanceViewStatements = ({ setFinanceData, financeData }) => {
+  const [transactions, setAllTransactions] = useState(null)
+  const finance = useFinance()
+  const paginationModel = {}
+  const [loading, setLoading] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
+  const [startDate, setStartDate] = useState(new Date())
+  const [endDate, setEndDate] = useState(addDays(new Date(), 15))
+  const [startDateRange, setStartDateRange] = useState(new Date())
+  const [endDateRange, setEndDateRange] = useState(addDays(new Date(), 45))
+
+  const handleOnChange = dates => {
+    const [start, end] = dates
+    setStartDate(start)
+    setEndDate(end)
+  }
+
+  const CustomInput = forwardRef((props, ref) => {
+    const startDate = format(props.start, 'MM/dd/yyyy')
+    const endDate = props.end !== null ? ` - ${format(props.end, 'MM/dd/yyyy')}` : null
+    const value = `${startDate}${endDate !== null ? endDate : ''}`
+
+    return <TextField inputRef={ref} label={props.label || ''} {...props} value={value} />
+  })
+
+  const handleOnChangeRange = dates => {
+    const [start, end] = dates
+    setStartDateRange(start)
+    setEndDateRange(end)
+  }
+
+  useEffect(() => {
+    setLoading(true)
+    setErrorMessage('')
+    finance.getAllTransactions(
+      { page: paginationModel.page, limit: paginationModel.pageSize },
+      responseData => {
+        const { data } = responseData
+
+        if (data?.status === 'NO_RES') {
+          console.log('NO results')
+        } else if (data?.status === 'FAILED') {
+          setErrorMessage(data.message || 'Failed to fetch transactions')
+        } else {
+          console.log('properties data has been fetched in leases', data)
+          setAllTransactions(data)
+        }
+
+        setLoading(false) // Stop loading when the request completes
+      },
+      error => {
+        console.log(error)
+        const nextErrorMessage =
+          error.response?.data?.description || 'An error occurred. Please try again or contact support.'
+        setErrorMessage(nextErrorMessage)
+        toast.error(nextErrorMessage, { duration: 5000 })
+        setLoading(false) // Stop loading on error
+      }
+    )
+  }, [])
+
+  return (
+    <Grid container spacing={6}>
+      <Grid size={12}>
+        {/* <Card> */}
+        {/* <CardContent sx={{ mt: 2 }}>
+            <TabContext value={value}>
+              <TabList variant='fullWidth' onChange={handleChange} aria-label='full width tabs example'>
+                <Tab value='1' label='Balance' />
+                <Tab value='2' label='History' />
+                <Tab value='3' label='Accounts' />
+              </TabList>
+              <TabPanel value='1'>
+                <Typography>
+                  Settle rent payments to your primary account, whether it's a bank account or a mobile money wallet,
+                  directly from our platform.
+                </Typography>
+              </TabPanel>
+              <TabPanel value='2'>
+                <Typography>
+                  <FinanceSettlementHistoryTable></FinanceSettlementHistoryTable>
+                </Typography>
+              </TabPanel>
+              <TabPanel value='3'>
+                <FinanceSettlementConfigurationTab></FinanceSettlementConfigurationTab>
+              </TabPanel>
+            </TabContext>
+          </CardContent> */}
+
+        {/* <CardHeader title='Search Statements'></CardHeader> */}
+        {/*
+          <CardContent>
+            <Box display={'flex'} justifyContent={'space-between'}>
+              <Box sx={{ display: 'flex', flexWrap: 'wrap' }} className='demo-space-x'>
+                <div>
+                  <DatePickerWrapper>
+                    <DatePicker
+                      selectsRange
+                      monthsShown={2}
+                      endDate={endDateRange}
+                      selected={startDateRange}
+                      startDate={startDateRange}
+                      shouldCloseOnSelect={false}
+                      id='date-range-picker-months'
+                      onChange={handleOnChangeRange}
+                      customInput={<CustomInput label='Choose date range' end={endDateRange} start={startDateRange} />}
+                    />
+                  </DatePickerWrapper>
+                </div>
+              </Box>
+              <Box sx={{ display: 'flex', alignItems: 'center' }}></Box>
+            </Box>
+          </CardContent>
+        </Card> */}
+
+        {/* <Card sx={{ mt: 2 }}> */}
+        {/* <CardContent sx={{ mt: 2 }}>
+            <TabContext value={value}>
+              <TabList variant='fullWidth' onChange={handleChange} aria-label='full width tabs example'>
+                <Tab value='1' label='Balance' />
+                <Tab value='2' label='History' />
+                <Tab value='3' label='Accounts' />
+              </TabList>
+              <TabPanel value='1'>
+                <Typography>
+                  Settle rent payments to your primary account, whether it's a bank account or a mobile money wallet,
+                  directly from our platform.
+                </Typography>
+              </TabPanel>
+              <TabPanel value='2'>
+                <Typography>
+                  <FinanceSettlementHistoryTable></FinanceSettlementHistoryTable>
+                </Typography>
+              </TabPanel>
+              <TabPanel value='3'>
+                <FinanceSettlementConfigurationTab></FinanceSettlementConfigurationTab>
+              </TabPanel>
+            </TabContext>
+          </CardContent> */}
+
+        {/* <CardContent>
+            <FinanceStatementsTable></FinanceStatementsTable>
+          </CardContent> */}
+        {/* </Card> */}
+        <FinanceStatementsTable financeData={transactions} errorMessage={errorMessage}></FinanceStatementsTable>
+      </Grid>
+    </Grid>
+  )
+}
+
+export default ParentFinanceViewStatements

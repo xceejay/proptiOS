@@ -1,0 +1,1648 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>QA-CRUD-VERIFICATION</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<h1 id="proptios-crud-verification-matrix">proptiOS CRUD Verification
+Matrix</h1>
+<p><em>Last updated: 2026-03-23</em></p>
+<h2 id="status-legend">Status Legend</h2>
+<ul>
+<li>✅ Pass — explicitly tested and passed</li>
+<li>❌ Fail — explicitly tested and failed</li>
+<li>⚠️ Suspect — not fully executed end-to-end, but code/runtime
+evidence strongly suggests a bug</li>
+<li>⏳ Not tested — not yet verified</li>
+<li>N/A — not applicable for that page/section</li>
+</ul>
+<h2 id="test-environment">Test Environment</h2>
+<ul>
+<li>Frontend: <code>http://localhost:3000</code> (some agent runs hit
+<code>3001</code>/<code>3002</code> when ports were occupied)</li>
+<li>API: <code>http://localhost:2024</code></li>
+<li>DB: local <code>proptios_db</code></li>
+<li>User: <code>joel@example.com</code></li>
+</ul>
+<hr />
+<h1 id="dashboard">1. Dashboard</h1>
+<h2 id="route">Route</h2>
+<ul>
+<li><code>/dashboard</code></li>
+</ul>
+<h2 id="browser-flow">Browser flow</h2>
+<ol type="1">
+<li>Log in</li>
+<li>Open <code>/dashboard</code></li>
+<li>Verify summary cards and charts render</li>
+<li>Check for clickable widgets/cards</li>
+<li>Record any navigation or filter behavior</li>
+</ol>
+<h2 id="verification-matrix">Verification matrix</h2>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+</colgroup>
+<thead>
+<tr>
+<th>Area</th>
+<th>Create</th>
+<th>Read/View</th>
+<th>Update/Edit</th>
+<th>Delete/Archive/Suspend</th>
+<th>Search</th>
+<th>Sort</th>
+<th>Filter</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dashboard main</td>
+<td>N/A</td>
+<td>✅</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>Route renders; no deep widget interaction audit yet</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="properties">2. Properties</h1>
+<h2 id="properties-list">2.1 Properties list</h2>
+<h3 id="route-1">Route</h3>
+<ul>
+<li><code>/properties</code></li>
+</ul>
+<h3 id="browser-flow-1">Browser flow</h3>
+<ol type="1">
+<li>Open <code>/properties</code></li>
+<li>Use quick search with a matching term (<code>Embassy</code>)</li>
+<li>Use quick search with a non-matching term</li>
+<li>Sort by <code>Property Name</code></li>
+<li>Open export menu</li>
+<li>Open row action menu</li>
+<li>Click row / property name to enter property manage view</li>
+<li>Test Add Property / Edit / Delete when doing a full CRUD pass</li>
+</ol>
+<h3 id="verification-matrix-1">Verification matrix</h3>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+</colgroup>
+<thead>
+<tr>
+<th>Area</th>
+<th>Create</th>
+<th>Read/View</th>
+<th>Update/Edit</th>
+<th>Delete</th>
+<th>Search</th>
+<th>Sort</th>
+<th>Filter</th>
+<th>Export</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Properties list</td>
+<td>⏳</td>
+<td>✅</td>
+<td>⏳</td>
+<td>⏳</td>
+<td>✅</td>
+<td>✅</td>
+<td>⏳</td>
+<td>✅</td>
+<td>Cross-cutting agent confirmed search/sort/export/row
+menu/pagination</td>
+</tr>
+</tbody>
+</table>
+<h2 id="property-manage-shell">2.2 Property manage shell</h2>
+<h3 id="route-pattern">Route pattern</h3>
+<ul>
+<li><code>/properties/manage/&lt;id&gt;/&lt;tab&gt;</code></li>
+</ul>
+<h3 id="browser-flow-2">Browser flow</h3>
+<ol type="1">
+<li>Open a known property from <code>/properties</code></li>
+<li>Confirm property header renders</li>
+<li>Click tabs: Overview, Tenants, Units, Leases, Maintenance,
+Marketing, Settings</li>
+<li>Record route-level failures before testing any sub-actions</li>
+</ol>
+<h3 id="verification-matrix-2">Verification matrix</h3>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>Subsection</th>
+<th>Route load</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Overview</td>
+<td>⚠️ / mixed</td>
+<td>Manual check rendered earlier; agent later saw local 500 state on
+property-manage routes</td>
+</tr>
+<tr>
+<td>Tenants</td>
+<td>⚠️ / mixed</td>
+<td>Same local inconsistency as above</td>
+</tr>
+<tr>
+<td>Units</td>
+<td>⚠️ / mixed</td>
+<td>Same local inconsistency as above</td>
+</tr>
+<tr>
+<td>Leases</td>
+<td>⚠️ / mixed</td>
+<td>Same local inconsistency as above</td>
+</tr>
+<tr>
+<td>Maintenance</td>
+<td>⚠️ / mixed</td>
+<td>Same local inconsistency as above</td>
+</tr>
+<tr>
+<td>Marketing</td>
+<td>⚠️ / mixed</td>
+<td>Placeholder component; local route instability also reported</td>
+</tr>
+<tr>
+<td>Settings</td>
+<td>⚠️ / mixed</td>
+<td>Manual render seen earlier; agent later saw route-level 500
+state</td>
+</tr>
+</tbody>
+</table>
+<h2 id="property-overview">2.3 Property &gt; Overview</h2>
+<h3 id="browser-flow-3">Browser flow</h3>
+<ol type="1">
+<li>Open <code>/properties/manage/1/overview</code></li>
+<li>Confirm summary cards render</li>
+<li>Check for duplicate cards or wrong hardcoded values</li>
+<li>Test any CTA buttons if visible</li>
+</ol>
+<h3 id="verification-matrix-3">Verification matrix</h3>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+</colgroup>
+<thead>
+<tr>
+<th>Area</th>
+<th>Create</th>
+<th>Read/View</th>
+<th>Update/Edit</th>
+<th>Delete</th>
+<th>Search</th>
+<th>Sort</th>
+<th>Filter</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Overview summary</td>
+<td>N/A</td>
+<td>⚠️</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>Suspect duplicated stat groups and hardcoded counts</td>
+</tr>
+</tbody>
+</table>
+<h2 id="property-units">2.4 Property &gt; Units</h2>
+<h3 id="browser-flow-4">Browser flow</h3>
+<ol type="1">
+<li>Open <code>/properties/manage/1/units</code></li>
+<li>Click <code>Add Unit</code></li>
+<li>Fill minimal valid data and submit</li>
+<li>Confirm new row appears</li>
+<li>Use quick search on created unit name</li>
+<li>Open row action menu on the created row</li>
+<li>Click <code>Manage</code></li>
+<li>Change one field and submit</li>
+<li>Check for success/error feedback and drawer close behavior</li>
+<li>Test <code>Quick Suspend</code></li>
+<li>Check whether any delete action exists</li>
+</ol>
+<h3 id="verification-matrix-4">Verification matrix</h3>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+</colgroup>
+<thead>
+<tr>
+<th>Area</th>
+<th>Create</th>
+<th>Read/View</th>
+<th>Update/Edit</th>
+<th>Delete</th>
+<th>Suspend</th>
+<th>Search</th>
+<th>Sort</th>
+<th>Filter</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Units tab</td>
+<td>✅</td>
+<td>✅</td>
+<td>❌ / ⚠️</td>
+<td>⏳ / not found</td>
+<td>⏳</td>
+<td>⏳</td>
+<td>⏳</td>
+<td>⏳</td>
+<td>Create succeeded manually; edit submit looked buggy; API-backed unit
+edit also failed in agent findings</td>
+</tr>
+</tbody>
+</table>
+<h2 id="property-tenants">2.5 Property &gt; Tenants</h2>
+<h3 id="browser-flow-5">Browser flow</h3>
+<ol type="1">
+<li>Open <code>/properties/manage/1/tenants</code></li>
+<li>Test <code>Add Tenant</code></li>
+<li>Test <code>Add Existing Tenant</code> if present</li>
+<li>Use quick search and status filter if present</li>
+<li>Open row action menu</li>
+<li>Test edit/manage</li>
+<li>Test suspend/delete if present</li>
+<li>Verify table refreshes after mutations</li>
+</ol>
+<h3 id="verification-matrix-5">Verification matrix</h3>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+</colgroup>
+<thead>
+<tr>
+<th>Area</th>
+<th>Create</th>
+<th>Read/View</th>
+<th>Update/Edit</th>
+<th>Delete</th>
+<th>Suspend</th>
+<th>Search</th>
+<th>Sort</th>
+<th>Filter</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Property tenants tab</td>
+<td>❌</td>
+<td>⚠️</td>
+<td>❌ / ⚠️</td>
+<td>⏳</td>
+<td>⏳</td>
+<td>⏳</td>
+<td>⏳</td>
+<td>⏳</td>
+<td>Agent found tenant create API fails; tenant email edit fails via
+API; browser route state was inconsistent</td>
+</tr>
+</tbody>
+</table>
+<h2 id="property-leases">2.6 Property &gt; Leases</h2>
+<h3 id="browser-flow-6">Browser flow</h3>
+<ol type="1">
+<li>Open <code>/properties/manage/1/leases</code></li>
+<li>Use quick search</li>
+<li>Open row action menu</li>
+<li>Test <code>View Lease</code></li>
+<li>Test delete if present</li>
+<li>Check whether edit/manage exists</li>
+</ol>
+<h3 id="verification-matrix-6">Verification matrix</h3>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+</colgroup>
+<thead>
+<tr>
+<th>Area</th>
+<th>Create</th>
+<th>Read/View</th>
+<th>Update/Edit</th>
+<th>Delete</th>
+<th>Archive</th>
+<th>Search</th>
+<th>Sort</th>
+<th>Filter</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Property leases tab</td>
+<td>⏳</td>
+<td>⚠️</td>
+<td>❌ / missing</td>
+<td>❌ / stub</td>
+<td>⏳</td>
+<td>⚠️</td>
+<td>⏳</td>
+<td>⏳</td>
+<td>Search appears wired to wrong field; delete is a stub; edit path
+commented out</td>
+</tr>
+</tbody>
+</table>
+<h2 id="property-maintenance">2.7 Property &gt; Maintenance</h2>
+<h3 id="browser-flow-7">Browser flow</h3>
+<ol type="1">
+<li>Open <code>/properties/manage/1/maintenance</code></li>
+<li>Click <code>Add Maintenance Request</code></li>
+<li>Submit minimal valid request without media</li>
+<li>Confirm row appears</li>
+<li>Use quick search</li>
+<li>Open row menu and click <code>Manage</code></li>
+<li>Try edit/status flow</li>
+<li>Test suspend/delete if available</li>
+</ol>
+<h3 id="verification-matrix-7">Verification matrix</h3>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+</colgroup>
+<thead>
+<tr>
+<th>Area</th>
+<th>Create</th>
+<th>Read/View</th>
+<th>Update/Edit</th>
+<th>Delete</th>
+<th>Suspend</th>
+<th>Search</th>
+<th>Sort</th>
+<th>Filter</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Property maintenance tab</td>
+<td>✅ (API)</td>
+<td>⚠️</td>
+<td>⚠️</td>
+<td>⏳</td>
+<td>⏳</td>
+<td>⚠️</td>
+<td>⏳</td>
+<td>⏳</td>
+<td>API create passed; manage wiring looks wrong; search likely checks
+wrong fields; UI may incorrectly require media</td>
+</tr>
+</tbody>
+</table>
+<h2 id="property-marketing">2.8 Property &gt; Marketing</h2>
+<h3 id="browser-flow-8">Browser flow</h3>
+<ol type="1">
+<li>Open <code>/properties/manage/1/marketing</code></li>
+<li>Check for any real controls, forms, or data grids</li>
+<li>Record whether it is placeholder-only</li>
+</ol>
+<h3 id="verification-matrix-8">Verification matrix</h3>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+</colgroup>
+<thead>
+<tr>
+<th>Area</th>
+<th>Create</th>
+<th>Read/View</th>
+<th>Update/Edit</th>
+<th>Delete</th>
+<th>Search</th>
+<th>Sort</th>
+<th>Filter</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Property marketing tab</td>
+<td>N/A</td>
+<td>⚠️</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>Appears placeholder-only with no real manage functionality</td>
+</tr>
+</tbody>
+</table>
+<h2 id="property-settings">2.9 Property &gt; Settings</h2>
+<h3 id="browser-flow-9">Browser flow</h3>
+<ol type="1">
+<li>Open <code>/properties/manage/1/settings</code></li>
+<li>Confirm fields populate</li>
+<li>Change one low-risk value</li>
+<li>Save</li>
+<li>Record visible success/error feedback</li>
+</ol>
+<h3 id="verification-matrix-9">Verification matrix</h3>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+</colgroup>
+<thead>
+<tr>
+<th>Area</th>
+<th>Create</th>
+<th>Read/View</th>
+<th>Update/Edit</th>
+<th>Delete</th>
+<th>Search</th>
+<th>Sort</th>
+<th>Filter</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Property settings</td>
+<td>N/A</td>
+<td>⚠️</td>
+<td>✅ (API)</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>Backing update API passed</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="tenants">3. Tenants</h1>
+<h2 id="tenants-list">3.1 Tenants list</h2>
+<h3 id="route-2">Route</h3>
+<ul>
+<li><code>/tenants</code></li>
+</ul>
+<h3 id="browser-flow-10">Browser flow</h3>
+<ol type="1">
+<li>Open <code>/tenants</code></li>
+<li>Verify rows render</li>
+<li>Use quick search with matching and non-matching terms</li>
+<li>Use status filter</li>
+<li>Open row action menu</li>
+<li>Test tenant-name link</li>
+<li>Test <code>View</code>, <code>Edit</code>,
+<code>Enable Account</code>, <code>Disable Account</code>,
+<code>Delete Account</code></li>
+</ol>
+<h3 id="verification-matrix-10">Verification matrix</h3>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+</colgroup>
+<thead>
+<tr>
+<th>Area</th>
+<th>Create</th>
+<th>Read/View</th>
+<th>Update/Edit</th>
+<th>Delete</th>
+<th>Suspend/Enable/Disable</th>
+<th>Search</th>
+<th>Sort</th>
+<th>Filter</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tenants list</td>
+<td>⏳</td>
+<td>✅</td>
+<td>⚠️</td>
+<td>❌</td>
+<td>❌</td>
+<td>✅</td>
+<td>⏳</td>
+<td>✅</td>
+<td>Enable/Disable broken; Delete no-op; list renders and search
+works</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tenant-detail">3.2 Tenant detail</h2>
+<h3 id="route-pattern-1">Route pattern</h3>
+<ul>
+<li><code>/tenants/manage/&lt;id&gt;/</code></li>
+<li><code>/tenants/manage/&lt;id&gt;/&lt;tab&gt;</code></li>
+</ul>
+<h3 id="browser-flow-11">Browser flow</h3>
+<ol type="1">
+<li>Open <code>/tenants/manage/1/</code></li>
+<li>Confirm Summary tab content loads</li>
+<li>Open any tab links you find in-app</li>
+<li>Test routes reached from tenant-name links and row-menu View</li>
+</ol>
+<h3 id="verification-matrix-11">Verification matrix</h3>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+</colgroup>
+<thead>
+<tr>
+<th>Area</th>
+<th>Create</th>
+<th>Read/View</th>
+<th>Update/Edit</th>
+<th>Delete</th>
+<th>Search</th>
+<th>Sort</th>
+<th>Filter</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tenant detail summary</td>
+<td>N/A</td>
+<td>✅</td>
+<td>⏳</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>Summary route works</td>
+</tr>
+<tr>
+<td>Tenant detail transactions route</td>
+<td>N/A</td>
+<td>❌</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>N/A</td>
+<td><code>/tenants/manage/:id/transactions</code> loads
+empty-shell/broken tab state</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="leases">4. Leases</h1>
+<h2 id="leases-list">4.1 Leases list</h2>
+<h3 id="route-3">Route</h3>
+<ul>
+<li><code>/leases</code></li>
+</ul>
+<h3 id="browser-flow-12">Browser flow</h3>
+<ol type="1">
+<li>Open <code>/leases</code></li>
+<li>Verify grid or empty state</li>
+<li>Use quick search if rows exist</li>
+<li>Open row action menu</li>
+<li>Test <code>View Lease</code></li>
+<li>Test delete</li>
+<li>Note whether edit/manage is present</li>
+</ol>
+<h3 id="verification-matrix-12">Verification matrix</h3>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+</colgroup>
+<thead>
+<tr>
+<th>Area</th>
+<th>Create</th>
+<th>Read/View</th>
+<th>Update/Edit</th>
+<th>Delete</th>
+<th>Archive</th>
+<th>Search</th>
+<th>Sort</th>
+<th>Filter</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Leases list</td>
+<td>⏳</td>
+<td>⚠️</td>
+<td>❌ / missing</td>
+<td>❌</td>
+<td>⏳</td>
+<td>⚠️</td>
+<td>⏳</td>
+<td>⚠️</td>
+<td>Delete no-op; edit/manage missing; status filter absent because
+statuses array empty</td>
+</tr>
+</tbody>
+</table>
+<h2 id="lease-createeditview-routes">4.2 Lease create/edit/view
+routes</h2>
+<h3 id="browser-flow-13">Browser flow</h3>
+<ol type="1">
+<li>Open <code>/leases/create</code></li>
+<li>Confirm compose/editor shell loads</li>
+<li>Open <code>/leases/view/&lt;id&gt;</code> for a known row if
+possible</li>
+<li>Open <code>/leases/edit/&lt;id&gt;</code> if route is linked or
+known</li>
+</ol>
+<h3 id="verification-matrix-13">Verification matrix</h3>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr>
+<th>Area</th>
+<th>Create</th>
+<th>Read/View</th>
+<th>Update/Edit</th>
+<th>Delete</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lease create page</td>
+<td>⚠️</td>
+<td>✅</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>Create page/shell exists; full submit path not verified</td>
+</tr>
+<tr>
+<td>Lease view page</td>
+<td>⏳</td>
+<td>⚠️</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>Needs explicit retest against live lease id</td>
+</tr>
+<tr>
+<td>Lease edit page</td>
+<td>⏳</td>
+<td>⏳</td>
+<td>⏳</td>
+<td>N/A</td>
+<td>Not yet verified end-to-end</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="finance">5. Finance</h1>
+<h2 id="finance-payments">5.1 Finance payments</h2>
+<h3 id="route-4">Route</h3>
+<ul>
+<li><code>/finance/payments</code></li>
+</ul>
+<h3 id="browser-flow-14">Browser flow</h3>
+<ol type="1">
+<li>Open <code>/finance/payments</code></li>
+<li>Verify rows render</li>
+<li>Use quick search with matching and non-matching terms</li>
+<li>Change pagination page</li>
+<li>Check whether row actions exist</li>
+<li>Open first receipt/invoice link if available</li>
+</ol>
+<h3 id="verification-matrix-14">Verification matrix</h3>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+</colgroup>
+<thead>
+<tr>
+<th>Area</th>
+<th>Create</th>
+<th>Read/View</th>
+<th>Update/Edit</th>
+<th>Delete</th>
+<th>Search</th>
+<th>Sort</th>
+<th>Filter</th>
+<th>Pagination</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Finance payments</td>
+<td>⏳</td>
+<td>✅</td>
+<td>⏳</td>
+<td>⏳</td>
+<td>❌</td>
+<td>⏳</td>
+<td>⏳</td>
+<td>✅</td>
+<td>Quick search did not affect grid; no row action menu parity</td>
+</tr>
+</tbody>
+</table>
+<h2 id="finance-expenses">5.2 Finance expenses</h2>
+<h3 id="route-5">Route</h3>
+<ul>
+<li><code>/finance/expenses</code></li>
+</ul>
+<h3 id="browser-flow-15">Browser flow</h3>
+<ol type="1">
+<li>Open <code>/finance/expenses</code></li>
+<li>Check if rows load or empty state appears</li>
+<li>Compare with finance data availability elsewhere</li>
+<li>Test any create actions if present</li>
+</ol>
+<h3 id="verification-matrix-15">Verification matrix</h3>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+</colgroup>
+<thead>
+<tr>
+<th>Area</th>
+<th>Create</th>
+<th>Read/View</th>
+<th>Update/Edit</th>
+<th>Delete</th>
+<th>Search</th>
+<th>Sort</th>
+<th>Filter</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Finance expenses</td>
+<td>⏳</td>
+<td>❌</td>
+<td>⏳</td>
+<td>⏳</td>
+<td>⏳</td>
+<td>⏳</td>
+<td>⏳</td>
+<td>Rendered empty despite finance data existing in payments</td>
+</tr>
+</tbody>
+</table>
+<h2 id="finance-statements">5.3 Finance statements</h2>
+<h3 id="route-6">Route</h3>
+<ul>
+<li><code>/finance/statements</code></li>
+</ul>
+<h3 id="browser-flow-16">Browser flow</h3>
+<ol type="1">
+<li>Open <code>/finance/statements</code></li>
+<li>Check for data grid / empty state</li>
+<li>Record server error banners or contradictions</li>
+</ol>
+<h3 id="verification-matrix-16">Verification matrix</h3>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+</colgroup>
+<thead>
+<tr>
+<th>Area</th>
+<th>Create</th>
+<th>Read/View</th>
+<th>Update/Edit</th>
+<th>Delete</th>
+<th>Search</th>
+<th>Sort</th>
+<th>Filter</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Finance statements</td>
+<td>N/A</td>
+<td>❌</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>⏳</td>
+<td>⏳</td>
+<td>⏳</td>
+<td>Empty grid plus server-error banner</td>
+</tr>
+</tbody>
+</table>
+<h2 id="finance-invoice-receipt-detail-flows">5.4 Finance invoice /
+receipt detail flows</h2>
+<h3 id="browser-flow-17">Browser flow</h3>
+<ol type="1">
+<li>From <code>/finance/payments</code>, open first linked
+receipt/invoice</li>
+<li>Also open <code>/finance/invoice/create</code></li>
+<li>Confirm create UI loads</li>
+<li>For receipt/invoice view pages, confirm detail body actually
+renders</li>
+</ol>
+<h3 id="verification-matrix-17">Verification matrix</h3>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr>
+<th>Area</th>
+<th>Create</th>
+<th>Read/View</th>
+<th>Update/Edit</th>
+<th>Delete</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Invoice create</td>
+<td>⚠️</td>
+<td>✅</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>Create UI loads; submit not fully exercised</td>
+</tr>
+<tr>
+<td>Receipt detail</td>
+<td>N/A</td>
+<td>❌</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>Detail page shell loaded blank</td>
+</tr>
+</tbody>
+</table>
+<h2 id="finance-settlement">5.5 Finance settlement</h2>
+<h3 id="route-7">Route</h3>
+<ul>
+<li><code>/finance/settlement</code></li>
+</ul>
+<h3 id="browser-flow-18">Browser flow</h3>
+<ol type="1">
+<li>Open <code>/finance/settlement</code></li>
+<li>Confirm summary and controls render</li>
+<li>Test <code>CHANGE FREQUENCY</code></li>
+<li>Test save/update when doing deep mutation pass</li>
+</ol>
+<h3 id="verification-matrix-18">Verification matrix</h3>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+</colgroup>
+<thead>
+<tr>
+<th>Area</th>
+<th>Create</th>
+<th>Read/View</th>
+<th>Update/Edit</th>
+<th>Delete</th>
+<th>Search</th>
+<th>Sort</th>
+<th>Filter</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Finance settlement</td>
+<td>N/A</td>
+<td>✅</td>
+<td>⏳</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>Route renders; save path not fully verified in browser</td>
+</tr>
+</tbody>
+</table>
+<h2 id="finance-reports">5.6 Finance reports</h2>
+<h3 id="route-8">Route</h3>
+<ul>
+<li><code>/finance/reports</code></li>
+</ul>
+<h3 id="browser-flow-19">Browser flow</h3>
+<ol type="1">
+<li>Open <code>/finance/reports</code></li>
+<li>Confirm report cards render</li>
+<li>Test any export/download actions if present</li>
+</ol>
+<h3 id="verification-matrix-19">Verification matrix</h3>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Create</th>
+<th>Read/View</th>
+<th>Update/Edit</th>
+<th>Delete</th>
+<th>Export</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Finance reports</td>
+<td>N/A</td>
+<td>✅</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>⏳</td>
+<td>Cards render</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="users">6. Users</h1>
+<h2 id="users-manage">6.1 Users manage</h2>
+<h3 id="route-9">Route</h3>
+<ul>
+<li><code>/users/manage</code></li>
+</ul>
+<h3 id="browser-flow-20">Browser flow</h3>
+<ol type="1">
+<li>Open <code>/users/manage</code></li>
+<li>Verify rows render</li>
+<li>Use quick search for visible name and visible email</li>
+<li>Open row action menu</li>
+<li>Test detail link</li>
+<li>Test Edit / Enable / Disable / Delete if visible</li>
+</ol>
+<h3 id="verification-matrix-20">Verification matrix</h3>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+<col style="width: 10%" />
+</colgroup>
+<thead>
+<tr>
+<th>Area</th>
+<th>Create</th>
+<th>Read/View</th>
+<th>Update/Edit</th>
+<th>Delete</th>
+<th>Suspend/Enable/Disable</th>
+<th>Search</th>
+<th>Sort</th>
+<th>Filter</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Users manage</td>
+<td>⏳</td>
+<td>✅</td>
+<td>⏳</td>
+<td>⏳</td>
+<td>⏳</td>
+<td>❌</td>
+<td>⏳</td>
+<td>⏳</td>
+<td>Name search failed; only email appears searchable</td>
+</tr>
+</tbody>
+</table>
+<h2 id="user-detail">6.2 User detail</h2>
+<h3 id="route-pattern-2">Route pattern</h3>
+<ul>
+<li><code>/users/manage/&lt;id&gt;/&lt;tab&gt;</code></li>
+</ul>
+<h3 id="browser-flow-21">Browser flow</h3>
+<ol type="1">
+<li>Open detail link from Manage Users</li>
+<li>Confirm detail body loads</li>
+<li>Test default tab and any subtab selection</li>
+</ol>
+<h3 id="verification-matrix-21">Verification matrix</h3>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr>
+<th>Area</th>
+<th>Create</th>
+<th>Read/View</th>
+<th>Update/Edit</th>
+<th>Delete</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>User detail route</td>
+<td>N/A</td>
+<td>❌</td>
+<td>⏳</td>
+<td>⏳</td>
+<td><code>/users/manage/46/transactions</code> stayed loading then
+failed to fetch user</td>
+</tr>
+</tbody>
+</table>
+<h2 id="users-invite">6.3 Users invite</h2>
+<h3 id="route-10">Route</h3>
+<ul>
+<li><code>/users/invite</code></li>
+</ul>
+<h3 id="browser-flow-22">Browser flow</h3>
+<ol type="1">
+<li>Open <code>/users/invite</code></li>
+<li>Confirm invite form loads</li>
+<li>Only submit with explicit approval because it may send a real
+external email</li>
+</ol>
+<h3 id="verification-matrix-22">Verification matrix</h3>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr>
+<th>Area</th>
+<th>Create</th>
+<th>Read/View</th>
+<th>Update/Edit</th>
+<th>Delete</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Users invite</td>
+<td>⚠️</td>
+<td>✅</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>Form existence confirmed; submission intentionally not executed</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="communication">7. Communication</h1>
+<h2 id="route-11">Route</h2>
+<ul>
+<li><code>/communication</code></li>
+</ul>
+<h2 id="browser-flow-23">Browser flow</h2>
+<ol type="1">
+<li>Open <code>/communication</code></li>
+<li>Verify issues/comments/messages list renders</li>
+<li>Test search/filter if present</li>
+<li>Test add/create/comment/update actions if present</li>
+<li>Test row/menu actions if present</li>
+</ol>
+<h2 id="verification-matrix-23">Verification matrix</h2>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+</colgroup>
+<thead>
+<tr>
+<th>Area</th>
+<th>Create</th>
+<th>Read/View</th>
+<th>Update/Edit</th>
+<th>Delete</th>
+<th>Search</th>
+<th>Sort</th>
+<th>Filter</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Communication main</td>
+<td>⚠️</td>
+<td>✅</td>
+<td>⚠️</td>
+<td>⏳</td>
+<td>⏳</td>
+<td>⏳</td>
+<td>⏳</td>
+<td>Deep test: existing issue thread loads and adding a comment worked;
+<code>Create new Issue</code> button click did not open a visible create
+flow during browser test</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="global-settings">8. Global Settings</h1>
+<h2 id="route-12">Route</h2>
+<ul>
+<li><code>/settings</code></li>
+</ul>
+<h2 id="browser-flow-24">Browser flow</h2>
+<ol type="1">
+<li>Open <code>/settings</code></li>
+<li>Confirm tabs/sections render</li>
+<li>Change one low-risk value</li>
+<li>Save and record feedback</li>
+<li>Check whether changes persist on refresh</li>
+</ol>
+<h2 id="verification-matrix-24">Verification matrix</h2>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+</colgroup>
+<thead>
+<tr>
+<th>Area</th>
+<th>Create</th>
+<th>Read/View</th>
+<th>Update/Edit</th>
+<th>Delete</th>
+<th>Search</th>
+<th>Sort</th>
+<th>Filter</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Global settings</td>
+<td>N/A</td>
+<td>✅</td>
+<td>❌</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>Both Account Settings and Site Settings forms load, but both save
+paths throw runtime error: <code>users.editUser is not a function</code>
+in <code>src/ui/settings/ParentSettingsAccountSettings.js</code> and
+<code>src/ui/settings/ParentSettingsSiteSettings.js</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="cross-cutting-table-behavior">9. Cross-Cutting Table
+Behavior</h1>
+<h2 id="browser-flow-25">Browser flow</h2>
+<p>For each management page with a grid: 1. Search with matching term 2.
+Search with nonsense term 3. Sort obvious text column 4. Change
+pagination page 5. Open export menu/button 6. Open row action menu 7.
+Trigger one mutation and check visible success/error feedback</p>
+<h2 id="cross-cutting-matrix">Cross-cutting matrix</h2>
+<table>
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+</colgroup>
+<thead>
+<tr>
+<th>Page</th>
+<th>Search</th>
+<th>Sort</th>
+<th>Pagination</th>
+<th>Export</th>
+<th>Row Menu</th>
+<th>Feedback after action</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Properties</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>⏳</td>
+<td>Strongest verified table behavior so far</td>
+</tr>
+<tr>
+<td>Tenants</td>
+<td>✅</td>
+<td>⏳</td>
+<td>⏳</td>
+<td>⏳</td>
+<td>✅</td>
+<td>❌</td>
+<td>Account actions crash before feedback</td>
+</tr>
+<tr>
+<td>Leases</td>
+<td>⚠️</td>
+<td>⏳</td>
+<td>⏳</td>
+<td>⏳</td>
+<td>✅</td>
+<td>❌</td>
+<td>Delete is stub/no-op</td>
+</tr>
+<tr>
+<td>Finance payments</td>
+<td>❌</td>
+<td>⏳</td>
+<td>✅</td>
+<td>⏳</td>
+<td>❌</td>
+<td>❌</td>
+<td>Search ineffective; no row action menu parity</td>
+</tr>
+<tr>
+<td>Users manage</td>
+<td>❌</td>
+<td>⏳</td>
+<td>⏳</td>
+<td>⏳</td>
+<td>✅</td>
+<td>⏳</td>
+<td>Name search broken</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="next-pass-priorities">10. Next-pass priorities</h1>
+<ol type="1">
+<li>Fix property-manage route-level 500 / <code>.next</code> instability
+and retest all property subtabs in browser</li>
+<li>Fix tenant detail route target (<code>transactions</code> vs valid
+tab)</li>
+<li>Fix tenant account actions (<code>Enable/Disable/Delete</code>)</li>
+<li>Fix lease delete no-op and edit/manage completeness</li>
+<li>Fix finance quick search and receipt detail blank page</li>
+<li>Fix users detail route and name-based search</li>
+<li>Finish deep CRUD on communication and global settings</li>
+</ol>
+</body>
+</html>
