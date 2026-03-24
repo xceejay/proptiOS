@@ -26,7 +26,7 @@ import CustomChip from 'src/@core/components/mui/chip'
 
 // ** Hooks Imports
 import TenantTableHeader from '../tenant/TenantTableHeader'
-import ServerSideToolbarTenantManage from 'src/views/table/data-grid/ServerSideToolbarTenantManage'
+import CustomStatusToolbar from 'src/views/table/data-grid/CustomStatusToolbar'
 import PropertyAddTenantDrawer from './PropertyAddTenantDrawer'
 import PropertyAddExistingTenantDrawer from './PropertyAddExistingTenantDrawer'
 import EditPropertyTenantDrawer from './EditPropertyTenantDrawer'
@@ -122,8 +122,9 @@ const PropertyTenantManageTable = ({ setPropertyData, propertyData }) => {
     return []
   }, [propertyData?.tenants, propertyData?.units])
   const [value, setValue] = useState('')
-  const [loading, setLoading] = useState(true) // New loading state
+  const [loading, setLoading] = useState(true)
   const [existingTenantOpen, setExistingTenantOpen] = useState(false)
+  const [statusValue, setStatusValue] = useState('')
 
   const [addUserOpen, setAddUserOpen] = useState(false)
 
@@ -189,6 +190,7 @@ const PropertyTenantManageTable = ({ setPropertyData, propertyData }) => {
       minWidth: 190,
       field: 'units',
       headerName: 'Units',
+      valueGetter: (value, row) => (row?.units?.length > 0 ? row.units.map(u => u.name).join(', ') : 'No units assigned'),
       renderCell: ({ row }) => {
         // Check if the tenant has any units assigned
         if (row.units && row.units.length > 0) {
@@ -272,21 +274,18 @@ const PropertyTenantManageTable = ({ setPropertyData, propertyData }) => {
   const toggleAddUserDrawer = () => setAddUserOpen(!addUserOpen)
   const toggleExistingTenantDrawer = () => setExistingTenantOpen(!existingTenantOpen)
 
-  const [filteredTenants, setFilteredTenants] = useState([])
+  const statuses = [
+    { text: 'All', value: '' },
+    { text: 'Active', value: 'active' },
+    { text: 'Inactive', value: 'inactive' }
+  ]
 
-  useEffect(() => {
-    if (tenantsData) {
-      const updatedFilteredTenants = tenantsData.filter(
-        tenant =>
-          (tenant.name?.toLowerCase() || '').includes(value.toLowerCase()) ||
-          (tenant.email?.toLowerCase() || '').includes(value.toLowerCase())
-      )
-
-      console.log('are you triggering')
-
-      setFilteredTenants(updatedFilteredTenants)
-    }
-  }, [value, tenantsData])
+  const filteredTenants = (tenantsData || []).filter(
+    tenant =>
+      ((tenant.name?.toLowerCase() || '').includes(value.toLowerCase()) ||
+        (tenant.email?.toLowerCase() || '').includes(value.toLowerCase())) &&
+      (!statusValue || tenant.status === statusValue)
+  )
 
   return (
     <Grid container spacing={6.5}>
@@ -294,7 +293,6 @@ const PropertyTenantManageTable = ({ setPropertyData, propertyData }) => {
         <Card>
           <CardHeader title='Tenants' />
           <CardContent>
-            {console.log('rendered again')}
             <TenantTableHeader
               rows={filteredTenants}
               columns={columns}
@@ -310,18 +308,22 @@ const PropertyTenantManageTable = ({ setPropertyData, propertyData }) => {
               rows={filteredTenants || []}
               columns={columns}
               slots={{
-                toolbar: ServerSideToolbarTenantManage,
+                toolbar: CustomStatusToolbar,
                 noRowsOverlay: CustomNoRowsOverlay
-
-                // loadingOverlay: {
-                //   variant: 'skeleton',
-                //   noRowsVariant: 'skeleton'
-                // }
+              }}
+              slotProps={{
+                toolbar: {
+                  searchPlaceholder: 'Quick Search',
+                  value: value,
+                  statusValue: statusValue,
+                  setStatusValue: setStatusValue,
+                  statuses: statuses,
+                  handleFilter: handleFilter
+                }
               }}
               initialState={{
                 columns: {
                   columnVisibilityModel: {
-                    // Hide columns status and traderName, the other columns will remain visible
                     country: false,
                     units: true,
                     address: false

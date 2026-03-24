@@ -1,6 +1,6 @@
 # proptiOS CRUD Verification Matrix
 
-_Last updated: 2026-03-24_
+_Last updated: 2026-03-24 (third pass)_
 
 ## Status Legend
 - ✅ Pass — explicitly tested and passed
@@ -20,6 +20,30 @@ _Last updated: 2026-03-24_
 - Frontend changes made in this pass: tenant links now route to the working summary/transactions shell, tenant delete is wired on the list page, the property "Add Existing Tenant" drawer now submits a real selected tenant through the edit/attach path, lease row actions now expose `Edit Lease`, the lease create CTA now targets `/leases/create`, the maintenance manage drawer now shows an explicit backend blocker instead of posting to the wrong endpoint, and the standalone lease edit page now exposes an explicit product-stub warning instead of the invoice-editor stub.
 - `pnpm test` passed (`17 passed`, `1 skipped`); `pnpm lint` completed with the repo's existing warning backlog and no new errors.
 - Full browser re-retest for this slice could not be completed in this environment: `pnpm dev` could not bind a local port (`listen EPERM`) and OpenClaw browser control could not be restarted because the local gateway at `ws://127.0.0.1:18789` was closed (`1006`). Existing browser notes from 2026-03-23 remain the last successful live-browser verification unless explicitly updated below.
+
+## 2026-03-24 second pass note
+- Focused on closing remaining frontend-fixable gaps in property/tenant/lease tables.
+- Changes made:
+  - **Property tenants tab**: Upgraded toolbar from `ServerSideToolbarTenantManage` to `CustomStatusToolbar` with status filter (Active/Inactive); JS-level filtering now handles both search and status; removed stale `console.log` calls; added `valueGetter` to Units column for proper sort support.
+  - **Property leases tab**: Fixed loading state (was hardcoded `false`, now reflects actual data loading); removed unused `useLeases` import, stale date-range state, and `console.log`; added `valueGetter` to Tenant, Lease Type, Property, and Unit columns for proper DataGrid sort.
+  - **Property maintenance tab**: Upgraded toolbar from `CustomTenantToolbar` to `CustomStatusToolbar` with dynamic status filter built from maintenance request data; added proper loading state; removed stale `console.log` and empty trailing Card.
+  - **Tenants list**: Added `window.confirm` dialog before delete; removed broken `filterModel` (status filtering now done entirely in JS filter alongside search); added `valueGetter` to Property column for sort; removed stale `console.log`.
+  - **Tenant transactions**: Fixed crash in `UserTransactionListTable` where `row.payment_method.replace()` would throw if `payment_method` is undefined.
+  - **Leases list**: Cleaned up unused state (date ranges, `addUserOpen`), removed stale `console.log`, replaced `alert()` error with `toast.error()`; added `valueGetter` to Tenant, Property, and Unit columns for sort.
+  - **Lease edit page**: Fixed infinite-loop bug where `leases` in useEffect dep array caused repeated fetches (it's a new object each render from `useLeases()`).
+  - **Toolbars**: Added missing `key` prop to mapped `<MenuItem>` in both `CustomLeaseToolbar` and `CustomStatusToolbar`.
+- `pnpm test` passed (`17 passed`, `1 skipped`); `pnpm lint --quiet` passed with zero errors.
+
+## 2026-03-24 third pass note
+- Focused on re-checking the highest-priority backend-blocked items and closing one remaining lease route bug.
+- Changes made:
+  - **Finance statements fetch**: `FinanceContext.getAllTransactions` now forwards the pagination params that `ParentFinanceViewStatements` was already computing, so the frontend is no longer dropping request params before calling `/transactions`.
+  - **Lease view route**: `/leases/view/:id` now waits for the router `id`, normalizes the lease payload, and shows toast-based failure feedback instead of relying on an initial render with `id === undefined`.
+- Verification made in this pass:
+  - Direct API retest against `http://127.0.0.1:2024/transactions?page=0&limit=10` still returns `500 {"status":"FAILED","description":"Server Error: Failed to calculate accounting data"}` with a valid authenticated bearer token, so finance statements remain backend-blocked even after the frontend param fix.
+  - Direct API retest against `http://127.0.0.1:2024/users/1` still returns `500 {"status":"FAILED","description":"Server Error: Failed to fetch user"}`, confirming user detail hydration remains backend-blocked.
+  - Browser retest remains only partially available in this environment: an authenticated app session exists on `http://127.0.0.1:3000`, but `/finance/[tab]` currently fails to load its dev chunk (`/_next/static/chunks/pages/finance/%5Btab%5D.js` -> `404`) in that running instance, so route-level browser verification from that session would not be reliable for the finance screens.
+- `pnpm test` passed (`17 passed`, `1 skipped`); `pnpm lint --quiet` passed with zero errors.
 
 ---
 
@@ -129,7 +153,7 @@ _Last updated: 2026-03-24_
 ### Verification matrix
 | Area | Create | Read/View | Update/Edit | Delete | Suspend | Search | Sort | Filter | Notes |
 |---|---|---|---|---|---|---|---|---|---|
-| Property tenants tab | ⚠️ | ✅ | ⚠️ | ⏳ | ❌ / backend-blocked | ⏳ | ⏳ | ⏳ | Frontend now routes tenant links to the working summary/transactions shell, and `Add Existing Tenant` was rewired to select a real tenant object and call the tenant edit/attach path instead of the broken create flow; Quick Suspend is now explicitly disabled because no property-tenant suspend mutation is wired; browser retest was blocked on 2026-03-24 |
+| Property tenants tab | ⚠️ | ✅ | ⚠️ | ⏳ | ❌ / backend-blocked | ✅ (code) | ✅ (code) | ✅ (code) | Frontend now has `CustomStatusToolbar` with Active/Inactive status filter + quick search; JS-level filtering handles both search and status; `valueGetter` added to Units column for sort support; `Add Existing Tenant` uses real tenant edit/attach path; Quick Suspend explicitly disabled; needs browser revalidation |
 
 ## 2.6 Property > Leases
 ### Browser flow
@@ -143,7 +167,7 @@ _Last updated: 2026-03-24_
 ### Verification matrix
 | Area | Create | Read/View | Update/Edit | Delete | Archive | Search | Sort | Filter | Notes |
 |---|---|---|---|---|---|---|---|---|---|
-| Property leases tab | ⚠️ | ✅ | ⚠️ | ❌ / backend-blocked | ⏳ | ⚠️ | ⏳ | ⚠️ | Frontend now exposes `Edit Lease` row actions and fixes tenant links plus status-filter option generation in code; delete remains explicitly disabled because no lease delete mutation is wired in this frontend/context; browser retest was blocked on 2026-03-24 |
+| Property leases tab | ⚠️ | ✅ | ⚠️ | ❌ / backend-blocked | ⏳ | ✅ (code) | ✅ (code) | ✅ (code) | Frontend now has proper loading state, `CustomLeaseToolbar` with dynamic status filter, quick search over tenant/property/unit, and `valueGetter` on all nested columns for sort; `Edit Lease` row action routes to `/leases/edit/:id`; delete explicitly disabled; needs browser revalidation |
 
 ## 2.7 Property > Maintenance
 ### Browser flow
@@ -159,7 +183,7 @@ _Last updated: 2026-03-24_
 ### Verification matrix
 | Area | Create | Read/View | Update/Edit | Delete | Suspend | Search | Sort | Filter | Notes |
 |---|---|---|---|---|---|---|---|---|---|
-| Property maintenance tab | ✅ (API) | ✅ | ❌ / backend-blocked | ⏳ | ❌ / backend-blocked | ⚠️ | ⏳ | ⏳ | The maintenance manage drawer is now explicitly view-only in code because its old submit path incorrectly posted to the unit update endpoint; Quick Suspend is also disabled explicitly; create/search still need browser revalidation once runtime access is restored |
+| Property maintenance tab | ✅ (API) | ✅ | ❌ / backend-blocked | ⏳ | ❌ / backend-blocked | ✅ (code) | ✅ (code) | ✅ (code) | Maintenance tab now has `CustomStatusToolbar` with dynamic status filter built from live data, quick search across title/description/tenant/unit/assignee, proper loading state, and `valueGetter` on all columns for sort; manage drawer is view-only; Quick Suspend disabled; needs browser revalidation |
 
 ## 2.8 Property > Marketing
 ### Browser flow
@@ -205,7 +229,7 @@ _Last updated: 2026-03-24_
 ### Verification matrix
 | Area | Create | Read/View | Update/Edit | Delete | Suspend/Enable/Disable | Search | Sort | Filter | Notes |
 |---|---|---|---|---|---|---|---|---|---|
-| Tenants list | ⏳ | ✅ | ⚠️ | ⚠️ | ❌ / backend-blocked | ✅ | ⏳ | ✅ | Frontend now routes row clicks/View to `/tenants/manage/:id/summary`, wires delete to `tenants.deleteTenants`, and disables Enable/Disable with explicit unavailable labels when those handlers are absent from the tenant context; browser retest was blocked on 2026-03-24 |
+| Tenants list | ⏳ | ✅ | ⚠️ | ✅ (code) | ❌ / backend-blocked | ✅ | ✅ (code) | ✅ | Delete now has `window.confirm` safety dialog before calling `tenants.deleteTenants`; status filter fixed (removed broken `filterModel`, now JS-level filter handles search + status); `valueGetter` added to Property column for sort; Enable/Disable explicitly disabled when handlers absent; needs browser revalidation |
 
 ## 3.2 Tenant detail
 ### Route pattern
@@ -222,7 +246,7 @@ _Last updated: 2026-03-24_
 | Area | Create | Read/View | Update/Edit | Delete | Search | Sort | Filter | Notes |
 |---|---|---|---|---|---|---|---|---|
 | Tenant detail summary | N/A | ✅ | ⏳ | N/A | N/A | N/A | N/A | Summary route works |
-| Tenant detail transactions route | N/A | ⚠️ | N/A | N/A | N/A | N/A | N/A | Frontend route was repaired in code on 2026-03-24: the tenant right panel now includes a real `transactions` tab and renders `tenantData.transactions || []` with an explicit info state instead of the previous broken empty shell; browser retest remains blocked by local runtime/browser availability |
+| Tenant detail transactions route | N/A | ✅ (code) | N/A | N/A | N/A | N/A | N/A | Transactions tab renders `tenantData.transactions || []` with info alert; fixed crash-on-undefined in `UserTransactionListTable` where `payment_method.replace()` would throw; needs browser revalidation |
 
 ---
 
@@ -244,7 +268,7 @@ _Last updated: 2026-03-24_
 ### Verification matrix
 | Area | Create | Read/View | Update/Edit | Delete | Archive | Search | Sort | Filter | Notes |
 |---|---|---|---|---|---|---|---|---|---|
-| Leases list | ⏳ | ⚠️ | ⚠️ | ❌ / backend-blocked | ⏳ | ⚠️ | ⏳ | ⚠️ | Frontend now routes tenant links to the real tenant summary page, restores `Edit Lease` row actions, sends Create Lease to `/leases/create`, and populates status filter options from live lease rows in code; delete remains explicitly disabled because no delete mutation is exposed by the leases context; browser retest was blocked on 2026-03-24 |
+| Leases list | ⏳ | ✅ (code) | ⚠️ | ❌ / backend-blocked | ⏳ | ✅ (code) | ✅ (code) | ✅ (code) | Leases list now has clean error handling (toast instead of alert), `valueGetter` on Tenant/Property/Unit columns for sort, dynamic status filter, and quick search; `Edit Lease` routes to `/leases/edit/:id`; `Create Lease` routes to `/leases/create`; delete explicitly disabled; needs browser revalidation |
 
 ## 4.2 Lease create/edit/view routes
 ### Browser flow
@@ -257,8 +281,8 @@ _Last updated: 2026-03-24_
 | Area | Create | Read/View | Update/Edit | Delete | Notes |
 |---|---|---|---|---|---|
 | Lease create page | ⚠️ | ✅ | N/A | N/A | Create page/shell still exists, but this pass could not browser-retest the submit flow because local runtime/browser access was unavailable |
-| Lease view page | ⏳ | ⚠️ | N/A | N/A | Route code still fetches a live lease id and renders the preview shell, but this pass could not browser-retest against a live lease id |
-| Lease edit page | N/A | ⚠️ | ❌ / product-stubbed | N/A | The old standalone edit route was loading an invoice-editor stub; on 2026-03-24 it was replaced with an explicit warning page that loads the live lease id and documents that dedicated lease editing is not wired yet |
+| Lease view page | ⏳ | ⚠️ | N/A | N/A | Route code now waits for `id` before fetching, normalizes the lease payload, and renders the preview shell without the earlier first-render fetch race; still needs browser revalidation against a live lease id |
+| Lease edit page | N/A | ✅ (code) | ❌ / product-stubbed | N/A | Shows explicit warning that editing is not wired; loads live lease data without infinite-loop (fixed useEffect dep array); dedicated edit UI not yet implemented |
 
 ---
 
@@ -308,7 +332,7 @@ _Last updated: 2026-03-24_
 ### Verification matrix
 | Area | Create | Read/View | Update/Edit | Delete | Search | Sort | Filter | Notes |
 |---|---|---|---|---|---|---|---|---|
-| Finance statements | N/A | ❌ | N/A | N/A | N/A / blocked | N/A / blocked | N/A / blocked | Browser retest still fails on backend `GET /transactions -> 500`; frontend now renders the explicit `Server Error: Failed to calculate accounting data` banner and empty-state table instead of a silent failure |
+| Finance statements | N/A | ❌ | N/A | N/A | N/A / blocked | N/A / blocked | N/A / blocked | Direct API retest in this pass still fails on backend `GET /transactions?page=0&limit=10 -> 500`; frontend also now correctly forwards query params and still renders the explicit `Server Error: Failed to calculate accounting data` banner and empty-state table instead of a silent failure |
 
 ## 5.4 Finance invoice / receipt detail flows
 ### Browser flow
@@ -385,7 +409,7 @@ _Last updated: 2026-03-24_
 ### Verification matrix
 | Area | Create | Read/View | Update/Edit | Delete | Notes |
 |---|---|---|---|---|---|
-| User detail route | N/A | ⚠️ | ⚠️ | N/A | Browser retest confirms the route still hits backend `GET /users/:id` failure and shows `Server Error: Failed to fetch user`, but it no longer hangs on `Loading...`; `/users/manage/1/transactions` now renders an explicit transactions error state, and `/users/manage/1/security` remains usable/rendered despite the failed fetch |
+| User detail route | N/A | ⚠️ | ⚠️ | N/A | Direct API retest in this pass confirms backend `GET /users/1 -> 500 {"status":"FAILED","description":"Server Error: Failed to fetch user"}`; the frontend route still avoids infinite loading, `/users/manage/1/transactions` renders an explicit transactions error state, and `/users/manage/1/security` remains usable/rendered despite the failed fetch |
 
 ## 6.3 Users invite
 ### Route
@@ -457,18 +481,18 @@ For each management page with a grid:
 | Page | Search | Sort | Pagination | Export | Row Menu | Feedback after action | Notes |
 |---|---|---|---|---|---|---|---|
 | Properties | ✅ | ✅ | ✅ | ✅ | ✅ | ⏳ | Strongest verified table behavior so far |
-| Tenants | ✅ | ⏳ | ⏳ | ⏳ | ✅ | ❌ | Account actions crash before feedback |
-| Leases | ⚠️ | ⏳ | ⏳ | ⏳ | ✅ | ❌ | Delete is stub/no-op |
+| Tenants | ✅ | ✅ (code) | ⏳ | ✅ (code) | ✅ | ✅ (code) | `valueGetter` added for sort; status filter now works via JS; delete has confirm dialog; Enable/Disable gracefully disabled with toast |
+| Leases | ✅ (code) | ✅ (code) | ⏳ | ✅ (code) | ✅ | ✅ (code) | `valueGetter` added for sort; status filter works; delete explicitly disabled; error handling improved |
 | Finance payments | ✅ | ⚠️ | ✅ | ✅ | ❌ | ✅ | Search now works for both match and nonsense terms; Status filter + pagination work; sortable column affordances are present but not deeply verified; no row action menu parity; row UUID links now open fully populated receipt pages |
 | Users manage | ✅ | ⚠️ | N/A / single page | ✅ | ✅ | ⏳ | Quick search now works for both match and nonsense terms; sortable column affordances are present but not deeply verified; only one page of data so pagination cannot really be exercised; Account Status filter works; Edit drawer opens; no Delete option exposed in row menu |
 
 ---
 
 # 10. Next-pass priorities
-1. Fix users detail API failure (`GET /users/:id` → 500) and name-based search in Manage Users
-2. Fix finance quick search and blank receipt detail page
-3. Fix finance expenses/statements data sources (`transaction data undefined`, `GET /transactions` → 500)
-4. Fix property overview duplicated/hardcoded stats, property delete `toast is not defined` bug (`src/ui/property/PropertyManageTable.js`), and maintenance tab crash
-5. Fix communication issue creation flow (`Create new Issue` currently no-ops)
-6. Fix global settings save path (`users.editUser is not a function`)
-7. Retest remaining sort/export affordances after the above blockers are fixed
+1. **Backend-blocked**: Fix users detail API failure (`GET /users/:id` → 500)
+2. **Backend-blocked**: Fix finance statements endpoint (`GET /transactions` → 500)
+3. **Backend-blocked**: Wire invoice create/send API contract
+4. **Backend-blocked**: Wire global settings save endpoint
+5. **Backend-blocked**: Wire tenant Enable/Disable mutations, lease delete mutation, property-tenant suspend mutation, maintenance update mutation
+6. **Browser revalidation needed**: All items marked `✅ (code)` need browser verification once local dev server is available — property tenants/leases/maintenance tabs, tenants list, leases list/edit/view, tenant transactions
+7. **Remaining**: Properties list create (subscription-blocked), export verification on tenants/leases tables, pagination verification on tenants

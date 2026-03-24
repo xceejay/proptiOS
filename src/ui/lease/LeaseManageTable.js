@@ -95,6 +95,7 @@ const LeaseManageTable = () => {
       minWidth: 150,
       field: 'name',
       headerName: 'Tenant',
+      valueGetter: (value, row) => row?.tenant?.name || '',
       renderCell: ({ row }) => (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
@@ -134,6 +135,7 @@ const LeaseManageTable = () => {
       minWidth: 190,
       field: 'property',
       headerName: 'Property',
+      valueGetter: (value, row) => row?.property?.name || '',
       renderCell: ({ row }) => (
         <Typography noWrap sx={{ color: 'text.secondary' }}>
           {row.property?.name}
@@ -145,6 +147,7 @@ const LeaseManageTable = () => {
       minWidth: 190,
       field: 'unit',
       headerName: 'Unit',
+      valueGetter: (value, row) => row?.unit?.name || '',
       renderCell: ({ row }) => (
         <Typography noWrap sx={{ color: 'text.secondary' }}>
           {row.unit?.name}
@@ -213,27 +216,13 @@ const LeaseManageTable = () => {
   ]
 
   const leases = useLeases()
-  const [loading, setLoading] = useState(true) // New loading state
+  const [loading, setLoading] = useState(true)
 
   const [leasesData, setLeasesData] = useState({ items: [] })
-  const [addUserOpen, setAddUserOpen] = useState(false)
-  const [dates, setDates] = useState([])
-  const [startDateRange, setStartDateRange] = useState(null)
-  const [endDateRange, setEndDateRange] = useState(null)
   const [value, setValue] = useState('')
-  // const [selectedRows, setSelectedRows] = useState([])
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
   const [statusValue, setStatusValue] = useState('')
   const [statuses, setStatuses] = useState([{ text: 'All', value: '' }])
-
-  const handleOnChangeRange = dates => {
-    const [start, end] = dates
-    if (start !== null && end !== null) {
-      setDates(dates)
-    }
-    setStartDateRange(start)
-    setEndDateRange(end)
-  }
 
   useEffect(() => {
     leases.getAllLeases(
@@ -243,9 +232,9 @@ const LeaseManageTable = () => {
         setLoading(false)
 
         if (data?.status === 'NO_RES') {
-          console.log('NO results')
+          return
         } else if (data?.status === 'FAILED') {
-          alert(data.message || 'Failed to fetch leases')
+          toast.error(data.message || 'Failed to fetch leases', { duration: 5000 })
 
           return
         }
@@ -258,7 +247,6 @@ const LeaseManageTable = () => {
             value: status
           }))
         ])
-        console.log(leasesData)
       },
       error => {
         setLoading(false)
@@ -274,8 +262,6 @@ const LeaseManageTable = () => {
     setValue(val)
   }, [])
 
-  const toggleAddUserDrawer = () => setAddUserOpen(!addUserOpen)
-
   // Filter leases based on the search value
   const filteredLeases = leasesData.items?.filter(
     lease =>
@@ -287,59 +273,6 @@ const LeaseManageTable = () => {
 
   return (
     <Grid container spacing={6}>
-      {/* <Grid size={12}>
-        <Card sx={{ p: 0 }}>
-          <CardHeader title='Filters' />
-          <CardContent>
-            <Grid container spacing={6}>
-              <Grid size={12} sm={6}>
-                <FormControl fullWidth>
-                  <InputLabel id='invoice-status-select'>Invoice Status</InputLabel>
-
-                  <Select
-                    fullWidth
-                    value={statusValue}
-                    sx={{ mr: 4, mb: 2 }}
-                    label='Invoice Status'
-                    onChange={handleStatusValue}
-                    labelId='invoice-status-select'
-                  >
-                    <MenuItem value=''>none</MenuItem>
-                    <MenuItem value='downloaded'>Downloaded</MenuItem>
-                    <MenuItem value='draft'>Draft</MenuItem>
-                    <MenuItem value='paid'>Paid</MenuItem>
-                    <MenuItem value='partial payment'>Partial Payment</MenuItem>
-                    <MenuItem value='past due'>Past Due</MenuItem>
-                    <MenuItem value='sent'>Sent</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid size={12} sm={6}>
-                <DatePicker
-                  isClearable
-                  selectsRange
-                  monthsShown={2}
-                  endDate={endDateRange}
-                  selected={startDateRange}
-                  startDate={startDateRange}
-                  shouldCloseOnSelect={false}
-                  id='date-range-picker-months'
-                  onChange={handleOnChangeRange}
-                  customInput={
-                    <CustomInput
-                      dates={dates}
-                      setDates={setDates}
-                      label='Invoice Date'
-                      end={endDateRange}
-                      start={startDateRange}
-                    />
-                  }
-                />
-              </Grid>
-            </Grid>
-          </CardContent>
-        </Card>
-      </Grid> */}
       <Grid size={12}>
         <DataGrid
           loading={loading}
@@ -359,7 +292,6 @@ const LeaseManageTable = () => {
               statusValue: statusValue,
               setStatusValue: setStatusValue,
               statuses: statuses,
-              // toggle: toggleAddUserDrawer,
               handleFilter: handleFilter
             }
           }}
@@ -368,12 +300,6 @@ const LeaseManageTable = () => {
           paginationModel={paginationModel}
           onPaginationModelChange={setPaginationModel}
         />
-        {/* <AddLeaseDrawer
-          leasesData={leasesData}
-          setLeasesData={setLeasesData}
-          open={addUserOpen}
-          toggle={toggleAddUserDrawer}
-        /> */}
       </Grid>
     </Grid>
   )

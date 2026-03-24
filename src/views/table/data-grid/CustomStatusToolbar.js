@@ -93,9 +93,11 @@ const CustomStatusToolbar = props => {
                   onChange={handleStatusValue}
                   labelId='invoice-status-select'
                 >
-                  {statuses?.map((status, index) => {
-                    return <MenuItem value={status?.value}>{status?.text}</MenuItem>
-                  })}
+                  {statuses?.map((status, index) => (
+                    <MenuItem key={index} value={status?.value}>
+                      {status?.text}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>{' '}
             </Box>

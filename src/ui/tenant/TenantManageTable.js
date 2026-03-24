@@ -145,6 +145,12 @@ const RowOptions = ({ id, row, stopPropagation, setTenantsData, tenantsData, set
   }
 
   const handleDelete = () => {
+    if (!window.confirm(`Delete tenant "${row.name || row.email}"? This cannot be undone.`)) {
+      handleRowOptionsClose()
+
+      return
+    }
+
     setLoading(true)
     tenants.deleteTenants(
       [id],
@@ -312,6 +318,7 @@ const TenantManageTable = () => {
       minWidth: 190,
       field: 'property',
       headerName: 'Property',
+      valueGetter: (value, row) => row?.property?.name || '',
       renderCell: ({ row }) => (
         <Typography noWrap sx={{ color: 'text.secondary' }}>
           {row.property?.name}
@@ -403,7 +410,6 @@ const TenantManageTable = () => {
         }
 
         setTenantsData(data)
-        console.log(tenantsData)
       },
       error => {
         setLoading(false)
@@ -421,12 +427,13 @@ const TenantManageTable = () => {
 
   const toggleAddUserDrawer = () => setAddUserOpen(!addUserOpen)
 
-  // Filter tenants based on the search value
+  // Filter tenants based on search value and status
   const filteredTenants = tenantsData.items.filter(
     tenant =>
-      (tenant.name?.toLowerCase() || '').includes(value.toLowerCase()) ||
-      (tenant.email?.toLowerCase() || '').includes(value.toLowerCase()) ||
-      (tenant.address?.toLowerCase() || '').includes(value.toLowerCase())
+      ((tenant.name?.toLowerCase() || '').includes(value.toLowerCase()) ||
+        (tenant.email?.toLowerCase() || '').includes(value.toLowerCase()) ||
+        (tenant.address?.toLowerCase() || '').includes(value.toLowerCase())) &&
+      (!statusValue || tenant.status === statusValue)
   )
 
   return (
@@ -435,13 +442,6 @@ const TenantManageTable = () => {
         <Card>
           <CardHeader title='Tenants' />
           <CardContent>
-            {/* <TenantTableHeader
-              rows={filteredTenants}
-              columns={columns}
-              value={value}
-              handleFilter={handleFilter}
-              toggle={toggleAddUserDrawer}
-            /> */}
             <DataGrid
               loading={loading}
               autoHeight
@@ -451,14 +451,6 @@ const TenantManageTable = () => {
               slots={{
                 toolbar: CustomStatusToolbar,
                 noRowsOverlay: CustomNoRowsOverlay
-
-                // loadingOverlay: {
-                //   variant: 'skeleton',
-                //   noRowsVariant: 'skeleton'
-                // }
-              }}
-              filterModel={{
-                items: [{ field: 'status', operator: 'equals', value: statusValue }]
               }}
               slotProps={{
                 toolbar: {

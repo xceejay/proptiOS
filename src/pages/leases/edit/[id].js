@@ -28,7 +28,7 @@ const LeaseEdit = () => {
         })
       }
     )
-  }, [id, leases])
+  }, [id])
 
   return (
     <Grid container spacing={6}>

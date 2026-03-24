@@ -20,11 +20,7 @@ import Icon from 'src/@core/components/icon'
 import CustomChip from 'src/@core/components/mui/chip'
 import CustomNoRowsOverlay from '../CustomNoRowsOverlay'
 
-// ** Hooks Imports
-import { useLeases } from 'src/hooks/useLeases'
-
 // ** Components
-
 import CustomLeaseToolbar from 'src/views/table/data-grid/CustomLeaseToolbar'
 
 const RowOptions = ({ id, row, setLeasesData, leasesData, setLoading }) => {
@@ -95,6 +91,7 @@ const PropertyLeaseTable = ({ setPropertyData, propertyData }) => {
       minWidth: 150,
       field: 'name',
       headerName: 'Tenant',
+      valueGetter: (value, row) => row?.tenant?.name || '',
       renderCell: ({ row }) => (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
@@ -123,6 +120,7 @@ const PropertyLeaseTable = ({ setPropertyData, propertyData }) => {
       minWidth: 150,
       field: 'lease_type',
       headerName: 'Lease Type',
+      valueGetter: (value, row) => row?.type || '',
       renderCell: ({ row }) => (
         <Typography noWrap sx={{ color: 'text.secondary' }}>
           {row.type}
@@ -134,6 +132,7 @@ const PropertyLeaseTable = ({ setPropertyData, propertyData }) => {
       minWidth: 190,
       field: 'property',
       headerName: 'Property',
+      valueGetter: (value, row) => row?.property_name || '',
       renderCell: ({ row }) => (
         <Typography noWrap sx={{ color: 'text.secondary' }}>
           {row.property_name}
@@ -145,6 +144,7 @@ const PropertyLeaseTable = ({ setPropertyData, propertyData }) => {
       minWidth: 190,
       field: 'unit',
       headerName: 'Unit',
+      valueGetter: (value, row) => row?.unit?.name || '',
       renderCell: ({ row }) => (
         <Typography noWrap sx={{ color: 'text.secondary' }}>
           {row.unit?.name}
@@ -212,56 +212,15 @@ const PropertyLeaseTable = ({ setPropertyData, propertyData }) => {
     }
   ]
 
-  const leases = useLeases()
-  const [loading, setLoading] = useState(true) // New loading state
+  const [loading, setLoading] = useState(true)
 
   const [leasesData, setLeasesData] = useState([])
-  const [addUserOpen, setAddUserOpen] = useState(false)
-  const [dates, setDates] = useState([])
-  const [startDateRange, setStartDateRange] = useState(null)
-  const [endDateRange, setEndDateRange] = useState(null)
   const [value, setValue] = useState('')
-  // const [selectedRows, setSelectedRows] = useState([])
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
   const [statusValue, setStatusValue] = useState('')
   const [statuses, setStatuses] = useState([{ text: 'All', value: '' }])
 
-  const handleOnChangeRange = dates => {
-    const [start, end] = dates
-    if (start !== null && end !== null) {
-      setDates(dates)
-    }
-    setStartDateRange(start)
-    setEndDateRange(end)
-  }
-
   useEffect(() => {
-    // leases.getAllLeases(
-    //   { page: paginationModel.page, limit: paginationModel.pageSize },
-    //   responseData => {
-    //     const { data } = responseData
-    //     setLoading(false)
-    //
-    // if(data?.status === "NO_RES"){
-    //   console.log("NO results")
-    // } else if (data?.status === 'FAILED') {
-    //       alert(data.message || 'Failed to fetch leases')
-
-    //       return
-    //     }
-
-    //     setLeasesData(data)
-    //     console.log(leasesData)
-    //   },
-    //   error => {
-    //     setLoading(false)
-
-    //
-    // toast.error(error.response?.data?.description || "An error occurred. Please try again or contact support.", {
-    //   duration: 5000
-    // })
-    //   }
-    // )
     if (propertyData) {
       const structuredLeases = (propertyData?.leases ?? []).map(lease => {
         const tenant = (propertyData?.tenants ?? []).find(t => t.id === lease.tenant_id)
@@ -269,14 +228,11 @@ const PropertyLeaseTable = ({ setPropertyData, propertyData }) => {
 
         return {
           ...lease,
-          property_name: propertyData.name, // Attach the property name
-          tenant: tenant || null, // Attach tenant object or null if not found
-          unit: unit || null // Attach unit object or null if not found
+          property_name: propertyData.name,
+          tenant: tenant || null,
+          unit: unit || null
         }
       })
-
-      // Final structured leases
-      console.log(structuredLeases)
 
       setLeasesData(structuredLeases)
       setStatuses([
@@ -286,16 +242,13 @@ const PropertyLeaseTable = ({ setPropertyData, propertyData }) => {
           value: status
         }))
       ])
-
-      // console.log(leasesData)
+      setLoading(false)
     }
   }, [propertyData])
 
   const handleFilter = useCallback(val => {
     setValue(val)
   }, [])
-
-  const toggleAddUserDrawer = () => setAddUserOpen(!addUserOpen)
 
   // Filter leases based on the search value
   const filteredLeases = leasesData?.filter(
@@ -363,7 +316,7 @@ const PropertyLeaseTable = ({ setPropertyData, propertyData }) => {
       </Grid> */}
       <Grid size={12}>
         <DataGrid
-          loading={false}
+          loading={loading}
           autoHeight
           rowHeight={62}
           rows={filteredLeases || []}
@@ -380,7 +333,6 @@ const PropertyLeaseTable = ({ setPropertyData, propertyData }) => {
               statusValue: statusValue,
               setStatusValue: setStatusValue,
               statuses: statuses,
-              // toggle: toggleAddUserDrawer,
               handleFilter: handleFilter
             }
           }}
@@ -389,12 +341,6 @@ const PropertyLeaseTable = ({ setPropertyData, propertyData }) => {
           paginationModel={paginationModel}
           onPaginationModelChange={setPaginationModel}
         />
-        {/* <AddLeaseDrawer
-          leasesData={leasesData}
-          setLeasesData={setLeasesData}
-          open={addUserOpen}
-          toggle={toggleAddUserDrawer}
-        /> */}
       </Grid>
     </Grid>
   )

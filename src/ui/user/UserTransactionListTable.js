@@ -114,7 +114,7 @@ const columns = [
     headerName: 'Payment Method',
     renderCell: ({ row }) => (
       <Typography sx={{ textTransform: 'capitalize', color: 'text.secondary' }}>
-        {row.payment_method.replace('_', ' ') || 0}
+        {(row.payment_method || '').replace('_', ' ') || 'N/A'}
       </Typography>
     )
   },

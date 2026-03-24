@@ -139,7 +139,7 @@ const FinanceProvider = ({ children }) => {
       })
   }
 
-  const getAllTransactions = (id, successCallback, errorCallback) => {
+  const getAllTransactions = (params, successCallback, errorCallback) => {
     const token = window.localStorage.getItem('accessToken') || accessToken
 
     if (!token) {
@@ -153,7 +153,8 @@ const FinanceProvider = ({ children }) => {
       .get(process.env.NEXT_PUBLIC_API_BASE_URL + `/transactions`, {
         headers: {
           Authorization: `Bearer ${token}`
-        }
+        },
+        params
       })
       .then(response => {
         if (successCallback) {

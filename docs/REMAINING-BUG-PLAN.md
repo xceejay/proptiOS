@@ -1,6 +1,6 @@
 # Remaining Bug Plan
 
-_Last updated: 2026-03-24_
+_Last updated: 2026-03-24 (third pass)_
 
 This is the current execution plan after the main QA/fix/retest passes.
 
@@ -19,7 +19,8 @@ These are not frontend crash bugs anymore. They need backend work or a new API c
 ### 1.1 Finance statements
 - Status: blocked
 - Symptom: `GET /transactions -> 500`
-- Frontend state now: explicit error banner + empty state
+- Frontend state now: explicit error banner + empty state; request params are now forwarded correctly from the frontend
+- Reverified on 2026-03-24: direct API call to `GET /transactions?page=0&limit=10` still returned `500 {"status":"FAILED","description":"Server Error: Failed to calculate accounting data"}`
 - Needed:
   - backend fix for statements/accounting data endpoint
   - then browser reverify `/finance/statements`
@@ -44,6 +45,7 @@ These are not frontend crash bugs anymore. They need backend work or a new API c
 - Status: partially blocked
 - Symptom: `GET /users/:id` still fails
 - Frontend state now: explicit error state; no infinite loading
+- Reverified on 2026-03-24: direct API call to `GET /users/1` still returned `500 {"status":"FAILED","description":"Server Error: Failed to fetch user"}`
 - Needed:
   - backend fix for user detail endpoint
   - then browser reverify `/users/manage/:id/*`
@@ -72,36 +74,63 @@ Need explicit browser verification for sort order on:
 - Any surviving tenant/lease grids
 
 ### 2.2 Property tenants tab
-Need live browser revalidation of:
-- add existing tenant end-to-end
-- search / filter
-- delete behavior if wired
+Frontend state now:
+- tenant links route to working summary/transactions shells
+- add-existing-tenant drawer was rewired away from the broken create flow
+- optimistic tenant/unit update path exists in code
+
+Still needed:
+- live browser revalidation of add-existing-tenant end-to-end
+- search / filter verification
+- delete behavior verification if a real mutation exists
 
 ### 2.3 Property leases tab
-Need live browser revalidation of:
-- edit action
-- search / filter
-- status filter behavior
-- delete remains backend-blocked unless mutation is added
+Frontend state now:
+- edit row action exists
+- tenant links are fixed
+- status filter options are generated from live rows
+- delete is explicitly unavailable in UI
+
+Still needed:
+- live browser revalidation of edit action
+- search / filter verification
+- status filter verification
 
 ### 2.4 Tenants list
-Need live browser revalidation of:
-- delete path
-- view/edit path
-- filter/sort behavior
-- enable/disable remains blocked unless mutation exists
+Frontend state now:
+- row/view routing fixed
+- delete wired to `tenants.deleteTenants`
+- search + status filter logic implemented
+- enable/disable degrade to explicit unavailable states when handlers are absent
+
+Still needed:
+- live browser revalidation of delete path
+- edit path verification
+- filter/sort verification
 
 ### 2.5 Leases list / create / edit / view
-Need live browser revalidation of:
-- `/leases/create`
-- `/leases/view/:id`
-- `/leases/edit/:id`
-- leases list row actions and filters
+Frontend state now:
+- create CTA points to `/leases/create`
+- row actions expose `View Lease` and `Edit Lease`
+- delete is explicitly unavailable
+- search/filter logic implemented in list
+- `/leases/view/:id` now waits for `id` before fetching and normalizes the lease payload
+
+Still needed:
+- live browser revalidation of `/leases/create`
+- live browser revalidation of `/leases/view/:id`
+- live browser revalidation of `/leases/edit/:id`
+- list row-action/filter verification
 
 ### 2.6 Property maintenance create/search
-Need live browser revalidation of:
-- add maintenance request
-- search/filter behavior
+Frontend state now:
+- route no longer crashes
+- manage drawer is explicitly view-only instead of posting to the wrong endpoint
+- quick suspend is explicitly unavailable
+
+Still needed:
+- live browser revalidation of add maintenance request
+- search/filter verification
 - update remains backend-blocked unless proper endpoint is wired
 
 ---

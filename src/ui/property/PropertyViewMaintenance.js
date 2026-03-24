@@ -19,7 +19,7 @@ import { DataGrid } from '@mui/x-data-grid'
 import { Menu, MenuItem } from '@mui/material'
 import CustomNoRowsOverlay from '../CustomNoRowsOverlay'
 import PropertyAddMaintenanceRequestDrawer from './PropertyAddMaintenanceRequestDrawer'
-import CustomTenantToolbar from 'src/views/table/data-grid/CustomTenantToolbar'
+import CustomStatusToolbar from 'src/views/table/data-grid/CustomStatusToolbar'
 import PropertyManageMaintenanceRequestDrawer from './PropertyManageMaintenanceRequestDrawer'
 import CustomChip from 'src/@core/components/mui/chip'
 import { buildMaintenanceRequests, filterMaintenanceRequests } from './propertyMaintenanceModel'
@@ -237,23 +237,36 @@ const PropertyViewMaintenance = ({ setPropertyData, propertyData }) => {
 
   const [addMaintenanceRequestOpen, setAddMaintenanceRequestOpen] = useState(false)
   const [maintenanceRequestsData, setMaintenanceRequestsData] = useState([])
+  const [loading, setLoading] = useState(true)
 
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
 
   const [value, setValue] = useState('')
+  const [statusValue, setStatusValue] = useState('')
+  const [statuses, setStatuses] = useState([{ text: 'All', value: '' }])
 
   const handleFilter = useCallback(val => {
     setValue(val)
   }, [])
 
-  const filteredMaintenanceRequests = filterMaintenanceRequests(maintenanceRequestsData, value)
+  const searchFiltered = filterMaintenanceRequests(maintenanceRequestsData, value)
+  const filteredMaintenanceRequests = statusValue
+    ? searchFiltered.filter(r => r.status === statusValue)
+    : searchFiltered
   const toggleAddMaintenanceRequestDrawer = () => setAddMaintenanceRequestOpen(!addMaintenanceRequestOpen)
 
   useEffect(() => {
     if (propertyData && propertyData.maintenance_requests) {
-      setMaintenanceRequestsData(buildMaintenanceRequests(propertyData))
-
-      console.log('requests', maintenanceRequestsData, 'another', propertyData.maintenance_requests)
+      const built = buildMaintenanceRequests(propertyData)
+      setMaintenanceRequestsData(built)
+      setStatuses([
+        { text: 'All', value: '' },
+        ...Array.from(new Set(built.map(r => r.status).filter(Boolean))).map(status => ({
+          text: status.charAt(0).toUpperCase() + status.slice(1),
+          value: status
+        }))
+      ])
+      setLoading(false)
     }
   }, [propertyData])
 
@@ -265,17 +278,18 @@ const PropertyViewMaintenance = ({ setPropertyData, propertyData }) => {
             <StyledDataGrid
               autoHeight
               rowHeight={62}
-              loading={false} // Use the new loading state
+              loading={loading}
               rows={filteredMaintenanceRequests || []}
               columns={columns}
-              slots={{ toolbar: CustomTenantToolbar, noRowsOverlay: CustomNoRowsOverlay }}
+              slots={{ toolbar: CustomStatusToolbar, noRowsOverlay: CustomNoRowsOverlay }}
               slotProps={{
                 toolbar: {
                   searchPlaceholder: 'Quick Search',
                   value: value,
                   addText: 'Add Maintenance Request',
-
-                  // title: '',
+                  statusValue: statusValue,
+                  setStatusValue: setStatusValue,
+                  statuses: statuses,
                   toggle: toggleAddMaintenanceRequestDrawer,
                   handleFilter: handleFilter
                 }
@@ -283,7 +297,6 @@ const PropertyViewMaintenance = ({ setPropertyData, propertyData }) => {
               initialState={{
                 columns: {
                   columnVisibilityModel: {
-                    // Hide columns status and traderName, the other columns will remain visible
                     description: false
                   }
                 }
@@ -294,10 +307,6 @@ const PropertyViewMaintenance = ({ setPropertyData, propertyData }) => {
               onPaginationModelChange={setPaginationModel}
             />
           </CardContent>
-        </Card>
-
-        <Card>
-          <CardContent></CardContent>
         </Card>
       </Grid>
 
