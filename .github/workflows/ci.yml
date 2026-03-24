@@ -6,21 +6,34 @@ on:
     branches:
       - main
   workflow_dispatch:
+    inputs:
+      target:
+        description: "Specific project to validate"
+        required: false
+        default: "all"
+        type: choice
+        options:
+          - all
+          - app
+          - api-pm
+          - www
+          - api-events
 
 jobs:
   detect-changes:
     runs-on: ubuntu-latest
     outputs:
-      app: ${{ steps.filter.outputs.app }}
-      api_pm: ${{ steps.filter.outputs.api_pm }}
-      www: ${{ steps.filter.outputs.www }}
-      api_events: ${{ steps.filter.outputs.api_events }}
+      app: ${{ steps.detect.outputs.app }}
+      api_pm: ${{ steps.detect.outputs.api_pm }}
+      www: ${{ steps.detect.outputs.www }}
+      api_events: ${{ steps.detect.outputs.api_events }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - id: filter
+      - id: paths
+        if: github.event_name != 'workflow_dispatch'
         uses: dorny/paths-filter@v3
         with:
           filters: |
@@ -32,6 +45,31 @@ jobs:
               - 'www.proptios.com/**'
             api_events:
               - 'api.events.proptios.com/**'
+
+      - id: detect
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            target="${{ github.event.inputs.target }}"
+            app=false
+            api_pm=false
+            www=false
+            api_events=false
+
+            if [ "$target" = "all" ] || [ "$target" = "app" ]; then app=true; fi
+            if [ "$target" = "all" ] || [ "$target" = "api-pm" ]; then api_pm=true; fi
+            if [ "$target" = "all" ] || [ "$target" = "www" ]; then www=true; fi
+            if [ "$target" = "all" ] || [ "$target" = "api-events" ]; then api_events=true; fi
+          else
+            app="${{ steps.paths.outputs.app }}"
+            api_pm="${{ steps.paths.outputs.api_pm }}"
+            www="${{ steps.paths.outputs.www }}"
+            api_events="${{ steps.paths.outputs.api_events }}"
+          fi
+
+          echo "app=$app" >> "$GITHUB_OUTPUT"
+          echo "api_pm=$api_pm" >> "$GITHUB_OUTPUT"
+          echo "www=$www" >> "$GITHUB_OUTPUT"
+          echo "api_events=$api_events" >> "$GITHUB_OUTPUT"
 
   app:
     needs: detect-changes

@@ -30,10 +30,14 @@ Avoid making direct changes in those repositories unless you intentionally want 
 ## Root Commands
 
 - `pnpm projects`: print the known projects and their paths
+- `pnpm doctor`: verify required local tools
 - `pnpm bootstrap`: install Node dependencies for the Node projects
 - `pnpm dev`: start the dashboard app
+- `pnpm dev:api-events`: start the Go service
 - `pnpm check`: run the default validation flow across relevant projects
 - `pnpm check:changed`: validate only projects changed relative to `origin/main`
+- `pnpm deploy [target]`: trigger downstream deployment workflow from the CLI
+- `pnpm deploy:dry-run [target]`: safe preview of downstream deployment workflow
 - `pnpm sync:changed`: push changed projects back to their legacy repositories
 - `pnpm sync:target <project>`: push one project back to its legacy repository
 - `pnpm sync:dry-run:app`
@@ -55,8 +59,32 @@ Avoid making direct changes in those repositories unless you intentionally want 
 ## Quick Start
 
 ```bash
+pnpm doctor
 pnpm bootstrap
 pnpm check
+```
+
+Typical day-to-day flow:
+
+```bash
+git clone git@github.com:xceejay/proptiOS.git
+cd proptiOS
+pnpm doctor
+pnpm bootstrap
+pnpm dev
+```
+
+Deployment flow:
+
+```bash
+git push origin main
+```
+
+That push triggers downstream sync automatically for affected top-level projects. If you want a manual run or a safe preview:
+
+```bash
+pnpm deploy:dry-run app
+pnpm deploy app
 ```
 
 For day-to-day work, start with [CONTRIBUTING.md](/home/joel/personal/projects/proptiOS/CONTRIBUTING.md) and [docs/REPO-STRUCTURE.md](/home/joel/personal/projects/proptiOS/docs/REPO-STRUCTURE.md).

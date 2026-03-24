@@ -20,11 +20,14 @@ Do not move code across these boundaries casually. If shared code becomes necess
 
 ## Common Commands
 
+- `pnpm doctor`
 - `pnpm bootstrap`
 - `pnpm check`
 - `pnpm check:changed`
 - `pnpm dev`
 - `pnpm dev:api-pm`
+- `pnpm dev:api-events`
+- `pnpm deploy <target>`
 - `pnpm sync:changed`
 - `pnpm sync:target <project>`
 
@@ -35,6 +38,12 @@ Before pushing:
 - run the relevant local checks for the project you touched
 - avoid committing generated dependency folders
 - update docs when the root workflow, repository layout, or operational model changes
+
+Normal release flow:
+
+1. Merge to `main`.
+2. The monorepo push triggers downstream sync automatically.
+3. Use `pnpm deploy:dry-run <target>` or `pnpm deploy <target>` only when you need a manual rerun or one-off publish.
 
 ## Downstream Sync
 

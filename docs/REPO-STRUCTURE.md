@@ -74,10 +74,12 @@ The Go service is intentionally not part of the pnpm workspace.
 ### Root scripts
 
 - `scripts/list-projects.sh`: prints known project names and locations
+- `scripts/doctor.sh`: verifies local tooling needed for collaboration
 - `scripts/bootstrap.sh`: installs Node dependencies in workspace projects
 - `scripts/dev.sh`: starts a selected local service
 - `scripts/changed-projects.sh`: reports changed top-level projects
 - `scripts/check.sh`: runs project-specific validation
+- `scripts/deploy.sh`: triggers the downstream sync workflow with optional dry-run mode
 - `scripts/sync-changed.sh`: pushes only changed projects downstream
 - `scripts/sync-target.sh`: pushes or dry-runs one selected downstream target
 - `scripts/split-push.sh`: subtree split and push helper
