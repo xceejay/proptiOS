@@ -9,6 +9,8 @@ Contribution policy:
 - do not open feature branches or PRs from this child repository
 - changes made here directly do not sync back to the monorepo automatically
 
+Sync test marker: propagated from monorepo on 2026-03-24.
+
 ## Local Dev Setup
 
 1. Start MariaDB: `sudo systemctl start mariadb`
