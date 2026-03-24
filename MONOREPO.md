@@ -72,7 +72,7 @@ Set up CI in the monorepo to:
 - run tests only for affected projects
 - push changed folders back to their corresponding GitHub repositories
 
-A starter workflow is included at `.github/workflows/sync-downstream.yml`. It expects an SSH private key in the GitHub secret `MONOREPO_SYNC_SSH_KEY`.
+A starter workflow is included at `.github/workflows/sync-downstream.yml`. It expects a GitHub token with write access to the child repositories in the GitHub secret `DOWNSTREAM_SYNC_TOKEN`.
 
 ## Current Blocker
 

@@ -43,7 +43,6 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          ssh-key: ${{ secrets.MONOREPO_SYNC_SSH_KEY }}
 
       - name: Configure git
         run: |
@@ -52,16 +51,16 @@ jobs:
 
       - name: Push app.proptios.com
         if: needs.detect-changes.outputs.app == 'true'
-        run: ./scripts/split-push.sh app.proptios.com git@github.com:xceejay/app.proptios.com.git
+        run: ./scripts/split-push.sh app.proptios.com https://x-access-token:${{ secrets.DOWNSTREAM_SYNC_TOKEN }}@github.com/xceejay/app.proptios.com.git
 
       - name: Push api.pm.proptios.com
         if: needs.detect-changes.outputs.api_pm == 'true'
-        run: ./scripts/split-push.sh api.pm.proptios.com git@github.com:xceejay/api.pm.proptios.com.git
+        run: ./scripts/split-push.sh api.pm.proptios.com https://x-access-token:${{ secrets.DOWNSTREAM_SYNC_TOKEN }}@github.com/xceejay/api.pm.proptios.com.git
 
       - name: Push www.proptios.com
         if: needs.detect-changes.outputs.www == 'true'
-        run: ./scripts/split-push.sh www.proptios.com git@github.com:xceejay/www.proptios.com.git
+        run: ./scripts/split-push.sh www.proptios.com https://x-access-token:${{ secrets.DOWNSTREAM_SYNC_TOKEN }}@github.com/xceejay/www.proptios.com.git
 
       - name: Push api.events.proptios.com
         if: needs.detect-changes.outputs.api_events == 'true'
-        run: ./scripts/split-push.sh api.events.proptios.com git@github.com:xceejay/api.events.proptios.com.git
+        run: ./scripts/split-push.sh api.events.proptios.com https://x-access-token:${{ secrets.DOWNSTREAM_SYNC_TOKEN }}@github.com/xceejay/api.events.proptios.com.git

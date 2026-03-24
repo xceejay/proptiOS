@@ -44,7 +44,7 @@ Avoid making direct changes in those repositories unless you intentionally want 
 
 - CI runs from the monorepo root and can target only changed top-level projects.
 - CD to the legacy repositories happens by subtree split and push.
-- The workflow expects an SSH key in the GitHub secret `MONOREPO_SYNC_SSH_KEY`.
+- The workflow expects a GitHub token in the GitHub secret `DOWNSTREAM_SYNC_TOKEN`.
 
 ## Quick Start
 

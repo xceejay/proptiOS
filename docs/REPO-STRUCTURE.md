@@ -87,4 +87,6 @@ The Go service is intentionally not part of the pnpm workspace.
 - `.github/workflows/ci.yml`: validation flow for changed projects
 - `.github/workflows/sync-downstream.yml`: subtree publish workflow for changed projects on `main`
 
+The downstream sync workflow uses the repository secret `DOWNSTREAM_SYNC_TOKEN` and pushes over HTTPS.
+
 If CI behavior changes, update this file so future agents do not need to rediscover the workflow model.
