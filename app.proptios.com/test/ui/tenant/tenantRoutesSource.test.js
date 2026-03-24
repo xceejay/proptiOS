@@ -17,6 +17,10 @@ describe('tenant route source contracts', () => {
       path.join(process.cwd(), 'src/ui/tenant/TenantViewTransactions.js'),
       'utf8'
     )
+    const editTenantDrawerSource = fs.readFileSync(
+      path.join(process.cwd(), 'src/ui/tenant/EditTenantDrawer.js'),
+      'utf8'
+    )
 
     expect(tenantManageSource).toContain("href={'/tenants/manage/' + id + '/summary'}")
     expect(tenantManageSource).toContain('tenants.deleteTenants(')
@@ -24,5 +28,9 @@ describe('tenant route source contracts', () => {
     expect(propertyTenantSource).toContain('Quick Suspend (Unavailable)')
     expect(tenantRightSource).toContain("value='transactions'")
     expect(tenantTransactionsSource).toContain('tenantData.transactions || []')
+    expect(editTenantDrawerSource).toContain('formData.unit_id = tenantData?.unit_id ?? tenantData?.unit?.id ?? null')
+    expect(editTenantDrawerSource).toContain(
+      'formData.property_id = tenantData?.property_id ?? tenantData?.property?.id ?? null'
+    )
   })
 })

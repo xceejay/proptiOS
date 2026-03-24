@@ -9,6 +9,7 @@ import { GridFilterInputDate } from '@mui/x-data-grid'
 
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
+import Alert from '@mui/material/Alert'
 import Tooltip from '@mui/material/Tooltip'
 import { styled } from '@mui/material/styles'
 import CardHeader from '@mui/material/CardHeader'
@@ -216,7 +217,19 @@ const columns = [
   // }
 ]
 
-const FinanceExpensesTable = ({ financeData }) => {
+const resolveExpenseRows = financeData => {
+  if (Array.isArray(financeData)) {
+    return financeData
+  }
+
+  if (Array.isArray(financeData?.expenses)) {
+    return financeData.expenses
+  }
+
+  return financeData?.transactions?.expenses || []
+}
+
+const FinanceExpensesTable = ({ financeData, errorMessage = '' }) => {
   // ** State
 
   const [anchorEl, setAnchorEl] = useState(null)
@@ -281,7 +294,7 @@ const FinanceExpensesTable = ({ financeData }) => {
     setAnchorEl(null)
   }
 
-  const filteredRows = filterTransactions(financeData?.transactions?.expenses || [], {
+  const filteredRows = filterTransactions(resolveExpenseRows(financeData), {
     search: value,
     status: statusValue,
     paymentMethod: paymentMethodValue,
@@ -296,7 +309,6 @@ const FinanceExpensesTable = ({ financeData }) => {
           lg: 12
         }}>
         <Card>
-          {console.log('so the transaction data', financeData)}
           <CardHeader
             title='Expenses'
             sx={{ '& .MuiCardHeader-action': { m: 0 } }}
@@ -329,6 +341,7 @@ const FinanceExpensesTable = ({ financeData }) => {
               </>
             }
           />
+          {errorMessage ? <Alert severity='error'>{errorMessage}</Alert> : null}
           <DataGrid
             autoHeight
             rowHeight={filteredRows.length == 0 ? 100 : 54}
