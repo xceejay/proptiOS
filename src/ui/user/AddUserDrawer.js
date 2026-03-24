@@ -113,56 +113,6 @@ const defaultValues = {
   user_type: 'user'
 }
 
-const onSubmit = formData => {
-  // If formData should be an array, keep it as is
-  let requestData = [formData]
-
-  users.addUsers(
-    requestData,
-    responseData => {
-      console.log('Add User Drawer')
-      let { data } = responseData
-
-      if (data?.status === 'NO_RES') {
-        console.log('NO results')
-      } else if (data?.status === 'FAILED') {
-        alert(data.description || 'Failed to add user')
-        setError('email', {
-          type: 'manual',
-          message: data.description || 'Unknown error occurred'
-        })
-
-        return
-      }
-
-      const updatedRequestData = requestData.map(user => {
-        const matchingUser = data.find(response => response.email === user.email)
-
-        if (matchingUser) {
-          return {
-            ...user,
-            id: matchingUser.id
-          }
-        }
-
-        return user
-      })
-      setUsersData(prevData => ({
-        ...prevData,
-        items: [...prevData.items, ...updatedRequestData]
-      }))
-
-      // Close the drawer
-      handleClose()
-    },
-    error => {
-      toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
-        duration: 5000
-      })
-    }
-  )
-}
-
 const SidebarAddUser = props => {
   const { setUsersData, usersData, open, toggle } = props
 

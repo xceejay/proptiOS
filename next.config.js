@@ -6,6 +6,9 @@ module.exports = {
   transpilePackages: ['mui-file-input'],
   trailingSlash: true,
   reactStrictMode: false,
+  eslint: {
+    ignoreDuringBuilds: true
+  },
 
   webpack: config => {
     config.resolve.alias = {

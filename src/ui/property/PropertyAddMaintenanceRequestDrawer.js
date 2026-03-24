@@ -143,8 +143,8 @@ const PropertyAddMaintenanceRequestDrawer = props => {
 
         console.log('tenants', propertyData.tenants)
         console.log('reqData', requestData)
-        const MatchingUnit = propertyData.units.find(unit => unit.id == requestData[0].unit_id)
-        const MatchingTenant = propertyData.tenants.find(tenant => tenant.id == requestData[0].tenant_id)
+        const MatchingUnit = (propertyData?.units ?? []).find(unit => unit.id == requestData[0].unit_id)
+        const MatchingTenant = (propertyData?.tenants ?? []).find(tenant => tenant.id == requestData[0].tenant_id)
 
         console.log('matching pairs', MatchingTenant, MatchingUnit)
 
@@ -250,12 +250,12 @@ const PropertyAddMaintenanceRequestDrawer = props => {
               defaultValue=''
               render={({ field: { onChange, onBlur, value, ref } }) => (
                 <Autocomplete
-                  options={propertyData.tenants}
+                  options={propertyData?.tenants ?? []}
                   getOptionLabel={tenant => tenant.name + ' (' + tenant.id + ')'}
                   onChange={(event, newValue) => {
                     onChange(newValue ? newValue.id : '')
                   }}
-                  value={propertyData.tenants.find(tenant => tenant.id === value) || null}
+                  value={(propertyData?.tenants ?? []).find(tenant => tenant.id === value) || null}
                   renderInput={params => <TextField {...params} label='Tenant Attached' />}
                   isOptionEqualToValue={(option, value) => option.id === value}
                 />
@@ -270,12 +270,12 @@ const PropertyAddMaintenanceRequestDrawer = props => {
               defaultValue=''
               render={({ field: { onChange, onBlur, value, ref } }) => (
                 <Autocomplete
-                  options={propertyData.units}
+                  options={propertyData?.units ?? []}
                   getOptionLabel={unit => unit?.name + ' (' + unit?.id + ')'}
                   onChange={(event, newValue) => {
                     onChange(newValue ? newValue.id : '')
                   }}
-                  value={propertyData.units.find(unit => unit.id === value) || null}
+                  value={(propertyData?.units ?? []).find(unit => unit.id === value) || null}
                   renderInput={params => <TextField {...params} label='Unit Related' />}
                   isOptionEqualToValue={(option, value) => option.id === value}
                 />

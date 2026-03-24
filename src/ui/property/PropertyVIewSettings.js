@@ -182,7 +182,7 @@ const PropertyViewSettings = props => {
         <Card>
           <CardHeader title='Settings' sx={{ pb: 1.5 }} />
           <CardContent>
-            <form onSubmit={handleSubmit(onSubmit)} sx={{ mt: 1 }}>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <Controller
                 name='property_name'
                 control={control}

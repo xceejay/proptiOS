@@ -21,9 +21,6 @@ import CustomNoRowsOverlay from '../CustomNoRowsOverlay'
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
-// ** Store Imports
-import { useDispatch } from 'react-redux'
-
 // ** Custom Components Imports
 import CustomChip from 'src/@core/components/mui/chip'
 
@@ -35,7 +32,6 @@ import PropertyAddExistingTenantDrawer from './PropertyAddExistingTenantDrawer'
 import EditPropertyTenantDrawer from './EditPropertyTenantDrawer'
 
 const RowOptions = ({ id, row, setPropertyData, propertyData, setLoading }) => {
-  const dispatch = useDispatch()
   const [anchorEl, setAnchorEl] = useState(null)
   const rowOptionsOpen = Boolean(anchorEl)
 
@@ -51,7 +47,6 @@ const RowOptions = ({ id, row, setPropertyData, propertyData, setLoading }) => {
   }
 
   const handleDelete = () => {
-    dispatch(deleteUser(id))
     handleRowOptionsClose()
   }
 
@@ -81,7 +76,7 @@ const RowOptions = ({ id, row, setPropertyData, propertyData, setLoading }) => {
         PaperProps={{ style: { minWidth: '8rem' } }}
       >
         <MenuItem
-          href={'/tenants/manage/' + id + '/transactions'}
+          href={'/tenants/manage/' + id + '/summary'}
           component={Link}
           sx={{ '& svg': { mr: 2 } }}
           onClick={handleRowOptionsClose}
@@ -93,9 +88,9 @@ const RowOptions = ({ id, row, setPropertyData, propertyData, setLoading }) => {
           <Icon icon='tabler:pencil' fontSize={20} />
           Edit
         </MenuItem>
-        <MenuItem onClick={handleDelete} sx={{ '& svg': { mr: 2 } }}>
+        <MenuItem disabled sx={{ '& svg': { mr: 2 } }}>
           <Icon icon='tabler:trash' fontSize={20} />
-          Quick Suspend
+          Quick Suspend (Unavailable)
         </MenuItem>
       </Menu>
       <EditPropertyTenantDrawer
@@ -112,16 +107,12 @@ const RowOptions = ({ id, row, setPropertyData, propertyData, setLoading }) => {
 }
 
 const PropertyTenantManageTable = ({ setPropertyData, propertyData }) => {
-  const handleUpdateRow = () => {
-    apiRef.current.updateRows([{ id: rowId, username: randomUserName() }])
-  }
-
   // const [tenantsData, setTenantsData] = useState([])
   const tenantsData = useMemo(() => {
     if (propertyData?.tenants) {
       return propertyData?.tenants.map(tenant => {
         // Find units that belong to the current tenant
-        const tenantUnits = propertyData.units.filter(unit => unit.tenant_id === tenant.id)
+        const tenantUnits = (propertyData?.units ?? []).filter(unit => unit.tenant_id === tenant.id)
 
         // Attach the units array to the tenant data
         return { ...tenant, units: tenantUnits }
@@ -153,7 +144,7 @@ const PropertyTenantManageTable = ({ setPropertyData, propertyData }) => {
               <Typography
                 noWrap
                 component={Link}
-                href={'/tenants/manage/' + id + '/transactions'}
+                href={'/tenants/manage/' + id + '/summary'}
                 sx={{
                   fontWeight: 500,
                   textDecoration: 'none',
@@ -269,7 +260,7 @@ const PropertyTenantManageTable = ({ setPropertyData, propertyData }) => {
 
   useEffect(() => {
     // setLoading(true)
-    if(propertyData){
+    if (propertyData) {
       setLoading(false)
     }
   }, [propertyData])

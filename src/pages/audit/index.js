@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import ParentAuditEditInfo from 'src/ui/audit/ParentAuditEditInfo'
 
 const AuditPage = () => {
-  const router = useRouter
+  const router = useRouter()
   const tab = router.query?.tab || 'manage'
   const [auditData, setAuditData] = useState(null)
 

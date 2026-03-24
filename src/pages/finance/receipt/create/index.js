@@ -15,6 +15,7 @@ import AddCard from 'src/views/apps/receipt/add/AddCard'
 import AddActions from 'src/views/apps/receipt/add/AddActions'
 import AddNewCustomer from 'src/views/apps/receipt/add/AddNewCustomer'
 import { useRouter } from 'next/router'
+import toast from 'react-hot-toast'
 import { useProperties } from 'src/hooks/useProperties'
 
 const ReceiptAdd = ({}) => {
@@ -32,7 +33,7 @@ const ReceiptAdd = ({}) => {
         if (data?.status === 'NO_RES') {
           console.log('NO results')
         } else if (data?.status === 'FAILED') {
-          alert(response.message || 'Failed to fetch properties')
+          alert(responseData.message || 'Failed to fetch properties')
         } else {
           console.log('properties data has been fetched in receipts', data)
           setPropertiesData(data)

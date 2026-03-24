@@ -1,6 +1,9 @@
 // ** Third Party Imports
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import toast from 'react-hot-toast'
 import { useFinance } from 'src/hooks/useFinance'
 import MaintenanceReceipt from 'src/views/apps/receipt/preview/MaintenanceReceipt'
 import RentPaymentReceipt from 'src/views/apps/receipt/preview/RentPaymentReceipt'
@@ -10,11 +13,14 @@ import SendReceiptDrawer from 'src/views/apps/receipt/shared-drawer/SendReceiptD
 import AddPaymentDrawer from 'src/views/apps/receipt/shared-drawer/AddPaymentDrawer'
 
 import PreviewActions from 'src/views/apps/receipt/preview/PreviewActions'
+import { normalizeTransactionPreview } from 'src/ui/finance/financeTransactionPreviewModel'
 
 // ** Demo Components Imports
 
 const ReceiptPreview = () => {
   const [receiptData, setReceiptData] = useState(null)
+  const [errorMessage, setErrorMessage] = useState('')
+  const [loading, setLoading] = useState(true)
   const finance = useFinance()
   const router = useRouter()
   const { id } = router.query
@@ -25,31 +31,47 @@ const ReceiptPreview = () => {
   const toggleAddPaymentDrawer = () => setAddPaymentOpen(!addPaymentOpen)
   useEffect(() => {
     if (id) {
-      // Ensure id is defined before making the API call
+      setLoading(true)
+      setErrorMessage('')
+      setReceiptData(null)
       finance.getTransaction(
         id,
         responseData => {
-          console.log('called')
-          let { data } = responseData
+          const normalizedReceipt = normalizeTransactionPreview(responseData?.data?.data || responseData?.data)
 
-          setReceiptData(data)
-          console.log('FROM receipts single PAGE:', responseData)
-          if (responseData?.status === 'FAILED') {
-            alert(responseData.message || 'Failed to fetch receipts')
+          if (responseData?.data?.status === 'FAILED' || !normalizedReceipt) {
+            setErrorMessage(responseData?.data?.message || 'Failed to fetch receipt')
+          } else {
+            setReceiptData(normalizedReceipt)
           }
+          setLoading(false)
         },
         error => {
-          console.log(id)
-
-          toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
-            duration: 5000
-          })
+          const nextErrorMessage =
+            error.response?.data?.description || 'An error occurred. Please try again or contact support.'
+          setErrorMessage(nextErrorMessage)
+          toast.error(nextErrorMessage, { duration: 5000 })
+          setLoading(false)
         }
       )
     }
-  }, [])
+  }, [finance, id])
 
-  if (!receiptData) return <Spinner></Spinner>
+  if (loading) return <Spinner></Spinner>
+  if (errorMessage) {
+    return (
+      <Box sx={{ p: 6 }}>
+        <Typography color='error'>{errorMessage}</Typography>
+      </Box>
+    )
+  }
+  if (!receiptData) {
+    return (
+      <Box sx={{ p: 6 }}>
+        <Typography>No receipt found.</Typography>
+      </Box>
+    )
+  }
   return (
     <>
       {receiptData.payment_type === 'rent' ? (
@@ -82,10 +104,12 @@ const ReceiptPreview = () => {
       ) : receiptData.payment_type === 'maintenance' ? (
         <MaintenanceReceipt id={id} setReceiptData={setReceiptData} receiptData={receiptData} />
       ) : (
-        <>No receipt</>
+        <Box sx={{ p: 6 }}>
+          <Typography>Unsupported receipt type.</Typography>
+        </Box>
       )}
     </>
-  );
+  )
 }
 
 export default ReceiptPreview

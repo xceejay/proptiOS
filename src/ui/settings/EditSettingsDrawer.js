@@ -15,8 +15,6 @@ import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, Controller } from 'react-hook-form'
 import Icon from 'src/@core/components/icon'
-import { useDispatch, useSelector } from 'react-redux'
-import { addSettings } from 'src/store/apps/settings'
 import { useProperties } from 'src/hooks/useProperties'
 import toast from 'react-hot-toast'
 import Autocomplete from '@mui/material/Autocomplete'
@@ -94,7 +92,7 @@ const settingsTypes = [
 ]
 
 const EditSettingsDrawer = props => {
-  const { settingsData, setSettingsData, settingsData, open, toggle, setLoading } = props
+  const { settingsData, setSettingsData, open, toggle, setLoading } = props
   const settings = useSettings()
   const properties = useProperties()
   const router = useRouter()

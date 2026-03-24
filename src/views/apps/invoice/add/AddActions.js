@@ -2,6 +2,7 @@
 import Link from 'next/link'
 
 // ** MUI Imports
+import Alert from '@mui/material/Alert'
 import Card from '@mui/material/Card'
 import Grid from '@mui/material/Grid'
 import Select from '@mui/material/Select'
@@ -23,21 +24,27 @@ const OptionsWrapper = styled(Box)(() => ({
   justifyContent: 'space-between'
 }))
 
+const blockerMessage =
+  'Invoice creation is backend-blocked in this frontend: there is no create/send invoice API wired yet, so Send and Save stay disabled to avoid a false-success path.'
+
 const AddActions = () => {
   return (
     <Grid container spacing={6}>
       <Grid size={12}>
         <Card>
           <CardContent>
-            <Button size='small' fullWidth variant='contained' sx={{ mb: 2, '& svg': { mr: 2 } }}>
+            <Alert severity='warning' sx={{ mb: 4 }}>
+              {blockerMessage}
+            </Alert>
+            <Button size='small' fullWidth variant='contained' disabled sx={{ mb: 2, '& svg': { mr: 2 } }}>
               <Icon fontSize='14px' icon='tabler:send' />
-              Send Invoice
+              Send Disabled
             </Button>
             <Button fullWidth sx={{ mb: 2 }} component={Link} color='secondary' variant='outlined' href='view/4987'>
               Preview
             </Button>
-            <Button size='small' fullWidth variant='outlined' color='secondary'>
-              Save
+            <Button size='small' fullWidth variant='outlined' color='secondary' disabled>
+              Save Disabled
             </Button>
           </CardContent>
         </Card>

@@ -7,8 +7,13 @@
     "build": "next build",
     "start": "next start --turbopack",
     "export": "next export",
-    "lint": "eslint --fix \"src/**/*.{js,jsx}\"",
-    "format": "prettier --write \"src/**/*.{js,jsx}\"",
+    "lint": "eslint \"src/**/*.{js,jsx}\" \"test/**/*.{js,jsx}\"",
+    "lint:fix": "eslint --fix \"src/**/*.{js,jsx}\" \"test/**/*.{js,jsx}\"",
+    "format": "prettier --write \"src/**/*.{js,jsx}\" \"test/**/*.{js,jsx}\" \"docs/**/*.md\"",
+    "format:check": "prettier --check \"src/**/*.{js,jsx}\" \"test/**/*.{js,jsx}\" \"docs/**/*.md\"",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
     "build:icons": "node src/iconify-bundle/bundle-icons-react.js"
   },
   "dependencies": {
@@ -137,6 +142,11 @@
     "@iconify/types": "2.0.0",
     "@iconify/utils": "2.2.0",
     "@next/eslint-plugin-next": "^15.4.6",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
+    "@vitejs/plugin-react": "^6.0.1",
+    "@vitest/coverage-v8": "^4.1.1",
     "babel-eslint": "^10.1.0",
     "eslint": "^9.33.0",
     "eslint-config-airbnb": "^19.0.4",
@@ -150,6 +160,9 @@
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-unused-imports": "^4.1.4",
     "globals": "^16.3.0",
-    "prettier": "3.6.2"
+    "jsdom": "^29.0.1",
+    "prettier": "3.6.2",
+    "vite": "^8.0.2",
+    "vitest": "^4.1.1"
   }
 }

@@ -17,11 +17,9 @@ import AddUnitDrawer from './PropertyAddUnitDrawer'
 import { Menu, MenuItem } from '@mui/material'
 import CustomTenantToolbar from 'src/views/table/data-grid/CustomTenantToolbar'
 import CustomNoRowsOverlay from '../CustomNoRowsOverlay'
-import { useDispatch } from 'react-redux'
 import PropertyManageUnitDrawer from './PropertyManageUnitDrawer'
 
 const RowOptions = ({ id, row, setPropertyData, propertyData, setLoading }) => {
-  const dispatch = useDispatch()
   const [anchorEl, setAnchorEl] = useState(null)
   const rowOptionsOpen = Boolean(anchorEl)
   const [manageUnitOpen, setManageUnitOpen] = useState(false)
@@ -33,11 +31,6 @@ const RowOptions = ({ id, row, setPropertyData, propertyData, setLoading }) => {
 
   const handleRowOptionsClose = () => {
     setAnchorEl(null)
-  }
-
-  const handleDelete = () => {
-    dispatch(deleteUser(id))
-    handleRowOptionsClose()
   }
 
   const handleManage = () => {
@@ -79,9 +72,9 @@ const RowOptions = ({ id, row, setPropertyData, propertyData, setLoading }) => {
           <Icon icon='tabler:pencil' fontSize={20} />
           Manage
         </MenuItem>
-        <MenuItem onClick={handleDelete} sx={{ '& svg': { mr: 2 } }}>
+        <MenuItem disabled sx={{ '& svg': { mr: 2 } }}>
           <Icon icon='tabler:trash' fontSize={20} />
-          Quick Suspend
+          Quick Suspend (Unavailable)
         </MenuItem>
       </Menu>
 

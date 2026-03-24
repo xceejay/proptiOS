@@ -217,7 +217,6 @@ const FinanceSettlementConfigurationTab = ({ settlementPreferencesData }) => {
         </Dialog>
       </>
     )
-    console.log('delete')
   }
 
   const row = { status: 'active' }

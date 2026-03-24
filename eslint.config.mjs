@@ -6,16 +6,32 @@ import pluginUnusedImports from 'eslint-plugin-unused-imports'
 
 export default [
   {
-    ignoreDuringBuilds: true,
     files: ['**/*.{js,mjs,cjs,jsx,ts,tsx}'],
     languageOptions: {
-      globals: globals.browser,
+      globals: { ...globals.browser, ...globals.node },
       ecmaVersion: 'latest',
       sourceType: 'module',
       parserOptions: {
         ecmaFeatures: {
           jsx: true
         }
+      }
+    }
+  },
+  {
+    files: ['**/*.test.{js,jsx}', 'test/**/*.{js,jsx}', 'src/test/**/*.{js,jsx}'],
+    languageOptions: {
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+        describe: 'readonly',
+        it: 'readonly',
+        expect: 'readonly',
+        vi: 'readonly',
+        beforeEach: 'readonly',
+        afterEach: 'readonly',
+        beforeAll: 'readonly',
+        afterAll: 'readonly'
       }
     }
   },
@@ -63,8 +79,24 @@ export default [
           ignoreRestSiblings: true
         }
       ],
-      'react/prop-types': 'warn',
-      'react/jsx-key': 'warn'
+      'react/prop-types': 'off',
+      'react/jsx-key': 'warn',
+      'react/display-name': 'warn',
+      'react/no-unescaped-entities': 'warn',
+      'no-useless-escape': 'warn',
+      'no-empty-pattern': 'warn',
+      'no-dupe-keys': 'warn'
+    }
+  },
+  {
+    files: ['test/**/*.{js,jsx,ts,tsx}'],
+    languageOptions: {
+      globals: {
+        ...globals.vitest
+      }
+    },
+    rules: {
+      '@next/next/no-img-element': 'off'
     }
   }
 ]

@@ -22,6 +22,7 @@ import { Grid } from '@mui/material'
 import CustomStatementsToolbar from 'src/views/table/data-grid/CustomStatementsToolbar'
 import CustomNoRowsOverlay from '../CustomNoRowsOverlay'
 import CustomRangeDatePicker from '../CustomRangeDatePicker'
+import { filterTransactions } from './financeTableFilters'
 
 const LinkStyled = styled(Link)(({ theme, color }) => ({
   fontSize: '13px',
@@ -116,7 +117,7 @@ const columns = [
     headerName: 'Payment Method',
     renderCell: ({ row }) => (
       <Typography sx={{ textTransform: 'capitalize', color: 'text.secondary' }}>
-        {row.payment_method.replace('_', ' ') || 0}
+        {(row.payment_method || '').replaceAll('_', ' ') || 'N/A'}
       </Typography>
     )
   },
@@ -175,7 +176,7 @@ const columns = [
   // }
 ]
 
-const FinanceStatementsTable = ({ financeData }) => {
+const FinanceStatementsTable = ({ financeData, errorMessage = '' }) => {
   // ** State
   const [anchorEl, setAnchorEl] = useState(null)
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 7 })
@@ -240,14 +241,17 @@ const FinanceStatementsTable = ({ financeData }) => {
     setAnchorEl(null)
   }
 
-  const filteredRows = financeData
-    ? [...(financeData?.transactions?.expenses || []), ...(financeData?.transactions?.revenue || [])].filter(
-        row =>
-          (statusValue ? row.status === statusValue : true) &&
-          (paymentMethodValue ? row.payment_method === paymentMethodValue : true) &&
-          (paymentTypeValue ? row.payment_type === paymentTypeValue : true)
-      )
-    : []
+  const statementRows = [
+    ...(financeData?.transactions?.expenses || []),
+    ...(financeData?.transactions?.revenue || [])
+  ]
+
+  const filteredRows = filterTransactions(statementRows, {
+    search: value,
+    status: statusValue,
+    paymentMethod: paymentMethodValue,
+    paymentType: paymentTypeValue
+  })
 
   return (
     <Grid container spacing={6.5}>
@@ -273,6 +277,11 @@ const FinanceStatementsTable = ({ financeData }) => {
               </>
             }
           />
+          {errorMessage ? (
+            <Box sx={{ px: 6, pb: 4 }}>
+              <Typography color='error'>{errorMessage}</Typography>
+            </Box>
+          ) : null}
           {/* <CardHeader
         title='Transaction History'
         sx={{ '& .MuiCardHeader-action': { m: 0 } }}

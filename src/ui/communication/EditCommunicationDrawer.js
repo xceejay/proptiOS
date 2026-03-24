@@ -15,8 +15,6 @@ import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, Controller } from 'react-hook-form'
 import Icon from 'src/@core/components/icon'
-import { useDispatch, useSelector } from 'react-redux'
-import { addCommunication } from 'src/store/apps/communication'
 import { useProperties } from 'src/hooks/useProperties'
 import toast from 'react-hot-toast'
 import Autocomplete from '@mui/material/Autocomplete'
@@ -94,7 +92,7 @@ const communicationTypes = [
 ]
 
 const EditCommunicationDrawer = props => {
-  const { communicationData, setCommunicationData, communicationData, open, toggle, setLoading } = props
+  const { communicationData, setCommunicationData, open, toggle, setLoading } = props
   const communication = useCommunication()
   const properties = useProperties()
   const router = useRouter()

@@ -22,7 +22,7 @@ const ParentFinanceViewRentPayments = ({ setFinanceData, financeData }) => {
   // ** States
   const [value, setValue] = useState('1')
   const [loading, setLoading] = useState(false)
-  const [rentTransactions, setRentTransactions] = useState(false)
+  const [rentTransactions, setRentTransactions] = useState({ transactions: [] })
 
   const finance = useFinance()
 
@@ -48,7 +48,7 @@ const ParentFinanceViewRentPayments = ({ setFinanceData, financeData }) => {
         if (data?.status === 'NO_RES') {
           console.log('NO results')
         } else if (data?.status === 'FAILED') {
-          alert(response.message || 'Failed to fetch transactions')
+          alert(data.message || 'Failed to fetch transactions')
         } else {
           console.log('properties data has been fetched in leases', data)
           setRentTransactions(data)
@@ -77,7 +77,7 @@ const ParentFinanceViewRentPayments = ({ setFinanceData, financeData }) => {
 
           <TabPanel sx={{ mt: 5, padding: 0 }} value='1'>
             <FinanceRentTransactionListTable
-              rentTransactions={rentTransactions.transactions}
+              rentTransactions={rentTransactions?.transactions || []}
             ></FinanceRentTransactionListTable>
           </TabPanel>
           <TabPanel sx={{ mt: 5, padding: 0 }} value='2'></TabPanel>

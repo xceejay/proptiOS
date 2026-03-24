@@ -3,7 +3,6 @@ import { useEffect, useRef } from 'react'
 
 // ** Layout Components
 import VerticalLayout from './VerticalLayout'
-import HorizontalLayout from './HorizontalLayout'
 
 const Layout = props => {
   // ** Props
@@ -19,19 +18,11 @@ const Layout = props => {
       }
     } else {
       if (isCollapsed.current) {
-        saveSettings({ ...settings, navCollapsed: true, layout: settings.lastLayout })
+        saveSettings({ ...settings, navCollapsed: true, layout: 'vertical', lastLayout: 'vertical' })
         isCollapsed.current = false
-      } else {
-        if (settings.lastLayout !== settings.layout) {
-          saveSettings({ ...settings, layout: settings.lastLayout })
-        }
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hidden])
-  if (settings.layout === 'horizontal') {
-    return <HorizontalLayout {...props}>{children}</HorizontalLayout>
-  }
+  }, [hidden, saveSettings, settings])
 
   return <VerticalLayout {...props}>{children}</VerticalLayout>
 }

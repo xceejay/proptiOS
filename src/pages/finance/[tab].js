@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import ParentFinanceEditInfo from 'src/ui/finance/ParentFinanceEditInfo'
 import { useFinance } from 'src/hooks/useFinance'
+import toast from 'react-hot-toast'
 
 const FinanceTab = () => {
   const router = useRouter()
@@ -22,7 +23,7 @@ const FinanceTab = () => {
           if (data?.status === 'NO_RES') {
             console.log('NO results')
           } else if (data?.status === 'FAILED') {
-            alert(response.message || 'Failed to fetch properties')
+            alert(data.message || 'Failed to fetch finance data')
           } else {
             setFinanceData(data)
           }

@@ -489,7 +489,6 @@ const AddCard = props => {
 
   // ** Handle Invoice To Change
   const handleInvoiceChange = event => {
-    setSelected(event.target.value)
     if (clients !== undefined) {
       setSelectedClient(clients.filter(i => i.name === event.target.value)[0])
     }
@@ -566,8 +565,6 @@ const AddCard = props => {
         //   items: [...prevData.items, ...updatedRequestData]
         // }))
 
-        // Close the drawer
-        handleClose()
       },
       error => {
         toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
@@ -888,20 +885,19 @@ const AddCard = props => {
       </CardContent>
 
       {/* <Divider /> */}
-      {true ? (
-        <>
-          <CardContent sx={{}}>
-            <CustomLeaseEditor
-              originalContent={originalContent}
-              setOriginalContent={setOriginalContent}
-              handleReplaceVars={handleReplaceVars}
-              rteRef={rteRef}
-              submittedContent={submittedContent}
-              setSubmittedContent={setSubmittedContent}
-              defaultLeaseText={tenancyAgreementContent}
-              formVariables={formVariables}
-            ></CustomLeaseEditor>
-          </CardContent>
+      <>
+        <CardContent sx={{}}>
+          <CustomLeaseEditor
+            originalContent={originalContent}
+            setOriginalContent={setOriginalContent}
+            handleReplaceVars={handleReplaceVars}
+            rteRef={rteRef}
+            submittedContent={submittedContent}
+            setSubmittedContent={setSubmittedContent}
+            defaultLeaseText={tenancyAgreementContent}
+            formVariables={formVariables}
+          ></CustomLeaseEditor>
+        </CardContent>
           {/* <Divider /> */}
 
           {/* <CardContent sx={{ p: [`${theme.spacing(6)} !important`, `${theme.spacing(10)} !important`] }}>
@@ -1085,10 +1081,7 @@ const AddCard = props => {
               defaultValue='Please sign the document. Thank You!'
             />
           </CardContent>
-        </>
-      ) : (
-        <></>
-      )}
+      </>
     </Card>
   )
 }

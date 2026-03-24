@@ -3,9 +3,10 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import ParentFinanceEditInfo from 'src/ui/finance/ParentFinanceEditInfo'
 import { useFinance } from 'src/hooks/useFinance'
+import toast from 'react-hot-toast'
 
 const FinancePage = () => {
-  const router = useRouter
+  const router = useRouter()
   const tab = router.query?.tab || 'payments'
   const [financeData, setFinanceData] = useState(null)
   const paginationModel = {}
@@ -23,7 +24,7 @@ const FinancePage = () => {
           if (data?.status === 'NO_RES') {
             console.log('NO results')
           } else if (data?.status === 'FAILED') {
-            alert(response.message || 'Failed to fetch properties')
+            alert(data.message || 'Failed to fetch finance data')
           } else {
             setFinanceData(data)
           }

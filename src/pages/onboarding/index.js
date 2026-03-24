@@ -34,6 +34,7 @@ import { useSettings } from 'src/@core/hooks/useSettings'
 
 // ** Demo Imports
 import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
+import { useOnboarding } from 'src/hooks/useOnboarding'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 
@@ -88,6 +89,7 @@ const defaultValues = {
 }
 
 const Register = () => {
+  const onboarding = useOnboarding()
   const {
     control,
     setError,
@@ -102,13 +104,34 @@ const Register = () => {
   const onSubmit = data => {
     const { email, password } = data
 
-    // axios.get('http://google.com')
-    register.account({ email, password, rememberMe }, () => {
-      setError('email', {
-        type: 'manual',
-        message: 'Email or Password is invalid'
-      })
-    })
+    onboarding.registerAccount(
+      {
+        data: {
+          role: defaultValues.role,
+          email,
+          password,
+          site_name: '',
+          site_id: '',
+          country: '',
+          full_name: '',
+          id_card: ''
+        }
+      },
+      responseData => {
+        if (responseData?.data?.status === 'FAILED') {
+          setError('email', {
+            type: 'manual',
+            message: responseData.data.description || 'Email or Password is invalid'
+          })
+        }
+      },
+      () => {
+        setError('email', {
+          type: 'manual',
+          message: 'Email or Password is invalid'
+        })
+      }
+    )
   }
 
   // ** States

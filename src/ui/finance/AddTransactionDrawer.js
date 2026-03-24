@@ -113,56 +113,6 @@ const defaultValues = {
   user_type: 'tenant'
 }
 
-const onSubmit = formData => {
-  // If formData should be an array, keep it as is
-  let requestData = [formData]
-
-  tenants.addTenants(
-    requestData,
-    responseData => {
-      console.log('Add Tenant Drawer')
-      let { data } = responseData
-
-      if (data?.status === 'NO_RES') {
-        console.log('NO results')
-      } else if (data?.status === 'FAILED') {
-        alert(data.description || 'Failed to add tenant')
-        setError('email', {
-          type: 'manual',
-          message: data.description || 'Unknown error occurred'
-        })
-
-        return
-      }
-
-      const updatedRequestData = requestData.map(tenant => {
-        const matchingTenant = data.find(response => response.email === tenant.email)
-
-        if (matchingTenant) {
-          return {
-            ...tenant,
-            id: matchingTenant.id
-          }
-        }
-
-        return tenant
-      })
-      setTenantsData(prevData => ({
-        ...prevData,
-        items: [...prevData.items, ...updatedRequestData]
-      }))
-
-      // Close the drawer
-      handleClose()
-    },
-    error => {
-      toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
-        duration: 5000
-      })
-    }
-  )
-}
-
 const SidebarAddTenant = props => {
   const { setTenantsData, tenantsData, open, toggle } = props
 

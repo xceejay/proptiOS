@@ -18,11 +18,11 @@ import Icon from 'src/@core/components/icon'
 import { DataGrid } from '@mui/x-data-grid'
 import { Menu, MenuItem } from '@mui/material'
 import CustomNoRowsOverlay from '../CustomNoRowsOverlay'
-import { useDispatch } from 'react-redux'
 import PropertyAddMaintenanceRequestDrawer from './PropertyAddMaintenanceRequestDrawer'
 import CustomTenantToolbar from 'src/views/table/data-grid/CustomTenantToolbar'
 import PropertyManageMaintenanceRequestDrawer from './PropertyManageMaintenanceRequestDrawer'
 import CustomChip from 'src/@core/components/mui/chip'
+import { buildMaintenanceRequests, filterMaintenanceRequests } from './propertyMaintenanceModel'
 const RowOptions = ({
   id,
   row,
@@ -31,7 +31,6 @@ const RowOptions = ({
   setMaintenanceRequestsData,
   maintenanceRequestsData
 }) => {
-  const dispatch = useDispatch()
   const [anchorEl, setAnchorEl] = useState(null)
   const [loading, setLoading] = useState(false)
 
@@ -46,11 +45,6 @@ const RowOptions = ({
 
   const handleRowOptionsClose = () => {
     setAnchorEl(null)
-  }
-
-  const handleDelete = () => {
-    dispatch(deleteUser(id))
-    handleRowOptionsClose()
   }
 
   const handleManage = () => {
@@ -82,9 +76,9 @@ const RowOptions = ({
           <Icon icon='tabler:pencil' fontSize={20} />
           Manage
         </MenuItem>
-        <MenuItem onClick={handleDelete} sx={{ '& svg': { mr: 2 } }}>
+        <MenuItem disabled sx={{ '& svg': { mr: 2 } }}>
           <Icon icon='tabler:trash' fontSize={20} />
-          Quick Suspend
+          Quick Suspend (Unavailable)
         </MenuItem>
       </Menu>
 
@@ -128,7 +122,7 @@ const PropertyViewMaintenance = ({ setPropertyData, propertyData }) => {
 
     {
       field: 'maintenance_request_title',
-      valueGetter: params => params.row?.title || '',
+      valueGetter: (value, row) => row?.title || '',
       headerName: 'Title',
       width: 300,
       flex: 2
@@ -136,13 +130,13 @@ const PropertyViewMaintenance = ({ setPropertyData, propertyData }) => {
 
     {
       field: 'description',
-      valueGetter: params => params.row?.description || '',
+      valueGetter: (value, row) => row?.description || '',
       headerName: 'Description',
       flex: 1
     },
     {
       field: 'media_evidence',
-      valueGetter: params => (params.row?.media_url ? ' ✅' : '❌'),
+      valueGetter: (value, row) => (row?.media_url ? ' ✅' : '❌'),
       headerName: 'Media Evidence',
       flex: 1,
       width: 90
@@ -150,35 +144,34 @@ const PropertyViewMaintenance = ({ setPropertyData, propertyData }) => {
 
     {
       field: 'unit',
-      valueGetter: params =>
-        params.row?.unit?.name && params.row?.unit?.id ? `${params.row.unit.name} (${params.row.unit.id})` : 'None',
+      valueGetter: (value, row) => (row?.unit?.name && row?.unit?.id ? `${row.unit.name} (${row.unit.id})` : 'None'),
       headerName: 'Unit',
       flex: 1
     },
     {
       field: 'tenant',
-      valueGetter: params =>
-        params.row?.tenant?.name && params.row?.tenant?.id
-          ? `${params.row.tenant.name} (${params.row.tenant.id})`
+      valueGetter: (value, row) =>
+        row?.tenant?.name && row?.tenant?.id
+          ? `${row.tenant.name} (${row.tenant.id})`
           : 'None',
       headerName: 'Tenant',
       flex: 1
     },
     {
       field: 'assignee',
-      valueGetter: params =>
-        params.row.internal_assignee?.name
-          ? params.row.internal_assignee.name + ' (Internal)'
-          : params.row.external_assignee
-          ? params.row.external_assignee + ' (External)'
+      valueGetter: (value, row) =>
+        row?.internal_assignee?.name
+          ? row.internal_assignee.name + ' (Internal)'
+          : row?.external_assignee
+          ? row.external_assignee + ' (External)'
           : '',
       headerName: 'Assignee',
       flex: 1
     },
     {
       field: 'requester',
-      valueGetter: params => {
-        return params.row.requester?.name || ''
+      valueGetter: (value, row) => {
+        return row?.requester?.name || ''
       },
       headerName: 'Requested By',
       flex: 1
@@ -233,7 +226,7 @@ const PropertyViewMaintenance = ({ setPropertyData, propertyData }) => {
         <RowOptions
           row={row}
           id={row.id}
-          setPropertyData={propertyData}
+          setPropertyData={setPropertyData}
           propertyData={propertyData}
           setMaintenanceRequestsData={setMaintenanceRequestsData}
           maintenanceRequestsData={maintenanceRequestsData}
@@ -253,29 +246,12 @@ const PropertyViewMaintenance = ({ setPropertyData, propertyData }) => {
     setValue(val)
   }, [])
 
-  const filteredMaintenanceRequests = maintenanceRequestsData.filter(
-    maintenance_request =>
-      (maintenance_request?.request_owner?.toLowerCase() || '').includes(value.toLowerCase()) ||
-      (maintenance_request?.media_type?.toLowerCase() || '').includes(value.toLowerCase())
-  )
+  const filteredMaintenanceRequests = filterMaintenanceRequests(maintenanceRequestsData, value)
   const toggleAddMaintenanceRequestDrawer = () => setAddMaintenanceRequestOpen(!addMaintenanceRequestOpen)
 
   useEffect(() => {
     if (propertyData && propertyData.maintenance_requests) {
-      // console.log(propertyData.tenants, '', propertyData.maintenance_requests)
-
-      const maintenance_requests = propertyData.maintenance_requests.map(maintenance_request => {
-        const foundTenant = propertyData.tenants.find(tenant => tenant.id === maintenance_request.tenant_id)
-        const foundUnit = propertyData.units.find(unit => unit.id === maintenance_request.unit_id)
-
-        return {
-          ...maintenance_request,
-          tenant: foundTenant || null,
-          unit: foundUnit || null
-        }
-      })
-
-      setMaintenanceRequestsData(maintenance_requests)
+      setMaintenanceRequestsData(buildMaintenanceRequests(propertyData))
 
       console.log('requests', maintenanceRequestsData, 'another', propertyData.maintenance_requests)
     }

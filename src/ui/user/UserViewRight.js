@@ -47,14 +47,14 @@ const TabList = styled(MuiTabList)(({ theme }) => ({
   }
 }))
 
-const UserViewRight = ({ tab, userData }) => {
+const UserViewRight = ({ tab = 'transactions', userData }) => {
   const router = useRouter()
   const { id } = router.query
 
   // const { tab } = router.query
 
   // ** State
-  const [activeTab, setActiveTab] = useState(tab)
+  const [activeTab, setActiveTab] = useState(tab || 'transactions')
   const [isLoading, setIsLoading] = useState(true)
 
   // ** Hooks
@@ -72,13 +72,12 @@ const UserViewRight = ({ tab, userData }) => {
     if (tab && tab !== activeTab) {
       setActiveTab(tab)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tab])
   useEffect(() => {
-    if (userData) {
+    if (userData || id) {
       setIsLoading(false)
     }
-  }, [userData])
+  }, [id, userData])
 
   return (
     <TabContext value={activeTab}>

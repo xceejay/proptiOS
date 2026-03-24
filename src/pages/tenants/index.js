@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import ParentTenantEditInfo from 'src/ui/tenant/ParentTenantEditInfo'
 
 const TenantsPage = () => {
-  const router = useRouter
+  const router = useRouter()
   const tab = router.query?.tab || 'management'
   const [tenantsData, setTenantsData] = useState(null)
 

@@ -1,5 +1,6 @@
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
+import Alert from '@mui/material/Alert'
 import { styled } from '@mui/material/styles'
 import MuiTimeline from '@mui/lab/Timeline'
 
@@ -26,6 +27,16 @@ const Timeline = styled(MuiTimeline)(({ theme }) => ({
 }))
 
 const UserViewTransactions = ({ userData }) => {
+  if (!userData) {
+    return (
+      <Grid container spacing={6}>
+        <Grid size={12}>
+          <Alert severity='error'>User details could not be loaded, so transactions are unavailable for this route.</Alert>
+        </Grid>
+      </Grid>
+    )
+  }
+
   return (
     <Grid container spacing={6}>
       <Grid size={12}>
@@ -154,7 +165,7 @@ const UserViewTransactions = ({ userData }) => {
       </Grid> */}
 
       <Grid size={12}>
-        <UserTransactionListTable userTransactionData={userData.transactions} />
+        <UserTransactionListTable userTransactionData={userData.transactions || []} />
       </Grid>
     </Grid>
   )

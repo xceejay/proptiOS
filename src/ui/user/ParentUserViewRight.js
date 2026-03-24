@@ -55,9 +55,9 @@ const TabList = styled(MuiTabList)(({ theme }) => ({
 //   }
 // }))
 
-const ParentUserViewRight = ({ tab, userData, setUserData }) => {
+const ParentUserViewRight = ({ tab = 'invite', userData, setUserData }) => {
   // ** State
-  const [activeTab, setActiveTab] = useState(tab)
+  const [activeTab, setActiveTab] = useState(tab || 'invite')
   const [isLoading, setIsLoading] = useState(true)
 
   // ** Hooks
@@ -77,7 +77,6 @@ const ParentUserViewRight = ({ tab, userData, setUserData }) => {
     if (tab && tab !== activeTab) {
       setActiveTab(tab)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tab])
   useEffect(() => {
     // if (userData) {

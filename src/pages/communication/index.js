@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import ParentCommunicationEditInfo from 'src/ui/communication/ParentCommunicationEditInfo'
 
 const CommunicationPage = () => {
-  const router = useRouter
+  const router = useRouter()
   const tab = router.query?.tab || 'issues'
   const [communicationData, setCommunicationData] = useState(null)
 

@@ -39,6 +39,7 @@ const statusObj = {
 const RentPaymentReceipt = ({ receiptData }) => {
   const theme = useTheme()
   const auth = useAuth()
+  const totalPaid = receiptData?.total ?? receiptData?.amount ?? 0
 
   if (!receiptData) {
     return null
@@ -127,7 +128,7 @@ const RentPaymentReceipt = ({ receiptData }) => {
                     </MUITableCell>
                     <MUITableCell>
                       <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>
-                        {receiptData.issuedDate}
+                        {receiptData.issuedDateLabel || receiptData.issuedDate}
                       </Typography>
                     </MUITableCell>
                   </TableRow>
@@ -219,7 +220,7 @@ const RentPaymentReceipt = ({ receiptData }) => {
           <Grid size={12} sm={5}>
             <CalcWrapper>
               <Typography sx={{ color: 'text.secondary' }}>Total Paid:</Typography>
-              <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>{`$${receiptData.total}`}</Typography>
+              <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>{`$${totalPaid}`}</Typography>
             </CalcWrapper>
           </Grid>
         </Grid>

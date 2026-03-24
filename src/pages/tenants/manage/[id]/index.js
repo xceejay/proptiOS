@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useTenants } from 'src/hooks/useTenants'
 import TenantEditInfo from 'src/ui/tenant/TenantEditInfo'
 import { useRouter } from 'next/router'
+import toast from 'react-hot-toast'
 
 const TenantEdit = () => {
   const router = useRouter()
@@ -46,8 +47,7 @@ const TenantEdit = () => {
 
   return (
     <Grid>
-      {console.log(tenants)}
-      <TenantEditInfo tenantData={tenantData} tab={'details'}></TenantEditInfo>
+      <TenantEditInfo tenantData={tenantData} tab={'summary'}></TenantEditInfo>
     </Grid>
   )
 }

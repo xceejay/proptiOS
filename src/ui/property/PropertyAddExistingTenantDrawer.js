@@ -12,8 +12,10 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, Controller } from 'react-hook-form'
 import Icon from 'src/@core/components/icon'
 import { useTenants } from 'src/hooks/useTenants'
+import { useProperties } from 'src/hooks/useProperties'
 import toast from 'react-hot-toast'
 import Autocomplete from '@mui/material/Autocomplete'
+import { useRouter } from 'next/router'
 
 const showErrors = (field, valueLen, min) => {
   if (valueLen === 0) {
@@ -32,16 +34,8 @@ const Header = styled(Box)(({ theme }) => ({
   justifyContent: 'space-between'
 }))
 
-// Update validation schema based on the tenant fields
 const schema = yup.object().shape({
-  name: yup
-    .string()
-    .min(3, obj => showErrors('name', obj.value.length, obj.min))
-    .required(),
-  email: yup.string().email().required(),
-  address: yup.string(),
-  tel_number: yup.string(),
-  user_type: yup.string()
+  tenant: yup.object().nullable().required('Select a tenant')
 })
 
 const countries = [
@@ -102,63 +96,7 @@ const countries = [
 ]
 
 const defaultValues = {
-  name: '',
-  email: '',
-  address: '',
-  country: '',
-  tel_number: '',
-  property_name: '',
-  user_type: 'tenant'
-}
-
-const onSubmit = formData => {
-  // If formData should be an array, keep it as is
-  let requestData = [formData]
-
-  tenants.addTenants(
-    requestData,
-    responseData => {
-      console.log('Add Tenant Drawer')
-      let { data } = responseData
-
-      if (data?.status === 'NO_RES') {
-        console.log('NO results')
-      } else if (data?.status === 'FAILED') {
-        alert(data.description || 'Failed to add tenant')
-        setError('email', {
-          type: 'manual',
-          message: data.description || 'Unknown error occurred'
-        })
-
-        return
-      }
-
-      const updatedRequestData = requestData.map(tenant => {
-        const matchingTenant = data.find(response => response.email === tenant.email)
-
-        if (matchingTenant) {
-          return {
-            ...tenant,
-            id: matchingTenant.id
-          }
-        }
-
-        return tenant
-      })
-      setTenantsData(prevData => ({
-        ...prevData,
-        items: [...prevData.items, ...updatedRequestData]
-      }))
-
-      // Close the drawer
-      handleClose()
-    },
-    error => {
-      toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
-        duration: 5000
-      })
-    }
-  )
+  tenant: null
 }
 
 const PropertyAddExistingTenantDrawer = props => {
@@ -167,6 +105,9 @@ const PropertyAddExistingTenantDrawer = props => {
   const [role, setRole] = useState('tenant')
 
   const tenants = useTenants()
+  const properties = useProperties()
+  const router = useRouter()
+  const { id } = router.query
 
   const [allTenantsData, setAllTenantsData] = useState({})
 
@@ -200,7 +141,6 @@ const PropertyAddExistingTenantDrawer = props => {
   const {
     reset,
     control,
-    setValue,
     setError,
     handleSubmit,
     formState: { errors }
@@ -210,13 +150,35 @@ const PropertyAddExistingTenantDrawer = props => {
     resolver: yupResolver(schema)
   })
 
-  const onSubmit = formData => {
-    // If formData should be an array, keep it as is
-    formData.property_id = propertyData.id
+  const refreshPropertyData = () => {
+    if (!id) {
+      return
+    }
 
-    //find a way to define selected guy
-    let requestData = [formData]
-    tenants.addTenants(
+    properties.getProperty(
+      id,
+      responseData => {
+        setPropertyData(responseData.data)
+      },
+      error => {
+        toast.error(error.response?.data?.description || 'Failed to refresh property data', {
+          duration: 5000
+        })
+      }
+    )
+  }
+
+  const onSubmit = formData => {
+    const selectedTenant = formData.tenant
+    const requestData = [
+      {
+        ...selectedTenant,
+        property_id: propertyData.id,
+        user_type: selectedTenant.user_type || 'tenant'
+      }
+    ]
+
+    tenants.editTenants(
       requestData,
       responseData => {
         console.log('Add Tenant Drawer')
@@ -225,8 +187,8 @@ const PropertyAddExistingTenantDrawer = props => {
         if (data?.status === 'NO_RES') {
           console.log('NO results')
         } else if (data?.status === 'FAILED') {
-          alert(data.description || 'Failed to add tenant')
-          setError('email', {
+          alert(data.description || 'Failed to attach tenant')
+          setError('tenant', {
             type: 'manual',
             message: data.description || 'Unknown error occurred'
           })
@@ -234,29 +196,12 @@ const PropertyAddExistingTenantDrawer = props => {
           return
         }
 
-        const updatedRequestData = requestData.map(tenant => {
-          const matchingTenant = data.find(response => response.email === tenant.email)
-
-          if (matchingTenant) {
-            return {
-              ...tenant,
-              id: matchingTenant.id
-            }
-          }
-
-          return tenant
-        })
-
-        toast.success('Invitation email has been sent to ' + updatedRequestData[0].email, {
+        toast.success(selectedTenant.name + ' has been attached to ' + propertyData.name, {
           duration: 5000
         })
 
-        setPropertyData(prevData => ({
-          ...prevData,
-          items: [...prevData.tenants, ...updatedRequestData]
-        }))
-
         // Close the drawer
+        refreshPropertyData()
         handleClose()
       },
       error => {
@@ -298,19 +243,21 @@ const PropertyAddExistingTenantDrawer = props => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
-              render={({ onChange, ...props }) => (
+              name='tenant'
+              control={control}
+              render={({ field: { onChange, value } }) => (
                 <Autocomplete
-                  options={allTenantsData.items || []}
-                  getOptionLabel={tenant => tenant.name + '(' + tenant.email + ')'} // Display the tenant name
+                  options={(allTenantsData.items || []).filter(tenant => tenant.property?.id !== propertyData?.id)}
+                  value={value}
+                  getOptionLabel={tenant => `${tenant.name} (${tenant.email})`}
                   getOptionDisabled={tenant => !!tenant.property?.id}
+                  onChange={(_, newValue) => onChange(newValue)}
                   renderInput={params => <TextField {...params} label='Select Tenant' />}
+                  isOptionEqualToValue={(option, selectedValue) => option.id === selectedValue?.id}
                 />
               )}
-              onChange={([, data]) => data}
-              defaultValue={''}
-              name={name}
-              control={control}
             />
+            {errors.tenant ? <Typography color='error.main'>{errors.tenant.message}</Typography> : null}
           </FormControl>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Button size='small' type='submit' variant='contained' sx={{ mr: 3 }}>

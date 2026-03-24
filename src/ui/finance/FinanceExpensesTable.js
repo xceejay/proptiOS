@@ -25,6 +25,7 @@ import CustomFinanceToolbar from 'src/views/table/data-grid/CustomFinanceToolbar
 import CustomRangeDatePicker from '../CustomRangeDatePicker'
 import { Grid } from '@mui/material'
 import CustomNoRowsOverlay from '../CustomNoRowsOverlay'
+import { filterTransactions } from './financeTableFilters'
 
 // Create custom date operators
 const customDateOperators = [
@@ -280,14 +281,12 @@ const FinanceExpensesTable = ({ financeData }) => {
     setAnchorEl(null)
   }
 
-  const filteredRows = financeData
-    ? [...(financeData?.transactions?.expenses || []), ...(financeData?.transactions?.revenue || [])].filter(
-        row =>
-          (statusValue ? row.status === statusValue : true) &&
-          (paymentMethodValue ? row.payment_method === paymentMethodValue : true) &&
-          (paymentTypeValue ? row.payment_type === paymentTypeValue : true)
-      )
-    : []
+  const filteredRows = filterTransactions(financeData?.transactions?.expenses || [], {
+    search: value,
+    status: statusValue,
+    paymentMethod: paymentMethodValue,
+    paymentType: paymentTypeValue
+  })
 
   return (
     <Grid container spacing={6.5}>

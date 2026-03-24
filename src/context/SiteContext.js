@@ -42,12 +42,11 @@ const SiteProvider = ({ children }) => {
   //     }
   //   }
   //   initRegister()
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [])
 
   //function for registering an account.
   const getAllDashboard = (params, successCallback, errorCallback) => {
-    const token = window.localStorage.getItem('accessToken') || accessToken
+    const token = window.localStorage.getItem('accessToken')
 
     if (!token) {
       const error = new Error('No access token found')

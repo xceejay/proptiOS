@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 
 // ** Next Imports
 import Link from 'next/link'
@@ -23,8 +23,6 @@ import CustomNoRowsOverlay from '../CustomNoRowsOverlay'
 import Icon from 'src/@core/components/icon'
 
 // ** Store Imports
-import { useDispatch } from 'react-redux'
-
 // ** Custom Components Imports
 import CustomChip from 'src/@core/components/mui/chip'
 
@@ -33,9 +31,9 @@ import { useUsers } from 'src/hooks/useUsers'
 import EditUserDrawer from './EditUserDrawer'
 import toast from 'react-hot-toast'
 import CustomUsersToolbar from 'src/views/table/data-grid/CustomUsersToolbar'
+import { filterUsers } from './userManageFilters'
 
 const RowOptions = ({ id, row, setUsersData, usersData, setLoading }) => {
-  const dispatch = useDispatch()
   const [anchorEl, setAnchorEl] = useState(null)
   const rowOptionsOpen = Boolean(anchorEl)
 
@@ -64,10 +62,7 @@ const RowOptions = ({ id, row, setUsersData, usersData, setLoading }) => {
           console.log('NO results')
         } else if (data?.status === 'FAILED') {
           alert(data.description || 'Failed to disable user')
-          setError('email', {
-            type: 'manual',
-            message: data.description || 'Unknown error occurred'
-          })
+
           return
         }
 
@@ -105,10 +100,7 @@ const RowOptions = ({ id, row, setUsersData, usersData, setLoading }) => {
           console.log('NO results')
         } else if (data?.status === 'FAILED') {
           alert(data.description || 'Failed to disable user')
-          setError('email', {
-            type: 'manual',
-            message: data.description || 'Unknown error occurred'
-          })
+
           return
         }
 
@@ -376,27 +368,20 @@ const UserManageTable = () => {
   const [statusValue, setStatusValue] = useState('')
   const [invitationStatusValue, setInvitationStatusValue] = useState('')
 
-  const [invitationStatuses, setInvitationStatuses] = useState([
+  const invitationStatuses = [
     { text: 'All', value: '' },
     { text: 'Pending', value: 'pending' },
     { text: 'Expired', value: 'expired' },
     { text: 'Accepted', value: 'accepted' },
     { text: 'Resent', value: 'resent' }
-  ])
+  ]
 
-  const [statuses, setStatuses] = useState([
+  const statuses = [
     { text: 'All', value: '' },
     { text: 'Active', value: 'active' },
     { text: 'Inactive', value: 'inactive' },
     { text: 'Disabled', value: 'disabled' }
-  ])
-
-  const [filterModel, setFilterModel] = useState({
-    items: [
-      { field: 'status', operator: 'equals', value: statusValue },
-      { field: 'invitation_status', operator: 'equals', value: invitationStatusValue }
-    ]
-  })
+  ]
 
   useEffect(() => {
     users.getUsers(
@@ -432,25 +417,14 @@ const UserManageTable = () => {
 
   const toggleAddUserDrawer = () => setAddUserOpen(!addUserOpen)
 
-  // Filter users based on the search value
-  // const filteredUsers = usersData.items.filter(
-  //   user =>
-  //     (user.name?.toLowerCase() || '').includes(value.toLowerCase()) ||
-  //     (user.email?.toLowerCase() || '').includes(value.toLowerCase()) ||
-  //     (user.address?.toLowerCase() || '').includes(value.toLowerCase())
-  // )
-  const [filteredUsers, setFilteredUsers] = useState([])
-  useEffect(() => {
-    const filtered =
-      usersData?.items?.filter(
-        row =>
-          (statusValue ? row.status === statusValue : true) &&
-          (invitationStatusValue ? row.invitation_status === invitationStatusValue : true) &&
-          (row.email?.toLowerCase() || '').includes(value.toLowerCase())
-      ) || []
-
-    setFilteredUsers(filtered) // Update the filteredUsers state
-  }, [usersData, statusValue, invitationStatusValue, value])
+  const filteredUsers = useMemo(() => {
+    return filterUsers({
+      users: usersData?.items || [],
+      search: value,
+      status: statusValue,
+      invitationStatus: invitationStatusValue
+    })
+  }, [invitationStatusValue, statusValue, usersData, value])
 
   return (
     <Grid container spacing={6.5}>
@@ -479,27 +453,6 @@ const UserManageTable = () => {
                 //   variant: 'skeleton',
                 //   noRowsVariant: 'skeleton'
                 // }
-              }}
-              filterModel={filterModel} // Track the filterModel state
-              onFilterModelChange={newFilterModel => {
-                // Update the filterModel state dynamically for any field or operator change
-                setFilterModel(newFilterModel)
-
-                // Loop through each filter item and dynamically update values
-                newFilterModel.items.forEach(item => {
-                  switch (item.field) {
-                    case 'status':
-                      setStatusValue(item.value)
-                      break
-                    case 'invitation_status':
-                      setInvitationStatusValue(item.value)
-                      break
-
-                    default:
-                      // Handle other fields dynamically if needed
-                      break
-                  }
-                })
               }}
               slotProps={{
                 toolbar: {

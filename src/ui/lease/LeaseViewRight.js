@@ -68,7 +68,6 @@ const LeaseViewRight = ({ tab, leasesData }) => {
   //   if (tab && tab !== activeTab) {
   //     setActiveTab(tab)
   //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [tab])
   // useEffect(() => {
   //   //changed temp to display leases billing page

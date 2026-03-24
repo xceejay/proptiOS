@@ -9,8 +9,8 @@ const initialSettings = {
   mode: themeConfig.mode,
   skin: themeConfig.skin,
   footer: themeConfig.footer,
-  layout: themeConfig.layout,
-  lastLayout: themeConfig.layout,
+  layout: 'vertical',
+  lastLayout: 'vertical',
   direction: themeConfig.direction,
   navHidden: themeConfig.navHidden,
   appBarBlur: themeConfig.appBarBlur,
@@ -18,7 +18,7 @@ const initialSettings = {
   contentWidth: themeConfig.contentWidth,
   toastPosition: themeConfig.toastPosition,
   verticalNavToggleType: themeConfig.verticalNavToggleType,
-  appBar: themeConfig.layout === 'horizontal' && themeConfig.appBar === 'hidden' ? 'fixed' : themeConfig.appBar
+  appBar: themeConfig.appBar
 }
 
 const staticSettings = {
@@ -35,7 +35,7 @@ const restoreSettings = () => {
   try {
     const storedData = window.localStorage.getItem('settings')
     if (storedData) {
-      settings = { ...JSON.parse(storedData), ...staticSettings }
+      settings = { ...JSON.parse(storedData), ...staticSettings, layout: 'vertical', lastLayout: 'vertical' }
     } else {
       settings = initialSettings
     }
@@ -67,30 +67,29 @@ export const SettingsContext = createContext({
 export const SettingsProvider = ({ children, pageSettings }) => {
   // ** State
   const [settings, setSettings] = useState({ ...initialSettings })
-  useEffect(() => {
-    const restoredSettings = restoreSettings()
-    if (restoredSettings) {
-      setSettings({ ...restoredSettings })
-    }
-    if (pageSettings) {
-      setSettings({ ...settings, ...pageSettings })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pageSettings])
-  useEffect(() => {
-    if (settings.layout === 'horizontal' && settings.mode === 'semi-dark') {
-      saveSettings({ ...settings, mode: 'light' })
-    }
-    if (settings.layout === 'horizontal' && settings.appBar === 'hidden') {
-      saveSettings({ ...settings, appBar: 'fixed' })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [settings.layout])
 
   const saveSettings = updatedSettings => {
     storeSettings(updatedSettings)
     setSettings(updatedSettings)
   }
+
+  useEffect(() => {
+    const restoredSettings = restoreSettings()
+
+    if (restoredSettings) {
+      setSettings({ ...restoredSettings })
+    }
+
+    if (pageSettings) {
+      setSettings(prevSettings => ({ ...prevSettings, ...pageSettings, layout: 'vertical', lastLayout: 'vertical' }))
+    }
+  }, [pageSettings])
+
+  useEffect(() => {
+    if (settings.layout !== 'vertical' || settings.lastLayout !== 'vertical') {
+      saveSettings({ ...settings, layout: 'vertical', lastLayout: 'vertical' })
+    }
+  }, [settings.layout, settings.lastLayout])
 
   return <SettingsContext.Provider value={{ settings, saveSettings }}>{children}</SettingsContext.Provider>
 }

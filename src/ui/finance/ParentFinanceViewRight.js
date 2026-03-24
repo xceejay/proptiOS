@@ -59,9 +59,9 @@ const TabList = styled(MuiTabList)(({ theme }) => ({
 //   }
 // }))
 
-const ParentFinanceViewRight = ({ tab, financeData, setFinanceData }) => {
+const ParentFinanceViewRight = ({ tab = 'payments', financeData, setFinanceData }) => {
   // ** State
-  const [activeTab, setActiveTab] = useState(tab)
+  const [activeTab, setActiveTab] = useState(tab || 'payments')
   const [isLoading, setIsLoading] = useState(true)
 
   // ** Hooks
@@ -81,7 +81,6 @@ const ParentFinanceViewRight = ({ tab, financeData, setFinanceData }) => {
     if (tab && tab !== activeTab) {
       setActiveTab(tab)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tab])
   useEffect(() => {
     // if (financeData) {

@@ -57,9 +57,9 @@ const TabList = styled(MuiTabList)(({ theme }) => ({
 //   }
 // }))
 
-const ParentPropertyViewRight = ({ tab, propertyData, setPropertyData }) => {
+const ParentPropertyViewRight = ({ tab = 'management', propertyData, setPropertyData }) => {
   // ** State
-  const [activeTab, setActiveTab] = useState(tab)
+  const [activeTab, setActiveTab] = useState(tab || 'management')
   const [isLoading, setIsLoading] = useState(true)
 
   // ** Hooks
@@ -79,7 +79,6 @@ const ParentPropertyViewRight = ({ tab, propertyData, setPropertyData }) => {
     if (tab && tab !== activeTab) {
       setActiveTab(tab)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tab])
   useEffect(() => {
     // if (propertyData) {
@@ -103,7 +102,7 @@ const ParentPropertyViewRight = ({ tab, propertyData, setPropertyData }) => {
         if (data?.status === 'NO_RES') {
           console.log('NO results')
         } else if (data?.status === 'FAILED') {
-          alert(response.message || 'Failed to fetch properties')
+          alert(data.message || 'Failed to fetch properties')
         } else {
           setPropertiesData(data)
           console.log(data)

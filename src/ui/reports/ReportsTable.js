@@ -152,7 +152,6 @@ const ReportsTable = () => {
           setRows(loadServerRows(paginationModel.page, res.data.data))
         })
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [paginationModel]
   )
   useEffect(() => {

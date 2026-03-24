@@ -46,7 +46,6 @@ const OnboardingProvider = ({ children }) => {
   //     }
   //   }
   //   initRegister()
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [])
 
   //function for registering an account.

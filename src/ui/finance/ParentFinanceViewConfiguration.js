@@ -359,21 +359,15 @@ const ParentFinanceViewConfiguration = ({ setFinanceData, financeData }) => {
                 <CardContent sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <Box>sss</Box>
                   <Box sx={{ mt: 2 }}>
-                    {true ? (
-                      <>
-                        <Chip
-                          label={primaryAccountLabel}
-                          color={primaryAccountColor}
-                          round={false}
-                          variant='outlined'
-                          onDelete={handleDelete}
-                          deleteIcon={<Icon icon='tabler:trash' />}
-                          sx={{ textTransform: 'uppercase', ml: 2 }}
-                        />
-                      </>
-                    ) : (
-                      <></>
-                    )}
+                    <Chip
+                      label={primaryAccountLabel}
+                      color={primaryAccountColor}
+                      round={false}
+                      variant='outlined'
+                      onDelete={handleDelete}
+                      deleteIcon={<Icon icon='tabler:trash' />}
+                      sx={{ textTransform: 'uppercase', ml: 2 }}
+                    />
                   </Box>
                 </CardContent>
               </Card>
@@ -398,21 +392,7 @@ const ParentFinanceViewConfiguration = ({ setFinanceData, financeData }) => {
                 <CardContent sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <Box>sss</Box>
                   <Box sx={{ mt: 2 }}>
-                    {false ? (
-                      <>
-                        <Chip
-                          label={primaryAccountLabel}
-                          color={primaryAccountColor}
-                          round={false}
-                          variant='outlined'
-                          onDelete={handleDelete}
-                          deleteIcon={<Icon icon='tabler:trash' />}
-                          sx={{ textTransform: 'uppercase', ml: 2 }}
-                        />
-                      </>
-                    ) : (
-                      <></>
-                    )}
+                    <></>
                   </Box>
                 </CardContent>
               </Card>

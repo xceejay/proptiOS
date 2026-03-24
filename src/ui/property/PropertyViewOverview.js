@@ -1,235 +1,52 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useMemo } from 'react'
 import Grid from '@mui/material/Grid'
 import CardStatsVertical from 'src/@core/components/card-statistics/card-stats-vertical'
 import AddUnitDrawer from './PropertyAddUnitDrawer'
-
-const columns = [
-  { flex: 1, field: 'id', headerName: 'Unit Id', width: 90 },
-  {
-    field: 'tenant_name',
-    valueGetter: params => params.row.tenant?.name || '',
-    headerName: 'Occupied Tenant',
-    flex: 1,
-    width: 300
-  }
-]
+import { buildPropertyOverviewStats, buildPropertyUnitsData } from './propertyOverviewModel'
 
 const PropertyViewOverview = ({ setPropertyData, propertyData }) => {
   const [addUnitOpen, setAddUnitOpen] = useState(false)
-  // const [unitsData, setUnitsData] = useState([])
 
-  const unitsData = useMemo(() => {
-    if (propertyData && propertyData.units && propertyData.tenants) {
-      return propertyData.units.map(unit => {
-        const foundTenant = propertyData.tenants.find(tenant => tenant.id === unit.tenant_id)
-
-        return {
-          ...unit,
-          tenant: foundTenant || null
-        }
-      })
-    }
-
-    return []
-  }, [propertyData])
+  const unitsData = useMemo(() => buildPropertyUnitsData(propertyData), [propertyData])
 
   const toggleAddUnitDrawer = () => setAddUnitOpen(!addUnitOpen)
+
+  const overviewStats = useMemo(() => buildPropertyOverviewStats(propertyData), [propertyData])
 
   return (
     <Grid container spacing={6}>
       <Grid size={12}>
         <Grid container spacing={5}>
-          {/* <Grid size={12} lg={6}>
-            <Card>
-              <Grid container>
-                <Grid size={6} lg={6}>
-                  <CardHeader title='Units' />
-                </Grid>
-                <Grid size={6} lg={6}>
-                  <CardActions sx={{ display: 'flex', justifyContent: 'right', mt: 2 }}>
-                    <Button variant='contained' size='small' onClick={toggleAddUnitDrawer}>
-                      Add Unit
-                    </Button>
-                  </CardActions>
-                </Grid>
-              </Grid>
-              <CardContent sx={{ pt: 0 }}>
-                <Box sx={{ height: 400, width: '100%' }}>
-                  <DataGrid
-                    rows={unitsData}
-                    columns={columns}
-                    initialState={{
-                      pagination: {
-                        paginationModel: {
-                          pageSize: 5
-                        }
-                      }
-                    }}
-                    pageSizeOptions={[5]}
-                    checkboxSelection={false}
-                    disableRowSelectionOnClick
-                  />
-                </Box>
-              </CardContent>
-            </Card>
-          </Grid> */}
           <Grid
             size={{
               xs: 12,
               lg: 6
             }}>
             <Grid container spacing={6.5}>
-              <Grid
-                size={{
-                  xs: 12,
-                  sm: 6,
-                  lg: 6
-                }}>
-                <CardStatsVertical
-                  stats={'0 units'}
-                  chipText='+0 units'
-                  avatarColor={'primary'}
-                  chipColor='default'
-                  title='Units'
-                  subtitle='All time'
-                  avatarIcon='tabler:bed'
-                />
-              </Grid>
-              <Grid
-                size={{
-                  xs: 12,
-                  sm: 6,
-                  lg: 6
-                }}>
-                <CardStatsVertical
-                  stats={'0 tenants'}
-                  chipText='+0 tenants'
-                  avatarColor='info'
-                  chipColor='default'
-                  title='Applicants'
-                  subtitle='All time'
-                  avatarIcon='tabler:forms'
-                />
-              </Grid>
-              <Grid
-                size={{
-                  xs: 12,
-                  sm: 6,
-                  lg: 6
-                }}>
-                <CardStatsVertical
-                  stats={propertyData.maintenance_requests.length + ' requests'}
-                  chipText='+0 requests'
-                  avatarColor='success'
-                  chipColor='default'
-                  title='Maintenance'
-                  avatarIcon='tabler:tool'
-                />
-              </Grid>
-              <Grid
-                size={{
-                  xs: 12,
-                  sm: 6,
-                  lg: 6
-                }}>
-                <CardStatsVertical
-                  stats={propertyData.tenants.length + ' tenants'}
-                  chipText='+0 tenants'
-                  avatarColor='primary'
-                  chipColor='default'
-                  title='Tenants'
-                  avatarIcon='tabler:friends'
-                />
-              </Grid>
+              {overviewStats.map(stat => (
+                <Grid
+                  key={stat.title}
+                  size={{
+                    xs: 12,
+                    sm: 6,
+                    lg: 6
+                  }}>
+                  <CardStatsVertical chipColor='default' {...stat} />
+                </Grid>
+              ))}
             </Grid>
           </Grid>
-
-          <Grid
-            size={{
-              xs: 12,
-              lg: 6
-            }}>
-            <Grid container spacing={6.5}>
-              <Grid
-                size={{
-                  xs: 12,
-                  sm: 6,
-                  lg: 6
-                }}>
-                <CardStatsVertical
-                  stats={'0 units'}
-                  chipText='+0 units'
-                  avatarColor={'primary'}
-                  chipColor='default'
-                  title='Units'
-                  subtitle='All time'
-                  avatarIcon='tabler:bed'
-                />
-              </Grid>
-              <Grid
-                size={{
-                  xs: 12,
-                  sm: 6,
-                  lg: 6
-                }}>
-                <CardStatsVertical
-                  stats={'0 tenants'}
-                  chipText='+0 tenants'
-                  avatarColor='info'
-                  chipColor='default'
-                  title='Applicants'
-                  subtitle='All time'
-                  avatarIcon='tabler:forms'
-                />
-              </Grid>
-              <Grid
-                size={{
-                  xs: 12,
-                  sm: 6,
-                  lg: 6
-                }}>
-                <CardStatsVertical
-                  stats={propertyData.maintenance_requests.length + ' requests'}
-                  chipText='+0 requests'
-                  avatarColor='success'
-                  chipColor='default'
-                  title='Maintenance'
-                  avatarIcon='tabler:tool'
-                />
-              </Grid>
-              <Grid
-                size={{
-                  xs: 12,
-                  sm: 6,
-                  lg: 6
-                }}>
-                <CardStatsVertical
-                  stats={propertyData.tenants.length + ' tenants'}
-                  chipText='+0 tenants'
-                  avatarColor='primary'
-                  chipColor='default'
-                  title='Tenants'
-                  avatarIcon='tabler:friends'
-                />
-              </Grid>
-            </Grid>
-          </Grid>
-
-          {/* <Grid size={12}>
-            <PropertyTenantManageTable setPropertyData={setPropertyData} propertyData={propertyData} />
-          </Grid> */}
         </Grid>
       </Grid>
       <AddUnitDrawer
         unitsData={unitsData}
         propertyData={propertyData}
         setPropertyData={setPropertyData}
-        // setUnitsData={setUnitsData}
         open={addUnitOpen}
         toggle={toggleAddUnitDrawer}
       />
     </Grid>
-  );
+  )
 }
 
 PropertyViewOverview.acl = { action: 'read', subject: 'properties' }

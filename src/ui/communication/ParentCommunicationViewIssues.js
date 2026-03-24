@@ -22,7 +22,11 @@ import {
   FormControl,
   Select,
   MenuItem,
-  Stack
+  Stack,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions
 } from '@mui/material'
 import AttachFileIcon from '@mui/icons-material/AttachFile'
 import SendIcon from '@mui/icons-material/Send'
@@ -177,6 +181,11 @@ const schema = yup.object().shape({
     })
 })
 
+const createIssueSchema = yup.object().shape({
+  title: yup.string().trim().required('Issue title is required'),
+  description: yup.string().trim().required('Issue description is required')
+})
+
 const ParentCommunicationViewIssues = ({ communicationData }) => {
   const isMobile = useMediaQuery('(max-width:600px)')
   const [issues, setIssues] = useState(initialIssues)
@@ -185,6 +194,7 @@ const ParentCommunicationViewIssues = ({ communicationData }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [videoDialogOpen, setVideoDialogOpen] = useState(false)
   const [videoUrl, setVideoUrl] = useState('')
+  const [createIssueOpen, setCreateIssueOpen] = useState(false)
 
   const statusColors = {
     Open: 'primary',
@@ -227,6 +237,18 @@ const ParentCommunicationViewIssues = ({ communicationData }) => {
       file: null
     }
   })
+  const {
+    register: registerIssue,
+    handleSubmit: handleCreateIssueSubmit,
+    reset: resetCreateIssue,
+    formState: { errors: createIssueErrors }
+  } = useForm({
+    resolver: yupResolver(createIssueSchema),
+    defaultValues: {
+      title: '',
+      description: ''
+    }
+  })
 
   const handleIssueClick = useCallback(
     issueId => {
@@ -251,6 +273,37 @@ const ParentCommunicationViewIssues = ({ communicationData }) => {
     setVideoUrl('')
   }
 
+  const handleOpenCreateIssue = () => {
+    setCreateIssueOpen(true)
+  }
+
+  const handleCloseCreateIssue = () => {
+    setCreateIssueOpen(false)
+    resetCreateIssue()
+  }
+
+  const handleCreateIssue = data => {
+    const nextIssueId = Math.max(...issues.map(issue => issue.id), 0) + 1
+    const nextIssue = {
+      id: nextIssueId,
+      title: data.title,
+      description: data.description,
+      status: 'Open',
+      date: new Date().toISOString().slice(0, 10),
+      reporter: {
+        id: 0,
+        name: 'Current User',
+        user_type: 'pm_user'
+      },
+      attachments: []
+    }
+
+    setIssues(prevIssues => [nextIssue, ...prevIssues])
+    setSelectedIssue(nextIssueId)
+    setDrawerOpen(false)
+    handleCloseCreateIssue()
+  }
+
   const onSubmit = async data => {
     if (!selectedIssue) return
     setIsLoading(true)
@@ -260,6 +313,7 @@ const ParentCommunicationViewIssues = ({ communicationData }) => {
         issueId: selectedIssue,
         text: data.comment,
         author: 'Current User',
+        commenter: { id: 0, name: 'Current User', user_type: 'pm_user' },
         timestamp: new Date().toISOString(),
         attachment: data.file
           ? { name: data.file.name, type: data.file.type, url: URL.createObjectURL(data.file) }
@@ -306,7 +360,7 @@ const ParentCommunicationViewIssues = ({ communicationData }) => {
           title='Issues'
           action={
             <Tooltip title='Create new Issue'>
-              <IconButton>
+              <IconButton aria-label='Create new Issue' onClick={handleOpenCreateIssue}>
                 <AddIcon></AddIcon>
               </IconButton>
             </Tooltip>
@@ -812,6 +866,35 @@ const ParentCommunicationViewIssues = ({ communicationData }) => {
           </Box>
         </Drawer>
       )}
+      <Dialog open={createIssueOpen} onClose={handleCloseCreateIssue} fullWidth maxWidth='sm'>
+        <form onSubmit={handleCreateIssueSubmit(handleCreateIssue)}>
+          <DialogTitle>Create new Issue</DialogTitle>
+          <DialogContent>
+            <Stack spacing={4} sx={{ pt: 1 }}>
+              <TextField
+                label='Issue title'
+                {...registerIssue('title')}
+                error={Boolean(createIssueErrors.title)}
+                helperText={createIssueErrors.title?.message}
+              />
+              <TextField
+                label='Issue description'
+                multiline
+                minRows={4}
+                {...registerIssue('description')}
+                error={Boolean(createIssueErrors.description)}
+                helperText={createIssueErrors.description?.message}
+              />
+            </Stack>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseCreateIssue}>Cancel</Button>
+            <Button type='submit' variant='contained'>
+              Create Issue
+            </Button>
+          </DialogActions>
+        </form>
+      </Dialog>
     </Box>
   )
 }

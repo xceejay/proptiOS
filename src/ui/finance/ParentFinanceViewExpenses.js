@@ -25,7 +25,7 @@ const ParentFinanceViewExpenses = ({ setFinanceData, financeData }) => {
   return (
     <Grid container spacing={6}>
       <Grid size={12}>
-        <FinanceExpensesTable></FinanceExpensesTable>
+        <FinanceExpensesTable financeData={financeData}></FinanceExpensesTable>
 
         {/* <Card>
           <CardContent sx={{ mt: 2, padding: 0 }}>

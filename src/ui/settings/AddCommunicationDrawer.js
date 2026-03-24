@@ -113,56 +113,6 @@ const defaultValues = {
   settings_type: 'settings'
 }
 
-const onSubmit = formData => {
-  // If formData should be an array, keep it as is
-  let requestData = [formData]
-
-  settings.addSettings(
-    requestData,
-    responseData => {
-      console.log('Add Settings Drawer')
-      let { data } = responseData
-
-      if (data?.status === 'NO_RES') {
-        console.log('NO results')
-      } else if (data?.status === 'FAILED') {
-        alert(data.description || 'Failed to add settings')
-        setError('email', {
-          type: 'manual',
-          message: data.description || 'Unknown error occurred'
-        })
-
-        return
-      }
-
-      const updatedRequestData = requestData.map(settings => {
-        const matchingSettings = data.find(response => response.email === settings.email)
-
-        if (matchingSettings) {
-          return {
-            ...settings,
-            id: matchingSettings.id
-          }
-        }
-
-        return settings
-      })
-      setSettingsData(prevData => ({
-        ...prevData,
-        items: [...prevData.items, ...updatedRequestData]
-      }))
-
-      // Close the drawer
-      handleClose()
-    },
-    error => {
-      toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
-        duration: 5000
-      })
-    }
-  )
-}
-
 const SidebarAddSettings = props => {
   const { setSettingsData, settingsData, open, toggle } = props
 

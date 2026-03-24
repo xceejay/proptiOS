@@ -21,6 +21,7 @@ import { useRouter } from 'next/router'
 import { CircularProgress } from '@mui/material'
 import { MuiFileInput } from 'mui-file-input'
 import { FileUploadOutlined } from '@mui/icons-material'
+import Alert from '@mui/material/Alert'
 // IMPLEMENTATION NOT DONE YET
 const PropertyManageMaintenanceRequestDrawer = props => {
   const {
@@ -32,10 +33,6 @@ const PropertyManageMaintenanceRequestDrawer = props => {
     toggle,
     setLoading
   } = props
-  const properties = useProperties()
-  const router = useRouter()
-  const { id } = router.query
-
   const [mediaPreview, setMediaPreview] = useState('')
   const [loadingVideo, setLoadingVideo] = useState(false)
   const [file, setFile] = useState(null)
@@ -75,14 +72,6 @@ const PropertyManageMaintenanceRequestDrawer = props => {
       })
   })
 
-  const blockedUnit = () => {
-    let unit_id = propertyData.units.find(unit => unit.unit_unit_id == maintenanceRequestData.id)?.id || ''
-
-    console.log('found unit', unit_id)
-
-    return unit_id
-  }
-
   const defaultValues = {
     request_media: maintenanceRequestData?.request_media,
     request_owner: maintenanceRequestData?.request_owner,
@@ -97,7 +86,6 @@ const PropertyManageMaintenanceRequestDrawer = props => {
     reset,
     control,
     setValue,
-    setError,
     handleSubmit,
     formState: { errors }
   } = useForm({
@@ -122,90 +110,10 @@ const PropertyManageMaintenanceRequestDrawer = props => {
     }
   }, [maintenanceRequestData, propertyData, reset])
 
-  const refreshPropertyData = () => {
-    if (id) {
-      // Ensure id is defined before making the API call
-      properties.getProperty(
-        id,
-        responseData => {
-          console.log('refreshed data')
-          let { data } = responseData
-          setPropertyData(data)
-          console.log('FROM Edit unit PAGE: refreshing property Data', responseData)
-
-          if (responseData?.status === 'FAILED') {
-            alert(responseData.message || 'Failed to fetch properties')
-          }
-
-          setMaintenanceRequestsData([...propertyData?.units])
-          setLoading(false)
-        },
-        error => {
-          console.log(id)
-
-          toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
-            duration: 5000
-          })
-        }
-      )
-    }
-  }
-
   const onSubmit = formData => {
-    console.log('triggered')
-    setLoading(true)
-    formData.property_id = propertyData.id
-    formData.id = maintenanceRequestData.id
-
-    let requestData = [formData]
-
-    console.log('maintenanceRequestData', maintenanceRequestData)
-
-    console.log('reqdata', requestData)
-
-    properties.editUnits(
-      requestData,
-      responseData => {
-        let { data } = responseData
-
-        if (data?.status === 'NO_RES') {
-          console.log('NO results')
-        } else if (data?.status === 'FAILED') {
-          alert(data.description || 'Failed to add unit')
-          setError('email', {
-            type: 'manual',
-            message: data.description || 'Unknown error occurred'
-          })
-
-          return
-        }
-
-        const updatedRequestData = requestData.map(unit => {
-          const matchingUnit = data.find(response => response.uuid === unit.uuid)
-
-          if (matchingUnit) {
-            return {
-              ...unit,
-              id: matchingUnit.id
-            }
-          }
-
-          return unit
-        })
-
-        toast.success('Change applied', { duration: 3000 })
-        refreshPropertyData()
-        handleClose()
-      },
-      error => {
-        toast.error('Failed to edit unit', { duration: 3000 })
-        setLoading(false)
-
-        toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
-          duration: 5000
-        })
-      }
-    )
+    toast.error('Maintenance request editing is blocked until a dedicated update endpoint is wired.', {
+      duration: 5000
+    })
   }
 
   const handleClose = () => {
@@ -237,6 +145,10 @@ const PropertyManageMaintenanceRequestDrawer = props => {
       </Header>
       <Box sx={{ p: theme => theme.spacing(0, 6, 6) }}>
         <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
+          <Alert severity='warning' sx={{ mb: 4 }}>
+            This drawer is view-only for now. The previous submit path posted to the unit update endpoint, so submit is
+            intentionally disabled until the correct maintenance update contract exists.
+          </Alert>
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
               name='title'
@@ -280,12 +192,12 @@ const PropertyManageMaintenanceRequestDrawer = props => {
               defaultValue=''
               render={({ field: { onChange, onBlur, value, ref } }) => (
                 <Autocomplete
-                  options={propertyData.tenants}
+                  options={propertyData?.tenants ?? []}
                   getOptionLabel={tenant => tenant.name + ' (' + tenant.id + ')'}
                   onChange={(event, newValue) => {
                     onChange(newValue ? newValue.id : '')
                   }}
-                  value={propertyData.tenants.find(tenant => tenant.id === value) || null}
+                  value={(propertyData?.tenants ?? []).find(tenant => tenant.id === value) || null}
                   renderInput={params => <TextField {...params} label='Tenant Attached' />}
                   isOptionEqualToValue={(option, value) => option.id === value}
                 />
@@ -300,12 +212,12 @@ const PropertyManageMaintenanceRequestDrawer = props => {
               defaultValue=''
               render={({ field: { onChange, onBlur, value, ref } }) => (
                 <Autocomplete
-                  options={propertyData.units}
+                  options={propertyData?.units ?? []}
                   getOptionLabel={unit => unit?.name + ' (' + unit?.id + ')'}
                   onChange={(event, newValue) => {
                     onChange(newValue ? newValue.id : '')
                   }}
-                  value={propertyData.units.find(unit => unit.id === value) || null}
+                  value={(propertyData?.units ?? []).find(unit => unit.id === value) || null}
                   renderInput={params => <TextField {...params} label='Unit Related' />}
                   isOptionEqualToValue={(option, value) => option.id === value}
                 />
@@ -396,7 +308,7 @@ const PropertyManageMaintenanceRequestDrawer = props => {
             </Box>
           )}
 
-          <Button size='small' fullWidth type='submit' variant='contained'>
+          <Button size='small' fullWidth type='submit' variant='contained' disabled>
             Submit
           </Button>
         </form>

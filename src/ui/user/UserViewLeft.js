@@ -24,6 +24,7 @@ import DialogActions from '@mui/material/DialogActions'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import DialogContentText from '@mui/material/DialogContentText'
 import { useRouter } from 'next/router'
+import CircularProgress from '@mui/material/CircularProgress'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
@@ -71,12 +72,17 @@ const Sub = styled('sub')(({ theme }) => ({
 
 const UserViewLeft = ({ userData }) => {
   const router = useRouter()
+  const users = useUsers()
+  const { id } = router.query
 
   // ** States
   const [openEdit, setOpenEdit] = useState(false)
   const [openPlans, setOpenPlans] = useState(false)
   const [suspendDialogOpen, setSuspendDialogOpen] = useState(false)
   const [subscriptionDialogOpen, setSubscriptionDialogOpen] = useState(false)
+  const [resolvedUserData, setResolvedUserData] = useState(userData || null)
+  const [loading, setLoading] = useState(!userData)
+  const [errorMessage, setErrorMessage] = useState('')
 
   // Handle Edit dialog
   const handleEditClickOpen = () => setOpenEdit(true)
@@ -85,33 +91,72 @@ const UserViewLeft = ({ userData }) => {
   // Handle Upgrade Plan dialog
   const handlePlansClickOpen = () => setOpenPlans(true)
   const handlePlansClose = () => setOpenPlans(false)
-  const users = useUsers()
-  const { id } = router.query
+  const resolveUserPayload = responseData => {
+    const responsePayload = responseData?.data
+    const nextUser = responsePayload?.data ?? responsePayload
+
+    if (!nextUser || nextUser?.status === 'FAILED' || nextUser === 'NO_RES') {
+      return null
+    }
+
+    return nextUser
+  }
 
   useEffect(() => {
-    if (!userData) {
-      console.log('data???????')
+    setResolvedUserData(userData || null)
+    setLoading(!userData)
+    setErrorMessage('')
+  }, [userData])
+
+  useEffect(() => {
+    if (!userData && id) {
+      setLoading(true)
+      setErrorMessage('')
       users.getUser(
         id,
         responseData => {
-          let { data } = responseData
+          const nextUser = resolveUserPayload(responseData)
 
-          userData = { ...data }
-
-          if (response?.status === 'FAILED') {
-            alert(response.message || 'Failed to fetch users')
+          if (!nextUser) {
+            setErrorMessage(responseData?.data?.message || 'Failed to fetch user details.')
+            setLoading(false)
 
             return
           }
 
-          // setUsersData(response)
+          setResolvedUserData(nextUser)
+          setLoading(false)
         },
-        error => {}
+        error => {
+          setErrorMessage(error.response?.data?.description || 'Failed to fetch user details.')
+          setLoading(false)
+        }
       )
     }
-  }, [userData])
+  }, [id, userData, users])
 
-  if (userData) {
+  if (loading) {
+    return (
+      <Box sx={{ mt: 6, display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+        <CircularProgress sx={{ mb: 4 }} />
+        <Typography>Loading...</Typography>
+      </Box>
+    )
+  }
+
+  if (errorMessage) {
+    return (
+      <Card>
+        <CardContent>
+          <Typography color='error'>{errorMessage}</Typography>
+        </CardContent>
+      </Card>
+    )
+  }
+
+  if (resolvedUserData) {
+    const userData = resolvedUserData
+
     return (
       <Grid container spacing={6}>
         <Grid size={12}>
@@ -208,12 +253,12 @@ const UserViewLeft = ({ userData }) => {
                 <Box sx={{ display: 'flex', mb: 3 }}>
                   <Typography sx={{ mr: 2, fontWeight: 500 }}>Property:</Typography>
                   <Typography sx={{ color: 'text.secondary', textTransform: 'capitalize' }}>
-                    {userData.property.name}
+                    {userData.property?.name || 'N/A'}
                   </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', mb: 3 }}>
                   <Typography sx={{ mr: 2, fontWeight: 500 }}>Total Units :</Typography>
-                  <Typography sx={{ color: 'text.secondary' }}>{userData.units.length}</Typography>
+                  <Typography sx={{ color: 'text.secondary' }}>{userData.units?.length ?? 0}</Typography>
                 </Box>
                 <Box sx={{ display: 'flex', mb: 3 }}>
                   <Typography sx={{ mr: 2, fontWeight: 500 }}>Contact:</Typography>

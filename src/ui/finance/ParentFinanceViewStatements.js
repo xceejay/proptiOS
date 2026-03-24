@@ -23,6 +23,7 @@ const ParentFinanceViewStatements = ({ setFinanceData, financeData }) => {
   const finance = useFinance()
   const paginationModel = {}
   const [loading, setLoading] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
   const [startDate, setStartDate] = useState(new Date())
   const [endDate, setEndDate] = useState(addDays(new Date(), 15))
   const [startDateRange, setStartDateRange] = useState(new Date())
@@ -49,6 +50,8 @@ const ParentFinanceViewStatements = ({ setFinanceData, financeData }) => {
   }
 
   useEffect(() => {
+    setLoading(true)
+    setErrorMessage('')
     finance.getAllTransactions(
       { page: paginationModel.page, limit: paginationModel.pageSize },
       responseData => {
@@ -57,7 +60,7 @@ const ParentFinanceViewStatements = ({ setFinanceData, financeData }) => {
         if (data?.status === 'NO_RES') {
           console.log('NO results')
         } else if (data?.status === 'FAILED') {
-          alert(response.message || 'Failed to fetch transactions')
+          setErrorMessage(data.message || 'Failed to fetch transactions')
         } else {
           console.log('properties data has been fetched in leases', data)
           setAllTransactions(data)
@@ -67,9 +70,10 @@ const ParentFinanceViewStatements = ({ setFinanceData, financeData }) => {
       },
       error => {
         console.log(error)
-        toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
-          duration: 5000
-        })
+        const nextErrorMessage =
+          error.response?.data?.description || 'An error occurred. Please try again or contact support.'
+        setErrorMessage(nextErrorMessage)
+        toast.error(nextErrorMessage, { duration: 5000 })
         setLoading(false) // Stop loading on error
       }
     )
@@ -158,7 +162,7 @@ const ParentFinanceViewStatements = ({ setFinanceData, financeData }) => {
             <FinanceStatementsTable></FinanceStatementsTable>
           </CardContent> */}
         {/* </Card> */}
-        <FinanceStatementsTable financeData={transactions}></FinanceStatementsTable>
+        <FinanceStatementsTable financeData={transactions} errorMessage={errorMessage}></FinanceStatementsTable>
       </Grid>
     </Grid>
   )

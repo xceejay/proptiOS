@@ -98,8 +98,8 @@ const CommunicationViewLeft = ({ communicationData }) => {
 
           communicationData = { ...data }
 
-          if (response?.status === 'FAILED') {
-            alert(response.message || 'Failed to fetch communication')
+          if (responseData?.status === 'FAILED') {
+            alert(responseData.message || 'Failed to fetch communication')
 
             return
           }

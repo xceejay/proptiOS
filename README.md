@@ -2,6 +2,18 @@
 
 Property Manager Dashboard
 
+## Engineering notes
+- Code structure and coding patterns: `docs/ARCHITECTURE-AND-CODING-PATTERNS.md`
+- Testing and linting plan: `docs/TESTING-AND-LINTING-PLAN.md`
+- Bug-fix proposal: `docs/BUG-FIX-PROPOSAL.md`
+
+## Quality commands
+- `pnpm lint`
+- `pnpm lint:fix`
+- `pnpm test`
+- `pnpm test:watch`
+- `pnpm test:coverage`
+
 Pages:
 The following pages are available in the application:
 

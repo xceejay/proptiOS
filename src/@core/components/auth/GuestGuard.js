@@ -21,7 +21,6 @@ const GuestGuard = props => {
       // toast.error('Logout to access this page', { duration: 5000 })
       router.replace('/')
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.route])
   if (auth.loading || (!auth.loading && auth.user !== null)) {
     return fallback

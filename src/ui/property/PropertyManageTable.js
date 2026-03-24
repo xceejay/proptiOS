@@ -12,6 +12,7 @@ import MenuItem from '@mui/material/MenuItem'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import { DataGrid } from '@mui/x-data-grid'
+import toast from 'react-hot-toast'
 
 import AddUserDrawer from './AddPropertyDrawer'
 
@@ -29,8 +30,9 @@ import { useProperties } from 'src/hooks/useProperties'
 import CustomTenantToolbar from 'src/views/table/data-grid/CustomTenantToolbar'
 import CustomNoRowsOverlay from '../CustomNoRowsOverlay'
 import EditPropertyDrawer from './EditPropertyDrawer'
+import { removePropertyById } from './propertyManageModel'
 
-const RowOptions = ({ id, row, stopPropagation, setPropertiesData, propertiesData }) => {
+const RowOptions = ({ id, row, stopPropagation, setPropertiesData, propertiesData, deleteProperties }) => {
   const [anchorEl, setAnchorEl] = useState(null)
   const rowOptionsOpen = Boolean(anchorEl)
   const [editDrawerOpen, setEditDrawerOpen] = useState(false)
@@ -45,13 +47,17 @@ const RowOptions = ({ id, row, stopPropagation, setPropertiesData, propertiesDat
   }
 
   const handleDelete = async () => {
-    try {
-      await useProperties.deleteProperty(id)
-      toast.success('Property deleted successfully')
-    } catch (error) {
-      console.error(error)
-      toast.error('Error deleting property')
-    }
+    deleteProperties(
+      id,
+      () => {
+        setPropertiesData(prevProperties => removePropertyById(prevProperties || propertiesData, id))
+        toast.success('Property deleted successfully')
+      },
+      error => {
+        console.error(error)
+        toast.error('Error deleting property')
+      }
+    )
     handleRowOptionsClose()
   }
 
@@ -119,6 +125,7 @@ const PropertyManageTable = ({
   setLoading,
   setPropertiesData
 }) => {
+  const properties = useProperties()
   const columns = [
     {
       flex: 0.25,
@@ -217,6 +224,7 @@ const PropertyManageTable = ({
           row={row}
           setPropertiesData={setPropertiesData}
           propertiesData={propertiesData}
+          deleteProperties={properties.deleteProperties}
         />
       )
     }

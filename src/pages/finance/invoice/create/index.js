@@ -15,6 +15,7 @@ import AddCard from 'src/views/apps/invoice/add/AddCard'
 import AddActions from 'src/views/apps/invoice/add/AddActions'
 import AddNewCustomer from 'src/views/apps/invoice/add/AddNewCustomer'
 import { useRouter } from 'next/router'
+import toast from 'react-hot-toast'
 import { useProperties } from 'src/hooks/useProperties'
 
 const InvoiceAdd = ({}) => {
@@ -32,7 +33,7 @@ const InvoiceAdd = ({}) => {
         if (data?.status === 'NO_RES') {
           console.log('NO results')
         } else if (data?.status === 'FAILED') {
-          alert(response.message || 'Failed to fetch properties')
+          alert(responseData.message || 'Failed to fetch properties')
         } else {
           console.log('properties data has been fetched in invoices', data)
           setPropertiesData(data)

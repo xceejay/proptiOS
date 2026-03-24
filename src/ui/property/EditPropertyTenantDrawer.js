@@ -107,7 +107,7 @@ const EditPropertyTenantDrawer = props => {
   })
 
   const blockedUnit = () => {
-    let units = propertyData.units.find(unit => unit.tenant_id == tenantData.id)?.id || ''
+    let units = (propertyData?.units ?? []).find(unit => unit.tenant_id == tenantData.id)?.id || ''
 
     console.log('found unit', units)
 
@@ -239,7 +239,7 @@ const EditPropertyTenantDrawer = props => {
         // Create updated tenant object with full unit objects
         const updatedTenant = {
           ...formData,
-          units: propertyData.units.filter(unit => formData.units.includes(unit.id))
+          units: (propertyData?.units ?? []).filter(unit => formData.units.includes(unit.id))
         }
 
         // Call the onTenantUpdate function from props to update UI immediately
@@ -456,7 +456,7 @@ const EditPropertyTenantDrawer = props => {
                     onChange(newValue ? newValue.map(unit => unit.id) : [])
                   }}
                   getOptionDisabled={unit => unit.tenant_id && unit.tenant_id !== tenantData.id}
-                  value={propertyData.units.filter(unit => value.includes(unit.id))} // Set the selected values
+                  value={(propertyData?.units ?? []).filter(unit => value.includes(unit.id))} // Set the selected values
                   renderInput={params => <TextField {...params} label='Units Occupied' />}
                   isOptionEqualToValue={(option, value) => option.id === value.id} // Ensure proper comparison
                 />

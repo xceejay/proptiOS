@@ -113,56 +113,6 @@ const defaultValues = {
   communication_type: 'communication'
 }
 
-const onSubmit = formData => {
-  // If formData should be an array, keep it as is
-  let requestData = [formData]
-
-  communication.addCommunication(
-    requestData,
-    responseData => {
-      console.log('Add Communication Drawer')
-      let { data } = responseData
-
-      if (data?.status === 'NO_RES') {
-        console.log('NO results')
-      } else if (data?.status === 'FAILED') {
-        alert(data.description || 'Failed to add communication')
-        setError('email', {
-          type: 'manual',
-          message: data.description || 'Unknown error occurred'
-        })
-
-        return
-      }
-
-      const updatedRequestData = requestData.map(communication => {
-        const matchingCommunication = data.find(response => response.email === communication.email)
-
-        if (matchingCommunication) {
-          return {
-            ...communication,
-            id: matchingCommunication.id
-          }
-        }
-
-        return communication
-      })
-      setCommunicationData(prevData => ({
-        ...prevData,
-        items: [...prevData.items, ...updatedRequestData]
-      }))
-
-      // Close the drawer
-      handleClose()
-    },
-    error => {
-      toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
-        duration: 5000
-      })
-    }
-  )
-}
-
 const SidebarAddCommunication = props => {
   const { setCommunicationData, communicationData, open, toggle } = props
 

@@ -19,9 +19,10 @@ import Icon from 'src/@core/components/icon'
 
 // ** Demo Components Imports
 import TenantViewBilling from 'src/ui/tenant/TenantViewBilling'
-import TenantViewTransactions from 'src/ui/tenant/TenantViewTransactions'
+import TenantViewSummary from 'src/ui/tenant/TenantViewSummary'
 import TenantViewSecurity from 'src/ui/tenant/TenantViewSecurity'
 import TenantViewConnection from 'src/ui/tenant/TenantViewConnection'
+import TenantViewTransactions from 'src/ui/tenant/TenantViewTransactions'
 
 // ** Styled Tab component
 const Tab = styled(MuiTab)(({ theme }) => ({
@@ -47,14 +48,14 @@ const TabList = styled(MuiTabList)(({ theme }) => ({
   }
 }))
 
-const UserViewRight = ({ tab, tenantData }) => {
+const UserViewRight = ({ tab = 'summary', tenantData }) => {
   const router = useRouter()
   const { id } = router.query
 
   // const { tab } = router.query
 
   // ** State
-  const [activeTab, setActiveTab] = useState(tab)
+  const [activeTab, setActiveTab] = useState(tab || 'summary')
   const [isLoading, setIsLoading] = useState(true)
 
   // ** Hooks
@@ -72,7 +73,6 @@ const UserViewRight = ({ tab, tenantData }) => {
     if (tab && tab !== activeTab) {
       setActiveTab(tab)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tab])
   useEffect(() => {
     if (tenantData) {
@@ -91,9 +91,15 @@ const UserViewRight = ({ tab, tenantData }) => {
       >
         <Tab
           sx={{ fontSize: '13px' }}
+          value='summary'
+          label='Summary'
+          icon={<Icon fontSize='14px' icon='tabler:user-check' />}
+        />
+        <Tab
+          sx={{ fontSize: '13px' }}
           value='transactions'
           label='Transactions'
-          icon={<Icon fontSize='14px' icon='tabler:user-check' />}
+          icon={<Icon fontSize='14px' icon='tabler:receipt-2' />}
         />
         <Tab
           sx={{ fontSize: '13px' }}
@@ -119,6 +125,9 @@ const UserViewRight = ({ tab, tenantData }) => {
           </Box>
         ) : (
           <>
+            <TabPanel sx={{ p: 0 }} value='summary'>
+              <TenantViewSummary tenantData={tenantData} />
+            </TabPanel>
             <TabPanel sx={{ p: 0 }} value='transactions'>
               <TenantViewTransactions tenantData={tenantData} />
             </TabPanel>

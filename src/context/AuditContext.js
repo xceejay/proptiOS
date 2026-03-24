@@ -32,7 +32,7 @@ const AuditProvider = ({ children }) => {
   }, [])
 
   const getAllAuditLogs = (params, successCallback, errorCallback) => {
-    const token = window.localStorage.getItem('accessToken') || accessToken
+    const token = window.localStorage.getItem('accessToken')
 
     if (!token) {
       const error = new Error('No access token found')

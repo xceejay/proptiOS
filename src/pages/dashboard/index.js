@@ -32,7 +32,7 @@ const Dashboard = () => {
         if (data?.status === 'NO_RES') {
           console.log('NO results')
         } else if (data?.status === 'FAILED') {
-          alert(response.message || 'Failed to fetch properties')
+          alert(data.message || 'Failed to fetch dashboard data')
         } else {
           setDashData(data)
         }

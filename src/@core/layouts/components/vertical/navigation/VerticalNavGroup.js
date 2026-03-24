@@ -132,7 +132,6 @@ const VerticalNavGroup = props => {
     if (navCollapsed && !navHover) {
       setGroupActive([])
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.asPath])
   useEffect(() => {
     if (navCollapsed && !navHover) {
@@ -141,13 +140,11 @@ const VerticalNavGroup = props => {
     if ((navCollapsed && navHover) || (groupActive.length === 0 && !navCollapsed)) {
       setGroupActive([...currentActiveGroup])
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navCollapsed, navHover])
   useEffect(() => {
     if (groupActive.length === 0 && !navCollapsed) {
       setGroupActive([])
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navHover])
   const icon = parent && !item.icon ? themeConfig.navSubItemIcon : item.icon
   const menuGroupCollapsedStyles = navCollapsed && !navHover ? { opacity: 0 } : { opacity: 1 }

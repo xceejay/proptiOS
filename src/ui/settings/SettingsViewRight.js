@@ -72,7 +72,6 @@ const SettingsViewRight = ({ tab, settingsData }) => {
     if (tab && tab !== activeTab) {
       setActiveTab(tab)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tab])
   useEffect(() => {
     if (settingsData) {

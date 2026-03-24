@@ -55,9 +55,9 @@ const TabList = styled(MuiTabList)(({ theme }) => ({
 //   }
 // }))
 
-const ParentTenantViewRight = ({ tab, tenantData, setTenantData }) => {
+const ParentTenantViewRight = ({ tab = 'management', tenantData, setTenantData }) => {
   // ** State
-  const [activeTab, setActiveTab] = useState(tab)
+  const [activeTab, setActiveTab] = useState(tab || 'management')
   const [isLoading, setIsLoading] = useState(true)
 
   // ** Hooks
@@ -77,7 +77,6 @@ const ParentTenantViewRight = ({ tab, tenantData, setTenantData }) => {
     if (tab && tab !== activeTab) {
       setActiveTab(tab)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tab])
   useEffect(() => {
     // if (tenantData) {

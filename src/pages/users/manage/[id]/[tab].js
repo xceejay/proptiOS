@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { useUsers } from 'src/hooks/useUsers'
 import UserEditInfo from 'src/ui/user/UserEditInfo'
+import toast from 'react-hot-toast'
 
 const UserView = () => {
   const router = useRouter()

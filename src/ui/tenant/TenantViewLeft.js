@@ -98,8 +98,8 @@ const UserViewLeft = ({ tenantData }) => {
 
           tenantData = { ...data }
 
-          if (response?.status === 'FAILED') {
-            alert(response.message || 'Failed to fetch tenants')
+          if (responseData?.status === 'FAILED') {
+            alert(responseData.message || 'Failed to fetch tenants')
 
             return
           }
@@ -208,12 +208,12 @@ const UserViewLeft = ({ tenantData }) => {
                 <Box sx={{ display: 'flex', mb: 3 }}>
                   <Typography sx={{ mr: 2, fontWeight: 500 }}>Property:</Typography>
                   <Typography sx={{ color: 'text.secondary', textTransform: 'capitalize' }}>
-                    {tenantData.property.name}
+                    {tenantData.property?.name || 'N/A'}
                   </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', mb: 3 }}>
                   <Typography sx={{ mr: 2, fontWeight: 500 }}>Total Units :</Typography>
-                  <Typography sx={{ color: 'text.secondary' }}>{tenantData.units.length}</Typography>
+                  <Typography sx={{ color: 'text.secondary' }}>{(tenantData?.units?.length ?? 0)}</Typography>
                 </Box>
                 <Box sx={{ display: 'flex', mb: 3 }}>
                   <Typography sx={{ mr: 2, fontWeight: 500 }}>Contact:</Typography>

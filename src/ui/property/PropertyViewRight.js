@@ -51,11 +51,11 @@ const TabList = styled(MuiTabList)(({ theme }) => ({
   }
 }))
 
-const UserViewRight = ({ tab, propertyData, setPropertyData }) => {
+const UserViewRight = ({ tab = 'overview', propertyData, setPropertyData }) => {
   const ability = useContext(AbilityContext)
 
   // ** State
-  const [activeTab, setActiveTab] = useState(tab)
+  const [activeTab, setActiveTab] = useState(tab || 'overview')
   const [isLoading, setIsLoading] = useState(true)
 
   // ** Hooks

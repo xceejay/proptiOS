@@ -16,9 +16,6 @@ import { DataGrid } from '@mui/x-data-grid'
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
-// ** Store Imports
-import { useDispatch } from 'react-redux'
-
 // ** Custom Components Imports
 import CustomChip from 'src/@core/components/mui/chip'
 import CustomNoRowsOverlay from '../CustomNoRowsOverlay'
@@ -31,12 +28,8 @@ import { useLeases } from 'src/hooks/useLeases'
 import CustomLeaseToolbar from 'src/views/table/data-grid/CustomLeaseToolbar'
 
 const RowOptions = ({ id, row, setLeasesData, leasesData, setLoading }) => {
-  const dispatch = useDispatch()
   const [anchorEl, setAnchorEl] = useState(null)
   const rowOptionsOpen = Boolean(anchorEl)
-  const [editLeaseOpen, setEditLeaseOpen] = useState(false)
-
-  const toggleEditLeaseDrawer = () => setEditLeaseOpen(!editLeaseOpen)
 
   const handleRowOptionsClick = event => {
     setAnchorEl(event.currentTarget)
@@ -44,16 +37,6 @@ const RowOptions = ({ id, row, setLeasesData, leasesData, setLoading }) => {
 
   const handleRowOptionsClose = () => {
     setAnchorEl(null)
-  }
-
-  const handleDelete = () => {
-    dispatch(deleteUser(id))
-    handleRowOptionsClose()
-  }
-
-  const handleEdit = () => {
-    setEditLeaseOpen(true)
-    handleRowOptionsClose()
   }
 
   return (
@@ -86,24 +69,21 @@ const RowOptions = ({ id, row, setLeasesData, leasesData, setLoading }) => {
           View Lease
         </MenuItem>
 
-        {/* <MenuItem onClick={() => handleEdit()} sx={{ '& svg': { mr: 2 } }}>
+        <MenuItem
+          href={'/leases/edit/' + id}
+          component={Link}
+          sx={{ '& svg': { mr: 2 } }}
+          onClick={handleRowOptionsClose}
+        >
           <Icon icon='tabler:pencil' fontSize={20} />
-          Edit
-        </MenuItem> */}
+          Edit Lease
+        </MenuItem>
 
-        <MenuItem onClick={handleDelete} sx={{ '& svg': { mr: 2 } }}>
+        <MenuItem disabled sx={{ '& svg': { mr: 2 } }}>
           <Icon icon='tabler:trash' fontSize={20} />
-          Delete Lease
+          Delete Lease (Unavailable)
         </MenuItem>
       </Menu>
-      {/* <EditLeaseDrawer
-        setLoading={setLoading}
-        leaseData={row}
-        setLeasesData={setLeasesData}
-        leasesData={leasesData}
-        open={editLeaseOpen}
-        toggle={toggleEditLeaseDrawer}
-      /> */}
     </>
   )
 }
@@ -121,7 +101,7 @@ const PropertyLeaseTable = ({ setPropertyData, propertyData }) => {
             <Typography
               noWrap
               component={Link}
-              href={'/tenants/manage/' + row.id + '/transactions'}
+              href={row.tenant?.id ? '/tenants/manage/' + row.tenant.id + '/summary' : '#'}
               sx={{
                 fontWeight: 500,
                 textDecoration: 'none',
@@ -238,13 +218,13 @@ const PropertyLeaseTable = ({ setPropertyData, propertyData }) => {
   const [leasesData, setLeasesData] = useState([])
   const [addUserOpen, setAddUserOpen] = useState(false)
   const [dates, setDates] = useState([])
+  const [startDateRange, setStartDateRange] = useState(null)
+  const [endDateRange, setEndDateRange] = useState(null)
   const [value, setValue] = useState('')
-  // const [endDateRange, setEndDateRange] = useState(null)
   // const [selectedRows, setSelectedRows] = useState([])
-  // const [startDateRange, setStartDateRange] = useState(null)
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
   const [statusValue, setStatusValue] = useState('')
-  const [statuses, setStatuses] = useState([])
+  const [statuses, setStatuses] = useState([{ text: 'All', value: '' }])
 
   const handleOnChangeRange = dates => {
     const [start, end] = dates
@@ -283,9 +263,9 @@ const PropertyLeaseTable = ({ setPropertyData, propertyData }) => {
     //   }
     // )
     if (propertyData) {
-      const structuredLeases = propertyData.leases.map(lease => {
-        const tenant = propertyData.tenants.find(t => t.id === lease.tenant_id)
-        const unit = propertyData.units.find(u => u.id === lease.unit_id)
+      const structuredLeases = (propertyData?.leases ?? []).map(lease => {
+        const tenant = (propertyData?.tenants ?? []).find(t => t.id === lease.tenant_id)
+        const unit = (propertyData?.units ?? []).find(u => u.id === lease.unit_id)
 
         return {
           ...lease,
@@ -299,6 +279,13 @@ const PropertyLeaseTable = ({ setPropertyData, propertyData }) => {
       console.log(structuredLeases)
 
       setLeasesData(structuredLeases)
+      setStatuses([
+        { text: 'All', value: '' },
+        ...Array.from(new Set(structuredLeases.map(lease => lease.status).filter(Boolean))).map(status => ({
+          text: status.charAt(0).toUpperCase() + status.slice(1),
+          value: status
+        }))
+      ])
 
       // console.log(leasesData)
     }
@@ -313,9 +300,10 @@ const PropertyLeaseTable = ({ setPropertyData, propertyData }) => {
   // Filter leases based on the search value
   const filteredLeases = leasesData?.filter(
     lease =>
-      (lease.tenant?.name?.toLowerCase() || '').includes(value.toLowerCase()) ||
-      (lease.property?.name?.toLowerCase() || '').includes(value.toLowerCase()) ||
-      (lease.unit?.name?.toLowerCase() || '').includes(value.toLowerCase())
+      ((lease.tenant?.name?.toLowerCase() || '').includes(value.toLowerCase()) ||
+        (lease.property_name?.toLowerCase() || '').includes(value.toLowerCase()) ||
+        (lease.unit?.name?.toLowerCase() || '').includes(value.toLowerCase())) &&
+      (!statusValue || lease.status === statusValue)
   )
 
   return (

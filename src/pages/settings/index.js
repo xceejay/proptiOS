@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import ParentSettingsEditInfo from 'src/ui/settings/ParentSettingsEditInfo'
 
 const SettingsPage = () => {
-  const router = useRouter
+  const router = useRouter()
   const tab = router.query?.tab || 'account'
   const [settingsData, setSettingsData] = useState(null)
 

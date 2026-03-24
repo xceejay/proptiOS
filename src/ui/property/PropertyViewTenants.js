@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState, useEffect, useCallback } from 'react'
+import { useCallback } from 'react'
 
 // ** Next Import
 
@@ -26,7 +26,7 @@ const PropertyViewTenants = ({ setPropertyData, propertyData }) => {
       // Update units in propertyData to reflect tenant changes
       const updatedPropertyData = {
         ...propertyData,
-        units: propertyData.units.map(unit => {
+        units: (propertyData?.units ?? []).map(unit => {
           // If unit is in updated tenant's units, assign tenant_id
           if (updatedTenant.units?.some(tenantUnit => tenantUnit.id === unit.id)) {
             return { ...unit, tenant_id: updatedTenant.id }

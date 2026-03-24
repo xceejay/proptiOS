@@ -23,6 +23,7 @@ import { Grid } from '@mui/material'
 import CustomFinanceToolbar from 'src/views/table/data-grid/CustomFinanceToolbar'
 import CustomRangeDatePicker from '../CustomRangeDatePicker'
 import CustomNoRowsOverlay from '../CustomNoRowsOverlay'
+import { filterTransactions } from './financeTableFilters'
 
 const LinkStyled = styled(Link)(({ theme, color }) => ({
   fontSize: '13px',
@@ -135,7 +136,7 @@ const columns = [
     headerName: 'Payment Method',
     renderCell: ({ row }) => (
       <Typography sx={{ textTransform: 'capitalize', color: 'text.secondary' }}>
-        {row.payment_method.replace('_', ' ') || 0}
+        {(row.payment_method || '').replaceAll('_', ' ') || 'N/A'}
       </Typography>
     )
   },
@@ -267,14 +268,12 @@ const FinanceRentTransactionListTable = ({ rentTransactions }) => {
     setAnchorEl(null)
   }
 
-  const filteredRows = rentTransactions
-    ? rentTransactions.filter(
-        row =>
-          (statusValue ? row.status === statusValue : true) &&
-          (paymentMethodValue ? row.payment_method === paymentMethodValue : true) &&
-          (paymentTypeValue ? row.payment_type === paymentTypeValue : true)
-      )
-    : []
+  const filteredRows = filterTransactions(rentTransactions || [], {
+    search: value,
+    status: statusValue,
+    paymentMethod: paymentMethodValue,
+    paymentType: paymentTypeValue
+  })
 
   return (
     <Grid container spacing={6.5}>

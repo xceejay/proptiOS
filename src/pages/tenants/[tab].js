@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+import toast from 'react-hot-toast'
 import { useTenants } from 'src/hooks/useTenants'
 import ParentTenantEditInfo from 'src/ui/tenant/ParentTenantEditInfo'
 

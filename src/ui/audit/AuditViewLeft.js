@@ -98,8 +98,8 @@ const AuditViewLeft = ({ auditData }) => {
 
           auditData = { ...data }
 
-          if (response?.status === 'FAILED') {
-            alert(response.message || 'Failed to fetch audit')
+          if (responseData?.status === 'FAILED') {
+            alert(responseData.message || 'Failed to fetch audit')
 
             return
           }

@@ -205,7 +205,7 @@ const AddUnitDrawer = props => {
 
   const onSubmit = formData => {
     // Find the selected tenant by tenant_id
-    const selectedTenant = propertyData.tenants.find(tenant => tenant.id === formData.tenant_id)
+    const selectedTenant = (propertyData?.tenants ?? []).find(tenant => tenant.id === formData.tenant_id)
 
     // Debug: Check if selectedTenant is found correctly
     console.log('Selected Tenant:', selectedTenant)
@@ -414,14 +414,14 @@ const AddUnitDrawer = props => {
               defaultValue='' // Ensure this matches your form's initial value
               render={({ field: { onChange, onBlur, value, ref } }) => (
                 <Autocomplete
-                  options={propertyData.leases}
+                  options={propertyData?.leases ?? []}
                   getOptionLabel={lease => lease.title + ' (' + lease.id + ')'}
                   getOptionDisabled={lease => !!lease?.tenant_id}
                   onChange={(event, newValue) => {
                     // Pass the new value's id or an empty string to handle the form state
                     onChange(newValue ? newValue.id : '')
                   }}
-                  value={propertyData.leases?.find(lease => lease.id === value) || null} // Set the selected value
+                  value={(propertyData?.leases ?? []).find(lease => lease.id === value) || null} // Set the selected value
                   renderInput={params => <TextField {...params} label='Lease Attached' />}
                   isOptionEqualToValue={(option, value) => option.id === value} // Ensure proper comparison
                 />
@@ -436,14 +436,14 @@ const AddUnitDrawer = props => {
               defaultValue='' // Ensure this matches your form's initial value
               render={({ field: { onChange, onBlur, value, ref } }) => (
                 <Autocomplete
-                  options={propertyData.tenants}
+                  options={propertyData?.tenants ?? []}
                   getOptionLabel={tenant => tenant.name + ' (' + tenant.email + ')'}
                   getOptionDisabled={tenant => !!tenant?.unit_id}
                   onChange={(event, newValue) => {
                     // Pass the new value's id or an empty string to handle the form state
                     onChange(newValue ? newValue.id : '')
                   }}
-                  value={propertyData.tenants.find(tenant => tenant.id === value) || null} // Set the selected value
+                  value={(propertyData?.tenants ?? []).find(tenant => tenant.id === value) || null} // Set the selected value
                   renderInput={params => <TextField {...params} label='Tenant Occupied' />}
                   isOptionEqualToValue={(option, value) => option.id === value} // Ensure proper comparison
                 />

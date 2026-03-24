@@ -83,7 +83,7 @@ const ParentFinanceViewReports = ({ setFinanceData, financeData }) => {
         if (data?.status === 'NO_RES') {
           console.log('NO results')
         } else if (data?.status === 'FAILED') {
-          alert(response.message || 'Failed to fetch transactions')
+          alert(data.message || 'Failed to fetch transactions')
         } else {
           console.log(' data has been fetched in reports', data)
           setAllFinancialReports(data)

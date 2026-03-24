@@ -98,8 +98,8 @@ const SettingsViewLeft = ({ settingsData }) => {
 
           settingsData = { ...data }
 
-          if (response?.status === 'FAILED') {
-            alert(response.message || 'Failed to fetch settings')
+          if (responseData?.status === 'FAILED') {
+            alert(responseData.message || 'Failed to fetch settings')
 
             return
           }

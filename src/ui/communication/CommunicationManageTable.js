@@ -373,7 +373,6 @@ const CommunicationManageTable = () => {
               rows={filteredCommunicationLogs || []}
               columns={columns}
               slots={{
-                toolbar: CustomCommunicationToolbar,
                 noRowsOverlay: CustomNoRowsOverlay
 
                 // loadingOverlay: {

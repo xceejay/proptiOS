@@ -13,6 +13,8 @@ import axios from 'src/pages/middleware/axios'
 const defaultProvider = {
   finance: null,
   loading: true,
+  accessToken: null,
+  setAccessToken: () => {},
   setFinance: () => null,
   setLoading: () => Boolean,
   getAllFinance: () => Promise.resolve(),
@@ -29,12 +31,16 @@ const FinanceProvider = ({ children }) => {
   // ** States
   const [finance, setFinance] = useState(defaultProvider.user)
   const [loading, setLoading] = useState(defaultProvider.loading)
+  const [accessToken, setAccessToken] = useState(defaultProvider.accessToken)
 
   // ** Hooks
   const router = useRouter()
 
   useEffect(() => {
-    console.log('test')
+    const storedToken = window.localStorage.getItem('accessToken')
+    if (storedToken) {
+      setAccessToken(storedToken)
+    }
   }, [])
 
   // useEffect(() => {
@@ -48,7 +54,6 @@ const FinanceProvider = ({ children }) => {
   //     }
   //   }
   //   initRegister()
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [])
 
   //function for registering an account.
@@ -241,6 +246,8 @@ const FinanceProvider = ({ children }) => {
   const values = {
     finance,
     loading,
+    accessToken,
+    setAccessToken,
     setFinance,
     setLoading,
     getAllFinance: getAllFinance,

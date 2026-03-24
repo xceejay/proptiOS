@@ -102,8 +102,8 @@ const UserViewLeft = ({ setPropertyData, propertyData }) => {
           propertyData = { ...data }
           console.log('data???????', propertyData)
 
-          if (response?.status === 'FAILED') {
-            alert(response.message || 'Failed to fetch properties')
+          if (responseData?.status === 'FAILED') {
+            alert(responseData.message || 'Failed to fetch properties')
 
             return
           }
@@ -112,9 +112,6 @@ const UserViewLeft = ({ setPropertyData, propertyData }) => {
         },
         error => {}
       )
-    }
-
-    {
     }
   }, [propertyData, id])
 
@@ -202,7 +199,7 @@ const UserViewLeft = ({ setPropertyData, propertyData }) => {
                   color={propertyData.avatarColor}
                   sx={{ width: 100, height: 100, mb: 4, fontSize: '3rem' }}
                 >
-                  {getInitials(propertyData.name)}
+                  {getInitials(propertyData.name || '')}
                 </CustomAvatar>
               )}
               <Typography variant='h5' sx={{ mb: 3 }}>
@@ -228,7 +225,7 @@ const UserViewLeft = ({ setPropertyData, propertyData }) => {
                     <div>
                       <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>
                         {' '}
-                        {propertyData.leases.length}
+                        {(propertyData?.leases?.length ?? 0)}
                       </Typography>
                       <Typography variant='body2'>Leases</Typography>
                     </div>

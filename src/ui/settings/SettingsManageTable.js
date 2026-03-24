@@ -373,7 +373,6 @@ const SettingsManageTable = () => {
               rows={filteredSettingsLogs || []}
               columns={columns}
               slots={{
-                toolbar: CustomSettingsToolbar,
                 noRowsOverlay: CustomNoRowsOverlay
 
                 // loadingOverlay: {

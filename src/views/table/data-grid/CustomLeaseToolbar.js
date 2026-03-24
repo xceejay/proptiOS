@@ -57,7 +57,7 @@ const CustomLeaseToolbar = props => {
 
           {addText ? (
             <>
-              <Link prefetch={true} href={'/leases/compose'}>
+              <Link prefetch={true} href={'/leases/create'}>
                 <Button size='small' onClick={toggle} variant='contained' sx={{ '& svg': { mr: 2 } }}>
                   <Icon fontSize='14px' icon='tabler:plus' />
                   {addText}

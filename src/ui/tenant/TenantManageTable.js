@@ -23,19 +23,16 @@ import CustomNoRowsOverlay from '../CustomNoRowsOverlay'
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
-// ** Store Imports
-import { useDispatch } from 'react-redux'
-
 // ** Custom Components Imports
 import CustomChip from 'src/@core/components/mui/chip'
 
 // ** Hooks Imports
 import { useTenants } from 'src/hooks/useTenants'
+import toast from 'react-hot-toast'
 import EditTenantDrawer from './EditTenantDrawer'
 import CustomStatusToolbar from 'src/views/table/data-grid/CustomStatusToolbar'
 
-const RowOptions = ({ id, row, stopPropagation, setTenantsData, tenantsData, setLoading }) => {
-  const dispatch = useDispatch()
+const RowOptions = ({ id, row, stopPropagation, setTenantsData, tenantsData, setLoading, tenants }) => {
   const [anchorEl, setAnchorEl] = useState(null)
   const rowOptionsOpen = Boolean(anchorEl)
   const [editTenantOpen, setEditTenantOpen] = useState(false)
@@ -52,8 +49,17 @@ const RowOptions = ({ id, row, stopPropagation, setTenantsData, tenantsData, set
   }
 
   const handleDisable = () => {
+    if (typeof tenants.DisableUser !== 'function') {
+      toast.error('Tenant account suspension is not wired for this frontend yet.', {
+        duration: 5000
+      })
+      handleRowOptionsClose()
+
+      return
+    }
+
     setLoading(true)
-    users.DisableUser(
+    tenants.DisableUser(
       { email: row.email },
       responseData => {
         let { data } = responseData
@@ -63,9 +69,8 @@ const RowOptions = ({ id, row, stopPropagation, setTenantsData, tenantsData, set
           console.log('NO results')
         } else if (data?.status === 'FAILED') {
           alert(data.description || 'Failed to disable user')
-          setError('email', {
-            type: 'manual',
-            message: data.description || 'Unknown error occurred'
+          toast.error(data.description || 'Unknown error occurred', {
+            duration: 5000
           })
           return
         }
@@ -74,8 +79,7 @@ const RowOptions = ({ id, row, stopPropagation, setTenantsData, tenantsData, set
           duration: 5000
         })
 
-        // Update usersData with the new status
-        setUsersData(prevData => {
+        setTenantsData(prevData => {
           const updatedItems = prevData.items.map(user =>
             user.email === row.email ? { ...user, status: 'disabled' } : user
           )
@@ -93,8 +97,17 @@ const RowOptions = ({ id, row, stopPropagation, setTenantsData, tenantsData, set
   }
 
   const handleEnable = () => {
+    if (typeof tenants.EnableUser !== 'function') {
+      toast.error('Tenant account activation is not wired for this frontend yet.', {
+        duration: 5000
+      })
+      handleRowOptionsClose()
+
+      return
+    }
+
     setLoading(true)
-    users.EnableUser(
+    tenants.EnableUser(
       { email: row.email },
       responseData => {
         let { data } = responseData
@@ -104,9 +117,8 @@ const RowOptions = ({ id, row, stopPropagation, setTenantsData, tenantsData, set
           console.log('NO results')
         } else if (data?.status === 'FAILED') {
           alert(data.description || 'Failed to disable user')
-          setError('email', {
-            type: 'manual',
-            message: data.description || 'Unknown error occurred'
+          toast.error(data.description || 'Unknown error occurred', {
+            duration: 5000
           })
           return
         }
@@ -115,8 +127,7 @@ const RowOptions = ({ id, row, stopPropagation, setTenantsData, tenantsData, set
           duration: 5000
         })
 
-        // Update usersData with the new status
-        setUsersData(prevData => {
+        setTenantsData(prevData => {
           const updatedItems = prevData.items.map(user =>
             user.email === row.email ? { ...user, status: 'active' } : user
           )
@@ -134,7 +145,37 @@ const RowOptions = ({ id, row, stopPropagation, setTenantsData, tenantsData, set
   }
 
   const handleDelete = () => {
-    dispatch(deleteUser(id))
+    setLoading(true)
+    tenants.deleteTenants(
+      [id],
+      responseData => {
+        const { data } = responseData
+        setLoading(false)
+
+        if (data?.status === 'FAILED') {
+          toast.error(data.description || data.message || 'Failed to delete tenant', {
+            duration: 5000
+          })
+
+          return
+        }
+
+        toast.success('Tenant deleted successfully', {
+          duration: 5000
+        })
+
+        setTenantsData(prevData => ({
+          ...prevData,
+          items: prevData.items.filter(tenant => tenant.id !== id)
+        }))
+      },
+      error => {
+        setLoading(false)
+        toast.error(error.response?.data?.description || 'Failed to delete tenant', {
+          duration: 5000
+        })
+      }
+    )
     handleRowOptionsClose()
   }
 
@@ -165,7 +206,7 @@ const RowOptions = ({ id, row, stopPropagation, setTenantsData, tenantsData, set
         onClick={e => stopPropagation(e)}
       >
         <MenuItem
-          href={'/tenants/manage/' + id + '/transactions'}
+          href={'/tenants/manage/' + id + '/summary'}
           component={Link}
           sx={{ '& svg': { mr: 2 } }}
           onClick={handleRowOptionsClose}
@@ -179,13 +220,17 @@ const RowOptions = ({ id, row, stopPropagation, setTenantsData, tenantsData, set
           Edit
         </MenuItem>
 
-        <MenuItem onClick={handleEnable} sx={{ '& svg': { mr: 2 } }}>
+        <MenuItem onClick={handleEnable} disabled={typeof tenants.EnableUser !== 'function'} sx={{ '& svg': { mr: 2 } }}>
           <Icon icon='tabler:user-check' fontSize={20} />
-          Enable Account
+          {typeof tenants.EnableUser === 'function' ? 'Enable Account' : 'Enable Account (Unavailable)'}
         </MenuItem>
-        <MenuItem onClick={handleDisable} sx={{ '& svg': { mr: 2 } }}>
+        <MenuItem
+          onClick={handleDisable}
+          disabled={typeof tenants.DisableUser !== 'function'}
+          sx={{ '& svg': { mr: 2 } }}
+        >
           <Icon icon='tabler:user-x' fontSize={20} />
-          Disable Account
+          {typeof tenants.DisableUser === 'function' ? 'Disable Account' : 'Disable Account (Unavailable)'}
         </MenuItem>
 
         <MenuItem onClick={handleDelete} sx={{ '& svg': { mr: 2 } }}>
@@ -222,7 +267,7 @@ const TenantManageTable = () => {
               <Typography
                 noWrap
                 component={Link}
-                href={'/tenants/manage/' + id + '/transactions'}
+                href={'/tenants/manage/' + id + '/summary'}
                 sx={{
                   fontWeight: 500,
                   textDecoration: 'none',
@@ -319,6 +364,7 @@ const TenantManageTable = () => {
           setLoading={setLoading}
           setTenantsData={setTenantsData}
           tenantsData={tenantsData}
+          tenants={tenants}
           id={row.id}
           row={row}
         />
@@ -430,7 +476,7 @@ const TenantManageTable = () => {
               pageSizeOptions={[10, 25, 50]}
               paginationModel={paginationModel}
               onPaginationModelChange={setPaginationModel}
-              onRowClick={params => router.push(`/tenants/manage/${params.id}/`)}
+              onRowClick={params => router.push(`/tenants/manage/${params.id}/summary`)}
               sx={{
                 '& .MuiDataGrid-row': {
                   cursor: 'pointer',
