@@ -16,6 +16,11 @@ module.exports = defineConfig({
     baseURL: BASE_URL,
     storageState: 'e2e/.auth.json',
     trace: 'on-first-retry',
+    // Keep the browser window open between tests instead of flashing open/close
+    launchOptions: {
+      slowMo: process.env.PWDEBUG ? 500 : 0,
+    },
+    video: 'retain-on-failure',
   },
 
   // Start the Next.js dev server pointed at the local API

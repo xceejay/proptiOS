@@ -18,6 +18,7 @@
     "test:e2e": "./scripts/run-e2e.sh",
     "test:e2e:ui": "./scripts/run-e2e.sh --ui",
     "test:e2e:headed": "./scripts/run-e2e.sh --headed",
+    "test:e2e:isolate": "E2E_ISOLATE=1 ./scripts/run-e2e.sh",
     "test:e2e:staging": "E2E_ENV=staging ./scripts/run-e2e.sh",
     "test:e2e:prod": "E2E_ENV=prod ./scripts/run-e2e.sh"
   },

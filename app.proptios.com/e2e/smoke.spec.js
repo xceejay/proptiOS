@@ -5,7 +5,7 @@
  *   - Local API running on :2024
  *   - Frontend running on :3001 with NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:2024
  */
-const { test, expect } = require('@playwright/test')
+const { test, expect } = require('./helpers/fixtures')
 
 const NAV_ROUTES = [
   { path: '/dashboard', label: 'Dashboard' },
@@ -44,48 +44,39 @@ test.describe('Navigation smoke tests', () => {
 
 test.describe('Login flow', () => {
   test('login form authenticates and redirects to dashboard', async ({ browser }) => {
+    // Login tests need a blank session — no stored auth token
     const ctx = await browser.newContext({ storageState: { cookies: [], origins: [] } })
-    const page = await ctx.newPage()
+    const loginPage = await ctx.newPage()
 
-    // Log all outgoing requests so we can see where the login POST goes
-    const requests = []
-    page.on('request', req => {
-      if (req.method() === 'POST') requests.push(req.url())
-    })
-    page.on('response', res => {
-      if (res.request().method() === 'POST') {
-        console.log(`POST ${res.url()} → ${res.status()}`)
-      }
-    })
+    await loginPage.goto('/login')
+    await expect(loginPage.getByLabel('Email')).toBeVisible()
 
-    await page.goto('/login')
-    await expect(page.getByLabel('Email')).toBeVisible()
+    const loginResponse = loginPage.waitForResponse(
+      res => res.url().includes('/auth/login') && res.request().method() === 'POST'
+    )
 
-    await page.getByLabel('Email').fill(process.env.E2E_EMAIL || 'joel@example.com')
-    await page.locator('#auth-login-v2-password').fill(process.env.E2E_PASSWORD || 'password@123')
-    await page.getByRole('button', { name: /login/i }).click()
+    await loginPage.getByLabel('Email').fill(process.env.E2E_EMAIL || 'joel@example.com')
+    await loginPage.locator('#auth-login-v2-password').fill(process.env.E2E_PASSWORD || 'password@123')
+    await loginPage.getByRole('button', { name: /login/i }).click()
 
-    // Wait a moment for the POST to fire
-    await page.waitForTimeout(3000)
-    console.log('Captured POST requests:', requests)
+    const response = await loginResponse
+    expect(response.status()).toBeLessThan(400)
 
-    // Must redirect away from /login
-    await expect(page).not.toHaveURL(/\/login/, { timeout: 15000 })
-
+    // After successful login, the app should redirect away from /login
+    await expect(loginPage).not.toHaveURL(/\/login/, { timeout: 15000 })
     await ctx.close()
   })
 
   test('wrong password shows validation error', async ({ browser }) => {
     const ctx = await browser.newContext({ storageState: { cookies: [], origins: [] } })
-    const page = await ctx.newPage()
+    const loginPage = await ctx.newPage()
 
-    await page.goto('/login')
-    await page.getByLabel('Email').fill('joel@example.com')
-    await page.locator('#auth-login-v2-password').fill('wrongpassword')
-    await page.getByRole('button', { name: /login/i }).click()
+    await loginPage.goto('/login')
+    await loginPage.getByLabel('Email').fill('joel@example.com')
+    await loginPage.locator('#auth-login-v2-password').fill('wrongpassword')
+    await loginPage.getByRole('button', { name: /login/i }).click()
 
-    await expect(page.getByText(/invalid|incorrect|email or password/i)).toBeVisible({ timeout: 8000 })
-
+    await expect(loginPage.getByText(/invalid|incorrect|email or password/i)).toBeVisible({ timeout: 8000 })
     await ctx.close()
   })
 })

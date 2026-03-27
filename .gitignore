@@ -11,6 +11,7 @@ archive/
 dist/
 coverage/
 *.log
+test-results/
 
 # Existing app outputs
 app.proptios.com/.next/

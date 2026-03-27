@@ -1,4 +1,5 @@
 const { test, expect } = require('./helpers/fixtures')
+const { fillField, clearAndFill } = require('./helpers/mui')
 
 const TIMESTAMP = Date.now()
 const TEST_TENANT = {
@@ -8,40 +9,47 @@ const TEST_TENANT = {
   phone: '+233200000088',
 }
 
-test.describe.serial('Tenants CRUD', () => {
-  test('CREATE — add a new tenant and verify invitation is sent', async ({ page }) => {
-    await page.goto('/tenants/management')
-    await page.locator('.MuiDataGrid-root').first().waitFor({ timeout: 15000 })
+/**
+ * Helper: open the Add Tenant drawer and wait for it to be ready.
+ */
+async function openAddTenantDrawer(page) {
+  await page.goto('/tenants/management')
+  await page.locator('.MuiDataGrid-root').first().waitFor({ timeout: 15000 })
 
-    // Intercept the POST
+  await page.getByRole('button', { name: /^add tenant$/i }).click()
+
+  const drawer = page.getByRole('dialog')
+  await expect(drawer).toBeVisible({ timeout: 5000 })
+  await expect(drawer.getByRole('textbox', { name: 'Full name' })).toBeVisible({ timeout: 5000 })
+
+  return drawer
+}
+
+test.describe.serial('Tenants CRUD', () => {
+  test('CREATE — add a new tenant via the drawer form', async ({ page }) => {
+    const drawer = await openAddTenantDrawer(page)
+
+    await fillField(page, 'Full name', TEST_TENANT.name, drawer)
+    await fillField(page, 'Email', TEST_TENANT.email, drawer)
+    await fillField(page, 'Address', TEST_TENANT.address, drawer)
+    await fillField(page, 'Phone Number', TEST_TENANT.phone, drawer)
+
+    // Verify inputs have values before submitting
+    await expect(drawer.getByRole('textbox', { name: 'Full name' })).toHaveValue(TEST_TENANT.name)
+    await expect(drawer.getByRole('textbox', { name: 'Email' })).toHaveValue(TEST_TENANT.email)
+
+    // Set up response listener before clicking submit
     const postPromise = page.waitForResponse(
-      res => res.url().includes('/tenants') && res.request().method() === 'POST'
+      (res) => res.url().includes('/tenants') && res.request().method() === 'POST'
     )
 
-    // Open add drawer
-    await page.getByRole('button', { name: /add new tenant/i }).click()
-    await expect(page.getByText('Add Tenant').first()).toBeVisible()
+    await drawer.getByRole('button', { name: /^submit$/i }).click()
 
-    // Fill form
-    await page.getByLabel('Full name').fill(TEST_TENANT.name)
-    await page.getByLabel('Email').fill(TEST_TENANT.email)
-    await page.getByLabel('Address').fill(TEST_TENANT.address)
-    await page.getByLabel('Phone Number').fill(TEST_TENANT.phone)
-
-    // Submit
-    await page.getByRole('button', { name: /^submit$/i }).click()
-
-    // Verify POST succeeded
     const response = await postPromise
     expect(response.status()).toBeLessThan(400)
 
-    // Success toast — invitation email sent
     await expect(page.getByText(/invitation email has been sent/i)).toBeVisible({ timeout: 10000 })
-
-    // Drawer should close
-    await expect(page.getByLabel('Full name')).not.toBeVisible({ timeout: 5000 })
-
-    // New tenant should appear in the table
+    await expect(page.getByRole('dialog')).not.toBeVisible({ timeout: 5000 })
     await expect(page.getByText(TEST_TENANT.name)).toBeVisible({ timeout: 5000 })
   })
 
@@ -49,51 +57,45 @@ test.describe.serial('Tenants CRUD', () => {
     await page.goto('/tenants/management')
     await page.locator('.MuiDataGrid-root').first().waitFor({ timeout: 15000 })
 
-    // Search
+    // Search for our test tenant
+    await page.getByPlaceholder('Quick Search').click()
     await page.getByPlaceholder('Quick Search').fill(TEST_TENANT.name)
     await page.waitForTimeout(500)
 
-    // Verify row has correct data
     const row = page.locator('[role="row"]', { hasText: TEST_TENANT.name })
     await expect(row).toBeVisible()
     await expect(row.getByText(TEST_TENANT.email)).toBeVisible()
   })
 
-  test('UPDATE — edit tenant name via row action menu', async ({ page }) => {
+  test('UPDATE — edit tenant address via row action menu', async ({ page }) => {
     await page.goto('/tenants/management')
     await page.locator('.MuiDataGrid-root').first().waitFor({ timeout: 15000 })
 
-    // Find test tenant row and open action menu
     const row = page.locator('[role="row"]', { hasText: TEST_TENANT.name })
     await expect(row).toBeVisible({ timeout: 10000 })
     await row.locator('button:has(svg)').last().click()
 
-    // Click Edit
     await page.getByRole('menuitem', { name: 'Edit' }).click()
 
-    // Edit drawer should open with pre-filled data
-    await expect(page.getByText('Edit Tenant').first()).toBeVisible({ timeout: 5000 })
-    const nameField = page.getByLabel('Tenant Name')
-    await expect(nameField).toHaveValue(TEST_TENANT.name)
+    const drawer = page.getByRole('dialog')
+    await expect(drawer.getByText('Edit Tenant').first()).toBeVisible({ timeout: 5000 })
 
-    // Intercept the PUT
+    // Wait for form to load
+    const nameField = drawer.getByRole('textbox', { name: 'Tenant Name' })
+    await expect(nameField).toBeVisible()
+    await expect(nameField).not.toHaveValue('')
+
     const putPromise = page.waitForResponse(
-      res => res.url().includes('/tenants') && res.request().method() === 'PUT'
+      (res) => res.url().includes('/tenants') && res.request().method() === 'PUT'
     )
 
-    // Change the address
-    const addressField = page.getByLabel('Tenant Address')
-    await addressField.clear()
-    await addressField.fill('789 Updated Road, Accra')
+    await clearAndFill(page, 'Tenant Address', '789 Updated Road, Accra', drawer)
 
-    // Submit
-    await page.getByRole('button', { name: /edit tenant/i }).click()
+    await drawer.getByRole('button', { name: /^edit tenant$/i }).click()
 
-    // Verify PUT succeeded
     const putResponse = await putPromise
     expect(putResponse.status()).toBeLessThan(400)
 
-    // Success toast
     await expect(page.getByText(/change applied/i)).toBeVisible({ timeout: 10000 })
   })
 
@@ -101,52 +103,41 @@ test.describe.serial('Tenants CRUD', () => {
     await page.goto('/tenants/management')
     await page.locator('.MuiDataGrid-root').first().waitFor({ timeout: 15000 })
 
-    // Find test tenant and open action menu
     const row = page.locator('[role="row"]', { hasText: TEST_TENANT.name })
     await expect(row).toBeVisible({ timeout: 10000 })
     await row.locator('button:has(svg)').last().click()
 
-    // Click View — navigates to /tenants/manage/:id/summary
     await page.getByRole('menuitem', { name: 'View' }).click()
     await expect(page).toHaveURL(/\/tenants\/manage\/\d+/, { timeout: 10000 })
 
-    // Detail page should have tabs
     await expect(page.getByRole('tab').first()).toBeVisible({ timeout: 10000 })
   })
 
-  test('DELETE — delete tenant via row action menu', async ({ page }) => {
+  test('DELETE — delete test tenant via row action menu', async ({ page }) => {
     await page.goto('/tenants/management')
     await page.locator('.MuiDataGrid-root').first().waitFor({ timeout: 15000 })
 
     const row = page.locator('[role="row"]', { hasText: TEST_TENANT.name })
     await expect(row).toBeVisible({ timeout: 10000 })
 
-    // Accept the confirmation dialog
-    page.on('dialog', dialog => dialog.accept())
+    page.on('dialog', (dialog) => dialog.accept())
 
-    // Open action menu and click Delete Account
     await row.locator('button:has(svg)').last().click()
-    await page.getByRole('menuitem', { name: /delete account/i }).click()
+    await page.getByRole('menuitem', { name: /^delete account$/i }).click()
 
-    // Verify DELETE API call and success
     await expect(page.getByText(/tenant deleted successfully/i)).toBeVisible({ timeout: 10000 })
-
-    // Tenant should no longer appear
     await expect(row).not.toBeVisible({ timeout: 5000 })
   })
 
   test('VALIDATE — form rejects invalid email', async ({ page }) => {
-    await page.goto('/tenants/management')
-    await page.locator('.MuiDataGrid-root').first().waitFor({ timeout: 15000 })
+    const drawer = await openAddTenantDrawer(page)
 
-    await page.getByRole('button', { name: /add new tenant/i }).click()
+    await fillField(page, 'Full name', 'Bad Email Tenant', drawer)
+    await fillField(page, 'Email', 'not-an-email', drawer)
 
-    await page.getByLabel('Full name').fill('Bad Email Tenant')
-    await page.getByLabel('Email').fill('not-an-email')
+    // Trigger validation by clicking away
+    await drawer.getByRole('textbox', { name: 'Full name' }).click()
 
-    // Trigger validation by tabbing away
-    await page.getByLabel('Full name').click()
-
-    await expect(page.getByText(/must be a valid email/i)).toBeVisible({ timeout: 3000 })
+    await expect(drawer.getByText(/must be a valid email/i)).toBeVisible({ timeout: 3000 })
   })
 })

@@ -1077,7 +1077,7 @@ WHERE
             (SELECT COUNT(*) FROM leases WHERE property_id = p.id AND deleted_at IS NULL AND end_date >= ? AND end_date < ?) AS leases_expiring_soon,
             (SELECT COUNT(*) FROM tenants WHERE property_id = p.id AND deleted_at IS NULL AND status = 'active') AS active_tenants
           FROM properties AS p
-          WHERE p.site_id = ?
+          WHERE p.site_id = ? AND p.deleted_at IS NULL
         `;
 
         const [results] = await mysql_db.execute(query, [
@@ -1544,8 +1544,70 @@ app.delete(
   }
 );
 
+  // Delete a property (soft delete)
+  app.delete(
+    `${PREFIX}/:id`,
+    jwtMiddleware,
+    acl([
+      "property_owner",
+      "property_manager",
+      "property_coordinator",
+    ]),
+    async (req, res) => {
+      const propertyId = req.params.id;
+      const site_id = req.user.site_id;
 
+      const connection = await mysql_db.getConnection();
 
+      try {
+        // Verify property exists and belongs to the site
+        const [existing] = await connection.query(
+          `SELECT id FROM properties WHERE id = ? AND site_id = ? AND deleted_at IS NULL`,
+          [propertyId, site_id]
+        );
+
+        if (existing.length === 0) {
+          return res.status(404).json({
+            status: "FAILED",
+            description: "Property not found or already deleted",
+          });
+        }
+
+        const stamp = moment().format("YYYY-MM-DD HH:mm:ss");
+
+        await connection.beginTransaction();
+
+        // Soft delete the property
+        await connection.query(
+          `UPDATE properties SET deleted_at = ? WHERE id = ? AND site_id = ?`,
+          [stamp, propertyId, site_id]
+        );
+
+        // Soft delete associated units
+        await connection.query(
+          `UPDATE units SET deleted_at = ? WHERE property_id = ? AND site_id = ? AND deleted_at IS NULL`,
+          [stamp, propertyId, site_id]
+        );
+
+        await connection.commit();
+
+        return res.status(200).json({
+          status: "OK",
+          description: "Property deleted successfully",
+        });
+      } catch (error) {
+        await connection.rollback();
+        console.error("Error deleting property:", error);
+
+        return res.status(500).json({
+          status: "FAILED",
+          description: "Server Error: Failed to delete property",
+        });
+      } finally {
+        connection.release();
+      }
+    }
+  );
 
 
 

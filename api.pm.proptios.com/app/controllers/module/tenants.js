@@ -1,5 +1,6 @@
 const mysql_db = require("../../config/db.mysql");
 const moment = require("moment");
+const uuid = require("uuid-random");
 const { trim } = require("../../services/utilities");
 const jwtMiddleware = require("../../middleware/jwt");
 const acl = require("../../middleware/acl");
@@ -788,14 +789,21 @@ const routes = (app) => {
     acl(["property_owner", "property_manager", "property_coordinator"]),
     async (req, res) => {
       const tenantUuids = req.body.uuids;
+      const tenantIds = req.body.ids;
       const site_id = req.user.site_id;
 
-      if (!Array.isArray(tenantUuids) || tenantUuids.length === 0) {
+      // Accept either uuids or ids (frontend sends ids)
+      const useIds = Array.isArray(tenantIds) && tenantIds.length > 0;
+      const identifiers = useIds ? tenantIds : tenantUuids;
+
+      if (!Array.isArray(identifiers) || identifiers.length === 0) {
         return res.status(400).json({
           status: "FAILED",
-          description: "Invalid input: expected an array of tenant UUIDs"
+          description: "Invalid input: expected an array of tenant UUIDs or IDs"
         });
       }
+
+      const idColumn = useIds ? "id" : "uuid";
 
       const connection = await mysql_db.getConnection();
 
@@ -804,12 +812,12 @@ const routes = (app) => {
 
         // Verify tenants exist and belong to the site
         const [existingTenants] = await connection.query(
-          `SELECT id, uuid FROM tenants 
-           WHERE uuid IN (?) AND site_id = ? AND deleted_at IS NULL`,
-          [tenantUuids, site_id]
+          `SELECT id, uuid FROM tenants
+           WHERE ${idColumn} IN (?) AND site_id = ? AND deleted_at IS NULL`,
+          [identifiers, site_id]
         );
 
-        if (existingTenants.length !== tenantUuids.length) {
+        if (existingTenants.length !== identifiers.length) {
           return res.status(400).json({
             status: "FAILED",
             description: "One or more tenants not found or already deleted"
@@ -818,13 +826,13 @@ const routes = (app) => {
 
         // Check for active leases
         const [activeLeases] = await connection.query(
-          `SELECT t.uuid 
+          `SELECT t.uuid
            FROM tenants t
            JOIN leases l ON t.id = l.tenant_id
-           WHERE t.uuid IN (?) 
+           WHERE t.${idColumn} IN (?)
            AND t.site_id = ?
            AND l.deleted_at IS NULL`,
-          [tenantUuids, site_id]
+          [identifiers, site_id]
         );
 
         if (activeLeases.length > 0) {
@@ -838,17 +846,17 @@ const routes = (app) => {
 
         // Soft delete tenants
         await connection.query(
-          `UPDATE tenants 
-           SET deleted_at = ? 
-           WHERE uuid IN (?) AND site_id = ?`,
-          [stamp, tenantUuids, site_id]
+          `UPDATE tenants
+           SET deleted_at = ?
+           WHERE ${idColumn} IN (?) AND site_id = ?`,
+          [stamp, identifiers, site_id]
         );
 
         await connection.commit();
 
         return res.status(200).json({
           status: "SUCCESS",
-          description: `Successfully deleted ${tenantUuids.length} tenant(s)`
+          description: `Successfully deleted ${identifiers.length} tenant(s)`
         });
 
       } catch (error) {

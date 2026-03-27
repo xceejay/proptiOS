@@ -185,7 +185,16 @@ const PropertiesProvider = ({ children }) => {
       .then(response => {
         if (successCallback) {
           successCallback(response.data)
-          setProperties(prevProperties => prevProperties.filter(property => property.id !== id))
+          setProperties(prevProperties => {
+            if (Array.isArray(prevProperties)) {
+              return prevProperties.filter(property => property.id !== id)
+            }
+            if (prevProperties && Array.isArray(prevProperties.data)) {
+              return { ...prevProperties, data: prevProperties.data.filter(property => property.id !== id) }
+            }
+
+            return prevProperties
+          })
         }
       })
       .catch(err => {
