@@ -1,5 +1,7 @@
 # proptiOS QA Findings
 
+> Historical snapshot. The active tracker is now [MASTER-EXECUTION-TRACKER.md](/home/joel/personal/projects/proptiOS/app.proptios.com/docs/product/MASTER-EXECUTION-TRACKER.md). Use this file as older evidence, not the live source of truth.
+
 _Last updated: 2026-03-23_
 
 ## Environment

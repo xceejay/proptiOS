@@ -1,5 +1,7 @@
 # proptiOS QA Test Flow
 
+> Historical QA playbook. The active execution tracker is now [MASTER-EXECUTION-TRACKER.md](/home/joel/personal/projects/proptiOS/app.proptios.com/docs/product/MASTER-EXECUTION-TRACKER.md). Keep this as supporting reference, not the primary status document.
+
 ## Purpose
 Reusable QA playbook for retesting the proptiOS frontend locally without rediscovering the system each session.
 
