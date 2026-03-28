@@ -8,6 +8,10 @@ const { emailActivation } = require("../emailers/core");
 
 const PREFIX = "/tenants";
 
+const isTenantEmailLocked = (tenant) =>
+  Number(tenant?.email_verification_status) === 1 ||
+  tenant?.email_invitation_status === "accepted";
+
 const routes = (app) => {
   app.put(
     PREFIX + "/:id",
@@ -215,7 +219,47 @@ const routes = (app) => {
 
         const updatedTenants = [];
 
+        const tenantIds = tenants.map((tenant) => tenant.id).filter(Boolean);
+        const [existingTenants] = tenantIds.length
+          ? await connection.query(
+              `
+                SELECT id, email, email_verification_status, email_invitation_status
+                FROM tenants
+                WHERE id IN (?) AND site_id = ? AND deleted_at IS NULL
+              `,
+              [tenantIds, req.user.site_id]
+            )
+          : [[]];
+
+        const existingTenantMap = existingTenants.reduce((acc, tenant) => {
+          acc[String(tenant.id)] = tenant;
+          return acc;
+        }, {});
+
         for (const tenant of tenants) {
+          const existingTenant = existingTenantMap[String(tenant.id)];
+
+          if (!existingTenant) {
+            await connection.rollback();
+            return res.status(404).json({
+              status: "FAILED",
+              description: `Tenant with id ${tenant.id} not found`,
+            });
+          }
+
+          if (
+            isTenantEmailLocked(existingTenant) &&
+            tenant.email &&
+            tenant.email !== existingTenant.email
+          ) {
+            await connection.rollback();
+            return res.status(400).json({
+              status: "FAILED",
+              description:
+                "Tenant email cannot be changed after invitation acceptance or email verification",
+            });
+          }
+
           const updateQuery = `
                   UPDATE tenants 
                   SET 
@@ -234,7 +278,7 @@ const routes = (app) => {
 
           const values = [
             tenant.name,
-            tenant.email,
+            existingTenant.email,
             tenant.tel_number || "",
             tenant.password || "", // Assuming password can be updated
             tenant.country || "GA",

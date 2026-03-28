@@ -1,17 +1,91 @@
 const { test, expect } = require('./helpers/fixtures')
 const { fillField, clearAndFill, selectOption, selectFirstOption } = require('./helpers/mui')
 
-const PROPERTY_ID = 1
-const BASE = `/properties/manage/${PROPERTY_ID}`
 const TIMESTAMP = Date.now()
+let propertyContext
+const API_BASE = process.env.E2E_API_URL || 'http://127.0.0.1:2024'
+const TEST_TENANT = {
+  name: `E2E Tenant ${TIMESTAMP}`,
+  email: `e2e-tenant-${TIMESTAMP}@example.com`,
+  address: `QA Tenant Address ${TIMESTAMP}`,
+  country: 'GHA',
+  phone: '+233240000123'
+}
 
 /**
  * Helper: navigate to a property manage tab and wait for content to load.
  */
+async function ensurePropertyContext(page) {
+  if (propertyContext?.id) {
+    return propertyContext
+  }
+
+  await page.goto('/dashboard')
+  const token = await page.evaluate(() => window.localStorage.getItem('accessToken'))
+  expect(token, 'Property manage tests require an authenticated browser session').toBeTruthy()
+
+  const propertiesResponse = await page.request.get(`${API_BASE}/properties/all`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  })
+  expect(propertiesResponse.ok(), 'Failed to fetch property data for property-manage preconditions').toBeTruthy()
+
+  const propertiesPayload = await propertiesResponse.json()
+  const properties = Array.isArray(propertiesPayload?.data) ? propertiesPayload.data : []
+
+  const candidate =
+    properties.find(property => property?.id && property?.name && (property.tenants || []).length > 0) ||
+    properties.find(property => property?.id && property?.name)
+
+  expect(candidate, 'Property manage tests require at least one active property').toBeTruthy()
+
+  propertyContext = {
+    id: String(candidate.id),
+    name: candidate.name
+  }
+
+  return propertyContext
+}
+
 async function gotoTab(page, tab) {
-  await page.goto(`${BASE}/${tab}`)
+  const { id } = await ensurePropertyContext(page)
+  await page.goto(`/properties/manage/${id}/${tab}`)
   // Wait for the tab panel or main content to be visible
   await page.locator('.MuiTabPanel-root, [role="tabpanel"], .MuiCardContent-root').first().waitFor({ timeout: 15000 })
+}
+
+async function ensurePropertyTenant(page) {
+  await gotoTab(page, 'tenants')
+  await page.locator('.MuiDataGrid-root').first().waitFor({ timeout: 15000 })
+
+  const existingRow = page.locator('[role="row"][data-rowindex="0"]')
+  if (await existingRow.isVisible({ timeout: 2000 }).catch(() => false)) {
+    return
+  }
+
+  await page.getByRole('button', { name: /add new tenant/i }).click()
+
+  const drawer = page.getByRole('dialog')
+  await expect(drawer).toBeVisible({ timeout: 5000 })
+
+  await fillField(page, 'Full name', TEST_TENANT.name, drawer)
+  await fillField(page, 'Email', TEST_TENANT.email, drawer)
+  await fillField(page, 'Address', TEST_TENANT.address, drawer)
+  await selectOption(page, 'Country', 'Ghana', drawer)
+  await fillField(page, 'Phone Number', TEST_TENANT.phone, drawer)
+
+  const postPromise = page.waitForResponse(
+    res => res.url().includes('/tenants') && res.request().method() === 'POST',
+    { timeout: 15000 }
+  )
+
+  await drawer.getByRole('button', { name: /^submit$/i }).click()
+
+  const response = await postPromise
+  expect(response.status()).toBeLessThan(400)
+
+  await expect(page.getByText(new RegExp(TEST_TENANT.email, 'i')).first()).toBeVisible({ timeout: 10000 })
 }
 
 /**
@@ -28,11 +102,12 @@ async function clickRowAction(page, rowIndex, menuItemName) {
 
 test.describe('Property Manage — Overview', () => {
   test('overview tab loads with property header and content', async ({ page }) => {
-    await page.goto(`${BASE}/overview`)
+    const { id, name } = await ensurePropertyContext(page)
+    await page.goto(`/properties/manage/${id}/overview`)
     await expect(page.getByRole('tab', { name: /overview/i })).toBeVisible({ timeout: 15000 })
 
     // Property name should be visible in the page header
-    await expect(page.getByText('Embassy Gardens').first()).toBeVisible({ timeout: 5000 })
+    await expect(page.getByText(name).first()).toBeVisible({ timeout: 5000 })
   })
 })
 
@@ -148,14 +223,11 @@ test.describe('Property Manage — Tenants', () => {
     await gotoTab(page, 'tenants')
     await page.locator('.MuiDataGrid-root').first().waitFor({ timeout: 15000 })
 
-    // Should have tenant rows (property 1 has 9 tenants)
-    const firstRow = page.locator('[role="row"][data-rowindex="0"]')
-    await expect(firstRow).toBeVisible({ timeout: 5000 })
+    await expect(page.locator('.MuiDataGrid-root').first()).toBeVisible({ timeout: 5000 })
   })
 
   test('row action View navigates to tenant detail page', async ({ page }) => {
-    await gotoTab(page, 'tenants')
-    await page.locator('.MuiDataGrid-root').first().waitFor({ timeout: 15000 })
+    await ensurePropertyTenant(page)
 
     await clickRowAction(page, 0, /view/i)
 
@@ -164,8 +236,7 @@ test.describe('Property Manage — Tenants', () => {
   })
 
   test('row action Edit opens drawer, edits address, saves', async ({ page }) => {
-    await gotoTab(page, 'tenants')
-    await page.locator('.MuiDataGrid-root').first().waitFor({ timeout: 15000 })
+    await ensurePropertyTenant(page)
 
     await clickRowAction(page, 0, /edit/i)
 
@@ -303,20 +374,22 @@ test.describe('Property Manage — Marketing & Settings', () => {
   })
 
   test('Settings tab loads with pre-filled form', async ({ page }) => {
+    const { name } = await ensurePropertyContext(page)
     await gotoTab(page, 'settings')
 
     // Verify the property name is pre-filled
     const nameField = page.getByRole('textbox', { name: 'Property Name' })
     await expect(nameField).toBeVisible({ timeout: 10000 })
-    await expect(nameField).toHaveValue('Embassy Gardens')
+    await expect(nameField).toHaveValue(name)
   })
 
   test('Settings — edit and save property settings', async ({ page }) => {
+    const { name } = await ensurePropertyContext(page)
     await gotoTab(page, 'settings')
 
     const nameField = page.getByRole('textbox', { name: 'Property Name' })
     await expect(nameField).toBeVisible({ timeout: 10000 })
-    await expect(nameField).toHaveValue('Embassy Gardens')
+    await expect(nameField).toHaveValue(name)
 
     // Edit a low-risk field (phone number)
     const phoneField = page.getByRole('textbox', { name: /phone/i })

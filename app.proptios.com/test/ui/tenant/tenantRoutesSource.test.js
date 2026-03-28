@@ -35,5 +35,9 @@ describe('tenant route source contracts', () => {
     expect(editTenantDrawerSource).toContain(
       'formData.property_id = tenantData?.property_id ?? tenantData?.property?.id ?? null'
     )
+    expect(editTenantDrawerSource).toContain(
+      'Tenant email cannot be changed after invitation acceptance or email verification.'
+    )
+    expect(editTenantDrawerSource).toContain('disabled={isEmailLocked}')
   })
 })

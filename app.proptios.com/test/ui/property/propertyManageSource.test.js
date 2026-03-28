@@ -36,7 +36,8 @@ describe('property management source contracts', () => {
 
     expect(existingTenantSource).toContain('tenants.editTenants(')
     expect(existingTenantSource).toContain("name='tenant'")
-    expect(manageUnitSource).toContain("alert(data.description || 'Failed to update unit')")
+    expect(manageUnitSource).toContain("toast.error(data.description || 'Failed to update unit'")
+    expect(manageUnitSource).toContain("toast.error(responseData.message || 'Failed to fetch property details'")
     expect(manageUnitSource).toContain('refreshPropertyData()')
     expect(maintenanceDrawerSource).toContain('view-only for now')
     expect(maintenanceDrawerSource).toContain('disabled until the correct maintenance update contract exists')

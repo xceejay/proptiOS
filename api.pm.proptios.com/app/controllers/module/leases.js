@@ -247,7 +247,47 @@ app.put(
 
       const updatedLeases = [];
 
+      const leaseUuids = leases.map((lease) => lease.uuid).filter(Boolean);
+      const [existingLeases] = leaseUuids.length
+        ? await connection.query(
+            `
+              SELECT uuid, tenant_id, property_id, unit_id
+              FROM leases
+              WHERE uuid IN (?) AND site_id = ? AND deleted_at IS NULL
+            `,
+            [leaseUuids, req.user.site_id]
+          )
+        : [[]];
+
+      const existingLeaseMap = existingLeases.reduce((acc, lease) => {
+        acc[lease.uuid] = lease;
+        return acc;
+      }, {});
+
       for (const lease of leases) {
+        const existingLease = existingLeaseMap[lease.uuid];
+
+        if (!existingLease) {
+          await connection.rollback();
+          return res.status(404).json({
+            status: "FAILED",
+            description: `Lease with UUID ${lease.uuid} not found`,
+          });
+        }
+
+        if (
+          String(lease.tenant_id) !== String(existingLease.tenant_id) ||
+          String(lease.property_id) !== String(existingLease.property_id) ||
+          String(lease.unit_id || "") !== String(existingLease.unit_id || "")
+        ) {
+          await connection.rollback();
+          return res.status(400).json({
+            status: "FAILED",
+            description:
+              "Lease tenant, property, and unit assignment cannot be changed after the lease has been created",
+          });
+        }
+
         // Update the lease details
         const updateQuery = `
           UPDATE leases

@@ -128,7 +128,9 @@ const ManagePropertyUnitDrawer = props => {
           console.log('FROM Edit unit PAGE: refreshing property Data', responseData)
 
           if (responseData?.status === 'FAILED') {
-            alert(responseData.message || 'Failed to fetch properties')
+            toast.error(responseData.message || 'Failed to fetch property details', {
+              duration: 5000
+            })
           }
 
           // setUnitsData([...propertyData?.units])
@@ -171,7 +173,8 @@ const ManagePropertyUnitDrawer = props => {
         if (data?.status === 'NO_RES') {
           console.log('NO results')
         } else if (data?.status === 'FAILED') {
-          alert(data.description || 'Failed to update unit')
+          toast.error(data.description || 'Failed to update unit', { duration: 5000 })
+          setLoading(false)
           setError('name', {
             type: 'manual',
             message: data.description || 'Unknown error occurred'

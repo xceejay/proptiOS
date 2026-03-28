@@ -525,7 +525,7 @@ LEFT JOIN leases ON leases.property_id = properties.id
 LEFT JOIN maintenance_requests ON maintenance_requests.property_id = properties.id
 LEFT JOIN pm_users AS internal_assignee ON maintenance_requests.internal_assignee_id = internal_assignee.id
 WHERE 
-  properties.id = ? AND properties.site_id = ?;
+  properties.id = ? AND properties.site_id = ? AND properties.deleted_at IS NULL;
   `;
         const [results] = await mysql_db.execute(selectQuery, [
           property_id,
@@ -896,7 +896,8 @@ WHERE
           LEFT JOIN leases ON leases.property_id = properties.id 
           LEFT JOIN maintenance_requests ON maintenance_requests.property_id = properties.id
           WHERE 
-              properties.site_id = ?;
+              properties.site_id = ?
+              AND properties.deleted_at IS NULL;
       `;
         const [results] = await mysql_db.execute(selectQuery, [
           req.user.site_id,

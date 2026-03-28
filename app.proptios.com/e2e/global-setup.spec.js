@@ -35,6 +35,9 @@ function buildFreshUser() {
 
 async function persistAuthState(page, email, password) {
   console.log('setup:persistAuthState:start', email)
+  page.on('dialog', dialog => {
+    dialog.dismiss().catch(() => {})
+  })
   const res = await page.request.post(`${API_BASE}/auth/login`, {
     data: { email, password },
   })
@@ -46,7 +49,7 @@ async function persistAuthState(page, email, password) {
   const token = body.data.token
   expect(token, 'JWT token should be present').toBeTruthy()
 
-  await page.goto('/login')
+  await page.goto('/login', { waitUntil: 'domcontentloaded' })
   await page.evaluate(accessToken => {
     window.localStorage.setItem('accessToken', accessToken)
   }, token)

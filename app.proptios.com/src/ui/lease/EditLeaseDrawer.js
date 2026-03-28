@@ -18,6 +18,7 @@ import toast from 'react-hot-toast'
 const EditLeaseDrawer = props => {
   const { leaseData, setLeasesData, leasesData, open, toggle, setLoading } = props
   const leases = useLeases()
+  const assignmentLockHelper = 'Lease tenant, property, and unit assignment cannot be changed after creation.'
 
   // Validation schema for lease-specific fields
   const schema = yup.object().shape({
@@ -82,7 +83,8 @@ const EditLeaseDrawer = props => {
         if (data?.status === 'NO_RES') {
           console.log('NO results')
         } else if (data?.status === 'FAILED') {
-          alert(data.description || 'Failed to update lease')
+          toast.error(data.description || 'Failed to update lease', { duration: 5000 })
+          setLoading(false)
 
           return
         }
@@ -164,6 +166,8 @@ const EditLeaseDrawer = props => {
                   label='Tenant ID'
                   placeholder='Enter Tenant ID'
                   error={Boolean(errors.tenant_id)}
+                  disabled
+                  helperText={assignmentLockHelper}
                 />
               )}
             />
@@ -182,6 +186,8 @@ const EditLeaseDrawer = props => {
                   label='Property ID'
                   placeholder='Enter Property ID'
                   error={Boolean(errors.property_id)}
+                  disabled
+                  helperText={assignmentLockHelper}
                 />
               )}
             />
@@ -195,7 +201,14 @@ const EditLeaseDrawer = props => {
               name='unit_id'
               control={control}
               render={({ field }) => (
-                <TextField {...field} label='Unit ID' placeholder='Enter Unit ID' error={Boolean(errors.unit_id)} />
+                <TextField
+                  {...field}
+                  label='Unit ID'
+                  placeholder='Enter Unit ID'
+                  error={Boolean(errors.unit_id)}
+                  disabled
+                  helperText={assignmentLockHelper}
+                />
               )}
             />
             {errors.unit_id && <FormHelperText sx={{ color: 'error.main' }}>{errors.unit_id.message}</FormHelperText>}

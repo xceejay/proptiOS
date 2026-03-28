@@ -82,6 +82,28 @@ These are not long-term ideas. These are present behavior gaps or product bugs.
   - unit identity?
   - tenant invitation email?
 
+#### Proposed immutable field matrix
+
+| Entity | Field(s) | Current state | Proposed rule |
+| --- | --- | --- | --- |
+| Tenant | `uuid`, `site_id`, `deleted_at` | Effectively immutable because they are not exposed in edit flows | Keep immutable always |
+| Tenant | `email` | Currently editable in tenant edit flows | Editable only before invitation acceptance / email verification |
+| Tenant | `name`, `address`, `country`, `tel_number` | Editable | Keep editable |
+| Property | `uuid`, `site_id`, `deleted_at` | Effectively immutable because they are not exposed in edit flows | Keep immutable always |
+| Property | `property_name`, `property_email`, `property_address`, `property_type`, `units`, `rent_amount` | Editable | Keep editable for now |
+| Unit | `uuid`, `site_id`, `deleted_at` | Effectively immutable because they are not exposed in edit flows | Keep immutable always |
+| Unit | `property_id` | Editable through backend payload shape, but not intentionally surfaced in the current unit manage drawer | Treat as immutable in normal PM edit flows unless we later add a dedicated reassign flow |
+| Lease | `uuid`, `site_id`, `deleted_at` | Effectively immutable because they are not exposed in edit flows | Keep immutable always |
+| Lease | `tenant_id`, `property_id`, `unit_id` | Currently editable on existing leases | Lock after lease creation; changing assignment should require delete/recreate or a future dedicated reassignment flow |
+| Lease | `start_date`, `end_date`, `rent_amount`, `payment_frequency`, `currency`, narrative fields | Editable | Keep editable until we add signature-based locking |
+| Finance transaction | posted transaction identity and monetary fields | No clear lock system today | Should become immutable after posting/settlement in a later phase |
+
+#### Phase 1 implementation target
+
+- Lock tenant email after invite acceptance / verification
+- Lock existing lease assignment fields (`tenant_id`, `property_id`, `unit_id`) on edit
+- Reflect the same rules in the relevant edit drawers so users see the lock before submission
+
 ### 2.4 Error handling
 
 - Request failure toasts should be shown consistently

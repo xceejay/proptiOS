@@ -89,6 +89,8 @@ const tenantTypes = [
 const EditTenantDrawer = props => {
   const { tenantData, setTenantsData, tenantsData, open, toggle, setLoading } = props
   const tenant = useTenants()
+  const isEmailLocked =
+    Number(tenantData?.email_verification_status) === 1 || tenantData?.email_invitation_status === 'accepted'
 
   // Updated validation schema to include tenant-specific fields
   const schema = yup.object().shape({
@@ -190,7 +192,8 @@ const EditTenantDrawer = props => {
         if (data?.status === 'NO_RES') {
           console.log('NO results')
         } else if (data?.status === 'FAILED') {
-          alert(data.description || 'Failed to add tenant')
+          toast.error(data.description || 'Failed to edit tenant', { duration: 5000 })
+          setLoading(false)
           setError('email', {
             type: 'manual',
             message: data.description || 'Unknown error occurred'
@@ -316,6 +319,12 @@ const EditTenantDrawer = props => {
                   onChange={onChange}
                   placeholder='owner@example.com'
                   error={Boolean(errors.email)}
+                  disabled={isEmailLocked}
+                  helperText={
+                    isEmailLocked
+                      ? 'Tenant email cannot be changed after invitation acceptance or email verification.'
+                      : undefined
+                  }
                 />
               )}
             />
