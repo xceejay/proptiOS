@@ -13,7 +13,12 @@ const shortid = require("shortid");
 const axios = require("axios");
 const numbro = require("numbro");
 const multer = require("multer");
-const upload = multer();
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 10 * 1024 * 1024,
+  },
+});
 const geoip = require("geoip-lite");
 const lookup = require("country-code-lookup");
 const { client, xml, jid } = require("@xmpp/client");
@@ -46,12 +51,19 @@ const {
   validateEmail,
   sendTelegramAlert,
 } = require("../../services/utilities");
+const {
+  deleteObject,
+  isStorageConfigured,
+  uploadBuffer,
+} = require("../../services/storage");
 
 // Emails to be sent to pm_users via Postmark
 
 const PREFIX = "/auth";
 const saltRounds = 10;
 const secret = "1234";
+const AUTO_VERIFY_EMAIL =
+  String(process.env.AUTH_AUTO_VERIFY_EMAIL || "").toLowerCase() === "true";
 const jwtMiddleware = require("../../middleware/jwt");
 const audit_log = require("../../middleware/audit_log");
 
@@ -203,11 +215,11 @@ const routes = (app) => {
       let userEmail = results[0].email;
       let userFullname = results[0].name;
       let updateQuery =
-        "UPDATE `pm_users` SET `email_verification_status` = 1, `invitation_status` = 'active' WHERE email_verification_code = ?;";
+        "UPDATE `pm_users` SET `email_verification_status` = 1, `invitation_status` = 'accepted', `status` = 'active' WHERE email_verification_code = ?;";
 
       try {
         await mysql_db.execute(updateQuery, [code]);
-        welcomeEmail(userFullname, userEmail);
+        await welcomeEmail(userEmail, userFullname);
         return res.status(200).json({
           status: "SUCCESS",
           description: "Email verification successful",
@@ -445,7 +457,27 @@ const routes = (app) => {
         password = hash;
 
         const connection = await mysql_db.getConnection();
+        let uploadedDocument = null;
         try {
+          if (req.file) {
+            if (!isStorageConfigured()) {
+              console.warn(
+                "Skipping onboarding document upload because S3 storage is not configured."
+              );
+            } else {
+              uploadedDocument = await uploadBuffer({
+                buffer: req.file.buffer,
+                originalName: req.file.originalname,
+                contentType: req.file.mimetype,
+                folder: `sites/${site_id}/pm_users/${user_uuid}/id-documents`,
+                metadata: {
+                  owner: "pm_user",
+                  document_type: "id_card",
+                },
+              });
+            }
+          }
+
           await connection.beginTransaction();
 
           // Insert into `sites`
@@ -457,8 +489,8 @@ const routes = (app) => {
           ]);
 
           // Insert into `pm_users`
-          let insertQuery = `INSERT INTO pm_users (uuid, name, email, password, user_type, email_verification_code, email_verification_status, country, site_id, created_at, updated_at) 
-                              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
+          let insertQuery = `INSERT INTO pm_users (uuid, name, email, password, user_type, email_verification_code, email_verification_status, country, site_id, invitation_status, status, created_at, updated_at) 
+                              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`;
           await connection.execute(insertQuery, [
             user_uuid,
             full_name,
@@ -466,27 +498,65 @@ const routes = (app) => {
             password,
             user_type,
             email_verification_code,
-            false,
+            AUTO_VERIFY_EMAIL,
             countryCode,
             site_id,
+            AUTO_VERIFY_EMAIL ? "accepted" : "pending",
+            AUTO_VERIFY_EMAIL ? "active" : "inactive",
             stamp,
             stamp,
           ]);
 
+          const [pmUserRows] = await connection.execute(
+            "SELECT id FROM pm_users WHERE uuid = ? LIMIT 1;",
+            [user_uuid]
+          );
+
+          if (uploadedDocument && pmUserRows.length > 0) {
+            await connection.execute(
+              `INSERT INTO id_documents
+                (document_type, document_owner, document_url, pm_user_id, uuid, site_id, verification_status, status)
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?);`,
+              [
+                "id_card",
+                "pm_user",
+                uploadedDocument.url,
+                pmUserRows[0].id,
+                uuid(),
+                site_id,
+                "pending_verification",
+                "active",
+              ]
+            );
+          }
+
           await connection.commit(); // Commit the transaction
 
-          emailActivation(
-            email,
-            full_name,
-            `https://api.pm.proptios.com/verification-email/code/${email_verification_code}`
-          );
+          if (AUTO_VERIFY_EMAIL) {
+            await welcomeEmail(email, full_name);
+          } else {
+            await emailActivation(
+              email,
+              full_name,
+              `https://api.pm.proptios.com/verification-email/code/${email_verification_code}`
+            );
+          }
 
           return res.status(200).json({
             status: "SUCCESS",
-            description: "Registration successful, verification email sent",
+            description: AUTO_VERIFY_EMAIL
+              ? "Registration successful"
+              : "Registration successful, verification email sent",
           });
         } catch (error) {
           await connection.rollback(); // Rollback the transaction in case of any error
+          if (uploadedDocument?.key) {
+            try {
+              await deleteObject(uploadedDocument.key);
+            } catch (cleanupError) {
+              console.error("Error cleaning up uploaded onboarding document:", cleanupError);
+            }
+          }
           console.log(error);
           return res.status(500).json({
             status: "FAILED",

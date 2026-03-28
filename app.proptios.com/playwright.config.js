@@ -4,6 +4,7 @@ const { defineConfig, devices } = require('@playwright/test')
 const PORT = Number(process.env.E2E_PORT || 3001)
 const BASE_URL = `http://127.0.0.1:${PORT}`
 const API_URL = process.env.E2E_API_URL || 'http://127.0.0.1:2024'
+const AUTH_MODE = process.env.E2E_AUTH_MODE || 'login'
 
 module.exports = defineConfig({
   testDir: './e2e',
@@ -31,6 +32,7 @@ module.exports = defineConfig({
     timeout: 30_000,
     env: {
       NEXT_PUBLIC_API_BASE_URL: API_URL,
+      E2E_AUTH_MODE: AUTH_MODE,
     },
   },
 

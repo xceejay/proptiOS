@@ -19,6 +19,7 @@ const pm_users = require("./module/users"); // tenants routes
 const leases = require("./module/leases"); // tenants routes
 const audit = require("./module/audit"); // audit routes
 const settlements = require("./module/settlements"); // tenants routes
+const uploads = require("./module/uploads"); // storage routes
 
 const site = require("./module/site"); // tenants routes
 
@@ -68,6 +69,7 @@ const run = (app) => {
   pm_users.routes(app);
   audit.routes(app)
   site.routes(app);
+  uploads.routes(app);
 
   // Demo and Test Routes
   crud.routes(app);

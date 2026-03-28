@@ -1,5 +1,7 @@
 const base = require('@playwright/test')
+const fs = require('fs')
 const { attachNetworkLogger } = require('./network-logger')
+const { AUTH_FILE, AUTH_MODE, readTestUser } = require('./auth-state')
 
 /**
  * Test fixtures with two session modes controlled by E2E_ISOLATE env var.
@@ -15,14 +17,13 @@ const { attachNetworkLogger } = require('./network-logger')
  *   pnpm test:e2e:isolate      # fresh page per test
  */
 const ISOLATE = !!process.env.E2E_ISOLATE
-const EMAIL = process.env.E2E_EMAIL || 'joel@example.com'
-const PASSWORD = process.env.E2E_PASSWORD || 'password@123'
 
 async function loginViaUi(page) {
+  const { email, password } = readTestUser()
   await page.goto('/login')
   await base.expect(page.getByLabel('Email')).toBeVisible({ timeout: 15000 })
-  await page.getByLabel('Email').fill(EMAIL)
-  await page.locator('#auth-login-v2-password').fill(PASSWORD)
+  await page.getByLabel('Email').fill(email)
+  await page.locator('#auth-login-v2-password').fill(password)
 
   const loginResponse = page.waitForResponse(
     res => res.url().includes('/auth/login') && res.request().method() === 'POST'
@@ -53,7 +54,10 @@ if (ISOLATE) {
     _sharedContext: [
       async ({ browser }, use) => {
         const ctx = await browser.newContext({
-          storageState: { cookies: [], origins: [] },
+          storageState:
+            AUTH_MODE === 'onboarding' && fs.existsSync(AUTH_FILE)
+              ? AUTH_FILE
+              : { cookies: [], origins: [] },
         })
         await use(ctx)
         await ctx.close()
@@ -63,7 +67,9 @@ if (ISOLATE) {
     _sharedPage: [
       async ({ _sharedContext }, use) => {
         const page = await _sharedContext.newPage()
-        await loginViaUi(page)
+        if (AUTH_MODE !== 'onboarding') {
+          await loginViaUi(page)
+        }
         await use(page)
       },
       { scope: 'worker' },

@@ -1,7 +1,9 @@
 const { test, expect } = require('./helpers/fixtures')
+const { readTestUser } = require('./helpers/auth-state')
 
 test.describe('User Management', () => {
   test('user list shows the current logged-in user', async ({ page }) => {
+    const { email } = readTestUser()
     await page.goto('/users')
 
     // Users page has tabs: "Invite Users" and "Manage Users"
@@ -12,8 +14,7 @@ test.describe('User Management', () => {
 
     await page.locator('.MuiDataGrid-root').first().waitFor({ timeout: 15000 })
 
-    // The logged-in user (joel@example.com) should appear in the list
-    await expect(page.getByText('joel@example.com')).toBeVisible({ timeout: 10000 })
+    await expect(page.getByText(email)).toBeVisible({ timeout: 10000 })
   })
 
   test('user list columns include name and role', async ({ page }) => {
