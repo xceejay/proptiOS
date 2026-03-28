@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from 'react'
 import axios from 'src/pages/middleware/axios'
+import { getStoredAccessToken } from 'src/utils/authStorage'
 
 const defaultProvider = {
   loading: true,
@@ -20,7 +21,7 @@ const CommunicationProvider = ({ children }) => {
   const [accessToken, setAccessToken] = useState(defaultProvider.accessToken)
 
   useEffect(() => {
-    const storedToken = window.localStorage.getItem('accessToken')
+    const storedToken = getStoredAccessToken()
     if (storedToken) {
       setAccessToken(storedToken)
     }
@@ -28,7 +29,7 @@ const CommunicationProvider = ({ children }) => {
   }, [])
 
   const getToken = errorCallback => {
-    const token = window.localStorage.getItem('accessToken') || accessToken
+    const token = getStoredAccessToken() || accessToken
 
     if (!token) {
       const error = new Error('No access token found')

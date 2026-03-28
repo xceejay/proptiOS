@@ -54,9 +54,11 @@ Older QA files in the repo are preserved as historical snapshots, but this docum
 - Multi-tenant auth routing is now wired in source:
   - shared login hosts (`app.proptios.com`, `app.staging.proptios.com`) can authenticate and then redirect the user into their site host
   - production tenant hosts use `<site>.proptios.com`; staging tenant hosts now use `<site>.staging.proptios.com`
-  - legacy `staging.<site>.proptios.com` links are compatibility-only and no longer the canonical shape
   - tenant hosts send their active site host to the API
   - backend auth now rejects tokens/logins when the requested tenant host does not match `user.site_id`
+- Post-login tenant-host navigation no longer throws the generic auth toast on staging
+  - module contexts now read tokens through the shared auth storage helper instead of raw `localStorage`
+  - live browser retest confirmed clean login redirect and clean module traversal on staging
 - The strict staging CRUDR Playwright protocol is now green end to end:
   - auth
   - create

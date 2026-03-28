@@ -38,27 +38,45 @@ axios.interceptors.response.use(
     return response
   },
   function (error) {
-    if (403 === error.response.status || 401 === error.response.status) {
+    if (!error || axios.isCancel(error) || error.code === 'ERR_CANCELED' || !error.response) {
+      return Promise.reject(error)
+    }
+
+    const { status } = error.response
+    const requestUrl = String(error.config?.url || '')
+    const shouldSkipAuthToast = Boolean(error.config?.__skipAuthToast) || requestUrl.includes('/auth/me')
+    const isGuestPath =
+      typeof window !== 'undefined' &&
+      (window.location.pathname.startsWith('/login') ||
+        window.location.pathname.startsWith('/register') ||
+        window.location.pathname.startsWith('/forgot-password') ||
+        window.location.pathname.startsWith('/onboarding'))
+
+    if (403 === status || 401 === status) {
+      if (shouldSkipAuthToast) {
+        return Promise.reject(error)
+      }
+
       console.log('Unauthorized. Logging out..')
       clearAccessToken()
 
-      if (!window.location.pathname.startsWith('/login') && !window.location.pathname.startsWith('/register')) {
+      if (!isGuestPath) {
         toast.error('Unauthorized Access, redirecting to login page', { duration: 3000 })
         setTimeout(function () {
           console.log('redirecting')
           window.location.href = '/login'
         }, 3000)
       }
-    } else if (402 === error.response.status) {
-      if (!window.location.pathname.startsWith('/login') && !window.location.pathname.startsWith('/register')) {
+    } else if (402 === status) {
+      if (!isGuestPath) {
         toast.error('Please upgrade or renew your subscription😃', { duration: 3000 })
         setTimeout(function () {
           console.log('Renew your subscription')
           // window.history.back()
         }, 6000)
       }
-    } else if (405 === error.response.status) {
-      if (!window.location.pathname.startsWith('/login') && !window.location.pathname.startsWith('/register')) {
+    } else if (405 === status) {
+      if (!isGuestPath) {
         toast.error('Unauthorized Access to this resource, Contact your admin😅', { duration: 3000 })
         setTimeout(function () {
           console.log('redirecting you back')

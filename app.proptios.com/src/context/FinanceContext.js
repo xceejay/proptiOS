@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 
 // ** Axios
 import axios from 'src/pages/middleware/axios'
+import { getStoredAccessToken } from 'src/utils/authStorage'
 
 // ** Config
 
@@ -37,7 +38,7 @@ const FinanceProvider = ({ children }) => {
   const router = useRouter()
 
   useEffect(() => {
-    const storedToken = window.localStorage.getItem('accessToken')
+    const storedToken = getStoredAccessToken()
     if (storedToken) {
       setAccessToken(storedToken)
     }
@@ -58,7 +59,7 @@ const FinanceProvider = ({ children }) => {
 
   //function for registering an account.
   const getAllFinance = (params, successCallback, errorCallback) => {
-    const token = window.localStorage.getItem('accessToken') || accessToken
+    const token = getStoredAccessToken() || accessToken
 
     if (!token) {
       const error = new Error('No access token found')
@@ -86,7 +87,7 @@ const FinanceProvider = ({ children }) => {
   }
 
   const getAllRentTransactions = (params, successCallback, errorCallback) => {
-    const token = window.localStorage.getItem('accessToken') || accessToken
+    const token = getStoredAccessToken() || accessToken
 
     if (!token) {
       const error = new Error('No access token found')
@@ -114,7 +115,7 @@ const FinanceProvider = ({ children }) => {
   }
 
   const getTransaction = (id, successCallback, errorCallback) => {
-    const token = window.localStorage.getItem('accessToken') || accessToken
+    const token = getStoredAccessToken() || accessToken
 
     if (!token) {
       const error = new Error('No access token found')
@@ -140,7 +141,7 @@ const FinanceProvider = ({ children }) => {
   }
 
   const getAllTransactions = (params, successCallback, errorCallback) => {
-    const token = window.localStorage.getItem('accessToken') || accessToken
+    const token = getStoredAccessToken() || accessToken
 
     if (!token) {
       const error = new Error('No access token found')
@@ -167,7 +168,7 @@ const FinanceProvider = ({ children }) => {
   }
 
   const getAllReports = (successCallback, errorCallback) => {
-    const token = window.localStorage.getItem('accessToken') || accessToken
+    const token = getStoredAccessToken() || accessToken
 
     if (!token) {
       const error = new Error('No access token found')
@@ -193,7 +194,7 @@ const FinanceProvider = ({ children }) => {
   }
 
   const getAllSettlementAccounts = (id, successCallback, errorCallback) => {
-    const token = window.localStorage.getItem('accessToken') || accessToken
+    const token = getStoredAccessToken() || accessToken
 
     if (!token) {
       const error = new Error('No access token found')
@@ -219,7 +220,7 @@ const FinanceProvider = ({ children }) => {
   }
 
   const getAllSettlementDetails = (successCallback, errorCallback) => {
-    const token = window.localStorage.getItem('accessToken') || accessToken
+    const token = getStoredAccessToken() || accessToken
 
     if (!token) {
       const error = new Error('No access token found')

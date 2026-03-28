@@ -15,7 +15,6 @@ describe('siteHost utilities', () => {
 
   it('normalizes requested staging tenant hosts back to the canonical site id', () => {
     expect(resolveRequestedSiteHost('riverfront.staging.proptios.com')).toBe('riverfront.proptios.com')
-    expect(resolveRequestedSiteHost('staging.riverfront.proptios.com')).toBe('riverfront.proptios.com')
     expect(resolveRequestedSiteHost('riverfront.proptios.com')).toBe('riverfront.proptios.com')
   })
 

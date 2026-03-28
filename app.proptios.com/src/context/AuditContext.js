@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 
 // ** Axios
 import axios from 'src/pages/middleware/axios'
+import { getStoredAccessToken } from 'src/utils/authStorage'
 
 // ** Config
 
@@ -32,7 +33,7 @@ const AuditProvider = ({ children }) => {
   }, [])
 
   const getAllAuditLogs = (params, successCallback, errorCallback) => {
-    const token = window.localStorage.getItem('accessToken')
+    const token = getStoredAccessToken()
 
     if (!token) {
       const error = new Error('No access token found')

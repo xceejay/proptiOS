@@ -13,9 +13,6 @@ Canonical staging tenant hosts now use:
 Shared staging login still uses:
 - `app.staging.proptios.com`
 
-Legacy compatibility:
-- older `staging.<site>.proptios.com` links may still resolve for a transition period, but they are no longer the canonical staging tenant shape.
-
 ## Status Update
 
 _Updated: 2026-03-28_
@@ -43,6 +40,10 @@ Additional items have since been implemented in the current codebase and verifie
 - `MAJ-10` Communication reporter shows "Current User"
   - Current status: `FIXED IN CODE`
   - Verification: communication reporter/comment author now come from persisted backend issue/comment records instead of in-memory placeholder names
+- Post-login generic error toast after tenant-host redirect
+  - Current status: `FIXED`
+  - Verification: live browser retest on `app.staging.proptios.com` now logs in, redirects to `<site>.staging.proptios.com`, and traverses dashboard/properties/tenants/communication without the generic toast
+  - Notes: the root cause was raw `localStorage` token reads in multiple contexts before the shared `.proptios.com` cookie had been synced into the new subdomain
 
 ---
 
