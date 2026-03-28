@@ -14,6 +14,7 @@ describe('siteHost utilities', () => {
   })
 
   it('normalizes requested staging tenant hosts back to the canonical site id', () => {
+    expect(resolveRequestedSiteHost('riverfront.staging.proptios.com')).toBe('riverfront.proptios.com')
     expect(resolveRequestedSiteHost('staging.riverfront.proptios.com')).toBe('riverfront.proptios.com')
     expect(resolveRequestedSiteHost('riverfront.proptios.com')).toBe('riverfront.proptios.com')
   })
@@ -21,7 +22,7 @@ describe('siteHost utilities', () => {
   it('builds the correct tenant host for production and staging shared app hosts', () => {
     expect(buildTenantAppHost('riverfront.proptios.com', 'app.proptios.com')).toBe('riverfront.proptios.com')
     expect(buildTenantAppHost('riverfront.proptios.com', 'staging.app.proptios.com')).toBe(
-      'staging.riverfront.proptios.com'
+      'riverfront.staging.proptios.com'
     )
   })
 
@@ -30,7 +31,7 @@ describe('siteHost utilities', () => {
       'https://riverfront.proptios.com/dashboard'
     )
     expect(buildTenantAppUrl('riverfront.proptios.com', 'staging.app.proptios.com', '/dashboard')).toBe(
-      'https://staging.riverfront.proptios.com/dashboard'
+      'https://riverfront.staging.proptios.com/dashboard'
     )
   })
 

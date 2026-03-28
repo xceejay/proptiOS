@@ -40,6 +40,10 @@ export function resolveRequestedSiteHost(value) {
     return null
   }
 
+  if (normalized.endsWith('.staging.proptios.com')) {
+    return normalized.replace(/\.staging\.proptios\.com$/, '.proptios.com')
+  }
+
   if (normalized.startsWith('staging.') && normalized.endsWith('.proptios.com')) {
     return normalized.replace(/^staging\./, '')
   }
@@ -57,7 +61,7 @@ export function isStagingHost(value) {
   const normalized = normalizeSiteHost(value)
   if (!normalized) return false
 
-  return normalized.startsWith('staging.')
+  return normalized === 'staging.app.proptios.com' || normalized.endsWith('.staging.proptios.com')
 }
 
 export function buildTenantAppHost(siteId, currentHost) {
@@ -70,7 +74,7 @@ export function buildTenantAppHost(siteId, currentHost) {
   }
 
   if (isStagingHost(activeHost) && !canonicalSiteId.startsWith('staging.')) {
-    return `staging.${canonicalSiteId}`
+    return canonicalSiteId.replace(/\.proptios\.com$/, '.staging.proptios.com')
   }
 
   return canonicalSiteId

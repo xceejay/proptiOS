@@ -25,6 +25,24 @@ const SHARED_SITE_HOSTS = new Set([
   '127.0.0.1',
 ])
 
+function resolveRequestedSiteHost(hostname) {
+  const normalizedHost = String(hostname || '').toLowerCase()
+
+  if (!normalizedHost || SHARED_SITE_HOSTS.has(normalizedHost) || normalizedHost.endsWith('.vercel.app')) {
+    return null
+  }
+
+  if (normalizedHost.endsWith('.staging.proptios.com')) {
+    return normalizedHost.replace(/\.staging\.proptios\.com$/, '.proptios.com')
+  }
+
+  if (normalizedHost.startsWith('staging.') && normalizedHost.endsWith('.proptios.com')) {
+    return normalizedHost.replace(/^staging\./, '')
+  }
+
+  return normalizedHost
+}
+
 function buildFreshUser() {
   const seed = Date.now().toString(36)
   const suffix = Math.random().toString(36).slice(2, 8)
@@ -45,8 +63,7 @@ async function persistAuthState(page, email, password) {
     dialog.dismiss().catch(() => {})
   })
   const browserHost = new URL(page.url()).hostname.toLowerCase()
-  const requestedSiteHost =
-    SHARED_SITE_HOSTS.has(browserHost) || browserHost.endsWith('.vercel.app') ? null : browserHost.replace(/^staging\./, '')
+  const requestedSiteHost = resolveRequestedSiteHost(browserHost)
   const res = await page.request.post(`${API_BASE}/auth/login`, {
     data: {
       email,

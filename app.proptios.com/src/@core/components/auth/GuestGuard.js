@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 
 // ** Hooks Import
 import { useAuth } from 'src/hooks/useAuth'
+import { getStoredAccessToken } from 'src/utils/authStorage'
 
 const GuestGuard = props => {
   const { children, fallback } = props
@@ -15,7 +16,7 @@ const GuestGuard = props => {
     if (!router.isReady) {
       return
     }
-    if (window.localStorage.getItem('accessToken')) {
+    if (getStoredAccessToken()) {
       alert('Logout to access this page')
 
       // toast.error('Logout to access this page', { duration: 5000 })

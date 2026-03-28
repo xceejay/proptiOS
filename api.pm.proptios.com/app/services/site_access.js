@@ -40,6 +40,10 @@ function canonicalizeRequestedSiteHost(value) {
     return null;
   }
 
+  if (normalized.endsWith(".staging.proptios.com")) {
+    return normalized.replace(/\.staging\.proptios\.com$/, ".proptios.com");
+  }
+
   if (normalized.startsWith("staging.") && normalized.endsWith(".proptios.com")) {
     return normalized.replace(/^staging\./, "");
   }

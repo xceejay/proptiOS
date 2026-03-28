@@ -2,6 +2,7 @@ import axios from 'axios'
 
 import toast from 'react-hot-toast'
 import { resolveCurrentSiteHost } from 'src/utils/siteHost'
+import { clearAccessToken } from 'src/utils/authStorage'
 
 // Add a request interceptor
 // axios.interceptors.request.use(
@@ -39,7 +40,7 @@ axios.interceptors.response.use(
   function (error) {
     if (403 === error.response.status || 401 === error.response.status) {
       console.log('Unauthorized. Logging out..')
-      window.localStorage.removeItem('accessToken')
+      clearAccessToken()
 
       if (!window.location.pathname.startsWith('/login') && !window.location.pathname.startsWith('/register')) {
         toast.error('Unauthorized Access, redirecting to login page', { duration: 3000 })

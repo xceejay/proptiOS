@@ -9,6 +9,7 @@ import { useRouter } from 'next/router'
 // ** Axios
 import axios from 'src/pages/middleware/axios'
 import { buildTenantAppUrl, normalizeSiteHost, resolveCurrentSiteHost } from 'src/utils/siteHost'
+import { clearAccessToken, getStoredAccessToken, persistAccessToken, syncAccessTokenFromCookie } from 'src/utils/authStorage'
 
 // ** Config
 import authConfig from 'src/configs/auth'
@@ -42,9 +43,8 @@ const AuthProvider = ({ children }) => {
   }
 
   const clearStoredAuth = () => {
-    window.localStorage.removeItem('accessToken')
-    window.localStorage.removeItem(authConfig.storageTokenKeyName)
-  }
+    clearAccessToken()
+    }
 
   const redirectToTenantSiteIfNeeded = (activeUser, fallbackPath = '/') => {
     if (typeof window === 'undefined' || !activeUser?.site_id) {
@@ -72,7 +72,7 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const initAuth = async () => {
       try {
-        const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)
+        const storedToken = getStoredAccessToken() || syncAccessTokenFromCookie()
 
         if (!storedToken) {
           setLoading(false)
@@ -158,7 +158,9 @@ const AuthProvider = ({ children }) => {
       .post(process.env.NEXT_PUBLIC_API_BASE_URL + '/auth/login', params)
 
       .then(async response => {
-        params.rememberMe ? window.localStorage.setItem(authConfig.storageTokenKeyName, response.data.data.token) : null
+        if (params.rememberMe) {
+          persistAccessToken(response.data.data.token)
+        }
         const returnUrl = router.query.returnUrl
         const authenticatedUser = { ...response.data.data.user }
         setUser(authenticatedUser)
