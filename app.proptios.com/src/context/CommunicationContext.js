@@ -1,104 +1,145 @@
-// ** React Imports
 import { createContext, useEffect, useState } from 'react'
-
-// ** Next Import
-import { useRouter } from 'next/router'
-
-// ** Axios
 import axios from 'src/pages/middleware/axios'
 
-// ** Config
-import authConfig from 'src/configs/auth'
-
-// ** Defaults
 const defaultProvider = {
-  user: null,
   loading: true,
-  setUser: () => null,
-  setLoading: () => Boolean,
-  registerAccount: () => Promise.resolve()
+  accessToken: null,
+  setAccessToken: () => {},
+  setLoading: () => {},
+  getIssues: () => Promise.resolve(),
+  getIssue: () => Promise.resolve(),
+  addIssue: () => Promise.resolve(),
+  addIssueComment: () => Promise.resolve(),
+  updateIssueStatus: () => Promise.resolve(),
 }
+
 const CommunicationContext = createContext(defaultProvider)
 
 const CommunicationProvider = ({ children }) => {
-  // ** States
-  const [user, setUser] = useState(defaultProvider.user)
   const [loading, setLoading] = useState(defaultProvider.loading)
-
-  // ** Hooks
-  const router = useRouter()
+  const [accessToken, setAccessToken] = useState(defaultProvider.accessToken)
 
   useEffect(() => {
-    console.log('test')
+    const storedToken = window.localStorage.getItem('accessToken')
+    if (storedToken) {
+      setAccessToken(storedToken)
+    }
+    setLoading(false)
   }, [])
 
-  // useEffect(() => {
-  //   const initRegister = async () => {
-  //     const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)
-  //     if (storedToken) {
-  //       let userData = window.localStorage.getItem('userData')
-  //       console.log('Register::site_id', userData.site_id)
-  //     } else {
-  //       setLoading(false)
-  //     }
-  //   }
-  //   initRegister()
-  // }, [])
+  const getToken = errorCallback => {
+    const token = window.localStorage.getItem('accessToken') || accessToken
 
-  //function for registering an account.
-  const registerAccount = (params, errorCallback) => {
-    console.log('Creating account')
+    if (!token) {
+      const error = new Error('No access token found')
+      if (errorCallback) errorCallback(error)
 
-    console.log('param', params)
+      return null
+    }
+
+    return token
+  }
+
+  const getIssues = (successCallback, errorCallback) => {
+    const token = getToken(errorCallback)
+    if (!token) return
+
     axios
-      .post(process.env.NEXT_PUBLIC_API_BASE_URL + '/auth/register', {
-        role: params.data.role,
-        site_name: params.data.site_name,
-        site_domain: params.data.site_domain.toLowerCase() + '.proptios.com',
-        country: params.data.country,
-        full_name: params.data.full_name,
-        email: params.data.email,
-        password: params.data.password
+      .get(process.env.NEXT_PUBLIC_API_BASE_URL + '/communication/issues', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       })
-      .then(async response => {
-        console.log('REGISTER:::response', response.data)
-
-        // Optionally, handle response data if needed
-        // e.g., storing token, user data, or redirecting
-
-        // Example: Store token if available
-        if (response.data.token) {
-          window.localStorage.setItem('authToken', response.data.token)
-        }
-
-        // Example: Store user data if needed
-        if (response.data.user) {
-          window.localStorage.setItem('userData', JSON.stringify(response.data.user))
-        }
-
-        // Redirect user if needed
-        const redirectURL = '/'
-        router.replace(redirectURL)
+      .then(response => {
+        if (successCallback) successCallback(response.data)
       })
       .catch(err => {
         if (errorCallback) errorCallback(err)
       })
   }
 
-  const handleLogout = () => {
-    console.log('logged out')
-    setUser(null)
-    window.localStorage.removeItem('userData')
-    window.localStorage.removeItem(authConfig.storageTokenKeyName)
-    router.push('/login')
+  const getIssue = (id, successCallback, errorCallback) => {
+    const token = getToken(errorCallback)
+    if (!token) return
+
+    axios
+      .get(process.env.NEXT_PUBLIC_API_BASE_URL + `/communication/issues/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(response => {
+        if (successCallback) successCallback(response.data)
+      })
+      .catch(err => {
+        if (errorCallback) errorCallback(err)
+      })
+  }
+
+  const addIssue = (data, successCallback, errorCallback) => {
+    const token = getToken(errorCallback)
+    if (!token) return
+
+    axios
+      .post(process.env.NEXT_PUBLIC_API_BASE_URL + '/communication/issues', data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(response => {
+        if (successCallback) successCallback(response.data)
+      })
+      .catch(err => {
+        if (errorCallback) errorCallback(err)
+      })
+  }
+
+  const addIssueComment = (issueId, data, successCallback, errorCallback) => {
+    const token = getToken(errorCallback)
+    if (!token) return
+
+    axios
+      .post(process.env.NEXT_PUBLIC_API_BASE_URL + `/communication/issues/${issueId}/comments`, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(response => {
+        if (successCallback) successCallback(response.data)
+      })
+      .catch(err => {
+        if (errorCallback) errorCallback(err)
+      })
+  }
+
+  const updateIssueStatus = (issueId, data, successCallback, errorCallback) => {
+    const token = getToken(errorCallback)
+    if (!token) return
+
+    axios
+      .patch(process.env.NEXT_PUBLIC_API_BASE_URL + `/communication/issues/${issueId}/status`, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then(response => {
+        if (successCallback) successCallback(response.data)
+      })
+      .catch(err => {
+        if (errorCallback) errorCallback(err)
+      })
   }
 
   const values = {
-    user,
     loading,
-    setUser,
+    accessToken,
+    setAccessToken,
     setLoading,
-    registerAccount: registerAccount
+    getIssues,
+    getIssue,
+    addIssue,
+    addIssueComment,
+    updateIssueStatus,
   }
 
   return <CommunicationContext.Provider value={values}>{children}</CommunicationContext.Provider>

@@ -1,277 +1,271 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react'
-import { useForm, Controller } from 'react-hook-form'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
+import toast from 'react-hot-toast'
 import {
   Box,
-  List,
-  ListItem,
-  ListItemText,
-  Typography,
+  Button,
   Card,
   CardContent,
-  TextField,
-  Button,
-  IconButton,
-  CircularProgress,
   CardHeader,
-  Tooltip,
-  FormHelperText,
-  useMediaQuery,
+  CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   Drawer,
   FormControl,
-  Select,
+  FormHelperText,
+  IconButton,
+  List,
+  ListItem,
   MenuItem,
+  Select,
   Stack,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions
+  TextField,
+  Tooltip,
+  Typography,
+  useMediaQuery,
 } from '@mui/material'
-import AttachFileIcon from '@mui/icons-material/AttachFile'
-import SendIcon from '@mui/icons-material/Send'
-import CloseIcon from '@mui/icons-material/Close'
-import CustomChip from 'src/@core/components/mui/chip'
-
-import PictureAsPdf from '@mui/icons-material/PictureAsPdf'
 import AddIcon from '@mui/icons-material/Add'
-const initialIssues = [
-  {
-    id: 1,
-    title: 'Loud Music Late at Night',
-    description:
-      "The tenant in the apartment next door has been playing loud music late at night. It’s becoming disruptive, especially during weekdays when I'm trying to sleep.",
-    status: 'Open',
-    date: '2023-05-01',
-    reporter: {
-      id: 101,
-      name: 'John Doe',
-      user_type: 'tenant',
-      property: { id: 201, name: 'Sunset Apartments', unit: { id: 301, name: 'Unit 3B' } }
-    },
-    attachments: [
-      {
-        name: 'noise_recording.mp4',
-        type: 'video/mp4',
-        url: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'
-      },
-      {
-        name: 'noise_complaint_report.pdf',
-        type: 'application/pdf',
-        url: 'https://unec.edu.az/application/uploads/2014/12/pdf-sample.pdf'
-      }
-    ]
-  },
-  {
-    id: 2,
-    title: 'Trash Left in Hallway',
-    description:
-      'There are bags of trash left outside the door in the hallway, creating an unpleasant smell and an obstruction for others passing by.',
-    status: 'In Progress',
-    date: '2023-05-02',
-    reporter: {
-      id: 102,
-      name: 'Jane Smith',
-      user_type: 'tenant',
-      property: { id: 202, name: 'Maple Residences', unit: { id: 302, name: 'Unit 4A' } }
-    },
-    attachments: [
-      {
-        name: 'trash_in_hallway.jpg',
-        type: 'image/jpeg',
-        url: 'https://plus.unsplash.com/premium_photo-1673967831980-1d377baaded2?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Y2F0c3xlbnwwfHwwfHx8MA%3D%3D'
-      }
-    ]
-  },
-  {
-    id: 3,
-    title: 'Broken Elevator',
-    description:
-      'The elevator in the building has been out of order for over a week, causing inconvenience to residents, especially those on higher floors.',
-    status: 'Open',
-    date: '2023-05-03',
-    reporter: { id: 103, name: 'Mike Anderson', user_type: 'pm_user' },
-    attachments: [{ name: 'elevator_issue.png', type: 'image/png', url: 'https://www.example.com/elevator_issue.png' }]
-  }
-]
-const initialComments = [
-  {
-    id: 1,
-    issueId: 1,
-    text: 'I’ll speak with the tenant about the noise levels tonight.',
-    commenter: { id: 201, name: 'Property Manager', user_type: 'pm_user' },
-    timestamp: '2023-05-01T10:00:00Z',
-    attachment: { name: 'tenant_notice.pdf', type: 'application/pdf', url: '#' }
-  },
-  {
-    id: 2,
-    issueId: 1,
-    text: 'Thank you, I really appreciate it. It’s been affecting my sleep.',
-    commenter: { id: 101, name: 'John Doe', user_type: 'tenant' },
-    timestamp: '2023-05-01T11:30:00Z',
-    attachment: null
-  },
-  {
-    id: 3,
-    issueId: 1,
-    text: 'The noise was still quite loud last night. Could this be addressed again?',
-    commenter: { id: 101, name: 'John Doe', user_type: 'tenant' },
-    timestamp: '2023-05-02T08:45:00Z',
-    attachment: null
-  },
-  {
-    id: 4,
-    issueId: 1,
-    text: 'I’ll have a follow-up discussion with the tenant and issue a formal warning if necessary.',
-    commenter: { id: 201, name: 'Property Manager', user_type: 'pm_user' },
-    timestamp: '2023-05-02T09:15:00Z',
-    attachment: null
-  },
-  {
-    id: 5,
-    issueId: 2,
-    text: 'I’ve informed our cleaning staff to remove the trash immediately.',
-    commenter: { id: 201, name: 'Property Manager', user_type: 'pm_user' },
-    timestamp: '2023-05-02T09:00:00Z',
-    attachment: null
-  },
-  {
-    id: 6,
-    issueId: 2,
-    text: "Thank you! It's becoming a common issue in the hallway.",
-    commenter: { id: 102, name: 'Jane Smith', user_type: 'tenant' },
-    timestamp: '2023-05-02T09:30:00Z',
-    attachment: null
-  },
-  {
-    id: 7,
-    issueId: 3,
-    text: 'We are awaiting parts to repair the elevator; we expect it to be operational within the next few days.',
-    commenter: { id: 201, name: 'Property Manager', user_type: 'pm_user' },
-    timestamp: '2023-05-03T10:00:00Z',
-    attachment: null
-  },
-  {
-    id: 8,
-    issueId: 3,
-    text: 'Thank you for the update. The residents on the upper floors are quite concerned.',
-    commenter: { id: 103, name: 'Mike Anderson', user_type: 'pm_user' },
-    timestamp: '2023-05-03T10:15:00Z',
-    attachment: null
-  }
-]
-const schema = yup.object().shape({
-  comment: yup.string().test('comment-or-file', 'Comment is required when no file is attached', function (value) {
-    const { file } = this.parent // Access the sibling value (file)
-    if (!file && (!value || value.trim().length === 0)) {
-      return false
-    }
-    return true
-  }),
-  file: yup
-    .mixed()
-    .nullable() // To handle null values explicitly
-    .test('fileSize', 'File size is too large', value => {
-      if (!value) return true // If no file, validation passes
-      return value.size <= 10 * 1024 * 1024 // Check if file size is within 10MB
-    })
-    .test('fileType', 'Unsupported file type', value => {
-      if (!value) return true // If no file, validation passes
-      return ['application/pdf', 'image/jpeg', 'image/png', 'video/mp4'].includes(value.type) // Check if file type is supported
-    })
-})
+import CloseIcon from '@mui/icons-material/Close'
+import SendIcon from '@mui/icons-material/Send'
+import CustomChip from 'src/@core/components/mui/chip'
+import { useCommunication } from 'src/hooks/useCommunication'
 
 const createIssueSchema = yup.object().shape({
   title: yup.string().trim().required('Issue title is required'),
-  description: yup.string().trim().required('Issue description is required')
+  description: yup.string().trim().required('Issue description is required'),
 })
 
-const ParentCommunicationViewIssues = ({ communicationData }) => {
+const commentSchema = yup.object().shape({
+  comment: yup.string().trim().required('Comment is required'),
+})
+
+const statusColors = {
+  Open: 'primary',
+  'In Progress': 'warning',
+  Closed: 'success',
+}
+
+const formatReporterMeta = issue => {
+  const bits = []
+
+  if (issue?.reporter?.property?.name) {
+    bits.push(issue.reporter.property.name)
+  }
+
+  if (issue?.reporter?.unit?.name) {
+    bits.push(issue.reporter.unit.name)
+  }
+
+  return bits.join(', ')
+}
+
+const EmptyState = ({ onCreate }) => (
+  <Card>
+    <CardContent sx={{ py: 12, textAlign: 'center' }}>
+      <Typography variant='h6' sx={{ mb: 2 }}>
+        No issues yet
+      </Typography>
+      <Typography color='text.secondary' sx={{ mb: 4 }}>
+        Communication issues will appear here once your team starts reporting them.
+      </Typography>
+      <Button variant='contained' onClick={onCreate}>
+        Create Issue
+      </Button>
+    </CardContent>
+  </Card>
+)
+
+const IssueDetail = ({
+  commentErrors,
+  commentLoading,
+  commentRegister,
+  handleClose,
+  handleCommentSubmit,
+  handleStatusChange,
+  issue,
+}) => (
+  <Card>
+    <CardContent>
+      <IconButton onClick={handleClose} sx={{ float: 'right' }}>
+        <CloseIcon />
+      </IconButton>
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 4, mb: 2 }}>
+        <Box>
+          <Typography variant='h5' gutterBottom>
+            {issue.title}
+          </Typography>
+          <Typography variant='body2' color='text.secondary'>
+            Reported by {issue.reporter?.name || 'Unknown'} ({issue.reporter?.user_type || 'pm_user'}) on{' '}
+            {new Date(issue.date || issue.created_at).toLocaleString()}
+          </Typography>
+          {formatReporterMeta(issue) ? (
+            <Typography variant='body2' color='text.secondary'>
+              {formatReporterMeta(issue)}
+            </Typography>
+          ) : null}
+        </Box>
+        <FormControl variant='outlined' sx={{ minWidth: 160 }}>
+          <Select
+            aria-label='Issue Status'
+            size='small'
+            value={issue.status || 'Open'}
+            onChange={event => handleStatusChange(issue.id, event.target.value)}
+          >
+            <MenuItem value='Open'>Open</MenuItem>
+            <MenuItem value='In Progress'>In Progress</MenuItem>
+            <MenuItem value='Closed'>Closed</MenuItem>
+          </Select>
+        </FormControl>
+      </Box>
+
+      <Typography sx={{ mb: 4 }}>{issue.description}</Typography>
+
+      <Typography variant='h6' gutterBottom>
+        Attachments
+      </Typography>
+      {issue.attachments?.length ? (
+        <Stack spacing={2} sx={{ mb: 4 }}>
+          {issue.attachments.map(attachment => (
+            <Button
+              key={attachment.id}
+              component='a'
+              href={attachment.url}
+              target='_blank'
+              rel='noreferrer'
+              variant='outlined'
+              sx={{ justifyContent: 'flex-start' }}
+            >
+              {attachment.name}
+            </Button>
+          ))}
+        </Stack>
+      ) : (
+        <Typography color='text.secondary' sx={{ mb: 4 }}>
+          No attachments have been added to this issue yet.
+        </Typography>
+      )}
+
+      <Typography variant='h6' gutterBottom>
+        Comments
+      </Typography>
+      {issue.comments?.length ? (
+        <List sx={{ mb: 3 }}>
+          {issue.comments.map(comment => (
+            <ListItem key={comment.id} sx={{ px: 0, display: 'block' }}>
+              <Typography variant='subtitle2'>
+                {comment.commenter?.name || 'Unknown'} ({comment.commenter?.user_type || 'pm_user'})
+              </Typography>
+              <Typography variant='caption' color='text.secondary'>
+                {new Date(comment.timestamp || comment.created_at).toLocaleString()}
+              </Typography>
+              <Typography sx={{ mt: 1 }}>{comment.text}</Typography>
+            </ListItem>
+          ))}
+        </List>
+      ) : (
+        <Typography color='text.secondary' sx={{ mb: 3 }}>
+          No comments yet.
+        </Typography>
+      )}
+
+      <form onSubmit={handleCommentSubmit}>
+        <TextField
+          {...commentRegister('comment')}
+          fullWidth
+          multiline
+          rows={2}
+          placeholder='Add a comment...'
+          error={Boolean(commentErrors.comment)}
+          helperText={commentErrors.comment?.message}
+          sx={{ mb: 2 }}
+        />
+        {commentErrors.comment ? <FormHelperText error sx={{ mb: 2 }}>{commentErrors.comment.message}</FormHelperText> : null}
+        <Button type='submit' variant='contained' endIcon={<SendIcon />} disabled={commentLoading}>
+          {commentLoading ? <CircularProgress size={24} /> : 'Send'}
+        </Button>
+      </form>
+    </CardContent>
+  </Card>
+)
+
+const ParentCommunicationViewIssues = () => {
+  const communication = useCommunication()
   const isMobile = useMediaQuery('(max-width:600px)')
-  const [issues, setIssues] = useState(initialIssues)
-  const [comments, setComments] = useState(initialComments)
-  const [selectedIssue, setSelectedIssue] = useState(1)
-  const [isLoading, setIsLoading] = useState(false)
-  const [videoDialogOpen, setVideoDialogOpen] = useState(false)
-  const [videoUrl, setVideoUrl] = useState('')
+  const [issues, setIssues] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [selectedIssueId, setSelectedIssueId] = useState(null)
   const [createIssueOpen, setCreateIssueOpen] = useState(false)
+  const [isDrawerOpen, setDrawerOpen] = useState(false)
+  const [createLoading, setCreateLoading] = useState(false)
+  const [commentLoading, setCommentLoading] = useState(false)
+  const [statusLoadingId, setStatusLoadingId] = useState(null)
 
-  const statusColors = {
-    Open: 'primary',
-    'In Progress': 'warning',
-    Closed: 'success'
-  }
-
-  const commentsEndRef = useRef(null)
-
-  const handleStatusChange = (issueId, status) => {
-    const updatedIssues = issues.map(issue => {
-      if (issue.id === issueId) {
-        return { ...issue, status }
-      }
-      return issue
-    })
-    setIssues(updatedIssues)
-  }
-  const scrollToBottom = () => {
-    if (commentsEndRef.current) {
-      commentsEndRef.current.scrollIntoView({ behavior: 'smooth' })
-    }
-  }
-
-  // Call scrollToBottom whenever comments change
-  useEffect(() => {
-    scrollToBottom()
-  }, [comments])
-
-  const {
-    register,
-    handleSubmit,
-    control,
-    reset,
-    formState: { errors }
-  } = useForm({
-    resolver: yupResolver(schema),
-    defaultValues: {
-      comment: '',
-      file: null
-    }
-  })
   const {
     register: registerIssue,
     handleSubmit: handleCreateIssueSubmit,
     reset: resetCreateIssue,
-    formState: { errors: createIssueErrors }
+    formState: { errors: createIssueErrors },
   } = useForm({
     resolver: yupResolver(createIssueSchema),
     defaultValues: {
       title: '',
-      description: ''
-    }
+      description: '',
+    },
   })
 
-  const handleIssueClick = useCallback(
-    issueId => {
-      setSelectedIssue(issueId)
-      reset({ comment: '', file: null })
+  const {
+    register: registerComment,
+    handleSubmit: handleCommentSubmit,
+    reset: resetComment,
+    formState: { errors: commentErrors },
+  } = useForm({
+    resolver: yupResolver(commentSchema),
+    defaultValues: {
+      comment: '',
     },
-    [reset]
+  })
+
+  const selectedIssue = useMemo(
+    () => issues.find(issue => issue.id === selectedIssueId) || null,
+    [issues, selectedIssueId]
   )
 
-  const handleCloseIssueDetails = useCallback(() => {
-    setSelectedIssue(null)
-    reset({ comment: '', file: null })
-  }, [reset])
+  const syncSelectedIssue = useCallback(nextIssues => {
+    if (!nextIssues.length) {
+      setSelectedIssueId(null)
+      return
+    }
 
-  const handleOpenVideoDialog = url => {
-    setVideoUrl(url)
-    setVideoDialogOpen(true)
-  }
+    setSelectedIssueId(prevSelected =>
+      nextIssues.some(issue => issue.id === prevSelected) ? prevSelected : nextIssues[0].id
+    )
+  }, [])
 
-  const handleCloseVideoDialog = () => {
-    setVideoDialogOpen(false)
-    setVideoUrl('')
-  }
+  const loadIssues = useCallback(() => {
+    setLoading(true)
+    communication.getIssues(
+      responseData => {
+        const nextIssues = Array.isArray(responseData?.data) ? responseData.data : []
+        setIssues(nextIssues)
+        syncSelectedIssue(nextIssues)
+        setLoading(false)
+      },
+      error => {
+        setLoading(false)
+        toast.error(error.response?.data?.description || 'Failed to load communication issues.', {
+          duration: 5000,
+        })
+      }
+    )
+  }, [communication, syncSelectedIssue])
+
+  useEffect(() => {
+    loadIssues()
+  }, [loadIssues])
 
   const handleOpenCreateIssue = () => {
     setCreateIssueOpen(true)
@@ -283,589 +277,216 @@ const ParentCommunicationViewIssues = ({ communicationData }) => {
   }
 
   const handleCreateIssue = data => {
-    const nextIssueId = Math.max(...issues.map(issue => issue.id), 0) + 1
-    const nextIssue = {
-      id: nextIssueId,
-      title: data.title,
-      description: data.description,
-      status: 'Open',
-      date: new Date().toISOString().slice(0, 10),
-      reporter: {
-        id: 0,
-        name: 'Current User',
-        user_type: 'pm_user'
+    setCreateLoading(true)
+    communication.addIssue(
+      data,
+      responseData => {
+        const createdIssue = responseData?.data
+        setCreateLoading(false)
+
+        if (!createdIssue?.id) {
+          toast.error('The issue was created but the response was incomplete.', { duration: 5000 })
+          loadIssues()
+          handleCloseCreateIssue()
+          return
+        }
+
+        setIssues(prevIssues => [createdIssue, ...prevIssues])
+        setSelectedIssueId(createdIssue.id)
+        setDrawerOpen(isMobile)
+        handleCloseCreateIssue()
+        toast.success('Issue created successfully', { duration: 5000 })
       },
-      attachments: []
-    }
-
-    setIssues(prevIssues => [nextIssue, ...prevIssues])
-    setSelectedIssue(nextIssueId)
-    setDrawerOpen(false)
-    handleCloseCreateIssue()
-  }
-
-  const onSubmit = async data => {
-    if (!selectedIssue) return
-    setIsLoading(true)
-    try {
-      const newComment = {
-        id: comments.length + 1,
-        issueId: selectedIssue,
-        text: data.comment,
-        author: 'Current User',
-        commenter: { id: 0, name: 'Current User', user_type: 'pm_user' },
-        timestamp: new Date().toISOString(),
-        attachment: data.file
-          ? { name: data.file.name, type: data.file.type, url: URL.createObjectURL(data.file) }
-          : null
+      error => {
+        setCreateLoading(false)
+        toast.error(error.response?.data?.description || 'Failed to create issue.', {
+          duration: 5000,
+        })
       }
-      setComments(prevComments => [...prevComments, newComment])
-      reset({ comment: '', file: null })
-    } catch (error) {
-      console.error(error)
-    } finally {
-      setIsLoading(false)
-    }
+    )
   }
-  const [isDrawerOpen, setDrawerOpen] = React.useState(false)
 
   const handleIssueSelect = issueId => {
-    handleIssueClick(issueId)
+    setSelectedIssueId(issueId)
+    resetComment()
+
     if (isMobile) {
       setDrawerOpen(true)
     }
   }
 
-  const closeDrawer = () => {
+  const handleCloseIssueDetails = () => {
     setDrawerOpen(false)
-    handleCloseIssueDetails()
+  }
+
+  const submitComment = data => {
+    if (!selectedIssue) return
+
+    setCommentLoading(true)
+    communication.addIssueComment(
+      selectedIssue.id,
+      { text: data.comment },
+      responseData => {
+        const newComment = responseData?.data
+        setCommentLoading(false)
+
+        if (!newComment?.id) {
+          toast.error('The comment was saved but the response was incomplete.', { duration: 5000 })
+          loadIssues()
+          resetComment()
+          return
+        }
+
+        setIssues(prevIssues =>
+          prevIssues.map(issue =>
+            issue.id === selectedIssue.id
+              ? {
+                  ...issue,
+                  comments: [...(issue.comments || []), newComment],
+                }
+              : issue
+          )
+        )
+        resetComment()
+        toast.success('Comment added successfully', { duration: 5000 })
+      },
+      error => {
+        setCommentLoading(false)
+        toast.error(error.response?.data?.description || 'Failed to add comment.', {
+          duration: 5000,
+        })
+      }
+    )
+  }
+
+  const handleStatusChange = (issueId, status) => {
+    setStatusLoadingId(issueId)
+    communication.updateIssueStatus(
+      issueId,
+      { status },
+      responseData => {
+        const updatedIssue = responseData?.data
+        setStatusLoadingId(null)
+
+        if (!updatedIssue?.id) {
+          toast.error('The issue status changed but the response was incomplete.', { duration: 5000 })
+          loadIssues()
+          return
+        }
+
+        setIssues(prevIssues => prevIssues.map(issue => (issue.id === issueId ? updatedIssue : issue)))
+        toast.success('Issue status updated', { duration: 4000 })
+      },
+      error => {
+        setStatusLoadingId(null)
+        toast.error(error.response?.data?.description || 'Failed to update issue status.', {
+          duration: 5000,
+        })
+      }
+    )
+  }
+
+  const detailPanel = selectedIssue ? (
+    <IssueDetail
+      commentErrors={commentErrors}
+      commentLoading={commentLoading}
+      commentRegister={registerComment}
+      handleClose={handleCloseIssueDetails}
+      handleCommentSubmit={handleCommentSubmit(submitComment)}
+      handleStatusChange={handleStatusChange}
+      issue={selectedIssue}
+    />
+  ) : (
+    <Card>
+      <CardContent sx={{ py: 12, textAlign: 'center' }}>
+        <Typography variant='h6'>Select an issue to view details</Typography>
+      </CardContent>
+    </Card>
+  )
+
+  if (loading) {
+    return (
+      <Box sx={{ mt: 6, display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+        <CircularProgress sx={{ mb: 4 }} />
+        <Typography>Loading issues...</Typography>
+      </Box>
+    )
   }
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: isMobile ? 'column' : 'row',
-        height: '80vh'
-      }}
-    >
-      <Card
-        sx={{
-          width: isMobile ? '100%' : '30%',
-          overflowY: 'auto',
-          mb: isMobile ? 2 : 0
-        }}
-      >
+    <Box sx={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: 2, minHeight: '70vh' }}>
+      <Card sx={{ width: isMobile ? '100%' : '32%', overflowY: 'auto' }}>
         <CardHeader
           title='Issues'
           action={
             <Tooltip title='Create new Issue'>
               <IconButton aria-label='Create new Issue' onClick={handleOpenCreateIssue}>
-                <AddIcon></AddIcon>
+                <AddIcon />
               </IconButton>
             </Tooltip>
           }
         />
-        <Stack spacing={1}>
-          {issues.map(issue => (
-            <ListItem
-              key={issue.id}
-              button
-              onClick={() => handleIssueSelect(issue.id)}
-              selected={!isMobile && selectedIssue === issue.id}
-              sx={{
-                '&:hover': {
-                  bgcolor: 'action.hover'
-                },
-                transition: 'all 0.2s ease-in-out',
-                bgcolor: selectedIssue === issue.id ? 'action.selected' : 'background.paper',
-                borderRadius: 1,
-                boxShadow: selectedIssue === issue.id ? 2 : 0,
-                px: 2,
-                py: 1.5,
-                flexDirection: 'row-reverse',
-                justifyContent: 'space-between'
-              }}
-            >
-              <CustomChip label={issue.status} color={statusColors[issue.status]} />
-              <Box
+        {!issues.length ? (
+          <CardContent>
+            <Typography color='text.secondary'>No communication issues have been created for this site yet.</Typography>
+          </CardContent>
+        ) : (
+          <Stack spacing={1} sx={{ px: 2, pb: 2 }}>
+            {issues.map(issue => (
+              <ListItem
+                key={issue.id}
+                button
+                onClick={() => handleIssueSelect(issue.id)}
+                selected={selectedIssueId === issue.id}
                 sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center'
+                  '&:hover': {
+                    bgcolor: 'action.hover',
+                  },
+                  transition: 'all 0.2s ease-in-out',
+                  bgcolor: selectedIssueId === issue.id ? 'action.selected' : 'background.paper',
+                  borderRadius: 1,
+                  boxShadow: selectedIssueId === issue.id ? 2 : 0,
+                  px: 2,
+                  py: 1.5,
+                  flexDirection: 'row-reverse',
+                  justifyContent: 'space-between',
                 }}
               >
-                <Typography
-                  variant='subtitle2'
-                  sx={{
-                    mb: 0.5,
-                    fontSize: 14,
-                    fontWeight: 500,
-                    color: selectedIssue === issue.id ? 'primary.main' : 'text.primary'
-                  }}
-                >
-                  {issue.title}
-                </Typography>
-                <Typography
-                  variant='body2'
-                  sx={{ mr: 2, color: selectedIssue === issue.id ? 'primary.main' : 'text.secondary' }}
-                >
-                  {`Reporter: ${issue.reporter.name} (${issue.reporter.user_type})`}
-                </Typography>
-                {issue.reporter.user_type === 'tenant' && (
-                  <Typography
-                    variant='body2'
-                    sx={{ color: selectedIssue === issue.id ? 'primary.main' : 'text.secondary' }}
-                  >
-                    {`${issue.reporter.property.name}, ${issue.reporter.property.unit.name}`}
-                  </Typography>
-                )}
-              </Box>
-            </ListItem>
-          ))}
-        </Stack>
-      </Card>
-      {!isMobile ? (
-        <Box
-          sx={{
-            width: '70%',
-            pl: 2,
-            overflowY: 'auto'
-          }}
-        >
-          {selectedIssue ? (
-            <Card>
-              <CardContent>
-                <IconButton onClick={handleCloseIssueDetails} sx={{ float: 'right' }}>
-                  <CloseIcon />
-                </IconButton>
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                  <Typography variant='h5' gutterBottom>
-                    {issues.find(i => i.id === selectedIssue)?.title}
-                  </Typography>
-                  <FormControl variant='outlined' sx={{ minWidth: 120 }}>
-                    <Select
-                      size='small'
-                      sx={{ mb: 2 }}
-                      value={issues.find(i => i.id === selectedIssue)?.status || ''}
-                      onChange={e => handleStatusChange(selectedIssue, e.target.value)}
-                      displayEmpty
-                    >
-                      <MenuItem value='Open'>Open</MenuItem>
-                      <MenuItem value='In Progress'>In Progress</MenuItem>
-                      <MenuItem value='Closed'>Closed</MenuItem>
-                    </Select>
-                  </FormControl>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <CustomChip label={issue.status} color={statusColors[issue.status] || 'secondary'} />
+                  {statusLoadingId === issue.id ? <CircularProgress size={18} /> : null}
                 </Box>
-                <Tooltip placement='left-end' title={issues.find(i => i.id === selectedIssue)?.description}>
-                  <Box sx={{ maxHeight: '100px', overflow: 'hidden' }}>
-                    <Typography
-                      sx={{
-                        display: '-webkit-box',
-                        WebkitBoxOrient: 'vertical',
-                        WebkitLineClamp: 4,
-                        overflow: 'hidden'
-                      }}
-                    >
-                      {issues.find(i => i.id === selectedIssue)?.description}
+                <Box>
+                  <Typography variant='subtitle2' sx={{ mb: 0.5, fontWeight: 500 }}>
+                    {issue.title}
+                  </Typography>
+                  <Typography variant='body2' color='text.secondary'>
+                    Reporter: {issue.reporter?.name || 'Unknown'} ({issue.reporter?.user_type || 'pm_user'})
+                  </Typography>
+                  {formatReporterMeta(issue) ? (
+                    <Typography variant='body2' color='text.secondary'>
+                      {formatReporterMeta(issue)}
                     </Typography>
-                  </Box>
-                </Tooltip>
-                <Typography variant='h6' gutterBottom>
-                  Attachments
-                </Typography>
-                <Box
-                  sx={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fill, minmax(100px, 1fr))',
-                    gap: 2,
-                    mb: 2
-                  }}
-                >
-                  {issues
-                    .find(i => i.id === selectedIssue)
-                    ?.attachments.map((attachment, index) => (
-                      <Card
-                        key={index}
-                        sx={{
-                          display: 'flex',
-                          flexDirection: 'column',
-                          alignItems: 'center',
-                          width: '100%',
-                          maxWidth: '150px'
-                        }}
-                        onClick={() => {
-                          if (attachment.type.startsWith('video/')) {
-                            handleOpenVideoDialog(attachment.url)
-                          } else {
-                            const link = document.createElement('a')
-                            link.href = attachment.url
-                            link.setAttribute('download', attachment.name)
-                            link.setAttribute('target', '_blank')
-                            link.style.display = 'none'
-                            document.body.appendChild(link)
-                            link.click()
-                            document.body.removeChild(link)
-                          }
-                        }}
-                      >
-                        <Tooltip title={attachment.name}>
-                          {attachment.type.startsWith('image/') ? (
-                            <img
-                              src={attachment.url}
-                              alt={attachment.name}
-                              style={{ width: '100px', height: '100px', objectFit: 'cover' }}
-                            />
-                          ) : attachment.type === 'application/pdf' ? (
-                            <Box
-                              sx={{
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                width: '100px',
-                                height: '100px'
-                              }}
-                            >
-                              <PictureAsPdf sx={{ fontSize: 50 }} />
-                            </Box>
-                          ) : attachment.type.startsWith('video/') ? (
-                            <video controls style={{ width: '100px', height: '100px' }}>
-                              <source src={attachment.url} type={attachment.type} />
-                              Your browser does not support the video tag.
-                            </video>
-                          ) : (
-                            <AttachFileIcon sx={{ fontSize: 20 }} />
-                          )}
-                        </Tooltip>
-                      </Card>
-                    ))}
+                  ) : null}
                 </Box>
-                <Typography variant='h6' gutterBottom>
-                  Comments
-                </Typography>
-                <Box sx={{ maxHeight: '300px', overflowY: 'auto', mb: 2 }}>
-                  <List>
-                    {comments
-                      .filter(comment => comment.issueId === selectedIssue)
-                      .map(comment => (
-                        <ListItem key={comment.id} alignItems='flex-start'>
-                          <ListItemText
-                            primary={
-                              <>
-                                <Typography component='span' variant='subtitle2'>
-                                  {comment.author}
-                                </Typography>{' '}
-                                •{' '}
-                                <Typography component='span' variant='caption'>
-                                  {new Date(comment.timestamp).toLocaleString()}
-                                </Typography>
-                              </>
-                            }
-                            secondary={
-                              <>
-                                {comment.text}
-                                {comment.attachment && (
-                                  <div style={{ marginTop: '8px' }}>
-                                    {comment.attachment.type.startsWith('image/') ? (
-                                      <img
-                                        src={comment.attachment.url}
-                                        alt={comment.attachment.name}
-                                        style={{ maxWidth: '100%', height: 'auto' }}
-                                      />
-                                    ) : comment.attachment.type === 'application/pdf' ? (
-                                      <a href={comment.attachment.url} target='_blank' rel='noopener noreferrer'>
-                                        <PictureAsPdf sx={{ fontSize: 50 }} />
-                                        <Typography>{comment.attachment.name}</Typography>
-                                      </a>
-                                    ) : comment.attachment.type.startsWith('video/') ? (
-                                      <video controls style={{ maxWidth: '100%' }}>
-                                        <source src={comment.attachment.url} type={comment.attachment.type} />
-                                        Your browser does not support the video tag.
-                                      </video>
-                                    ) : (
-                                      <a href={comment.attachment.url} download>
-                                        Download {comment.attachment.name}
-                                      </a>
-                                    )}
-                                  </div>
-                                )}
-                              </>
-                            }
-                          />
-                        </ListItem>
-                      ))}
-                  </List>
-                  <div ref={commentsEndRef} />
-                </Box>
-                <form onSubmit={handleSubmit(onSubmit)}>
-                  <TextField
-                    {...register('comment')}
-                    fullWidth
-                    multiline
-                    rows={2}
-                    placeholder='Add a comment...'
-                    error={!!errors.comment}
-                    helperText={errors.comment?.message}
-                    sx={{ mb: 2 }}
-                  />
-                  {errors.comment && (
-                    <FormHelperText error sx={{ mb: 2 }}>
-                      {errors.comment.message}
-                    </FormHelperText>
-                  )}
-                  <Controller
-                    name='file'
-                    control={control}
-                    render={({ field: { onChange, value } }) => (
-                      <>
-                        <input
-                          type='file'
-                          id='file-upload'
-                          style={{ display: 'none' }}
-                          onChange={e => {
-                            const file = e.target.files?.[0] || null
-                            onChange(file)
-                          }}
-                          accept='image/*,application/pdf,video/mp4'
-                        />
-                        <label htmlFor='file-upload'>
-                          <Button component='span' startIcon={<AttachFileIcon />}>
-                            Attach File
-                          </Button>
-                        </label>
-                        {value && <Typography>{value.name}</Typography>}
-                      </>
-                    )}
-                  />
-                  {errors.file && <FormHelperText error>{errors.file.message}</FormHelperText>}
-                  <Button type='submit' variant='contained' endIcon={<SendIcon />} disabled={isLoading}>
-                    {isLoading ? <CircularProgress size={24} /> : 'Send'}
-                  </Button>
-                </form>
-              </CardContent>
-            </Card>
-          ) : (
-            <Box sx={{ display: 'flex', pl: 2, overflowY: 'auto' }}>
-              <Typography variant='h6'>Select an issue to view details</Typography>
-            </Box>
-          )}
+              </ListItem>
+            ))}
+          </Stack>
+        )}
+      </Card>
+
+      {!issues.length ? (
+        <Box sx={{ width: isMobile ? '100%' : '68%' }}>
+          <EmptyState onCreate={handleOpenCreateIssue} />
         </Box>
+      ) : !isMobile ? (
+        <Box sx={{ width: '68%' }}>{detailPanel}</Box>
       ) : (
-        <Drawer anchor='right' open={isDrawerOpen} onClose={closeDrawer}>
-          <Box sx={{ height: '100vh', padding: 2, overflowY: 'auto' }}>
-            {selectedIssue ? (
-              <Card
-                sx={{
-                  height: '100%',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  overflowY: 'auto'
-                }}
-              >
-                <CardContent sx={{ flex: 1 }}>
-                  <IconButton onClick={closeDrawer} sx={{ float: 'right' }}>
-                    <CloseIcon />
-                  </IconButton>
-                  <Typography variant='h5' gutterBottom>
-                    {issues.find(i => i.id === selectedIssue)?.title}
-                  </Typography>
-                  <Typography variant='body1' paragraph>
-                    {issues.find(i => i.id === selectedIssue)?.description}
-                  </Typography>
-                  <Typography variant='h6' gutterBottom>
-                    Attachments
-                  </Typography>
-                  <Box
-                    sx={{
-                      display: 'grid',
-                      gridTemplateColumns: 'repeat(auto-fill, minmax(100px, 1fr))',
-                      gap: 2,
-                      mb: 2
-                    }}
-                  >
-                    {issues
-                      .find(i => i.id === selectedIssue)
-                      ?.attachments.map((attachment, index) => (
-                        <Card
-                          key={index}
-                          sx={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            alignItems: 'center',
-                            width: '100%',
-                            maxWidth: '150px'
-                          }}
-                          onClick={() => {
-                            if (attachment.type.startsWith('video/')) {
-                              handleOpenVideoDialog(attachment.url)
-                            } else {
-                              const link = document.createElement('a')
-                              link.href = attachment.url
-                              link.setAttribute('download', attachment.name)
-                              link.setAttribute('target', '_blank')
-                              link.style.display = 'none'
-                              document.body.appendChild(link)
-                              link.click()
-                              document.body.removeChild(link)
-                            }
-                          }}
-                        >
-                          <Tooltip title={attachment.name}>
-                            {attachment.type.startsWith('image/') ? (
-                              <img
-                                src={attachment.url}
-                                alt={attachment.name}
-                                style={{ width: '100px', height: '100px', objectFit: 'cover' }}
-                              />
-                            ) : attachment.type === 'application/pdf' ? (
-                              <Box
-                                sx={{
-                                  display: 'flex',
-                                  justifyContent: 'center',
-                                  alignItems: 'center',
-                                  width: '100px',
-                                  height: '100px'
-                                }}
-                              >
-                                <PictureAsPdf sx={{ fontSize: 50 }} />
-                              </Box>
-                            ) : attachment.type.startsWith('video/') ? (
-                              <video controls style={{ width: '100px', height: '100px' }}>
-                                <source src={attachment.url} type={attachment.type} />
-                                Your browser does not support the video tag.
-                              </video>
-                            ) : (
-                              <AttachFileIcon sx={{ fontSize: 20 }} />
-                            )}
-                          </Tooltip>
-                        </Card>
-                      ))}
-                  </Box>
-                  <Typography variant='h6' gutterBottom>
-                    Status Comments
-                  </Typography>
-                  <Box sx={{ maxHeight: '300px', overflowY: 'auto', mb: 2 }}>
-                    <List>
-                      {comments
-                        .filter(comment => comment.issueId === selectedIssue)
-                        .map(comment => (
-                          <ListItem key={comment.id} alignItems='flex-start'>
-                            <ListItemText
-                              primary={
-                                <>
-                                  <Typography component='span' variant='subtitle2'>
-                                    {comment.author}
-                                  </Typography>{' '}
-                                  •{' '}
-                                  <Typography component='span' variant='caption'>
-                                    {new Date(comment.timestamp).toLocaleString()}
-                                  </Typography>
-                                </>
-                              }
-                              secondary={
-                                <>
-                                  {comment.text}
-                                  {comment.attachment && (
-                                    <div style={{ marginTop: '8px' }}>
-                                      {comment.attachment.type.startsWith('image/') ? (
-                                        <img
-                                          src={comment.attachment.url}
-                                          alt={comment.attachment.name}
-                                          style={{ maxWidth: '100%', height: 'auto' }}
-                                        />
-                                      ) : comment.attachment.type === 'application/pdf' ? (
-                                        <a href={comment.attachment.url} target='_blank' rel='noopener noreferrer'>
-                                          <PictureAsPdf sx={{ fontSize: 50 }} />
-                                          <Typography>{comment.attachment.name}</Typography>
-                                        </a>
-                                      ) : comment.attachment.type.startsWith('video/') ? (
-                                        <video controls style={{ maxWidth: '100%' }}>
-                                          <source src={comment.attachment.url} type={comment.attachment.type} />
-                                          Your browser does not support the video tag.
-                                        </video>
-                                      ) : (
-                                        <a href={comment.attachment.url} download>
-                                          Download {comment.attachment.name}
-                                        </a>
-                                      )}
-                                    </div>
-                                  )}
-                                </>
-                              }
-                            />
-                          </ListItem>
-                        ))}
-                    </List>
-                    <div ref={commentsEndRef} />
-                  </Box>
-                  <Box display={'flex'} justifyContent={'left'}>
-                    <FormControl variant='outlined' sx={{ minWidth: 120 }}>
-                      <Select
-                        size='small'
-                        sx={{ mb: 2 }}
-                        value={issues.find(i => i.id === selectedIssue)?.status || ''}
-                        onChange={e => handleStatusChange(selectedIssue, e.target.value)}
-                        displayEmpty
-                      >
-                        <MenuItem value='Open'>Open</MenuItem>
-                        <MenuItem value='In Progress'>In Progress</MenuItem>
-                        <MenuItem value='Closed'>Closed</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </Box>
-                  <form onSubmit={handleSubmit(onSubmit)}>
-                    <TextField
-                      {...register('comment')}
-                      fullWidth
-                      multiline
-                      rows={2}
-                      placeholder='Add a comment...'
-                      error={!!errors.comment}
-                      helperText={errors.comment?.message}
-                      sx={{ mb: 2 }}
-                    />
-                    {errors.comment && (
-                      <FormHelperText error sx={{ mb: 2 }}>
-                        {errors.comment.message}
-                      </FormHelperText>
-                    )}
-                    <Controller
-                      name='file'
-                      control={control}
-                      render={({ field: { onChange, value } }) => (
-                        <>
-                          <input
-                            type='file'
-                            id='file-upload'
-                            style={{ display: 'none' }}
-                            onChange={e => {
-                              const file = e.target.files?.[0] || null
-                              onChange(file)
-                            }}
-                            accept='image/*,application/pdf,video/mp4'
-                          />
-                          <label htmlFor='file-upload'>
-                            <Button component='span' startIcon={<AttachFileIcon />}>
-                              Attach File
-                            </Button>
-                          </label>
-                          {value && <Typography>{value.name}</Typography>}
-                        </>
-                      )}
-                    />
-                    {errors.file && <FormHelperText error>{errors.file.message}</FormHelperText>}
-                    <Button type='submit' variant='contained' endIcon={<SendIcon />} disabled={isLoading}>
-                      {isLoading ? <CircularProgress size={24} /> : 'Send'}
-                    </Button>
-                  </form>
-                </CardContent>
-              </Card>
-            ) : (
-              <Typography variant='h6'>Select an issue to view details</Typography>
-            )}
-          </Box>
+        <Drawer anchor='right' open={isDrawerOpen} onClose={handleCloseIssueDetails}>
+          <Box sx={{ width: '100vw', maxWidth: 520, p: 2 }}>{detailPanel}</Box>
         </Drawer>
       )}
+
       <Dialog open={createIssueOpen} onClose={handleCloseCreateIssue} fullWidth maxWidth='sm'>
         <form onSubmit={handleCreateIssueSubmit(handleCreateIssue)}>
           <DialogTitle>Create new Issue</DialogTitle>
@@ -889,8 +510,8 @@ const ParentCommunicationViewIssues = ({ communicationData }) => {
           </DialogContent>
           <DialogActions>
             <Button onClick={handleCloseCreateIssue}>Cancel</Button>
-            <Button type='submit' variant='contained'>
-              Create Issue
+            <Button type='submit' variant='contained' disabled={createLoading}>
+              {createLoading ? <CircularProgress size={22} /> : 'Create Issue'}
             </Button>
           </DialogActions>
         </form>

@@ -19,6 +19,8 @@ Older QA files in the repo are preserved as historical snapshots, but this docum
   - [PRODUCT-NOTES-NORMALIZED.md](/home/joel/personal/projects/proptiOS/app.proptios.com/docs/product/PRODUCT-NOTES-NORMALIZED.md)
 - Remaining QA-specific bug plan:
   - [REMAINING-BUG-PLAN.md](/home/joel/personal/projects/proptiOS/app.proptios.com/docs/qa/REMAINING-BUG-PLAN.md)
+- Latest staging walkthrough snapshot:
+  - [QA-STAGING-REPORT.md](/home/joel/personal/projects/proptiOS/app.proptios.com/docs/qa/QA-STAGING-REPORT.md)
 
 ---
 
@@ -28,11 +30,15 @@ Older QA files in the repo are preserved as historical snapshots, but this docum
 
 - Onboarding submit without agreeing to terms no longer leaves the loader stuck
 - Tenants management no longer crashes for brand-new accounts
+- Staging `/tenants/` crash is fixed on the live staging frontend now
+  - important note: this was a stale Vercel deployment issue after the code fix had already landed
 - Properties overview now renders zero-state cards instead of going blank
 - Tenant list row actions now support:
   - resend invite
   - enable account
   - disable account
+- Communication now uses the real backend `issues` tables instead of hardcoded demo issues
+- Communication issue creation, commenting, and status updates are now backed by real API routes
 - Property creation now:
   - auto-creates the first default unit
   - enforces a minimum of 1 allocated unit
@@ -55,6 +61,34 @@ Older QA files in the repo are preserved as historical snapshots, but this docum
 ## 2. Active QA Bugs Still Worth Fixing
 
 These are the items that still look open or only partially verified.
+
+### Open items from the 2026-03-28 staging walkthrough
+
+- Registration page still redirects away on direct `/register/` load
+- Login page "Create an account" link can still trigger form validation instead of navigation
+- Onboarding verification page is still non-functional
+- Maintenance request manage drawer is still view-only
+- Dashboard chart renders `$Infinityk`
+- Dashboard growth badge renders `% 0` instead of `0%`
+- Sidebar branding still shows `undefined`
+- Properties overview still shows `NaN` for total applicants
+- Invoice creation still uses hardcoded placeholder/demo data and disabled actions
+- Property phone number is still not persisting from create flow into settings
+- Forgot password flow still gives no visible success/error feedback
+- Maintenance request status still defaults to `Unknown`
+- Register currency dropdown still has the wrong accessible label
+- Several filter dropdowns still use the label `Invoice Status` regardless of context
+- Audit log filter labels are still wrong
+- Property grid still exposes internal UUID below the property name
+- Property sidebar still needs a refresh to show updated values after save
+- Property creation status still flickers `Inactive` before later showing `Active`
+- Expenses tab still uses `Create Invoice` wording
+- Verification page still says `Welcome to MH`
+- Verification page still links back to `http://proptios.com` instead of `https://proptios.com`
+- Console still shows recurring `/auth/me` and empty-user noise
+- Leases templates tab is still disabled with no explanation
+- Broadcast tab is still disabled with no explanation
+- Property marketing tab is still effectively empty
 
 ### Backend-blocked or contract-blocked
 
@@ -83,6 +117,7 @@ These are the safest items to implement next without a deeper architecture migra
 - Clear immutable-field rules in UI/backend for specific records
 - Better request failure toasts across mutation flows
 - Richer property/unit/lease datagrid fields where backend data already exists
+- Close the remaining open items from [QA-STAGING-REPORT.md](/home/joel/personal/projects/proptiOS/app.proptios.com/docs/qa/QA-STAGING-REPORT.md) before starting deeper architecture work
 
 ### Larger items that should be phased separately
 
