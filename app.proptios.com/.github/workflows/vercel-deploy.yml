@@ -31,11 +31,14 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build app
-        run: pnpm build
-
       - name: Install Vercel CLI
         run: pnpm add -g vercel@latest
+
+      - name: Pull Vercel environment
+        run: vercel pull --yes --token "${{ secrets.VERCEL_TOKEN }}"
+
+      - name: Build with Vercel
+        run: vercel build --token "${{ secrets.VERCEL_TOKEN }}"
 
       - name: Deploy preview for staging
         if: github.ref_name == 'staging'
@@ -47,7 +50,10 @@ jobs:
       - name: Alias staging custom domain
         if: github.ref_name == 'staging'
         run: |
-          vercel alias set "${{ steps.deploy_staging.outputs.deployment_url }}" staging.app.proptios.com \
+          vercel alias set "${{ steps.deploy_staging.outputs.deployment_url }}" app.staging.proptios.com \
+            --token "${{ secrets.VERCEL_TOKEN }}" \
+            --scope xceejays-projects
+          vercel alias set "${{ steps.deploy_staging.outputs.deployment_url }}" '*.staging.proptios.com' \
             --token "${{ secrets.VERCEL_TOKEN }}" \
             --scope xceejays-projects
 

@@ -33,11 +33,16 @@ jobs:
           hugo-version: '0.145.0'
           extended: true
 
-      - name: Build site
-        run: hugo --minify
-
       - name: Install Vercel CLI
         run: npm install -g vercel@latest
+
+      - name: Pull Vercel environment
+        run: vercel pull --yes --token "${{ secrets.VERCEL_TOKEN }}"
+
+      - name: Build with Vercel
+        run: |
+          export PATH="$(pwd)/node_modules/.bin:$PATH"
+          vercel build --token "${{ secrets.VERCEL_TOKEN }}"
 
       - name: Deploy preview for staging
         if: github.ref_name == 'staging'
