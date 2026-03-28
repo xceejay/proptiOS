@@ -1,7 +1,4 @@
 {
-  "build": {
-    "env": {
-    "HUGO_VERSION": "0.145.0"
-    }
-  }
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "cleanUrls": true
 }
