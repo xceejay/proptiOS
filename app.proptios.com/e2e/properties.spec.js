@@ -9,6 +9,7 @@ const TEST_PROPERTY = {
   phone: '+233200000099',
   type: 'Apartment',
   units: '1',
+  rentAmount: '1500',
 }
 
 /**
@@ -41,6 +42,11 @@ async function fillPropertyForm(page, data, container) {
   await unitsInput.click()
   await unitsInput.clear()
   await unitsInput.fill(data.units)
+
+  const rentInput = container.getByRole('spinbutton', { name: 'Default Unit Rent Amount' })
+  await rentInput.click()
+  await rentInput.clear()
+  await rentInput.fill(data.rentAmount)
 }
 
 /**
@@ -120,6 +126,21 @@ test.describe.serial('Properties CRUD', () => {
     const row = page.locator('[role="row"]', { hasText: TEST_PROPERTY.name })
     await expect(row).toBeVisible()
     await expect(row.getByText(TEST_PROPERTY.address)).toBeVisible()
+  })
+
+  test('READ — property creation also creates the first default unit', async ({ page }) => {
+    await page.goto('/properties/management')
+    await page.locator('.MuiDataGrid-root').first().waitFor({ timeout: 15000 })
+
+    const row = page.locator('[role="row"]', { hasText: TEST_PROPERTY.name })
+    await expect(row).toBeVisible({ timeout: 10000 })
+    await row.click()
+
+    await page.getByRole('tab', { name: /units/i }).click()
+    await expect(page).toHaveURL(/\/properties\/manage\/\d+\/units/, { timeout: 10000 })
+    await page.locator('.MuiDataGrid-root').first().waitFor({ timeout: 15000 })
+
+    await expect(page.getByText('Unit 1')).toBeVisible({ timeout: 10000 })
   })
 
   test('UPDATE — edit property address via row action menu', async ({ page }) => {

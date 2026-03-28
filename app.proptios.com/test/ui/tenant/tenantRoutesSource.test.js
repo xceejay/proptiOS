@@ -24,6 +24,9 @@ describe('tenant route source contracts', () => {
 
     expect(tenantManageSource).toContain("href={'/tenants/manage/' + id + '/summary'}")
     expect(tenantManageSource).toContain('tenants.deleteTenants(')
+    expect(tenantManageSource).toContain('tenants.resendInvite(')
+    expect(tenantManageSource).toContain('tenants.enableTenant(')
+    expect(tenantManageSource).toContain('tenants.disableTenant(')
     expect(propertyTenantSource).toContain("href={'/tenants/manage/' + id + '/summary'}")
     expect(propertyTenantSource).toContain('Quick Suspend (Unavailable)')
     expect(tenantRightSource).toContain("value='transactions'")

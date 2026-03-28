@@ -54,7 +54,6 @@ These are not frontend crash bugs anymore. They need backend work or a new API c
 - Property tenant suspend
 - Property lease delete (soft-delete path not exposed in current frontend/context)
 - Property maintenance update/suspend
-- Tenant enable/disable
 
 Needed:
 - expose real mutations in context + backend endpoints if they exist

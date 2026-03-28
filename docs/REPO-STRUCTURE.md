@@ -96,3 +96,24 @@ The Go service is intentionally not part of the pnpm workspace.
 The downstream sync workflow uses the repository secret `DOWNSTREAM_SYNC_TOKEN` and pushes over HTTPS.
 
 If CI behavior changes, update this file so future agents do not need to rediscover the workflow model.
+
+## Documentation Layout
+
+Use the docs tree with this split:
+
+- Root [`docs/`](/home/joel/personal/projects/proptiOS/docs): monorepo-level documentation only
+  - repository structure
+  - contribution flow
+  - cross-project operational notes
+- Project-local docs live inside each project folder when the content is project-specific
+  - app dashboard docs: [`app.proptios.com/docs`](/home/joel/personal/projects/proptiOS/app.proptios.com/docs)
+  - API docs should stay in [`api.pm.proptios.com/README.md`](/home/joel/personal/projects/proptiOS/api.pm.proptios.com/README.md) or an API-local docs folder if one is added later
+
+For the dashboard app, the internal docs layout is:
+
+- [`app.proptios.com/docs/product`](/home/joel/personal/projects/proptiOS/app.proptios.com/docs/product): live product notes, progress audit, execution tracker
+- [`app.proptios.com/docs/qa`](/home/joel/personal/projects/proptiOS/app.proptios.com/docs/qa): active QA docs
+- [`app.proptios.com/docs/qa/archive`](/home/joel/personal/projects/proptiOS/app.proptios.com/docs/qa/archive): historical QA snapshots
+- [`app.proptios.com/docs/engineering`](/home/joel/personal/projects/proptiOS/app.proptios.com/docs/engineering): implementation notes, testing strategy, codebase maps
+
+Avoid dropping new project-specific markdown files into project roots unless the file is a true top-level entrypoint like `README.md`.

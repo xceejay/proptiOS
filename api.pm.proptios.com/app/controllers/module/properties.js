@@ -15,6 +15,16 @@ const acl = require("../../middleware/acl");
 const PREFIX = "/properties";
 
 const routes = (app) => {
+  const normalizeUnitCount = (value) => {
+    const parsed = Number.parseInt(value, 10);
+    return Number.isFinite(parsed) && parsed > 0 ? parsed : 1;
+  };
+
+  const normalizeRentAmount = (value) => {
+    const parsed = Number.parseFloat(value);
+    return Number.isFinite(parsed) && parsed >= 0 ? parsed : 0;
+  };
+
   //add property to db
 
   app.post(
@@ -93,10 +103,9 @@ const routes = (app) => {
         }
 
         // Calculate total new units being added
-        const totalNewUnits = properties.reduce(
-          (sum, property) => sum + (property.units || 1),
-          0
-        );
+        const totalNewUnits = properties.reduce((sum, property) => {
+          return sum + normalizeUnitCount(property.units);
+        }, 0);
 
         // Check existing units count - Using COALESCE to handle NULL
         const [unitCountRows] = await connection.query(
@@ -131,6 +140,8 @@ const routes = (app) => {
         const insertedProperties = [];
 
         for (const property of properties) {
+          const requestedUnits = normalizeUnitCount(property.units);
+          const propertyRentAmount = normalizeRentAmount(property.rent_amount);
           const insertQuery = `
             INSERT INTO properties (
               uuid, property_name, units, property_email, property_tel_number, 
@@ -143,7 +154,7 @@ const routes = (app) => {
           const values = [
             property.uuid,
             property.property_name,
-            property.units || 1,
+            requestedUnits,
             property.property_email,
             property.property_tel_number || "",
             property.country || "GHA",
@@ -155,11 +166,38 @@ const routes = (app) => {
             stamp,
             "active",
             property.property_type,
-            property.rent_amount || 0,
+            propertyRentAmount,
             req.user.id,
           ];
 
           const [result] = await connection.query(insertQuery, values);
+
+          const insertDefaultUnitQuery = `
+            INSERT INTO units (
+              uuid, name, description, floor_no, bedrooms, furnished, common_area,
+              bathrooms, property_id, rent_amount, rent_amount_currency, tenant_id,
+              unit_image_url, site_id, pm_user_id
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          `;
+
+          await connection.query(insertDefaultUnitQuery, [
+            nanoid(),
+            "Unit 1",
+            "Default unit created automatically when the property was added.",
+            1,
+            1,
+            0,
+            1,
+            1,
+            result.insertId,
+            propertyRentAmount,
+            req.user.currency || "USD",
+            null,
+            null,
+            req.user.site_id,
+            req.user.id || null,
+          ]);
+
           insertedProperties.push({
             id: result.insertId.toString(),
             uuid: property.uuid,
@@ -280,7 +318,7 @@ const routes = (app) => {
         // Calculate the total change in units
         let totalUnitsDelta = 0;
         for (const property of properties) {
-          const newUnits = property.units || 1;
+          const newUnits = normalizeUnitCount(property.units);
           const oldUnits = existingPropsMap[property.uuid].units;
           totalUnitsDelta += (newUnits - oldUnits);
         }
@@ -319,6 +357,8 @@ const routes = (app) => {
         const updatedProperties = [];
 
         for (const property of properties) {
+          const requestedUnits = normalizeUnitCount(property.units);
+          const propertyRentAmount = normalizeRentAmount(property.rent_amount);
           const updateQuery = `
             UPDATE properties
             SET 
@@ -340,7 +380,7 @@ const routes = (app) => {
 
           const values = [
             property.property_name,
-            property.units || 1,
+            requestedUnits,
             property.property_email || "",
             property.property_tel_number || "",
             property.country || "GHA",
@@ -350,7 +390,7 @@ const routes = (app) => {
             stamp,
             "active",
             property.property_type,
-            property.rent_amount || 0,
+            propertyRentAmount,
             req.user.id,
             property.uuid,
             req.user.site_id,

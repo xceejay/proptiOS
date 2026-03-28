@@ -97,7 +97,8 @@ const SidebarAddProperty = props => {
     country: 'GHA',
     property_tel_number: '',
     property_type: '',
-    units: 1
+    units: 1,
+    rent_amount: ''
   }
 
   const { setPropertiesData, propertiesData, open, toggle } = props
@@ -121,14 +122,19 @@ const SidebarAddProperty = props => {
     units: yup
       .number()
       .required('Unit count is required')
-      .positive()
+      .min(1, 'A property must have at least 1 allocated unit')
       .integer()
       .test('units', 'You have exceeded the maximum number of units allowed for your subscription type', value => {
         const subscriptionType = auth.user.site_subscription_id
         const maxUnits = getMaxUnitsAllowed(subscriptionType)
         const remainingUnits = maxUnits - totalUnits
         return value <= remainingUnits
-      })
+      }),
+    rent_amount: yup
+      .number()
+      .transform((value, originalValue) => (originalValue === '' || originalValue === null ? null : value))
+      .nullable()
+      .min(0, 'Default unit rent amount cannot be negative')
   })
 
   const getMaxUnitsAllowed = subscriptionType => {
@@ -168,7 +174,7 @@ const SidebarAddProperty = props => {
         if (data?.status === 'NO_RES') {
           console.log('NO results')
         } else if (data?.status === 'FAILED') {
-          alert(data.description || 'Failed to add property')
+          toast.error(data.description || 'Failed to add property', { duration: 5000 })
           setError('property_email', {
             type: 'manual',
             message: data.description || 'Unknown error occurred'
@@ -191,12 +197,9 @@ const SidebarAddProperty = props => {
         })
 
         toast.success('Property added successfully', { duration: 5000 })
-        console.log('datada:', data)
-        console.log('upreqdata:', updatedRequestData)
 
         setPropertiesData(prevData => [...prevData, ...updatedRequestData])
 
-        console.log('newprop', properties.properties)
         handleClose()
       },
       error => {
@@ -399,6 +402,36 @@ const SidebarAddProperty = props => {
               )}
             />
             {errors.units && <FormHelperText sx={{ color: 'error.main' }}>{errors.units.message}</FormHelperText>}
+            {!errors.units && (
+              <FormHelperText>
+                Every new property automatically gets a first default unit so the property never starts empty.
+              </FormHelperText>
+            )}
+          </FormControl>
+
+          <FormControl fullWidth sx={{ mb: 4 }}>
+            <Controller
+              name='rent_amount'
+              control={control}
+              render={({ field: { value = '', onChange } }) => (
+                <TextField
+                  type='number'
+                  value={value}
+                  label='Default Unit Rent Amount'
+                  onChange={onChange}
+                  placeholder='1500'
+                  error={Boolean(errors.rent_amount)}
+                />
+              )}
+            />
+            {errors.rent_amount && (
+              <FormHelperText sx={{ color: 'error.main' }}>{errors.rent_amount.message}</FormHelperText>
+            )}
+            {!errors.rent_amount && (
+              <FormHelperText>
+                Optional. If set, the first auto-created unit starts with this rent amount.
+              </FormHelperText>
+            )}
           </FormControl>
 
           <Button type='submit' variant='contained' color='primary'>

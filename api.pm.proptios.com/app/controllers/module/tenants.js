@@ -4,6 +4,7 @@ const uuid = require("uuid-random");
 const { trim } = require("../../services/utilities");
 const jwtMiddleware = require("../../middleware/jwt");
 const acl = require("../../middleware/acl");
+const { emailActivation } = require("../emailers/core");
 
 const PREFIX = "/tenants";
 
@@ -313,6 +314,149 @@ const routes = (app) => {
     }
   );
 
+  app.post(
+    PREFIX + "/:tenant_id/resend-invite",
+    jwtMiddleware,
+    acl(["property_owner", "property_manager", "property_coordinator"]),
+
+    async (req, res) => {
+      const { tenant_id } = req.params;
+      const site_id = req.user.site_id;
+
+      try {
+        const [results] = await mysql_db.execute(
+          `
+            SELECT id, uuid, name, email, email_verification_status, email_invitation_status
+            FROM tenants
+            WHERE id = ? AND site_id = ? AND deleted_at IS NULL
+          `,
+          [tenant_id, site_id]
+        );
+
+        if (results.length === 0) {
+          return res.status(404).json({
+            status: "FAILED",
+            description: "Tenant not found",
+          });
+        }
+
+        const tenant = results[0];
+
+        if (tenant.email_verification_status) {
+          return res.status(400).json({
+            status: "FAILED",
+            description: "Tenant has already accepted the invitation",
+          });
+        }
+
+        const email_verification_code = "VC-" + uuid();
+
+        await mysql_db.execute(
+          `
+            UPDATE tenants
+            SET email_verification_code = ?, email_invitation_status = 'resent', updated_at = NOW()
+            WHERE id = ? AND site_id = ?
+          `,
+          [email_verification_code, tenant_id, site_id]
+        );
+
+        const invitationLink = `https://api.pm.proptios.com/verification-email/code/${email_verification_code}`;
+        await emailActivation(tenant.email, tenant.name, invitationLink);
+
+        return res.status(200).json({
+          status: "SUCCESS",
+          description: "Tenant invitation resent successfully",
+        });
+      } catch (error) {
+        console.error("Error resending tenant invitation:", error);
+        return res.status(500).json({
+          status: "FAILED",
+          description: "Server Error: Failed to resend tenant invitation",
+        });
+      }
+    }
+  );
+
+  app.post(
+    PREFIX + "/:tenant_id/enable",
+    jwtMiddleware,
+    acl(["property_owner", "property_manager", "property_coordinator"]),
+
+    async (req, res) => {
+      const { tenant_id } = req.params;
+      const site_id = req.user.site_id;
+
+      try {
+        const [result] = await mysql_db.execute(
+          `
+            UPDATE tenants
+            SET status = 'active', updated_at = NOW()
+            WHERE id = ? AND site_id = ? AND deleted_at IS NULL AND status != 'active'
+          `,
+          [tenant_id, site_id]
+        );
+
+        if (result.affectedRows === 0) {
+          return res.status(404).json({
+            status: "FAILED",
+            description: "Tenant not found or already active",
+          });
+        }
+
+        return res.status(200).json({
+          status: "SUCCESS",
+          description: "Tenant enabled successfully",
+        });
+      } catch (error) {
+        console.error("Error enabling tenant:", error);
+        return res.status(500).json({
+          status: "FAILED",
+          description: "Server Error: Failed to enable tenant",
+        });
+      }
+    }
+  );
+
+  app.post(
+    PREFIX + "/:tenant_id/disable",
+    jwtMiddleware,
+    acl(["property_owner", "property_manager", "property_coordinator"]),
+
+    async (req, res) => {
+      const { tenant_id } = req.params;
+      const site_id = req.user.site_id;
+
+      try {
+        const [result] = await mysql_db.execute(
+          `
+            UPDATE tenants
+            SET status = 'inactive', updated_at = NOW()
+            WHERE id = ? AND site_id = ? AND deleted_at IS NULL AND status != 'inactive'
+          `,
+          [tenant_id, site_id]
+        );
+
+        if (result.affectedRows === 0) {
+          return res.status(404).json({
+            status: "FAILED",
+            description: "Tenant not found or already inactive",
+          });
+        }
+
+        return res.status(200).json({
+          status: "SUCCESS",
+          description: "Tenant disabled successfully",
+        });
+      } catch (error) {
+        console.error("Error disabling tenant:", error);
+        return res.status(500).json({
+          status: "FAILED",
+          description: "Server Error: Failed to disable tenant",
+        });
+      }
+    }
+  );
+
   // GET: Retrieve tenant information
   app.get(
     PREFIX + "/:tenant_id",
@@ -335,6 +479,8 @@ const routes = (app) => {
               tenants.updated_at, 
               tenants.status, 
               tenants.tel_number, 
+              tenants.email_verification_status,
+              tenants.email_invitation_status,
               tenants.logged_in, 
               tenants.logged_out, 
               tenants.country,
@@ -420,6 +566,9 @@ const routes = (app) => {
             tenantInfo.updated_at = row.updated_at;
             tenantInfo.status = row.status;
             tenantInfo.tel_number = row.tel_number;
+            tenantInfo.email_verification_status =
+              row.email_verification_status;
+            tenantInfo.email_invitation_status = row.email_invitation_status;
             tenantInfo.logged_in = row.logged_in;
             tenantInfo.logged_out = row.logged_out;
             tenantInfo.country = row.country;
@@ -533,6 +682,8 @@ const routes = (app) => {
               tenants.updated_at, 
               tenants.status, 
               tenants.tel_number, 
+              tenants.email_verification_status,
+              tenants.email_invitation_status,
               tenants.logged_in, 
               tenants.logged_out, 
               tenants.country,
@@ -621,6 +772,8 @@ const routes = (app) => {
               updated_at: row.updated_at,
               status: row.status,
               tel_number: row.tel_number,
+              email_verification_status: row.email_verification_status,
+              email_invitation_status: row.email_invitation_status,
               logged_in: row.logged_in,
               logged_out: row.logged_out,
               country: row.country,
