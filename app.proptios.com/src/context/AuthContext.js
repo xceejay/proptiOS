@@ -44,7 +44,7 @@ const AuthProvider = ({ children }) => {
 
   const clearStoredAuth = () => {
     clearAccessToken()
-    }
+  }
 
   const redirectToTenantSiteIfNeeded = (activeUser, fallbackPath = '/') => {
     if (typeof window === 'undefined' || !activeUser?.site_id) {
@@ -83,6 +83,7 @@ const AuthProvider = ({ children }) => {
         //this is used to validate the token (the backend does everything, if it returns 403 or 401 the axios interceptor intercepts it)
         await axios
           .get(process.env.NEXT_PUBLIC_API_BASE_URL + '/auth/me', {
+            __skipAuthToast: true,
             headers: {
               Authorization: `Bearer ${storedToken}`
             }

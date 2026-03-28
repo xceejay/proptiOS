@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 
 // ** Axios
 import axios from 'src/pages/middleware/axios'
+import { getStoredAccessToken } from 'src/utils/authStorage'
 
 // ** Config
 
@@ -40,7 +41,7 @@ const LeasesProvider = ({ children }) => {
   const router = useRouter()
 
   useEffect(() => {
-    const storedToken = window.localStorage.getItem('accessToken')
+    const storedToken = getStoredAccessToken()
     if (storedToken) {
       setAccessToken(storedToken)
       console.log('Leases Context accessToken Set')
@@ -49,7 +50,7 @@ const LeasesProvider = ({ children }) => {
 
   // Function for getting leases
   const getAllLeases = (params, successCallback, errorCallback) => {
-    const token = window.localStorage.getItem('accessToken') || accessToken
+    const token = getStoredAccessToken() || accessToken
 
     if (!token) {
       const error = new Error('No access token found')
@@ -78,7 +79,7 @@ const LeasesProvider = ({ children }) => {
 
   // Function for getting a single lease
   const getLease = (id, successCallback, errorCallback) => {
-    const token = window.localStorage.getItem('accessToken') || accessToken
+    const token = getStoredAccessToken() || accessToken
 
     if (!token) {
       const error = new Error('No access token found')
@@ -106,7 +107,7 @@ const LeasesProvider = ({ children }) => {
 
   // Function for adding leases
   const addLeases = (data, successCallback, errorCallback) => {
-    const token = window.localStorage.getItem('accessToken') || accessToken
+    const token = getStoredAccessToken() || accessToken
 
     if (!token) {
       const error = new Error('No access token found')
@@ -132,7 +133,7 @@ const LeasesProvider = ({ children }) => {
   }
 
   const editLeases = (data, successCallback, errorCallback) => {
-    const token = window.localStorage.getItem('accessToken') || accessToken
+    const token = getStoredAccessToken() || accessToken
 
     if (!token) {
       const error = new Error('No access token found')

@@ -12,18 +12,19 @@ const GuestGuard = props => {
   const { children, fallback } = props
   const auth = useAuth()
   const router = useRouter()
+
   useEffect(() => {
-    if (!router.isReady) {
+    if (!router.isReady || auth.loading) {
       return
     }
-    if (getStoredAccessToken()) {
-      alert('Logout to access this page')
 
-      // toast.error('Logout to access this page', { duration: 5000 })
-      router.replace('/')
+    if (auth.user || getStoredAccessToken()) {
+      const returnUrl = typeof router.query.returnUrl === 'string' ? router.query.returnUrl : '/'
+      router.replace(returnUrl)
     }
-  }, [router.route])
-  if (auth.loading || (!auth.loading && auth.user !== null)) {
+  }, [auth.loading, auth.user, router])
+
+  if (auth.loading || (!auth.loading && (auth.user !== null || getStoredAccessToken()))) {
     return fallback
   }
 

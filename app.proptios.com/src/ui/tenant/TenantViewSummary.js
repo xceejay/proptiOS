@@ -1,6 +1,7 @@
 // ** React Imports
 import { useState, useEffect } from 'react'
 import axios from 'src/pages/middleware/axios'
+import { getStoredAccessToken } from 'src/utils/authStorage'
 
 // ** MUI Imports
 import Card from '@mui/material/Card'
@@ -19,7 +20,7 @@ const TenantViewSummary = ({ tenantData }) => {
   useEffect(() => {
     if (tenantData && (tenantData.property_id || tenantData.property?.id)) {
       const propertyId = tenantData.property_id || tenantData.property?.id
-      const token = window.localStorage.getItem('accessToken')
+      const token = getStoredAccessToken()
 
       if (!token) {
           // Fallback if no token

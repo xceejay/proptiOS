@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 
 // ** Axios
 import axios from 'src/pages/middleware/axios'
+import { getStoredAccessToken } from 'src/utils/authStorage'
 
 // ** Config
 
@@ -43,7 +44,7 @@ const TenantsProvider = ({ children }) => {
   const router = useRouter()
 
   useEffect(() => {
-    const storedToken = window.localStorage.getItem('accessToken')
+    const storedToken = getStoredAccessToken()
     if (storedToken) {
       setAccessToken(storedToken)
       console.log('Tenants Context accessToken Set')
@@ -52,7 +53,7 @@ const TenantsProvider = ({ children }) => {
 
   // Function for getting tenants
   const getTenants = (params, successCallback, errorCallback) => {
-    const token = window.localStorage.getItem('accessToken') || accessToken
+    const token = getStoredAccessToken() || accessToken
 
     if (!token) {
       const error = new Error('No access token found')
@@ -81,7 +82,7 @@ const TenantsProvider = ({ children }) => {
 
   // Function for getting a single tenant
   const getTenant = (id, successCallback, errorCallback) => {
-    const token = window.localStorage.getItem('accessToken') || accessToken
+    const token = getStoredAccessToken() || accessToken
 
     if (!token) {
       const error = new Error('No access token found')
@@ -109,7 +110,7 @@ const TenantsProvider = ({ children }) => {
 
   // Function for adding tenants
   const addTenants = (data, successCallback, errorCallback) => {
-    const token = window.localStorage.getItem('accessToken') || accessToken
+    const token = getStoredAccessToken() || accessToken
 
     if (!token) {
       const error = new Error('No access token found')
@@ -171,7 +172,7 @@ const TenantsProvider = ({ children }) => {
 
   // Function for editing tenants
   const editTenants = (data, successCallback, errorCallback) => {
-    const token = window.localStorage.getItem('accessToken') || accessToken
+    const token = getStoredAccessToken() || accessToken
 
     if (!token) {
       const error = new Error('No access token found')
@@ -198,7 +199,7 @@ const TenantsProvider = ({ children }) => {
 
   // Function for deleting tenants
   const deleteTenants = (ids, successCallback, errorCallback) => {
-    const token = window.localStorage.getItem('accessToken') || accessToken
+    const token = getStoredAccessToken() || accessToken
 
     if (!token) {
       const error = new Error('No access token found')
@@ -227,7 +228,7 @@ const TenantsProvider = ({ children }) => {
   }
 
   const resendInvite = (tenantId, successCallback, errorCallback) => {
-    const token = window.localStorage.getItem('accessToken') || accessToken
+    const token = getStoredAccessToken() || accessToken
 
     if (!token) {
       const error = new Error('No access token found')
@@ -251,7 +252,7 @@ const TenantsProvider = ({ children }) => {
   }
 
   const enableTenant = (tenantId, successCallback, errorCallback) => {
-    const token = window.localStorage.getItem('accessToken') || accessToken
+    const token = getStoredAccessToken() || accessToken
 
     if (!token) {
       const error = new Error('No access token found')
@@ -275,7 +276,7 @@ const TenantsProvider = ({ children }) => {
   }
 
   const disableTenant = (tenantId, successCallback, errorCallback) => {
-    const token = window.localStorage.getItem('accessToken') || accessToken
+    const token = getStoredAccessToken() || accessToken
 
     if (!token) {
       const error = new Error('No access token found')
