@@ -44,6 +44,14 @@ Older QA files in the repo are preserved as historical snapshots, but this docum
   - enforces a minimum of 1 allocated unit
   - exposes default unit rent messaging in the add/edit drawers
 - Units now have a dedicated detail screen reachable from the property Units tab
+- Property settings phone number now persists correctly through save + reload
+- The strict staging CRUDR Playwright protocol is now green end to end:
+  - auth
+  - create
+  - read
+  - update
+  - delete
+  - read again
 - New regression tests cover:
   - onboarding terms guard
   - fresh-account empty states
@@ -55,6 +63,7 @@ Older QA files in the repo are preserved as historical snapshots, but this docum
 - guest-route auth no longer incorrectly redirects `/register` to `/login`
 - properties cross-cutting tests no longer depend on seeded property data
 - tenant empty-state coverage now exists
+- the dedicated staging CRUDR Playwright protocol now passes cleanly against staging
 
 ---
 

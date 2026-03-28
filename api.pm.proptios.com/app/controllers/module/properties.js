@@ -443,7 +443,10 @@ const routes = (app) => {
   properties.id AS property_id,
   properties.uuid AS property_uuid,
   properties.property_name AS property_name,
+  properties.property_email AS property_email,
+  properties.property_tel_number AS property_tel_number,
   properties.property_address AS property_address,
+  properties.country AS property_country,
   properties.property_type AS property_type,
   properties.status AS status,
   properties.units AS property_units,
@@ -552,7 +555,10 @@ WHERE
             propertyInfo.id = row.property_id;
             propertyInfo.uuid = row.property_uuid;
             propertyInfo.name = row.property_name;
+            propertyInfo.property_email = row.property_email;
+            propertyInfo.property_tel_number = row.property_tel_number;
             propertyInfo.address = row.property_address;
+            propertyInfo.country = row.property_country;
             propertyInfo.status = row.property_status;
             propertyInfo.type = row.property_type;
             propertyInfo.allocated_units = row.property_units;
@@ -564,7 +570,7 @@ WHERE
               id: row.pm_user_id,
               name: row.pm_user_name,
               email: row.pm_user_email,
-              tel_number: row.property_tel_number,
+              tel_number: row.pm_user_tel_number,
             };
           }
 
@@ -833,7 +839,10 @@ WHERE
           SELECT 
               properties.id AS property_id,
               properties.property_name AS property_name,
+              properties.property_email AS property_email,
+              properties.property_tel_number AS property_tel_number,
               properties.property_address AS property_address,
+              properties.country AS property_country,
               properties.property_type AS property_type,
               properties.status AS status,
               properties.units AS property_units,
@@ -918,7 +927,10 @@ WHERE
             propertiesMap.set(row.property_id, {
               id: row.property_id,
               name: row.property_name,
+              property_email: row.property_email,
+              property_tel_number: row.property_tel_number,
               address: row.property_address,
+              country: row.property_country,
               status: row.property_status,
               type: row.property_type,
               units: [],

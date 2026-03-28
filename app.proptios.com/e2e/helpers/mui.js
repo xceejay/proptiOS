@@ -42,30 +42,44 @@ async function selectOption(page, label, optionText, container) {
  */
 async function selectFirstOption(page, label, container) {
   const scope = container || page
-  let trigger = scope.getByRole('combobox', { name: label })
+  const getTrigger = async () => {
+    let trigger = scope.getByRole('combobox', { name: label })
 
-  if ((await trigger.count()) === 0) {
-    const control = scope.locator('.MuiFormControl-root', {
-      has: page.locator(`label`, { hasText: label }),
-    })
-    trigger = control.locator('[role="combobox"], .MuiSelect-select')
-  }
-
-  await trigger.click()
-
-  const options = page.getByRole('option')
-  const option = options.first()
-  const visible = await option.isVisible({ timeout: 10000 }).catch(() => false)
-  if (visible) {
-    const optionText = (await option.textContent())?.trim()
-    await option.click()
-
-    if (optionText) {
-      await expect(trigger).toContainText(optionText, { timeout: 5000 })
+    if ((await trigger.count()) === 0) {
+      const control = scope.locator('.MuiFormControl-root', {
+        has: page.locator(`label`, { hasText: label }),
+      })
+      trigger = control.locator('[role="combobox"], .MuiSelect-select')
     }
 
-    return true
+    return trigger.first()
   }
+
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    const trigger = await getTrigger()
+
+    try {
+      await trigger.waitFor({ state: 'visible', timeout: 10000 })
+      await trigger.click()
+
+      const options = page.getByRole('option')
+      const option = options.first()
+      const visible = await option.isVisible({ timeout: 10000 }).catch(() => false)
+      if (visible) {
+        const optionText = (await option.textContent())?.trim()
+        await option.click()
+
+        if (optionText) {
+          await expect(await getTrigger()).toContainText(optionText, { timeout: 5000 })
+        }
+
+        return true
+      }
+    } catch (error) {
+      if (attempt === 2) throw error
+    }
+  }
+
   await page.keyboard.press('Escape')
   return false
 }

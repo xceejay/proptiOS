@@ -168,3 +168,24 @@ This gives us:
 - Mock context boundaries rather than mocking deep MUI internals
 - Keep tests deterministic and small
 - Add one regression test per confirmed bug before touching implementation where practical
+## QA Protocol Coverage
+
+- The strict staging QA CRUDR flow now has a dedicated Playwright suite at [e2e/qa-protocol.spec.js](/home/joel/personal/projects/proptiOS/app.proptios.com/e2e/qa-protocol.spec.js).
+- That suite runs in ordered phases:
+  - auth pre-checks
+  - create
+  - read
+  - update
+  - delete
+  - read again
+- It also persists the created entity registry to [test-results/qa-protocol-state.json](/home/joel/personal/projects/proptiOS/app.proptios.com/test-results/qa-protocol-state.json) during the run so later phases use the same tracked entities.
+
+### QA protocol execution rule
+
+- Do not rerun the full CRUDR suite after every tiny fix.
+- During iteration:
+  - fix the specific failing step
+  - run the smallest relevant check for that step first
+  - only rerun the full staging CRUDR suite after a batch of fixes is ready
+- Use the full CRUDR suite as final confirmation, not as the default inner-loop command.
+- If a targeted check exposes a real product bug, fix that bug before trusting the protocol again.

@@ -3,6 +3,7 @@ import { useState } from 'react'
 
 // ** Next Imports
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 // ** MUI Components
 import Button from '@mui/material/Button'
@@ -101,6 +102,7 @@ const LoginPage = () => {
 
   // ** Hooks
   const auth = useAuth()
+  const router = useRouter()
   const theme = useTheme()
   const bgColors = useBgColor()
   const { settings } = useSettings()
@@ -251,20 +253,35 @@ const LoginPage = () => {
                   label='Remember Me'
                   control={<Checkbox checked={rememberMe} onChange={e => setRememberMe(e.target.checked)} />}
                 />
-                <LinkStyled href='/forgot-password'>Forgot Password?</LinkStyled>
+                <LinkStyled
+                  href='/forgot-password'
+                  onClick={event => {
+                    event.preventDefault()
+                    router.push('/forgot-password')
+                  }}
+                >
+                  Forgot Password?
+                </LinkStyled>
               </Box>
               <Button size='small' fullWidth type='submit' variant='contained' sx={{ mb: 4 }}>
                 Login
               </Button>
-              <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
-                <Typography sx={{ color: 'text.secondary', mr: 2 }}>New on our platform?</Typography>
-                <Typography variant='body2'>
-                  <LinkStyled href='/register' sx={{ fontSize: '1rem' }}>
-                    Create an account
-                  </LinkStyled>
-                </Typography>
-              </Box>
             </form>
+            <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
+              <Typography sx={{ color: 'text.secondary', mr: 2 }}>New on our platform?</Typography>
+              <Typography variant='body2'>
+                <LinkStyled
+                  href='/register'
+                  sx={{ fontSize: '1rem' }}
+                  onClick={event => {
+                    event.preventDefault()
+                    router.push('/register')
+                  }}
+                >
+                  Create an account
+                </LinkStyled>
+              </Typography>
+            </Box>
           </Box>
         </Box>
       </RightWrapper>

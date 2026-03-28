@@ -97,10 +97,10 @@ const PropertyViewSettings = props => {
   const [defaultValues, setDefaultValues] = useState({
     uuid: propertyData?.uuid || '',
     property_name: propertyData?.name || '',
-    property_email: propertyData?.property_manager?.email || '',
+    property_email: propertyData?.property_email || propertyData?.property_manager?.email || '',
     property_address: propertyData?.address || '',
     country: propertyData?.country || 'GHA',
-    property_tel_number: propertyData?.property_manager?.tel_number || '',
+    property_tel_number: propertyData?.property_tel_number || propertyData?.property_manager?.tel_number || '',
     property_type: propertyData?.type || '',
     units: propertyData?.allocated_units || ''
   })
@@ -145,6 +145,8 @@ const PropertyViewSettings = props => {
           if (matchingProperty) {
             return {
               ...propertyData,
+              property_email: property.property_email,
+              property_tel_number: property.property_tel_number,
               property_manager: {
                 ...propertyData.property_manager,
                 email: matchingProperty.property_manager?.email || propertyData.property_manager?.email,
