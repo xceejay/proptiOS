@@ -52,8 +52,9 @@ Older QA files in the repo are preserved as historical snapshots, but this docum
   - `Create an account`
   - `Forgot Password?`
 - Multi-tenant auth routing is now wired in source:
-- shared login hosts (`app.proptios.com`, `staging.app.proptios.com`) can authenticate and then redirect the user into their site host
-- production tenant hosts use `<site>.proptios.com`; staging tenant hosts now use `<site>.staging.proptios.com`
+  - shared login hosts (`app.proptios.com`, `staging.app.proptios.com`) can authenticate and then redirect the user into their site host
+  - production tenant hosts use `<site>.proptios.com`; staging tenant hosts now use `<site>.staging.proptios.com`
+  - legacy `staging.<site>.proptios.com` links are compatibility-only and no longer the canonical shape
   - tenant hosts send their active site host to the API
   - backend auth now rejects tokens/logins when the requested tenant host does not match `user.site_id`
 - The strict staging CRUDR Playwright protocol is now green end to end:

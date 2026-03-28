@@ -5,6 +5,17 @@ _Tester: Automated (Claude Code via Playwright)_
 _Environment: staging.app.proptios.com + staging.api.pm.proptios.com_
 _Test account: qatest@proptios.com (registered during test)_
 
+## Host Model Note
+
+Canonical staging tenant hosts now use:
+- `<site>.staging.proptios.com`
+
+Shared staging login still uses:
+- `staging.app.proptios.com`
+
+Legacy compatibility:
+- older `staging.<site>.proptios.com` links may still resolve for a transition period, but they are no longer the canonical staging tenant shape.
+
 ## Status Update
 
 _Updated: 2026-03-28_
