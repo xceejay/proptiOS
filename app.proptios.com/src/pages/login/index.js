@@ -3,7 +3,6 @@ import { useState } from 'react'
 
 // ** Next Imports
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 
 // ** MUI Components
 import Button from '@mui/material/Button'
@@ -102,7 +101,6 @@ const LoginPage = () => {
 
   // ** Hooks
   const auth = useAuth()
-  const router = useRouter()
   const theme = useTheme()
   const bgColors = useBgColor()
   const { settings } = useSettings()
@@ -255,10 +253,6 @@ const LoginPage = () => {
                 />
                 <LinkStyled
                   href='/forgot-password'
-                  onClick={event => {
-                    event.preventDefault()
-                    router.push('/forgot-password')
-                  }}
                 >
                   Forgot Password?
                 </LinkStyled>
@@ -273,10 +267,6 @@ const LoginPage = () => {
                 <LinkStyled
                   href='/register'
                   sx={{ fontSize: '1rem' }}
-                  onClick={event => {
-                    event.preventDefault()
-                    router.push('/register')
-                  }}
                 >
                   Create an account
                 </LinkStyled>

@@ -1,13 +1,13 @@
 ---
 title : >
-      The world&apos;s best companies <br /> trust aplio.
+      What proptiOS Does
 date : 2024-07-29T23:47:12+06:00
-pageTagline: "Our Services"
+pageTagline: "Features"
 details: >
-    Until recently, the prevailing view assumed lorem ipsum was born as a nonsense text. It's not Latin, though it looks like it
+    Every tool your property team needs to manage leases, collect rent, track maintenance, and report on portfolio performance.
 hero:
-  - tagline: Our Services  
-    title: The world’s best companies trust aplio
+  - tagline: Features
+    title: Everything your property team needs in one system
     details: >
-      Until recently, the prevailing view assumed lorem ipsum was born as a nonsense text. It's not Latin, though it looks like it
+      proptiOS covers the full property management lifecycle. Leasing, maintenance, rent collection, renewals, and reporting. One platform. No bolt-ons.
 ---

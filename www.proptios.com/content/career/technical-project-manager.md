@@ -10,6 +10,7 @@ salary: $170 - $200
 experience: 1
 qualification: Bachelor Degree
 skills: ['App', 'Design', 'Support', 'UI/UX', 'Brand']
+draft: true
 ---
 
 ## Job Description

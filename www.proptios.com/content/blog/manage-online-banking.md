@@ -8,6 +8,7 @@ author: Madison Watson
 categories: "Financial"
 tags: Payment
 
+draft: true
 ---
 
 Lorem ipsum dolor sit amet consectetur. Nullam blandit dui gravida aliquam enim eu. Adipiscing viverra vulputate curabitur est.

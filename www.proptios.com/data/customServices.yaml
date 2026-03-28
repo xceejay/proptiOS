@@ -1,28 +1,28 @@
 ---
 title : >
-      The world&apos;s best companies <br /> trust aplio.
-tagline: "Our Services"
+      Built for property teams that move fast
+tagline: "Core Capabilities"
 details: >
-        Until recently, the prevailing view assumed lorem ipsum was born as a nonsense text. It's not Latin, though it looks like it
+  proptiOS covers the full property management lifecycle. Every feature connects to reduce manual work and keep your team aligned.
 serviceList:
-  - title: Real-Time Analytics
-    slug: investment-banks
-    details: Until recently, the prevailing view asumed lorem ipsum was born as nonsense text.
+  - title: Lease Management
+    slug: lease-management
+    details: Create, renew, and track leases across your entire portfolio. Automated reminders keep nothing overdue.
     iconLight: "images/services/investment.svg"
     iconDark: "images/services/investment-dark.svg"
-  - title: Risk Management
-    slug: increased-efficiency
-    details: Until recently, the prevailing view asumed lorem ipsum was born as nonsense text.
+  - title: Financial Operations
+    slug: financial-operations
+    details: Rent collection, payment reconciliation, and audit-ready accounting. All in one ledger.
     iconLight: "images/services/finance.svg"
     iconDark: "images/services/finance-dark.svg"
-  - title: Sales Management
-    slug: sales-trading
-    details: Until recently, the prevailing view asumed lorem ipsum was born as nonsense text.
+  - title: Maintenance Tracking
+    slug: maintenance-tracking
+    details: Log requests, assign vendors, track resolution. Tenants submit issues. Your team closes them.
     iconLight: "images/services/sales.svg"
     iconDark: "images/services/sales-dark.svg"
-  - title: Track Conversions
-    slug: investment-banks
-    details: Until recently, the prevailing view asumed lorem ipsum was born as nonsense text.
+  - title: Portfolio Reporting
+    slug: portfolio-reporting
+    details: Vacancy rates, collection rates, maintenance costs. Live dashboards for every property in your portfolio.
     iconLight: "images/services/track.svg"
     iconDark: "images/services/track-dark.svg"
 ---

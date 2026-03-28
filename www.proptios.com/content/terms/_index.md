@@ -1,38 +1,38 @@
 ---
-title : 'Terms & Conditions'
+title : 'Terms of Service'
 date : 2024-08-04T17:47:50+06:00
 ---
 
-At Aplio, we take your privacy seriously. This privacy policy explains how we collect, use, and protect your personal information.
+These terms govern your use of the proptiOS platform and services.
 
-### Information We Collect
+### Account Terms
 
-We collect personal information that you provide to us such as your name, email address, and phone number when you submit a contact form or sign up for our newsletter. We also collect information about your visit to our website, including your IP address, browser type, and the pages you visit.
+You are responsible for maintaining the security of your account and password. proptiOS cannot and will not be liable for any loss or damage from your failure to maintain account security. You are responsible for all activity that occurs under your account.
 
-### Use of Information
+### Service Availability
 
-We use the information we collect to provide you with our services, respond to your inquiries, and send you marketing communications. We may also use your information to improve our website and to comply with legal obligations.
+We aim to keep proptiOS available at all times, but we do not guarantee uninterrupted access. We may perform scheduled maintenance with advance notice. We are not liable for downtime caused by factors outside our control.
 
-### Protection of Information
+### Your Data
 
-We take appropriate measures to protect your personal information from unauthorized access, disclosure, alteration, or destruction. We use industry-standard security measures such as SSL encryption to protect your data during transmission.
+You own your data. We do not claim any intellectual property rights over the data you store in proptiOS. You can export your data at any time. When you delete your account, we will delete your data within 30 days, except where we are required by law to retain it.
 
-### Disclosure of Information
+### Acceptable Use
 
-We do not share your personal information with third parties except as required by law or as necessary to provide our services. We may share your information with our trusted partners who assist us in operating our website or providing our services.
+You agree not to use proptiOS for any unlawful purpose, to attempt to gain unauthorized access to the platform, or to interfere with other users' use of the service.
 
-### Cookies
+### Payment Terms
 
-We use cookies and other similar technologies to collect information about your visit to our website. You may disable cookies in your browser settings, but please note that some features of our website may not function properly without cookies.
+Paid plans are billed monthly or annually in advance. You can cancel at any time. Cancellation takes effect at the end of the current billing period. We do not offer refunds for partial billing periods.
 
-### Your Rights
+### Limitation of Liability
 
-You have the right to access, update, and delete your personal information. You may also object to our use of your personal information for marketing purposes. If you wish to exercise any of these rights, please contact us using the information below.
+proptiOS is provided "as is." We do our best to keep the platform reliable, secure, and accurate, but we make no warranties about the completeness, reliability, or accuracy of any information on the platform. Our liability is limited to the amount you paid for the service in the 12 months preceding the claim.
 
-### Updates to Privacy Policy
+### Changes to Terms
 
-We may update this privacy policy from time to time. We will notify you of any changes by posting the new privacy policy on our website. You are advised to review this privacy policy periodically for any changes.
+We may update these terms as the platform evolves. We will notify you of material changes by email. Continued use of proptiOS after changes take effect constitutes acceptance of the updated terms.
 
-### Contact Us
+### Contact
 
-If you have any questions or concerns about this privacy policy or our use of your personal information, please contact us at [coantct](hello@aplio.com).
+Questions about these terms? Email us at [hello@proptios.com](mailto:hello@proptios.com).

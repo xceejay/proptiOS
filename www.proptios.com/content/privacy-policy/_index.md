@@ -3,36 +3,36 @@ title : 'Privacy Policy'
 date : 2024-08-04T17:47:40+06:00
 ---
 
-At Aplio, we take your privacy seriously. This privacy policy explains how we collect, use, and protect your personal information.
+At proptiOS, we take your privacy seriously. This privacy policy explains how we collect, use, and protect your personal information.
 
 ### Information We Collect
 
-We collect personal information that you provide to us such as your name, email address, and phone number when you submit a contact form or sign up for our newsletter. We also collect information about your visit to our website, including your IP address, browser type, and the pages you visit.
+We collect personal information that you provide when you create an account, submit a contact form, or request a demo. This includes your name, email address, phone number, and company details. We also collect usage data about how you interact with our platform and website, including your IP address, browser type, and pages visited.
 
 ### Use of Information
 
-We use the information we collect to provide you with our services, respond to your inquiries, and send you marketing communications. We may also use your information to improve our website and to comply with legal obligations.
+We use your information to provide and improve the proptiOS platform, respond to support requests, send product updates, and communicate about your account. We may use aggregated, anonymized data to improve our services and understand usage patterns.
 
 ### Protection of Information
 
-We take appropriate measures to protect your personal information from unauthorized access, disclosure, alteration, or destruction. We use industry-standard security measures such as SSL encryption to protect your data during transmission.
+We protect your data with encryption in transit and at rest, role-based access controls, and regular security audits. We use industry-standard security measures including TLS encryption for all data transmission.
 
-### Disclosure of Information
+### Data Sharing
 
-We do not share your personal information with third parties except as required by law or as necessary to provide our services. We may share your information with our trusted partners who assist us in operating our website or providing our services.
+We do not sell your personal information. We share data only with service providers who help us operate the platform (payment processors, hosting providers, email services) and only to the extent necessary to provide our services. We may disclose information when required by law.
 
 ### Cookies
 
-We use cookies and other similar technologies to collect information about your visit to our website. You may disable cookies in your browser settings, but please note that some features of our website may not function properly without cookies.
+We use cookies to maintain your session, remember your preferences, and understand how you use our website. You can disable cookies in your browser settings, though some features may not work as expected.
 
 ### Your Rights
 
-You have the right to access, update, and delete your personal information. You may also object to our use of your personal information for marketing purposes. If you wish to exercise any of these rights, please contact us using the information below.
+You have the right to access, correct, and delete your personal information. You can export your data at any time through the platform. To exercise these rights or ask questions about your data, contact us at hello@proptios.com.
 
-### Updates to Privacy Policy
+### Updates
 
-We may update this privacy policy from time to time. We will notify you of any changes by posting the new privacy policy on our website. You are advised to review this privacy policy periodically for any changes.
+We may update this policy as our practices evolve. We will notify you of material changes by email or through the platform.
 
-### Contact Us
+### Contact
 
-If you have any questions or concerns about this privacy policy or our use of your personal information, please contact us at [coantct](hello@aplio.com).
+Questions about this policy? Email us at [hello@proptios.com](mailto:hello@proptios.com).
