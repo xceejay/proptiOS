@@ -231,6 +231,8 @@ const Register = () => {
     setLoading(true)
     onboarding.setLoading(true)
     if (!isChecked) {
+      setLoading(false)
+      onboarding.setLoading(false)
       setError('agreement', {
         type: 'manual',
         message: 'You must agree to the privacy policy & terms.'
@@ -250,6 +252,7 @@ const Register = () => {
 
         // Handle success
         if (responseData.data.status == 'FAILED') {
+          setLoading(false)
           setError('api_error', {
             type: 'manual',
             message: responseData.data.description
@@ -261,6 +264,7 @@ const Register = () => {
       },
       error => {
         onboarding.setLoading(false)
+        setLoading(false)
 
         // Handle error
         console.log('error', error)
