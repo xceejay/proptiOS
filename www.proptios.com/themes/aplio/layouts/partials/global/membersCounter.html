@@ -1,54 +1,48 @@
-<section id="counter_trusted">
-  <div class="container relative">
-    <div
-      class="  grid grid-cols-12 py-10 gap-x-5 gap-y-5 relative {{ if eq .border "true" }} after:absolute after:w-full after:h-0.5 after:bg-[url('../images/payment/member-border.svg')] dark:after:bg-[url('../images/payment/member-border-dark.svg')] after:bg-no-repeat after:bg-cover after:bottom-0 after:left-1/2 after:-translate-x-1/2 before:absolute before:w-full before:h-0.5 before:bg-[url('../images/payment/member-border.svg')] dark:before:bg-[url('../images/payment/member-border-dark.svg')] before:bg-no-repeat before:bg-cover before:top-0 before:left-1/2 before:-translate-x-1/2 before:bg-center after:bg-center max-md:before:hidden {{end}}"
-    >
-      <div class="max-lg:col-span-full lg:col-span-6">
-        <div class="max-w-[550px]">
-          <p class="section-tagline">Numbers</p>
-          <h2>More than 10 years experience in this industry</h2>
+<section id="platform-proof" class="relative z-10 py-150 max-md:py-20 bg-white dark:bg-dark-300 overflow-hidden">
+  <div class="container relative z-10">
+    <div class="max-w-[760px] mx-auto text-center mb-14 max-md:mb-10">
+      <p class="section-tagline">Why teams choose proptiOS</p>
+      <h2 class="mt-4">Purpose-built for real property operations</h2>
+      <p class="mt-6 text-paragraph dark:text-white/80">
+        proptiOS replaces scattered tools with one operating system for leasing,
+        rent collection, maintenance, and portfolio visibility.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-3 max-lg:grid-cols-1 gap-8">
+      <div class="bg-white dark:bg-dark-200 shadow-box rounded-medium p-2.5">
+        <div class="border border-dashed rounded border-gray-100 dark:border-borderColour-dark p-8 max-md:p-6 h-full">
+          <div class="w-14 h-14 rounded-full bg-primary-200/30 dark:bg-primary/10 flex items-center justify-center mb-6">
+            <i class="fa-solid fa-building text-primary"></i>
+          </div>
+          <h3 class="mb-3">Portfolio-wide visibility</h3>
+          <p class="text-paragraph dark:text-white/80">
+            Keep units, tenants, leases, maintenance, and financial activity connected in one place instead of juggling separate tools.
+          </p>
         </div>
       </div>
-      <div class="max-md:col-span-full md:col-span-6 lg:col-span-3 py-5">
-        <div class="flex items-center">
-          <div class="p-2.5 shadow-nav rounded-full w-[110px] h-[110px] bg-white dark:bg-dark-200 mr-6">
-            <div
-              class=" flex items-center justify-center border border-dashed rounded-full w-[90px] h-[90px] border-gray-100 dark:border-borderColour-dark"
-            >
-              <h3 class="text-primary dark:text-primary leading-none text-[28px]">
-                <span
-                  class="text-primary dark:text-primary leading-none text-[28px] counterTrusted"
-                  data-value="{{.value1}}"
-                ></span
-                >%
-              </h3>
-            </div>
+
+      <div class="bg-white dark:bg-dark-200 shadow-box rounded-medium p-2.5">
+        <div class="border border-dashed rounded border-gray-100 dark:border-borderColour-dark p-8 max-md:p-6 h-full">
+          <div class="w-14 h-14 rounded-full bg-primary-200/30 dark:bg-primary/10 flex items-center justify-center mb-6">
+            <i class="fa-solid fa-people-group text-primary"></i>
           </div>
-          <h3 class="leading-8 ">
-            Trusted <br />
-            by companies
-          </h3>
+          <h3 class="mb-3">One workflow for the whole team</h3>
+          <p class="text-paragraph dark:text-white/80">
+            Give operations, finance, and field teams a shared system so handoffs are cleaner and fewer tasks fall through the cracks.
+          </p>
         </div>
       </div>
-      <div class="max-md:col-span-full md:col-span-6 lg:col-span-3 py-5 ">
-        <div class="flex items-center">
-          <div class="p-2.5 shadow-nav rounded-full w-[110px] h-[110px] bg-white dark:bg-dark-200 mr-6">
-            <div
-              class=" flex items-center justify-center border border-dashed rounded-full w-[90px] h-[90px] border-gray-100 dark:border-borderColour-dark"
-            >
-              <h3 class="text-primary dark:text-primary leading-none text-[28px]">
-                <span
-                  class="text-primary dark:text-primary leading-none text-[28px] counterTrusted"
-                  data-value="{{.value2}}"
-                ></span>
-                M
-              </h3>
-            </div>
+
+      <div class="bg-white dark:bg-dark-200 shadow-box rounded-medium p-2.5">
+        <div class="border border-dashed rounded border-gray-100 dark:border-borderColour-dark p-8 max-md:p-6 h-full">
+          <div class="w-14 h-14 rounded-full bg-primary-200/30 dark:bg-primary/10 flex items-center justify-center mb-6">
+            <i class="fa-solid fa-chart-line text-primary"></i>
           </div>
-          <h3 class="leading-8 ">
-            People <br />
-            of aplio bank
-          </h3>
+          <h3 class="mb-3">Built to reduce operating drag</h3>
+          <p class="text-paragraph dark:text-white/80">
+            Cut spreadsheet churn, speed up follow-up work, and make reporting easier with data that stays up to date across the portfolio.
+          </p>
         </div>
       </div>
     </div>

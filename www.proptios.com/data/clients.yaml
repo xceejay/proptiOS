@@ -1,19 +1,5 @@
 ---
-title: >
-  Trusted by property teams across Africa
-subTitle: >
-  Property managers use proptiOS to run their portfolios
-clients:
-  - iconLight: "images/clients/group.svg"
-    iconDark: "images/clients/group-dark.svg"
-  - iconLight: "images/clients/infinity.svg"
-    iconDark: "images/clients/infinity-dark.svg"
-  - iconLight: "images/clients/artifact.svg"
-    iconDark: "images/clients/artifact-dark.svg"
-  - iconLight: "images/clients/caudile.svg"
-    iconDark: "images/clients/caudile-dark.svg"
-  - iconLight: "images/clients/axeptio.svg"
-    iconDark: "images/clients/axeptio-dark.svg"
-  - iconLight: "images/clients/mfinity.svg"
-    iconDark: "images/clients/mfinity-dark.svg"
+title: ''
+subTitle: ''
+clients: []
 ---
