@@ -97,33 +97,29 @@ const VerticalNavHeader = props => {
       ) : (
         <LinkStyled href='/'>
           <></>
-          {user?.site_image_url ? (
-            <>
-              <Box
-                component='img'
-                sx={{
-                  borderRadius: '20%',
-                  width: '32px',
-                  height: '30px',
-                  objectFit: 'cover' // Optional: Ensures the image covers the entire area
-                }}
-                src={user.site_image_url}
-                alt='User'
-              />{' '}
-            </>
+          {user?.site_image_url && user.site_image_url !== 'undefined' ? (
+            <Box
+              component='img'
+              sx={{
+                borderRadius: '20%',
+                width: '32px',
+                height: '30px',
+                objectFit: 'cover'
+              }}
+              src={user.site_image_url}
+              alt={user?.site_name || themeConfig.templateName}
+            />
           ) : (
-            <>
-              <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 30' width='32' height='30'>
-                <rect width='32' height='30' fill='#CCCCCC0D'></rect>
-                <text x='50%' y='50%' dominantBaseline='middle' textAnchor='middle' fontSize='10px' fill='#333333FF'>
-                  32x30
-                </text>
-              </svg>
-            </>
+            <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 30' width='32' height='30'>
+              <rect width='32' height='30' fill='#CCCCCC0D'></rect>
+              <text x='50%' y='50%' dominantBaseline='middle' textAnchor='middle' fontSize='10px' fill='#333333FF'>
+                {(user?.site_name || themeConfig.templateName).substring(0, 2).toUpperCase()}
+              </text>
+            </svg>
           )}
 
           <HeaderTitle variant='h6' sx={{ ...menuCollapsedStyles, ...(navCollapsed && !navHover ? {} : { ml: 2 }) }}>
-            {user?.site_name ? user.site_name : themeConfig.templateName}
+            {user?.site_name && user.site_name !== 'undefined' ? user.site_name : themeConfig.templateName}
           </HeaderTitle>
         </LinkStyled>
       )}

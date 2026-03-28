@@ -21,6 +21,40 @@ export const buildPropertyUnitsData = propertyData => {
   })
 }
 
+export const buildPropertyUnitDetail = (propertyData, unitId) => {
+  if (!propertyData || !unitId) {
+    return null
+  }
+
+  const normalizedUnitId = String(unitId)
+  const units = buildPropertyUnitsData(propertyData)
+  const unit = units.find(currentUnit => String(currentUnit.id) === normalizedUnitId)
+
+  if (!unit) {
+    return null
+  }
+
+  const lease =
+    (propertyData.leases ?? []).find(currentLease => {
+      if (currentLease?.unit?.id != null) {
+        return String(currentLease.unit.id) === normalizedUnitId
+      }
+
+      if (currentLease?.unit_id != null) {
+        return String(currentLease.unit_id) === normalizedUnitId
+      }
+
+      return false
+    }) || null
+
+  return {
+    property: propertyData,
+    unit,
+    tenant: unit.tenant || null,
+    lease
+  }
+}
+
 export const buildPropertyOverviewStats = propertyData => [
   {
     title: 'Units',

@@ -24,7 +24,12 @@ const schema = yup.object().shape({
   country: yup.string().required('Country field is required'),
   property_tel_number: yup.string().required('Phone number is required'),
   property_type: yup.string().required('Property type is required'),
-  units: yup.number().required('Unit count is required').positive().integer()
+  units: yup.number().required('Unit count is required').min(1, 'A property must have at least 1 allocated unit').integer(),
+  rent_amount: yup
+    .number()
+    .transform((value, originalValue) => (originalValue === '' || originalValue === null ? null : value))
+    .nullable()
+    .min(0, 'Default unit rent amount cannot be negative')
 })
 
 const countries = [
@@ -107,7 +112,8 @@ const EditPropertyDrawer = props => {
     country: row.country || 'GHA',
     property_tel_number: row.property_tel_number || '',
     property_type: row.property_type || '',
-    units: row.units || ''
+    units: row.units || '',
+    rent_amount: row.rent_amount ?? ''
   }
 
   const {
@@ -133,7 +139,8 @@ const EditPropertyDrawer = props => {
         country: row.country || 'GHA',
         property_tel_number: row.property_tel_number || '',
         property_type: row.property_type || '',
-        units: row.units || ''
+        units: row.units || '',
+        rent_amount: row.rent_amount ?? ''
       })
     }
   }, [open, reset, row])
@@ -149,7 +156,7 @@ const EditPropertyDrawer = props => {
         if (data?.status === 'NO_RES') {
           console.log('NO results')
         } else if (data?.status === 'FAILED') {
-          alert(data.description || 'Failed to edit property')
+          toast.error(data.description || 'Failed to edit property', { duration: 5000 })
           setError('property_email', {
             type: 'manual',
             message: data.description || 'Unknown error occurred'
@@ -172,8 +179,6 @@ const EditPropertyDrawer = props => {
         })
 
         toast.success('Property updated successfully', { duration: 5000 })
-        console.log('datada:', data)
-        console.log('upreqdata:', updatedRequestData)
 
         setPropertiesData(prevData => {
           const idx = prevData.findIndex(item => item.id === row.id)
@@ -182,8 +187,6 @@ const EditPropertyDrawer = props => {
           }
           return [...prevData]
         })
-
-        console.log('newprop', properties.properties)
         handleClose()
       },
       error => {
@@ -377,6 +380,36 @@ const EditPropertyDrawer = props => {
               )}
             />
             {errors.units && <FormHelperText sx={{ color: 'error.main' }}>{errors.units.message}</FormHelperText>}
+            {!errors.units && (
+              <FormHelperText>
+                The property keeps at least one allocated unit. Existing units are managed separately in the Units tab.
+              </FormHelperText>
+            )}
+          </FormControl>
+
+          <FormControl fullWidth sx={{ mb: 4 }}>
+            <Controller
+              name='rent_amount'
+              control={control}
+              render={({ field: { value = '', onChange } }) => (
+                <TextField
+                  type='number'
+                  value={value}
+                  label='Default Unit Rent Amount'
+                  onChange={onChange}
+                  placeholder='1500'
+                  error={Boolean(errors.rent_amount)}
+                />
+              )}
+            />
+            {errors.rent_amount && (
+              <FormHelperText sx={{ color: 'error.main' }}>{errors.rent_amount.message}</FormHelperText>
+            )}
+            {!errors.rent_amount && (
+              <FormHelperText>
+                This stores the property default rent amount. It does not automatically overwrite existing unit rents.
+              </FormHelperText>
+            )}
           </FormControl>
 
           <Button type='submit' variant='contained' color='primary'>

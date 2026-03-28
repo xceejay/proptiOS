@@ -7,6 +7,7 @@ featureImage: "/images/blog/blogDetails.png"
 author: Kristin Watson
 categories: "Digital"
 tags: Finance
+draft: true
 ---
 
 Lorem ipsum dolor sit amet consectetur. Nullam blandit dui gravida aliquam enim eu. Adipiscing viverra vulputate curabitur est.

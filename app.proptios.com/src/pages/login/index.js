@@ -251,20 +251,27 @@ const LoginPage = () => {
                   label='Remember Me'
                   control={<Checkbox checked={rememberMe} onChange={e => setRememberMe(e.target.checked)} />}
                 />
-                <LinkStyled href='/forgot-password'>Forgot Password?</LinkStyled>
+                <LinkStyled
+                  href='/forgot-password'
+                >
+                  Forgot Password?
+                </LinkStyled>
               </Box>
               <Button size='small' fullWidth type='submit' variant='contained' sx={{ mb: 4 }}>
                 Login
               </Button>
-              <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
-                <Typography sx={{ color: 'text.secondary', mr: 2 }}>New on our platform?</Typography>
-                <Typography variant='body2'>
-                  <LinkStyled href='/register' sx={{ fontSize: '1rem' }}>
-                    Create an account
-                  </LinkStyled>
-                </Typography>
-              </Box>
             </form>
+            <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
+              <Typography sx={{ color: 'text.secondary', mr: 2 }}>New on our platform?</Typography>
+              <Typography variant='body2'>
+                <LinkStyled
+                  href='/register'
+                  sx={{ fontSize: '1rem' }}
+                >
+                  Create an account
+                </LinkStyled>
+              </Typography>
+            </Box>
           </Box>
         </Box>
       </RightWrapper>

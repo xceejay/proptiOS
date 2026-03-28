@@ -13,12 +13,10 @@ import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, Controller } from 'react-hook-form'
 import Icon from 'src/@core/components/icon'
-import { useProperties } from 'src/hooks/useProperties'
 import toast from 'react-hot-toast'
 import CustomChip from 'src/@core/components/mui/chip'
 
 import { useTenants } from 'src/hooks/useTenants'
-import { useRouter } from 'next/router'
 
 const countries = [
   { name: 'Algeria', code: 'DZA' },
@@ -91,9 +89,8 @@ const tenantTypes = [
 const EditTenantDrawer = props => {
   const { tenantData, setTenantsData, tenantsData, open, toggle, setLoading } = props
   const tenant = useTenants()
-  const properties = useProperties()
-  const router = useRouter()
-  const { id } = router.query
+  const isEmailLocked =
+    Number(tenantData?.email_verification_status) === 1 || tenantData?.email_invitation_status === 'accepted'
 
   // Updated validation schema to include tenant-specific fields
   const schema = yup.object().shape({
@@ -181,8 +178,8 @@ const EditTenantDrawer = props => {
 
   const onSubmit = formData => {
     setLoading(true)
-    formData.unit_id = tenantData.unit.id
-    formData.property_id = tenantData.property.id
+    formData.unit_id = tenantData?.unit_id ?? tenantData?.unit?.id ?? null
+    formData.property_id = tenantData?.property_id ?? tenantData?.property?.id ?? null
     formData.id = tenantData.id
 
     let requestData = [formData]
@@ -195,7 +192,8 @@ const EditTenantDrawer = props => {
         if (data?.status === 'NO_RES') {
           console.log('NO results')
         } else if (data?.status === 'FAILED') {
-          alert(data.description || 'Failed to add tenant')
+          toast.error(data.description || 'Failed to edit tenant', { duration: 5000 })
+          setLoading(false)
           setError('email', {
             type: 'manual',
             message: data.description || 'Unknown error occurred'
@@ -321,6 +319,12 @@ const EditTenantDrawer = props => {
                   onChange={onChange}
                   placeholder='owner@example.com'
                   error={Boolean(errors.email)}
+                  disabled={isEmailLocked}
+                  helperText={
+                    isEmailLocked
+                      ? 'Tenant email cannot be changed after invitation acceptance or email verification.'
+                      : undefined
+                  }
                 />
               )}
             />

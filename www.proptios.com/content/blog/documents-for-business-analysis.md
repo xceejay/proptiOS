@@ -7,6 +7,7 @@ featureImage: '/images/blog/blogDetails.png'
 author: Will Smith
 categories: 'Research'
 tags: Research
+draft: true
 ---
 
 Lorem ipsum dolor sit amet consectetur. Nullam blandit dui gravida aliquam enim eu. Adipiscing viverra vulputate curabitur est.

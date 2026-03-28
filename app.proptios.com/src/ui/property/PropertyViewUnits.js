@@ -2,6 +2,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 
 // ** Next Import
+import { useRouter } from 'next/router'
 
 // ** MUI Imports
 
@@ -26,6 +27,7 @@ const RowOptions = ({ id, row, setPropertyData, propertyData, setLoading }) => {
   const toggleManageUnitDrawer = () => setManageUnitOpen(!manageUnitOpen)
 
   const handleRowOptionsClick = event => {
+    event.stopPropagation()
     setAnchorEl(event.currentTarget)
   }
 
@@ -68,11 +70,23 @@ const RowOptions = ({ id, row, setPropertyData, propertyData, setLoading }) => {
           View
         </MenuItem> */}
 
-        <MenuItem onClick={handleManage} sx={{ '& svg': { mr: 2 } }}>
+        <MenuItem
+          onClick={event => {
+            event.stopPropagation()
+            handleManage()
+          }}
+          sx={{ '& svg': { mr: 2 } }}
+        >
           <Icon icon='tabler:pencil' fontSize={20} />
           Manage
         </MenuItem>
-        <MenuItem disabled sx={{ '& svg': { mr: 2 } }}>
+        <MenuItem
+          disabled
+          onClick={event => {
+            event.stopPropagation()
+          }}
+          sx={{ '& svg': { mr: 2 } }}
+        >
           <Icon icon='tabler:trash' fontSize={20} />
           Quick Suspend (Unavailable)
         </MenuItem>
@@ -92,6 +106,7 @@ const RowOptions = ({ id, row, setPropertyData, propertyData, setLoading }) => {
 }
 
 const PropertyViewUnits = ({ setPropertyData, propertyData }) => {
+  const router = useRouter()
   const [loading, setLoading] = useState(true) // New loading state
 
   const [addUnitOpen, setAddUnitOpen] = useState(false)
@@ -171,8 +186,13 @@ const PropertyViewUnits = ({ setPropertyData, propertyData }) => {
   }, [value, unitsData])
 
   const toggleAddUnitDrawer = () => setAddUnitOpen(!addUnitOpen)
+  const handleUnitClick = row => {
+    if (!propertyData?.id || !row?.id) {
+      return
+    }
 
-
+    router.push(`/properties/manage/${propertyData.id}/unit/${row.id}`)
+  }
 
   return (
     <Grid container spacing={6}>
@@ -198,6 +218,7 @@ const PropertyViewUnits = ({ setPropertyData, propertyData }) => {
                 }
               }}
               disableRowSelectionOnClick
+              onRowClick={({ row }) => handleUnitClick(row)}
               pageSizeOptions={[10, 25, 50]}
               paginationModel={paginationModel}
               onPaginationModelChange={setPaginationModel}

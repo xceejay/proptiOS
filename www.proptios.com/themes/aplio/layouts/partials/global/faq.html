@@ -33,7 +33,7 @@
           <div
             class="faq-header flex items-center py-3 px-5 bg-white dark:bg-dark-200 border border-dashed rounded border-gray-100 dark:border-borderColour-dark  cursor-pointer"
           >
-            <h3 class="text-xl font-semibold">Q. What is a business agency?</h3>
+            <h3 class="text-xl font-semibold">Q. {{ .question }}</h3>
             <span class="shrink-0 ml-auto">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -71,7 +71,7 @@
           </div>
           <div class="faq-body close">
             <div class="text-paragraph-light pt-6 px-6 pb-3.5 dark:text-[#A1A49D]">
-              Until recently, the prevailing view assumed lorem ipsum was born as a nonsense text. “It's not Latin.
+              {{ .answer }}
             </div>
           </div>
         </div>

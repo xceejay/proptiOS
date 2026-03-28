@@ -1,9 +1,9 @@
 ---
 counter:
-  - name: Project Completed
-    value: 60
-  - name: Team Members
-    value: 30
-  - name: Satisfied Clients
-    value: 40
+  - name: Properties Managed
+    value: 500
+  - name: Active Users
+    value: 50
+  - name: Countries
+    value: 3
 ---

@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 
 // ** Hooks Import
 import { useAuth } from 'src/hooks/useAuth'
+import { getStoredAccessToken } from 'src/utils/authStorage'
 
 const AuthGuard = props => {
   const { children, fallback } = props
@@ -16,7 +17,7 @@ const AuthGuard = props => {
       if (!router.isReady) {
         return
       }
-      if (auth.user === null && !window.localStorage.getItem('accessToken')) {
+      if (auth.user === null && !getStoredAccessToken()) {
         if (router.asPath !== '/') {
           router.replace({
             pathname: '/login',

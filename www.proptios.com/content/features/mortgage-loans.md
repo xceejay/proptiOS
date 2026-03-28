@@ -1,34 +1,19 @@
 ---
-title : 'Mortgage Loans'
-date : 2024-07-29T23:49:15+06:00
+title: 'Mobile Field Operations'
+date: 2024-07-29T23:49:15+06:00
 logo: "images/services/loan.svg"
 logoDark: "images/services/loan-dark.svg"
-excerpt: "Until recently, the prevailing view asumed lorem ipsum was born as nonsense text."
+excerpt: "Give inspections, turnovers, and on-site follow-up work a workflow your field teams can actually use."
 ---
 
-Lorem ipsum dolor sit amet consectetur. Nullam blandit dui gravida aliquam enim eu. Adipiscing viverra vulputate curabitur est.
+Field teams need access to current information without waiting to get back to the office. proptiOS supports mobile-friendly workflows so inspections, task updates, and property follow-ups stay connected to the main operating record.
 
-Morbi lorem proin morbi tempor risus. Nisl lobortis diam id faucibus pretium vitae suspendisse sed accumsan. Sodales morbi tristique elit cursus gravida. Ullamcorper commodo eget pulvinar pretium. Condimentum rhoncus commodo amet nec auctor nibh vel mi blandit.
+### What this helps you manage
 
-Neque ultrices nunc condimentum morbi risus tincidunt. Vel arcu lacus non ornare. Porttitor in rhoncus magna augue adipiscing.
+- Site inspections and unit turnover tasks
+- On-the-go updates from field staff
+- Better coordination between on-site and office teams
 
-![service images](/images/services/service-single1.png)
-### What to Expect
-Morbi lorem proin morbi tempor risus. Nisl lobortis diam id faucibus pretium vitae suspendisse sed accumsan. Sodales morbi tristique elit cursus gravida. Ullamcorper commodo eget pulvinar pretium. Condimentum rhoncus commodo amet nec auctor nibh vel mi blandit.
+### Why it matters
 
-Neque ultrices nunc condimentum morbi risus tincidunt. Vel arcu lacus non ornare. Porttitor in rhoncus magna augue adipiscing.
-
-- It’s scalable and secure
-- Artificial Intelligence Feature
-- Offline version available
-
-{{< serviceVideo imgURL="images/services/video-bg.png" videoURL="https://www.youtube.com/embed/YE7VzlLtp-4?si=XvNRN6ztByvZQzqh" >}}
-
-### Qualifications & Requirements
-Morbi lorem proin morbi tempor risus. Nisl lobortis diam id faucibus pretium vitae suspendisse sed accumsan. Sodales morbi tristique elit cursus gravida. Ullamcorper commodo eget pulvinar pretium. Condimentum rhoncus commodo amet nec auctor nibh vel mi blandit.
-
-Neque ultrices nunc condimentum morbi risus tincidunt. Vel arcu lacus non ornare. Porttitor in rhoncus magna augue adipiscing.
-
-- It’s scalable and secure
-- Artificial Intelligence Feature
-- Offline version available
+When field activity feeds directly into the system, your team avoids rework, closes loops faster, and keeps the portfolio moving.

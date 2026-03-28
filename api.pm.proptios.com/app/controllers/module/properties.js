@@ -15,6 +15,16 @@ const acl = require("../../middleware/acl");
 const PREFIX = "/properties";
 
 const routes = (app) => {
+  const normalizeUnitCount = (value) => {
+    const parsed = Number.parseInt(value, 10);
+    return Number.isFinite(parsed) && parsed > 0 ? parsed : 1;
+  };
+
+  const normalizeRentAmount = (value) => {
+    const parsed = Number.parseFloat(value);
+    return Number.isFinite(parsed) && parsed >= 0 ? parsed : 0;
+  };
+
   //add property to db
 
   app.post(
@@ -93,10 +103,9 @@ const routes = (app) => {
         }
 
         // Calculate total new units being added
-        const totalNewUnits = properties.reduce(
-          (sum, property) => sum + (property.units || 1),
-          0
-        );
+        const totalNewUnits = properties.reduce((sum, property) => {
+          return sum + normalizeUnitCount(property.units);
+        }, 0);
 
         // Check existing units count - Using COALESCE to handle NULL
         const [unitCountRows] = await connection.query(
@@ -131,6 +140,8 @@ const routes = (app) => {
         const insertedProperties = [];
 
         for (const property of properties) {
+          const requestedUnits = normalizeUnitCount(property.units);
+          const propertyRentAmount = normalizeRentAmount(property.rent_amount);
           const insertQuery = `
             INSERT INTO properties (
               uuid, property_name, units, property_email, property_tel_number, 
@@ -143,7 +154,7 @@ const routes = (app) => {
           const values = [
             property.uuid,
             property.property_name,
-            property.units || 1,
+            requestedUnits,
             property.property_email,
             property.property_tel_number || "",
             property.country || "GHA",
@@ -155,11 +166,38 @@ const routes = (app) => {
             stamp,
             "active",
             property.property_type,
-            property.rent_amount || 0,
+            propertyRentAmount,
             req.user.id,
           ];
 
           const [result] = await connection.query(insertQuery, values);
+
+          const insertDefaultUnitQuery = `
+            INSERT INTO units (
+              uuid, name, description, floor_no, bedrooms, furnished, common_area,
+              bathrooms, property_id, rent_amount, rent_amount_currency, tenant_id,
+              unit_image_url, site_id, pm_user_id
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          `;
+
+          await connection.query(insertDefaultUnitQuery, [
+            nanoid(),
+            "Unit 1",
+            "Default unit created automatically when the property was added.",
+            1,
+            1,
+            0,
+            1,
+            1,
+            result.insertId,
+            propertyRentAmount,
+            req.user.currency || "USD",
+            null,
+            null,
+            req.user.site_id,
+            req.user.id || null,
+          ]);
+
           insertedProperties.push({
             id: result.insertId.toString(),
             uuid: property.uuid,
@@ -280,7 +318,7 @@ const routes = (app) => {
         // Calculate the total change in units
         let totalUnitsDelta = 0;
         for (const property of properties) {
-          const newUnits = property.units || 1;
+          const newUnits = normalizeUnitCount(property.units);
           const oldUnits = existingPropsMap[property.uuid].units;
           totalUnitsDelta += (newUnits - oldUnits);
         }
@@ -319,6 +357,8 @@ const routes = (app) => {
         const updatedProperties = [];
 
         for (const property of properties) {
+          const requestedUnits = normalizeUnitCount(property.units);
+          const propertyRentAmount = normalizeRentAmount(property.rent_amount);
           const updateQuery = `
             UPDATE properties
             SET 
@@ -340,7 +380,7 @@ const routes = (app) => {
 
           const values = [
             property.property_name,
-            property.units || 1,
+            requestedUnits,
             property.property_email || "",
             property.property_tel_number || "",
             property.country || "GHA",
@@ -350,7 +390,7 @@ const routes = (app) => {
             stamp,
             "active",
             property.property_type,
-            property.rent_amount || 0,
+            propertyRentAmount,
             req.user.id,
             property.uuid,
             req.user.site_id,
@@ -403,7 +443,10 @@ const routes = (app) => {
   properties.id AS property_id,
   properties.uuid AS property_uuid,
   properties.property_name AS property_name,
+  properties.property_email AS property_email,
+  properties.property_tel_number AS property_tel_number,
   properties.property_address AS property_address,
+  properties.country AS property_country,
   properties.property_type AS property_type,
   properties.status AS status,
   properties.units AS property_units,
@@ -485,7 +528,7 @@ LEFT JOIN leases ON leases.property_id = properties.id
 LEFT JOIN maintenance_requests ON maintenance_requests.property_id = properties.id
 LEFT JOIN pm_users AS internal_assignee ON maintenance_requests.internal_assignee_id = internal_assignee.id
 WHERE 
-  properties.id = ? AND properties.site_id = ?;
+  properties.id = ? AND properties.site_id = ? AND properties.deleted_at IS NULL;
   `;
         const [results] = await mysql_db.execute(selectQuery, [
           property_id,
@@ -512,7 +555,10 @@ WHERE
             propertyInfo.id = row.property_id;
             propertyInfo.uuid = row.property_uuid;
             propertyInfo.name = row.property_name;
+            propertyInfo.property_email = row.property_email;
+            propertyInfo.property_tel_number = row.property_tel_number;
             propertyInfo.address = row.property_address;
+            propertyInfo.country = row.property_country;
             propertyInfo.status = row.property_status;
             propertyInfo.type = row.property_type;
             propertyInfo.allocated_units = row.property_units;
@@ -524,7 +570,7 @@ WHERE
               id: row.pm_user_id,
               name: row.pm_user_name,
               email: row.pm_user_email,
-              tel_number: row.property_tel_number,
+              tel_number: row.pm_user_tel_number,
             };
           }
 
@@ -793,7 +839,10 @@ WHERE
           SELECT 
               properties.id AS property_id,
               properties.property_name AS property_name,
+              properties.property_email AS property_email,
+              properties.property_tel_number AS property_tel_number,
               properties.property_address AS property_address,
+              properties.country AS property_country,
               properties.property_type AS property_type,
               properties.status AS status,
               properties.units AS property_units,
@@ -856,7 +905,8 @@ WHERE
           LEFT JOIN leases ON leases.property_id = properties.id 
           LEFT JOIN maintenance_requests ON maintenance_requests.property_id = properties.id
           WHERE 
-              properties.site_id = ?;
+              properties.site_id = ?
+              AND properties.deleted_at IS NULL;
       `;
         const [results] = await mysql_db.execute(selectQuery, [
           req.user.site_id,
@@ -877,7 +927,10 @@ WHERE
             propertiesMap.set(row.property_id, {
               id: row.property_id,
               name: row.property_name,
+              property_email: row.property_email,
+              property_tel_number: row.property_tel_number,
               address: row.property_address,
+              country: row.property_country,
               status: row.property_status,
               type: row.property_type,
               units: [],
@@ -1077,7 +1130,7 @@ WHERE
             (SELECT COUNT(*) FROM leases WHERE property_id = p.id AND deleted_at IS NULL AND end_date >= ? AND end_date < ?) AS leases_expiring_soon,
             (SELECT COUNT(*) FROM tenants WHERE property_id = p.id AND deleted_at IS NULL AND status = 'active') AS active_tenants
           FROM properties AS p
-          WHERE p.site_id = ?
+          WHERE p.site_id = ? AND p.deleted_at IS NULL
         `;
 
         const [results] = await mysql_db.execute(query, [
@@ -1544,8 +1597,70 @@ app.delete(
   }
 );
 
+  // Delete a property (soft delete)
+  app.delete(
+    `${PREFIX}/:id`,
+    jwtMiddleware,
+    acl([
+      "property_owner",
+      "property_manager",
+      "property_coordinator",
+    ]),
+    async (req, res) => {
+      const propertyId = req.params.id;
+      const site_id = req.user.site_id;
 
+      const connection = await mysql_db.getConnection();
 
+      try {
+        // Verify property exists and belongs to the site
+        const [existing] = await connection.query(
+          `SELECT id FROM properties WHERE id = ? AND site_id = ? AND deleted_at IS NULL`,
+          [propertyId, site_id]
+        );
+
+        if (existing.length === 0) {
+          return res.status(404).json({
+            status: "FAILED",
+            description: "Property not found or already deleted",
+          });
+        }
+
+        const stamp = moment().format("YYYY-MM-DD HH:mm:ss");
+
+        await connection.beginTransaction();
+
+        // Soft delete the property
+        await connection.query(
+          `UPDATE properties SET deleted_at = ? WHERE id = ? AND site_id = ?`,
+          [stamp, propertyId, site_id]
+        );
+
+        // Soft delete associated units
+        await connection.query(
+          `UPDATE units SET deleted_at = ? WHERE property_id = ? AND site_id = ? AND deleted_at IS NULL`,
+          [stamp, propertyId, site_id]
+        );
+
+        await connection.commit();
+
+        return res.status(200).json({
+          status: "OK",
+          description: "Property deleted successfully",
+        });
+      } catch (error) {
+        await connection.rollback();
+        console.error("Error deleting property:", error);
+
+        return res.status(500).json({
+          status: "FAILED",
+          description: "Server Error: Failed to delete property",
+        });
+      } finally {
+        connection.release();
+      }
+    }
+  );
 
 
 

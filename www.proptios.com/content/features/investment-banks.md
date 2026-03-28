@@ -1,34 +1,19 @@
 ---
-title : 'Investment Banks'
-date : 2024-07-29T23:47:38+06:00
+title: 'Lease & Tenant Records'
+date: 2024-07-29T23:47:38+06:00
 logo: "images/services/investment.svg"
 logoDark: "images/services/investment-dark.svg"
-excerpt: "Until recently, the prevailing view asumed lorem ipsum was born as nonsense text."
+excerpt: "Keep every lease, tenant profile, move-in date, and renewal deadline in one place."
 ---
 
-Lorem ipsum dolor sit amet consectetur. Nullam blandit dui gravida aliquam enim eu. Adipiscing viverra vulputate curabitur est.
+proptiOS gives your team a single operating record for every unit, lease, and tenant. Instead of hunting through spreadsheets and inboxes, your staff can open one record and see current terms, payment status, renewal timing, and key documents.
 
-Morbi lorem proin morbi tempor risus. Nisl lobortis diam id faucibus pretium vitae suspendisse sed accumsan. Sodales morbi tristique elit cursus gravida. Ullamcorper commodo eget pulvinar pretium. Condimentum rhoncus commodo amet nec auctor nibh vel mi blandit.
+### What this helps you manage
 
-Neque ultrices nunc condimentum morbi risus tincidunt. Vel arcu lacus non ornare. Porttitor in rhoncus magna augue adipiscing.
+- Lease terms, rent schedules, and renewal dates
+- Tenant contact details and account history
+- Shared visibility for office, finance, and field teams
 
-![service images](/images/services/service-single1.png)
-### What to Expect
-Morbi lorem proin morbi tempor risus. Nisl lobortis diam id faucibus pretium vitae suspendisse sed accumsan. Sodales morbi tristique elit cursus gravida. Ullamcorper commodo eget pulvinar pretium. Condimentum rhoncus commodo amet nec auctor nibh vel mi blandit.
+### Why it matters
 
-Neque ultrices nunc condimentum morbi risus tincidunt. Vel arcu lacus non ornare. Porttitor in rhoncus magna augue adipiscing.
-
-- It’s scalable and secure
-- Artificial Intelligence Feature
-- Offline version available
-
-{{< serviceVideo imgURL="images/services/video-bg.png" videoURL="https://www.youtube.com/embed/YE7VzlLtp-4?si=XvNRN6ztByvZQzqh" >}}
-
-### Qualifications & Requirements
-Morbi lorem proin morbi tempor risus. Nisl lobortis diam id faucibus pretium vitae suspendisse sed accumsan. Sodales morbi tristique elit cursus gravida. Ullamcorper commodo eget pulvinar pretium. Condimentum rhoncus commodo amet nec auctor nibh vel mi blandit.
-
-Neque ultrices nunc condimentum morbi risus tincidunt. Vel arcu lacus non ornare. Porttitor in rhoncus magna augue adipiscing.
-
-- It’s scalable and secure
-- Artificial Intelligence Feature
-- Offline version available
+Clean records reduce avoidable mistakes. Teams spend less time chasing updates, handing work off between departments, or rebuilding context before acting on a tenant issue.

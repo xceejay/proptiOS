@@ -8,6 +8,7 @@ author: Kristin Watson
 categories: "Acounting"
 tags: Acounting
 
+draft: true
 ---
 
 Lorem ipsum dolor sit amet consectetur. Nullam blandit dui gravida aliquam enim eu. Adipiscing viverra vulputate curabitur est.

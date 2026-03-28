@@ -188,8 +188,8 @@ const CrmRevenueGrowth = ({ DashData }) => {
                 color='success'
                 label={
                   transactionCategories.length !== 0
-                    ? '% ' + averageMonthlyPercentageChange(transactionCategories).averageChange
-                    : '0+%'
+                    ? averageMonthlyPercentageChange(transactionCategories).averageChange + '%'
+                    : '0%'
                 }
               />
             </div>

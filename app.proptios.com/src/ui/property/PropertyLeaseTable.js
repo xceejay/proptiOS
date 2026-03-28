@@ -268,13 +268,13 @@ const PropertyLeaseTable = ({ setPropertyData, propertyData }) => {
             <Grid container spacing={6}>
               <Grid size={12} sm={6}>
                 <FormControl fullWidth>
-                  <InputLabel id='invoice-status-select'>Invoice Status</InputLabel>
+                  <InputLabel id='lease-status-select'>Lease Status</InputLabel>
 
                   <Select
                     fullWidth
                     value={statusValue}
                     sx={{ mr: 4, mb: 2 }}
-                    label='Invoice Status'
+                    label='Lease Status'
                     onChange={handleStatusValue}
                     labelId='invoice-status-select'
                   >

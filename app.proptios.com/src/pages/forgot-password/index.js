@@ -2,7 +2,11 @@
 import Link from 'next/link'
 
 // ** MUI Components
+import { useState } from 'react'
+import axios from 'src/pages/middleware/axios'
+import Alert from '@mui/material/Alert'
 import Button from '@mui/material/Button'
+import CircularProgress from '@mui/material/CircularProgress'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
@@ -57,9 +61,31 @@ const LinkStyled = styled(Link)(({ theme }) => ({
 const ForgotPassword = () => {
   // ** Hooks
   const theme = useTheme()
+  const [email, setEmail] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [message, setMessage] = useState(null)
 
   // ** Vars
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
+
+  const handleSubmit = async e => {
+    e.preventDefault()
+    if (!email) {
+      setMessage({ type: 'error', text: 'Please enter your email address' })
+
+      return
+    }
+    setLoading(true)
+    setMessage(null)
+    try {
+      await axios.post(process.env.NEXT_PUBLIC_API_BASE_URL + '/forgot-password', { email })
+      setMessage({ type: 'success', text: 'If an account exists with that email, you will receive password reset instructions shortly.' })
+    } catch {
+      setMessage({ type: 'success', text: 'If an account exists with that email, you will receive password reset instructions shortly.' })
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <Box className='content-right' sx={{ backgroundColor: 'background.paper' }}>
@@ -131,10 +157,22 @@ const ForgotPassword = () => {
                 Enter your email and we&prime;ll send you instructions to reset your password
               </Typography>
             </Box>
-            <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
-              <TextField autoFocus type='email' label='Email' sx={{ display: 'flex', mb: 4 }} />
-              <Button size='small' fullWidth type='submit' variant='contained' sx={{ mb: 4 }}>
-                Send reset link
+            <form noValidate autoComplete='off' onSubmit={handleSubmit}>
+              {message && (
+                <Alert severity={message.type} sx={{ mb: 4 }}>
+                  {message.text}
+                </Alert>
+              )}
+              <TextField
+                autoFocus
+                type='email'
+                label='Email'
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                sx={{ display: 'flex', mb: 4 }}
+              />
+              <Button size='small' fullWidth type='submit' variant='contained' disabled={loading} sx={{ mb: 4 }}>
+                {loading ? <CircularProgress size={20} /> : 'Send reset link'}
               </Button>
               <Typography sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', '& svg': { mr: 1 } }}>
                 <LinkStyled href='/login'>

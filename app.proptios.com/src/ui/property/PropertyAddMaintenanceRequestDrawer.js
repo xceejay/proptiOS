@@ -74,10 +74,12 @@ const PropertyAddMaintenanceRequestDrawer = props => {
       .mixed()
       .nullable()
       .test('fileSize', 'File size should be less than 50MB', value => {
-        return value && value.size <= FILE_SIZE_LIMIT
+        if (!value) return true
+        return value.size <= FILE_SIZE_LIMIT
       })
       .test('fileFormat', 'Unsupported file format', value => {
-        return value && SUPPORTED_FORMATS.includes(value.type)
+        if (!value) return true
+        return SUPPORTED_FORMATS.includes(value.type)
       })
   })
 

@@ -121,7 +121,7 @@ const CustomSettlementToolbar = props => {
                   value={statusValue}
                   sx={{ mr: 4 }}
                   size='small'
-                  label='Invoice Status'
+                  label='Status'
                   onChange={handleStatusValue}
                   labelId='invoice-status-select'
                 >

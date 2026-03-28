@@ -49,7 +49,7 @@ const RowOptions = ({ id, row, stopPropagation, setTenantsData, tenantsData, set
   }
 
   const handleDisable = () => {
-    if (typeof tenants.DisableUser !== 'function') {
+    if (typeof tenants.disableTenant !== 'function') {
       toast.error('Tenant account suspension is not wired for this frontend yet.', {
         duration: 5000
       })
@@ -59,19 +59,16 @@ const RowOptions = ({ id, row, stopPropagation, setTenantsData, tenantsData, set
     }
 
     setLoading(true)
-    tenants.DisableUser(
-      { email: row.email },
+    tenants.disableTenant(
+      id,
       responseData => {
-        let { data } = responseData
         setLoading(false)
 
-        if (data?.status === 'NO_RES') {
-          console.log('NO results')
-        } else if (data?.status === 'FAILED') {
-          alert(data.description || 'Failed to disable user')
-          toast.error(data.description || 'Unknown error occurred', {
+        if (responseData?.status === 'FAILED') {
+          toast.error(responseData.description || 'Unknown error occurred', {
             duration: 5000
           })
+
           return
         }
 
@@ -81,13 +78,14 @@ const RowOptions = ({ id, row, stopPropagation, setTenantsData, tenantsData, set
 
         setTenantsData(prevData => {
           const updatedItems = prevData.items.map(user =>
-            user.email === row.email ? { ...user, status: 'disabled' } : user
+            user.email === row.email ? { ...user, status: 'inactive' } : user
           )
 
           return { ...prevData, items: updatedItems }
         })
       },
       error => {
+        setLoading(false)
         toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
           duration: 5000
         })
@@ -97,7 +95,7 @@ const RowOptions = ({ id, row, stopPropagation, setTenantsData, tenantsData, set
   }
 
   const handleEnable = () => {
-    if (typeof tenants.EnableUser !== 'function') {
+    if (typeof tenants.enableTenant !== 'function') {
       toast.error('Tenant account activation is not wired for this frontend yet.', {
         duration: 5000
       })
@@ -107,19 +105,16 @@ const RowOptions = ({ id, row, stopPropagation, setTenantsData, tenantsData, set
     }
 
     setLoading(true)
-    tenants.EnableUser(
-      { email: row.email },
+    tenants.enableTenant(
+      id,
       responseData => {
-        let { data } = responseData
         setLoading(false)
 
-        if (data?.status === 'NO_RES') {
-          console.log('NO results')
-        } else if (data?.status === 'FAILED') {
-          alert(data.description || 'Failed to disable user')
-          toast.error(data.description || 'Unknown error occurred', {
+        if (responseData?.status === 'FAILED') {
+          toast.error(responseData.description || 'Unknown error occurred', {
             duration: 5000
           })
+
           return
         }
 
@@ -136,7 +131,54 @@ const RowOptions = ({ id, row, stopPropagation, setTenantsData, tenantsData, set
         })
       },
       error => {
+        setLoading(false)
         toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
+          duration: 5000
+        })
+      }
+    )
+    handleRowOptionsClose()
+  }
+
+  const handleResendInvite = () => {
+    if (typeof tenants.resendInvite !== 'function') {
+      toast.error('Tenant invitation resending is not wired for this frontend yet.', {
+        duration: 5000
+      })
+      handleRowOptionsClose()
+
+      return
+    }
+
+    setLoading(true)
+    tenants.resendInvite(
+      id,
+      responseData => {
+        setLoading(false)
+
+        if (responseData?.status === 'FAILED') {
+          toast.error(responseData.description || 'Failed to resend invite', {
+            duration: 5000
+          })
+
+          return
+        }
+
+        toast.success(`Invitation resent to ${row.email}`, {
+          duration: 5000
+        })
+
+        setTenantsData(prevData => {
+          const updatedItems = prevData.items.map(tenant =>
+            tenant.id === id ? { ...tenant, email_invitation_status: 'resent' } : tenant
+          )
+
+          return { ...prevData, items: updatedItems }
+        })
+      },
+      error => {
+        setLoading(false)
+        toast.error(error.response?.data?.description || 'Failed to resend invite', {
           duration: 5000
         })
       }
@@ -226,17 +268,26 @@ const RowOptions = ({ id, row, stopPropagation, setTenantsData, tenantsData, set
           Edit
         </MenuItem>
 
-        <MenuItem onClick={handleEnable} disabled={typeof tenants.EnableUser !== 'function'} sx={{ '& svg': { mr: 2 } }}>
+        <MenuItem
+          onClick={handleResendInvite}
+          disabled={row.email_invitation_status === 'accepted'}
+          sx={{ '& svg': { mr: 2 } }}
+        >
+          <Icon icon='tabler:mail-forward' fontSize={20} />
+          {row.email_invitation_status === 'accepted' ? 'Invite Accepted' : 'Resend Invite'}
+        </MenuItem>
+
+        <MenuItem onClick={handleEnable} disabled={typeof tenants.enableTenant !== 'function'} sx={{ '& svg': { mr: 2 } }}>
           <Icon icon='tabler:user-check' fontSize={20} />
-          {typeof tenants.EnableUser === 'function' ? 'Enable Account' : 'Enable Account (Unavailable)'}
+          {typeof tenants.enableTenant === 'function' ? 'Enable Account' : 'Enable Account (Unavailable)'}
         </MenuItem>
         <MenuItem
           onClick={handleDisable}
-          disabled={typeof tenants.DisableUser !== 'function'}
+          disabled={typeof tenants.disableTenant !== 'function'}
           sx={{ '& svg': { mr: 2 } }}
         >
           <Icon icon='tabler:user-x' fontSize={20} />
-          {typeof tenants.DisableUser === 'function' ? 'Disable Account' : 'Disable Account (Unavailable)'}
+          {typeof tenants.disableTenant === 'function' ? 'Disable Account' : 'Disable Account (Unavailable)'}
         </MenuItem>
 
         <MenuItem onClick={handleDelete} sx={{ '& svg': { mr: 2 } }}>
@@ -428,7 +479,7 @@ const TenantManageTable = () => {
   const toggleAddUserDrawer = () => setAddUserOpen(!addUserOpen)
 
   // Filter tenants based on search value and status
-  const filteredTenants = tenantsData.items.filter(
+  const filteredTenants = (tenantsData?.items || []).filter(
     tenant =>
       ((tenant.name?.toLowerCase() || '').includes(value.toLowerCase()) ||
         (tenant.email?.toLowerCase() || '').includes(value.toLowerCase()) ||

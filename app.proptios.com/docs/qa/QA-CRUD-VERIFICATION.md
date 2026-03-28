@@ -1,5 +1,7 @@
 # proptiOS CRUD Verification Matrix
 
+> Historical verification matrix. The active live tracker is now [MASTER-EXECUTION-TRACKER.md](/home/joel/personal/projects/proptiOS/app.proptios.com/docs/product/MASTER-EXECUTION-TRACKER.md). Keep this file for evidence and route-level detail, but avoid using it as the sole current-status source.
+
 _Last updated: 2026-03-24 (third pass)_
 
 ## Status Legend

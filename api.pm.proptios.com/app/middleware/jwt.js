@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const accessTokenSecret = "1234";
+const { getRequestedSiteHost, siteMatchesRequest } = require("../services/site_access");
 
 const jwtMiddleware = (req, res, next) => {
   function tokenExpired(token) {
@@ -67,6 +68,13 @@ const jwtMiddleware = (req, res, next) => {
       return res.status(403).json({
         status: "FAILED",
         description: "Unable to verify Credentials",
+      });
+    }
+    const requestedSiteHost = getRequestedSiteHost(req);
+    if (!siteMatchesRequest(user.site_id, requestedSiteHost)) {
+      return res.status(403).json({
+        status: "FAILED",
+        description: "User does not belong to the requested site",
       });
     }
     req.user = user;

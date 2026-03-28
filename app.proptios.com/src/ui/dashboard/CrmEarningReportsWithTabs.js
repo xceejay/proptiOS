@@ -225,7 +225,7 @@ const CrmEarningReportsWithTabs = ({ DashData }) => {
       showForNullSeries: false,
       labels: {
         offsetX: -5,
-        formatter: val => (val > 999 ? `$${val / 1000}k ` : val),
+        formatter: val => (!Number.isFinite(val) ? '$0' : val > 999 ? `$${(val / 1000).toFixed(0)}k` : `$${val}`),
         style: {
           fontSize: '12px',
           colors: theme.palette.text.disabled,

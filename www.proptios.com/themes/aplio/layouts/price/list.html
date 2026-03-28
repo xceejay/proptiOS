@@ -1,6 +1,5 @@
 {{ define "main"}}
 {{ partial "global/pricing.html" (dict "context" . "largeTitle" "true" "pricingDescription" "true" "spacing" "max-lg:pt-150 pt-[240px] mb-150 max-md:mb-25")}}
-{{ partial "global/counter.html" . }}
 <section class="  relative py-150 max-md:mt-15">
   <div class="container relative z-10">
     {{range .Params.whyChooseUs}}

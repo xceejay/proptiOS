@@ -1,14 +1,14 @@
 baseURL = 'https://proptios.com/'
 languageCode = 'en-us'
 pagination.pageSize = 6
-title = 'proptiOS'
+title = 'proptiOS - Property Management Software'
 theme= 'aplio'
 
 [taxonomies]
   category = 'categories'
   tag = 'tags'
-  
-  
+
+
 [menus]
   # Main Menu
   [[menus.main]]
@@ -16,177 +16,96 @@ theme= 'aplio'
     identifier = "home"
     pageRef = ""
     weight = 1
- 
-    [[menus.main]]
+
+  [[menus.main]]
     name = "Features"
     identifier = "features"
     pageRef = "/features"
     weight = 2
-   
- 
-    [[menus.main]]
-    name = "Resources"
-    identifier = "pages"
-    pageRef = ""
-    weight = 4
-      [[menus.main]]
-          name = "Team"
-          pageRef  = "/team"
-          parent = "pages"
-          weight = 41
-      [[menus.main]]
-          name = "Team Members"
-          pageRef  = "/team/jacob-jones/"
-          parent = "pages"
-          weight = 42
-      [[menus.main]]
-          name = "Career"
-          pageRef  = "/career"
-          parent = "pages"
-          weight = 43
-      [[menus.main]]
-          name = "Career Details"
-          pageRef  = "/career/webflow-developer"
-          parent = "pages"
-          weight = 44
-      
-      [[menus.main]]
-          name = "Integration"
-          pageRef  = "/integration"
-          parent = "pages"
-          weight = 46
 
-          
-      [[menus.main]]
-          name = "Testimonial"
-          pageRef  = "/testimonial"
-          parent = "pages"
-          weight = 47
-      [[menus.main]]
-          name = "FAQ"
-          pageRef  = "/faq"
-          parent = "pages"
-          weight = 48
-      [[menus.main]]
-          name = "Log In"
-          pageRef  = "/login"
-          parent = "pages"
-          weight = 49
-      [[menus.main]]
-
-           name = "Blog Grid"
-          pageRef  = "/blog"
-          parent = "pages"
-          weight = 50
-      [[menus.main]]
-          name = "Sign Up"
-          pageRef  = "/signup"
-          parent = "pages"
-          weight = 440
-
-[[menus.main]]
-          name = "Pricing"
-          pageRef  = "/price"
-          parent = "pages"
-          weight = 6
-
-[[menus.main]]
-name = "Contact Us"
-identifier = "contact"
-pageRef  = "/contact"
-weight = 7
-        
-        
-        
-    [[menus.explore]]
-    name = "About"
-    identifier = "about"
-    pageRef = "/about"
-    weight = 1 
-    [[menus.explore]]
-    name = "Payment"
-    identifier = "payment"
-    pageRef = "/home-3"
-    weight = 2
-    [[menus.explore]]
-    name = "Analytics"
-    identifier = "analytics"
-    pageRef = "/home-4"
-    weight = 3
-    [[menus.explore]]
-    name = "Hosting"
-    identifier = "hosting"
-    pageRef = "/home-5"
-    weight = 4
-    [[menus.explore]]
+  [[menus.main]]
     name = "Pricing"
     identifier = "pricing"
     pageRef = "/price"
-    weight = 5
-    [[menus.explore]]
-    name = "Testimonials"
-    identifier = "testimonial"
-    pageRef = "/testimonial"
-    weight = 6
-    [[menus.explore]]
-    name = "FAQ's"
+    weight = 3
+
+  [[menus.main]]
+    name = "About"
+    identifier = "about"
+    pageRef = "/about"
+    weight = 4
+
+  [[menus.main]]
+    name = "FAQ"
     identifier = "faq"
     pageRef = "/faq"
-    weight = 7
-    
-    
-    
-    [[menus.resources]]
+    weight = 5
+
+  [[menus.main]]
+    name = "Contact"
+    identifier = "contact"
+    pageRef = "/contact"
+    weight = 6
+
+  # Footer "Explore" column
+  [[menus.explore]]
+    name = "About"
+    identifier = "about"
+    pageRef = "/about"
+    weight = 1
+  [[menus.explore]]
     name = "Features"
     identifier = "features"
     pageRef = "/features"
-    weight = 1 
-    [[menus.resources]]
-    name = "Team"
-    identifier = "team"
-    pageRef = "/team"
     weight = 2
-    [[menus.resources]]
-    name = "Integration"
-    identifier = "integration"
-    pageRef = "/integration"
+  [[menus.explore]]
+    name = "Pricing"
+    identifier = "pricing"
+    pageRef = "/price"
     weight = 3
-    [[menus.resources]]
-    name = "Blog"
-    identifier = "blog"
-    pageRef = "/blog"
+  [[menus.explore]]
+    name = "FAQ"
+    identifier = "faq"
+    pageRef = "/faq"
     weight = 4
-    [[menus.resources]]
-    name = "Career"
-    identifier = "career"
-    pageRef = "/career"
+  [[menus.explore]]
+    name = "Contact"
+    identifier = "contact"
+    pageRef = "/contact"
     weight = 5
-    [[menus.resources]]
-    name = "Log In"
-    identifier = "login"
-    pageRef = "/login"
-    weight = 6
-    [[menus.resources]]
-    name = "Sign Up"
-    identifier = "signup"
-    pageRef = "/signup"
-    weight = 7
-  
+
+  # Footer "Resources" column
+  [[menus.resources]]
+    name = "Privacy Policy"
+    identifier = "privacy"
+    pageRef = "/privacy-policy"
+    weight = 1
+  [[menus.resources]]
+    name = "Terms of Service"
+    identifier = "terms"
+    pageRef = "/terms"
+    weight = 2
+  [[menus.resources]]
+    name = "Request a Demo"
+    identifier = "demo"
+    pageRef = "/request-demo"
+    weight = 3
+
 [params]
   logo = "images/logo.svg"
   logoDark = "images/logo-light.svg"
   siteLogoText = "proptiOS"
-  footerDescription = "Turpis tortor nunc sed amet et faucibus vitae morbi congue sed id mauris."
-  copyright = "@ { year } Aplio. All Rights Reserved"
-  contactMail = "info@example.com"
-  contactNumber = "+391 35 2568 4593"
-  contactAddress = "2464 Royal Ln. Mesa, New Jersey 45463"
-  facebookLink= "#"
-  linkedinLink= "#"
-  githubLink= "#"
-  behanceLink= "#"
-  
-  
+  footerDescription = "Property management software that handles the operational grind so your team can focus on the portfolio."
+  copyright = "@ {year} proptiOS. All Rights Reserved"
+  contactMail = "hello@proptios.com"
+  contactNumber = ""
+  contactAddress = ""
+  facebookLink= ""
+  linkedinLink= "https://linkedin.com/company/proptios"
+  githubLink= ""
+  behanceLink= ""
+
+
 [module]
   [module.hugoVersion]
     extended = false

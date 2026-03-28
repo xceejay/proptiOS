@@ -1,48 +1,50 @@
 ---
-title : 'Choose the right plan for your business'
+title : 'Pricing that scales with your portfolio'
 date : 2024-08-01T00:20:22+06:00
-tagline: Our Pricing
-description: Until recently, the prevailing view assumed lorem ipsum was born as a nonsense text. It's not Latin, though it looks like it
+tagline: Pricing
+description: Simple pricing based on the size of your portfolio. No per-user fees. No hidden costs.
 
 priceCard:
-  - type: Basic
-    details: The prevailing view assumed lorem ipsum was born as a nonsense text.
+  - type: Starter
+    details: For small portfolios getting organized.
     featured: false
-    discountValue: 
-    monthlyPrice: 19  
-    yearlyPrice: 230
+    discountValue:
+    monthlyPrice: 0
+    yearlyPrice: 0
     feature:
-      - Track income & expenses
-      - Send custom invoices & quotes
-      - Connect your bank
-      - Insights & reports
-  - type: Standard
-    details: The prevailing view assumed lorem ipsum was born as a nonsense text.
+      - Up to 10 units
+      - Lease management
+      - Rent tracking
+      - Basic reporting
+  - type: Growth
+    details: For growing teams managing multiple properties.
     featured: true
-    discountValue: 40
-    monthlyPrice: 32  
-    yearlyPrice: 300
+    discountValue: 20
+    monthlyPrice: 49
+    yearlyPrice: 470
     feature:
-      - Track income & expenses
-      - Send custom invoices & quotes
-      - Connect your bank
-      - Insights & reports
-  - type: Premium
-    details: The prevailing view assumed lorem ipsum was born as a nonsense text.
+      - Up to 100 units
+      - Automated workflows
+      - Financial reconciliation
+      - Maintenance tracking
+      - Priority support
+  - type: Portfolio
+    details: For operators managing large or multi-market portfolios.
     featured: false
-    discountValue: 
-    monthlyPrice: 48  
-    yearlyPrice: 450
+    discountValue:
+    monthlyPrice: 149
+    yearlyPrice: 1430
     feature:
-      - Track income & expenses
-      - Send custom invoices & quotes
-      - Connect your bank
-      - Insights & reports
-whyChooseUs: 
-  - title: Control the flow of <br /> money easily
+      - Unlimited units
+      - Custom workflows
+      - API access
+      - Dedicated account manager
+      - Advanced reporting
+whyChooseUs:
+  - title: Pay for units, not users
     tagline: WHY CHOOSE US
-    details: Until recently, the prevailing view assumed lorem ipsum was born as a nonsense text nothing Before & After magazine.
-    listItem1: It’s scalable and secure
-    listItem2: Artificial Intelligence Feature
-    listItem3: Offline version available
+    details: Add your entire team without per-seat fees. proptiOS pricing is based on portfolio size, so you can scale your team without scaling your bill.
+    listItem1: No per-user fees
+    listItem2: 14-day free trial on all plans
+    listItem3: Cancel anytime
 ---

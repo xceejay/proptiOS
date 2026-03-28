@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 
 // ** Axios
 import axios from 'src/pages/middleware/axios'
+import { getStoredAccessToken } from 'src/utils/authStorage'
 
 // ** Config
 
@@ -44,7 +45,7 @@ const PropertiesProvider = ({ children }) => {
   const router = useRouter()
 
   useEffect(() => {
-    const storedToken = window.localStorage.getItem('accessToken')
+    const storedToken = getStoredAccessToken()
     if (storedToken) {
       setAccessToken(storedToken)
       console.log('Properties Context accessToken Set')
@@ -53,7 +54,7 @@ const PropertiesProvider = ({ children }) => {
 
   // Function for getting properties
   const getProperties = (params, successCallback, errorCallback) => {
-    const token = window.localStorage.getItem('accessToken') || accessToken
+    const token = getStoredAccessToken() || accessToken
 
     if (!token) {
       const error = new Error('No access token found')
@@ -82,7 +83,7 @@ const PropertiesProvider = ({ children }) => {
 
   // get all properties and all its data
   const getAllProperties = (params, successCallback, errorCallback) => {
-    const token = window.localStorage.getItem('accessToken') || accessToken
+    const token = getStoredAccessToken() || accessToken
 
     if (!token) {
       const error = new Error('No access token found')
@@ -111,7 +112,7 @@ const PropertiesProvider = ({ children }) => {
 
   // Function for getting a single property
   const getProperty = (id, successCallback, errorCallback) => {
-    const token = window.localStorage.getItem('accessToken') || accessToken
+    const token = getStoredAccessToken() || accessToken
 
     if (!token) {
       const error = new Error('No access token found')
@@ -138,7 +139,7 @@ const PropertiesProvider = ({ children }) => {
 
   // Function for adding a property
   const addProperties = (data, successCallback, errorCallback) => {
-    const token = window.localStorage.getItem('accessToken') || accessToken
+    const token = getStoredAccessToken() || accessToken
 
     if (!token) {
       const error = new Error('No access token found')
@@ -167,7 +168,7 @@ const PropertiesProvider = ({ children }) => {
 
   // Function for deleting a property
   const deleteProperties = (id, successCallback, errorCallback) => {
-    const token = window.localStorage.getItem('accessToken') || accessToken
+    const token = getStoredAccessToken() || accessToken
 
     if (!token) {
       const error = new Error('No access token found')
@@ -185,7 +186,16 @@ const PropertiesProvider = ({ children }) => {
       .then(response => {
         if (successCallback) {
           successCallback(response.data)
-          setProperties(prevProperties => prevProperties.filter(property => property.id !== id))
+          setProperties(prevProperties => {
+            if (Array.isArray(prevProperties)) {
+              return prevProperties.filter(property => property.id !== id)
+            }
+            if (prevProperties && Array.isArray(prevProperties.data)) {
+              return { ...prevProperties, data: prevProperties.data.filter(property => property.id !== id) }
+            }
+
+            return prevProperties
+          })
         }
       })
       .catch(err => {
@@ -195,7 +205,7 @@ const PropertiesProvider = ({ children }) => {
 
   // Function for adding units
   const addUnits = (data, successCallback, errorCallback) => {
-    const token = window.localStorage.getItem('accessToken') || accessToken
+    const token = getStoredAccessToken() || accessToken
 
     if (!token) {
       const error = new Error('No access token found')
@@ -222,7 +232,7 @@ const PropertiesProvider = ({ children }) => {
 
   // Function for deleting units
   const deleteUnits = (id, successCallback, errorCallback) => {
-    const token = window.localStorage.getItem('accessToken') || accessToken
+    const token = getStoredAccessToken() || accessToken
 
     if (!token) {
       const error = new Error('No access token found')
@@ -248,7 +258,7 @@ const PropertiesProvider = ({ children }) => {
   }
 
   const editUnits = (data, successCallback, errorCallback) => {
-    const token = window.localStorage.getItem('accessToken') || accessToken
+    const token = getStoredAccessToken() || accessToken
 
     if (!token) {
       const error = new Error('No access token found')
@@ -274,7 +284,7 @@ const PropertiesProvider = ({ children }) => {
   }
 
   const editProperties = (data, successCallback, errorCallback) => {
-    const token = window.localStorage.getItem('accessToken') || accessToken
+    const token = getStoredAccessToken() || accessToken
 
     if (!token) {
       const error = new Error('No access token found')
@@ -300,7 +310,7 @@ const PropertiesProvider = ({ children }) => {
   }
 
   const addMaintenanceRequests = (data, successCallback, errorCallback) => {
-    const token = window.localStorage.getItem('accessToken') || accessToken
+    const token = getStoredAccessToken() || accessToken
 
     if (!token) {
       const error = new Error('No access token found')

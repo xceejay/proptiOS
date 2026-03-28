@@ -198,8 +198,8 @@ const PropertyViewMaintenance = ({ setPropertyData, propertyData }) => {
             statusColor = 'secondary'
             break
           default:
-            statusLabel = 'Unknown'
-            statusColor = 'secondary' // fallback color
+            statusLabel = 'Pending'
+            statusColor = 'warning'
         }
 
         return (

@@ -154,7 +154,7 @@ const CustomFinanceToolbar = props => {
                   value={statusValue}
                   sx={{ mr: 4 }}
                   size='small'
-                  label='Invoice Status'
+                  label='Status'
                   onChange={handleStatusValue}
                   labelId='invoice-status-select'
                 >
@@ -182,7 +182,7 @@ const CustomFinanceToolbar = props => {
                   value={paymentMethodValue}
                   sx={{ mr: 4 }}
                   size='small'
-                  label='Invoice Status'
+                  label='Payment Method'
                   onChange={handlePaymentMethodValue}
                   labelId='invoice-status-select'
                 >
@@ -210,7 +210,7 @@ const CustomFinanceToolbar = props => {
                   value={paymentTypeValue}
                   sx={{ mr: 4 }}
                   size='small'
-                  label='Invoice Status'
+                  label='Payment Type'
                   onChange={handlePaymentTypeValue}
                   labelId='invoice-status-select'
                 >

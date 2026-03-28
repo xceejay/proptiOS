@@ -10,6 +10,7 @@ linkedInLink: 'linkedin'
 image: '/images/team/team5.png'
 email: 'team@gmail.com'
 phone: '+3 230 705 5448'
+draft: true
 ---
 Lorem ipsum dolor sit amet consectetur. Nullam blandit dui gravida aliquam enim eu. Adipiscing viverra vulputate curabitur est.
  

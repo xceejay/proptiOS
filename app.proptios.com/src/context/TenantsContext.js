@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 
 // ** Axios
 import axios from 'src/pages/middleware/axios'
+import { getStoredAccessToken } from 'src/utils/authStorage'
 
 // ** Config
 
@@ -21,6 +22,9 @@ const defaultProvider = {
   addTenants: () => Promise.resolve(),
   editTenants: () => Promise.resolve(),
   deleteTenants: () => Promise.resolve(),
+  resendInvite: () => Promise.resolve(),
+  enableTenant: () => Promise.resolve(),
+  disableTenant: () => Promise.resolve(),
   tenant: null,
   setTenants: () => {},
   setTenant: () => {},
@@ -40,7 +44,7 @@ const TenantsProvider = ({ children }) => {
   const router = useRouter()
 
   useEffect(() => {
-    const storedToken = window.localStorage.getItem('accessToken')
+    const storedToken = getStoredAccessToken()
     if (storedToken) {
       setAccessToken(storedToken)
       console.log('Tenants Context accessToken Set')
@@ -49,7 +53,7 @@ const TenantsProvider = ({ children }) => {
 
   // Function for getting tenants
   const getTenants = (params, successCallback, errorCallback) => {
-    const token = window.localStorage.getItem('accessToken') || accessToken
+    const token = getStoredAccessToken() || accessToken
 
     if (!token) {
       const error = new Error('No access token found')
@@ -78,7 +82,7 @@ const TenantsProvider = ({ children }) => {
 
   // Function for getting a single tenant
   const getTenant = (id, successCallback, errorCallback) => {
-    const token = window.localStorage.getItem('accessToken') || accessToken
+    const token = getStoredAccessToken() || accessToken
 
     if (!token) {
       const error = new Error('No access token found')
@@ -106,7 +110,7 @@ const TenantsProvider = ({ children }) => {
 
   // Function for adding tenants
   const addTenants = (data, successCallback, errorCallback) => {
-    const token = window.localStorage.getItem('accessToken') || accessToken
+    const token = getStoredAccessToken() || accessToken
 
     if (!token) {
       const error = new Error('No access token found')
@@ -168,7 +172,7 @@ const TenantsProvider = ({ children }) => {
 
   // Function for editing tenants
   const editTenants = (data, successCallback, errorCallback) => {
-    const token = window.localStorage.getItem('accessToken') || accessToken
+    const token = getStoredAccessToken() || accessToken
 
     if (!token) {
       const error = new Error('No access token found')
@@ -195,7 +199,7 @@ const TenantsProvider = ({ children }) => {
 
   // Function for deleting tenants
   const deleteTenants = (ids, successCallback, errorCallback) => {
-    const token = window.localStorage.getItem('accessToken') || accessToken
+    const token = getStoredAccessToken() || accessToken
 
     if (!token) {
       const error = new Error('No access token found')
@@ -223,6 +227,78 @@ const TenantsProvider = ({ children }) => {
       })
   }
 
+  const resendInvite = (tenantId, successCallback, errorCallback) => {
+    const token = getStoredAccessToken() || accessToken
+
+    if (!token) {
+      const error = new Error('No access token found')
+      if (errorCallback) errorCallback(error)
+
+      return
+    }
+
+    axios
+      .post(process.env.NEXT_PUBLIC_API_BASE_URL + `/tenants/${tenantId}/resend-invite`, null, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then(response => {
+        if (successCallback) successCallback(response.data)
+      })
+      .catch(err => {
+        if (errorCallback) errorCallback(err)
+      })
+  }
+
+  const enableTenant = (tenantId, successCallback, errorCallback) => {
+    const token = getStoredAccessToken() || accessToken
+
+    if (!token) {
+      const error = new Error('No access token found')
+      if (errorCallback) errorCallback(error)
+
+      return
+    }
+
+    axios
+      .post(process.env.NEXT_PUBLIC_API_BASE_URL + `/tenants/${tenantId}/enable`, null, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then(response => {
+        if (successCallback) successCallback(response.data)
+      })
+      .catch(err => {
+        if (errorCallback) errorCallback(err)
+      })
+  }
+
+  const disableTenant = (tenantId, successCallback, errorCallback) => {
+    const token = getStoredAccessToken() || accessToken
+
+    if (!token) {
+      const error = new Error('No access token found')
+      if (errorCallback) errorCallback(error)
+
+      return
+    }
+
+    axios
+      .post(process.env.NEXT_PUBLIC_API_BASE_URL + `/tenants/${tenantId}/disable`, null, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then(response => {
+        if (successCallback) successCallback(response.data)
+      })
+      .catch(err => {
+        if (errorCallback) errorCallback(err)
+      })
+  }
+
   const values = {
     tenants,
     tenant,
@@ -231,6 +307,9 @@ const TenantsProvider = ({ children }) => {
     addTenants,
     editTenants,
     deleteTenants,
+    resendInvite,
+    enableTenant,
+    disableTenant,
     loading,
     setLoading,
     setAccessToken,

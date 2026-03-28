@@ -133,7 +133,7 @@ const OnboardingSuccess = () => {
 
             <Box sx={{ my: 6 }}>
               <Typography sx={{ mb: 1.5, fontWeight: 500, fontSize: '1.625rem', lineHeight: 1.385 }}>
-                Welcome to MH🏠
+                Welcome to ProptiOS 🏠
               </Typography>
 
               <Typography sx={{ color: 'text.secondary' }}>
@@ -167,7 +167,7 @@ const OnboardingSuccess = () => {
               </LinkStyled>
 
               <Typography sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', '& svg': { mr: 1 } }}>
-                <LinkStyled href='http://proptios.com'>
+                <LinkStyled href='https://proptios.com'>
                   <Icon fontSize='1.25rem' icon='tabler:chevron-left' />
                   <span>Back to home</span>
                 </LinkStyled>
