@@ -62,7 +62,7 @@ It is a best-effort truth check against the current repository state.
 | Property rows should be clickable to property detail | Implemented | Property management grid row click routes to `/properties/manage/:id/`. Evidence: [PropertyManageTable.js](/home/joel/personal/projects/proptiOS/app.proptios.com/src/ui/property/PropertyManageTable.js) |
 | Show property type in properties datagrid | Implemented | Property type is used in property table/grid flows |
 | Show unit limit in properties datagrid | Not Implemented | I did not find a current UI column for subscription-driven unit limit in the property grid |
-| Dedicated unit detail page `/properties/${id}/unit/${id}` | Not Implemented | Units are currently handled inside property views; I did not find that route implemented |
+| Dedicated unit detail page `/properties/manage/${id}/unit/${id}` | Implemented | Units can now be opened from the property Units tab into a dedicated detail page that derives its unit, tenant, and lease details from the property payload. Evidence: [PropertyViewUnits.js](/home/joel/personal/projects/proptiOS/app.proptios.com/src/ui/property/PropertyViewUnits.js), [PropertyUnitDetail.js](/home/joel/personal/projects/proptiOS/app.proptios.com/src/ui/property/PropertyUnitDetail.js), [unit page](/home/joel/personal/projects/proptiOS/app.proptios.com/src/pages/properties/manage/[id]/unit/[unitId].js) |
 
 ---
 

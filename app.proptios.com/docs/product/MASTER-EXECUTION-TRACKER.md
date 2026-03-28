@@ -37,9 +37,11 @@ Older QA files in the repo are preserved as historical snapshots, but this docum
   - auto-creates the first default unit
   - enforces a minimum of 1 allocated unit
   - exposes default unit rent messaging in the add/edit drawers
+- Units now have a dedicated detail screen reachable from the property Units tab
 - New regression tests cover:
   - onboarding terms guard
   - fresh-account empty states
+  - dedicated unit detail navigation
 
 ### E2E reliability improvements
 
@@ -79,7 +81,6 @@ These are the safest items to implement next without a deeper architecture migra
 ### High-confidence near-term work
 
 - Clear immutable-field rules in UI/backend for specific records
-- Dedicated unit detail route and UI
 - Better request failure toasts across mutation flows
 - Richer property/unit/lease datagrid fields where backend data already exists
 

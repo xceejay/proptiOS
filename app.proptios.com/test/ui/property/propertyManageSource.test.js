@@ -29,6 +29,10 @@ describe('property management source contracts', () => {
       path.join(process.cwd(), 'src/ui/property/PropertyViewMaintenance.js'),
       'utf8'
     )
+    const unitDetailPageSource = fs.readFileSync(
+      path.join(process.cwd(), 'src/pages/properties/manage/[id]/unit/[unitId].js'),
+      'utf8'
+    )
 
     expect(existingTenantSource).toContain('tenants.editTenants(')
     expect(existingTenantSource).toContain("name='tenant'")
@@ -41,6 +45,8 @@ describe('property management source contracts', () => {
     expect(editPropertyDrawerSource).toContain("label='Default Unit Rent Amount'")
     expect(editPropertyDrawerSource).toContain('does not automatically overwrite existing unit rents')
     expect(unitsSource).toContain('Quick Suspend (Unavailable)')
+    expect(unitsSource).toContain('router.push(`/properties/manage/${propertyData.id}/unit/${row.id}`)')
+    expect(unitDetailPageSource).toContain('<PropertyUnitDetail propertyData={propertyData} loading={loading} />')
     expect(maintenanceSource).toContain('Quick Suspend (Unavailable)')
   })
 })

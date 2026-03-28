@@ -77,10 +77,41 @@ async function deleteFirstProperty(page) {
   return deletedName
 }
 
+async function deletePropertyByName(page, propertyName) {
+  const searchInput = page.getByPlaceholder('Search Properties')
+  await searchInput.click()
+  await searchInput.fill(propertyName)
+  await page.waitForTimeout(500)
+
+  const row = page.locator('[role="row"]', { hasText: propertyName }).first()
+  const isVisible = await row.isVisible({ timeout: 3000 }).catch(() => false)
+
+  if (!isVisible) {
+    await searchInput.clear()
+    return false
+  }
+
+  const deletePromise = page.waitForResponse(
+    res => res.url().includes('/properties') && res.request().method() === 'DELETE'
+  )
+
+  await row.locator('button:has(svg)').last().click()
+  await page.getByRole('menuitem', { name: 'Delete' }).click()
+  const deleteResp = await deletePromise
+  expect(deleteResp.status()).toBeLessThan(400)
+  await expect(page.getByText(/property deleted successfully/i)).toBeVisible({ timeout: 10000 })
+  await searchInput.clear()
+
+  return true
+}
+
 test.describe.serial('Properties CRUD', () => {
   test('SETUP — delete existing properties to make room for test data', async ({ page }) => {
     await page.goto('/properties/management')
     await page.locator('.MuiDataGrid-root').first().waitFor({ timeout: 15000 })
+
+     // Clean up any stale test property from a previous failed run/retry.
+    await deletePropertyByName(page, TEST_PROPERTY.name)
 
     // Delete 1 property to free a subscription slot (max 2) for our test property.
     // We only delete 1 so that at least 1 existing property remains for the leases test.
@@ -141,6 +172,27 @@ test.describe.serial('Properties CRUD', () => {
     await page.locator('.MuiDataGrid-root').first().waitFor({ timeout: 15000 })
 
     await expect(page.getByText('Unit 1')).toBeVisible({ timeout: 10000 })
+  })
+
+  test('READ — unit rows open the dedicated unit detail page', async ({ page }) => {
+    await page.goto('/properties/management')
+    await page.locator('.MuiDataGrid-root').first().waitFor({ timeout: 15000 })
+
+    const row = page.locator('[role="row"]', { hasText: TEST_PROPERTY.name })
+    await expect(row).toBeVisible({ timeout: 10000 })
+    await row.click()
+
+    await page.getByRole('tab', { name: /units/i }).click()
+    await page.locator('.MuiDataGrid-root').first().waitFor({ timeout: 15000 })
+
+    const unitRow = page.locator('[role="row"]', { hasText: 'Unit 1' }).first()
+    await expect(unitRow).toBeVisible({ timeout: 10000 })
+    await unitRow.click()
+
+    await expect(page).toHaveURL(/\/properties\/manage\/\d+\/unit\/\d+/, { timeout: 10000 })
+    await expect(page.getByRole('button', { name: /back to property units/i })).toBeVisible({ timeout: 10000 })
+    await expect(page.getByText('Unit Information')).toBeVisible({ timeout: 10000 })
+    await expect(page.getByText('Property Unit', { exact: true })).toBeVisible({ timeout: 10000 })
   })
 
   test('UPDATE — edit property address via row action menu', async ({ page }) => {
