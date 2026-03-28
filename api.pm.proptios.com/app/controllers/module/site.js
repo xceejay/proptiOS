@@ -6,6 +6,23 @@ const acl = require("../../middleware/acl");
 
 const PREFIX = "/site";
 
+// In-memory currency rate cache — keyed by currency code, expires after 1 hour.
+// Prevents N+1 HTTP calls to currency-api for every transaction on the dashboard.
+const currencyCache = new Map();
+const CURRENCY_CACHE_TTL = 60 * 60 * 1000; // 1 hour
+
+async function getExchangeRates(currencyCode) {
+  const now = Date.now();
+  const cached = currencyCache.get(currencyCode);
+  if (cached && now - cached.ts < CURRENCY_CACHE_TTL) {
+    return cached.data;
+  }
+  const url = `https://latest.currency-api.pages.dev/v1/currencies/${currencyCode}.json`;
+  const response = await axios.get(url, { timeout: 10000 });
+  currencyCache.set(currencyCode, { data: response.data, ts: now });
+  return response.data;
+}
+
 const routes = (app) => {
   app.get(
     "/properties",
@@ -111,7 +128,23 @@ const routes = (app) => {
           miscellaneous: [],
         };
 
-        // Step 3: Calculate total revenue and expenses based on all transactions
+        // Step 3: Pre-fetch exchange rates for all unique currencies (instead of per-transaction)
+        const uniqueCurrencies = [
+          ...new Set(allTransactions.map((t) => t.currency.toLowerCase())),
+        ];
+        const ratesByCurrency = {};
+        await Promise.all(
+          uniqueCurrencies.map(async (cur) => {
+            try {
+              ratesByCurrency[cur] = await getExchangeRates(cur);
+            } catch (err) {
+              console.error(`Failed to fetch rates for ${cur}:`, err.message);
+              ratesByCurrency[cur] = null;
+            }
+          })
+        );
+
+        // Step 4: Calculate totals and categorize using cached rates
         for (const transaction of allTransactions) {
           const transactionId = transaction.id;
           const transactionUUID = transaction.uuid;
@@ -122,21 +155,14 @@ const routes = (app) => {
           const transactionCurrency = transaction.currency.toLowerCase();
           const paymentType = transaction.payment_type;
 
-          // Fetch the exchange rate for each transaction's currency to the site's currency
-          const currencyAPIUrl = `https://latest.currency-api.pages.dev/v1/currencies/${transactionCurrency}.json`;
-          const currencyResponse = await axios.get(currencyAPIUrl);
-          const exchangeRates = currencyResponse.data;
-
-          // Get the conversion rate for the transaction's currency
+          const exchangeRates = ratesByCurrency[transactionCurrency];
           const conversionRate =
-            exchangeRates[transactionCurrency]?.[siteCurrency.toLowerCase()] ||
+            exchangeRates?.[transactionCurrency]?.[siteCurrency.toLowerCase()] ||
             1;
 
-          // Convert the transaction amount to the site's currency
           const convertedAmount = transactionAmount * conversionRate;
 
-          // Categorize the transaction as revenue or expense and store them in arrays
-          categorizedTransactions[paymentType].push({
+          const txRecord = {
             id: transactionId,
             uuid: transactionUUID,
             status: transactionStatus,
@@ -145,32 +171,19 @@ const routes = (app) => {
             currency: siteCurrency,
             payment_type: paymentType,
             created_at: transaction.created_at,
-          });
+          };
+
+          // Categorize the transaction as revenue or expense
+          if (categorizedTransactions[paymentType]) {
+            categorizedTransactions[paymentType].push(txRecord);
+          }
 
           if (paymentType === "rent" || paymentType === "management_fee") {
             totalRevenue += convertedAmount;
-            revenueTransactions.push({
-              id: transactionId,
-              uuid: transactionUUID,
-              status: transactionStatus,
-              payment_method: transactionPaymentMethod,
-              amount: convertedAmount.toFixed(2),
-              currency: siteCurrency,
-              payment_type: paymentType,
-              created_at: transaction.created_at,
-            });
+            revenueTransactions.push(txRecord);
           } else {
             totalExpenses += convertedAmount;
-            expenseTransactions.push({
-              id: transactionId,
-              uuid: transactionUUID,
-              status: transactionStatus,
-              payment_method: transactionPaymentMethod,
-              amount: convertedAmount.toFixed(2),
-              currency: siteCurrency,
-              payment_type: paymentType,
-              created_at: transaction.created_at,
-            });
+            expenseTransactions.push(txRecord);
           }
         }
 

@@ -15,11 +15,7 @@ app.use(helmet({
    ieNoOpen: false,
 }));
 // parsing the request body
-app.use(bodyParser.urlencoded({ extended: true, limit: '100mb'}));
-// app.use(bodyParser.json());
-
-
-// app.use(upload.array());
+app.use(bodyParser.urlencoded({ extended: true, limit: '10mb'}));
 
 // allow cross origin requests
 app.use(cors({
@@ -27,7 +23,7 @@ app.use(cors({
 }));
 
 // json body
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
 // custom middlewares
 middleware.setHeaders(app); 
 // core api code

@@ -6,7 +6,7 @@ function connection() {
       user: process.env.PMAPI_MYSQL_USER,
       password: process.env.PMAPI_MYSQL_PASS,
       database: process.env.PMAPI_MYSQL_DB,
-      connectionLimit: 5, // Adjust based on your needs
+      connectionLimit: 20,
       metaAsArray: true,
       bigIntAsNumber: true,
       allowPublicKeyRetrieval: true, // Add this option

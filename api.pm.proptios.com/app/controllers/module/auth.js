@@ -283,7 +283,8 @@ const routes = (app) => {
         let updateQuery =
           "UPDATE `pm_users` SET `password` = ? WHERE reset_password_code = ?;";
         try {
-          await mysql_db.execute(updateQuery, [bcrypt.hash(password, saltRounds), resetToken]);
+          const hashedPassword = await bcrypt.hash(password, saltRounds);
+          await mysql_db.execute(updateQuery, [hashedPassword, resetToken]);
           return res.status(200).json({
             status: "SUCCESS",
             description: "Password reset successful",
