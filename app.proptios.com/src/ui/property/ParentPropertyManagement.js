@@ -101,9 +101,6 @@ const ParentPropertyViewManagement = ({
                           </>
                         )}
                         <Typography sx={{ mt: 1 }} variant='body2' color='textSecondary'>
-                          {property.uuid}
-                        </Typography>
-                        <Typography sx={{ mt: 1 }} variant='body2' color='textSecondary'>
                           {property.description}
                         </Typography>
                         <Typography variant='body2' color='textSecondary'>

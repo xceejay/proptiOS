@@ -1,6 +1,6 @@
 # Master Execution Tracker
 
-_Last updated: 2026-03-28_
+_Last updated: 2026-03-28 (second pass)_
 
 This is the active source of truth for:
 
@@ -52,7 +52,7 @@ Older QA files in the repo are preserved as historical snapshots, but this docum
   - `Create an account`
   - `Forgot Password?`
 - Multi-tenant auth routing is now wired in source:
-  - shared login hosts (`app.proptios.com`, `staging.app.proptios.com`) can authenticate and then redirect the user into their site host
+  - shared login hosts (`app.proptios.com`, `app.staging.proptios.com`) can authenticate and then redirect the user into their site host
   - production tenant hosts use `<site>.proptios.com`; staging tenant hosts now use `<site>.staging.proptios.com`
   - legacy `staging.<site>.proptios.com` links are compatibility-only and no longer the canonical shape
   - tenant hosts send their active site host to the API
@@ -68,6 +68,34 @@ Older QA files in the repo are preserved as historical snapshots, but this docum
   - onboarding terms guard
   - fresh-account empty states
   - dedicated unit detail navigation
+
+### Dashboard and display fixes
+
+- Dashboard Earning Reports chart no longer shows `$Infinityk` on Y-axis — formatter now handles non-finite values and formats correctly
+- Dashboard Revenue Growth badge now shows `0%` instead of `% 0` — reversed format string fixed
+- Sidebar branding no longer shows `undefined` — falls back to `proptios.com` template name when site data is absent or invalid
+- Properties overview Total Applicants card no longer shows `NaN` — coerces missing applicant counts to `0`
+
+### Property management fixes
+
+- Property grid no longer exposes internal UUID below the property name — shows address or type instead
+- Property sidebar now refreshes after settings save without requiring a page reload — `name` field is now included in the update state
+- Property creation status no longer flickers `Inactive` before `Active` — new properties default to `active` status in the optimistic update
+- Property phone number now persists through create and settings save flows
+
+### Filter and label fixes
+
+- Filter dropdowns across finance, settlement, users, leases, and statements pages no longer all say `Invoice Status` — each now shows its correct context label (Status, Payment Method, Payment Type, etc.)
+- Audit log filter labels corrected from `Account Status` / `Invitation Status` to `Action Type` / `Status`
+- PropertyLeaseTable filter corrected from `Invoice Status` to `Lease Status`
+- Expenses tab now shows `Add Expense` instead of `Create Invoice`
+
+### Auth and onboarding fixes
+
+- Forgot password page now calls the backend `POST /forgot-password` endpoint and shows a success/error alert with loading state
+- Maintenance request status now defaults to `Pending` instead of `Unknown` for unrecognized status values
+- Verification page now says `Welcome to ProptiOS` instead of `Welcome to MH`
+- Verification page and help button now link to `https://proptios.com` instead of `http://proptios.com`
 
 ### E2E reliability improvements
 
@@ -85,29 +113,13 @@ These are the items that still look open or only partially verified.
 
 ### Open items from the 2026-03-28 staging walkthrough
 
-- Onboarding verification page is still non-functional
-- Maintenance request manage drawer is still view-only
-- Dashboard chart renders `$Infinityk`
-- Dashboard growth badge renders `% 0` instead of `0%`
-- Sidebar branding still shows `undefined`
-- Properties overview still shows `NaN` for total applicants
-- Invoice creation still uses hardcoded placeholder/demo data and disabled actions
-- Property phone number is still not persisting from create flow into settings
-- Forgot password flow still gives no visible success/error feedback
-- Maintenance request status still defaults to `Unknown`
-- Register currency dropdown still has the wrong accessible label
-- Several filter dropdowns still use the label `Invoice Status` regardless of context
-- Audit log filter labels are still wrong
-- Property grid still exposes internal UUID below the property name
-- Property sidebar still needs a refresh to show updated values after save
-- Property creation status still flickers `Inactive` before later showing `Active`
-- Expenses tab still uses `Create Invoice` wording
-- Verification page still says `Welcome to MH`
-- Verification page still links back to `http://proptios.com` instead of `https://proptios.com`
-- Console still shows recurring `/auth/me` and empty-user noise
-- Leases templates tab is still disabled with no explanation
-- Broadcast tab is still disabled with no explanation
-- Property marketing tab is still effectively empty
+- Onboarding verification page is still non-functional (CRIT-4)
+- Maintenance request manage drawer is still view-only (CRIT-5)
+- Invoice creation still uses hardcoded placeholder/demo data and disabled actions (MAJ-5)
+- Console still shows recurring `/auth/me` and empty-user noise (MIN-10)
+- Leases templates tab is still disabled with no explanation (MIN-11)
+- Broadcast tab is still disabled with no explanation (MIN-12)
+- Property marketing tab is still effectively empty (MIN-13)
 
 ### Backend-blocked or contract-blocked
 

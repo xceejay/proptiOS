@@ -117,7 +117,7 @@ const ParentPropertyViewOverview = ({ setPropertiesData, propertiesData }) => {
             }}>
             <Link prefetch={true} href='/properties/management' underline='none' color='inherit'>
               <CardStatsVertical
-                chipText={total(item => item.total_applicants)}
+                chipText={total(item => Number(item.total_applicants) || 0)}
                 avatarColor='info'
                 chipColor='default'
                 title='Total Applicants'

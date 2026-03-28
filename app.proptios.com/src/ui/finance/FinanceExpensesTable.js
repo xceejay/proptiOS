@@ -397,7 +397,7 @@ const FinanceExpensesTable = ({ financeData, errorMessage = '' }) => {
 
                 // title: 'All Transactions',
                 searchPlaceholder: 'Quick Search',
-                addText: 'Create Invoice',
+                addText: 'Add Expense',
                 value: value,
                 handleFilter: handleFilter
               }

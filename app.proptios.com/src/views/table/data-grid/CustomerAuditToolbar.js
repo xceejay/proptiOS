@@ -97,8 +97,8 @@ const CustomAuditToolbar = props => {
           <>
             <Box>
               <FormControl fullWidth>
-                <InputLabel size='small' id='invoice-status-select'>
-                  Account Status
+                <InputLabel size='small' id='audit-action-type-select'>
+                  Action Type
                 </InputLabel>
 
                 <Select
@@ -106,7 +106,7 @@ const CustomAuditToolbar = props => {
                   value={statusValue}
                   sx={{ mr: 4 }}
                   size='small'
-                  label='Account Status'
+                  label='Action Type'
                   onChange={handleStatusValue}
                   labelId='invoice-status-select'
                 >
@@ -125,8 +125,8 @@ const CustomAuditToolbar = props => {
           <>
             <Box>
               <FormControl fullWidth>
-                <InputLabel size='small' id='invoice-status-select'>
-                  Invitation Status
+                <InputLabel size='small' id='audit-status-select'>
+                  Status
                 </InputLabel>
 
                 <Select
@@ -134,7 +134,7 @@ const CustomAuditToolbar = props => {
                   value={invitationStatusValue}
                   sx={{ mr: 4 }}
                   size='small'
-                  label='Invitation Status'
+                  label='Status'
                   onChange={handleInvitationStatusValue}
                   labelId='invoice-status-select'
                 >

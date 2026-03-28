@@ -145,6 +145,7 @@ const PropertyViewSettings = props => {
           if (matchingProperty) {
             return {
               ...propertyData,
+              name: matchingProperty.name || property.name || propertyData.name,
               property_email: property.property_email,
               property_tel_number: property.property_tel_number,
               property_manager: {

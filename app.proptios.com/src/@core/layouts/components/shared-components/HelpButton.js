@@ -10,7 +10,7 @@ const HelpButton = props => {
   // ** Props
   const router = useRouter()
   const handleBack = () => {
-    window.open('http://proptios.com', '_blank')
+    window.open('https://proptios.com', '_blank')
   }
 
   return (

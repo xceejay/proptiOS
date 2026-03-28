@@ -133,7 +133,7 @@ const PropertyManageTable = ({
       field: 'property_name',
       headerName: 'Property Name',
       renderCell: ({ row }) => {
-        const { id, uuid, property_name } = row
+        const { id, property_name, property_address, property_type } = row
 
         return (
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -149,7 +149,7 @@ const PropertyManageTable = ({
                 {property_name}
               </Typography>
               <Typography noWrap variant='body2' sx={{ color: 'text.disabled' }}>
-                {uuid}
+                {property_address || property_type}
               </Typography>
             </Box>
           </Box>

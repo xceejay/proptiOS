@@ -189,7 +189,8 @@ const SidebarAddProperty = props => {
           if (matchingProperty) {
             return {
               ...property,
-              id: matchingProperty.id
+              id: matchingProperty.id,
+              status: matchingProperty.status || 'active'
             }
           }
 
