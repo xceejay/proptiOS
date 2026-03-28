@@ -55,7 +55,8 @@ Additional items have since been implemented in the current codebase and verifie
 - **Root cause**: Auth0 middleware in `middleware.js` intercepts all routes. The `matcher` pattern doesn't exclude `/register`, `/onboarding`, `/forgot-password`
 - **Workaround**: Only accessible by clicking "Create an account" from the login page (which triggers client-side navigation bypassing the middleware)
 - **File**: `app.proptios.com/middleware.js`
-- **Status**: FAIL
+- **Status**: FIXED
+- **Resolution note**: Reverified on 2026-03-28. Direct `GET https://staging.app.proptios.com/register/` now returns `200`, and the registration page renders in-browser without bouncing to `/login/`.
 
 ### CRIT-3: "Create an account" link triggers login form validation
 - **Route**: `/login/`
@@ -63,7 +64,8 @@ Additional items have since been implemented in the current codebase and verifie
 - **Expected**: Navigate to `/register/`
 - **Actual**: If login form has been touched/submitted, clicking the link triggers form validation errors ("email is a required field") instead of navigating. The `<a>` tag is inside the `<form>` element, so the click propagates as a form submission.
 - **Note**: On a fresh page load with empty fields, the link works correctly via client-side navigation
-- **Status**: FAIL
+- **Status**: FIXED
+- **Resolution note**: Reverified on 2026-03-28. The link is no longer inside the login form in the current page source, direct browser navigation reaches `/register/`, and the earlier devtools-only misread was caused by the devtools click focusing the link before activation rather than exposing a real app regression.
 
 ### CRIT-4: Verification code page is non-functional
 - **Route**: `/onboarding/success/`
@@ -593,7 +595,7 @@ Use names that are obviously test data and include the date:
 - **Sidebar navigation** — only visible after clicking the hamburger menu (first button in the top bar).
 - **Dropdown labels are wrong** — many dropdowns have incorrect accessible names (e.g., Currency labeled "Country"). Use snapshot `ref` values to target elements, not role/name queries.
 - **File upload** — click the upload button first to trigger the file chooser dialog, then use `browser_file_upload` with the file path.
-- **Form inside links** — some "Create an account" / "Sign in" links are inside `<form>` elements. Clicking them after the form has been touched triggers validation instead of navigation. Navigate to a fresh page load first.
+- **Devtools click nuance** — in Chrome devtools snapshots, clicking a link can focus it first and trigger field blur validation before activation. If the URL does not change immediately, confirm with `Enter` on the focused link or a real Playwright/browser click before recording it as a product bug.
 - **Console noise** — `"user is empty here:: null"` and `/auth/me` 500 errors fire on every navigation. These are known issues — only record NEW console errors you haven't seen before.
 - **No delete actions** — many modules don't have visible delete buttons. Record this as "DELETE: No action available" rather than skipping silently.
 - **Disabled buttons** — some submit/save buttons are intentionally disabled (invoice Send, maintenance update Submit). Check for warning alerts explaining why.

@@ -55,15 +55,10 @@ test.describe.serial('QA Protocol — CRUDR', () => {
     const createAccountLink = page.getByRole('link', { name: /create an account/i })
     await expect(createAccountLink).toBeVisible()
     await createAccountLink.click()
-    const createAccountNavigated = await page
-      .waitForURL(/\/register/, { timeout: 5000 })
-      .then(() => true)
-      .catch(() => false)
+    await page.waitForURL(/\/register/, { timeout: 5000 })
     appendNote({
       phase: 'AUTH',
-      detail: createAccountNavigated
-        ? 'Login page create-account link reached /register successfully.'
-        : 'Login page create-account link remained on /login; this matches the open staging auth-route bug and is now recorded by the protocol run instead of aborting it.',
+      detail: 'Login page create-account link reached /register successfully.',
     })
 
     await page.goto(`${BASE_URL}/login`, { waitUntil: 'networkidle' })
@@ -78,16 +73,10 @@ test.describe.serial('QA Protocol — CRUDR', () => {
     const forgotPasswordLink = page.getByRole('link', { name: /forgot password/i })
     await expect(forgotPasswordLink).toBeVisible()
     await forgotPasswordLink.click()
-    const forgotPasswordAccessible = await page
-      .waitForURL(/\/forgot-password/, { timeout: 5000 })
-      .then(() => true)
-      .catch(() => false)
-
+    await page.waitForURL(/\/forgot-password/, { timeout: 5000 })
     appendNote({
       phase: 'AUTH',
-      detail: forgotPasswordAccessible
-        ? 'Forgot password route was reachable from the login screen.'
-        : 'Forgot password route was not reachable from the login screen; this matches the open guest-route bug and is recorded without aborting the CRUDR run.',
+      detail: 'Forgot password route was reachable from the login screen.',
     })
 
     await page.goto(`${BASE_URL}/login`, { waitUntil: 'networkidle' })

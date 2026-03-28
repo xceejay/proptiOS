@@ -8,6 +8,7 @@ import { useRouter } from 'next/router'
 
 // ** Axios
 import axios from 'src/pages/middleware/axios'
+import { buildTenantAppUrl, normalizeSiteHost, resolveCurrentSiteHost } from 'src/utils/siteHost'
 
 // ** Config
 import authConfig from 'src/configs/auth'
@@ -43,6 +44,29 @@ const AuthProvider = ({ children }) => {
   const clearStoredAuth = () => {
     window.localStorage.removeItem('accessToken')
     window.localStorage.removeItem(authConfig.storageTokenKeyName)
+  }
+
+  const redirectToTenantSiteIfNeeded = (activeUser, fallbackPath = '/') => {
+    if (typeof window === 'undefined' || !activeUser?.site_id) {
+      return false
+    }
+
+    const currentHost = normalizeSiteHost(window.location.hostname)
+    const requestedSiteHost = resolveCurrentSiteHost()
+    const targetUrl = buildTenantAppUrl(activeUser.site_id, currentHost, fallbackPath)
+
+    if (!targetUrl.startsWith('https://')) {
+      return false
+    }
+
+    const targetHost = normalizeSiteHost(new URL(targetUrl).hostname)
+    if (!targetHost || targetHost === currentHost || targetHost === requestedSiteHost) {
+      return false
+    }
+
+    window.location.assign(targetUrl)
+
+    return true
   }
 
   useEffect(() => {
@@ -81,12 +105,14 @@ const AuthProvider = ({ children }) => {
           })
 
         const decoded = jwt.decode(storedToken, { complete: true })
+        const decodedUser = decoded?.payload || null
 
         setLoading(false)
         console.log('decoded-data', decoded)
 
-        setUser(decoded?.payload || null)
+        setUser(decodedUser)
         setLoading(false)
+        redirectToTenantSiteIfNeeded(decodedUser, window.location.pathname || '/')
       } catch (error) {
         console.log(error)
         setLoading(false)
@@ -134,11 +160,15 @@ const AuthProvider = ({ children }) => {
       .then(async response => {
         params.rememberMe ? window.localStorage.setItem(authConfig.storageTokenKeyName, response.data.data.token) : null
         const returnUrl = router.query.returnUrl
-        setUser({ ...response.data.data.user })
+        const authenticatedUser = { ...response.data.data.user }
+        setUser(authenticatedUser)
 
         // params.rememberMe ? window.localStorage.setItem('userData', JSON.stringify(response.data.data.user)) : null
         const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/' // can change domain
-        router.replace(redirectURL)
+        const redirectedToTenant = redirectToTenantSiteIfNeeded(authenticatedUser, redirectURL)
+        if (!redirectedToTenant) {
+          router.replace(redirectURL)
+        }
       })
       .catch(err => {
         if (errorCallback) errorCallback(err)

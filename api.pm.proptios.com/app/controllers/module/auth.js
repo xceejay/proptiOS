@@ -56,6 +56,9 @@ const {
   isStorageConfigured,
   uploadBuffer,
 } = require("../../services/storage");
+const {
+  getRequestedSiteHost,
+} = require("../../services/site_access");
 
 // Emails to be sent to pm_users via Postmark
 
@@ -102,6 +105,7 @@ const routes = (app) => {
     let email = req.body.email;
     let password = req.body.password;
     let fullUrl = req.protocol + "://" + req.get("host") + req.originalUrl;
+    let requestedSiteHost = getRequestedSiteHost(req);
   
     let selectQuery = `
       SELECT pm_users.*, 
@@ -110,6 +114,11 @@ const routes = (app) => {
       JOIN sites ON pm_users.site_id = sites.id
       WHERE pm_users.email = ? AND pm_users.email_verification_status = true AND pm_users.status != 'disabled'
     `;
+    const selectParams = [email];
+    if (requestedSiteHost) {
+      selectQuery += " AND pm_users.site_id = ?";
+      selectParams.push(requestedSiteHost);
+    }
   
     let updateQuery = `
       UPDATE pm_users SET invitation_status = ?, status = ?, logged_in = CURRENT_TIMESTAMP() WHERE email = ?
@@ -122,7 +131,7 @@ const routes = (app) => {
   
     let results;
     try {
-      [results] = await mysql_db.execute(selectQuery, [email]);
+      [results] = await mysql_db.execute(selectQuery, selectParams);
   
       if (results.length > 0) {
         let hash = results[0].password;

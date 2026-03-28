@@ -18,6 +18,12 @@ const {
 const API_BASE =
   process.env.E2E_API_URL || process.env.NEXT_PUBLIC_API_BASE_URL || 'http://127.0.0.1:2024'
 const ID_CARD_PATH = path.join(__dirname, 'fixtures', 'test-id-card.pdf')
+const SHARED_SITE_HOSTS = new Set([
+  'app.proptios.com',
+  'staging.app.proptios.com',
+  'localhost',
+  '127.0.0.1',
+])
 
 function buildFreshUser() {
   const seed = Date.now().toString(36)
@@ -38,8 +44,16 @@ async function persistAuthState(page, email, password) {
   page.on('dialog', dialog => {
     dialog.dismiss().catch(() => {})
   })
+  const browserHost = new URL(page.url()).hostname.toLowerCase()
+  const requestedSiteHost =
+    SHARED_SITE_HOSTS.has(browserHost) || browserHost.endsWith('.vercel.app') ? null : browserHost.replace(/^staging\./, '')
   const res = await page.request.post(`${API_BASE}/auth/login`, {
-    data: { email, password },
+    data: {
+      email,
+      password,
+      ...(requestedSiteHost ? { site_host: requestedSiteHost } : {}),
+    },
+    headers: requestedSiteHost ? { 'X-Site-Host': requestedSiteHost } : undefined,
   })
   expect(res.ok(), `Login API call failed: ${res.status()} ${await res.text()}`).toBeTruthy()
 

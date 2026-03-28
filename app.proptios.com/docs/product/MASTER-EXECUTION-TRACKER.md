@@ -45,6 +45,16 @@ Older QA files in the repo are preserved as historical snapshots, but this docum
   - exposes default unit rent messaging in the add/edit drawers
 - Units now have a dedicated detail screen reachable from the property Units tab
 - Property settings phone number now persists correctly through save + reload
+- Direct guest routes now load correctly on staging:
+  - `/register/`
+  - `/forgot-password/`
+- Login page auth links now navigate correctly in the staged app flow:
+  - `Create an account`
+  - `Forgot Password?`
+- Multi-tenant auth routing is now wired in source:
+  - shared login hosts (`app.proptios.com`, `staging.app.proptios.com`) can authenticate and then redirect the user into their site host
+  - tenant hosts send their active site host to the API
+  - backend auth now rejects tokens/logins when the requested tenant host does not match `user.site_id`
 - The strict staging CRUDR Playwright protocol is now green end to end:
   - auth
   - create
@@ -73,8 +83,6 @@ These are the items that still look open or only partially verified.
 
 ### Open items from the 2026-03-28 staging walkthrough
 
-- Registration page still redirects away on direct `/register/` load
-- Login page "Create an account" link can still trigger form validation instead of navigation
 - Onboarding verification page is still non-functional
 - Maintenance request manage drawer is still view-only
 - Dashboard chart renders `$Infinityk`
@@ -126,6 +134,7 @@ These are the safest items to implement next without a deeper architecture migra
 - Clear immutable-field rules in UI/backend for specific records
 - Better request failure toasts across mutation flows
 - Richer property/unit/lease datagrid fields where backend data already exists
+- Reverify the staged tenant-host redirect behavior once the frontend/backend deployments pick up the new multi-tenant auth wiring
 - Close the remaining open items from [QA-STAGING-REPORT.md](/home/joel/personal/projects/proptiOS/app.proptios.com/docs/qa/QA-STAGING-REPORT.md) before starting deeper architecture work
 
 ### Larger items that should be phased separately
