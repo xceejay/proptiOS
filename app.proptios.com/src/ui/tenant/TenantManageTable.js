@@ -428,7 +428,7 @@ const TenantManageTable = () => {
   const toggleAddUserDrawer = () => setAddUserOpen(!addUserOpen)
 
   // Filter tenants based on search value and status
-  const filteredTenants = tenantsData.items.filter(
+  const filteredTenants = (tenantsData?.items || []).filter(
     tenant =>
       ((tenant.name?.toLowerCase() || '').includes(value.toLowerCase()) ||
         (tenant.email?.toLowerCase() || '').includes(value.toLowerCase()) ||

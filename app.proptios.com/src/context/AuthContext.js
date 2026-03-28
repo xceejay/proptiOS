@@ -30,10 +30,31 @@ const AuthProvider = ({ children }) => {
 
   // ** Hooks
   const router = useRouter()
+
+  const isGuestRoute = pathname => {
+    return (
+      pathname.startsWith('/login') ||
+      pathname.startsWith('/register') ||
+      pathname.startsWith('/forgot-password') ||
+      pathname.startsWith('/onboarding')
+    )
+  }
+
+  const clearStoredAuth = () => {
+    window.localStorage.removeItem('accessToken')
+    window.localStorage.removeItem(authConfig.storageTokenKeyName)
+  }
+
   useEffect(() => {
     const initAuth = async () => {
       try {
         const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)
+
+        if (!storedToken) {
+          setLoading(false)
+
+          return
+        }
 
         //this is used to validate the token (the backend does everything, if it returns 403 or 401 the axios interceptor intercepts it)
         await axios
@@ -49,28 +70,33 @@ const AuthProvider = ({ children }) => {
             console.log('encountered this error', error)
             setLoading(true)
 
-            handleLogout()
+            clearStoredAuth()
+            setUser(null)
 
             setLoading(false)
+
+            if (!isGuestRoute(window.location.pathname)) {
+              router.push('/login')
+            }
           })
 
-        if (storedToken) {
-          const decoded = jwt.decode(storedToken, { complete: true })
+        const decoded = jwt.decode(storedToken, { complete: true })
 
-          setLoading(false)
-          console.log('decoded-data', decoded)
+        setLoading(false)
+        console.log('decoded-data', decoded)
 
-          setUser(decoded.payload)
-          setLoading(false)
-        } else {
-          console.log('else: NO token')
-          setLoading(false)
-        }
+        setUser(decoded?.payload || null)
+        setLoading(false)
       } catch (error) {
         console.log(error)
         setLoading(false)
 
-        handleLogout()
+        clearStoredAuth()
+        setUser(null)
+
+        if (!isGuestRoute(window.location.pathname)) {
+          router.push('/login')
+        }
       }
     }
 
@@ -122,8 +148,7 @@ const AuthProvider = ({ children }) => {
   const handleLogout = () => {
     console.log('logged out')
     setUser(null)
-    window.localStorage.removeItem('accessToken')
-    window.localStorage.removeItem(authConfig.storageTokenKeyName)
+    clearStoredAuth()
     router.push('/login')
   }
 

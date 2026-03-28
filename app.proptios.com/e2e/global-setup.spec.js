@@ -15,7 +15,8 @@ const {
   writeTestUser,
 } = require('./helpers/auth-state')
 
-const API_BASE = process.env.E2E_API_URL || 'http://127.0.0.1:2024'
+const API_BASE =
+  process.env.E2E_API_URL || process.env.NEXT_PUBLIC_API_BASE_URL || 'http://127.0.0.1:2024'
 const ID_CARD_PATH = path.join(__dirname, 'fixtures', 'test-id-card.pdf')
 
 function buildFreshUser() {
@@ -33,6 +34,7 @@ function buildFreshUser() {
 }
 
 async function persistAuthState(page, email, password) {
+  console.log('setup:persistAuthState:start', email)
   const res = await page.request.post(`${API_BASE}/auth/login`, {
     data: { email, password },
   })
@@ -53,33 +55,74 @@ async function persistAuthState(page, email, password) {
   expect(stored, 'Token must be in localStorage before saving state').toBeTruthy()
 
   await page.context().storageState({ path: AUTH_FILE })
+  console.log('setup:persistAuthState:done', email)
 }
 
 async function registerViaUi(page, user) {
-  await page.goto('/register')
-  await expect(page.getByLabel('Full name')).toBeVisible({ timeout: 15000 })
+  console.log('setup:registerViaUi:start', user.email)
+  await page.goto('/register', { waitUntil: 'networkidle' })
+  if (!page.url().includes('/register')) {
+    const createAccountLink = page.getByRole('link', { name: /create an account/i })
+    if (await createAccountLink.isVisible().catch(() => false)) {
+      await createAccountLink.click()
+    }
+  }
 
-  await page.getByLabel('Full name').fill(user.fullName)
+  const fullNameInput = page.getByPlaceholder('Joel Amoako')
+  const companyInput = page.getByPlaceholder('proptios.com Property Management LTD')
+  const siteIdInput = page.getByPlaceholder('mypmcompany')
+  const emailInput = page.getByPlaceholder('admin@proptios.com')
+  const passwordInput = page.locator('#auth-login-v2-password')
+  const countrySelect = page.getByRole('combobox').nth(0)
+  const currencySelect = page.getByRole('combobox').nth(1)
+
+  await expect(page).toHaveURL(/\/register/, { timeout: 15000 })
+  await expect(fullNameInput).toBeVisible({ timeout: 15000 })
+
+  await fullNameInput.fill(user.fullName)
+  await expect(fullNameInput).toHaveValue(user.fullName)
+  console.log('setup:filled:full_name')
   await page.locator('input[type="file"]').setInputFiles(ID_CARD_PATH)
-  await page.getByLabel('Country').click()
+  console.log('setup:filled:id_card')
+  await countrySelect.click()
   await page.getByRole('option', { name: 'Ghana' }).click()
-  await page.getByLabel('Default Currency').click()
-  await page.getByRole('option', { name: /Ghanaian Cedi/i }).click()
-  await page.getByLabel('Affiliated Company').fill(user.siteName)
-  await page.locator('input[name="site_id"]').fill(user.siteId)
-  await page.getByLabel('Email').fill(user.email)
-  await page.locator('#auth-login-v2-password').fill(user.password)
-  await page.getByRole('checkbox').check()
+  if (await page.getByRole('listbox').isVisible().catch(() => false)) {
+    await page.keyboard.press('Escape')
+  }
+  console.log('setup:filled:country')
+  await currencySelect.click()
+  await page.getByRole('option', { name: 'Ghanaian Cedi' }).click()
+  if (await page.getByRole('listbox').isVisible().catch(() => false)) {
+    await page.keyboard.press('Escape')
+  }
+  console.log('setup:filled:currency')
+  await companyInput.fill(user.siteName)
+  await expect(companyInput).toHaveValue(user.siteName)
+  console.log('setup:filled:company')
+  await siteIdInput.fill(user.siteId)
+  await expect(siteIdInput).toHaveValue(user.siteId)
+  console.log('setup:filled:site_id')
+  await emailInput.fill(user.email)
+  await expect(emailInput).toHaveValue(user.email)
+  console.log('setup:filled:email')
+  await passwordInput.fill(user.password)
+  await expect(passwordInput).toHaveValue(user.password)
+  console.log('setup:filled:password')
+  await page.getByRole('checkbox', { name: /i agree to/i }).check()
+  console.log('setup:filled:checkbox')
 
   const registerResponse = page.waitForResponse(
     res => res.url().includes('/auth/register') && res.request().method() === 'POST'
   )
 
   await page.getByRole('button', { name: /create an account/i }).click()
+  console.log('setup:clicked:submit')
 
   const response = await registerResponse
+  console.log('setup:register:response', response.status())
   expect(response.status(), `Register API call failed: ${await response.text()}`).toBeLessThan(400)
   await expect(page).toHaveURL(/\/onboarding\/success/, { timeout: 20000 })
+  console.log('setup:registerViaUi:done', user.email)
 }
 
 setup('authenticate', async ({ page }) => {
