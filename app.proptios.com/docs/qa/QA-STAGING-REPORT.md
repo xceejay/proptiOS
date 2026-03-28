@@ -1,8 +1,8 @@
-# Staging QA Report — staging.app.proptios.com
+# Staging QA Report — app.staging.proptios.com
 
 _Date: 2026-03-28_
 _Tester: Automated (Claude Code via Playwright)_
-_Environment: staging.app.proptios.com + staging.api.pm.proptios.com_
+_Environment: app.staging.proptios.com + api.staging.proptios.com_
 _Test account: qatest@proptios.com (registered during test)_
 
 ## Host Model Note
@@ -11,7 +11,7 @@ Canonical staging tenant hosts now use:
 - `<site>.staging.proptios.com`
 
 Shared staging login still uses:
-- `staging.app.proptios.com`
+- `app.staging.proptios.com`
 
 Legacy compatibility:
 - older `staging.<site>.proptios.com` links may still resolve for a transition period, but they are no longer the canonical staging tenant shape.
@@ -24,7 +24,7 @@ This report is preserved as the original staging QA snapshot, but one item from 
 
 - `CRIT-1` Tenants page crash on `/tenants/`
   - Current status: `FIXED`
-  - Verification: live browser retest against `https://staging.app.proptios.com/tenants/`
+  - Verification: live browser retest against `https://app.staging.proptios.com/tenants/`
   - Notes: the code fix was already present in `origin/staging`, but the staging frontend had been serving a stale Vercel bundle. A fresh staging deploy and alias update resolved the live crash.
 
 ## Summary
@@ -60,14 +60,14 @@ Additional items have since been implemented in the current codebase and verifie
 
 ### CRIT-2: Registration page inaccessible via direct URL
 - **Route**: `/register/`
-- **Action**: Navigate directly to `staging.app.proptios.com/register/`
+- **Action**: Navigate directly to `app.staging.proptios.com/register/`
 - **Expected**: Registration form renders
 - **Actual**: Briefly loads then redirects to `/login/`
 - **Root cause**: Auth0 middleware in `middleware.js` intercepts all routes. The `matcher` pattern doesn't exclude `/register`, `/onboarding`, `/forgot-password`
 - **Workaround**: Only accessible by clicking "Create an account" from the login page (which triggers client-side navigation bypassing the middleware)
 - **File**: `app.proptios.com/middleware.js`
 - **Status**: FIXED
-- **Resolution note**: Reverified on 2026-03-28. Direct `GET https://staging.app.proptios.com/register/` now returns `200`, and the registration page renders in-browser without bouncing to `/login/`.
+- **Resolution note**: Reverified on 2026-03-28. Direct `GET https://app.staging.proptios.com/register/` now returns `200`, and the registration page renders in-browser without bouncing to `/login/`.
 
 ### CRIT-3: "Create an account" link triggers login form validation
 - **Route**: `/login/`

@@ -1,8 +1,8 @@
 const SHARED_SITE_HOSTS = new Set([
   'app.proptios.com',
-  'staging.app.proptios.com',
+  'app.staging.proptios.com',
   'api.pm.proptios.com',
-  'staging.api.pm.proptios.com',
+  'api.staging.proptios.com',
   'www.proptios.com',
   'proptios.com',
   'localhost',
@@ -44,10 +44,6 @@ export function resolveRequestedSiteHost(value) {
     return normalized.replace(/\.staging\.proptios\.com$/, '.proptios.com')
   }
 
-  if (normalized.startsWith('staging.') && normalized.endsWith('.proptios.com')) {
-    return normalized.replace(/^staging\./, '')
-  }
-
   return normalized
 }
 
@@ -61,7 +57,7 @@ export function isStagingHost(value) {
   const normalized = normalizeSiteHost(value)
   if (!normalized) return false
 
-  return normalized === 'staging.app.proptios.com' || normalized.endsWith('.staging.proptios.com')
+  return normalized === 'app.staging.proptios.com' || normalized.endsWith('.staging.proptios.com')
 }
 
 export function buildTenantAppHost(siteId, currentHost) {

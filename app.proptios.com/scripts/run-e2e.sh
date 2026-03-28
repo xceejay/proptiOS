@@ -48,7 +48,7 @@ if [ -n "${E2E_API_URL:-}" ]; then
 else
   case "$ENV" in
     local)   API_URL="http://127.0.0.1:2024" ;;
-    staging) API_URL="https://staging.api.pm.proptios.com" ;;
+    staging) API_URL="https://api.staging.proptios.com" ;;
     prod)    API_URL="https://api.pm.proptios.com" ;;
     *)
       echo "ERROR: Unknown E2E_ENV='$ENV'. Use local, staging, or prod."

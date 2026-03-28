@@ -9,7 +9,7 @@ import {
 describe('siteHost utilities', () => {
   it('treats shared app hosts as non-tenant hosts', () => {
     expect(isSharedSiteHost('app.proptios.com')).toBe(true)
-    expect(isSharedSiteHost('staging.app.proptios.com')).toBe(true)
+    expect(isSharedSiteHost('app.staging.proptios.com')).toBe(true)
     expect(isSharedSiteHost('preview-app.vercel.app')).toBe(true)
   })
 
@@ -21,7 +21,7 @@ describe('siteHost utilities', () => {
 
   it('builds the correct tenant host for production and staging shared app hosts', () => {
     expect(buildTenantAppHost('riverfront.proptios.com', 'app.proptios.com')).toBe('riverfront.proptios.com')
-    expect(buildTenantAppHost('riverfront.proptios.com', 'staging.app.proptios.com')).toBe(
+    expect(buildTenantAppHost('riverfront.proptios.com', 'app.staging.proptios.com')).toBe(
       'riverfront.staging.proptios.com'
     )
   })
@@ -30,7 +30,7 @@ describe('siteHost utilities', () => {
     expect(buildTenantAppUrl('riverfront.proptios.com', 'app.proptios.com', '/dashboard')).toBe(
       'https://riverfront.proptios.com/dashboard'
     )
-    expect(buildTenantAppUrl('riverfront.proptios.com', 'staging.app.proptios.com', '/dashboard')).toBe(
+    expect(buildTenantAppUrl('riverfront.proptios.com', 'app.staging.proptios.com', '/dashboard')).toBe(
       'https://riverfront.staging.proptios.com/dashboard'
     )
   })

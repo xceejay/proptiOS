@@ -1,8 +1,8 @@
 const SHARED_SITE_HOSTS = new Set([
   "app.proptios.com",
-  "staging.app.proptios.com",
+  "app.staging.proptios.com",
   "api.pm.proptios.com",
-  "staging.api.pm.proptios.com",
+  "api.staging.proptios.com",
   "www.proptios.com",
   "proptios.com",
   "localhost",
@@ -42,10 +42,6 @@ function canonicalizeRequestedSiteHost(value) {
 
   if (normalized.endsWith(".staging.proptios.com")) {
     return normalized.replace(/\.staging\.proptios\.com$/, ".proptios.com");
-  }
-
-  if (normalized.startsWith("staging.") && normalized.endsWith(".proptios.com")) {
-    return normalized.replace(/^staging\./, "");
   }
 
   return normalized;

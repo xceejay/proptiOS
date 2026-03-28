@@ -20,7 +20,7 @@ const API_BASE =
 const ID_CARD_PATH = path.join(__dirname, 'fixtures', 'test-id-card.pdf')
 const SHARED_SITE_HOSTS = new Set([
   'app.proptios.com',
-  'staging.app.proptios.com',
+  'app.staging.proptios.com',
   'localhost',
   '127.0.0.1',
 ])
@@ -34,10 +34,6 @@ function resolveRequestedSiteHost(hostname) {
 
   if (normalizedHost.endsWith('.staging.proptios.com')) {
     return normalizedHost.replace(/\.staging\.proptios\.com$/, '.proptios.com')
-  }
-
-  if (normalizedHost.startsWith('staging.') && normalizedHost.endsWith('.proptios.com')) {
-    return normalizedHost.replace(/^staging\./, '')
   }
 
   return normalizedHost
