@@ -2,9 +2,7 @@
 {{ partial "global/pageHero.html" (dict "context" . "page" "contact") }}
 
 {{ partial "global/contactInfo.html" . }}
-
 {{ partial "global/contactForm.html" . }}
-
-{{ partial "global/newsletter.html" ( dict "context" . "spacing" "")}}
+{{ partial "global/newsletter.html" ( dict "context" . "spacing" "pt-100 max-md:pt-12")}}
 
 {{end}}
