@@ -11,9 +11,10 @@
     data-aos-once="true"
   >
     <div class="mb-12 text-center max-w-[475px] mx-auto">
-      <p class="section-tagline">Contact</p>
+      <p class="section-tagline">{{ .Params.tagline | default "Demo" }}</p>
 
-      <h2>Request A Demo</h2>
+      <h2>{{ .Title }}</h2>
+      <p class="mt-6">{{ .Params.details }}</p>
     </div>
     <div class="relative z-10 max-w-[850px] mx-auto">
       <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex -z-10 max-md:hidden">
@@ -25,6 +26,9 @@
         <div
           class=" bg-white dark:bg-dark-200 border border-dashed rounded border-gray-100 dark:border-borderColour-dark p-12 max-md:p-5  "
         >
+          {{ with .Params.formIntro }}
+          <p class="mb-8 text-center">{{ . }}</p>
+          {{ end }}
           <form>
             <div class="grid grid-cols-12 max-md:gap-y-10 md:gap-x-12 md:gap-8">
               <div class="max-md:col-span-full md:col-span-6">
@@ -47,13 +51,13 @@
                   for="companyname"
                   class="block text-sm font-medium font-jakarta_sans text-paragraph dark:text-white mb-2"
                 >
-                  Comapny name
+                  Company name
                 </label>
                 <input
                   type="text"
                   name="company-name"
                   id="companyname"
-                  placeholder="Company Name"
+                  placeholder="Company name"
                   class="block w-full text-sm rounded-[48px] border border-borderColour dark:border-borderColour-dark py-2.5 px-5 text-paragraph-light placeholder:text-paragraph-light dark:placeholder:text-paragraph-light outline-none bg-white dark:bg-dark-200 focus:border-primary dark:focus:border-primary  duration-300 transition-all"
                 />
               </div>
@@ -62,13 +66,13 @@
                   for="contactno"
                   class="block text-sm font-medium font-jakarta_sans text-paragraph dark:text-white mb-2"
                 >
-                  Contact No.
+                  Phone number
                 </label>
                 <input
                   type="text"
                   name="contact-number"
                   id="contactno"
-                  placeholder="Contact Number"
+                  placeholder="Phone number"
                   class="block w-full text-sm rounded-[48px] border border-borderColour dark:border-borderColour-dark py-2.5 px-5 text-paragraph-light placeholder:text-paragraph-light dark:placeholder:text-paragraph-light outline-none bg-white dark:bg-dark-200 focus:border-primary dark:focus:border-primary  duration-300 transition-all"
                 />
               </div>
@@ -77,13 +81,13 @@
                   for="email"
                   class="block text-sm font-medium font-jakarta_sans text-paragraph dark:text-white mb-2"
                 >
-                  Your Email
+                  Work email
                 </label>
                 <input
                   type="email"
-                  name="first-name"
+                  name="email"
                   id="email"
-                  placeholder="Email"
+                  placeholder="you@company.com"
                   class="block w-full text-sm rounded-[48px] border border-borderColour dark:border-borderColour-dark py-2.5 px-5 text-paragraph-light   placeholder:text-paragraph-light outline-none bg-white dark:bg-dark-200 focus:border-primary dark:focus:border-primary  duration-300 transition-all"
                 />
               </div>
@@ -92,17 +96,18 @@
                   for="message"
                   class="block text-sm font-medium font-jakarta_sans text-paragraph dark:text-white mb-2"
                 >
-                  Message
+                  What should we cover?
                 </label>
                 <textarea
-                  name="first-name"
+                  name="message"
                   id="message"
                   rows="10"
+                  placeholder="Tell us about your portfolio, team size, and the workflows you want to see in the demo."
                   class="block w-full text-sm rounded border border-borderColour dark:border-borderColour-dark py-2.5 px-5   text-paragraph-light placeholder:text-paragraph-light outline-none resize-none bg-white dark:bg-dark-200 focus:border-primary dark:focus:border-primary  duration-300 transition-all"
                 ></textarea>
               </div>
               <div class="mx-auto col-span-full text-center">
-                <button class="btn">Request Now</button>
+                <button class="btn">{{ .Params.buttonText | default "Request Demo" }}</button>
               </div>
             </div>
           </form>

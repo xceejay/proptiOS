@@ -1,34 +1,19 @@
 ---
-title : 'Sales & Trading'
-date : 2024-07-29T23:47:51+06:00
+title: 'Maintenance Workflows'
+date: 2024-07-29T23:47:51+06:00
 logo: "images/services/sales.svg"
 logoDark: "images/services/sales-dark.svg"
-excerpt: "Until recently, the prevailing view asumed lorem ipsum was born as nonsense text."
+excerpt: "Route maintenance requests, assign work, and track progress from intake to close-out."
 ---
 
-Lorem ipsum dolor sit amet consectetur. Nullam blandit dui gravida aliquam enim eu. Adipiscing viverra vulputate curabitur est.
+Maintenance requests often break down because updates live in calls, chats, or paper notes. proptiOS gives your team one workflow for logging issues, assigning responsibility, and tracking completion across the portfolio.
 
-Morbi lorem proin morbi tempor risus. Nisl lobortis diam id faucibus pretium vitae suspendisse sed accumsan. Sodales morbi tristique elit cursus gravida. Ullamcorper commodo eget pulvinar pretium. Condimentum rhoncus commodo amet nec auctor nibh vel mi blandit.
+### What this helps you manage
 
-Neque ultrices nunc condimentum morbi risus tincidunt. Vel arcu lacus non ornare. Porttitor in rhoncus magna augue adipiscing.
+- Tenant-submitted issues and internal work orders
+- Vendor assignments and status updates
+- Repair history for each property and unit
 
-![service images](/images/services/service-single1.png)
-### What to Expect
-Morbi lorem proin morbi tempor risus. Nisl lobortis diam id faucibus pretium vitae suspendisse sed accumsan. Sodales morbi tristique elit cursus gravida. Ullamcorper commodo eget pulvinar pretium. Condimentum rhoncus commodo amet nec auctor nibh vel mi blandit.
+### Why it matters
 
-Neque ultrices nunc condimentum morbi risus tincidunt. Vel arcu lacus non ornare. Porttitor in rhoncus magna augue adipiscing.
-
-- It’s scalable and secure
-- Artificial Intelligence Feature
-- Offline version available
-
-{{< serviceVideo imgURL="images/services/video-bg.png" videoURL="https://www.youtube.com/embed/YE7VzlLtp-4?si=XvNRN6ztByvZQzqh" >}}
-
-### Qualifications & Requirements
-Morbi lorem proin morbi tempor risus. Nisl lobortis diam id faucibus pretium vitae suspendisse sed accumsan. Sodales morbi tristique elit cursus gravida. Ullamcorper commodo eget pulvinar pretium. Condimentum rhoncus commodo amet nec auctor nibh vel mi blandit.
-
-Neque ultrices nunc condimentum morbi risus tincidunt. Vel arcu lacus non ornare. Porttitor in rhoncus magna augue adipiscing.
-
-- It’s scalable and secure
-- Artificial Intelligence Feature
-- Offline version available
+Teams respond faster when every request has an owner, a status, and a visible history. That reduces missed follow-ups and makes handoffs easier.

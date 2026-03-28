@@ -1,34 +1,19 @@
 ---
-title : 'Finance Analysis'
-date : 2024-07-29T23:49:43+06:00
+title: 'Rent Collection & Reconciliation'
+date: 2024-07-29T23:49:43+06:00
 logo: "images/services/finance.svg"
 logoDark: "images/services/finance-dark.svg"
-excerpt: "Until recently, the prevailing view asumed lorem ipsum was born as nonsense text."
+excerpt: "Track rent, receipts, balances, and overdue accounts without manual reconciliation."
 ---
 
-Lorem ipsum dolor sit amet consectetur. Nullam blandit dui gravida aliquam enim eu. Adipiscing viverra vulputate curabitur est.
+proptiOS helps finance and operations teams stay aligned on what has been billed, paid, and left outstanding. Payment activity flows back into the portfolio view so managers can act quickly on arrears and exceptions.
 
-Morbi lorem proin morbi tempor risus. Nisl lobortis diam id faucibus pretium vitae suspendisse sed accumsan. Sodales morbi tristique elit cursus gravida. Ullamcorper commodo eget pulvinar pretium. Condimentum rhoncus commodo amet nec auctor nibh vel mi blandit.
+### What this helps you manage
 
-Neque ultrices nunc condimentum morbi risus tincidunt. Vel arcu lacus non ornare. Porttitor in rhoncus magna augue adipiscing.
+- Rent invoicing and payment status
+- Balance tracking across tenants and units
+- Faster month-end reviews with less spreadsheet cleanup
 
-![service images](/images/services/service-single1.png)
-### What to Expect
-Morbi lorem proin morbi tempor risus. Nisl lobortis diam id faucibus pretium vitae suspendisse sed accumsan. Sodales morbi tristique elit cursus gravida. Ullamcorper commodo eget pulvinar pretium. Condimentum rhoncus commodo amet nec auctor nibh vel mi blandit.
+### Why it matters
 
-Neque ultrices nunc condimentum morbi risus tincidunt. Vel arcu lacus non ornare. Porttitor in rhoncus magna augue adipiscing.
-
-- It’s scalable and secure
-- Artificial Intelligence Feature
-- Offline version available
-
-{{< serviceVideo imgURL="images/services/video-bg.png" videoURL="https://www.youtube.com/embed/YE7VzlLtp-4?si=XvNRN6ztByvZQzqh" >}}
-
-### Qualifications & Requirements
-Morbi lorem proin morbi tempor risus. Nisl lobortis diam id faucibus pretium vitae suspendisse sed accumsan. Sodales morbi tristique elit cursus gravida. Ullamcorper commodo eget pulvinar pretium. Condimentum rhoncus commodo amet nec auctor nibh vel mi blandit.
-
-Neque ultrices nunc condimentum morbi risus tincidunt. Vel arcu lacus non ornare. Porttitor in rhoncus magna augue adipiscing.
-
-- It’s scalable and secure
-- Artificial Intelligence Feature
-- Offline version available
+When rent data is current, your team can follow up earlier, reduce confusion, and keep portfolio reporting closer to real time.

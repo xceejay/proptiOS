@@ -1,34 +1,19 @@
 ---
-title : 'Increased Efficiency'
-date : 2024-07-29T23:50:02+06:00
+title: 'Owner & Team Collaboration'
+date: 2024-07-29T23:50:02+06:00
 logo: "images/services/effeciency.svg"
 logoDark: "images/services/effeciency-dark.svg"
-excerpt: "Until recently, the prevailing view asumed lorem ipsum was born as nonsense text."
+excerpt: "Share updates, approvals, and portfolio context without bouncing between disconnected tools."
 ---
 
-Lorem ipsum dolor sit amet consectetur. Nullam blandit dui gravida aliquam enim eu. Adipiscing viverra vulputate curabitur est.
+Property operations involve finance teams, site staff, managers, and often owners or leadership. proptiOS keeps everyone working from the same operating picture so requests, approvals, and updates do not get lost across chat threads and spreadsheets.
 
-Morbi lorem proin morbi tempor risus. Nisl lobortis diam id faucibus pretium vitae suspendisse sed accumsan. Sodales morbi tristique elit cursus gravida. Ullamcorper commodo eget pulvinar pretium. Condimentum rhoncus commodo amet nec auctor nibh vel mi blandit.
+### What this helps you manage
 
-Neque ultrices nunc condimentum morbi risus tincidunt. Vel arcu lacus non ornare. Porttitor in rhoncus magna augue adipiscing.
+- Shared task context across departments
+- Clear approval trails for operational decisions
+- Fewer duplicate updates and status check-ins
 
-![service images](/images/services/service-single1.png)
-### What to Expect
-Morbi lorem proin morbi tempor risus. Nisl lobortis diam id faucibus pretium vitae suspendisse sed accumsan. Sodales morbi tristique elit cursus gravida. Ullamcorper commodo eget pulvinar pretium. Condimentum rhoncus commodo amet nec auctor nibh vel mi blandit.
+### Why it matters
 
-Neque ultrices nunc condimentum morbi risus tincidunt. Vel arcu lacus non ornare. Porttitor in rhoncus magna augue adipiscing.
-
-- It’s scalable and secure
-- Artificial Intelligence Feature
-- Offline version available
-
-{{< serviceVideo imgURL="images/services/video-bg.png" videoURL="https://www.youtube.com/embed/YE7VzlLtp-4?si=XvNRN6ztByvZQzqh" >}}
-
-### Qualifications & Requirements
-Morbi lorem proin morbi tempor risus. Nisl lobortis diam id faucibus pretium vitae suspendisse sed accumsan. Sodales morbi tristique elit cursus gravida. Ullamcorper commodo eget pulvinar pretium. Condimentum rhoncus commodo amet nec auctor nibh vel mi blandit.
-
-Neque ultrices nunc condimentum morbi risus tincidunt. Vel arcu lacus non ornare. Porttitor in rhoncus magna augue adipiscing.
-
-- It’s scalable and secure
-- Artificial Intelligence Feature
-- Offline version available
+Better coordination means less admin work, fewer dropped handoffs, and a faster response when something needs attention.
