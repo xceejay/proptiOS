@@ -12,24 +12,6 @@ hero:
 
       Residential, commercial, mixed-use, office space. proptiOS fits your portfolio, not the other way around.
 
-rating:
-  - title: >
-      Trusted by Property Teams Who Ship
-
-    details: >
-      Property managers across Africa and beyond use proptiOS to cut admin hours, collect rent on time, and stay on top of every unit in their portfolio.
-
-    ratingItem:
-      - name: Capterra
-        details: 4.7 for Usability
-        totalrating: 4.7
-      - name: G2 Rating
-        details: 4.3 Overall
-        totalrating: 4.3
-      - name: Trustpilot
-        details: 4.9 from Operators
-        totalrating: 4.9
-
 coreFeatures:
   - title: Run Your Entire Operation From One Place
     tagline: Core Features
