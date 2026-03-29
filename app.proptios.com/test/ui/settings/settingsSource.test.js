@@ -13,7 +13,7 @@ describe('settings source contracts', () => {
     )
 
     expect(accountSource).toContain('Save Disabled')
-    expect(accountSource).toContain('posted to /users')
+    expect(accountSource).toContain('settings infrastructure')
     expect(accountSource).not.toContain('editUsers(')
     expect(siteSource).toContain('Save Disabled')
     expect(siteSource).toContain('posted to /users')
