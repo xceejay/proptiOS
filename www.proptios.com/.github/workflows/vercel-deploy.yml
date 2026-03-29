@@ -25,7 +25,7 @@ jobs:
           node-version: 22
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --include=dev
 
       - name: Install global CSS build tooling
         run: npm install -g postcss postcss-cli autoprefixer tailwindcss postcss-import
