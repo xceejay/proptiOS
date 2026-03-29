@@ -1,15 +1,9 @@
 {{ $page:= .page}}
 {{ with .context.Site.GetPage $page}}
 {{range  .Params.hero}}
-<section class="hero overflow-hidden relative pt-[180px] max-lg:pt-28 pb-10 md:pb-[60px] z-40">
+<section class="hero overflow-hidden relative pt-28 md:pt-36 pb-6 md:pb-10 z-40">
   <div class="container">
-    <div
-      class="max-w-[948px] mx-auto text-center"
-      data-aos="fade-up"
-      data-aos-offset="200"
-      data-aos-duration="500"
-      data-aos-once="true"
-    >
+    <div class="max-w-[948px] mx-auto text-center">
       <p class="mb-4 font-medium uppercase">{{ .tagline }}</p>
       <h1 class="max-lg:mb-10 mb-10">{{ .title | safeHTML }} </h1>
       <p class="max-lg:mb-10 mb-12 max-w-[590px] mx-auto">{{ .details | safeHTML }} </p>

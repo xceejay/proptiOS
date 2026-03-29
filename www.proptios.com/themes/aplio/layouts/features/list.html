@@ -1,7 +1,7 @@
 {{ define "main" }} 
 {{ partial "global/pageHero.html" (dict "context" . "page" "features") }}
 
-<section class="bg-white dark:bg-dark-300 pb-120 max-md:pb-12 relative max-sm:overflow-hidden">
+<section class="bg-white dark:bg-dark-300 pb-150 max-md:pb-20 relative max-sm:overflow-hidden">
   <div
     class="absolute left-0 right-0 -top-[200px] bg-[url('../images/service-bg.png')] bg-no-repeat bg-cover bg-center opacity-70 w-full h-full sm:hidden"
   ></div>
@@ -65,7 +65,7 @@
 </section>
 
 {{ partial "global/membersCounter.html" (dict "context" . "border" "false")}}
-{{ partial "global/pricing.html" (dict "context" . "largeTitle" "false" "pricingDescription" "false" "spacing" "pt-100 mb-100 max-md:pt-12 max-md:mb-12")}}
+{{ partial "global/pricing.html" (dict "context" . "largeTitle" "false" "pricingDescription" "false" "spacing" "pt-150 mb-150 max-md:mb-25")}}
 
 {{ partial "global/newsletter.html" ( dict "context" . "spacing" "")}}
 {{end}}
