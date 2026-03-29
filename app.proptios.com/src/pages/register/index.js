@@ -239,11 +239,8 @@ const Register = () => {
   }
 
   const onSubmit = data => {
-    setLoading(true)
-    onboarding.setLoading(true)
+    if (loading) return
     if (!isChecked) {
-      setLoading(false)
-      onboarding.setLoading(false)
       setError('agreement', {
         type: 'manual',
         message: 'You must agree to the privacy policy & terms.'
@@ -251,17 +248,11 @@ const Register = () => {
 
       return
     }
-    console.log('register::PAGE::')
 
-    console.log('ONSUBMIT:::', data)
-
-    // axios.get('http://google.com')
+    setLoading(true)
     onboarding.registerAccount(
       { data },
       responseData => {
-        onboarding.setLoading(false)
-
-        // Handle success
         if (responseData.data.status == 'FAILED') {
           setLoading(false)
           setError('api_error', {
@@ -271,14 +262,9 @@ const Register = () => {
 
           return
         }
-        console.log('Account created successfully:')
       },
       error => {
-        onboarding.setLoading(false)
         setLoading(false)
-
-        // Handle error
-        console.log('error', error)
         toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
           duration: 2000
         })
@@ -288,8 +274,6 @@ const Register = () => {
         })
       }
     )
-
-    setLoading(false)
   }
 
   // ** States
@@ -641,19 +625,9 @@ const Register = () => {
                   <FormHelperText sx={{ color: 'error.main' }}>{errors.agreement.message}</FormHelperText>
                 )}
               </FormControl>
-              {!loading ? (
-                <>
-                  <Button size='small' fullWidth type='submit' variant='contained' sx={{ mb: 4 }}>
-                    Create an account
-                  </Button>
-                </>
-              ) : (
-                <>
-                  <Box sx={{ display: 'flex', mb: 4, flexDirection: 'column', alignItems: 'center' }}>
-                    <CircularProgress size={20}></CircularProgress>
-                  </Box>
-                </>
-              )}
+              <Button size='small' fullWidth type='submit' variant='contained' sx={{ mb: 4 }} disabled={loading}>
+                {loading ? 'Creating account...' : 'Create an account'}
+              </Button>
               <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
                 <Typography sx={{ color: 'text.secondary', mr: 2 }}>Already have an account?</Typography>
                 <Typography variant='body2'>

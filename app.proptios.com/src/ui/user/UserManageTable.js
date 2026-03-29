@@ -37,6 +37,7 @@ import { filterUsers } from './userManageFilters'
 const RowOptions = ({ id, row, setUsersData, usersData, setLoading, currentUserEmail }) => {
   const isSelf = row.email === currentUserEmail
   const [anchorEl, setAnchorEl] = useState(null)
+  const [actionLoading, setActionLoading] = useState(false)
   const rowOptionsOpen = Boolean(anchorEl)
 
   const [editUserOpen, setEditUserOpen] = useState(false)
@@ -53,12 +54,15 @@ const RowOptions = ({ id, row, setUsersData, usersData, setLoading, currentUserE
   }
 
   const handleDisable = () => {
+    if (actionLoading) return
+    setActionLoading(true)
     setLoading(true)
     users.DisableUser(
       { email: row.email },
       responseData => {
         let { data } = responseData
         setLoading(false)
+        setActionLoading(false)
 
         if (data?.status === 'NO_RES') { /* no action needed */ } else if (data?.status === 'FAILED') {
           alert(data.description || 'Failed to disable user')
@@ -70,7 +74,6 @@ const RowOptions = ({ id, row, setUsersData, usersData, setLoading, currentUserE
           duration: 5000
         })
 
-        // Update usersData with the new status
         setUsersData(prevData => {
           const updatedItems = prevData.items.map(user =>
             user.email === row.email ? { ...user, status: 'disabled' } : user
@@ -80,6 +83,8 @@ const RowOptions = ({ id, row, setUsersData, usersData, setLoading, currentUserE
         })
       },
       error => {
+        setLoading(false)
+        setActionLoading(false)
         toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
           duration: 5000
         })
@@ -89,15 +94,18 @@ const RowOptions = ({ id, row, setUsersData, usersData, setLoading, currentUserE
   }
 
   const handleEnable = () => {
+    if (actionLoading) return
+    setActionLoading(true)
     setLoading(true)
     users.EnableUser(
       { email: row.email },
       responseData => {
         let { data } = responseData
         setLoading(false)
+        setActionLoading(false)
 
         if (data?.status === 'NO_RES') { /* no action needed */ } else if (data?.status === 'FAILED') {
-          alert(data.description || 'Failed to disable user')
+          alert(data.description || 'Failed to enable user')
 
           return
         }
@@ -106,7 +114,6 @@ const RowOptions = ({ id, row, setUsersData, usersData, setLoading, currentUserE
           duration: 5000
         })
 
-        // Update usersData with the new status
         setUsersData(prevData => {
           const updatedItems = prevData.items.map(user =>
             user.email === row.email ? { ...user, status: 'active' } : user
@@ -116,6 +123,8 @@ const RowOptions = ({ id, row, setUsersData, usersData, setLoading, currentUserE
         })
       },
       error => {
+        setLoading(false)
+        setActionLoading(false)
         toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
           duration: 5000
         })

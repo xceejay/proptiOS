@@ -98,6 +98,7 @@ const defaultValues = {
 const LoginPage = () => {
   const [rememberMe, setRememberMe] = useState(true)
   const [showPassword, setShowPassword] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
 
   // ** Hooks
   const auth = useAuth()
@@ -121,11 +122,12 @@ const LoginPage = () => {
   })
 
   const onSubmit = data => {
-    // auth.setLoading(true)
+    if (submitting) return
+    setSubmitting(true)
     const { email, password } = data
 
     auth.login({ email, password, rememberMe }, () => {
-      // auth.setLoading(false)
+      setSubmitting(false)
       setError('email', {
         type: 'manual',
         message: 'Email or Password is invalid'
@@ -257,8 +259,8 @@ const LoginPage = () => {
                   Forgot Password?
                 </LinkStyled>
               </Box>
-              <Button size='small' fullWidth type='submit' variant='contained' sx={{ mb: 4 }}>
-                Login
+              <Button size='small' fullWidth type='submit' variant='contained' sx={{ mb: 4 }} disabled={submitting}>
+                {submitting ? 'Logging in...' : 'Login'}
               </Button>
             </form>
             <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>

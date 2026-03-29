@@ -89,6 +89,7 @@ const defaultValues = {
 }
 
 const Register = () => {
+  const [submitting, setSubmitting] = useState(false)
   const onboarding = useOnboarding()
   const {
     control,
@@ -102,6 +103,8 @@ const Register = () => {
   })
 
   const onSubmit = data => {
+    if (submitting) return
+    setSubmitting(true)
     const { email, password } = data
 
     onboarding.registerAccount(
@@ -118,6 +121,7 @@ const Register = () => {
         }
       },
       responseData => {
+        setSubmitting(false)
         if (responseData?.data?.status === 'FAILED') {
           setError('email', {
             type: 'manual',
@@ -126,6 +130,7 @@ const Register = () => {
         }
       },
       () => {
+        setSubmitting(false)
         setError('email', {
           type: 'manual',
           message: 'Email or Password is invalid'
@@ -298,8 +303,8 @@ const Register = () => {
                   </>
                 }
               />
-              <Button size='small' fullWidth type='submit' variant='contained' sx={{ mb: 4 }}>
-                Create an account
+              <Button size='small' fullWidth type='submit' variant='contained' sx={{ mb: 4 }} disabled={submitting}>
+                {submitting ? 'Creating account...' : 'Create an account'}
               </Button>
               <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
                 <Typography sx={{ color: 'text.secondary', mr: 2 }}>Already have an account?</Typography>
