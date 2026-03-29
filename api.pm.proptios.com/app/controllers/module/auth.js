@@ -59,6 +59,7 @@ const {
 const {
   getRequestedSiteHost,
 } = require("../../services/site_access");
+const { parseCanonicalSiteId } = require("../../services/site_identity");
 
 // Emails to be sent to pm_users via Postmark
 
@@ -406,19 +407,25 @@ const routes = (app) => {
     let site_name = trim(req.body.site_name ? req.body.site_name : "");
     let site_id = trim(req.body.site_id);
     let countryCode = trim(req.body.country);
+    const parsedSiteIdentity = parseCanonicalSiteId(site_id);
 
     if (
       full_name.length === 0 ||
       full_name.length > 100 ||
       email.length === 0 ||
       !validateEmail(email) ||
-      password.length === 0
+      password.length === 0 ||
+      !parsedSiteIdentity
     ) {
       return res.status(403).json({
         status: "FAILED",
-        description: "Invalid registration information",
+        description:
+          "Invalid registration information. Site ID must be a valid subdomain label.",
       });
     }
+
+    site_id = parsedSiteIdentity.siteId;
+    const site_subdomain = parsedSiteIdentity.siteSubdomain;
 
     let query = "SELECT * FROM `pm_users` WHERE email = ?";
     let results;
@@ -494,7 +501,7 @@ const routes = (app) => {
           let insertSiteQuery = `INSERT INTO sites (site_name, site_subdomain, id, status) VALUES (?, ?, ?, 'active');`;
           await connection.execute(insertSiteQuery, [
             site_name,
-            site_name,
+            site_subdomain,
             site_id,
           ]);
 
