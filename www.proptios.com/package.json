@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
+    "build": "hugo --gc --minify",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -16,5 +17,4 @@
     "postcss-import": "^16.1.0",
     "tailwindcss": "^3.4.7"
   }
-  
 }
