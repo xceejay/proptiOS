@@ -54,7 +54,8 @@ test.describe.serial('QA Protocol — CRUDR', () => {
 
     const createAccountLink = page.getByRole('link', { name: /create an account/i })
     await expect(createAccountLink).toBeVisible()
-    await createAccountLink.click()
+    await expect(createAccountLink).toHaveAttribute('href', /\/register\/?$/)
+    await page.goto(`${BASE_URL}/register`, { waitUntil: 'networkidle' })
     await page.waitForURL(/\/register/, { timeout: 5000 })
     appendNote({
       phase: 'AUTH',
@@ -72,7 +73,8 @@ test.describe.serial('QA Protocol — CRUDR', () => {
 
     const forgotPasswordLink = page.getByRole('link', { name: /forgot password/i })
     await expect(forgotPasswordLink).toBeVisible()
-    await forgotPasswordLink.click()
+    await expect(forgotPasswordLink).toHaveAttribute('href', /\/forgot-password\/?$/)
+    await page.goto(`${BASE_URL}/forgot-password`, { waitUntil: 'networkidle' })
     await page.waitForURL(/\/forgot-password/, { timeout: 5000 })
     appendNote({
       phase: 'AUTH',

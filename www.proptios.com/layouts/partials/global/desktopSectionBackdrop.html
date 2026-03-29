@@ -1,0 +1,15 @@
+{{ $wrapperClass := .wrapperClass | default "h-[760px]" }}
+{{ $imageTopClass := .imageTopClass | default "top-0" }}
+{{ $imageHeightClass := .imageHeightClass | default "h-[620px]" }}
+{{ $imageClass := .imageClass | default "bg-[url('../images/hero-gradient.png')] bg-cover bg-center bg-no-repeat" }}
+{{ $opacityClass := .opacityClass | default "opacity-70" }}
+{{ $topFadeClass := .topFadeClass | default "h-28" }}
+{{ $bottomFadeClass := .bottomFadeClass | default "h-48" }}
+<div
+  aria-hidden="true"
+  class="pointer-events-none absolute inset-x-0 top-0 hidden {{ $wrapperClass }} overflow-hidden md:block -z-10"
+>
+  <div class="absolute inset-x-0 top-0 {{ $topFadeClass }} bg-gradient-to-b from-white via-white/90 to-transparent"></div>
+  <div class="absolute left-1/2 {{ $imageTopClass }} {{ $imageHeightClass }} w-full -translate-x-1/2 {{ $imageClass }} {{ $opacityClass }}"></div>
+  <div class="absolute inset-x-0 bottom-0 {{ $bottomFadeClass }} bg-gradient-to-b from-transparent via-white/75 to-white dark:via-dark-300/75 dark:to-dark-300"></div>
+</div>

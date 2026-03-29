@@ -22,7 +22,7 @@ import { CircularProgress } from '@mui/material'
 import { MuiFileInput } from 'mui-file-input'
 import { FileUploadOutlined } from '@mui/icons-material'
 import Alert from '@mui/material/Alert'
-// IMPLEMENTATION NOT DONE YET
+import axios from 'src/pages/middleware/axios'
 const PropertyManageMaintenanceRequestDrawer = props => {
   const {
     maintenanceRequestData,
@@ -60,26 +60,32 @@ const PropertyManageMaintenanceRequestDrawer = props => {
     title: yup.string().required('Title is required').max(50),
     tenant_id: yup.string().nullable(),
     unit_id: yup.string().nullable(),
+    status: yup.string().required('Status is required'),
     description: yup.string().required('Description is required').max(255),
     request_media: yup
       .mixed()
       .nullable()
       .test('fileSize', 'File size should be less than 50MB', value => {
-        return value && value.size <= FILE_SIZE_LIMIT
+        if (!value || !value.size) return true
+
+        return value.size <= FILE_SIZE_LIMIT
       })
       .test('fileFormat', 'Unsupported file format', value => {
-        return value && SUPPORTED_FORMATS.includes(value.type)
+        if (!value || !value.type) return true
+
+        return SUPPORTED_FORMATS.includes(value.type)
       })
   })
 
   const defaultValues = {
     request_media: maintenanceRequestData?.request_media,
-    request_owner: maintenanceRequestData?.request_owner,
+    request_owner: maintenanceRequestData?.request_owner || 'property',
     tenant_id: maintenanceRequestData?.tenant_id,
     title: maintenanceRequestData?.title,
     description: maintenanceRequestData?.description,
     unit_id: maintenanceRequestData?.unit_id,
-    uuid: maintenanceRequestData?.uuid
+    uuid: maintenanceRequestData?.uuid,
+    status: maintenanceRequestData?.status || 'pending'
   }
 
   const {
@@ -100,20 +106,61 @@ const PropertyManageMaintenanceRequestDrawer = props => {
 
       reset({
         request_media: maintenanceRequestData?.request_media,
-        request_owner: maintenanceRequestData?.request_owner,
+        request_owner: maintenanceRequestData?.request_owner || 'property',
         tenant_id: maintenanceRequestData?.tenant_id,
         title: maintenanceRequestData?.title,
         description: maintenanceRequestData?.description,
         unit_id: maintenanceRequestData?.unit_id,
-        uuid: maintenanceRequestData?.uuid
+        uuid: maintenanceRequestData?.uuid,
+        status: maintenanceRequestData?.status || 'pending'
       })
     }
   }, [maintenanceRequestData, propertyData, reset])
 
-  const onSubmit = formData => {
-    toast.error('Maintenance request editing is blocked until a dedicated update endpoint is wired.', {
-      duration: 5000
-    })
+  const [submitting, setSubmitting] = useState(false)
+
+  const onSubmit = async formData => {
+    const propertyId = propertyData?.id
+    const requestId = maintenanceRequestData?.id
+
+    if (!propertyId || !requestId) {
+      toast.error('Missing property or request ID.')
+
+      return
+    }
+
+    setSubmitting(true)
+    try {
+      const payload = {
+        title: formData.title,
+        description: formData.description,
+        request_owner: formData.request_owner,
+        unit_id: formData.unit_id || null,
+        tenant_id: formData.tenant_id || null,
+        status: formData.status
+      }
+
+      const res = await axios.put(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/maintenance/${propertyId}/maintenance_requests/${requestId}`,
+        payload
+      )
+
+      if (res.data?.status === 'SUCCESS') {
+        toast.success('Maintenance request updated successfully.')
+        if (setMaintenanceRequestsData) {
+          setMaintenanceRequestsData(prev =>
+            (prev || []).map(item => (item.id === requestId ? { ...item, ...payload } : item))
+          )
+        }
+        handleClose()
+      } else {
+        toast.error(res.data?.description || 'Failed to update maintenance request.')
+      }
+    } catch (err) {
+      toast.error(err.response?.data?.description || 'An error occurred. Please try again.')
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   const handleClose = () => {
@@ -145,10 +192,6 @@ const PropertyManageMaintenanceRequestDrawer = props => {
       </Header>
       <Box sx={{ p: theme => theme.spacing(0, 6, 6) }}>
         <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
-          <Alert severity='warning' sx={{ mb: 4 }}>
-            This drawer is view-only for now. The previous submit path posted to the unit update endpoint, so submit is
-            intentionally disabled until the correct maintenance update contract exists.
-          </Alert>
           <FormControl fullWidth sx={{ mb: 4 }}>
             <Controller
               name='title'
@@ -308,8 +351,31 @@ const PropertyManageMaintenanceRequestDrawer = props => {
             </Box>
           )}
 
-          <Button size='small' fullWidth type='submit' variant='contained' disabled>
-            Submit
+          <FormControl fullWidth sx={{ mb: 4 }}>
+            <Controller
+              name='status'
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  select
+                  label='Status'
+                  {...field}
+                  error={Boolean(errors.status)}
+                  helperText={errors.status ? errors.status.message : ''}
+                  fullWidth
+                >
+                  {['pending', 'in_progress', 'resolved', 'closed'].map(option => (
+                    <MenuItem key={option} value={option}>
+                      {option.charAt(0).toUpperCase() + option.slice(1).replace('_', ' ')}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              )}
+            />
+          </FormControl>
+
+          <Button size='small' fullWidth type='submit' variant='contained' disabled={submitting}>
+            {submitting ? 'Updating...' : 'Update Request'}
           </Button>
         </form>
       </Box>

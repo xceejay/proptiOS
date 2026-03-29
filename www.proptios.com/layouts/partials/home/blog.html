@@ -1,10 +1,15 @@
 {{ $blogPosts := where .Site.RegularPages "Type" "blog" }}
 {{ if gt (len $blogPosts) 0 }}
 <section class="bg-white dark:bg-dark-300 pt-150 lg:pb-[140px] max-md:pt-25 max-md:pb-0 relative">
-  <div
-    class="absolute left-0 right-0 top-25 bg-[url('../images/core-gradient.png')] bg-no-repeat bg-center opacity-70 w-full h-full bg-[length:600px_1000px] md:hidden"
-  ></div>
-  <div class="container ">
+  {{ partial "global/mobileSectionBackdrop.html" (dict
+    "wrapperClass" "h-[520px]"
+    "fadeClass" "h-36"
+    "imageTopClass" "top-16"
+    "imageHeightClass" "h-[440px]"
+    "imageClass" "bg-[url('../images/core-gradient.png')] bg-no-repeat bg-center bg-[length:600px_900px]"
+    "opacityClass" "opacity-65"
+  ) }}
+  <div class="container relative z-10">
     <div class="mb-12">
       <p class="section-tagline">Blog</p>
       <div class="md:flex md:gap-10 ">

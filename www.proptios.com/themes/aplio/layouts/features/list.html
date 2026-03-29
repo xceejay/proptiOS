@@ -1,11 +1,23 @@
 {{ define "main" }} 
-{{ partial "global/pageHero.html" (dict "context" . "page" "features") }}
-
-<section class="bg-white dark:bg-dark-300 pb-150 max-md:pb-20 relative max-sm:overflow-hidden">
-  <div
-    class="absolute left-0 right-0 -top-[200px] bg-[url('../images/service-bg.png')] bg-no-repeat bg-cover bg-center opacity-70 w-full h-full sm:hidden"
-  ></div>
-  <div class="container ">
+<section class="bg-white dark:bg-dark-300 pb-150 max-md:pb-20 relative max-sm:overflow-hidden pt-28 md:pt-36">
+  {{ partial "global/mobileSectionBackdrop.html" (dict
+    "wrapperClass" "h-[780px]"
+    "fadeClass" "h-44"
+    "imageTopClass" "top-24"
+    "imageHeightClass" "h-[680px]"
+    "imageClass" "bg-[url('../images/service-bg.png')] bg-no-repeat bg-cover bg-center"
+    "opacityClass" "opacity-55"
+  ) }}
+  <div class="container">
+    {{ with .Site.GetPage "features" }}
+      {{ with index .Params.hero 0 }}
+        <div class="max-w-[948px] mx-auto text-center mb-14 md:mb-20 relative z-10">
+          <p class="mb-4 font-medium uppercase">{{ .tagline }}</p>
+          <h1 class="max-lg:mb-10 mb-10">{{ .title | safeHTML }}</h1>
+          <p class="max-lg:mb-10 mb-12 max-w-[590px] mx-auto">{{ .details | safeHTML }}</p>
+        </div>
+      {{ end }}
+    {{ end }}
     <div class="relative z-10">
       <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex max-md:flex-col -z-10 max-sm:hidden">
         <div
@@ -65,7 +77,7 @@
 </section>
 
 {{ partial "global/membersCounter.html" (dict "context" . "border" "false")}}
-{{ partial "global/pricing.html" (dict "context" . "largeTitle" "false" "pricingDescription" "false" "spacing" "pt-150 mb-150 max-md:mb-25")}}
+{{ partial "global/pricing.html" (dict "context" . "largeTitle" "false" "pricingDescription" "false" "spacing" "pt-100 mb-100 max-md:pt-12 max-md:mb-12")}}
 
 {{ partial "global/newsletter.html" ( dict "context" . "spacing" "")}}
 {{end}}

@@ -14,9 +14,11 @@
   </div>
 </section>
 <article class="pb-150 relative">
-  <div
-    class="absolute left-1/2 -top-[250px] w-full h-[550px] -translate-x-1/2 bg-cover  bg-[url('../images/hero-gradient.png')] bg-no-repeat bg-center opacity-70 md:hidden -z-10"
-  ></div>
+  {{ partial "global/desktopSectionBackdrop.html" (dict
+    "wrapperClass" "h-[620px]"
+    "imageTopClass" "-top-[180px]"
+    "imageHeightClass" "h-[520px]"
+  ) }}
   <div class="container relative ">
     <div
       class="absolute left-1/2 top-20 -translate-x-1/2 -translate-y-1/2 flex max-md:flex-col max-md:-translate-y-0 -z-10 max-md:hidden"

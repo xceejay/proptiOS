@@ -5,3 +5,4 @@ Disallow: /signup
 Disallow: /forget-password
 
 Sitemap: https://proptios.com/sitemap.xml
+

@@ -1,8 +1,13 @@
 
 <section class="bg-white pt-150  dark:bg-dark-300 relative sm:overflow-hidden">
-  <div
-    class="absolute left-0 right-0 top-25 bg-[url('../images/service-bg.png')] bg-no-repeat bg-cover bg-center opacity-70 w-full h-full  sm:hidden"
-  ></div>
+  {{ partial "global/mobileSectionBackdrop.html" (dict
+    "wrapperClass" "h-[560px]"
+    "fadeClass" "h-36"
+    "imageTopClass" "top-10"
+    "imageHeightClass" "h-[500px]"
+    "imageClass" "bg-[url('../images/service-bg.png')] bg-no-repeat bg-cover bg-center"
+    "opacityClass" "opacity-60"
+  ) }}
   <div class="container">
     <div class="grid grid-cols-12 max-md:gap-y-8 md:gap-8">
       {{ with .Site.Data.customServices}}
