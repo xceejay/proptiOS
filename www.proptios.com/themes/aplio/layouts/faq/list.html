@@ -1,6 +1,5 @@
 {{ define "main"}}
-{{ partial "global/pageHero.html" (dict "context" . "page" "faq") }}
-<section class=" pb-150 max-md:overflow-hidden">
+<section class="pt-24 md:pt-28 pb-150 max-md:overflow-hidden">
   <div class="container relative z-10">
     <div class="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 flex max-md:flex-col -z-10 max-md:hidden">
       <div
@@ -16,6 +15,13 @@
     <div
       class="absolute left-1/2  p-[350px] -translate-x-1/2 bg-cover w-full h-full  bg-[url('../images/hero-gradient.png')] bg-no-repeat bg-center opacity-70 md:hidden -z-10"
     ></div>
+    {{ with index .Params.hero 0 }}
+    <div class="max-w-[948px] mx-auto text-center mb-12 md:mb-16">
+      <p class="mb-4 font-medium uppercase">{{ .tagline }}</p>
+      <h1 class="mb-6 md:mb-8">{{ .title | safeHTML }}</h1>
+      <p class="max-w-[590px] mx-auto">{{ .details | safeHTML }}</p>
+    </div>
+    {{ end }}
     <div
       class="  max-w-[850px] mx-auto"
       data-aos="fade-up"
