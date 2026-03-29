@@ -10,26 +10,22 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      VERCEL_ORG_ID: team_cmcv6jEBiWKR1eWbScRfJ9ZN
+      VERCEL_PROJECT_ID: prj_3EgftHIaGshqOWMGlRN0nSj3nhQz
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           submodules: true
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9
-
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: pnpm
-          cache-dependency-path: www.proptios.com/pnpm-lock.yaml
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: npm ci
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v3
@@ -37,17 +33,19 @@ jobs:
           hugo-version: '0.145.0'
           extended: true
 
-      - name: Build site with Hugo
-        run: hugo --gc --minify
+      - name: Build site
+        run: |
+          export PATH="$(pwd)/node_modules/.bin:$PATH"
+          hugo --minify
 
       - name: Install Vercel CLI
-        run: pnpm add -g vercel@latest
+        run: npm install -g vercel@latest
 
       - name: Deploy preview for staging
         if: github.ref_name == 'staging'
         id: deploy_staging
         run: |
-          deployment_url="$(vercel deploy ./public --token "${{ secrets.VERCEL_TOKEN }}" --scope xceejays-projects --yes)"
+          deployment_url="$(vercel deploy ./public --token "${{ secrets.VERCEL_TOKEN }}" --yes)"
           echo "deployment_url=$deployment_url" >> "$GITHUB_OUTPUT"
 
       - name: Alias staging custom domain
@@ -60,4 +58,4 @@ jobs:
       - name: Deploy production
         if: github.ref_name == 'main'
         run: |
-          vercel deploy ./public --prod --token "${{ secrets.VERCEL_TOKEN }}" --scope xceejays-projects --yes
+          vercel deploy ./public --prod --token "${{ secrets.VERCEL_TOKEN }}" --yes
