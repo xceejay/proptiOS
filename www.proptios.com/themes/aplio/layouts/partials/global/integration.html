@@ -1,25 +1,28 @@
-
-<section class="pb-150 relative">
+{{ $page := .context.Site.GetPage "/integration" }}
+{{ $hero := and $page $page.Params.hero }}
+<section class="pb-150 relative {{ if eq .sectionHeader "false" }}pt-24 md:pt-28{{ end }}">
   {{ if eq .sectionHeader "false"}}
   <div
     class="absolute left-1/2 -top-[300px] w-full h-[550px] -translate-x-1/2 bg-cover  bg-[url('../images/hero-gradient.png')] bg-no-repeat bg-center opacity-70 md:hidden -z-10"
   ></div>
   {{end}}
   <div class="container">
-    {{ if eq .sectionHeader "true"}}
-    {{ with .context.Site.GetPage "/integration"}}
-    {{range .Params.hero}}
-    <div class="text-center max-w-[620px] mx-auto mb-25">
-      <p class="section-tagline">{{ .tagline}}</p>
-
-      <h2 class="mb-8">{{ .title | safeHTML }}</h2>
-      <p>
-        {{ .details  | safeHTML }}
-      </p>
+    {{ if or (eq .sectionHeader "true") (eq .sectionHeader "false") }}
+    <div class="text-center max-w-[720px] mx-auto mb-12 md:mb-16">
+      {{ if and $page $page.Params.hero }}
+      {{ with index $page.Params.hero 0 }}
+      <p class="mb-4 font-medium uppercase">{{ .tagline }}</p>
+      <h1 class="mb-6 md:mb-8">{{ .title | safeHTML }}</h1>
+      {{ if .details }}
+      <p class="max-w-[590px] mx-auto">{{ .details | safeHTML }}</p>
+      {{ end }}
+      {{ end }}
+      {{ else if $page }}
+      <p class="mb-4 font-medium uppercase">Integration</p>
+      <h1 class="mb-6 md:mb-8">{{ $page.Title | safeHTML }}</h1>
+      {{ end }}
     </div>
-    {{end}}
-    {{end}}
-    {{end}}
+    {{ end }}
     <div class="relative z-10 {{ if eq .sectionHeader "false"}} max-w-[850px] mx-auto {{end}}">
       <div class="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 flex max-md:flex-col -z-10 {{ if eq .sectionHeader "true"}} top-1/2 {{else}} top-150 max-md:hidden {{end}}">
         <div

@@ -1,4 +1,4 @@
-<section class="mb-150 relative">
+<section class="mb-150 relative pt-24 md:pt-28">
   <div
     class="absolute left-1/2 -top-[250px] w-full h-[550px] -translate-x-1/2 bg-cover  bg-[url('../images/hero-gradient.png')] bg-no-repeat bg-center opacity-70 md:hidden -z-10"
   ></div>
@@ -14,6 +14,20 @@
         class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px]  rounded-full bg-primary-200/20 -ml-[170px] max-md:ml-0 blur-[145px]"
       ></div>
     </div>
+    {{ with .Site.GetPage "/blog-list" }}
+    <div class="max-w-[948px] mx-auto text-center mb-12 md:mb-16">
+      {{ with index .Params.hero 0 }}
+      <p class="mb-4 font-medium uppercase">{{ .tagline }}</p>
+      <h1 class="mb-6 md:mb-8">{{ .title | safeHTML }}</h1>
+      {{ if .details }}
+      <p class="max-w-[590px] mx-auto">{{ .details | safeHTML }}</p>
+      {{ end }}
+      {{ else }}
+      <p class="mb-4 font-medium uppercase">Blog</p>
+      <h1 class="mb-6 md:mb-8">{{ .Title | safeHTML }}</h1>
+      {{ end }}
+    </div>
+    {{ end }}
     <div class="grid grid-cols-12 max-md:gap-y-25 md:gap-5 lg:gap-8">
       <div class="max-md:col-span-full max-lg:col-span-7 max-md:order-2 lg:col-span-8 [&>*:not(:last-child)]:mb-8">
         {{ $paginator := .Paginate (where .Site.RegularPages "Type" "blog") }}

@@ -1,9 +1,16 @@
-<section class="pb-16 md:pb-24 relative">
+<section class="pt-24 md:pt-28 pb-16 md:pb-24 relative">
   <div
     class="absolute left-1/2 -top-[250px] w-full h-[550px] -translate-x-1/2 bg-cover  bg-[url('../images/hero-gradient.png')] bg-no-repeat bg-center opacity-70 md:hidden -z-10"
   ></div>
   <div class="container ">
     <div class="relative z-10">
+      {{ with index (.Site.GetPage "/contact").Params.hero 0 }}
+      <div class="max-w-[948px] mx-auto text-center mb-12 md:mb-16">
+        <p class="mb-4 font-medium uppercase">{{ .tagline }}</p>
+        <h1 class="mb-6 md:mb-8">{{ .title | safeHTML }}</h1>
+        <p class="max-w-[590px] mx-auto">{{ .details | safeHTML }}</p>
+      </div>
+      {{ end }}
       <div class="absolute left-1/2 top-20 -translate-x-1/2 -translate-y-1/2 flex max-md:flex-col -z-10 max-md:hidden">
         <div
           class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px]  rounded-full bg-primary-200/20 blur-[145px]"
