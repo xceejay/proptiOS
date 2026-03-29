@@ -119,7 +119,11 @@ const PropertyViewSettings = props => {
     resolver: yupResolver(schema)
   })
 
+  const [submitting, setSubmitting] = useState(false)
+
   const onSubmit = formData => {
+    if (submitting) return
+    setSubmitting(true)
     const uuid = propertyData?.uuid || ''
     let requestData = [{ ...formData, uuid }]
     properties.editProperties(
@@ -127,14 +131,14 @@ const PropertyViewSettings = props => {
       responseData => {
         let { data } = responseData
 
-        if (data?.status === 'NO_RES') {
-          console.log('NO results')
-        } else if (data?.status === 'FAILED') {
+        if (data?.status === 'NO_RES') { /* no action needed */ } else if (data?.status === 'FAILED') {
           alert(data.description || 'Failed to edit property')
           setError('property_email', {
             type: 'manual',
             message: data.description || 'Unknown error occurred'
           })
+
+          setSubmitting(false)
 
           return
         }
@@ -164,16 +168,15 @@ const PropertyViewSettings = props => {
         })
 
         toast.success('Property updated successfully', { duration: 5000 })
-        console.log('datada:', data)
-        console.log('upreqdata:', updatedRequestData)
 
         setPropertyData(updatedRequestData[0])
-        // alert(JSON.stringify(updatedRequestData[0]))
+        setSubmitting(false)
       },
       error => {
         toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
           duration: 5000
         })
+        setSubmitting(false)
       }
     )
   }
@@ -293,7 +296,7 @@ const PropertyViewSettings = props => {
                 variant='contained'
                 color='primary'
                 sx={{ mt: 2, width: '100%' }}
-                disabled={!isDirty}
+                disabled={!isDirty || submitting}
               >
                 Save Changes
               </Button>

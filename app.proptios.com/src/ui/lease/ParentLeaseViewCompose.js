@@ -30,9 +30,7 @@ const ParentLeaseViewCompose = ({}) => {
       responseData => {
         const { data } = responseData
 
-        if (data?.status === 'NO_RES') {
-          console.log('NO results')
-        } else if (data?.status === 'FAILED') {
+        if (data?.status === 'NO_RES') { /* no action needed */ } else if (data?.status === 'FAILED') {
           alert(responseData.message || 'Failed to fetch properties')
         } else {
           console.log('properties data has been fetched in leases', data)

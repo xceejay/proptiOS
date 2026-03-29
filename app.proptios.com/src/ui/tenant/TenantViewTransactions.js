@@ -16,11 +16,6 @@ const TenantViewTransactions = ({ tenantData }) => {
   return (
     <Grid container spacing={6}>
       <Grid size={12}>
-        <Alert severity='info'>
-          Tenant transactions currently render from the transactions array returned on the tenant payload.
-        </Alert>
-      </Grid>
-      <Grid size={12}>
         <UserTransactionListTable userTransactionData={tenantData.transactions || []} />
       </Grid>
     </Grid>

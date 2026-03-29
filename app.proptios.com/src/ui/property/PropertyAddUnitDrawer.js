@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import Drawer from '@mui/material/Drawer'
 import Button from '@mui/material/Button'
+import CircularProgress from '@mui/material/CircularProgress'
 import MenuItem from '@mui/material/MenuItem'
 import { styled } from '@mui/material/styles'
 import TextField from '@mui/material/TextField'
@@ -203,7 +204,11 @@ const AddUnitDrawer = props => {
     resolver: yupResolver(schema)
   })
 
+  const [submitting, setSubmitting] = useState(false)
+
   const onSubmit = formData => {
+    if (submitting) return
+    setSubmitting(true)
     // Find the selected tenant by tenant_id
     const selectedTenant = (propertyData?.tenants ?? []).find(tenant => tenant.id === formData.tenant_id)
 
@@ -234,15 +239,14 @@ const AddUnitDrawer = props => {
         console.log('Add Unit Drawer Response:', responseData)
         let { data } = responseData
 
-        if (data?.status === 'NO_RES') {
-          console.log('NO results')
-        } else if (data?.status === 'FAILED') {
+        if (data?.status === 'NO_RES') { /* no action needed */ } else if (data?.status === 'FAILED') {
           alert(data.description || 'Failed to add unit')
           setError('email', {
             type: 'manual',
             message: data.description || 'Unknown error occurred'
           })
 
+          setSubmitting(false)
           return
         }
 
@@ -265,8 +269,6 @@ const AddUnitDrawer = props => {
         })
 
         toast.success('Unit has been successfully added', { duration: 5000 })
-        console.log('old Units Data', unitsData)
-        console.log('request Data', updatedRequestData)
 
         if (setPropertyData && propertyData) {
           setPropertyData(prev => ({
@@ -277,6 +279,9 @@ const AddUnitDrawer = props => {
 
         // setUnitsData(prevData => [...prevData, ...updatedRequestData])
 
+        setSubmitting(false)
+
+
         handleClose()
       },
       error => {
@@ -285,6 +290,9 @@ const AddUnitDrawer = props => {
         toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
           duration: 5000
         })
+
+
+        setSubmitting(false)
       }
     )
   }
@@ -302,7 +310,7 @@ const AddUnitDrawer = props => {
       variant='temporary'
       onClose={handleClose}
       ModalProps={{ keepMounted: true }}
-      sx={{ '& .MuiDrawer-paper': { width: { xs: 300, sm: 400 } } }}
+      sx={{ '& .MuiDrawer-paper': { width: { xs: '100%', sm: 420 } } }}
     >
       <Header>
         <Typography variant='h6'>Add Unit</Typography>
@@ -694,7 +702,8 @@ const AddUnitDrawer = props => {
             {errors.lease_id && <FormHelperText sx={{ color: 'error.main' }}>{errors.lease_id.message}</FormHelperText>}
           </FormControl> */}
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Button size='small' type='submit' variant='contained' sx={{ mr: 3 }}>
+            <Button size='small' type='submit' variant='contained' sx={{ mr: 3 }} disabled={submitting}>
+              {submitting ? <CircularProgress size={20} sx={{ mr: 1 }} /> : null}
               Submit
             </Button>
             <Button size='small' variant='outlined' color='secondary' onClick={handleClose}>

@@ -26,6 +26,7 @@ const Menu = skin => {
         root: ({ theme }) => ({
           margin: theme.spacing(0, 2, 1),
           padding: theme.spacing(1.75, 4),
+          minHeight: 44,
           borderRadius: theme.shape.borderRadius,
           '&:last-child': {
             marginBottom: 0

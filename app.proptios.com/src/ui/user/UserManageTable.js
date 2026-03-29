@@ -28,12 +28,14 @@ import CustomChip from 'src/@core/components/mui/chip'
 
 // ** Hooks Imports
 import { useUsers } from 'src/hooks/useUsers'
+import { useAuth } from 'src/hooks/useAuth'
 import EditUserDrawer from './EditUserDrawer'
 import toast from 'react-hot-toast'
 import CustomUsersToolbar from 'src/views/table/data-grid/CustomUsersToolbar'
 import { filterUsers } from './userManageFilters'
 
-const RowOptions = ({ id, row, setUsersData, usersData, setLoading }) => {
+const RowOptions = ({ id, row, setUsersData, usersData, setLoading, currentUserEmail }) => {
+  const isSelf = row.email === currentUserEmail
   const [anchorEl, setAnchorEl] = useState(null)
   const rowOptionsOpen = Boolean(anchorEl)
 
@@ -58,9 +60,7 @@ const RowOptions = ({ id, row, setUsersData, usersData, setLoading }) => {
         let { data } = responseData
         setLoading(false)
 
-        if (data?.status === 'NO_RES') {
-          console.log('NO results')
-        } else if (data?.status === 'FAILED') {
+        if (data?.status === 'NO_RES') { /* no action needed */ } else if (data?.status === 'FAILED') {
           alert(data.description || 'Failed to disable user')
 
           return
@@ -96,9 +96,7 @@ const RowOptions = ({ id, row, setUsersData, usersData, setLoading }) => {
         let { data } = responseData
         setLoading(false)
 
-        if (data?.status === 'NO_RES') {
-          console.log('NO results')
-        } else if (data?.status === 'FAILED') {
+        if (data?.status === 'NO_RES') { /* no action needed */ } else if (data?.status === 'FAILED') {
           alert(data.description || 'Failed to disable user')
 
           return
@@ -132,7 +130,7 @@ const RowOptions = ({ id, row, setUsersData, usersData, setLoading }) => {
 
   return (
     <>
-      <IconButton size='small' onClick={handleRowOptionsClick}>
+      <IconButton size='medium' onClick={handleRowOptionsClick}>
         <Icon icon='tabler:dots-vertical' />
       </IconButton>
       <Menu
@@ -165,14 +163,18 @@ const RowOptions = ({ id, row, setUsersData, usersData, setLoading }) => {
           Edit
         </MenuItem>
 
-        <MenuItem onClick={handleEnable} sx={{ '& svg': { mr: 2 } }}>
-          <Icon icon='tabler:user-check' fontSize={20} />
-          Enable Account
-        </MenuItem>
-        <MenuItem onClick={handleDisable} sx={{ '& svg': { mr: 2 } }}>
-          <Icon icon='tabler:user-x' fontSize={20} />
-          Disable Account
-        </MenuItem>
+        {!isSelf && (
+          <MenuItem onClick={handleEnable} sx={{ '& svg': { mr: 2 } }}>
+            <Icon icon='tabler:user-check' fontSize={20} />
+            Enable Account
+          </MenuItem>
+        )}
+        {!isSelf && (
+          <MenuItem onClick={handleDisable} sx={{ '& svg': { mr: 2 } }}>
+            <Icon icon='tabler:user-x' fontSize={20} />
+            Disable Account
+          </MenuItem>
+        )}
       </Menu>
       <EditUserDrawer
         setLoading={setLoading}
@@ -353,12 +355,14 @@ const UserManageTable = () => {
       field: 'actions',
       headerName: 'Actions',
       renderCell: ({ row }) => (
-        <RowOptions setLoading={setLoading} setUsersData={setUsersData} usersData={usersData} id={row.id} row={row} />
+        <RowOptions setLoading={setLoading} setUsersData={setUsersData} usersData={usersData} id={row.id} row={row} currentUserEmail={currentUserEmail} />
       )
     }
   ]
 
   const users = useUsers()
+  const auth = useAuth()
+  const currentUserEmail = auth.user?.email
   const [loading, setLoading] = useState(true) // New loading state
 
   const [usersData, setUsersData] = useState({ items: [] })
@@ -390,9 +394,7 @@ const UserManageTable = () => {
         const { data } = responseData
         setLoading(false)
 
-        if (data?.status === 'NO_RES') {
-          console.log('NO results')
-        } else if (data?.status === 'FAILED') {
+        if (data?.status === 'NO_RES') { /* no action needed */ } else if (data?.status === 'FAILED') {
           alert(data.message || 'Failed to fetch users')
 
           return

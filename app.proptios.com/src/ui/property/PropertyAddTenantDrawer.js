@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Drawer from '@mui/material/Drawer'
 import Select from '@mui/material/Select'
 import Button from '@mui/material/Button'
+import CircularProgress from '@mui/material/CircularProgress'
 import MenuItem from '@mui/material/MenuItem'
 import { styled } from '@mui/material/styles'
 import TextField from '@mui/material/TextField'
@@ -161,11 +162,13 @@ const PropertyAddTenantDrawer = props => {
           }
         },
         error => {
-          console.log(id)
 
           toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
             duration: 5000
           })
+
+
+          setSubmitting(false)
         }
       )
     }
@@ -173,12 +176,15 @@ const PropertyAddTenantDrawer = props => {
 
   useEffect(() => {
     if (!open) {
-      console.log('refreshing from add tenant drawer')
       refreshPropertyData()
     }
   }, [open])
 
+  const [submitting, setSubmitting] = useState(false)
+
   const onSubmit = formData => {
+    if (submitting) return
+    setSubmitting(true)
     // If formData should be an array, keep it as is
     const property_id = propertyData.id
 
@@ -191,18 +197,16 @@ const PropertyAddTenantDrawer = props => {
     tenants.addTenants(
       requestData,
       responseData => {
-        console.log('Add Tenant Drawer')
         let { data } = responseData
 
-        if (data?.status === 'NO_RES') {
-          console.log('NO results')
-        } else if (data?.status === 'FAILED') {
+        if (data?.status === 'NO_RES') { /* no action needed */ } else if (data?.status === 'FAILED') {
           alert(data.description || 'Failed to add tenant')
           setError('email', {
             type: 'manual',
             message: data.description || 'Unknown error occurred'
           })
 
+          setSubmitting(false)
           return
         }
 
@@ -223,20 +227,22 @@ const PropertyAddTenantDrawer = props => {
           duration: 5000
         })
 
-        console.log('uplreq', updatedRequestData)
-
         setPropertyData(prevData => ({
           ...prevData,
           tenants: [...prevData.tenants, ...updatedRequestData]
         }))
 
         // Close the drawer
+        setSubmitting(false)
+
         handleClose()
       },
       error => {
         toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
           duration: 5000
         })
+
+        setSubmitting(false)
       }
     )
   }
@@ -256,7 +262,7 @@ const PropertyAddTenantDrawer = props => {
       variant='temporary'
       onClose={handleClose}
       ModalProps={{ keepMounted: true }}
-      sx={{ '& .MuiDrawer-paper': { width: { xs: 300, sm: 400 } } }}
+      sx={{ '& .MuiDrawer-paper': { width: { xs: '100%', sm: 420 } } }}
     >
       <Header>
         <Typography variant='h6'>Add Tenant To {propertyData.name}</Typography>
@@ -426,7 +432,8 @@ const PropertyAddTenantDrawer = props => {
             </Select>
           </FormControl>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Button size='small' type='submit' variant='contained' sx={{ mr: 3 }}>
+            <Button size='small' type='submit' variant='contained' sx={{ mr: 3 }} disabled={submitting}>
+              {submitting ? <CircularProgress size={20} sx={{ mr: 1 }} /> : null}
               Submit
             </Button>
             <Button size='small' variant='outlined' color='secondary' onClick={handleClose}>

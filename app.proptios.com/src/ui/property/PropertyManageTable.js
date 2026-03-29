@@ -68,7 +68,7 @@ const RowOptions = ({ id, row, stopPropagation, setPropertiesData, propertiesDat
 
   return (
     <>
-      <IconButton size='small' onClick={handleRowOptionsClick}>
+      <IconButton size='medium' onClick={handleRowOptionsClick}>
         <Icon icon='tabler:dots-vertical' />
       </IconButton>
       <Menu

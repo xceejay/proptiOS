@@ -57,7 +57,7 @@ const RowOptions = ({ id, row, setSettingsData, settingsData, setLoading }) => {
 
   return (
     <>
-      <IconButton size='small' onClick={handleRowOptionsClick}>
+      <IconButton size='medium' onClick={handleRowOptionsClick}>
         <Icon icon='tabler:dots-vertical' />
       </IconButton>
       <Menu
@@ -307,9 +307,7 @@ const SettingsManageTable = () => {
         const { data } = responseData
         setLoading(false)
 
-        if (data?.status === 'NO_RES') {
-          console.log('NO results')
-        } else if (data?.status === 'FAILED') {
+        if (data?.status === 'NO_RES') { /* no action needed */ } else if (data?.status === 'FAILED') {
           alert(data.message || 'Failed to fetch settings')
 
           return

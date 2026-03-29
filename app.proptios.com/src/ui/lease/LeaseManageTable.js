@@ -41,7 +41,7 @@ const RowOptions = ({ id, row, setLeasesData, leasesData, setLoading }) => {
 
   return (
     <>
-      <IconButton size='small' onClick={handleRowOptionsClick}>
+      <IconButton size='medium' onClick={handleRowOptionsClick}>
         <Icon icon='tabler:dots-vertical' />
       </IconButton>
       <Menu
