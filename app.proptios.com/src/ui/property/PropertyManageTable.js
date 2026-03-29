@@ -34,6 +34,7 @@ import { removePropertyById } from './propertyManageModel'
 
 const RowOptions = ({ id, row, stopPropagation, setPropertiesData, propertiesData, deleteProperties }) => {
   const [anchorEl, setAnchorEl] = useState(null)
+  const [actionLoading, setActionLoading] = useState(false)
   const rowOptionsOpen = Boolean(anchorEl)
   const [editDrawerOpen, setEditDrawerOpen] = useState(false)
 
@@ -47,13 +48,17 @@ const RowOptions = ({ id, row, stopPropagation, setPropertiesData, propertiesDat
   }
 
   const handleDelete = async () => {
+    if (actionLoading) return
+    setActionLoading(true)
     deleteProperties(
       id,
       () => {
+        setActionLoading(false)
         setPropertiesData(prevProperties => removePropertyById(prevProperties || propertiesData, id))
         toast.success('Property deleted successfully')
       },
       error => {
+        setActionLoading(false)
         console.error(error)
         toast.error('Error deleting property')
       }
