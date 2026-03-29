@@ -113,6 +113,33 @@ const acl = (allowedRoles) => {
         responseDescription = body.description || null;
       }
 
+      // Build a human-readable audit summary
+      const userName = req.user.name || req.user.email || "A user";
+      const entityLabels = {
+        pm_users: "user",
+        tenants: "tenant",
+        properties: "property",
+        units: "unit",
+        leases: "lease",
+        maintenance: "maintenance request",
+        sites: "site settings",
+        transactions: "transaction",
+        settlements: "settlement",
+      };
+      const entityLabel = entityLabels[tableName] || tableName;
+      const actionLabels = {
+        Created: "created a new",
+        Updated: "updated a",
+        Deleted: "deleted a",
+      };
+      const actionLabel = actionLabels[userAction];
+      if (actionLabel && res.statusCode >= 200 && res.statusCode < 300) {
+        responseDescription = `${userName} ${actionLabel} ${entityLabel}`;
+      } else if (res.statusCode >= 400) {
+        responseDescription =
+          responseDescription || `Failed to ${userAction.toLowerCase()} ${entityLabel}`;
+      }
+
       const logQuery = `
         INSERT INTO audit_logs (pm_user_id, action, table_name, uuid, request_body, response_body, ip_address, user_agent, status_code, endpoint, response_description, site_id, user_action)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)

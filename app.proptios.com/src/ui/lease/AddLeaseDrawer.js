@@ -73,9 +73,7 @@ const SidebarAddLease = props => {
         setLoading(false)
         const { data } = responseData
 
-        if (data?.status === 'NO_RES') {
-          console.log('NO results')
-        } else if (data?.status === 'FAILED') {
+        if (data?.status === 'NO_RES') { /* no action needed */ } else if (data?.status === 'FAILED') {
           alert(data.description || 'Failed to add lease')
           setError('tenant_id', {
             type: 'manual',
@@ -125,7 +123,7 @@ const SidebarAddLease = props => {
       variant='temporary'
       onClose={handleClose}
       ModalProps={{ keepMounted: true }}
-      sx={{ '& .MuiDrawer-paper': { width: { xs: 300, sm: 400 } } }}
+      sx={{ '& .MuiDrawer-paper': { width: { xs: '100%', sm: 420 } } }}
     >
       <Header>
         <Typography variant='h6'>Add Lease</Typography>

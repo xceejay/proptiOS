@@ -234,7 +234,7 @@ const RowOptions = ({ id, row, stopPropagation, setTenantsData, tenantsData, set
 
   return (
     <>
-      <IconButton size='small' onClick={handleRowOptionsClick}>
+      <IconButton size='medium' onClick={handleRowOptionsClick}>
         <Icon icon='tabler:dots-vertical' />
       </IconButton>
       <Menu
@@ -452,9 +452,7 @@ const TenantManageTable = () => {
         const { data } = responseData
         setLoading(false)
 
-        if (data?.status === 'NO_RES') {
-          console.log('NO results')
-        } else if (data?.status === 'FAILED') {
+        if (data?.status === 'NO_RES') { /* no action needed */ } else if (data?.status === 'FAILED') {
           alert(data.message || 'Failed to fetch tenants')
 
           return

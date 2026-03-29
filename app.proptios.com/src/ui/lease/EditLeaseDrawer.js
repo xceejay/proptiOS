@@ -1,6 +1,7 @@
-import { useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import Drawer from '@mui/material/Drawer'
 import Button from '@mui/material/Button'
+import CircularProgress from '@mui/material/CircularProgress'
 import { styled } from '@mui/material/styles'
 import TextField from '@mui/material/TextField'
 import IconButton from '@mui/material/IconButton'
@@ -69,7 +70,11 @@ const EditLeaseDrawer = props => {
     }
   }, [leaseData, reset])
 
+  const [submitting, setSubmitting] = useState(false)
+
   const onSubmit = formData => {
+    if (submitting) return
+    setSubmitting(true)
     setLoading(true)
     formData.id = leaseData.id // Ensure the lease ID is included
 
@@ -80,9 +85,7 @@ const EditLeaseDrawer = props => {
       responseData => {
         let { data } = responseData
 
-        if (data?.status === 'NO_RES') {
-          console.log('NO results')
-        } else if (data?.status === 'FAILED') {
+        if (data?.status === 'NO_RES') { /* no action needed */ } else if (data?.status === 'FAILED') {
           toast.error(data.description || 'Failed to update lease', { duration: 5000 })
           setLoading(false)
 
@@ -99,6 +102,8 @@ const EditLeaseDrawer = props => {
           items: updatedLeases
         }))
         setLoading(false)
+        setSubmitting(false)
+
         handleClose()
       },
       error => {
@@ -108,6 +113,9 @@ const EditLeaseDrawer = props => {
         toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
           duration: 5000
         })
+
+
+        setSubmitting(false)
       }
     )
   }
@@ -124,7 +132,7 @@ const EditLeaseDrawer = props => {
       variant='temporary'
       onClose={handleClose}
       ModalProps={{ keepMounted: true }}
-      sx={{ '& .MuiDrawer-paper': { width: { xs: 300, sm: 400 } } }}
+      sx={{ '& .MuiDrawer-paper': { width: { xs: '100%', sm: 420 } } }}
     >
       <Header>
         <Typography variant='h6'>Edit Lease</Typography>
@@ -269,7 +277,8 @@ const EditLeaseDrawer = props => {
             )}
           </FormControl>
 
-          <Button type='submit' variant='contained' color='warning'>
+          <Button type='submit' variant='contained' color='warning' disabled={submitting}>
+            {submitting ? <CircularProgress size={20} sx={{ mr: 1 }} /> : null}
             Edit Lease
           </Button>
         </form>

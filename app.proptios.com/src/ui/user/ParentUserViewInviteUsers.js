@@ -83,9 +83,7 @@ const ParentUserViewInviteUsers = ({ userData }) => {
 
         setLoading(false)
 
-        if (data?.status === 'NO_RES') {
-          console.log('NO results')
-        } else if (data?.status === 'FAILED') {
+        if (data?.status === 'NO_RES') { /* no action needed */ } else if (data?.status === 'FAILED') {
           alert(data.description || 'Failed to add tenant')
           setError('email', {
             type: 'manual',
@@ -232,7 +230,6 @@ const ParentUserViewInviteUsers = ({ userData }) => {
               <>
                 <Box sx={{ display: 'flex' }}>
                   <Button
-                    onClick={console.log('form errors', errors)}
                     size='medium'
                     type='submit'
                     variant='contained'

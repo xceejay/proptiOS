@@ -108,7 +108,11 @@ const PropertyAddMaintenanceRequestDrawer = props => {
 
   const properties = useProperties()
 
+  const [submitting, setSubmitting] = useState(false)
+
   const onSubmit = formData => {
+    if (submitting) return
+    setSubmitting(true)
     console.log('triggered')
 
     setRequestUUID(v4())
@@ -131,15 +135,14 @@ const PropertyAddMaintenanceRequestDrawer = props => {
         console.log('Add request Drawer Response:', responseData)
         let { data } = responseData
 
-        if (data?.status === 'NO_RES') {
-          console.log('NO results')
-        } else if (data?.status === 'FAILED') {
+        if (data?.status === 'NO_RES') { /* no action needed */ } else if (data?.status === 'FAILED') {
           alert(data.description || 'Failed to add unit')
           setError('title', {
             type: 'manual',
             message: data.description || 'Unknown error occurred'
           })
 
+          setSubmitting(false)
           return
         }
 
@@ -170,6 +173,9 @@ const PropertyAddMaintenanceRequestDrawer = props => {
         toast.success('Request has been successfully added', { duration: 5000 })
         setMaintenanceRequestsData(prevData => [...prevData, ...updatedRequestData])
 
+        setSubmitting(false)
+
+
         handleClose()
       },
       error => {
@@ -178,6 +184,9 @@ const PropertyAddMaintenanceRequestDrawer = props => {
         toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
           duration: 5000
         })
+
+
+        setSubmitting(false)
       }
     )
   }
@@ -195,7 +204,7 @@ const PropertyAddMaintenanceRequestDrawer = props => {
       variant='temporary'
       onClose={handleClose}
       ModalProps={{ keepMounted: true }}
-      sx={{ '& .MuiDrawer-paper': { width: { xs: 300, sm: 400 } } }}
+      sx={{ '& .MuiDrawer-paper': { width: { xs: '100%', sm: 420 } } }}
     >
       <Header>
         <Typography variant='h6'>Add Maintenance Request</Typography>
@@ -368,7 +377,8 @@ const PropertyAddMaintenanceRequestDrawer = props => {
             </Box>
           )}
 
-          <Button size='small' fullWidth type='submit' variant='contained'>
+          <Button size='small' fullWidth type='submit' variant='contained' disabled={submitting}>
+            {submitting ? <CircularProgress size={20} sx={{ mr: 1 }} /> : null}
             Submit
           </Button>
         </form>

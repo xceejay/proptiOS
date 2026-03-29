@@ -1,6 +1,7 @@
-import { useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import Drawer from '@mui/material/Drawer'
 import Button from '@mui/material/Button'
+import CircularProgress from '@mui/material/CircularProgress'
 import MenuItem from '@mui/material/MenuItem'
 import { styled } from '@mui/material/styles'
 import TextField from '@mui/material/TextField'
@@ -165,7 +166,7 @@ const EditUserDrawer = props => {
   //         setLoading(false)
   //       },
   //       error => {
-  //         console.log(id)
+  //
   //
   // toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
   //   duration: 5000
@@ -179,7 +180,11 @@ const EditUserDrawer = props => {
   //   refreshPropertyData()
   // }, [open])
 
+  const [submitting, setSubmitting] = useState(false)
+
   const onSubmit = formData => {
+    if (submitting) return
+    setSubmitting(true)
     setLoading(true)
     formData.unit_id = userData.unit.id
     formData.property_id = userData.property.id
@@ -192,15 +197,14 @@ const EditUserDrawer = props => {
       responseData => {
         let { data } = responseData
 
-        if (data?.status === 'NO_RES') {
-          console.log('NO results')
-        } else if (data?.status === 'FAILED') {
+        if (data?.status === 'NO_RES') { /* no action needed */ } else if (data?.status === 'FAILED') {
           alert(data.description || 'Failed to add user')
           setError('email', {
             type: 'manual',
             message: data.description || 'Unknown error occurred'
           })
 
+          setSubmitting(false)
           return
         }
 
@@ -220,6 +224,9 @@ const EditUserDrawer = props => {
         toast.success('Change applied', { duration: 3000 })
         setLoading(false)
 
+        setSubmitting(false)
+
+
         handleClose()
       },
       error => {
@@ -230,6 +237,9 @@ const EditUserDrawer = props => {
         toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
           duration: 5000
         })
+
+
+        setSubmitting(false)
       }
     )
   }
@@ -249,7 +259,7 @@ const EditUserDrawer = props => {
       variant='temporary'
       onClose={handleClose}
       ModalProps={{ keepMounted: true }}
-      sx={{ '& .MuiDrawer-paper': { width: { xs: 300, sm: 400 } } }}
+      sx={{ '& .MuiDrawer-paper': { width: { xs: '100%', sm: 420 } } }}
     >
       <Header>
         <Typography variant='h6'>Edit User</Typography>
@@ -455,7 +465,8 @@ ADD PROPERTY OPTIONS LATER
             )}
           </FormControl> */}
 
-          <Button type='submit' variant='contained' color='warning'>
+          <Button type='submit' variant='contained' color='warning' disabled={submitting}>
+            {submitting ? <CircularProgress size={20} sx={{ mr: 1 }} /> : null}
             Edit User
           </Button>
         </form>
