@@ -8,8 +8,8 @@ describe('invoice create source contracts', () => {
       'utf8'
     )
 
-    expect(actionsSource).toContain('Invoice creation is backend-blocked')
-    expect(actionsSource).toContain('Send Disabled')
-    expect(actionsSource).toContain('Save Disabled')
+    expect(actionsSource).toContain('billing integration is configured')
+    expect(actionsSource).toContain('Send Invoice')
+    expect(actionsSource).toContain('Save')
   })
 })
