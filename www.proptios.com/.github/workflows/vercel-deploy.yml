@@ -44,6 +44,16 @@ jobs:
       - name: Build site
         run: hugo --minify
 
+      - name: Prepare static deploy bundle
+        run: |
+          rm -rf .vercel-static-deploy
+          mkdir -p .vercel-static-deploy/.vercel
+          rsync -a public/ .vercel-static-deploy/
+          cp vercel.json .vercel-static-deploy/vercel.json
+          cat > .vercel-static-deploy/.vercel/project.json <<EOF
+          {"projectId":"${VERCEL_PROJECT_ID}","orgId":"${VERCEL_ORG_ID}","projectName":"proptios-landing"}
+          EOF
+
       - name: Install Vercel CLI
         run: npm install -g vercel@latest
 
@@ -51,7 +61,8 @@ jobs:
         if: github.ref_name == 'staging'
         id: deploy_staging
         run: |
-          deployment_url="$(vercel deploy ./public --token "${{ secrets.VERCEL_TOKEN }}" --yes)"
+          cd .vercel-static-deploy
+          deployment_url="$(vercel deploy --token "${{ secrets.VERCEL_TOKEN }}" --yes)"
           echo "deployment_url=$deployment_url" >> "$GITHUB_OUTPUT"
 
       - name: Alias staging custom domain
@@ -64,4 +75,5 @@ jobs:
       - name: Deploy production
         if: github.ref_name == 'main'
         run: |
-          vercel deploy ./public --prod --token "${{ secrets.VERCEL_TOKEN }}" --yes
+          cd .vercel-static-deploy
+          vercel deploy --prod --token "${{ secrets.VERCEL_TOKEN }}" --yes
