@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 
 // ** Axios
 import axios from 'src/pages/middleware/axios'
+import { buildCanonicalSiteId, normalizeSiteIdLabel } from 'src/utils/siteId'
 
 // ** Config
 import authConfig from 'src/configs/auth'
@@ -52,9 +53,10 @@ const OnboardingProvider = ({ children }) => {
   const registerAccount = async (params, successCallback, errorCallback) => {
     try {
       const formData = new FormData()
+      const siteIdLabel = normalizeSiteIdLabel(params.data.site_id)
       formData.append('role', params.data.role)
       formData.append('site_name', params.data.site_name)
-      formData.append('site_id', params.data.site_id.toLowerCase() + '.proptios.com')
+      formData.append('site_id', buildCanonicalSiteId(siteIdLabel))
       formData.append('country', params.data.country)
       formData.append('full_name', params.data.full_name)
       formData.append('email', params.data.email)
