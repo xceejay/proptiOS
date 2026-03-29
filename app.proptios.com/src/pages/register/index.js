@@ -41,6 +41,7 @@ import { FormHelperText } from '@mui/material'
 import { MuiFileInput } from 'mui-file-input'
 import toast from 'react-hot-toast'
 import CircularProgress from '@mui/material/CircularProgress'
+import { isValidSiteIdLabel, normalizeSiteIdLabel } from 'src/utils/siteId'
 
 
 // ** Styled Components
@@ -92,7 +93,17 @@ const schema = yup.object().shape({
   email: yup.string().email().required(),
   password: yup.string().min(5).required(),
   full_name: yup.string().min(2).required(),
-  site_id: yup.string().min(2).required(),
+  site_id: yup
+    .string()
+    .transform(value => normalizeSiteIdLabel(value))
+    .min(2, 'Site ID must be at least 2 characters')
+    .max(63, 'Site ID must be 63 characters or fewer')
+    .test(
+      'site-id-domain-label',
+      'Use only lowercase letters, numbers, or hyphens. It cannot start or end with a hyphen.',
+      value => isValidSiteIdLabel(value)
+    )
+    .required(),
   site_name: yup.string(),
   id_card: yup
     .mixed()
@@ -512,10 +523,10 @@ const Register = () => {
                     <>
                       <OutlinedInput
                         id='outlined-adornment-weight'
-                        value={value?.toLowerCase()}
+                        value={value || ''}
                         name='site_id'
                         autoFocus
-                        onChange={onChange}
+                        onChange={event => onChange(normalizeSiteIdLabel(event.target.value))}
                         onBlur={onBlur}
                         error={Boolean(errors.site_id)}
                         required
@@ -529,6 +540,9 @@ const Register = () => {
                     </>
                   )}
                 />
+                {errors.site_id && (
+                  <FormHelperText sx={{ color: 'error.main' }}>{errors.site_id.message}</FormHelperText>
+                )}
               </FormControl>
               <TextField
                 select
