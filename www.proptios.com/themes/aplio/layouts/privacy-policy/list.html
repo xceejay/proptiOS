@@ -1,13 +1,8 @@
 {{define "main"}}
 <section class="relative pb-150 pt-[250px] max-md:pt-150 overflow-hidden">
-  {{ partial "global/mobileSectionBackdrop.html" (dict
-    "wrapperClass" "h-[520px]"
-    "fadeClass" "h-36"
-    "imageTopClass" "top-8"
-    "imageHeightClass" "h-[460px]"
-    "imageClass" "bg-[url('../images/core-gradient.png')] bg-no-repeat bg-center bg-[length:600px_900px]"
-    "opacityClass" "opacity-65"
-  ) }}
+  <div
+    class="absolute left-0 right-0 -top-[800px] bg-[url('../images/core-gradient.png')] bg-no-repeat bg-center opacity-70 w-full h-full bg-[length:600px_1000px] md:hidden"
+  ></div>
   <div
     class="container relative !max-w-[800px]"
     data-aos="fade-up"
