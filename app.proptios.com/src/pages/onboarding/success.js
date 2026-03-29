@@ -1,3 +1,6 @@
+// ** React Imports
+import { useState } from 'react'
+
 // ** Next Import
 import Link from 'next/link'
 
@@ -9,6 +12,8 @@ import Box from '@mui/material/Box'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { styled, useTheme } from '@mui/material/styles'
 import { useRouter } from 'next/router'
+import Alert from '@mui/material/Alert'
+import CircularProgress from '@mui/material/CircularProgress'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
@@ -19,6 +24,7 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 // ** Demo Imports
 import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
 import { useOnboarding } from 'src/hooks/useOnboarding'
+import axios from 'src/pages/middleware/axios'
 
 // Styled Components
 const ForgotPasswordIllustration = styled('img')(({ theme }) => ({
@@ -58,15 +64,44 @@ const LinkStyled = styled(Link)(({ theme }) => ({
 
 const OnboardingSuccess = () => {
   // ** Hooks
-
   const router = useRouter()
-
   const theme = useTheme()
-
   const onboarding = useOnboarding()
+
+  // ** State
+  const [code, setCode] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [message, setMessage] = useState({ type: '', text: '' })
 
   // ** Vars
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
+
+  const handleVerify = async e => {
+    e.preventDefault()
+    if (!code.trim()) {
+      setMessage({ type: 'error', text: 'Please enter your verification code.' })
+
+      return
+    }
+    setLoading(true)
+    setMessage({ type: '', text: '' })
+    try {
+      const res = await axios.post(process.env.NEXT_PUBLIC_API_BASE_URL + '/auth/verify-email-code', { code: code.trim() })
+      if (res.data?.status === 'SUCCESS') {
+        setMessage({ type: 'success', text: 'Email verified successfully! Redirecting to login...' })
+        setTimeout(() => router.push('/login'), 2000)
+      } else {
+        setMessage({ type: 'error', text: res.data?.description || 'Verification failed. Please try again.' })
+      }
+    } catch (err) {
+      setMessage({
+        type: 'error',
+        text: err.response?.data?.description || 'Verification failed. Please check your code and try again.'
+      })
+    } finally {
+      setLoading(false)
+    }
+  }
 
   return (
     <Box className='content-right' sx={{ backgroundColor: 'background.paper' }}>
@@ -137,34 +172,42 @@ const OnboardingSuccess = () => {
               </Typography>
 
               <Typography sx={{ color: 'text.secondary' }}>
-                A message with a verification code has been sent to{' '}
+                A verification link has been sent to{' '}
                 <strong>
                   {onboarding.registrationDetails?.data.email
                     ? onboarding.registrationDetails.data.email
                     : 'your email'}
                 </strong>
-                . Please enter the <strong> 4 digit code</strong> to continue.
+                . Please enter the <strong>verification code</strong> from the email to continue.
               </Typography>
-              <Typography sx={{ color: 'text.secondary' }}></Typography>
             </Box>
 
-            <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
-              <TextField autoFocus type='text' label='Code' sx={{ display: 'flex', mb: 4 }} />
-              {/* For now lets just redirect to login*/}
-              <LinkStyled href='/login'>
-                <Button
-                  fullWidth
-                  variant='contained'
-                  sx={{ mb: 4 }}
-                  size='large'
+            {message.text && (
+              <Alert severity={message.type} sx={{ mb: 4 }}>
+                {message.text}
+              </Alert>
+            )}
 
-                  // onClick={() => {
-                  //   router.push('/')
-                  // }}
-                >
-                  Verify Account
-                </Button>
-              </LinkStyled>
+            <form noValidate autoComplete='off' onSubmit={handleVerify}>
+              <TextField
+                autoFocus
+                type='text'
+                label='Verification Code'
+                placeholder='Enter code from email'
+                value={code}
+                onChange={e => setCode(e.target.value)}
+                sx={{ display: 'flex', mb: 4 }}
+              />
+              <Button
+                fullWidth
+                variant='contained'
+                sx={{ mb: 4 }}
+                size='large'
+                type='submit'
+                disabled={loading}
+              >
+                {loading ? <CircularProgress size={24} color='inherit' /> : 'Verify Account'}
+              </Button>
 
               <Typography sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', '& svg': { mr: 1 } }}>
                 <LinkStyled href='https://proptios.com'>

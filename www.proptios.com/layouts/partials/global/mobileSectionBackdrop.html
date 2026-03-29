@@ -1,0 +1,13 @@
+{{ $wrapperClass := .wrapperClass | default "h-[520px]" }}
+{{ $fadeClass := .fadeClass | default "h-32" }}
+{{ $imageTopClass := .imageTopClass | default "top-12" }}
+{{ $imageHeightClass := .imageHeightClass | default "h-[420px]" }}
+{{ $imageClass := .imageClass | default "" }}
+{{ $opacityClass := .opacityClass | default "opacity-70" }}
+<div
+  aria-hidden="true"
+  class="pointer-events-none absolute inset-x-0 top-0 {{ $wrapperClass }} overflow-hidden md:hidden"
+>
+  <div class="absolute inset-x-0 top-0 {{ $fadeClass }} bg-gradient-to-b from-white via-white/90 to-transparent"></div>
+  <div class="absolute inset-x-0 {{ $imageTopClass }} {{ $imageHeightClass }} {{ $imageClass }} {{ $opacityClass }}"></div>
+</div>

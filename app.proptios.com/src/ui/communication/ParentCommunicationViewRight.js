@@ -13,6 +13,7 @@ import Typography from '@mui/material/Typography'
 import MuiTab from '@mui/material/Tab'
 import MuiTabList from '@mui/lab/TabList'
 import CircularProgress from '@mui/material/CircularProgress'
+import Tooltip from '@mui/material/Tooltip'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
@@ -95,12 +96,16 @@ const ParentCommunicationViewRight = ({ tab, communicationData, setCommunication
       >
         {/* <Tab value='invite' label='Invite Communication' icon={<Icon fontSize='1.125rem' icon='tabler:communication-plus' />} /> */}
         <Tab value='issues' label='Issues' icon={<Icon fontSize='1.125rem' icon='tabler:home-exclamation' />} />
-        <Tab
-          value='broadcast'
-          disabled
-          label='Broadcast'
-          icon={<Icon fontSize='1.125rem' icon='tabler:speakerphone' />}
-        />
+        <Tooltip title='Broadcast messaging is coming soon'>
+          <span>
+            <Tab
+              value='broadcast'
+              disabled
+              label='Broadcast'
+              icon={<Icon fontSize='1.125rem' icon='tabler:speakerphone' />}
+            />
+          </span>
+        </Tooltip>
       </TabList>
       <Box sx={{ mt: 6 }}>
         {isLoading ? (

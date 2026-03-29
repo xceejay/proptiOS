@@ -13,6 +13,7 @@ import Typography from '@mui/material/Typography'
 import MuiTab from '@mui/material/Tab'
 import MuiTabList from '@mui/lab/TabList'
 import CircularProgress from '@mui/material/CircularProgress'
+import Tooltip from '@mui/material/Tooltip'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
@@ -101,12 +102,16 @@ const ParentLeaseViewRight = ({ tab, leaseData, setLeaseData }) => {
         <Tab value='compose' label='compose' icon={<Icon fontSize='1.125rem' icon='tabler:writing-sign' />} />
 
         <Tab value='management' label='management' icon={<Icon fontSize='1.125rem' icon='tabler:eye-edit' />} />
-        <Tab
-          value='templates'
-          disabled
-          label='templates'
-          icon={<Icon fontSize='1.125rem' icon='tabler:layers-selected' />}
-        />
+        <Tooltip title='Lease templates are coming soon'>
+          <span>
+            <Tab
+              value='templates'
+              disabled
+              label='Templates'
+              icon={<Icon fontSize='1.125rem' icon='tabler:layers-selected' />}
+            />
+          </span>
+        </Tooltip>
       </TabList>
       <Box sx={{ mt: 6 }}>
         {isLoading ? (
