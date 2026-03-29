@@ -15,14 +15,9 @@
 </section>
 
 <section class="mb-150 relative">
-  {{ partial "global/mobileSectionBackdrop.html" (dict
-    "wrapperClass" "h-[640px]"
-    "fadeClass" "h-36"
-    "imageTopClass" "top-10"
-    "imageHeightClass" "h-[580px]"
-    "imageClass" "bg-[url('../images/core-gradient.png')] bg-no-repeat bg-center bg-[length:600px_1200px]"
-    "opacityClass" "opacity-65"
-  ) }}
+  <div
+    class="absolute left-0 right-0 -top-[1000px] bg-[url('../images/core-gradient.png')] bg-no-repeat bg-center opacity-70 w-full h-full bg-[length:600px_1600px] md:hidden"
+  ></div>
   <div class="container relative">
     <div class="absolute left-1/2 top-20 -translate-x-1/2 -translate-y-1/2 flex max-md:flex-col -z-10 max-md:hidden">
       <div

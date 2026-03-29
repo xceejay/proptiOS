@@ -1,10 +1,8 @@
 {{ define "main"}}
 <div class="container mb-150 pt-[250px] max-md:pt-150 relative">
-  {{ partial "global/desktopSectionBackdrop.html" (dict
-    "wrapperClass" "h-[760px]"
-    "imageTopClass" "top-[140px]"
-    "imageHeightClass" "h-[550px]"
-  ) }}
+  <div
+    class="absolute left-1/2 top-[200px] w-full h-[550px] -translate-x-1/2 bg-cover  bg-[url('../images/hero-gradient.png')] bg-no-repeat bg-center opacity-70 md:hidden -z-10"
+  ></div>
   <div class="grid grid-cols-2 max-md:grid-cols-1 gap-20 max-w-[800px] mx-auto relative auto-rows-min ">
     <div class="absolute left-1/2 top-[37%] -translate-x-1/2 -translate-y-1/2 flex max-md:flex-col -z-10 max-md:hidden">
       <div
