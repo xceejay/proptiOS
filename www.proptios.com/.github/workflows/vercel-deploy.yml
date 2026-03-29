@@ -25,10 +25,10 @@ jobs:
           node-version: 22
 
       - name: Install dependencies
-        run: |
-          npm ci
-          ls -la node_modules/.bin/postcss
-          npx postcss --version
+        run: npm ci
+
+      - name: Install global CSS build tooling
+        run: npm install -g postcss postcss-cli autoprefixer tailwindcss postcss-import
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v3
