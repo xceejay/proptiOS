@@ -1,7 +1,9 @@
 <section class="py-150 max-md:py-20 relative">
-  <div
-    class="absolute left-1/2 top-20 w-full h-[550px] -translate-x-1/2 bg-cover  bg-[url('../images/hero-gradient.png')] bg-no-repeat bg-center opacity-70 md:hidden -z-10"
-  ></div>
+  {{ partial "global/desktopSectionBackdrop.html" (dict
+    "wrapperClass" "h-[700px]"
+    "imageTopClass" "top-8"
+    "imageHeightClass" "h-[550px]"
+  ) }}
   <div class="container relative mb-16">
     <div class="text-center max-w-[550px] mx-auto mb-16">
       <p class="section-tagline">Tips and Tricks</p>

@@ -1,8 +1,13 @@
 
 <section class="bg-white dark:bg-dark-300  {{.blogPadding}} relative max-md:pb-20 ">
-  <div
-    class="absolute left-0 right-0 top-1/2 -translate-y-1/2 bg-[url('../images/service-bg.png')] bg-no-repeat bg-center opacity-70 w-full h-full bg-[length:600px_1800px] md:hidden"
-  ></div>
+  {{ partial "global/mobileSectionBackdrop.html" (dict
+    "wrapperClass" "h-[620px]"
+    "fadeClass" "h-36"
+    "imageTopClass" "top-20"
+    "imageHeightClass" "h-[560px]"
+    "imageClass" "bg-[url('../images/service-bg.png')] bg-no-repeat bg-center bg-[length:600px_1200px]"
+    "opacityClass" "opacity-60"
+  ) }}
   <div class="container relative">
     <div class="text-center max-w-[550px] mx-auto mb-16">
       <p class="section-tagline">Financial blog tips and tricks</p>

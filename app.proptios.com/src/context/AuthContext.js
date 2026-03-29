@@ -91,10 +91,7 @@ const AuthProvider = ({ children }) => {
           .then(async response => {
             setLoading(false)
           })
-          .catch(error => {
-            console.log('encountered this error', error)
-            setLoading(true)
-
+          .catch(() => {
             clearStoredAuth()
             setUser(null)
 

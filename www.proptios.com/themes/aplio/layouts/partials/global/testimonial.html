@@ -1,8 +1,13 @@
 {{ with .Site.GetPage "/testimonial"}}
 <section class="bg-white dark:bg-dark-300 pb-150 max-md:py-20 pt-150 relative">
-  <div
-    class="absolute left-0 right-0 top-1/2 -translate-y-1/2 bg-[url('../images/service-bg.png')] bg-no-repeat bg-center opacity-70 w-full h-full  md:hidden"
-  ></div>
+  {{ partial "global/mobileSectionBackdrop.html" (dict
+    "wrapperClass" "h-[620px]"
+    "fadeClass" "h-36"
+    "imageTopClass" "top-24"
+    "imageHeightClass" "h-[520px]"
+    "imageClass" "bg-[url('../images/service-bg.png')] bg-no-repeat bg-center bg-[length:600px_1100px]"
+    "opacityClass" "opacity-60"
+  ) }}
   <div class="container relative">
     <div class="text-center max-w-[550px] mx-auto mb-16">
       <p class="section-tagline">{{ .Params.tagline }}</p>

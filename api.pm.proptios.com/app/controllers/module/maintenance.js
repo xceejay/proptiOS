@@ -61,30 +61,35 @@ const routes = (app) => {
 
     async (req, res) => {
       const request_id = req.params.id;
-      const { media_type, media_url, request_owner, unit_id, pm_user_id } =
+      const { title, description, media_type, media_url, request_owner, unit_id, pm_user_id, status, tenant_id } =
         req.body;
 
-      if (!media_type || !request_owner) {
-        return res.status(400).json({
-          status: "FAILED",
-          description: "Invalid input: required fields are missing",
-        });
-      }
-
       try {
-        const updateQuery = `
-            UPDATE maintenance_requests 
-            SET media_type = ?, media_url = ?, request_owner = ?, unit_id = ?, pm_user_id = ?, updated_at = NOW() 
-            WHERE id = ?
-          `;
-        const [result] = await mysql_db.execute(updateQuery, [
-          media_type,
-          media_url,
-          request_owner,
-          unit_id,
-          pm_user_id,
-          request_id,
-        ]);
+        const fields = [];
+        const values = [];
+
+        if (title !== undefined) { fields.push("title = ?"); values.push(title); }
+        if (description !== undefined) { fields.push("description = ?"); values.push(description); }
+        if (media_type !== undefined) { fields.push("media_type = ?"); values.push(media_type); }
+        if (media_url !== undefined) { fields.push("media_url = ?"); values.push(media_url); }
+        if (request_owner !== undefined) { fields.push("request_owner = ?"); values.push(request_owner); }
+        if (unit_id !== undefined) { fields.push("unit_id = ?"); values.push(unit_id); }
+        if (pm_user_id !== undefined) { fields.push("pm_user_id = ?"); values.push(pm_user_id); }
+        if (status !== undefined) { fields.push("status = ?"); values.push(status); }
+        if (tenant_id !== undefined) { fields.push("tenant_id = ?"); values.push(tenant_id); }
+
+        if (fields.length === 0) {
+          return res.status(400).json({
+            status: "FAILED",
+            description: "No fields to update",
+          });
+        }
+
+        fields.push("updated_at = NOW()");
+        values.push(request_id);
+
+        const updateQuery = `UPDATE maintenance_requests SET ${fields.join(", ")} WHERE id = ?`;
+        const [result] = await mysql_db.execute(updateQuery, values);
 
         if (result.affectedRows === 0) {
           return res.status(200).json({

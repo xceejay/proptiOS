@@ -199,9 +199,9 @@ const AddCard = props => {
                 </Typography>
               </Box>
               <div>
-                <Typography sx={{ mb: 2, color: 'text.secondary' }}>Office 149, 450 South Brand Brooklyn</Typography>
-                <Typography sx={{ mb: 2, color: 'text.secondary' }}>San Diego County, CA 91905, USA</Typography>
-                <Typography sx={{ color: 'text.secondary' }}>+1 (123) 456 7891, +44 (876) 543 2198</Typography>
+                <TextField size='small' fullWidth placeholder='Company address' sx={{ mb: 2 }} />
+                <TextField size='small' fullWidth placeholder='City, State, ZIP' sx={{ mb: 2 }} />
+                <TextField size='small' fullWidth placeholder='Phone number' />
               </div>
             </Box>
           </Grid>
@@ -284,7 +284,7 @@ const AddCard = props => {
                         <Typography sx={{ color: 'text.secondary' }}>Total Due:</Typography>
                       </MUITableCell>
                       <MUITableCell>
-                        <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>$12,110.55</Typography>
+                        <TextField size='small' placeholder='0.00' sx={{ width: 120 }} />
                       </MUITableCell>
                     </TableRow>
                     <TableRow>
@@ -292,7 +292,7 @@ const AddCard = props => {
                         <Typography sx={{ color: 'text.secondary' }}>Bank name:</Typography>
                       </MUITableCell>
                       <MUITableCell>
-                        <Typography sx={{ color: 'text.secondary' }}>American Bank</Typography>
+                        <TextField size='small' placeholder='Bank name' sx={{ width: 160 }} />
                       </MUITableCell>
                     </TableRow>
                     <TableRow>
@@ -300,7 +300,7 @@ const AddCard = props => {
                         <Typography sx={{ color: 'text.secondary' }}>Country:</Typography>
                       </MUITableCell>
                       <MUITableCell>
-                        <Typography sx={{ color: 'text.secondary' }}>United States</Typography>
+                        <TextField size='small' placeholder='Country' sx={{ width: 160 }} />
                       </MUITableCell>
                     </TableRow>
                     <TableRow>
@@ -308,7 +308,7 @@ const AddCard = props => {
                         <Typography sx={{ color: 'text.secondary' }}>IBAN:</Typography>
                       </MUITableCell>
                       <MUITableCell>
-                        <Typography sx={{ color: 'text.secondary' }}>ETD95476213874685</Typography>
+                        <TextField size='small' placeholder='IBAN' sx={{ width: 160 }} />
                       </MUITableCell>
                     </TableRow>
                     <TableRow>
@@ -316,7 +316,7 @@ const AddCard = props => {
                         <Typography sx={{ color: 'text.secondary' }}>SWIFT code:</Typography>
                       </MUITableCell>
                       <MUITableCell>
-                        <Typography sx={{ color: 'text.secondary' }}>BR91905</Typography>
+                        <TextField size='small' placeholder='SWIFT code' sx={{ width: 160 }} />
                       </MUITableCell>
                     </TableRow>
                   </TableBody>
@@ -343,19 +343,14 @@ const AddCard = props => {
                         <Typography className='col-title' sx={{ mb: { md: 2, xs: 0 }, color: 'text.secondary' }}>
                           Item
                         </Typography>
-                        <Select fullWidth size='small' defaultValue='App Design'>
-                          <MenuItem value='App Design'>App Design</MenuItem>
-                          <MenuItem value='App Customization'>App Customization</MenuItem>
-                          <MenuItem value='ABC Template'>ABC Template</MenuItem>
-                          <MenuItem value='App Development'>App Development</MenuItem>
-                        </Select>
+                        <TextField fullWidth size='small' placeholder='Item name' />
                         <TextField
                           rows={2}
                           fullWidth
                           multiline
                           size='small'
                           sx={{ mt: 3.5 }}
-                          defaultValue='Customization & Bug Fixes'
+                          placeholder='Item description'
                         />
                       </Grid>
                       <Grid lg={2} md={3} size={12} sx={{ px: 4, my: { lg: 0, xs: 4 } }}>
@@ -365,8 +360,7 @@ const AddCard = props => {
                         <TextField
                           size='small'
                           type='number'
-                          placeholder='24'
-                          defaultValue='24'
+                          placeholder='0'
                           InputProps={{ inputProps: { min: 0 } }}
                         />
                         <Box sx={{ mt: 3.5 }}>
@@ -396,7 +390,6 @@ const AddCard = props => {
                           size='small'
                           type='number'
                           placeholder='1'
-                          defaultValue='1'
                           InputProps={{ inputProps: { min: 0 } }}
                         />
                       </Grid>
@@ -404,7 +397,7 @@ const AddCard = props => {
                         <Typography className='col-title' sx={{ mb: { md: 2, xs: 0 }, color: 'text.secondary' }}>
                           Price
                         </Typography>
-                        <Typography sx={{ color: 'text.secondary' }}>$24.00</Typography>
+                        <Typography sx={{ color: 'text.secondary' }}>$0.00</Typography>
                       </Grid>
                     </Grid>
                     <InvoiceAction>
@@ -436,27 +429,27 @@ const AddCard = props => {
               <Typography variant='body2' sx={{ mr: 2, fontWeight: 600 }}>
                 Salesperson:
               </Typography>
-              <TextField size='small' sx={{ maxWidth: '150px' }} defaultValue='Tommy Shelby' />
+              <TextField size='small' sx={{ maxWidth: '150px' }} placeholder='Enter name' />
             </Box>
             <TextField size='small' sx={{ maxWidth: '300px' }} placeholder='Thanks for your business' />
           </Grid>
           <Grid size={12} sm={5} lg={3} sx={{ mb: { sm: 0, xs: 4 }, order: { sm: 2, xs: 1 } }}>
             <CalcWrapper>
               <Typography sx={{ color: 'text.secondary' }}>Subtotal:</Typography>
-              <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>$1800</Typography>
+              <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>$0.00</Typography>
             </CalcWrapper>
             <CalcWrapper>
               <Typography sx={{ color: 'text.secondary' }}>Discount:</Typography>
-              <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>$28</Typography>
+              <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>$0.00</Typography>
             </CalcWrapper>
             <CalcWrapper sx={{ mb: '0 !important' }}>
               <Typography sx={{ color: 'text.secondary' }}>Tax:</Typography>
-              <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>21%</Typography>
+              <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>0%</Typography>
             </CalcWrapper>
             <Divider sx={{ my: `${theme.spacing(2)} !important` }} />
             <CalcWrapper>
               <Typography sx={{ color: 'text.secondary' }}>Total:</Typography>
-              <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>$1690</Typography>
+              <Typography sx={{ fontWeight: 500, color: 'text.secondary' }}>$0.00</Typography>
             </CalcWrapper>
           </Grid>
         </Grid>
@@ -468,7 +461,7 @@ const AddCard = props => {
         <InputLabel htmlFor='invoice-note' sx={{ mb: 2, fontWeight: 500, fontSize: '0.875rem' }}>
           Note:
         </InputLabel>
-        <TextField rows={2} fullWidth multiline id='lease-note' defaultValue='Thank you' />
+        <TextField rows={2} fullWidth multiline id='lease-note' placeholder='Add a note for the invoice' />
       </CardContent>
     </Card>
   )

@@ -1,8 +1,13 @@
 {{ define "main" }} 
 <section class=" pt-[200px] pb-150 max-md:pt-25 relative max-md:overflow-hidden max-md:pb-20">
-  <div
-    class="absolute left-0 right-0 -top-8 bg-[url('../images/service-bg.png')] bg-no-repeat bg-cover bg-center opacity-70 w-full h-full sm:hidden"
-  ></div>
+  {{ partial "global/mobileSectionBackdrop.html" (dict
+    "wrapperClass" "h-[540px]"
+    "fadeClass" "h-40"
+    "imageTopClass" "top-6"
+    "imageHeightClass" "h-[500px]"
+    "imageClass" "bg-[url('../images/service-bg.png')] bg-no-repeat bg-cover bg-center"
+    "opacityClass" "opacity-60"
+  ) }}
   <div class="container relative z-10">
     <div class="absolute left-1/2 top-52 -translate-x-1/2 flex max-md:flex-col -z-10 max-md:hidden">
       <div
