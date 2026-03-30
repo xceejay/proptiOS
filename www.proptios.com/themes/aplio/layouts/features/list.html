@@ -2,15 +2,15 @@
 {{ $page := .Site.GetPage "features" }}
 {{ $hero := index $page.Params.hero 0 }}
 
-<section class="bg-white dark:bg-dark-300 pt-28 md:pt-36 pb-150 max-md:pb-20 relative max-sm:overflow-hidden">
+<section class="bg-white dark:bg-dark-300 pt-[240px] max-lg:pt-150 pb-150 max-md:pb-20 relative max-sm:overflow-hidden">
   <div
     class="absolute left-0 right-0 -top-[200px] bg-[url('../images/service-bg.png')] bg-no-repeat bg-cover bg-center opacity-70 w-full h-full sm:hidden"
   ></div>
   <div class="container ">
     <div class="relative z-10">
-      <div class="max-w-[948px] mx-auto text-center mb-14 md:mb-20">
+      <div class="max-w-[948px] mx-auto text-center mb-8 md:mb-12">
         <p class="mb-4 font-medium uppercase">{{ $hero.tagline }}</p>
-        <h1 class="mb-8 md:mb-10">{{ $hero.title | safeHTML }}</h1>
+        <h1 class="mb-6 md:mb-8">{{ $hero.title | safeHTML }}</h1>
         <p class="max-w-[590px] mx-auto">{{ $hero.details | safeHTML }}</p>
       </div>
       <div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex max-md:flex-col -z-10 max-sm:hidden">

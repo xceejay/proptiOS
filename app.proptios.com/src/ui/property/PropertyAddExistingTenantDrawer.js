@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import Drawer from '@mui/material/Drawer'
 import Button from '@mui/material/Button'
+import CircularProgress from '@mui/material/CircularProgress'
 import { styled } from '@mui/material/styles'
 import TextField from '@mui/material/TextField'
 import IconButton from '@mui/material/IconButton'
@@ -119,9 +120,7 @@ const PropertyAddExistingTenantDrawer = props => {
 
         // setLoading(false)
 
-        if (data?.status === 'NO_RES') {
-          console.log('NO results')
-        } else if (data?.status === 'FAILED') {
+        if (data?.status === 'NO_RES') { /* no action needed */ } else if (data?.status === 'FAILED') {
           alert(data.message || 'Failed to fetch tenants')
 
           return
@@ -134,6 +133,9 @@ const PropertyAddExistingTenantDrawer = props => {
         toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
           duration: 5000
         })
+
+
+        setSubmitting(false)
       }
     )
   }, [open, toggle])
@@ -164,11 +166,17 @@ const PropertyAddExistingTenantDrawer = props => {
         toast.error(error.response?.data?.description || 'Failed to refresh property data', {
           duration: 5000
         })
+
+        setSubmitting(false)
       }
     )
   }
 
+  const [submitting, setSubmitting] = useState(false)
+
   const onSubmit = formData => {
+    if (submitting) return
+    setSubmitting(true)
     const selectedTenant = formData.tenant
     const requestData = [
       {
@@ -181,18 +189,16 @@ const PropertyAddExistingTenantDrawer = props => {
     tenants.editTenants(
       requestData,
       responseData => {
-        console.log('Add Tenant Drawer')
         let { data } = responseData
 
-        if (data?.status === 'NO_RES') {
-          console.log('NO results')
-        } else if (data?.status === 'FAILED') {
+        if (data?.status === 'NO_RES') { /* no action needed */ } else if (data?.status === 'FAILED') {
           alert(data.description || 'Failed to attach tenant')
           setError('tenant', {
             type: 'manual',
             message: data.description || 'Unknown error occurred'
           })
 
+          setSubmitting(false)
           return
         }
 
@@ -202,12 +208,16 @@ const PropertyAddExistingTenantDrawer = props => {
 
         // Close the drawer
         refreshPropertyData()
+        setSubmitting(false)
+
         handleClose()
       },
       error => {
         toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
           duration: 5000
         })
+
+        setSubmitting(false)
       }
     )
   }
@@ -227,7 +237,7 @@ const PropertyAddExistingTenantDrawer = props => {
       variant='temporary'
       onClose={handleClose}
       ModalProps={{ keepMounted: true }}
-      sx={{ '& .MuiDrawer-paper': { width: { xs: 300, sm: 400 } } }}
+      sx={{ '& .MuiDrawer-paper': { width: { xs: '100%', sm: 420 } } }}
     >
       <Header>
         <Typography variant='h6'>Add Existing Tenant To {propertyData.name}</Typography>
@@ -260,7 +270,8 @@ const PropertyAddExistingTenantDrawer = props => {
             {errors.tenant ? <Typography color='error.main'>{errors.tenant.message}</Typography> : null}
           </FormControl>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Button size='small' type='submit' variant='contained' sx={{ mr: 3 }}>
+            <Button size='small' type='submit' variant='contained' sx={{ mr: 3 }} disabled={submitting}>
+              {submitting ? <CircularProgress size={20} sx={{ mr: 1 }} /> : null}
               Submit
             </Button>
             <Button size='small' variant='outlined' color='secondary' onClick={handleClose}>

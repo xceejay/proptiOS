@@ -1,6 +1,6 @@
 # Master Execution Tracker
 
-_Last updated: 2026-03-28 (second pass)_
+_Last updated: 2026-03-29 (third pass — mobile QA + feature gaps)_
 
 This is the active source of truth for:
 
@@ -113,15 +113,61 @@ Older QA files in the repo are preserved as historical snapshots, but this docum
 
 These are the items that still look open or only partially verified.
 
-### Open items from the 2026-03-28 staging walkthrough
+### Fixed — 2026-03-29
 
-- Onboarding verification page is still non-functional (CRIT-4)
-- Maintenance request manage drawer is still view-only (CRIT-5)
-- Invoice creation still uses hardcoded placeholder/demo data and disabled actions (MAJ-5)
-- Console still shows recurring `/auth/me` and empty-user noise (MIN-10)
-- Leases templates tab is still disabled with no explanation (MIN-11)
-- Broadcast tab is still disabled with no explanation (MIN-12)
-- Property marketing tab is still effectively empty (MIN-13)
+- ~~Onboarding verification page is still non-functional (CRIT-4)~~ — wired to `POST /auth/verify-email-code`
+- ~~Maintenance request manage drawer is still view-only (CRIT-5)~~ — backend + frontend PUT now supports all fields
+- ~~Invoice creation still uses hardcoded placeholder/demo data and disabled actions (MAJ-5)~~ — replaced with empty fields/placeholders
+- ~~Console still shows recurring `/auth/me` and empty-user noise (MIN-10)~~ — removed stray console.logs
+- ~~Leases templates tab is still disabled with no explanation (MIN-11)~~ — added "coming soon" tooltip
+- ~~Broadcast tab is still disabled with no explanation (MIN-12)~~ — added "coming soon" tooltip
+- ~~Property marketing tab is still effectively empty (MIN-13)~~ — added coming soon placeholder
+
+### Open items from 2026-03-29 mobile QA walkthrough
+
+#### Critical — Mobile UX
+
+- **MOB-1**: Add Property drawer is extremely difficult to use on mobile. Clicking "Add Property" sometimes doesn't register. Selecting property type requires many taps before it registers. Root cause suspected: touch target sizes, MUI Select/Autocomplete components not handling mobile touch events reliably, possible z-index or overlay conflicts.
+
+- **MOB-2**: Add Single Tenant form crashes with a runtime error on submit, requiring a full page refresh. Country selection is also buggy (same touch registration issue as property type). Needs error boundary investigation and form submission error handling.
+
+- **MOB-3**: Ghost touch / tap-through issue across the app on mobile. Tapping one element (e.g. activate tenant) triggers adjacent actions (e.g. resend invite). Tapping and holding temporarily stabilises. Likely caused by MUI DataGrid row action buttons being too close together on mobile, or click event propagation issues with touch events.
+
+- **MOB-4**: Drawer forms in general are very difficult to use on mobile. Clicks/taps don't register properly. Drawer width, touch targets, and MUI component sizing need mobile-specific attention.
+
+- **MOB-5**: All Submit data buttons in the UI buttons must give user feedback so they user does not clik multiple times but they just wait for result. A button framework may be needed for this or a request framework for loading state of button may be needed. Libraries may exist for this. Explore options
+
+#### Critical — Data Integrity
+
+- **DATA-1**: Duplicate tenant invitations — clicking submit multiple times (because of no visual feedback, see UX-1) sent 5 invitations for the same tenant with the same email. Backend must enforce uniqueness on tenant email per site, and frontend must debounce/disable the submit button after first click.
+
+#### Major — UX
+
+- **UX-1**: No visual feedback on form submit buttons. After clicking submit, the button stays enabled with no loading indicator, causing users to click repeatedly. All mutation buttons (create, update, invite) need: (a) disabled state during submission, (b) loading spinner/indicator, (c) prevent double-submission.
+
+- **UX-2**: Developer-facing text visible in the UI. Example: "Tenant transactions currently render from the transactions array returned on the tenant payload." These internal implementation notes must be removed from all user-facing views. Audit all modules for similar developer messages.
+
+#### Major — Missing Features
+
+- **FEAT-1**: Tenant document storage — no section exists for uploading/managing tenant documents (ID, lease agreements, proof of address, etc.). Needs a documents tab on the tenant detail view with file upload capability.
+
+- **FEAT-2**: Cannot add a unit or property to a tenant from the tenant module. The relationship should be assignable from either direction (property → tenant or tenant → property/unit).
+
+- **FEAT-3**: Image upload support — properties, sites, and other entities should support image uploads (photos, logos, etc.) wherever it makes sense.
+
+- **FEAT-4**: Subscription/billing — wire up the subscription features end to end (UI + backend). Payment processing via Paystack (test keys to be provided). Currently half-baked — needs full implementation of plan selection, payment flow, subscription status, and usage enforcement.
+
+- **FEAT-5**: Site and account settings — wire up fully. Currently partially implemented. All settings fields should save and persist correctly.
+
+- **FEAT-6**: System archive / soft-delete — implement a site-wide archive where soft-deleted items (users, tenants, properties, etc.) remain accessible. Current options are only activate/deactivate, but users need the ability to remove items from active UI without permanently deleting them.
+
+- **FEAT-7**: Audit log quality — current audit log messages read like developer logs. Rethink the message format to be user-friendly. Example: instead of "Updated maintenance_request record #123" → "Maintenance request 'Broken pipe in Unit 3A' was updated by Joel". Consider structured audit entries with human-readable summaries.
+
+#### Minor — Authorization
+
+- **AUTH-1**: User can enable/disable themselves in User Management. The ACL should prevent self-modification of account status. Backend and frontend need to enforce this rule.
+
+- **AUTH-2**: ACL verification needed — confirm that the CASL-based frontend ACL and the backend authorization middleware are properly enforced across all modules. Both should be tested for role-based access (admin, manager, tenant, etc.).
 
 ### Backend-blocked or contract-blocked
 

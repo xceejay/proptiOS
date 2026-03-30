@@ -70,8 +70,7 @@ const ParentUserViewInviteUsers = ({ userData }) => {
   })
 
   const onSubmit = formData => {
-    // If formData should be an array, keep it as is
-    // let requestData = [formData]
+    if (loading) return
 
     let requestData = formData
 
@@ -83,9 +82,7 @@ const ParentUserViewInviteUsers = ({ userData }) => {
 
         setLoading(false)
 
-        if (data?.status === 'NO_RES') {
-          console.log('NO results')
-        } else if (data?.status === 'FAILED') {
+        if (data?.status === 'NO_RES') { /* no action needed */ } else if (data?.status === 'FAILED') {
           alert(data.description || 'Failed to add tenant')
           setError('email', {
             type: 'manual',
@@ -228,31 +225,17 @@ const ParentUserViewInviteUsers = ({ userData }) => {
                 )}
               />
             </FormControl>
-            {!loading ? (
-              <>
-                <Box sx={{ display: 'flex' }}>
-                  <Button
-                    onClick={console.log('form errors', errors)}
-                    size='medium'
-                    type='submit'
-                    variant='contained'
-                    sx={{ mt: 2 }}
-                  >
-                    Invite User
-                  </Button>
-                </Box>
-              </>
-            ) : (
-              <>
-                {' '}
-                <Box sx={{ display: 'flex' }}>
-                  <Typography mr={1} variant='subtitle2'>
-                    Sending invite...
-                  </Typography>
-                  <CircularProgress size='20px'></CircularProgress>
-                </Box>
-              </>
-            )}
+            <Box sx={{ display: 'flex' }}>
+              <Button
+                size='medium'
+                type='submit'
+                variant='contained'
+                sx={{ mt: 2 }}
+                disabled={loading}
+              >
+                {loading ? 'Sending invite...' : 'Invite User'}
+              </Button>
+            </Box>
           </form>
         </CardContent>
       </Card>

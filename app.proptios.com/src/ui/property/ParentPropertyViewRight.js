@@ -99,9 +99,7 @@ const ParentPropertyViewRight = ({ tab = 'management', propertyData, setProperty
       responseData => {
         const { data } = responseData
 
-        if (data?.status === 'NO_RES') {
-          console.log('NO results')
-        } else if (data?.status === 'FAILED') {
+        if (data?.status === 'NO_RES') { /* no action needed */ } else if (data?.status === 'FAILED') {
           alert(data.message || 'Failed to fetch properties')
         } else {
           setPropertiesData(data)

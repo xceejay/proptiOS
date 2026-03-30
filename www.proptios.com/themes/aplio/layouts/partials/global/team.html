@@ -14,6 +14,25 @@
     </div>
     {{end}}
     {{end}}
+    {{ if and (eq .sectionHeader "false") (eq .showInlineHero "true") }}
+    {{ with .context.Site.GetPage "/team" }}
+    <div class="mb-12 md:mb-16 text-center max-w-[948px] mx-auto relative z-10">
+      {{ with index .Params.hero 0 }}
+      <p class="mb-4 font-medium uppercase">{{ .tagline }}</p>
+      <h1 class="mb-6 md:mb-8">{{ .title | safeHTML }}</h1>
+      {{ if .details }}
+      <p class="max-w-[590px] mx-auto">{{ .details | safeHTML }}</p>
+      {{ end }}
+      {{ else }}
+      <p class="mb-4 font-medium uppercase">{{ .Params.tagline }}</p>
+      <h1 class="mb-6 md:mb-8">{{ .Title | safeHTML }}</h1>
+      {{ if .Params.details }}
+      <p class="max-w-[590px] mx-auto">{{ .Params.details | safeHTML }}</p>
+      {{ end }}
+      {{ end }}
+    </div>
+    {{ end }}
+    {{ end }}
     <div class="relative z-10">
       <div
         class="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 flex max-md:flex-col -z-10  max-md:hidden {{.gradientClass}} "

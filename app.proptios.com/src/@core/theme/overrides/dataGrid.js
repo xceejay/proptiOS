@@ -45,6 +45,7 @@ const DataGrid = () => {
           color: theme.palette.divider
         }),
         row: {
+          minHeight: '52px !important',
           '&:last-child': {
             '& .MuiDataGrid-cell': {
               borderBottom: 0

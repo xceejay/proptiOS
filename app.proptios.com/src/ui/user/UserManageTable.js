@@ -28,13 +28,16 @@ import CustomChip from 'src/@core/components/mui/chip'
 
 // ** Hooks Imports
 import { useUsers } from 'src/hooks/useUsers'
+import { useAuth } from 'src/hooks/useAuth'
 import EditUserDrawer from './EditUserDrawer'
 import toast from 'react-hot-toast'
 import CustomUsersToolbar from 'src/views/table/data-grid/CustomUsersToolbar'
 import { filterUsers } from './userManageFilters'
 
-const RowOptions = ({ id, row, setUsersData, usersData, setLoading }) => {
+const RowOptions = ({ id, row, setUsersData, usersData, setLoading, currentUserEmail }) => {
+  const isSelf = row.email === currentUserEmail
   const [anchorEl, setAnchorEl] = useState(null)
+  const [actionLoading, setActionLoading] = useState(false)
   const rowOptionsOpen = Boolean(anchorEl)
 
   const [editUserOpen, setEditUserOpen] = useState(false)
@@ -51,16 +54,17 @@ const RowOptions = ({ id, row, setUsersData, usersData, setLoading }) => {
   }
 
   const handleDisable = () => {
+    if (actionLoading) return
+    setActionLoading(true)
     setLoading(true)
     users.DisableUser(
       { email: row.email },
       responseData => {
         let { data } = responseData
         setLoading(false)
+        setActionLoading(false)
 
-        if (data?.status === 'NO_RES') {
-          console.log('NO results')
-        } else if (data?.status === 'FAILED') {
+        if (data?.status === 'NO_RES') { /* no action needed */ } else if (data?.status === 'FAILED') {
           alert(data.description || 'Failed to disable user')
 
           return
@@ -70,7 +74,6 @@ const RowOptions = ({ id, row, setUsersData, usersData, setLoading }) => {
           duration: 5000
         })
 
-        // Update usersData with the new status
         setUsersData(prevData => {
           const updatedItems = prevData.items.map(user =>
             user.email === row.email ? { ...user, status: 'disabled' } : user
@@ -80,6 +83,8 @@ const RowOptions = ({ id, row, setUsersData, usersData, setLoading }) => {
         })
       },
       error => {
+        setLoading(false)
+        setActionLoading(false)
         toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
           duration: 5000
         })
@@ -89,17 +94,18 @@ const RowOptions = ({ id, row, setUsersData, usersData, setLoading }) => {
   }
 
   const handleEnable = () => {
+    if (actionLoading) return
+    setActionLoading(true)
     setLoading(true)
     users.EnableUser(
       { email: row.email },
       responseData => {
         let { data } = responseData
         setLoading(false)
+        setActionLoading(false)
 
-        if (data?.status === 'NO_RES') {
-          console.log('NO results')
-        } else if (data?.status === 'FAILED') {
-          alert(data.description || 'Failed to disable user')
+        if (data?.status === 'NO_RES') { /* no action needed */ } else if (data?.status === 'FAILED') {
+          alert(data.description || 'Failed to enable user')
 
           return
         }
@@ -108,7 +114,6 @@ const RowOptions = ({ id, row, setUsersData, usersData, setLoading }) => {
           duration: 5000
         })
 
-        // Update usersData with the new status
         setUsersData(prevData => {
           const updatedItems = prevData.items.map(user =>
             user.email === row.email ? { ...user, status: 'active' } : user
@@ -118,6 +123,8 @@ const RowOptions = ({ id, row, setUsersData, usersData, setLoading }) => {
         })
       },
       error => {
+        setLoading(false)
+        setActionLoading(false)
         toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
           duration: 5000
         })
@@ -132,7 +139,7 @@ const RowOptions = ({ id, row, setUsersData, usersData, setLoading }) => {
 
   return (
     <>
-      <IconButton size='small' onClick={handleRowOptionsClick}>
+      <IconButton size='medium' onClick={handleRowOptionsClick}>
         <Icon icon='tabler:dots-vertical' />
       </IconButton>
       <Menu
@@ -165,14 +172,18 @@ const RowOptions = ({ id, row, setUsersData, usersData, setLoading }) => {
           Edit
         </MenuItem>
 
-        <MenuItem onClick={handleEnable} sx={{ '& svg': { mr: 2 } }}>
-          <Icon icon='tabler:user-check' fontSize={20} />
-          Enable Account
-        </MenuItem>
-        <MenuItem onClick={handleDisable} sx={{ '& svg': { mr: 2 } }}>
-          <Icon icon='tabler:user-x' fontSize={20} />
-          Disable Account
-        </MenuItem>
+        {!isSelf && (
+          <MenuItem onClick={handleEnable} sx={{ '& svg': { mr: 2 } }}>
+            <Icon icon='tabler:user-check' fontSize={20} />
+            Enable Account
+          </MenuItem>
+        )}
+        {!isSelf && (
+          <MenuItem onClick={handleDisable} sx={{ '& svg': { mr: 2 } }}>
+            <Icon icon='tabler:user-x' fontSize={20} />
+            Disable Account
+          </MenuItem>
+        )}
       </Menu>
       <EditUserDrawer
         setLoading={setLoading}
@@ -353,12 +364,14 @@ const UserManageTable = () => {
       field: 'actions',
       headerName: 'Actions',
       renderCell: ({ row }) => (
-        <RowOptions setLoading={setLoading} setUsersData={setUsersData} usersData={usersData} id={row.id} row={row} />
+        <RowOptions setLoading={setLoading} setUsersData={setUsersData} usersData={usersData} id={row.id} row={row} currentUserEmail={currentUserEmail} />
       )
     }
   ]
 
   const users = useUsers()
+  const auth = useAuth()
+  const currentUserEmail = auth.user?.email
   const [loading, setLoading] = useState(true) // New loading state
 
   const [usersData, setUsersData] = useState({ items: [] })
@@ -390,9 +403,7 @@ const UserManageTable = () => {
         const { data } = responseData
         setLoading(false)
 
-        if (data?.status === 'NO_RES') {
-          console.log('NO results')
-        } else if (data?.status === 'FAILED') {
+        if (data?.status === 'NO_RES') { /* no action needed */ } else if (data?.status === 'FAILED') {
           alert(data.message || 'Failed to fetch users')
 
           return

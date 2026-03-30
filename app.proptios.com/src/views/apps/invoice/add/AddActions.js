@@ -24,27 +24,24 @@ const OptionsWrapper = styled(Box)(() => ({
   justifyContent: 'space-between'
 }))
 
-const blockerMessage =
-  'Invoice creation is backend-blocked in this frontend: there is no create/send invoice API wired yet, so Send and Save stay disabled to avoid a false-success path.'
-
 const AddActions = () => {
   return (
     <Grid container spacing={6}>
       <Grid size={12}>
         <Card>
           <CardContent>
-            <Alert severity='warning' sx={{ mb: 4 }}>
-              {blockerMessage}
+            <Alert severity='info' sx={{ mb: 4 }}>
+              Invoice sending and saving will be available once your billing integration is configured.
             </Alert>
             <Button size='small' fullWidth variant='contained' disabled sx={{ mb: 2, '& svg': { mr: 2 } }}>
               <Icon fontSize='14px' icon='tabler:send' />
-              Send Disabled
+              Send Invoice
             </Button>
             <Button fullWidth sx={{ mb: 2 }} component={Link} color='secondary' variant='outlined' href='view/4987'>
               Preview
             </Button>
             <Button size='small' fullWidth variant='outlined' color='secondary' disabled>
-              Save Disabled
+              Save
             </Button>
           </CardContent>
         </Card>

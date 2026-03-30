@@ -1,6 +1,5 @@
 {{ define "main"}}
-  {{ partial "global/pageHero.html" (dict "context" . "page" "team") }}
-  {{ partial "global/team.html"  (dict "context" . "sectionHeader" "false"  "sectionSpacingClass" " relative z-10" "gradientClass" "top-20") }}
+  {{ partial "global/team.html"  (dict "context" . "sectionHeader" "false" "showInlineHero" "true" "sectionSpacingClass" " relative z-10 pt-24 md:pt-28" "gradientClass" "top-20") }}
   {{ partial "global/counter.html" .}}
   {{ partial "global/testimonialSlider.html" (dict "context" . "spacing" "pt-150")}}
   {{ partial "global/faq.html" .}}

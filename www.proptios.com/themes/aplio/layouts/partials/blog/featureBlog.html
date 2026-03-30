@@ -4,7 +4,7 @@
     class="absolute left-1/2 -top-150 w-full h-[550px] -translate-x-1/2 bg-cover  bg-[url('../images/hero-gradient.png')] bg-no-repeat bg-center opacity-70 md:hidden -z-10"
   ></div>
   <div
-    class="container pb-150 max-md:pb-10 relative after:absolute  after:w-full after:h-1 after:bottom-0  after:bg-[url('../images/blog/blog-seperator.svg')] dark:after:bg-[url('../images/blog/blog-seperator-dark.svg')] after:left-1/2  after:-translate-x-1/2 after:bg-no-repeat after:bg-center after:bg-full max-md:after:hidden"
+    class="container pt-24 md:pt-28 pb-150 max-md:pb-10 relative after:absolute  after:w-full after:h-1 after:bottom-0  after:bg-[url('../images/blog/blog-seperator.svg')] dark:after:bg-[url('../images/blog/blog-seperator-dark.svg')] after:left-1/2  after:-translate-x-1/2 after:bg-no-repeat after:bg-center after:bg-full max-md:after:hidden"
   >
     <div class="relative z-10">
       <div
@@ -20,6 +20,20 @@
           class="max-1xl:w-[335px] max-1xl:h-[335px]  1xl:w-[442px] 1xl:h-[442px]  rounded-full bg-primary-200/20 -ml-[170px] max-md:ml-0 blur-[145px]"
         ></div>
       </div>
+      {{ with index .Params.hero 0 }}
+      <div class="max-w-[948px] mx-auto text-center mb-12 md:mb-16">
+        <p class="mb-4 font-medium uppercase">{{ .tagline }}</p>
+        <h1 class="mb-6 md:mb-8">{{ .title | safeHTML }}</h1>
+        {{ if .details }}
+        <p class="max-w-[590px] mx-auto">{{ .details | safeHTML }}</p>
+        {{ end }}
+      </div>
+      {{ else }}
+      <div class="max-w-[948px] mx-auto text-center mb-12 md:mb-16">
+        <p class="mb-4 font-medium uppercase">Blog</p>
+        <h1 class="mb-6 md:mb-8">{{ .Title | safeHTML }}</h1>
+      </div>
+      {{ end }}
 
       <div
         class=" !pb-20 md:!px-6 swiper "

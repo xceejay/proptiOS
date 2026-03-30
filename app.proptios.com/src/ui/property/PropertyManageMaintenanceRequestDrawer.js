@@ -178,7 +178,7 @@ const PropertyManageMaintenanceRequestDrawer = props => {
       variant='temporary'
       onClose={handleClose}
       ModalProps={{ keepMounted: true }}
-      sx={{ '& .MuiDrawer-paper': { width: { xs: 300, sm: 400 } } }}
+      sx={{ '& .MuiDrawer-paper': { width: { xs: '100%', sm: 420 } } }}
     >
       <Header>
         <Typography variant='h6'>Manage Maintenance Request</Typography>

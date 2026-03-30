@@ -34,6 +34,7 @@ import CustomStatusToolbar from 'src/views/table/data-grid/CustomStatusToolbar'
 
 const RowOptions = ({ id, row, stopPropagation, setTenantsData, tenantsData, setLoading, tenants }) => {
   const [anchorEl, setAnchorEl] = useState(null)
+  const [actionLoading, setActionLoading] = useState(false)
   const rowOptionsOpen = Boolean(anchorEl)
   const [editTenantOpen, setEditTenantOpen] = useState(false)
   const toggleEditTenantDrawer = () => setEditTenantOpen(!editTenantOpen)
@@ -49,6 +50,7 @@ const RowOptions = ({ id, row, stopPropagation, setTenantsData, tenantsData, set
   }
 
   const handleDisable = () => {
+    if (actionLoading) return
     if (typeof tenants.disableTenant !== 'function') {
       toast.error('Tenant account suspension is not wired for this frontend yet.', {
         duration: 5000
@@ -58,11 +60,13 @@ const RowOptions = ({ id, row, stopPropagation, setTenantsData, tenantsData, set
       return
     }
 
+    setActionLoading(true)
     setLoading(true)
     tenants.disableTenant(
       id,
       responseData => {
         setLoading(false)
+        setActionLoading(false)
 
         if (responseData?.status === 'FAILED') {
           toast.error(responseData.description || 'Unknown error occurred', {
@@ -86,6 +90,7 @@ const RowOptions = ({ id, row, stopPropagation, setTenantsData, tenantsData, set
       },
       error => {
         setLoading(false)
+        setActionLoading(false)
         toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
           duration: 5000
         })
@@ -95,6 +100,7 @@ const RowOptions = ({ id, row, stopPropagation, setTenantsData, tenantsData, set
   }
 
   const handleEnable = () => {
+    if (actionLoading) return
     if (typeof tenants.enableTenant !== 'function') {
       toast.error('Tenant account activation is not wired for this frontend yet.', {
         duration: 5000
@@ -104,11 +110,13 @@ const RowOptions = ({ id, row, stopPropagation, setTenantsData, tenantsData, set
       return
     }
 
+    setActionLoading(true)
     setLoading(true)
     tenants.enableTenant(
       id,
       responseData => {
         setLoading(false)
+        setActionLoading(false)
 
         if (responseData?.status === 'FAILED') {
           toast.error(responseData.description || 'Unknown error occurred', {
@@ -132,6 +140,7 @@ const RowOptions = ({ id, row, stopPropagation, setTenantsData, tenantsData, set
       },
       error => {
         setLoading(false)
+        setActionLoading(false)
         toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
           duration: 5000
         })
@@ -141,6 +150,7 @@ const RowOptions = ({ id, row, stopPropagation, setTenantsData, tenantsData, set
   }
 
   const handleResendInvite = () => {
+    if (actionLoading) return
     if (typeof tenants.resendInvite !== 'function') {
       toast.error('Tenant invitation resending is not wired for this frontend yet.', {
         duration: 5000
@@ -150,11 +160,13 @@ const RowOptions = ({ id, row, stopPropagation, setTenantsData, tenantsData, set
       return
     }
 
+    setActionLoading(true)
     setLoading(true)
     tenants.resendInvite(
       id,
       responseData => {
         setLoading(false)
+        setActionLoading(false)
 
         if (responseData?.status === 'FAILED') {
           toast.error(responseData.description || 'Failed to resend invite', {
@@ -178,6 +190,7 @@ const RowOptions = ({ id, row, stopPropagation, setTenantsData, tenantsData, set
       },
       error => {
         setLoading(false)
+        setActionLoading(false)
         toast.error(error.response?.data?.description || 'Failed to resend invite', {
           duration: 5000
         })
@@ -234,7 +247,7 @@ const RowOptions = ({ id, row, stopPropagation, setTenantsData, tenantsData, set
 
   return (
     <>
-      <IconButton size='small' onClick={handleRowOptionsClick}>
+      <IconButton size='medium' onClick={handleRowOptionsClick}>
         <Icon icon='tabler:dots-vertical' />
       </IconButton>
       <Menu
@@ -452,9 +465,7 @@ const TenantManageTable = () => {
         const { data } = responseData
         setLoading(false)
 
-        if (data?.status === 'NO_RES') {
-          console.log('NO results')
-        } else if (data?.status === 'FAILED') {
+        if (data?.status === 'NO_RES') { /* no action needed */ } else if (data?.status === 'FAILED') {
           alert(data.message || 'Failed to fetch tenants')
 
           return

@@ -97,6 +97,21 @@ const routes = (app) => {
       const connection = await mysql_db.getConnection(); // Get a connection from the pool
 
       try {
+        // Check for duplicate emails before inserting
+        const emails = tenants.map((t) => t.email);
+        const [existingTenants] = await connection.query(
+          "SELECT email FROM tenants WHERE email IN (?) AND site_id = ?",
+          [emails, req.user.site_id]
+        );
+        if (existingTenants.length > 0) {
+          const dupes = existingTenants.map((t) => t.email).join(", ");
+          connection.release();
+          return res.status(400).json({
+            status: "FAILED",
+            description: `A tenant with this email already exists: ${dupes}`,
+          });
+        }
+
         await connection.beginTransaction(); // Start the transaction
 
         const insertedTenants = []; // Array to store the inserted tenant's IDs and emails

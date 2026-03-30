@@ -23,7 +23,7 @@ const buildDefaultValues = user => ({
 })
 
 const blockerMessage =
-  'Settings save is blocked: this frontend has no site/account settings API wired yet. The previous implementation posted to /users and the backend returned 400, so save is intentionally disabled until the correct backend contract exists.'
+  'Account settings are read-only while we finish setting up the settings infrastructure. Saving will be enabled soon.'
 
 const ParentSettingsAccountSettings = () => {
   const auth = useAuth()
