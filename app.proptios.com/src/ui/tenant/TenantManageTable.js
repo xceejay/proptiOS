@@ -51,14 +51,6 @@ const RowOptions = ({ id, row, stopPropagation, setTenantsData, tenantsData, set
 
   const handleDisable = () => {
     if (actionLoading) return
-    if (typeof tenants.disableTenant !== 'function') {
-      toast.error('Tenant account suspension is not wired for this frontend yet.', {
-        duration: 5000
-      })
-      handleRowOptionsClose()
-
-      return
-    }
 
     setActionLoading(true)
     setLoading(true)
@@ -101,14 +93,6 @@ const RowOptions = ({ id, row, stopPropagation, setTenantsData, tenantsData, set
 
   const handleEnable = () => {
     if (actionLoading) return
-    if (typeof tenants.enableTenant !== 'function') {
-      toast.error('Tenant account activation is not wired for this frontend yet.', {
-        duration: 5000
-      })
-      handleRowOptionsClose()
-
-      return
-    }
 
     setActionLoading(true)
     setLoading(true)
@@ -151,14 +135,6 @@ const RowOptions = ({ id, row, stopPropagation, setTenantsData, tenantsData, set
 
   const handleResendInvite = () => {
     if (actionLoading) return
-    if (typeof tenants.resendInvite !== 'function') {
-      toast.error('Tenant invitation resending is not wired for this frontend yet.', {
-        duration: 5000
-      })
-      handleRowOptionsClose()
-
-      return
-    }
 
     setActionLoading(true)
     setLoading(true)
@@ -290,17 +266,13 @@ const RowOptions = ({ id, row, stopPropagation, setTenantsData, tenantsData, set
           {row.email_invitation_status === 'accepted' ? 'Invite Accepted' : 'Resend Invite'}
         </MenuItem>
 
-        <MenuItem onClick={handleEnable} disabled={typeof tenants.enableTenant !== 'function'} sx={{ '& svg': { mr: 2 } }}>
+        <MenuItem onClick={handleEnable} disabled={row.status === 'active'} sx={{ '& svg': { mr: 2 } }}>
           <Icon icon='tabler:user-check' fontSize={20} />
-          {typeof tenants.enableTenant === 'function' ? 'Enable Account' : 'Enable Account (Unavailable)'}
+          Enable Account
         </MenuItem>
-        <MenuItem
-          onClick={handleDisable}
-          disabled={typeof tenants.disableTenant !== 'function'}
-          sx={{ '& svg': { mr: 2 } }}
-        >
+        <MenuItem onClick={handleDisable} disabled={row.status === 'inactive'} sx={{ '& svg': { mr: 2 } }}>
           <Icon icon='tabler:user-x' fontSize={20} />
-          {typeof tenants.disableTenant === 'function' ? 'Disable Account' : 'Disable Account (Unavailable)'}
+          Disable Account
         </MenuItem>
 
         <MenuItem onClick={handleDelete} sx={{ '& svg': { mr: 2 } }}>
@@ -430,15 +402,17 @@ const TenantManageTable = () => {
       field: 'actions',
       headerName: 'Actions',
       renderCell: ({ row }) => (
-        <RowOptions
-          stopPropagation={e => e.stopPropagation()}
-          setLoading={setLoading}
-          setTenantsData={setTenantsData}
-          tenantsData={tenantsData}
-          tenants={tenants}
-          id={row.id}
-          row={row}
-        />
+        <Box onClick={e => e.stopPropagation()} onTouchStart={e => e.stopPropagation()}>
+          <RowOptions
+            stopPropagation={e => e.stopPropagation()}
+            setLoading={setLoading}
+            setTenantsData={setTenantsData}
+            tenantsData={tenantsData}
+            tenants={tenants}
+            id={row.id}
+            row={row}
+          />
+        </Box>
       )
     }
   ]

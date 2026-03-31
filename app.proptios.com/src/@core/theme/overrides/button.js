@@ -9,6 +9,10 @@ const Button = () => {
           fontWeight: 500,
           lineHeight: 1.7143,
           letterSpacing: '0.43px',
+          [theme.breakpoints.down('sm')]: {
+            minHeight: 44,
+            fontSize: '0.9375rem'
+          },
           ...(ownerState.size === 'medium' &&
             ownerState.variant === 'text' && {
               padding: theme.spacing(1.75, 5)

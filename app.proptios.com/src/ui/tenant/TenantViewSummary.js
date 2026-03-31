@@ -53,7 +53,7 @@ const TenantViewSummary = ({ tenantData }) => {
              if (tenantData.units) setUnits(tenantData.units)
       })
 
-    } else if (tenantData && tenantData.units) {
+    } else if (tenantData && Array.isArray(tenantData.units)) {
         setUnits(tenantData.units)
     }
   }, [tenantData?.property?.id, tenantData?.property_id])
@@ -70,7 +70,7 @@ const TenantViewSummary = ({ tenantData }) => {
       headerName: 'Unit Name',
       renderCell: ({ row }) => (
         <Typography variant='body2' sx={{ color: 'text.primary' }}>
-          {row.name || row.unit_name || `Unit ${row.id}`}
+          {row.unit_name || row.name || `Unit ${row.id}`}
         </Typography>
       )
     },
@@ -79,9 +79,9 @@ const TenantViewSummary = ({ tenantData }) => {
       minWidth: 200,
       field: 'property',
       headerName: 'Property',
-      renderCell: () => (
+      renderCell: ({ row }) => (
         <Typography variant='body2' sx={{ color: 'text.primary' }}>
-          {tenantData.property?.name || 'N/A'}
+          {row.property_name || tenantData.property?.name || 'N/A'}
         </Typography>
       )
     },
@@ -90,9 +90,9 @@ const TenantViewSummary = ({ tenantData }) => {
       minWidth: 250,
       field: 'address',
       headerName: 'Property Address',
-      renderCell: () => (
+      renderCell: ({ row }) => (
         <Typography variant='body2' sx={{ color: 'text.secondary' }}>
-          {tenantData.property?.address || 'N/A'}
+          {row.property_address || tenantData.property?.address || 'N/A'}
         </Typography>
       )
     },

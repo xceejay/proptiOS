@@ -22,8 +22,7 @@ const buildDefaultValues = user => ({
   company_type: user?.company_type || 'residential'
 })
 
-const blockerMessage =
-  'Site settings save is blocked: no dedicated site/settings update endpoint is wired in this frontend. The previous implementation posted to /users and returned 400, so save is intentionally disabled until the backend contract is available.'
+const blockerMessage = 'Site settings editing is coming soon. You can view your current settings below.'
 
 const ParentSettingsSiteSettings = () => {
   const auth = useAuth()
@@ -49,7 +48,7 @@ const ParentSettingsSiteSettings = () => {
         <Card>
           <CardHeader title='Settings' sx={{ pb: 1.5 }} />
           <CardContent>
-            <Alert severity='warning' sx={{ mb: 4 }}>
+            <Alert severity='info' sx={{ mb: 4 }}>
               {blockerMessage}
             </Alert>
             <form>
@@ -111,7 +110,7 @@ const ParentSettingsSiteSettings = () => {
               />
 
               <Button type='button' variant='contained' color='primary' sx={{ mt: 2, width: '100%' }} disabled>
-                Save Disabled
+                Save
               </Button>
             </form>
           </CardContent>

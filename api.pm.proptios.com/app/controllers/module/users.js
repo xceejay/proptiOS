@@ -815,7 +815,15 @@ const routes = (app) => {
 
     app.post(PREFIX + "/enable", async (req, res) => {
     let email = req.body.email;
-  
+
+    // Prevent users from enabling themselves
+    if (req.user && req.user.email === email) {
+      return res.status(403).json({
+        status: "FAILED",
+        description: "You cannot enable your own account",
+      });
+    }
+
     let selectQuery = `
       SELECT pm_users.* 
       FROM pm_users

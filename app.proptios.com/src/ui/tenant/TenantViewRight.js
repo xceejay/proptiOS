@@ -48,7 +48,7 @@ const TabList = styled(MuiTabList)(({ theme }) => ({
   }
 }))
 
-const UserViewRight = ({ tab = 'summary', tenantData }) => {
+const UserViewRight = ({ tab = 'summary', tenantData, notFound }) => {
   const router = useRouter()
   const { id } = router.query
 
@@ -75,10 +75,10 @@ const UserViewRight = ({ tab = 'summary', tenantData }) => {
     }
   }, [tab])
   useEffect(() => {
-    if (tenantData) {
+    if (tenantData || notFound) {
       setIsLoading(false)
     }
-  }, [tenantData])
+  }, [tenantData, notFound])
 
   return (
     <TabContext value={activeTab}>

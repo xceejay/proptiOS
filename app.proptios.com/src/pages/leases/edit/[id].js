@@ -33,15 +33,14 @@ const LeaseEdit = () => {
   return (
     <Grid container spacing={6}>
       <Grid size={12}>
-        <Alert severity='warning'>
-          Lease editing is not wired as a standalone page yet. The previous page loaded an invoice editor stub; this route
-          now shows the live lease id and waits for a dedicated edit experience.
+        <Alert severity='info'>
+          Lease editing is coming soon. You can view the lease details below.
         </Alert>
       </Grid>
       <Grid size={12}>
         <Typography variant='h6'>Lease {id || '...'}</Typography>
         <Typography color='text.secondary'>
-          {leaseData?.title || leaseData?.type || 'Lease data loaded for this route, but editing controls are intentionally blocked.'}
+          {leaseData?.title || leaseData?.type || 'Loading lease details...'}
         </Typography>
       </Grid>
     </Grid>

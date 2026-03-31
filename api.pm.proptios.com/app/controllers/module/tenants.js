@@ -100,7 +100,7 @@ const routes = (app) => {
         // Check for duplicate emails before inserting
         const emails = tenants.map((t) => t.email);
         const [existingTenants] = await connection.query(
-          "SELECT email FROM tenants WHERE email IN (?) AND site_id = ?",
+          "SELECT DISTINCT email FROM tenants WHERE email IN (?) AND site_id = ?",
           [emails, req.user.site_id]
         );
         if (existingTenants.length > 0) {
@@ -165,6 +165,16 @@ const routes = (app) => {
               const updateValues = [tenant.id, unitId];
               await connection.query(updateUnitQuery, updateValues);
             }
+
+            // Backfill tenant.property_id from their first assigned unit
+            await connection.query(
+              `UPDATE tenants t
+               INNER JOIN units u ON u.tenant_id = t.id AND u.property_id IS NOT NULL
+               SET t.property_id = u.property_id
+               WHERE t.id = ?
+               LIMIT 1`,
+              [tenant.id]
+            );
           }
         }
 
@@ -349,6 +359,22 @@ const routes = (app) => {
               const updateValues = [tenant.id, unitId];
               await connection.query(updateUnitQuery, updateValues);
             }
+
+            // Backfill tenant.property_id from their first assigned unit
+            await connection.query(
+              `UPDATE tenants t
+               INNER JOIN units u ON u.tenant_id = t.id AND u.property_id IS NOT NULL
+               SET t.property_id = u.property_id
+               WHERE t.id = ?
+               LIMIT 1`,
+              [tenant.id]
+            );
+          } else {
+            // No units assigned — clear tenant's property_id too
+            await connection.query(
+              `UPDATE tenants SET property_id = NULL WHERE id = ?`,
+              [tenant.id]
+            );
           }
         }
 
@@ -579,21 +605,26 @@ const routes = (app) => {
           LEFT JOIN properties ON tenants.property_id = properties.id
           LEFT JOIN transactions ON tenants.id = transactions.tenant_id
           LEFT JOIN leases ON tenants.id = leases.tenant_id
-          LEFT JOIN units ON units.id = units.tenant_id
+          LEFT JOIN units ON units.tenant_id = tenants.id
           LEFT JOIN id_documents ON tenants.id = id_documents.tenant_id
           LEFT JOIN maintenance_requests ON tenants.id = maintenance_requests.unit_id
           WHERE 
               tenants.id = ? AND tenants.site_id = ? AND tenants.deleted_at IS NULL;
         `;
 
-        const unitsQuery = `SELECT * from units where tenant_id = ? AND tenants.site_id = ? AND tenants.deleted_at IS NULL`;
+        const unitsQuery = `
+          SELECT units.*, properties.property_name, properties.property_address
+          FROM units
+          LEFT JOIN properties ON units.property_id = properties.id
+          WHERE units.tenant_id = ? AND units.site_id = ? AND units.deleted_at IS NULL
+        `;
 
         const [results] = await mysql_db.execute(selectQuery, [
           tenant_id,
           req.user.site_id,
         ]);
 
-        const [units] = await mysql_db.execute(selectQuery, [
+        const [units] = await mysql_db.execute(unitsQuery, [
           tenant_id,
           req.user.site_id,
         ]);

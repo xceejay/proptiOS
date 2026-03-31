@@ -11,6 +11,7 @@ import FormHelperText from '@mui/material/FormHelperText'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm, Controller } from 'react-hook-form'
+import CircularProgress from '@mui/material/CircularProgress'
 import Icon from 'src/@core/components/icon'
 import { useLeases } from 'src/hooks/useLeases'
 import toast from 'react-hot-toast'
@@ -259,6 +260,7 @@ const SidebarAddLease = props => {
 
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Button size='small' type='submit' variant='contained' sx={{ mr: 3 }} disabled={loading}>
+              {loading ? <CircularProgress size={20} sx={{ mr: 1 }} /> : null}
               Submit
             </Button>
             <Button size='small' variant='outlined' color='secondary' onClick={handleClose}>

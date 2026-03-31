@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 
 // ** MUI Imports
 
+import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import Grid from '@mui/material/Grid'
 import IconButton from '@mui/material/IconButton'
@@ -157,14 +158,15 @@ const PropertyViewUnits = ({ setPropertyData, propertyData }) => {
       field: 'actions',
       headerName: 'Actions',
       renderCell: ({ row }) => (
-        <RowOptions
-          row={row}
-          // setUnitsData={setUnitsData}
-          setPropertyData={setPropertyData}
-          propertyData={propertyData}
-          setLoading={setLoading}
-          id={row.id}
-        />
+        <Box onClick={e => e.stopPropagation()} onTouchStart={e => e.stopPropagation()}>
+          <RowOptions
+            row={row}
+            setPropertyData={setPropertyData}
+            propertyData={propertyData}
+            setLoading={setLoading}
+            id={row.id}
+          />
+        </Box>
       )
     }
   ]

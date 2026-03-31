@@ -10,25 +10,30 @@ const UserView = () => {
   const { tab } = router.query
   const tenants = useTenants()
   const [tenantData, setTenantData] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [notFound, setNotFound] = useState(false)
 
   useEffect(() => {
     if (id) {
-      // Ensure id is defined before making the API call
+      setLoading(true)
+      setNotFound(false)
       tenants.getTenant(
         id,
         responseData => {
-          console.log('called')
           let { data } = responseData
-          setTenantData(data)
-          console.log('FROM INDEX PAGE:', responseData)
+          setLoading(false)
 
-          if (responseData?.status === 'FAILED') {
-            alert(responseData.message || 'Failed to fetch tenants')
+          if (responseData?.status === 'FAILED' || responseData?.status === 'NO_RES' || !data?.id) {
+            setNotFound(true)
+
+            return
           }
+
+          setTenantData(data)
         },
         error => {
-          console.log(id)
-
+          setLoading(false)
+          setNotFound(true)
           toast.error(error.response?.data?.description || 'An error occurred. Please try again or contact support.', {
             duration: 5000
           })
@@ -37,7 +42,7 @@ const UserView = () => {
     }
   }, [id, tab])
 
-  return <TenantEditInfo tab={tab} setTenantData={setTenantData} tenantData={tenantData} />
+  return <TenantEditInfo tab={tab} setTenantData={setTenantData} tenantData={tenantData} loading={loading} notFound={notFound} />
 }
 
 export default UserView

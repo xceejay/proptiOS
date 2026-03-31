@@ -28,6 +28,10 @@ const Menu = skin => {
           padding: theme.spacing(1.75, 4),
           minHeight: 44,
           borderRadius: theme.shape.borderRadius,
+          [theme.breakpoints.down('sm')]: {
+            minHeight: 48,
+            padding: theme.spacing(2, 4)
+          },
           '&:last-child': {
             marginBottom: 0
           },

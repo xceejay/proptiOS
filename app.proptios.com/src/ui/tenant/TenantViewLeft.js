@@ -6,6 +6,7 @@ import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
 import Button from '@mui/material/Button'
+import CircularProgress from '@mui/material/CircularProgress'
 import Dialog from '@mui/material/Dialog'
 import Select from '@mui/material/Select'
 import Switch from '@mui/material/Switch'
@@ -69,7 +70,7 @@ const Sub = styled('sub')(({ theme }) => ({
   color: theme.palette.text.secondary
 }))
 
-const UserViewLeft = ({ tenantData }) => {
+const UserViewLeft = ({ tenantData, loading, notFound }) => {
   const router = useRouter()
 
   // ** States
@@ -138,7 +139,7 @@ const UserViewLeft = ({ tenantData }) => {
                   color={tenantData.avatarColor}
                   sx={{ width: 100, height: 100, mb: 4, fontSize: '3rem' }}
                 >
-                  {getInitials(tenantData.name)}
+                  {getInitials(tenantData.name || '')}
                 </CustomAvatar>
               )}
               <Typography variant='h5' sx={{ mb: 3 }}>
@@ -518,8 +519,35 @@ const UserViewLeft = ({ tenantData }) => {
         </Grid>
       </Grid>
     )
+  } else if (notFound) {
+    return (
+      <Grid container spacing={6}>
+        <Grid size={12}>
+          <Card>
+            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: 300, gap: 2 }}>
+              <Icon icon='tabler:user-off' fontSize='3rem' />
+              <Typography variant='h6'>Tenant not found</Typography>
+              <Typography variant='body2' color='text.secondary'>This tenant may have been removed or does not exist.</Typography>
+              <Button size='small' variant='outlined' onClick={() => router.push('/tenants')}>
+                Back to Tenants
+              </Button>
+            </Box>
+          </Card>
+        </Grid>
+      </Grid>
+    )
   } else {
-    return null
+    return (
+      <Grid container spacing={6}>
+        <Grid size={12}>
+          <Card>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 300 }}>
+              <CircularProgress />
+            </Box>
+          </Card>
+        </Grid>
+      </Grid>
+    )
   }
 }
 

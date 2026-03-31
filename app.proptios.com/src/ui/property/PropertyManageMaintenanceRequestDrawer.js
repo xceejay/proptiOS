@@ -375,6 +375,7 @@ const PropertyManageMaintenanceRequestDrawer = props => {
           </FormControl>
 
           <Button size='small' fullWidth type='submit' variant='contained' disabled={submitting}>
+            {submitting ? <CircularProgress size={20} sx={{ mr: 1 }} /> : null}
             {submitting ? 'Updating...' : 'Update Request'}
           </Button>
         </form>

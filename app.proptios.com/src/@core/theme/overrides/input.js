@@ -1,5 +1,14 @@
 const input = () => {
   return {
+    MuiInputBase: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          [theme.breakpoints.down('sm')]: {
+            minHeight: 48
+          }
+        })
+      }
+    },
     MuiInputLabel: {
       styleOverrides: {
         root: ({ theme }) => ({

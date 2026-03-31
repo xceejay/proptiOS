@@ -223,14 +223,16 @@ const PropertyManageTable = ({
       field: 'actions',
       headerName: 'Actions',
       renderCell: ({ row }) => (
-        <RowOptions
-          id={row.id}
-          stopPropagation={e => e.stopPropagation()}
-          row={row}
-          setPropertiesData={setPropertiesData}
-          propertiesData={propertiesData}
-          deleteProperties={properties.deleteProperties}
-        />
+        <Box onClick={e => e.stopPropagation()} onTouchStart={e => e.stopPropagation()}>
+          <RowOptions
+            id={row.id}
+            stopPropagation={e => e.stopPropagation()}
+            row={row}
+            setPropertiesData={setPropertiesData}
+            propertiesData={propertiesData}
+            deleteProperties={properties.deleteProperties}
+          />
+        </Box>
       )
     }
   ]

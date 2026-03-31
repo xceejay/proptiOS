@@ -46,6 +46,9 @@ const DataGrid = () => {
         }),
         row: {
           minHeight: '52px !important',
+          '@media (max-width: 600px)': {
+            minHeight: '56px !important'
+          },
           '&:last-child': {
             '& .MuiDataGrid-cell': {
               borderBottom: 0
